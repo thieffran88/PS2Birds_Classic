@@ -1,0 +1,1387 @@
+{
+  "game_profile": "classic",
+  "sprite_adapter": "classic_campaign_sprites",
+  "apk": "com.rovio.angrybirds.apk",
+  "width": 512,
+  "height": 512,
+  "pages": [
+    {
+      "width": 512,
+      "height": 512,
+      "offset": 0
+    },
+    {
+      "width": 512,
+      "height": 256,
+      "offset": 1048576
+    }
+  ],
+  "bytes": 1572864,
+  "alpha_range": [
+    0,
+    128
+  ],
+  "atlas_sha256": "49c53cf86102edc3eaec7aabc0c22551f5c3262e1f48626aeb80385c5b2a63fe",
+  "sprites": [
+    {
+      "sprite": "BIRD_BLUE",
+      "sheet": "assets/data/images/base/INGAME_BIRDS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "c3dd0de4e7bcf74c7c5bc15505289cc5b1043347c2e3989c776a25f03711ed86",
+      "width": 31,
+      "height": 30,
+      "pivot": {
+        "x": 16,
+        "y": 16
+      },
+      "atlas_x": 419,
+      "atlas_y": 450,
+      "page": 0
+    },
+    {
+      "sprite": "BIRD_BLUE_COLLISION",
+      "sheet": "assets/data/images/base/INGAME_BIRDS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "19cc7ec62bd2a0bde75c779a4a7a9632ab05594a140534c5bfb52f618b182f00",
+      "width": 32,
+      "height": 31,
+      "pivot": {
+        "x": 16,
+        "y": 16
+      },
+      "atlas_x": 470,
+      "atlas_y": 446,
+      "page": 0
+    },
+    {
+      "sprite": "BIRD_RED",
+      "sheet": "assets/data/images/base/INGAME_BIRDS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "9b9955d5a4ef225033c63b83cc59fa9accdfe1cca7b193ebe9c9c91d1551be2c",
+      "width": 46,
+      "height": 45,
+      "pivot": {
+        "x": 27,
+        "y": 27
+      },
+      "atlas_x": 461,
+      "atlas_y": 145,
+      "page": 0
+    },
+    {
+      "sprite": "SLING_SHOT_01_BACK",
+      "sheet": "assets/data/images/base/INGAME_BIRDS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "4f67622efbe0aabab7b6efdb23af690477fa92109e11bf7acfb22188025db116",
+      "width": 38,
+      "height": 199,
+      "pivot": {
+        "x": 7,
+        "y": 30
+      },
+      "atlas_x": 1,
+      "atlas_y": 1,
+      "page": 0
+    },
+    {
+      "sprite": "SLING_SHOT_01_FRONT",
+      "sheet": "assets/data/images/base/INGAME_BIRDS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "5fec8121a73cc0e73742e73555cda7f77fb69e3c6fb49991639d367d30dc20c4",
+      "width": 43,
+      "height": 124,
+      "pivot": {
+        "x": 35,
+        "y": 37
+      },
+      "atlas_x": 237,
+      "atlas_y": 1,
+      "page": 0
+    },
+    {
+      "sprite": "PIG_BASIC_SMALL_01",
+      "sheet": "assets/data/images/base/INGAME_PIGS_NEW_SHEET_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "eb71820d4406d114bc52c407320127ac12dca09c0c82068562c9c795927c0be3",
+      "width": 47,
+      "height": 46,
+      "pivot": {
+        "x": 23,
+        "y": 23
+      },
+      "atlas_x": 461,
+      "atlas_y": 1,
+      "page": 0
+    },
+    {
+      "sprite": "PIG_BASIC_SMALL_01_BLINK",
+      "sheet": "assets/data/images/base/INGAME_PIGS_NEW_SHEET_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "25144fd2ca9d92f218f10a27d967fd84f5d8cb8a2a0bdb4be04108c8558c27c9",
+      "width": 47,
+      "height": 46,
+      "pivot": {
+        "x": 23,
+        "y": 23
+      },
+      "atlas_x": 461,
+      "atlas_y": 49,
+      "page": 0
+    },
+    {
+      "sprite": "PIG_BASIC_SMALL_02",
+      "sheet": "assets/data/images/base/INGAME_PIGS_NEW_SHEET_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "ea10643e50ca1554a3fe4d6048dd894ebc44f35c0930d6c777bad7217bc9bfe2",
+      "width": 47,
+      "height": 46,
+      "pivot": {
+        "x": 23,
+        "y": 23
+      },
+      "atlas_x": 461,
+      "atlas_y": 97,
+      "page": 0
+    },
+    {
+      "sprite": "PIG_BASIC_MEDIUM_01",
+      "sheet": "assets/data/images/base/INGAME_PIGS_NEW_SHEET_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "2608db5467e7059aeb3d6d305cb1907192d24ddd16f1797cc34a1f123c8ea6df",
+      "width": 78,
+      "height": 76,
+      "pivot": {
+        "x": 39,
+        "y": 39
+      },
+      "atlas_x": 381,
+      "atlas_y": 1,
+      "page": 0
+    },
+    {
+      "sprite": "PIG_BASIC_MEDIUM_01_BLINK",
+      "sheet": "assets/data/images/base/INGAME_PIGS_NEW_SHEET_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "a855d066008eae292f18c050748282cc5d70558ddd9f7cbbfb163a7baae561f2",
+      "width": 78,
+      "height": 76,
+      "pivot": {
+        "x": 39,
+        "y": 39
+      },
+      "atlas_x": 381,
+      "atlas_y": 79,
+      "page": 0
+    },
+    {
+      "sprite": "PIG_BASIC_MEDIUM_02",
+      "sheet": "assets/data/images/base/INGAME_PIGS_NEW_SHEET_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "de103d1aacc800ae22e42b9ce7974c000d638207ddc70f737603cd821a0abf95",
+      "width": 78,
+      "height": 76,
+      "pivot": {
+        "x": 39,
+        "y": 39
+      },
+      "atlas_x": 282,
+      "atlas_y": 100,
+      "page": 0
+    },
+    {
+      "sprite": "ESTRADE_02",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "ffc27247e8d3233ec71c990947e721ced24c71d0dba2a00e28035c37c47e081f",
+      "width": 179,
+      "height": 56,
+      "pivot": {
+        "x": 89,
+        "y": 28
+      },
+      "atlas_x": 1,
+      "atlas_y": 274,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_TREASURE_CHEST",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "665cecb69547ffc156741d17afe2feceaad4a2244cd1649b70662b70337e5ae7",
+      "width": 95,
+      "height": 60,
+      "pivot": {
+        "x": 47,
+        "y": 30
+      },
+      "atlas_x": 315,
+      "atlas_y": 232,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_WOOD_1_2",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "816553e1ffd9149b6014195d6033b40efd2ba4d3b51ed2c9ca20448dc538eabf",
+      "width": 41,
+      "height": 20,
+      "pivot": {
+        "x": 20,
+        "y": 10
+      },
+      "atlas_x": 426,
+      "atlas_y": 45,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_1_3",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "ed5851e9d35b73febcca2b21fa5308166dd6eb6c122341f301b58955aaa71325",
+      "width": 41,
+      "height": 41,
+      "pivot": {
+        "x": 20,
+        "y": 20
+      },
+      "atlas_x": 214,
+      "atlas_y": 339,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_WOOD_1_4",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "b76c5e9571d8b11bdd5d4847f35a6c0be9f96ccfc7a79fa228d55de0a477d546",
+      "width": 83,
+      "height": 20,
+      "pivot": {
+        "x": 41,
+        "y": 10
+      },
+      "atlas_x": 171,
+      "atlas_y": 67,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_1_5",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "a0990cf9c7cff6b2ffd16d4a5d70cb54cc4c42b3cc377f3f5739c2848f67f3aa",
+      "width": 83,
+      "height": 41,
+      "pivot": {
+        "x": 41,
+        "y": 20
+      },
+      "atlas_x": 1,
+      "atlas_y": 375,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_WOOD_1_6",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "83c66c8c9c1c926ccc646ac3ddd1f36b603f9cb677e64876337401430d40e4ec",
+      "width": 168,
+      "height": 20,
+      "pivot": {
+        "x": 84,
+        "y": 10
+      },
+      "atlas_x": 256,
+      "atlas_y": 67,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_2_2",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "d9d9b026a2c3786ec6bbaac50cdbc13f6dd83ff654dc75dd29b85ee017f31084",
+      "width": 41,
+      "height": 20,
+      "pivot": {
+        "x": 20,
+        "y": 10
+      },
+      "atlas_x": 469,
+      "atlas_y": 45,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_2_3",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "5e23fc97444b53dc0ae4f55550e31f5754ead2219abdbea19d7eb6196fb5ea07",
+      "width": 41,
+      "height": 41,
+      "pivot": {
+        "x": 20,
+        "y": 20
+      },
+      "atlas_x": 86,
+      "atlas_y": 375,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_WOOD_2_4",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "a1d81ac74c3fc31358353f7df869c49601bad06167a2ce6bb6748a838a58ddc1",
+      "width": 83,
+      "height": 20,
+      "pivot": {
+        "x": 41,
+        "y": 10
+      },
+      "atlas_x": 426,
+      "atlas_y": 67,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_2_5",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "985b4e2a4eebf99e94b1750e9f1cc3cc4d7ada656275a469495f8f8a77858b7e",
+      "width": 83,
+      "height": 41,
+      "pivot": {
+        "x": 41,
+        "y": 20
+      },
+      "atlas_x": 257,
+      "atlas_y": 380,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_WOOD_2_6",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "31cabf68eb780394c81446d83cdddeca05f314a749e75ec6fe318ecfdb334700",
+      "width": 168,
+      "height": 20,
+      "pivot": {
+        "x": 84,
+        "y": 10
+      },
+      "atlas_x": 1,
+      "atlas_y": 89,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_3_2",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "f15bccb2b267f951d9c582d856c4b13022b5eb12757846dd8a2274907bca2fa6",
+      "width": 41,
+      "height": 20,
+      "pivot": {
+        "x": 20,
+        "y": 10
+      },
+      "atlas_x": 171,
+      "atlas_y": 89,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_3_3",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "ce841a8289fbd98482d14b5ae043af6e3372043a986867cc00cc438d8b5cb3d7",
+      "width": 41,
+      "height": 41,
+      "pivot": {
+        "x": 20,
+        "y": 20
+      },
+      "atlas_x": 342,
+      "atlas_y": 380,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_WOOD_3_4",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "25929112e38d518fb9fa810b71c05a4b11ee3442b9c38feb9997d1db84ea51a8",
+      "width": 83,
+      "height": 20,
+      "pivot": {
+        "x": 41,
+        "y": 10
+      },
+      "atlas_x": 214,
+      "atlas_y": 89,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_3_5",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "45edb49fbe0d19fbe1515fd2dbd080e882faafad5031abdbed696e098d5063e2",
+      "width": 83,
+      "height": 41,
+      "pivot": {
+        "x": 41,
+        "y": 20
+      },
+      "atlas_x": 129,
+      "atlas_y": 382,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_WOOD_3_6",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "2dff7c9d5a16eabc0b52210515786989b76c3cdc1c42c79e557e92f80fd02bda",
+      "width": 168,
+      "height": 20,
+      "pivot": {
+        "x": 84,
+        "y": 10
+      },
+      "atlas_x": 299,
+      "atlas_y": 89,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_4_2",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "6737884105c7e65b4a1d212f6b01b411670c463d0ddcb2d0dd44267bb5c0e132",
+      "width": 41,
+      "height": 20,
+      "pivot": {
+        "x": 20,
+        "y": 10
+      },
+      "atlas_x": 469,
+      "atlas_y": 89,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_4_3",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "784bb099d71660d48d024197e07a3436e241a9184b3dc3b8e49a7838458e3755",
+      "width": 41,
+      "height": 41,
+      "pivot": {
+        "x": 20,
+        "y": 20
+      },
+      "atlas_x": 214,
+      "atlas_y": 382,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_WOOD_4_4",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "fd604172f07e0a5269ec7aeef56b85b95307d193e4eeb89d95e4ffb037e440a5",
+      "width": 83,
+      "height": 20,
+      "pivot": {
+        "x": 41,
+        "y": 10
+      },
+      "atlas_x": 1,
+      "atlas_y": 111,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_4_5",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "f398693a1c6e0d284e26bc607ee1ff2f4619f180b59134b2d44cab54e1ee176f",
+      "width": 83,
+      "height": 41,
+      "pivot": {
+        "x": 41,
+        "y": 20
+      },
+      "atlas_x": 385,
+      "atlas_y": 407,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_WOOD_4_6",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "cd4a7a4e8bfc9f5c54487713dcfea8459a8d04ee93ade01a8a79c51c0abe80b9",
+      "width": 168,
+      "height": 20,
+      "pivot": {
+        "x": 84,
+        "y": 10
+      },
+      "atlas_x": 86,
+      "atlas_y": 111,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_LIGHT_1_1",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "141affae9a34a251289930433dfee13fb39b1430707d2bb47abb516f2750dd69",
+      "width": 21,
+      "height": 20,
+      "pivot": {
+        "x": 10,
+        "y": 10
+      },
+      "atlas_x": 1,
+      "atlas_y": 457,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_1_2",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "6a783362cef3e50466f5fa223918b100020b00a073c9b5198b142063e7b549c4",
+      "width": 41,
+      "height": 20,
+      "pivot": {
+        "x": 20,
+        "y": 10
+      },
+      "atlas_x": 24,
+      "atlas_y": 457,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_1_3",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "e9291f8f29ff06e24453da89eeabccb90e3418bcba7a5166d2d20ede64acf90f",
+      "width": 42,
+      "height": 41,
+      "pivot": {
+        "x": 21,
+        "y": 20
+      },
+      "atlas_x": 440,
+      "atlas_y": 192,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_1_4",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "ace982b86c84b35902069dfb6f88fa59bc58c167668d3f70b6f42a6473c3a6a3",
+      "width": 83,
+      "height": 20,
+      "pivot": {
+        "x": 41,
+        "y": 10
+      },
+      "atlas_x": 67,
+      "atlas_y": 460,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_1_5",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "ae923d310d74bb5710eb76a10d84b474db1e71c4e368b8bf46d0c6b2e7d83929",
+      "width": 83,
+      "height": 41,
+      "pivot": {
+        "x": 41,
+        "y": 20
+      },
+      "atlas_x": 412,
+      "atlas_y": 235,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_1_6",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "f702dc9383bd5b7da797cd1f1b41cc7d1231dea7a2806c39391a4495cf44d299",
+      "width": 168,
+      "height": 20,
+      "pivot": {
+        "x": 84,
+        "y": 10
+      },
+      "atlas_x": 1,
+      "atlas_y": 482,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_2_1",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "e0bdb0c6f63177ebdda43f85b8fe0b9bdd768fd2e50abb4a54fc582db5378428",
+      "width": 20,
+      "height": 20,
+      "pivot": {
+        "x": 10,
+        "y": 10
+      },
+      "atlas_x": 171,
+      "atlas_y": 460,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_2_2",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "f88a24035a0efaf2266b691c4817ca628bf7264f1dfe103ca10fb13030506ca9",
+      "width": 41,
+      "height": 20,
+      "pivot": {
+        "x": 20,
+        "y": 10
+      },
+      "atlas_x": 193,
+      "atlas_y": 460,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_2_3",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "7b3603b22618f08e87950cf5cb1593063e7e1ef7e6fbffca45033ae8638df27f",
+      "width": 41,
+      "height": 41,
+      "pivot": {
+        "x": 20,
+        "y": 20
+      },
+      "atlas_x": 197,
+      "atlas_y": 253,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_2_4",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "1487dd4270f0b2f56f051e47864bc9664e2cad60825da81ed0b5b012e5a30434",
+      "width": 83,
+      "height": 20,
+      "pivot": {
+        "x": 41,
+        "y": 10
+      },
+      "atlas_x": 171,
+      "atlas_y": 482,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_2_5",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "268ae63129cbb401d1b09c1319dcdc84964d6d3ebe320ccbbabf253373849a8a",
+      "width": 83,
+      "height": 41,
+      "pivot": {
+        "x": 41,
+        "y": 20
+      },
+      "atlas_x": 412,
+      "atlas_y": 278,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_2_6",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "24fb4eda06f0bc4d8a18d7733f5b2d771cffe7b6eaaae1b3c2005729a7e40cdb",
+      "width": 168,
+      "height": 20,
+      "pivot": {
+        "x": 84,
+        "y": 10
+      },
+      "atlas_x": 256,
+      "atlas_y": 484,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_3_1",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "dea4958a824720c369316c3bdb7f57a6b85b19908cfbe2e75e9b27fd9a2918ab",
+      "width": 20,
+      "height": 20,
+      "pivot": {
+        "x": 10,
+        "y": 10
+      },
+      "atlas_x": 452,
+      "atlas_y": 479,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_3_2",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "e30eb4c6a1d9f0d3c0e94364be21895318450a84fec1135ed64a0136fc9e3eca",
+      "width": 41,
+      "height": 20,
+      "pivot": {
+        "x": 20,
+        "y": 10
+      },
+      "atlas_x": 1,
+      "atlas_y": 1,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_LIGHT_3_3",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "99d0170ddacea9b1c1b339cd53b275cceaa86821e109f7c65bb2f62d8631f809",
+      "width": 41,
+      "height": 41,
+      "pivot": {
+        "x": 20,
+        "y": 20
+      },
+      "atlas_x": 240,
+      "atlas_y": 253,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_3_4",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "9268d66d73922e71693c4ed5abc3743c05090ef7abb80247f1e0dc4b34ac2c1c",
+      "width": 83,
+      "height": 20,
+      "pivot": {
+        "x": 41,
+        "y": 10
+      },
+      "atlas_x": 44,
+      "atlas_y": 1,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_LIGHT_3_5",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "ebe26da9256114ec234c2bf159e261d9bb2572afa4f44606c723eae34e778645",
+      "width": 83,
+      "height": 41,
+      "pivot": {
+        "x": 41,
+        "y": 20
+      },
+      "atlas_x": 283,
+      "atlas_y": 294,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_3_6",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "d6ef3d5f34c89160ad3e2b5becd10236112e709c8af85d36c5c648eb9a6aecb3",
+      "width": 168,
+      "height": 20,
+      "pivot": {
+        "x": 84,
+        "y": 10
+      },
+      "atlas_x": 129,
+      "atlas_y": 1,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_LIGHT_4_1",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "231f38ff3766724bd705a45f2c8f43a2910388af23443cb8081de724076f947e",
+      "width": 20,
+      "height": 20,
+      "pivot": {
+        "x": 10,
+        "y": 10
+      },
+      "atlas_x": 474,
+      "atlas_y": 479,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_4_2",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "524a6de1f6d8ea92fd537d96564e5b1824c47d7575beecedc32c47da2ce209f9",
+      "width": 41,
+      "height": 20,
+      "pivot": {
+        "x": 20,
+        "y": 10
+      },
+      "atlas_x": 299,
+      "atlas_y": 1,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_LIGHT_4_3",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "be7fbb488d079a6c8429afacac3bf47c7dcd449f8d55a122845fa80e39913fc4",
+      "width": 41,
+      "height": 41,
+      "pivot": {
+        "x": 20,
+        "y": 20
+      },
+      "atlas_x": 368,
+      "atlas_y": 294,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_4_4",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "2a434d95d42394907667fe065784b3cf76e3807ee910e225d3637b1abcb00f83",
+      "width": 83,
+      "height": 20,
+      "pivot": {
+        "x": 41,
+        "y": 10
+      },
+      "atlas_x": 342,
+      "atlas_y": 1,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_LIGHT_4_5",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "c40224be351d4c017b20f0add9af83cb1da803c607fede8e1768ec5173f8c8da",
+      "width": 83,
+      "height": 41,
+      "pivot": {
+        "x": 41,
+        "y": 20
+      },
+      "atlas_x": 182,
+      "atlas_y": 296,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_LIGHT_4_6",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "48aa9b91d50be33ec62078748a2d01bb85c0816e1a9135c193b231d1a158c149",
+      "width": 168,
+      "height": 20,
+      "pivot": {
+        "x": 84,
+        "y": 10
+      },
+      "atlas_x": 1,
+      "atlas_y": 23,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_ROCK_1_3",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "10c22e4a249c9726c3120f39bee55934a631f28261240b43a01d5eee23f68adb",
+      "width": 41,
+      "height": 41,
+      "pivot": {
+        "x": 20,
+        "y": 20
+      },
+      "atlas_x": 411,
+      "atlas_y": 321,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_1_4",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "cb4dd63d87d92151ab75a56a2455b2d673b8a17e91abc537c1163324807e492d",
+      "width": 83,
+      "height": 20,
+      "pivot": {
+        "x": 41,
+        "y": 10
+      },
+      "atlas_x": 427,
+      "atlas_y": 1,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_ROCK_1_5",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "38ce318d62f8a6e8da79d8981e4e7c770bd46c760ec9100e15af502eb06da689",
+      "width": 83,
+      "height": 41,
+      "pivot": {
+        "x": 41,
+        "y": 20
+      },
+      "atlas_x": 1,
+      "atlas_y": 332,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_1_6",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "e3124586dd5971d5f2d1c6ca404b80c16dae8d14a9cd1f1f482335256a6a6251",
+      "width": 168,
+      "height": 20,
+      "pivot": {
+        "x": 84,
+        "y": 10
+      },
+      "atlas_x": 171,
+      "atlas_y": 23,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_ROCK_1_7",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "e92da7a0bf49cffbaf6db64dece4842efa4f28aa6fdddded0ae09fd6018e15d0",
+      "width": 76,
+      "height": 73,
+      "pivot": {
+        "x": 38,
+        "y": 36
+      },
+      "atlas_x": 362,
+      "atlas_y": 157,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_1_8",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "e4851f496abfdcfcb16f4ddbae5d41cd1a68ecff4dbf19dc0ee53cfaddfe806f",
+      "width": 39,
+      "height": 37,
+      "pivot": {
+        "x": 19,
+        "y": 18
+      },
+      "atlas_x": 470,
+      "atlas_y": 407,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_2_3",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "010f35b7c5c8116e901f0b48f364fc1330dc7a0c5a5309bda35177e9460c9a0b",
+      "width": 41,
+      "height": 41,
+      "pivot": {
+        "x": 20,
+        "y": 20
+      },
+      "atlas_x": 454,
+      "atlas_y": 321,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_2_4",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "8fa3fd1251ff80c5598d2c0b6885b01174bf5f837d07c54e2e2442d84f252c29",
+      "width": 83,
+      "height": 20,
+      "pivot": {
+        "x": 41,
+        "y": 10
+      },
+      "atlas_x": 341,
+      "atlas_y": 23,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_ROCK_2_5",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "32e1499a8b4178cbf4606118cf2f9104988ba165421948c236762d180f748d26",
+      "width": 83,
+      "height": 41,
+      "pivot": {
+        "x": 41,
+        "y": 20
+      },
+      "atlas_x": 86,
+      "atlas_y": 332,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_2_6",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "85be1898337a43a64a99b4a5529d64d3b3a33812aee0c4eb7c3097294c899173",
+      "width": 168,
+      "height": 20,
+      "pivot": {
+        "x": 84,
+        "y": 10
+      },
+      "atlas_x": 1,
+      "atlas_y": 45,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_ROCK_2_7",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "23a7455fda8d2aa89b5c6dce9985c943718acae417b712a8522afce8ec8e2ace",
+      "width": 76,
+      "height": 73,
+      "pivot": {
+        "x": 38,
+        "y": 36
+      },
+      "atlas_x": 237,
+      "atlas_y": 178,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_2_8",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "a521679aff2111b981bbcb50768146aa50565e3a77876e1cd7630b8e477e096a",
+      "width": 39,
+      "height": 37,
+      "pivot": {
+        "x": 19,
+        "y": 18
+      },
+      "atlas_x": 1,
+      "atlas_y": 418,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_3_3",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "e472164b0420cb536bad465e1c40f5b95a01fc47f57e44d2d6cc24546705b7f0",
+      "width": 41,
+      "height": 41,
+      "pivot": {
+        "x": 20,
+        "y": 20
+      },
+      "atlas_x": 267,
+      "atlas_y": 337,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_3_4",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "f3fb35802df8cfd4b051e097ec826a4a9caa01805c6ed1440a3823b5e4ac7d7b",
+      "width": 83,
+      "height": 20,
+      "pivot": {
+        "x": 41,
+        "y": 10
+      },
+      "atlas_x": 426,
+      "atlas_y": 23,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_ROCK_3_5",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "c2ae05db8cb46fd2e93eb753d95583d60c477757dc332b59fa9c8cc549003798",
+      "width": 83,
+      "height": 41,
+      "pivot": {
+        "x": 41,
+        "y": 20
+      },
+      "atlas_x": 310,
+      "atlas_y": 337,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_3_6",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "898e87ee5bd44d359178b19d11ddd0522ef42e8176128d7563664c3faab93689",
+      "width": 168,
+      "height": 20,
+      "pivot": {
+        "x": 84,
+        "y": 10
+      },
+      "atlas_x": 171,
+      "atlas_y": 45,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_ROCK_3_7",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "258757d0a6c6f60c4e91574d245dba58ba9ae5cad801a8ed07012e1feaeb2a10",
+      "width": 76,
+      "height": 73,
+      "pivot": {
+        "x": 38,
+        "y": 36
+      },
+      "atlas_x": 41,
+      "atlas_y": 199,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_3_8",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "ce97dc7d2e1fe24c2568399789410a5ca6e5c43758f3ad60165ddb7a8ebb2b7c",
+      "width": 39,
+      "height": 37,
+      "pivot": {
+        "x": 19,
+        "y": 18
+      },
+      "atlas_x": 42,
+      "atlas_y": 418,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_4_3",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "c47d70fe7cac3c8b42cf5b68c3e980b9085962c6850c0faa6654939c9a4fdbc4",
+      "width": 41,
+      "height": 41,
+      "pivot": {
+        "x": 20,
+        "y": 20
+      },
+      "atlas_x": 171,
+      "atlas_y": 339,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_4_4",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "9e3ec8b14d93c612573fa82ff0f5ae3426a2c0fe5a59726dc045d8697ee36dda",
+      "width": 83,
+      "height": 20,
+      "pivot": {
+        "x": 41,
+        "y": 10
+      },
+      "atlas_x": 341,
+      "atlas_y": 45,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_ROCK_4_5",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "6e53cf466a57473117d6c747bff8bd8c12534ceb684d32206c5166750150ab19",
+      "width": 83,
+      "height": 41,
+      "pivot": {
+        "x": 41,
+        "y": 20
+      },
+      "atlas_x": 395,
+      "atlas_y": 364,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_4_6",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "a52ecbf1bd70915365c063c9382fae5e849716351e23ec5d55545140b973ce8e",
+      "width": 168,
+      "height": 20,
+      "pivot": {
+        "x": 84,
+        "y": 10
+      },
+      "atlas_x": 1,
+      "atlas_y": 67,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_ROCK_4_7",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "59de8d818058870f3a2e43159b5e6b2260cfef5fd7d081301104be953de26955",
+      "width": 76,
+      "height": 73,
+      "pivot": {
+        "x": 38,
+        "y": 36
+      },
+      "atlas_x": 119,
+      "atlas_y": 199,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_4_8",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "d376c18c31007d03b58f0b1f40abe6d53a3b798bcafce995b4b115ea2de232b7",
+      "width": 39,
+      "height": 37,
+      "pivot": {
+        "x": 19,
+        "y": 18
+      },
+      "atlas_x": 83,
+      "atlas_y": 418,
+      "page": 0
+    },
+    {
+      "sprite": "GROUND_BLOCK_02",
+      "sheet": "assets/data/images/base/INGAME_MASKS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "alpha mask, white RGB for runtime tint",
+      "rgba_sha256": "b0a0a0a14cf621db0971568b7a90560243740b1cf6002df5530881fe9325c1e7",
+      "width": 194,
+      "height": 33,
+      "pivot": {
+        "x": 97,
+        "y": 16
+      },
+      "atlas_x": 124,
+      "atlas_y": 425,
+      "page": 0
+    },
+    {
+      "sprite": "GROUND_BLOCK_01",
+      "sheet": "assets/data/images/base/INGAME_MASKS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "alpha mask, white RGB for runtime tint",
+      "rgba_sha256": "118beddcfc96e7422dfad2d5625ee1787859acb481d0c1cd653b77d829d582a8",
+      "width": 97,
+      "height": 32,
+      "pivot": {
+        "x": 48,
+        "y": 16
+      },
+      "atlas_x": 320,
+      "atlas_y": 450,
+      "page": 0
+    },
+    {
+      "sprite": "GROUND_BLOCK_04",
+      "sheet": "assets/data/images/base/INGAME_MASKS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "alpha mask, white RGB for runtime tint",
+      "rgba_sha256": "b8ed30c293e77460985ba084842e0e3dd51d777ea57447592c9e5dde887cc86c",
+      "width": 97,
+      "height": 97,
+      "pivot": {
+        "x": 48,
+        "y": 48
+      },
+      "atlas_x": 282,
+      "atlas_y": 1,
+      "page": 0
+    },
+    {
+      "sprite": "GROUND_BLOCK_05",
+      "sheet": "assets/data/images/base/INGAME_MASKS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "alpha mask, white RGB for runtime tint",
+      "rgba_sha256": "13b9a45dc5aa0366e06086c2e25e1213e3bf5cb9091aa0fd46f58955fcab656b",
+      "width": 194,
+      "height": 196,
+      "pivot": {
+        "x": 97,
+        "y": 98
+      },
+      "atlas_x": 41,
+      "atlas_y": 1,
+      "page": 0
+    }
+  ]
+}

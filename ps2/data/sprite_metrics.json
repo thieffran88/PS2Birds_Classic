@@ -1,0 +1,117 @@
+{
+  "ESTRADE_02": {
+    "width": 179,
+    "height": 56,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_WOOD_1_6": {
+    "width": 168,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_LIGHT_1_4": {
+    "width": 83,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_WOOD_1_4": {
+    "width": 83,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_WOOD_1_2": {
+    "width": 41,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_LIGHT_1_6": {
+    "width": 168,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_ROCK_1_6": {
+    "width": 168,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_LIGHT_1_5": {
+    "width": 83,
+    "height": 41,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_ROCK_1_4": {
+    "width": 83,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_ROCK_1_5": {
+    "width": 83,
+    "height": 41,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_WOOD_1_5": {
+    "width": 83,
+    "height": 41,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_WOOD_1_3": {
+    "width": 41,
+    "height": 41,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "GROUND_BLOCK_05": {
+    "width": 194,
+    "height": 196,
+    "sheet": "INGAME_MASKS_1.sheet.json"
+  },
+  "GROUND_BLOCK_04": {
+    "width": 97,
+    "height": 97,
+    "sheet": "INGAME_MASKS_1.sheet.json"
+  },
+  "BLOCK_TREASURE_CHEST": {
+    "width": 95,
+    "height": 60,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "GROUND_BLOCK_01": {
+    "width": 97,
+    "height": 32,
+    "sheet": "INGAME_MASKS_1.sheet.json"
+  },
+  "BLOCK_ROCK_1_7": {
+    "width": 76,
+    "height": 73,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_LIGHT_1_3": {
+    "width": 42,
+    "height": 41,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_ROCK_1_3": {
+    "width": 41,
+    "height": 41,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_ROCK_1_8": {
+    "width": 39,
+    "height": 37,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_LIGHT_1_1": {
+    "width": 21,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "GROUND_BLOCK_02": {
+    "width": 194,
+    "height": 33,
+    "sheet": "INGAME_MASKS_1.sheet.json"
+  },
+  "BLOCK_LIGHT_1_2": {
+    "width": 41,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  }
+}

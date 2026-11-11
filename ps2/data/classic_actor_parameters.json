@@ -1,0 +1,8 @@
+{
+  "source": "assets/data/scripts/blocks.lua",
+  "notes": "Consulted recovered definitions, not a complete reproduction of the native engine.",
+  "SmallBlueBird": {"radius": 0.6, "density": 4.5, "friction": 0.3, "restitution": 0.25, "glass_damage_factor": 2.9},
+  "MediumPiglette": {"radius": 1.85},
+  "prototype_split": {"side_angle_degrees": 10, "side_offset_physics_units": 1.32, "source": "port approximation"},
+  "not_implemented": ["BlueBirdDamageFactors.velocityMultiplier.light=1.9", "original damage/trajectory/ability engine"]
+}

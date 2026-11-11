@@ -1,0 +1,215 @@
+#include "game.h"
+#include "campaign_data.h"
+#include <box2d/box2d.h>
+#include <math.h>
+#include <string.h>
+#include <stdint.h>
+static_assert(CAMPAIGN_COUNT<=MAX_CAMPAIGN_LEVELS,"Campaign exceeds progress capacity");
+
+static float clamp(float v,float lo,float hi) { return v<lo?lo:v>hi?hi:v; }
+struct Physics: b2ContactListener {
+    b2World world;
+    const CampaignLevel *level;
+    b2Body *bodies[MAX_LEVEL_OBJECTS], *bird;
+    float health[MAX_LEVEL_OBJECTS], impact[MAX_LEVEL_OBJECTS], age;
+    bool has_launched,special_used,bird_collided;
+    int bird_type;
+    b2Body *split[2];
+    bool split_collided[2],disturbed[MAX_LEVEL_OBJECTS];
+    b2Contact *damage_contacts[MAX_LEVEL_OBJECTS*2];int damage_contact_count;
+    Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),bird_type(BIRD_RED_TYPE) {
+        damage_contact_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
+        memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));
+        world.SetContactListener(this);
+        b2BodyDef floor_def; floor_def.position.Set(20,level->ground_y+1);
+        b2Body *floor=world.CreateBody(&floor_def);
+        b2PolygonShape shape;shape.SetAsBox(120,1); floor->CreateFixture(&shape,0);
+        for (int i=0;i<level->count;i++) {
+            const CampaignObject &o=level->objects[i];
+            b2BodyDef def;def.type=o.kind==3?b2_staticBody:b2_dynamicBody;
+            def.position.Set(o.x,o.y);def.angle=o.angle;
+            b2Body *body=world.CreateBody(&def);
+            body->GetUserData().pointer=i+1;
+            b2FixtureDef fixture; fixture.density=o.density;fixture.friction=0.6f;fixture.restitution=0.03f;
+            b2PolygonShape box;b2CircleShape circle;
+            if (o.circle) {circle.m_radius=o.width/2;fixture.shape=&circle;}
+            else {box.SetAsBox(o.width/2,o.height/2);fixture.shape=&box;}
+            body->CreateFixture(&fixture);bodies[i]=body;health[i]=o.strength;
+        }
+    }
+    b2Body *make_bird(const b2Vec2 &position,const b2Vec2 &velocity,int type){
+        b2BodyDef def;def.type=b2_dynamicBody;def.bullet=true;def.position=position;
+        b2Body *body=world.CreateBody(&def);
+        b2CircleShape circle;circle.m_radius=type==BIRD_BLUE_TYPE?0.6f:0.75f;
+        b2FixtureDef fixture;fixture.shape=&circle;fixture.density=type==BIRD_BLUE_TYPE?4.5f:6;
+        fixture.friction=0.3f;fixture.restitution=0.25f;
+        if(type==BIRD_BLUE_TYPE)fixture.filter.groupIndex=-1;
+        body->CreateFixture(&fixture);body->SetLinearVelocity(velocity);return body;
+    }
+    void PreSolve(b2Contact *contact,const b2Manifold *) override {
+        if(!has_launched || age<0.75f)return;
+        b2WorldManifold manifold;contact->GetWorldManifold(&manifold);
+        b2Body *a=contact->GetFixtureA()->GetBody(),*b=contact->GetFixtureB()->GetBody();
+        b2Body *pair[]={a,b};bool activated=false;
+        for(b2Body *body:pair){
+            uintptr_t id=body->GetUserData().pointer;
+            if(body==bird || body==split[0] || body==split[1] || (id>0 && id<=(uintptr_t)level->count && disturbed[id-1]))activated=true;
+        }
+        if(!activated)return;
+        float approach=0;
+        for(int i=0;i<contact->GetManifold()->pointCount;i++){
+            b2Vec2 relative=b->GetLinearVelocityFromWorldPoint(manifold.points[i])-a->GetLinearVelocityFromWorldPoint(manifold.points[i]);
+            approach=fmaxf(approach,-b2Dot(relative,manifold.normal));
+        }
+        /* Resting support force is not an impact. Keep only contacts that
+           approached faster than 0.5 physics units/s before the solver. */
+        if(approach>0.5f){
+            for(b2Body *body:pair){
+                uintptr_t id=body->GetUserData().pointer;
+                if(id>0 && id<=(uintptr_t)level->count && body->GetType()==b2_dynamicBody)disturbed[id-1]=true;
+            }
+            if(damage_contact_count<MAX_LEVEL_OBJECTS*2)damage_contacts[damage_contact_count++]=contact;
+        }
+    }
+    void PostSolve(b2Contact *contact,const b2ContactImpulse *impulse) override {
+        if(contact->GetFixtureA()->GetBody()==bird || contact->GetFixtureB()->GetBody()==bird)bird_collided=true;
+        for(int i=0;i<2;i++)if(split[i] && (contact->GetFixtureA()->GetBody()==split[i] || contact->GetFixtureB()->GetBody()==split[i]))split_collided[i]=true;
+        if (!has_launched || age<0.75f) return;
+        bool damaging=false;for(int i=0;i<damage_contact_count;i++)if(damage_contacts[i]==contact){damaging=true;break;}
+        if(!damaging)return;
+        float normal=0;for(int i=0;i<impulse->count;i++)normal+=impulse->normalImpulses[i];
+        b2Body *pair[]={contact->GetFixtureA()->GetBody(),contact->GetFixtureB()->GetBody()};
+        for (b2Body *body:pair) {
+            uintptr_t id=body->GetUserData().pointer;
+            if (id>0 && id<=(uintptr_t)level->count && body->GetMass()>0) {
+                unsigned i=(unsigned)id-1;
+                b2Body *other=pair[0]==body?pair[1]:pair[0];
+                bool blue=bird_type==BIRD_BLUE_TYPE && (other==bird || other==split[0] || other==split[1]);
+                float factor=blue && level->objects[i].kind==2?2.9f:1.0f;
+                impact[i]=fmaxf(impact[i],normal/body->GetMass()*factor);
+            }
+        }
+    }
+};
+void game_init(Game *g) { memset(g,0,sizeof(*g));g->unlocked=1;game_load_level(g,0); }
+void game_destroy(Game *g) { delete static_cast<Physics*>(g->physics);g->physics=NULL; }
+int game_level_count(void){return (int)CAMPAIGN_COUNT;}
+const char *game_level_title(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].title:"";}
+int game_load_level(Game *g,int index) {
+    if(index<0 || index>=(int)CAMPAIGN_COUNT || index>=g->unlocked)return 0;
+    int unlocked=g->unlocked,best[MAX_CAMPAIGN_LEVELS];memcpy(best,g->highscores,sizeof(best));
+    game_destroy(g);memset(g,0,sizeof(*g));g->level=index;g->unlocked=unlocked;memcpy(g->highscores,best,sizeof(best));
+    const CampaignLevel *l=&campaign_levels[index];g->physics=new Physics(l);
+    g->view_x=l->view_x;g->view_y=l->view_y;g->view_scale=l->view_scale;g->pixels=l->pixels;
+    g->ground_y=l->view_y+l->ground_y*l->view_scale;g->gravity=l->gravity;
+    g->sling_x=l->view_x+l->sling_x*l->view_scale;g->sling_y=l->view_y+l->sling_y*l->view_scale;
+    g->x=g->sling_x;g->y=g->sling_y;g->angle=30;g->power=260;g->birds=l->birds;g->state=AIMING;
+    for(int i=0;i<l->count;i++){if(l->objects[i].kind==4)g->pig_alive++;if(l->objects[i].kind!=3 && l->objects[i].kind!=4)g->block_alive++;}
+    return 1;
+}
+void game_reset(Game *g){game_load_level(g,g->level);}
+int game_next_level(Game *g){return g->state==WON?game_load_level(g,g->level+1):0;}
+void game_aim(Game *g,float a,float p) {
+    if(g->state!=AIMING)return;
+    g->angle=clamp(g->angle+a,10,75);g->power=clamp(g->power+p,160,420);
+}
+void game_launch(Game *g) {
+    if(g->state!=AIMING || g->birds<=0)return;
+    Physics *p=static_cast<Physics*>(g->physics);
+    if(p->bird)p->world.DestroyBody(p->bird);
+    for(int i=0;i<2;i++){if(p->split[i])p->world.DestroyBody(p->split[i]);p->split[i]=NULL;p->split_collided[i]=false;}
+    p->bird_type=game_queue_type(g,0);p->special_used=false;p->bird_collided=false;
+    float a=g->angle*0.01745329252f;
+    p->bird=p->make_bird(b2Vec2(p->level->sling_x,p->level->sling_y),b2Vec2(cosf(a)*g->power/g->view_scale,-sinf(a)*g->power/g->view_scale),p->bird_type);
+    p->has_launched=true;g->birds--;g->flight_time=g->cooldown=0;g->state=FLYING;
+}
+int game_queue_type(const Game *g,int offset){
+    const Physics *p=static_cast<const Physics*>(g->physics);
+    if(offset<0 || offset>=g->birds)return -1;
+    return p->level->bird_types[p->level->birds-g->birds+offset];
+}
+int game_special_available(const Game *g){
+    const Physics *p=static_cast<const Physics*>(g->physics);
+    return g->state==FLYING && p->bird_type==BIRD_BLUE_TYPE && !p->special_used && !p->bird_collided;
+}
+int game_special(Game *g){
+    if(!game_special_available(g))return 0;
+    Physics *p=static_cast<Physics*>(g->physics);b2Vec2 velocity=p->bird->GetLinearVelocity();
+    float speed=velocity.Length();if(speed<1)return 0;
+    b2Vec2 normal(-velocity.y/speed,velocity.x/speed);
+    for(int i=0;i<2;i++){
+        float sign=i==0?-1.0f:1.0f,angle=sign*0.1745329252f;
+        b2Vec2 v(cosf(angle)*velocity.x-sinf(angle)*velocity.y,sinf(angle)*velocity.x+cosf(angle)*velocity.y);
+        p->split[i]=p->make_bird(p->bird->GetPosition()+sign*1.32f*normal,v,BIRD_BLUE_TYPE);
+    }
+    p->special_used=true;g->cooldown=0;return 1;
+}
+int game_projectile_count(const Game *g){
+    const Physics *p=static_cast<const Physics*>(g->physics);return p->bird?(p->split[0]?3:1):0;
+}
+int game_get_projectile(const Game *g,int index,GameBird *out){
+    if(!out || index<0 || index>=game_projectile_count(g))return 0;
+    const Physics *p=static_cast<const Physics*>(g->physics);b2Body *body=index==0?p->bird:p->split[index-1];
+    b2Vec2 pos=body->GetPosition(),vel=body->GetLinearVelocity();
+    out->x=g->view_x+pos.x*g->view_scale;out->y=g->view_y+pos.y*g->view_scale;
+    out->vx=vel.x*g->view_scale;out->vy=vel.y*g->view_scale;out->angle=body->GetAngle();out->type=p->bird_type;out->collided=index==0?p->bird_collided:p->split_collided[index-1];return 1;
+}
+void game_preview(const Game *g,float t,float *x,float *y) {
+    float a=g->angle*0.01745329252f;
+    /* Match Box2D's semi-implicit integration at fixed 120 Hz in free flight. */
+    *x=g->sling_x+cosf(a)*g->power*t;
+    *y=g->sling_y-sinf(a)*g->power*t+0.5f*g->gravity*g->view_scale*t*(t+1.0f/120.0f);
+}
+static void tick(Game *g) {
+    Physics *p=static_cast<Physics*>(g->physics); const float dt=1.0f/120;
+    p->age+=dt;p->damage_contact_count=0;p->world.Step(dt,8,3);
+    for(int i=0;i<p->level->count;i++) {
+        b2Body *body=p->bodies[i];if(!body)continue;
+        const CampaignObject &o=p->level->objects[i];
+        if(o.kind!=3 && p->impact[i]>3) p->health[i]-=(p->impact[i]-3)*12/fmaxf(o.defence,1);
+        p->impact[i]=0;
+        if(o.kind!=3 && (p->health[i]<=0 || body->GetPosition().y>p->level->ground_y+25)) {
+            p->world.DestroyBody(body);p->bodies[i]=NULL;
+            if(o.kind==4){g->pig_alive--;g->score+=5000;}else {g->block_alive--;g->score+=500;}
+        }
+    }
+    if(g->pig_alive==0) {
+        g->score+=g->birds*10000;g->state=WON;
+        g->highscores[g->level]=g->score>g->highscores[g->level]?g->score:g->highscores[g->level];
+        int unlocked=g->level+2;if(unlocked>game_level_count())unlocked=game_level_count();
+        if(unlocked>g->unlocked)g->unlocked=unlocked;
+        return;
+    }
+    if(g->state!=FLYING)return;
+    g->flight_time+=dt;
+    b2Vec2 pos=p->bird->GetPosition(),vel=p->bird->GetLinearVelocity();
+    g->x=g->view_x+pos.x*g->view_scale;g->y=g->view_y+pos.y*g->view_scale;
+    g->vx=vel.x*g->view_scale;g->vy=vel.y*g->view_scale;
+    bool moving=false;
+    for(int i=0;i<game_projectile_count(g);i++){
+        b2Body *body=i==0?p->bird:p->split[i-1];b2Vec2 position=body->GetPosition();
+        if(body->GetLinearVelocity().LengthSquared()>=0.3f && position.x<=fmaxf(65,(660-g->view_x)/g->view_scale) && position.x>=fminf(-40,(-20-g->view_x)/g->view_scale) && position.y<=p->level->ground_y+25)moving=true;
+    }
+    if(moving)g->cooldown=0;else g->cooldown+=dt;
+    if(g->cooldown>2.5f || g->flight_time>10) {
+        if(g->birds>0){g->state=AIMING;g->x=g->sling_x;g->y=g->sling_y;}
+        else g->state=LOST;
+    }
+}
+void game_update(Game *g,float seconds) {
+    if(g->state==WON || g->state==LOST)return;
+    g->accumulator+=clamp(seconds,0,0.1f);
+    while(g->accumulator+0.000001f>=1.0f/120 && g->state!=WON && g->state!=LOST) {
+        tick(g);g->accumulator-=1.0f/120;
+    }
+}
+int game_object_count(const Game *g) {return static_cast<const Physics*>(g->physics)->level->count;}
+int game_get_object(const Game *g,int index,GameObject *out) {
+    const Physics *p=static_cast<const Physics*>(g->physics);
+    if(index<0 || index>=p->level->count || !out)return 0;
+    const CampaignObject &o=p->level->objects[index];
+    b2Body *body=p->bodies[index];memset(out,0,sizeof(*out));out->alive=body!=NULL;out->kind=o.kind;out->definition=o.definition;
+    out->width=o.width*g->view_scale;out->height=o.height*g->view_scale;out->health=p->health[index]/o.strength;
+    if(body){out->x=g->view_x+body->GetPosition().x*g->view_scale;out->y=g->view_y+body->GetPosition().y*g->view_scale;out->angle=body->GetAngle();}
+    return 1;
+}

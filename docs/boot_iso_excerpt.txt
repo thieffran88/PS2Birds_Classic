@@ -1,0 +1,8 @@
+[    0.0922] (SYSTEM.CNF) Detected PS2 Disc = cdrom0:\PS2BIRDS.ELF;1
+[    0.0922] cdvdLoadElf(): 'cdrom0:\PS2BIRDS.ELF;1' -> 'PS2BIRDS.ELF' in ISO.
+[    1.3980] (SYSTEM.CNF) Detected PS2 Disc = cdrom0:\PS2BIRDS.ELF;1
+[    1.3980] cdvdLoadElf(): 'cdrom0:\PS2BIRDS.ELF;1' -> 'PS2BIRDS.ELF' in ISO.
+[    1.4058] ELF Loading: cdrom0:\PS2BIRDS.ELF;1, Game CRC = 26BFA5FD, EntryPoint = 0x00101490
+[    1.6247] ELF cdrom0:\PS2BIRDS.ELF;1 with entry point at 0x00101490 is executing.
+[    1.6942] Set GS CRTC configuration. NTSC 640x448 @ 59.940 (59.82) Interlaced (FIELD)
+[    1.8912] Pad: DS2 Config Finished - P1/S1 - AL: Off - AB: Usable - VS: Disabled - VL: Disabled - RB: D (0x00000000)

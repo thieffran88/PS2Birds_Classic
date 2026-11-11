@@ -1,0 +1,129 @@
+{
+  "id": "classic_redbird_boxes",
+  "description": "Classic 1-1 through 1-8: RedBird, SmallBlueBird split, small/medium pigs, material boxes and round stones.",
+  "bird_definitions": [
+    "RedBird",
+    "SmallBlueBird"
+  ],
+  "objects": {
+    "WoodBlock2": {
+      "sprite": "BLOCK_WOOD_1_2",
+      "kind": 1
+    },
+    "WoodBlock4": {
+      "sprite": "BLOCK_WOOD_1_4",
+      "kind": 1
+    },
+    "WoodBlock6": {
+      "sprite": "BLOCK_WOOD_1_6",
+      "kind": 1
+    },
+    "LightBlock4": {
+      "sprite": "BLOCK_LIGHT_1_4",
+      "kind": 2
+    },
+    "Estrade02": {
+      "sprite": "ESTRADE_02",
+      "kind": 3
+    },
+    "SmallPiglette": {
+      "diameter": 2.15,
+      "kind": 4
+    },
+    "WoodBlock3": {
+      "sprite": "BLOCK_WOOD_1_3",
+      "kind": 1
+    },
+    "WoodBlock5": {
+      "sprite": "BLOCK_WOOD_1_5",
+      "kind": 1
+    },
+    "LightBlock5": {
+      "sprite": "BLOCK_LIGHT_1_5",
+      "kind": 2
+    },
+    "LightBlock6": {
+      "sprite": "BLOCK_LIGHT_1_6",
+      "kind": 2
+    },
+    "StoneBlock4": {
+      "sprite": "BLOCK_ROCK_1_4",
+      "kind": 5
+    },
+    "StoneBlock5": {
+      "sprite": "BLOCK_ROCK_1_5",
+      "kind": 5
+    },
+    "StoneBlock6": {
+      "sprite": "BLOCK_ROCK_1_6",
+      "kind": 5
+    },
+    "StaticBlock_04": {
+      "sprite": "GROUND_BLOCK_04",
+      "kind": 3
+    },
+    "StaticBlock_05": {
+      "sprite": "GROUND_BLOCK_05",
+      "kind": 3
+    },
+    "LightBlock1": {
+      "sprite": "BLOCK_LIGHT_1_1",
+      "kind": 2,
+      "shape": "box"
+    },
+    "LightBlock3": {
+      "sprite": "BLOCK_LIGHT_1_3",
+      "kind": 2,
+      "shape": "box"
+    },
+    "StoneBlock3": {
+      "sprite": "BLOCK_ROCK_1_3",
+      "kind": 5,
+      "shape": "box"
+    },
+    "StoneBlock7": {
+      "sprite": "BLOCK_ROCK_1_7",
+      "kind": 5,
+      "shape": "circle"
+    },
+    "StoneBlock8": {
+      "sprite": "BLOCK_ROCK_1_8",
+      "kind": 5,
+      "shape": "circle"
+    },
+    "StaticBlock_01": {
+      "sprite": "GROUND_BLOCK_01",
+      "kind": 3,
+      "shape": "box"
+    },
+    "ExtraTreasureChest": {
+      "sprite": "BLOCK_TREASURE_CHEST",
+      "kind": 6,
+      "shape": "box"
+    },
+    "MediumPiglette": {
+      "diameter": 3.7,
+      "kind": 4
+    },
+    "LightBlock2": {
+      "sprite": "BLOCK_LIGHT_1_2",
+      "kind": 2,
+      "shape": "box"
+    },
+    "StaticBlock_02": {
+      "sprite": "GROUND_BLOCK_02",
+      "kind": 3,
+      "shape": "box"
+    }
+  },
+  "metrics": "ps2/data/sprite_metrics.json",
+  "view": {
+    "x": 210,
+    "y": 333,
+    "scale": 7
+  },
+  "bird_types": {
+    "RedBird": 0,
+    "SmallBlueBird": 1
+  }
+}

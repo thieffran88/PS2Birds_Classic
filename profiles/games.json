@@ -1,0 +1,44 @@
+{
+  "classic": {
+    "title": "Angry Birds Classic",
+    "aes_key_hex": "55534361505170413454534e56784d49317639534b39554330795a75416e6232",
+    "declared_in": "provided Angry_Birds_Decompilation README.md and birdout.py",
+    "real_apk_tested": true,
+    "mechanics_notes": "uniform gravity; RedBird subset"
+  },
+  "rio": {
+    "title": "Angry Birds Rio",
+    "aes_key_hex": "55534361505170413454534e56784d49317639534b39554330795a75416e6232",
+    "declared_in": "provided Angry_Birds_Decompilation README.md and birdout.py",
+    "real_apk_tested": false,
+    "mechanics_notes": "cages, rescue goals and other behaviors need adapters"
+  },
+  "seasons": {
+    "title": "Angry Birds Seasons",
+    "aes_key_hex": "7a65506865737435666151755832533241707265403472654368417445765574",
+    "declared_in": "provided Angry_Birds_Decompilation README.md and birdout.py",
+    "real_apk_tested": false,
+    "mechanics_notes": "episode-specific objects and birds need adapters"
+  },
+  "space": {
+    "title": "Angry Birds Space",
+    "aes_key_hex": "526d67645a304a656e4c466757776b5976434c326c5361684662456846656334",
+    "declared_in": "provided Angry_Birds_Decompilation README.md and birdout.py",
+    "real_apk_tested": false,
+    "mechanics_notes": "planetary gravity and space behaviors need new simulation support"
+  },
+  "star_wars": {
+    "title": "Angry Birds Star Wars",
+    "aes_key_hex": "416e3874336d6e38553673706951307a4848723361316c6f44725261336d7445",
+    "declared_in": "provided Angry_Birds_Decompilation README.md and birdout.py",
+    "real_apk_tested": false,
+    "mechanics_notes": "character powers and gravity behaviors need new support"
+  },
+  "star_wars_ii": {
+    "title": "Angry Birds Star Wars II",
+    "aes_key_hex": "4230706d3354416c7a6b4e3967687a6f65324e697a456c6c50644e3068516e69",
+    "declared_in": "provided Angry_Birds_Decompilation README.md and birdout.py",
+    "real_apk_tested": false,
+    "mechanics_notes": "character selection and distinct powers need new support"
+  }
+}
