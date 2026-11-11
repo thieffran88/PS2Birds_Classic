@@ -17,8 +17,10 @@ struct Physics: b2ContactListener {
     b2Body *split[2];
     bool split_collided[2],disturbed[MAX_LEVEL_OBJECTS];
     b2Contact *damage_contacts[MAX_LEVEL_OBJECTS*2];int damage_contact_count;
+    /* Static scenery the launched bird overlapped at spawn; ignored until they separate. */
+    b2Body *spawn_ignore[8];int spawn_ignore_count;
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),bird_type(BIRD_RED_TYPE) {
-        damage_contact_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
+        damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
         memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));
         world.SetContactListener(this);
         b2BodyDef floor_def; floor_def.position.Set(20,level->ground_y+1);
@@ -40,13 +42,15 @@ struct Physics: b2ContactListener {
     b2Body *make_bird(const b2Vec2 &position,const b2Vec2 &velocity,int type){
         b2BodyDef def;def.type=b2_dynamicBody;def.bullet=true;def.position=position;
         b2Body *body=world.CreateBody(&def);
-        b2CircleShape circle;circle.m_radius=type==BIRD_BLUE_TYPE?0.6f:0.75f;
+        /* Radii, densities and restitutions consulted in the recovered blocks.lua. */
+        b2CircleShape circle;circle.m_radius=type==BIRD_BLUE_TYPE?0.6f:type==BIRD_YELLOW_TYPE?0.8f:0.75f;
         b2FixtureDef fixture;fixture.shape=&circle;fixture.density=type==BIRD_BLUE_TYPE?4.5f:6;
-        fixture.friction=0.3f;fixture.restitution=0.25f;
+        fixture.friction=0.3f;fixture.restitution=type==BIRD_YELLOW_TYPE?0.23f:0.25f;
         if(type==BIRD_BLUE_TYPE)fixture.filter.groupIndex=-1;
         body->CreateFixture(&fixture);body->SetLinearVelocity(velocity);return body;
     }
     void PreSolve(b2Contact *contact,const b2Manifold *) override {
+        if(spawn_ignored(contact)>=0){contact->SetEnabled(false);return;}
         if(!has_launched || age<0.75f)return;
         b2WorldManifold manifold;contact->GetWorldManifold(&manifold);
         b2Body *a=contact->GetFixtureA()->GetBody(),*b=contact->GetFixtureB()->GetBody();
@@ -71,9 +75,35 @@ struct Physics: b2ContactListener {
             if(damage_contact_count<MAX_LEVEL_OBJECTS*2)damage_contacts[damage_contact_count++]=contact;
         }
     }
+    /* Scenery hulls are box approximations, so a slingshot placed on a slope can
+       overlap the spawned bird. Those static bodies are recorded at launch and
+       their contacts stay disabled until the bird separates from them. */
+    void record_spawn_overlaps(){
+        spawn_ignore_count=0;b2Fixture *mine=bird->GetFixtureList();
+        for(int i=0;i<level->count && spawn_ignore_count<8;i++){
+            b2Body *body=bodies[i];if(!body || body->GetType()!=b2_staticBody)continue;
+            for(b2Fixture *f=body->GetFixtureList();f;f=f->GetNext())
+                if(b2TestOverlap(f->GetShape(),0,mine->GetShape(),0,body->GetTransform(),bird->GetTransform())){spawn_ignore[spawn_ignore_count++]=body;break;}
+        }
+    }
+    int spawn_ignored(b2Contact *contact) const {
+        b2Body *a=contact->GetFixtureA()->GetBody(),*b=contact->GetFixtureB()->GetBody();
+        if(!bird || (a!=bird && b!=bird))return -1;
+        b2Body *other=a==bird?b:a;
+        for(int i=0;i<spawn_ignore_count;i++)if(spawn_ignore[i]==other)return i;
+        return -1;
+    }
+    void EndContact(b2Contact *contact) override {
+        int i=spawn_ignored(contact);
+        if(i>=0)spawn_ignore[i]=spawn_ignore[--spawn_ignore_count];
+    }
+    bool counts_as_hit(b2Contact *contact,b2Body *projectile) const {
+        b2Body *a=contact->GetFixtureA()->GetBody(),*b=contact->GetFixtureB()->GetBody();
+        return a==projectile || b==projectile;
+    }
     void PostSolve(b2Contact *contact,const b2ContactImpulse *impulse) override {
-        if(contact->GetFixtureA()->GetBody()==bird || contact->GetFixtureB()->GetBody()==bird)bird_collided=true;
-        for(int i=0;i<2;i++)if(split[i] && (contact->GetFixtureA()->GetBody()==split[i] || contact->GetFixtureB()->GetBody()==split[i]))split_collided[i]=true;
+        if(counts_as_hit(contact,bird))bird_collided=true;
+        for(int i=0;i<2;i++)if(split[i] && counts_as_hit(contact,split[i]))split_collided[i]=true;
         if (!has_launched || age<0.75f) return;
         bool damaging=false;for(int i=0;i<damage_contact_count;i++)if(damage_contacts[i]==contact){damaging=true;break;}
         if(!damaging)return;
@@ -84,8 +114,11 @@ struct Physics: b2ContactListener {
             if (id>0 && id<=(uintptr_t)level->count && body->GetMass()>0) {
                 unsigned i=(unsigned)id-1;
                 b2Body *other=pair[0]==body?pair[1]:pair[0];
-                bool blue=bird_type==BIRD_BLUE_TYPE && (other==bird || other==split[0] || other==split[1]);
-                float factor=blue && level->objects[i].kind==2?2.9f:1.0f;
+                bool projectile=other==bird || other==split[0] || other==split[1];
+                /* Direct-hit multipliers from the recovered damage tables: blue vs glass 2.9, yellow vs wood 2.4. */
+                float factor=1.0f;
+                if(projectile && bird_type==BIRD_BLUE_TYPE && level->objects[i].kind==2)factor=2.9f;
+                if(projectile && bird_type==BIRD_YELLOW_TYPE && level->objects[i].kind==1)factor=2.4f;
                 impact[i]=fmaxf(impact[i],normal/body->GetMass()*factor);
             }
         }
@@ -95,6 +128,7 @@ void game_init(Game *g) { memset(g,0,sizeof(*g));g->unlocked=1;game_load_level(g
 void game_destroy(Game *g) { delete static_cast<Physics*>(g->physics);g->physics=NULL; }
 int game_level_count(void){return (int)CAMPAIGN_COUNT;}
 const char *game_level_title(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].title:"";}
+const char *game_level_script(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].script:"";}
 int game_load_level(Game *g,int index) {
     if(index<0 || index>=(int)CAMPAIGN_COUNT || index>=g->unlocked)return 0;
     int unlocked=g->unlocked,best[MAX_CAMPAIGN_LEVELS];memcpy(best,g->highscores,sizeof(best));
@@ -117,10 +151,12 @@ void game_launch(Game *g) {
     if(g->state!=AIMING || g->birds<=0)return;
     Physics *p=static_cast<Physics*>(g->physics);
     if(p->bird)p->world.DestroyBody(p->bird);
+    p->spawn_ignore_count=0;
     for(int i=0;i<2;i++){if(p->split[i])p->world.DestroyBody(p->split[i]);p->split[i]=NULL;p->split_collided[i]=false;}
     p->bird_type=game_queue_type(g,0);p->special_used=false;p->bird_collided=false;
     float a=g->angle*0.01745329252f;
     p->bird=p->make_bird(b2Vec2(p->level->sling_x,p->level->sling_y),b2Vec2(cosf(a)*g->power/g->view_scale,-sinf(a)*g->power/g->view_scale),p->bird_type);
+    p->record_spawn_overlaps();
     p->has_launched=true;g->birds--;g->flight_time=g->cooldown=0;g->state=FLYING;
 }
 int game_queue_type(const Game *g,int offset){
@@ -130,12 +166,15 @@ int game_queue_type(const Game *g,int offset){
 }
 int game_special_available(const Game *g){
     const Physics *p=static_cast<const Physics*>(g->physics);
-    return g->state==FLYING && p->bird_type==BIRD_BLUE_TYPE && !p->special_used && !p->bird_collided;
+    return g->state==FLYING && (p->bird_type==BIRD_BLUE_TYPE || p->bird_type==BIRD_YELLOW_TYPE) && !p->special_used && !p->bird_collided;
 }
 int game_special(Game *g){
     if(!game_special_available(g))return 0;
     Physics *p=static_cast<Physics*>(g->physics);b2Vec2 velocity=p->bird->GetLinearVelocity();
     float speed=velocity.Length();if(speed<1)return 0;
+    if(p->bird_type==BIRD_YELLOW_TYPE){
+        p->bird->SetLinearVelocity(YELLOW_BOOST_FACTOR*velocity);p->special_used=true;g->cooldown=0;return 1;
+    }
     b2Vec2 normal(-velocity.y/speed,velocity.x/speed);
     for(int i=0;i<2;i++){
         float sign=i==0?-1.0f:1.0f,angle=sign*0.1745329252f;

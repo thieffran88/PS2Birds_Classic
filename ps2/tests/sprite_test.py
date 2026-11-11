@@ -13,10 +13,11 @@ try:module.decode_rgba4444(b'',3,3)
 except ValueError:pass
 else:raise AssertionError('Truncated input accepted')
 a=root/'ps2/assets';meta=json.loads((a/'manifest.json').read_text());pixels=(a/'sprites.rgba').read_bytes()
-assert len(pixels)==sum(p['width']*p['height']*4 for p in meta['pages'])==1572864
+assert len(pixels)==sum(p['width']*p['height']*4 for p in meta['pages'])<=meta['vram_budget']==2621440
+assert all(p['width'] in (512,1024) and p['height']<=512 for p in meta['pages'])
 assert hashlib.sha256(pixels).hexdigest()==meta['atlas_sha256']
 assert max(pixels[3::4])==128 and min(pixels[3::4])==0
-assert len(meta['sprites'])==85
+assert len(meta['sprites'])==109
 occupied=set()
 for frame in meta['sprites']:
     page=meta['pages'][frame['page']]
@@ -29,4 +30,4 @@ for frame in meta['sprites']:
         offset=page['offset']+(row*page['width']+x)*4;content+=pixels[offset:offset+w*4]
     assert hashlib.sha256(content).hexdigest()==frame['rgba_sha256']
     if frame['sprite']=='BIRD_RED':assert sum(content[i]>150 and content[i]>content[i+1]*2 and content[i+3]>0 for i in range(0,len(content),4))>100
-print('Sprites OK: endian/channels, alpha, crop, 85 frames, 2 pages, atlas bounds, no overlap, per-frame hashes.')
+print(f'Sprites OK: endian/channels, alpha, crop, {len(meta["sprites"])} frames, {len(meta["pages"])} pages within {meta["vram_budget"]} bytes, atlas bounds, no overlap, per-frame hashes.')

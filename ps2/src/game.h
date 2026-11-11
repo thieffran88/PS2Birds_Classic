@@ -12,7 +12,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE } BirdType;
+typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE } BirdType;
+/* Yellow boost: prototype approximation of the native BOOST specialty. */
+#define YELLOW_BOOST_FACTOR 1.8f
 typedef struct {float x,y,vx,vy,angle;int type,collided;} GameBird;
 typedef enum { AIMING, FLYING, WON, LOST } GameState;
 typedef struct {
@@ -42,6 +44,7 @@ int game_level_count(void);
 int game_load_level(Game *game,int index);
 int game_next_level(Game *game);
 const char *game_level_title(int index);
+const char *game_level_script(int index);
 int game_get_object(const Game *game,int index,GameObject *object);
 #ifdef __cplusplus
 }

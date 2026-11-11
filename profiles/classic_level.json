@@ -1,9 +1,10 @@
 {
   "id": "classic_redbird_boxes",
-  "description": "Classic 1-1 through 1-8: RedBird, SmallBlueBird split, small/medium pigs, material boxes and round stones.",
+  "description": "Classic Poached Eggs page 1 (21 stages in APK episode order): RedBird, SmallBlueBird split, YellowBird boost, small/medium/large/helmet pigs, material boxes, round stones, estrades and extras.",
   "bird_definitions": [
     "RedBird",
-    "SmallBlueBird"
+    "SmallBlueBird",
+    "YellowBird"
   ],
   "objects": {
     "WoodBlock2": {
@@ -114,6 +115,44 @@
       "sprite": "GROUND_BLOCK_02",
       "kind": 3,
       "shape": "box"
+    },
+    "StoneBlock1": {
+      "sprite": "BLOCK_ROCK_1_1",
+      "kind": 5,
+      "shape": "box"
+    },
+    "StoneBlock2": {
+      "sprite": "BLOCK_ROCK_1_2",
+      "kind": 5,
+      "shape": "box"
+    },
+    "WoodBlock7": {
+      "sprite": "BLOCK_WOOD_1_7",
+      "kind": 1,
+      "shape": "box"
+    },
+    "LargePiglette": {
+      "diameter": 4.65,
+      "kind": 4
+    },
+    "HelmetPiglette": {
+      "diameter": 3.9,
+      "kind": 4
+    },
+    "ExtraBlockSmiley": {
+      "sprite": "BLOCK_SMILEY_1",
+      "kind": 6,
+      "shape": "circle"
+    },
+    "StaticBlock_03": {
+      "sprite": "GROUND_BLOCK_03",
+      "kind": 3,
+      "shape": "box"
+    },
+    "Estrade01": {
+      "sprite": "ESTRADE_01",
+      "kind": 3,
+      "shape": "box"
     }
   },
   "metrics": "ps2/data/sprite_metrics.json",
@@ -124,6 +163,7 @@
   },
   "bird_types": {
     "RedBird": 0,
-    "SmallBlueBird": 1
+    "SmallBlueBird": 1,
+    "YellowBird": 2
   }
 }

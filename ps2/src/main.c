@@ -66,11 +66,22 @@ static void disk(float x, float y, float radius, u64 c)
 static unsigned int visual_frame;
 static float render_scale,render_pixels,render_ground,render_sling_x,render_sling_y;
 static void bird(float x,float y,float radius,int type,float angle,int collided)
-{ sprite_draw(gs,type==BIRD_BLUE_TYPE?(collided?SPR_BIRD_BLUE_COLLISION:SPR_BIRD_BLUE):SPR_BIRD_RED,x,y,(render_scale/render_pixels)*(radius/6.0f),angle); }
+{
+    int id=type==BIRD_BLUE_TYPE?(collided?SPR_BIRD_BLUE_COLLISION:SPR_BIRD_BLUE):type==BIRD_YELLOW_TYPE?(collided?SPR_BIRD_YELLOW_COLLISION:SPR_BIRD_YELLOW):SPR_BIRD_RED;
+    sprite_draw(gs,id,x,y,(render_scale/render_pixels)*(radius/6.0f),angle);
+}
 static void pig(const GameObject *o)
 {
-    int medium=!strcmp(o->definition,"MediumPiglette");
-    int id=medium?(o->health<0.5f?SPR_PIG_BASIC_MEDIUM_02:(visual_frame%240<8)?SPR_PIG_BASIC_MEDIUM_01_BLINK:SPR_PIG_BASIC_MEDIUM_01):(o->health<0.5f?SPR_PIG_BASIC_SMALL_02:(visual_frame%240<8)?SPR_PIG_BASIC_SMALL_01_BLINK:SPR_PIG_BASIC_SMALL_01);
+    typedef struct {const char *name;int normal,blink,hurt;} PigSprites;
+    static const PigSprites pig_sprites[]={
+     {"MediumPiglette",SPR_PIG_BASIC_MEDIUM_01,SPR_PIG_BASIC_MEDIUM_01_BLINK,SPR_PIG_BASIC_MEDIUM_02},
+     {"LargePiglette",SPR_PIG_BASIC_BIG_01,SPR_PIG_BASIC_BIG_01_BLINK,SPR_PIG_BASIC_BIG_02},
+     {"HelmetPiglette",SPR_PIG_HELMET_01,SPR_PIG_HELMET_01_BLINK,SPR_PIG_HELMET_02},
+     {"SmallPiglette",SPR_PIG_BASIC_SMALL_01,SPR_PIG_BASIC_SMALL_01_BLINK,SPR_PIG_BASIC_SMALL_02},
+    };
+    const PigSprites *set=&pig_sprites[3];
+    for(unsigned int i=0;i<sizeof(pig_sprites)/sizeof(pig_sprites[0]);i++)if(!strcmp(o->definition,pig_sprites[i].name)){set=&pig_sprites[i];break;}
+    int id=o->health<0.5f?set->hurt:(visual_frame%240<8)?set->blink:set->normal;
     sprite_draw(gs,id,o->x,o->y,render_scale/render_pixels,0);
 }
 typedef struct {const char *name;int frames[4];} BlockSprites;
@@ -80,6 +91,9 @@ static const BlockSprites block_sprites[]={
  {"WoodBlock4",{SPR_BLOCK_WOOD_1_4,SPR_BLOCK_WOOD_2_4,SPR_BLOCK_WOOD_3_4,SPR_BLOCK_WOOD_4_4}},
  {"WoodBlock5",{SPR_BLOCK_WOOD_1_5,SPR_BLOCK_WOOD_2_5,SPR_BLOCK_WOOD_3_5,SPR_BLOCK_WOOD_4_5}},
  {"WoodBlock6",{SPR_BLOCK_WOOD_1_6,SPR_BLOCK_WOOD_2_6,SPR_BLOCK_WOOD_3_6,SPR_BLOCK_WOOD_4_6}},
+ {"WoodBlock7",{SPR_BLOCK_WOOD_1_7,SPR_BLOCK_WOOD_2_7,SPR_BLOCK_WOOD_3_7,SPR_BLOCK_WOOD_4_7}},
+ {"StoneBlock1",{SPR_BLOCK_ROCK_1_1,SPR_BLOCK_ROCK_2_1,SPR_BLOCK_ROCK_3_1,SPR_BLOCK_ROCK_4_1}},
+ {"StoneBlock2",{SPR_BLOCK_ROCK_1_2,SPR_BLOCK_ROCK_2_2,SPR_BLOCK_ROCK_3_2,SPR_BLOCK_ROCK_4_2}},
  {"LightBlock1",{SPR_BLOCK_LIGHT_1_1,SPR_BLOCK_LIGHT_2_1,SPR_BLOCK_LIGHT_3_1,SPR_BLOCK_LIGHT_4_1}},
  {"LightBlock2",{SPR_BLOCK_LIGHT_1_2,SPR_BLOCK_LIGHT_2_2,SPR_BLOCK_LIGHT_3_2,SPR_BLOCK_LIGHT_4_2}},
  {"LightBlock3",{SPR_BLOCK_LIGHT_1_3,SPR_BLOCK_LIGHT_2_3,SPR_BLOCK_LIGHT_3_3,SPR_BLOCK_LIGHT_4_3}},
@@ -96,11 +110,14 @@ static const BlockSprites block_sprites[]={
 static void block(const GameObject *o)
 {
     if(o->kind==3){
-        int id=!strcmp(o->definition,"StaticBlock_02")?SPR_GROUND_BLOCK_02:!strcmp(o->definition,"StaticBlock_01")?SPR_GROUND_BLOCK_01:!strcmp(o->definition,"StaticBlock_04")?SPR_GROUND_BLOCK_04:!strcmp(o->definition,"StaticBlock_05")?SPR_GROUND_BLOCK_05:SPR_ESTRADE_02;
-        unsigned int tint=id==SPR_ESTRADE_02?0x80808080:0x80284466;
+        int id=!strcmp(o->definition,"StaticBlock_01")?SPR_GROUND_BLOCK_01:!strcmp(o->definition,"StaticBlock_02")?SPR_GROUND_BLOCK_02:!strcmp(o->definition,"StaticBlock_03")?SPR_GROUND_BLOCK_03:!strcmp(o->definition,"StaticBlock_04")?SPR_GROUND_BLOCK_04:!strcmp(o->definition,"StaticBlock_05")?SPR_GROUND_BLOCK_05:!strcmp(o->definition,"Estrade01")?SPR_ESTRADE_01:SPR_ESTRADE_02;
+        unsigned int tint=(id==SPR_ESTRADE_01 || id==SPR_ESTRADE_02)?0x80808080:0x80284466;
         sprite_draw_tint(gs,id,o->x,o->y,render_scale/render_pixels,o->angle,tint);return;
     }
-    if(o->kind==6){sprite_draw(gs,SPR_BLOCK_TREASURE_CHEST,o->x,o->y,render_scale/render_pixels,o->angle);return;}
+    if(o->kind==6){
+        int id=!strcmp(o->definition,"ExtraBlockSmiley")?(o->health<0.5f?SPR_BLOCK_SMILEY_3:SPR_BLOCK_SMILEY_1):SPR_BLOCK_TREASURE_CHEST;
+        sprite_draw(gs,id,o->x,o->y,render_scale/render_pixels,o->angle);return;
+    }
     int stage=o->health>0.75f?0:o->health>0.5f?1:o->health>0.25f?2:3;
     for(unsigned int i=0;i<sizeof(block_sprites)/sizeof(block_sprites[0]);i++)
         if(!strcmp(o->definition,block_sprites[i].name)){
@@ -117,7 +134,7 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     gsKit_clear(gs,color(120,194,205));
     rect(0,0,640,109,dark);
     text(30,22,3,cream,"PS2BIRDS CLASSIC");
-    text(31,55,1,color(135,192,181),"PROTOTIPO 0.8.0 / PLAYSTATION 2");
+    text(31,55,1,color(135,192,181),"PROTOTIPO 0.9.0 / PLAYSTATION 2");
     text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
     text(31,80,2,gold,game_level_title(g->level));
     char line[64];
@@ -166,7 +183,8 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     rect(20,391,600,51,dark);
     text(30,400,1,cream,"DIRECIONAL/ANALOGICO: MIRA  X: LANCAR");
     text(30,415,1,color(156,195,178),"TRIANGULO: REINICIO  SELECT: FASES  START: PAUSA");
-    text(30,430,1,color(156,195,178),game_special_available(g)?"X: DIVIDIR AZUL EM TRES  QUADRADO: AJUSTE FINO":"SEGURE QUADRADO PARA AJUSTE FINO");
+    GameBird airborne;int airborne_type=game_get_projectile(g,0,&airborne)?airborne.type:-1;
+    text(30,430,1,color(156,195,178),!game_special_available(g)?"SEGURE QUADRADO PARA AJUSTE FINO":airborne_type==BIRD_YELLOW_TYPE?"X: ACELERAR AMARELO  QUADRADO: AJUSTE FINO":"X: DIVIDIR AZUL EM TRES  QUADRADO: AJUSTE FINO");
     if (g->state==WON || g->state==LOST || paused) {
         rect(106,185,428,86,dark);
         text(130,204,2,gold,paused?"PAUSADO":g->state==WON?"FASE CONCLUIDA":"TENTE NOVAMENTE");
@@ -208,18 +226,22 @@ int main(void)
     if (!gs) { printf("PS2Birds: GS allocation failed\n"); SleepThread(); return 1; }
     gs->Mode = GS_MODE_NTSC;
     gs->Width = 640; gs->Height = 448;
-    gs->PSM = GS_PSM_CT32;
+    /* 16-bit frame buffers leave about 2.9 MiB of VRAM for the embedded texture pages. */
+    gs->PSM = GS_PSM_CT16;
+    gs->Dithering = GS_SETTING_ON;
     gs->ZBuffering = GS_SETTING_OFF;
     gs->DoubleBuffering = GS_SETTING_ON;
     dmaKit_init(D_CTRL_RELE_OFF,D_CTRL_MFD_OFF,D_CTRL_STS_UNSPEC,D_CTRL_STD_OFF,D_CTRL_RCYC_8,1<<DMA_CHANNEL_GIF);
     dmaKit_chan_init(DMA_CHANNEL_GIF);
     gsKit_init_screen(gs);
+    gsKit_set_dither_matrix(gs);
+    gsKit_set_dither(gs);
     gsKit_mode_switch(gs,GS_ONESHOT);
     gs->PrimAlphaEnable=GS_SETTING_ON;
     gsKit_set_primalpha(gs,ALPHA_BLEND_NORMAL,0);
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.8.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.9.0: GS ready, pad open=%d\n",pad_open);
     Game g; game_init(&g); save_mc_init(&g);
     u32 old_buttons=0;
     int paused=0, previously_connected=0, analog_requested=0,menu=1,selected=0;

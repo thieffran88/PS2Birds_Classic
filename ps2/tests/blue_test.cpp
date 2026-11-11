@@ -2,12 +2,13 @@
 #include <cassert>
 #include <cmath>
 #include <cstdio>
+#include <cstring>
 static void update(Game *g,int frames){for(int i=0;i<frames;i++)game_update(g,1.f/120);}
 int main(){
  Game g;game_init(&g);assert(!game_special(&g) && !game_special_available(&g));
  assert(game_queue_type(&g,0)==BIRD_RED_TYPE && game_queue_type(&g,-1)==-1 && game_queue_type(&g,3)==-1);
- game_launch(&g);assert(!game_special(&g) && game_projectile_count(&g)==1);g.unlocked=8;
- assert(game_load_level(&g,7));assert(g.birds==5 && g.pig_alive==2 && game_projectile_count(&g)==0);
+ game_launch(&g);assert(!game_special(&g) && game_projectile_count(&g)==1);g.unlocked=32;
+ assert(game_load_level(&g,9) && !strcmp(game_level_script(9),"Level8"));assert(g.birds==5 && g.pig_alive==2 && game_projectile_count(&g)==0);
  for(int i=0;i<5;i++)assert(game_queue_type(&g,i)==BIRD_BLUE_TYPE);
  assert(game_queue_type(&g,5)==-1 && !game_special(&g));update(&g,240);
  game_launch(&g);assert(g.birds==4 && game_special_available(&g));update(&g,60);
@@ -32,7 +33,7 @@ int main(){
  }
  assert(touched);game_reset(&g);
  // Exercise ownership of all three bodies through repeated reset/load/destroy.
- for(int i=0;i<30;i++){assert(game_load_level(&g,7));game_launch(&g);update(&g,30);assert(game_special(&g));assert(game_load_level(&g,0) && game_projectile_count(&g)==0);}
+ for(int i=0;i<30;i++){assert(game_load_level(&g,9));game_launch(&g);update(&g,30);assert(game_special(&g));assert(game_load_level(&g,0) && game_projectile_count(&g)==0);}
  game_destroy(&g);assert(!g.physics);
  puts("Blue OK: queue, airborne split, 3 trajectories, conserved speed, one activation, no extra bird consumed, rejection on red/ground/reset, 30 world transitions.");
 }

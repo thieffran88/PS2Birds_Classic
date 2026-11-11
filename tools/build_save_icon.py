@@ -15,7 +15,7 @@ def build():
             bg=(23,53,58);left,top,width,height=15,16,98,96
             if left<=x<left+width and top<=y<top+height:
                 sx=(x-left)*frame['width']//width;sy=(y-top)*frame['height']//height
-                p=meta['pages'][frame['page']]['offset']+((frame['atlas_y']+sy)*meta['width']+frame['atlas_x']+sx)*4
+                page=meta['pages'][frame['page']];p=page['offset']+((frame['atlas_y']+sy)*page['width']+frame['atlas_x']+sx)*4
                 r,g,b,a=raw[p:p+4];bg=tuple((c*a+d*(128-a))//128 for c,d in zip((r,g,b),bg))
             r,g,b=bg;tex+=struct.pack('<H',(r>>3)|((g>>3)<<5)|((b>>3)<<10))
     corners=[(-1,1,0,0),(1,1,1,0),(1,-1,1,1),(-1,-1,0,1)]

@@ -1,9 +1,10 @@
 {
   "game_profile": "classic",
   "sprite_adapter": "classic_campaign_sprites",
-  "apk": "com.rovio.angrybirds.apk",
+  "apk": "apk.bin",
   "width": 512,
   "height": 512,
+  "vram_budget": 2621440,
   "pages": [
     {
       "width": 512,
@@ -12,16 +13,21 @@
     },
     {
       "width": 512,
-      "height": 256,
+      "height": 512,
       "offset": 1048576
+    },
+    {
+      "width": 1024,
+      "height": 64,
+      "offset": 2097152
     }
   ],
-  "bytes": 1572864,
+  "bytes": 2359296,
   "alpha_range": [
     0,
     128
   ],
-  "atlas_sha256": "49c53cf86102edc3eaec7aabc0c22551f5c3262e1f48626aeb80385c5b2a63fe",
+  "atlas_sha256": "4a3ff89f0ea96cbee7eb8b1e0f7637de7c1f3527bbb6ebcce1fe466144b476c9",
   "sprites": [
     {
       "sprite": "BIRD_BLUE",
@@ -35,9 +41,9 @@
         "x": 16,
         "y": 16
       },
-      "atlas_x": 419,
-      "atlas_y": 450,
-      "page": 0
+      "atlas_x": 100,
+      "atlas_y": 217,
+      "page": 1
     },
     {
       "sprite": "BIRD_BLUE_COLLISION",
@@ -51,9 +57,9 @@
         "x": 16,
         "y": 16
       },
-      "atlas_x": 470,
-      "atlas_y": 446,
-      "page": 0
+      "atlas_x": 168,
+      "atlas_y": 216,
+      "page": 1
     },
     {
       "sprite": "BIRD_RED",
@@ -67,9 +73,41 @@
         "x": 27,
         "y": 27
       },
-      "atlas_x": 461,
-      "atlas_y": 145,
-      "page": 0
+      "atlas_x": 218,
+      "atlas_y": 1,
+      "page": 1
+    },
+    {
+      "sprite": "BIRD_YELLOW",
+      "sheet": "assets/data/images/base/INGAME_BIRDS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "f3c3f212d7c9b3beb4e0ebc1dd064ab9671e60790ea1872d5ae3f7317ae18da0",
+      "width": 58,
+      "height": 54,
+      "pivot": {
+        "x": 31,
+        "y": 34
+      },
+      "atlas_x": 1,
+      "atlas_y": 1,
+      "page": 1
+    },
+    {
+      "sprite": "BIRD_YELLOW_COLLISION",
+      "sheet": "assets/data/images/base/INGAME_BIRDS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "4669d05079087ed25df45a3766a9d05b4ec46e083aecf598e0cec10d675f13d0",
+      "width": 57,
+      "height": 54,
+      "pivot": {
+        "x": 31,
+        "y": 34
+      },
+      "atlas_x": 61,
+      "atlas_y": 1,
+      "page": 1
     },
     {
       "sprite": "SLING_SHOT_01_BACK",
@@ -115,8 +153,8 @@
         "x": 23,
         "y": 23
       },
-      "atlas_x": 461,
-      "atlas_y": 1,
+      "atlas_x": 182,
+      "atlas_y": 445,
       "page": 0
     },
     {
@@ -131,9 +169,9 @@
         "x": 23,
         "y": 23
       },
-      "atlas_x": 461,
-      "atlas_y": 49,
-      "page": 0
+      "atlas_x": 120,
+      "atlas_y": 1,
+      "page": 1
     },
     {
       "sprite": "PIG_BASIC_SMALL_02",
@@ -147,9 +185,9 @@
         "x": 23,
         "y": 23
       },
-      "atlas_x": 461,
-      "atlas_y": 97,
-      "page": 0
+      "atlas_x": 169,
+      "atlas_y": 1,
+      "page": 1
     },
     {
       "sprite": "PIG_BASIC_MEDIUM_01",
@@ -163,8 +201,8 @@
         "x": 39,
         "y": 39
       },
-      "atlas_x": 381,
-      "atlas_y": 1,
+      "atlas_x": 362,
+      "atlas_y": 277,
       "page": 0
     },
     {
@@ -179,8 +217,8 @@
         "x": 39,
         "y": 39
       },
-      "atlas_x": 381,
-      "atlas_y": 79,
+      "atlas_x": 1,
+      "atlas_y": 291,
       "page": 0
     },
     {
@@ -195,9 +233,121 @@
         "x": 39,
         "y": 39
       },
+      "atlas_x": 81,
+      "atlas_y": 291,
+      "page": 0
+    },
+    {
+      "sprite": "PIG_BASIC_BIG_01",
+      "sheet": "assets/data/images/base/INGAME_PIGS_NEW_SHEET_0_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "fd9749d1683048cb928a87d39f62da06214169a304ad42075697ea07ea0f19ed",
+      "width": 99,
+      "height": 97,
+      "pivot": {
+        "x": 49,
+        "y": 50
+      },
+      "atlas_x": 381,
+      "atlas_y": 1,
+      "page": 0
+    },
+    {
+      "sprite": "PIG_BASIC_BIG_01_BLINK",
+      "sheet": "assets/data/images/base/INGAME_PIGS_NEW_SHEET_0_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "06abbc13c9249db99562a9be8e59ed403a428b36255623bc02af6a1075e65bd1",
+      "width": 99,
+      "height": 97,
+      "pivot": {
+        "x": 49,
+        "y": 50
+      },
       "atlas_x": 282,
       "atlas_y": 100,
       "page": 0
+    },
+    {
+      "sprite": "PIG_BASIC_BIG_02",
+      "sheet": "assets/data/images/base/INGAME_PIGS_NEW_SHEET_0_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "1d502d418a131088d241d562f2cc295e84e27a40d20501916f44849322f1f320",
+      "width": 99,
+      "height": 97,
+      "pivot": {
+        "x": 49,
+        "y": 50
+      },
+      "atlas_x": 383,
+      "atlas_y": 100,
+      "page": 0
+    },
+    {
+      "sprite": "PIG_HELMET_01",
+      "sheet": "assets/data/images/base/INGAME_PIGS_NEW_SHEET_0_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "3fd6525e9b309dfcec85cf239b27170dd4ba8aaecc6edd860f6e6a6d1794cf1d",
+      "width": 105,
+      "height": 90,
+      "pivot": {
+        "x": 52,
+        "y": 44
+      },
+      "atlas_x": 41,
+      "atlas_y": 199,
+      "page": 0
+    },
+    {
+      "sprite": "PIG_HELMET_01_BLINK",
+      "sheet": "assets/data/images/base/INGAME_PIGS_NEW_SHEET_0_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "aebeef638e1f111ea68dbd3ac820f752bbc93b1cbc6eb3429ef714174b70f879",
+      "width": 105,
+      "height": 90,
+      "pivot": {
+        "x": 52,
+        "y": 45
+      },
+      "atlas_x": 148,
+      "atlas_y": 199,
+      "page": 0
+    },
+    {
+      "sprite": "PIG_HELMET_02",
+      "sheet": "assets/data/images/base/INGAME_PIGS_NEW_SHEET_0_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "57864d0eb6fc4da912047e72c8bdd40a8887838271d94c69dfbd708027a5d6af",
+      "width": 105,
+      "height": 90,
+      "pivot": {
+        "x": 52,
+        "y": 45
+      },
+      "atlas_x": 255,
+      "atlas_y": 199,
+      "page": 0
+    },
+    {
+      "sprite": "ESTRADE_01",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "84739dc7166a2c929a3a176586794e0a11a4bb9d38ce74d4af32e4ba73a8f357",
+      "width": 149,
+      "height": 44,
+      "pivot": {
+        "x": 74,
+        "y": 22
+      },
+      "atlas_x": 266,
+      "atlas_y": 1,
+      "page": 1
     },
     {
       "sprite": "ESTRADE_02",
@@ -212,7 +362,7 @@
         "y": 28
       },
       "atlas_x": 1,
-      "atlas_y": 274,
+      "atlas_y": 445,
       "page": 0
     },
     {
@@ -227,8 +377,40 @@
         "x": 47,
         "y": 30
       },
-      "atlas_x": 315,
-      "atlas_y": 232,
+      "atlas_x": 394,
+      "atlas_y": 432,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_SMILEY_1",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "d6648799939dbd3e74eb14938d861a208434643045d85df8bec6a9d91ded053d",
+      "width": 75,
+      "height": 75,
+      "pivot": {
+        "x": 37,
+        "y": 37
+      },
+      "atlas_x": 161,
+      "atlas_y": 291,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_SMILEY_3",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "3a912c81552284a56bafc39f9bfb12510b521727d9eba04f8d1aba04da85bdb0",
+      "width": 72,
+      "height": 76,
+      "pivot": {
+        "x": 36,
+        "y": 38
+      },
+      "atlas_x": 362,
+      "atlas_y": 199,
       "page": 0
     },
     {
@@ -243,8 +425,8 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 426,
-      "atlas_y": 45,
+      "atlas_x": 341,
+      "atlas_y": 339,
       "page": 1
     },
     {
@@ -259,9 +441,9 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 214,
-      "atlas_y": 339,
-      "page": 0
+      "atlas_x": 432,
+      "atlas_y": 130,
+      "page": 1
     },
     {
       "sprite": "BLOCK_WOOD_1_4",
@@ -275,8 +457,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 171,
-      "atlas_y": 67,
+      "atlas_x": 384,
+      "atlas_y": 339,
       "page": 1
     },
     {
@@ -291,9 +473,9 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 1,
-      "atlas_y": 375,
-      "page": 0
+      "atlas_x": 86,
+      "atlas_y": 135,
+      "page": 1
     },
     {
       "sprite": "BLOCK_WOOD_1_6",
@@ -307,9 +489,25 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 256,
-      "atlas_y": 67,
+      "atlas_x": 1,
+      "atlas_y": 361,
       "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_1_7",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "93607120f316fa21cf101cde371825b82818f0bc772ea2acedba77f3c68dc4ca",
+      "width": 75,
+      "height": 75,
+      "pivot": {
+        "x": 37,
+        "y": 37
+      },
+      "atlas_x": 238,
+      "atlas_y": 291,
+      "page": 0
     },
     {
       "sprite": "BLOCK_WOOD_2_2",
@@ -324,7 +522,7 @@
         "y": 10
       },
       "atlas_x": 469,
-      "atlas_y": 45,
+      "atlas_y": 339,
       "page": 1
     },
     {
@@ -339,9 +537,9 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 86,
-      "atlas_y": 375,
-      "page": 0
+      "atlas_x": 333,
+      "atlas_y": 133,
+      "page": 1
     },
     {
       "sprite": "BLOCK_WOOD_2_4",
@@ -355,8 +553,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 426,
-      "atlas_y": 67,
+      "atlas_x": 171,
+      "atlas_y": 361,
       "page": 1
     },
     {
@@ -371,9 +569,9 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 257,
-      "atlas_y": 380,
-      "page": 0
+      "atlas_x": 1,
+      "atlas_y": 143,
+      "page": 1
     },
     {
       "sprite": "BLOCK_WOOD_2_6",
@@ -387,9 +585,25 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 1,
-      "atlas_y": 89,
+      "atlas_x": 256,
+      "atlas_y": 361,
       "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_2_7",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "c926e0c0417794efd1bf3d14273f58b06db92c74fb9fe135907b11508a7ff36b",
+      "width": 75,
+      "height": 75,
+      "pivot": {
+        "x": 37,
+        "y": 37
+      },
+      "atlas_x": 315,
+      "atlas_y": 355,
+      "page": 0
     },
     {
       "sprite": "BLOCK_WOOD_3_2",
@@ -403,8 +617,8 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 171,
-      "atlas_y": 89,
+      "atlas_x": 426,
+      "atlas_y": 361,
       "page": 1
     },
     {
@@ -419,9 +633,9 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 342,
-      "atlas_y": 380,
-      "page": 0
+      "atlas_x": 172,
+      "atlas_y": 134,
+      "page": 1
     },
     {
       "sprite": "BLOCK_WOOD_3_4",
@@ -435,8 +649,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 214,
-      "atlas_y": 89,
+      "atlas_x": 1,
+      "atlas_y": 383,
       "page": 1
     },
     {
@@ -451,9 +665,9 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 129,
-      "atlas_y": 382,
-      "page": 0
+      "atlas_x": 376,
+      "atlas_y": 173,
+      "page": 1
     },
     {
       "sprite": "BLOCK_WOOD_3_6",
@@ -467,9 +681,25 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 299,
-      "atlas_y": 89,
+      "atlas_x": 86,
+      "atlas_y": 383,
       "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_3_7",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "86d73e2dd7b33b8498d9eb6237edfd3c6b676ad3a95ee3094945a5a07bbce8a6",
+      "width": 75,
+      "height": 75,
+      "pivot": {
+        "x": 37,
+        "y": 37
+      },
+      "atlas_x": 392,
+      "atlas_y": 355,
+      "page": 0
     },
     {
       "sprite": "BLOCK_WOOD_4_2",
@@ -484,7 +714,7 @@
         "y": 10
       },
       "atlas_x": 469,
-      "atlas_y": 89,
+      "atlas_y": 361,
       "page": 1
     },
     {
@@ -499,9 +729,9 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 214,
-      "atlas_y": 382,
-      "page": 0
+      "atlas_x": 461,
+      "atlas_y": 173,
+      "page": 1
     },
     {
       "sprite": "BLOCK_WOOD_4_4",
@@ -515,8 +745,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 1,
-      "atlas_y": 111,
+      "atlas_x": 256,
+      "atlas_y": 383,
       "page": 1
     },
     {
@@ -531,9 +761,9 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 385,
-      "atlas_y": 407,
-      "page": 0
+      "atlas_x": 215,
+      "atlas_y": 176,
+      "page": 1
     },
     {
       "sprite": "BLOCK_WOOD_4_6",
@@ -547,9 +777,25 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 86,
-      "atlas_y": 111,
+      "atlas_x": 341,
+      "atlas_y": 383,
       "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_4_7",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "f172d1cfb3851c23e64d471f38d7d527e293cf61c635ddc67a5402d1e07fae62",
+      "width": 75,
+      "height": 75,
+      "pivot": {
+        "x": 37,
+        "y": 37
+      },
+      "atlas_x": 161,
+      "atlas_y": 368,
+      "page": 0
     },
     {
       "sprite": "BLOCK_LIGHT_1_1",
@@ -563,9 +809,9 @@
         "x": 10,
         "y": 10
       },
-      "atlas_x": 1,
-      "atlas_y": 457,
-      "page": 0
+      "atlas_x": 133,
+      "atlas_y": 217,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_1_2",
@@ -579,9 +825,9 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 24,
-      "atlas_y": 457,
-      "page": 0
+      "atlas_x": 202,
+      "atlas_y": 219,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_1_3",
@@ -595,9 +841,9 @@
         "x": 21,
         "y": 20
       },
-      "atlas_x": 440,
-      "atlas_y": 192,
-      "page": 0
+      "atlas_x": 417,
+      "atlas_y": 1,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_1_4",
@@ -611,9 +857,9 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 67,
-      "atlas_y": 460,
-      "page": 0
+      "atlas_x": 202,
+      "atlas_y": 241,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_1_5",
@@ -627,9 +873,9 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 412,
-      "atlas_y": 235,
-      "page": 0
+      "atlas_x": 417,
+      "atlas_y": 44,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_1_6",
@@ -644,8 +890,8 @@
         "y": 10
       },
       "atlas_x": 1,
-      "atlas_y": 482,
-      "page": 0
+      "atlas_y": 251,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_2_1",
@@ -659,8 +905,8 @@
         "x": 10,
         "y": 10
       },
-      "atlas_x": 171,
-      "atlas_y": 460,
+      "atlas_x": 491,
+      "atlas_y": 1,
       "page": 0
     },
     {
@@ -675,9 +921,9 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 193,
-      "atlas_y": 460,
-      "page": 0
+      "atlas_x": 287,
+      "atlas_y": 251,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_2_3",
@@ -691,9 +937,9 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 197,
-      "atlas_y": 253,
-      "page": 0
+      "atlas_x": 266,
+      "atlas_y": 47,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_2_4",
@@ -707,9 +953,9 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 171,
-      "atlas_y": 482,
-      "page": 0
+      "atlas_x": 330,
+      "atlas_y": 251,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_2_5",
@@ -723,9 +969,9 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 412,
-      "atlas_y": 278,
-      "page": 0
+      "atlas_x": 309,
+      "atlas_y": 47,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_2_6",
@@ -739,9 +985,9 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 256,
-      "atlas_y": 484,
-      "page": 0
+      "atlas_x": 1,
+      "atlas_y": 273,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_3_1",
@@ -755,8 +1001,8 @@
         "x": 10,
         "y": 10
       },
-      "atlas_x": 452,
-      "atlas_y": 479,
+      "atlas_x": 491,
+      "atlas_y": 23,
       "page": 0
     },
     {
@@ -771,8 +1017,8 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 1,
-      "atlas_y": 1,
+      "atlas_x": 415,
+      "atlas_y": 251,
       "page": 1
     },
     {
@@ -787,9 +1033,9 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 240,
-      "atlas_y": 253,
-      "page": 0
+      "atlas_x": 218,
+      "atlas_y": 48,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_3_4",
@@ -803,8 +1049,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 44,
-      "atlas_y": 1,
+      "atlas_x": 171,
+      "atlas_y": 263,
       "page": 1
     },
     {
@@ -819,9 +1065,9 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 283,
-      "atlas_y": 294,
-      "page": 0
+      "atlas_x": 120,
+      "atlas_y": 49,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_3_6",
@@ -835,8 +1081,8 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 129,
-      "atlas_y": 1,
+      "atlas_x": 256,
+      "atlas_y": 273,
       "page": 1
     },
     {
@@ -851,8 +1097,8 @@
         "x": 10,
         "y": 10
       },
-      "atlas_x": 474,
-      "atlas_y": 479,
+      "atlas_x": 491,
+      "atlas_y": 45,
       "page": 0
     },
     {
@@ -867,8 +1113,8 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 299,
-      "atlas_y": 1,
+      "atlas_x": 458,
+      "atlas_y": 251,
       "page": 1
     },
     {
@@ -883,9 +1129,9 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 368,
-      "atlas_y": 294,
-      "page": 0
+      "atlas_x": 1,
+      "atlas_y": 57,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_4_4",
@@ -899,8 +1145,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 342,
-      "atlas_y": 1,
+      "atlas_x": 426,
+      "atlas_y": 273,
       "page": 1
     },
     {
@@ -915,9 +1161,9 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 182,
-      "atlas_y": 296,
-      "page": 0
+      "atlas_x": 394,
+      "atlas_y": 87,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_4_6",
@@ -932,7 +1178,39 @@
         "y": 10
       },
       "atlas_x": 1,
-      "atlas_y": 23,
+      "atlas_y": 295,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_ROCK_1_1",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "3a49f355983e0d37b732f8180b08aafcd4fc7356f7759bec7d0b8a39f2d05392",
+      "width": 20,
+      "height": 20,
+      "pivot": {
+        "x": 10,
+        "y": 10
+      },
+      "atlas_x": 491,
+      "atlas_y": 67,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_1_2",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "50518f63ecfceb9077d3c76a2ffe17db2ecfc13bf2b94ecfd944aaa92120a448",
+      "width": 41,
+      "height": 20,
+      "pivot": {
+        "x": 20,
+        "y": 10
+      },
+      "atlas_x": 171,
+      "atlas_y": 285,
       "page": 1
     },
     {
@@ -947,9 +1225,9 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 411,
-      "atlas_y": 321,
-      "page": 0
+      "atlas_x": 44,
+      "atlas_y": 57,
+      "page": 1
     },
     {
       "sprite": "BLOCK_ROCK_1_4",
@@ -963,8 +1241,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 427,
-      "atlas_y": 1,
+      "atlas_x": 214,
+      "atlas_y": 295,
       "page": 1
     },
     {
@@ -979,9 +1257,9 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 1,
-      "atlas_y": 332,
-      "page": 0
+      "atlas_x": 261,
+      "atlas_y": 90,
+      "page": 1
     },
     {
       "sprite": "BLOCK_ROCK_1_6",
@@ -995,8 +1273,8 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 171,
-      "atlas_y": 23,
+      "atlas_x": 299,
+      "atlas_y": 295,
       "page": 1
     },
     {
@@ -1011,8 +1289,8 @@
         "x": 38,
         "y": 36
       },
-      "atlas_x": 362,
-      "atlas_y": 157,
+      "atlas_x": 1,
+      "atlas_y": 369,
       "page": 0
     },
     {
@@ -1027,9 +1305,41 @@
         "x": 19,
         "y": 18
       },
-      "atlas_x": 470,
-      "atlas_y": 407,
+      "atlas_x": 300,
+      "atlas_y": 176,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_ROCK_2_1",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "2a4c8bf6018744d14fed84a582bff249f72ca8cbda40fa494be3d11e1cbfc4be",
+      "width": 20,
+      "height": 20,
+      "pivot": {
+        "x": 10,
+        "y": 10
+      },
+      "atlas_x": 491,
+      "atlas_y": 89,
       "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_2_2",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "5f7e44431c830315695d8f0acc21d936f0ff459434210ec05ab3a1e66d6e6bce",
+      "width": 41,
+      "height": 20,
+      "pivot": {
+        "x": 20,
+        "y": 10
+      },
+      "atlas_x": 469,
+      "atlas_y": 295,
+      "page": 1
     },
     {
       "sprite": "BLOCK_ROCK_2_3",
@@ -1043,9 +1353,9 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 454,
-      "atlas_y": 321,
-      "page": 0
+      "atlas_x": 346,
+      "atlas_y": 90,
+      "page": 1
     },
     {
       "sprite": "BLOCK_ROCK_2_4",
@@ -1059,8 +1369,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 341,
-      "atlas_y": 23,
+      "atlas_x": 1,
+      "atlas_y": 317,
       "page": 1
     },
     {
@@ -1075,9 +1385,9 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 86,
-      "atlas_y": 332,
-      "page": 0
+      "atlas_x": 87,
+      "atlas_y": 92,
+      "page": 1
     },
     {
       "sprite": "BLOCK_ROCK_2_6",
@@ -1091,8 +1401,8 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 1,
-      "atlas_y": 45,
+      "atlas_x": 86,
+      "atlas_y": 317,
       "page": 1
     },
     {
@@ -1107,8 +1417,8 @@
         "x": 38,
         "y": 36
       },
-      "atlas_x": 237,
-      "atlas_y": 178,
+      "atlas_x": 79,
+      "atlas_y": 369,
       "page": 0
     },
     {
@@ -1123,9 +1433,41 @@
         "x": 19,
         "y": 18
       },
-      "atlas_x": 1,
-      "atlas_y": 418,
+      "atlas_x": 171,
+      "atlas_y": 177,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_ROCK_3_1",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "9a42556ddece621a3c8139fe58a69661bf85c5307f09a78613443bf2ae9a2f23",
+      "width": 20,
+      "height": 20,
+      "pivot": {
+        "x": 10,
+        "y": 10
+      },
+      "atlas_x": 491,
+      "atlas_y": 111,
       "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_3_2",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "0fe5db62ee9fe9714d247b4c6014695baa0f0c8f412140847f2cb7b010d0fec9",
+      "width": 41,
+      "height": 20,
+      "pivot": {
+        "x": 20,
+        "y": 10
+      },
+      "atlas_x": 256,
+      "atlas_y": 317,
+      "page": 1
     },
     {
       "sprite": "BLOCK_ROCK_3_3",
@@ -1139,9 +1481,9 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 267,
-      "atlas_y": 337,
-      "page": 0
+      "atlas_x": 205,
+      "atlas_y": 91,
+      "page": 1
     },
     {
       "sprite": "BLOCK_ROCK_3_4",
@@ -1155,8 +1497,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 426,
-      "atlas_y": 23,
+      "atlas_x": 299,
+      "atlas_y": 317,
       "page": 1
     },
     {
@@ -1171,9 +1513,9 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 310,
-      "atlas_y": 337,
-      "page": 0
+      "atlas_x": 1,
+      "atlas_y": 100,
+      "page": 1
     },
     {
       "sprite": "BLOCK_ROCK_3_6",
@@ -1187,8 +1529,8 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 171,
-      "atlas_y": 45,
+      "atlas_x": 1,
+      "atlas_y": 339,
       "page": 1
     },
     {
@@ -1203,8 +1545,8 @@
         "x": 38,
         "y": 36
       },
-      "atlas_x": 41,
-      "atlas_y": 199,
+      "atlas_x": 238,
+      "atlas_y": 432,
       "page": 0
     },
     {
@@ -1219,9 +1561,41 @@
         "x": 19,
         "y": 18
       },
-      "atlas_x": 42,
-      "atlas_y": 418,
+      "atlas_x": 86,
+      "atlas_y": 178,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_ROCK_4_1",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "5dc3f265e5bad44f76b0e661818c9afc4efa7e14d65ee4e98346bc9af1c0eea9",
+      "width": 20,
+      "height": 20,
+      "pivot": {
+        "x": 10,
+        "y": 10
+      },
+      "atlas_x": 491,
+      "atlas_y": 133,
       "page": 0
+    },
+    {
+      "sprite": "BLOCK_ROCK_4_2",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "23a58f6f0c2b1befc2b1fa7851355066c747a317dfc7ec1b064e93088b1b6224",
+      "width": 41,
+      "height": 20,
+      "pivot": {
+        "x": 20,
+        "y": 10
+      },
+      "atlas_x": 384,
+      "atlas_y": 317,
+      "page": 1
     },
     {
       "sprite": "BLOCK_ROCK_4_3",
@@ -1235,9 +1609,9 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 171,
-      "atlas_y": 339,
-      "page": 0
+      "atlas_x": 389,
+      "atlas_y": 130,
+      "page": 1
     },
     {
       "sprite": "BLOCK_ROCK_4_4",
@@ -1251,8 +1625,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 341,
-      "atlas_y": 45,
+      "atlas_x": 427,
+      "atlas_y": 317,
       "page": 1
     },
     {
@@ -1267,9 +1641,9 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 395,
-      "atlas_y": 364,
-      "page": 0
+      "atlas_x": 248,
+      "atlas_y": 133,
+      "page": 1
     },
     {
       "sprite": "BLOCK_ROCK_4_6",
@@ -1283,8 +1657,8 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 1,
-      "atlas_y": 67,
+      "atlas_x": 171,
+      "atlas_y": 339,
       "page": 1
     },
     {
@@ -1299,8 +1673,8 @@
         "x": 38,
         "y": 36
       },
-      "atlas_x": 119,
-      "atlas_y": 199,
+      "atlas_x": 316,
+      "atlas_y": 432,
       "page": 0
     },
     {
@@ -1315,25 +1689,9 @@
         "x": 19,
         "y": 18
       },
-      "atlas_x": 83,
-      "atlas_y": 418,
-      "page": 0
-    },
-    {
-      "sprite": "GROUND_BLOCK_02",
-      "sheet": "assets/data/images/base/INGAME_MASKS_1",
-      "source_format": "RGBA4444 little-endian",
-      "processing": "alpha mask, white RGB for runtime tint",
-      "rgba_sha256": "b0a0a0a14cf621db0971568b7a90560243740b1cf6002df5530881fe9325c1e7",
-      "width": 194,
-      "height": 33,
-      "pivot": {
-        "x": 97,
-        "y": 16
-      },
-      "atlas_x": 124,
-      "atlas_y": 425,
-      "page": 0
+      "atlas_x": 127,
+      "atlas_y": 178,
+      "page": 1
     },
     {
       "sprite": "GROUND_BLOCK_01",
@@ -1347,9 +1705,41 @@
         "x": 48,
         "y": 16
       },
-      "atlas_x": 320,
-      "atlas_y": 450,
-      "page": 0
+      "atlas_x": 1,
+      "atlas_y": 217,
+      "page": 1
+    },
+    {
+      "sprite": "GROUND_BLOCK_02",
+      "sheet": "assets/data/images/base/INGAME_MASKS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "alpha mask, white RGB for runtime tint",
+      "rgba_sha256": "b0a0a0a14cf621db0971568b7a90560243740b1cf6002df5530881fe9325c1e7",
+      "width": 194,
+      "height": 33,
+      "pivot": {
+        "x": 97,
+        "y": 16
+      },
+      "atlas_x": 300,
+      "atlas_y": 216,
+      "page": 1
+    },
+    {
+      "sprite": "GROUND_BLOCK_03",
+      "sheet": "assets/data/images/base/INGAME_MASKS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "alpha mask, white RGB for runtime tint",
+      "rgba_sha256": "03a6c9ba3547af810d47fe4d9f8b27967683c57e1f2e951a0720044cac19a6fd",
+      "width": 642,
+      "height": 33,
+      "pivot": {
+        "x": 321,
+        "y": 16
+      },
+      "atlas_x": 1,
+      "atlas_y": 1,
+      "page": 2
     },
     {
       "sprite": "GROUND_BLOCK_04",

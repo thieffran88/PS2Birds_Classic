@@ -113,5 +113,35 @@
     "width": 41,
     "height": 20,
     "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_ROCK_1_1": {
+    "width": 20,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_ROCK_1_2": {
+    "width": 41,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_WOOD_1_7": {
+    "width": 75,
+    "height": 75,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_SMILEY_1": {
+    "width": 75,
+    "height": 75,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "ESTRADE_01": {
+    "width": 149,
+    "height": 44,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "GROUND_BLOCK_03": {
+    "width": 642,
+    "height": 33,
+    "sheet": "INGAME_MASKS_1.sheet.json"
   }
 }

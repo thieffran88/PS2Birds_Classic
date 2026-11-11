@@ -18,9 +18,9 @@ enum {IDLE,INFO,OPEN_READ,READ,CLOSE_READ,CHECK_CARD,CHECK_DIR,MKDIR,OPEN_WRITE,
 static struct {
     Game *game;int available,state,writing,pending,fd,read_slot,target,write_file,failed;
     int type,free_blocks,format,bytes[2],present[2],verify_size;
-    unsigned char records[2][128] __attribute__((aligned(64)));
-    unsigned char tx[128] __attribute__((aligned(64)));
-    unsigned char verify[128] __attribute__((aligned(64)));
+    unsigned char records[2][256] __attribute__((aligned(64)));
+    unsigned char tx[256] __attribute__((aligned(64)));
+    unsigned char verify[256] __attribute__((aligned(64)));
     SaveRecord record;const char *status;
 } io;
 static sceMcTblGetDir entry __attribute__((aligned(64)));
@@ -40,7 +40,26 @@ static int card_ok(int result){
     if((result!=0 && result!=-1) || io.type!=MC_TYPE_PS2){fail(result<=-10?result:-12);return 0;}
     return 1;
 }
-static void merge(const SaveRecord *r){
+/* Saves written by 0.6.0-0.8.0 (format version 1) numbered stages as
+   Level1..Level8 in file order. The campaign now follows the order declared
+   by the recovered episodes.lua, so legacy scores move to the new positions
+   and every stage won before keeps unlocking the stage that follows it. */
+static const int legacy_positions[8]={0,5,3,6,7,4,8,9};
+static void remap_legacy(const SaveRecord *in,SaveRecord *out){
+    int count=game_level_count();unsigned highest=1;
+    memset(out,0,sizeof(*out));out->sequence=in->sequence;out->version=SAVE_VERSION;out->count=(unsigned)count;
+    for(unsigned i=0;i<in->count && i<8;i++){
+        unsigned position=(unsigned)legacy_positions[i];
+        if(position>=(unsigned)count)continue;
+        out->scores[position]=in->scores[i];
+        if(i<in->unlocked && position+1>highest)highest=position+1;
+        if(in->scores[i]>0 && position+2>highest)highest=position+2;
+    }
+    out->unlocked=highest>(unsigned)count?(unsigned)count:highest;
+}
+static void merge(const SaveRecord *in){
+    SaveRecord mapped;const SaveRecord *r=in;
+    if(in->version==1 && in->count<=8){remap_legacy(in,&mapped);r=&mapped;}
     int count=game_level_count();
     if(r->unlocked>(unsigned)io.game->unlocked)io.game->unlocked=r->unlocked>(unsigned)count?count:(int)r->unlocked;
     /* Older campaigns ended here. A winning last-stage score unlocks the
@@ -62,7 +81,7 @@ static void finish_reads(void){
     if(slot>=0)merge(&best);
     else if(io.present[0] || io.present[1]){io.status="SAVE INVALIDO - VERIFIQUE MC1";io.state=IDLE;io.pending=0;return;}
     if(!io.writing){io.status=slot>=0?"PROGRESSO CARREGADO DO MC1":"SEM SAVE - GRAVACAO AUTOMATICA";io.state=IDLE;return;}
-    memset(&io.record,0,sizeof(io.record));io.record.sequence=slot>=0?best.sequence+1:1;
+    memset(&io.record,0,sizeof(io.record));io.record.sequence=slot>=0?best.sequence+1:1;io.record.version=SAVE_VERSION;
     io.record.count=game_level_count();io.record.unlocked=io.game->unlocked;
     for(unsigned i=0;i<io.record.count;i++)io.record.scores[i]=io.game->highscores[i];
     if(!save_encode(&io.record,io.tx)){fail(-5);return;}

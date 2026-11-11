@@ -60,6 +60,8 @@ test: save-test build/host/game.o build/host/game_test.o $(HOST_BOX2D_OBJS) buil
 	./build/campaign_test
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc tests/blue_test.cpp build/host/game.o $(HOST_BOX2D_OBJS) -lm -o build/blue_test
 	./build/blue_test
+	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc tests/yellow_test.cpp build/host/game.o $(HOST_BOX2D_OBJS) -lm -o build/yellow_test
+	./build/yellow_test
 	python3 tests/sprite_test.py
 	python3 tests/profile_test.py
 

@@ -1,0 +1,8 @@
+{
+  "id": "classic_poached_eggs_page1",
+  "title_prefix": "POACHED EGGS 1-",
+  "folder": "/levels/1_PoachedEggs",
+  "source": "assets/data/scripts/episodes.lua recovered from the supplied Classic APK and decompiled with unluac; the list below is the first page of the first episode exactly as declared there. Scripts were read, never executed.",
+  "note": "Versions 0.2.0 to 0.8.0 assumed that stage 1-N was LevelN.lua. The APK declares a different order and includes remade stages (Level57, Level53, Level39, Level23, Level44). Save files written by those versions are remapped by ps2/src/save_mc.c.",
+  "levels": ["Level1","Level57","Level53","Level3","Level6","Level2","Level4","Level5","Level7","Level8","Level9","Level13","Level10","Level39","Level12","Level15","Level17","Level14","Level16","Level23","Level44"]
+}

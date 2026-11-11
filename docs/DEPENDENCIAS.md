@@ -34,3 +34,15 @@ PS2SDK libmc e módulos MCMAN/MCSERV presentes no ROM do console.
 Formato do ícone consultado em https://github.com/ticky/ps2iconsys (MIT);
 o gerador é próprio e usa o sprite RedBird do atlas existente.
 BIOS, SDK, emulador e cartões de teste não integram o pacote de fontes.
+
+## Ferramentas 0.9.0
+
+- O mesmo `ps2dev-ubuntu-latest.tar.gz` (SHA-256 `c8e5dedc…0aaffc028`) foi obtido da
+  release oficial em https://github.com/ps2dev/ps2dev/releases e conferido byte a byte
+  com o hash registrado acima.
+- `py7zr` (pip) por trás de `tools/py7z.py`, substituindo o executável 7-Zip na extração
+  dos streams de sprites. `pycdlib` (pip) como gerador de ISO quando genisoimage não existe.
+- `unluac.jar` do ZIP de referência (Java 21) para decompilar os 13 novos Level*.lua; a
+  saída para Level8.lua foi comparada com a versão guardada e é idêntica.
+- APK Classic SHA-256 `8cdea1ef39a2a5c3bad5ac27050b491dbdf68050754241390cf9f0d3d24979b8`,
+  igual ao do diagnóstico inicial.

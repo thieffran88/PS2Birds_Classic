@@ -44,7 +44,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
     if not 1<=len(birds)<=16:raise ValueError('Adapter needs 1..16 supported birds')
     for bird in birds:
         bird['type']=profile.get('bird_types',{'RedBird':0}).get(bird['definition'],-1)
-        if bird['type'] not in [0,1]:raise ValueError('Unsupported runtime bird type')
+        if bird['type'] not in [0,1,2]:raise ValueError('Unsupported runtime bird type')
     if len({b['startNumber'] for b in birds})!=len(birds):raise ValueError('Duplicate bird queue position')
     grounds=[o for o in objects if o['definition']=='Ground']
     if len(grounds)!=1:raise ValueError('Adapter requires exactly one Ground object')
