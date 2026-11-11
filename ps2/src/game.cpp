@@ -1,5 +1,7 @@
 #include "game.h"
-#if defined(PS2BIRDS_WHITE_TEST)
+#if defined(PS2BIRDS_TNT_TEST)
+#include "tnt_fixture.h"
+#elif defined(PS2BIRDS_WHITE_TEST)
 #include "white_fixture.h"
 #elif defined(PS2BIRDS_BLAST_TEST)
 #include "blast_fixture.h"
@@ -24,6 +26,7 @@ struct Physics: b2ContactListener {
     bool split_collided[2],disturbed[MAX_LEVEL_OBJECTS];
     bool bomb_requested,detonated;
     float bomb_fuse,blast_life,blast_radius;
+    float chain_delay[MAX_LEVEL_OBJECTS];
     b2Vec2 blast_position;
     b2Contact *damage_contacts[MAX_LEVEL_OBJECTS*2];int damage_contact_count;
     /* Static scenery the launched bird overlapped at spawn; ignored until they separate. */
@@ -31,7 +34,7 @@ struct Physics: b2ContactListener {
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),bird_type(BIRD_RED_TYPE) {
         egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
         damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
-        memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));
+        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));
         world.SetContactListener(this);
         b2BodyDef floor_def; floor_def.position.Set(20,level->ground_y+1);
         b2Body *floor=world.CreateBody(&floor_def);
@@ -235,7 +238,10 @@ static void radial_blast(Game *g,const b2Vec2 &position,float radius,float force
         b2Vec2 direction=distance>0.001f?(1.0f/distance)*delta:b2Vec2(0,-1);
         float impulse=(force/120.0f)*(1-distance/radius);
         body->ApplyLinearImpulseToCenter(impulse*direction,true);
-        if(distance<damage_radius)p->health[i]-=damage*(1-distance/damage_radius);
+        if(distance<damage_radius){
+            bool alive=p->health[i]>0;p->health[i]-=damage*(1-distance/damage_radius);
+            if(alive && p->health[i]<=0 && p->level->objects[i].kind==OBJECT_KIND_TNT)p->chain_delay[i]=TNT_CHAIN_SECONDS;
+        }
     }
     g->events|=GAME_EVENT_EXPLOSION;g->cooldown=0;
 }
@@ -270,8 +276,13 @@ static void tick(Game *g) {
         const CampaignObject &o=p->level->objects[i];
         if(o.kind!=3 && p->impact[i]>3) p->health[i]-=(p->impact[i]-3)*12/fmaxf(o.defence,1);
         p->impact[i]=0;
+        if(p->chain_delay[i]>0){p->chain_delay[i]-=dt;if(p->chain_delay[i]>0)continue;}
         if(o.kind!=3 && (p->health[i]<=0 || body->GetPosition().y>p->level->ground_y+25)) {
+            b2Vec2 where=body->GetPosition();bool exploded=o.kind==OBJECT_KIND_TNT && p->health[i]<=0;
             p->world.DestroyBody(body);p->bodies[i]=NULL;
+            /* A destroyed TNT crate blasts its surroundings; crates caught in the blast
+               go off in the following ticks, giving chain reactions. */
+            if(exploded)radial_blast(g,where,TNT_BLAST_RADIUS,TNT_BLAST_FORCE,TNT_DAMAGE_RADIUS,TNT_BLAST_DAMAGE);
             if(o.kind==4){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else {g->block_alive--;g->score+=500;g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
         }
     }

@@ -14,10 +14,10 @@ except ValueError:pass
 else:raise AssertionError('Truncated input accepted')
 a=root/'ps2/assets';meta=json.loads((a/'manifest.json').read_text());pixels=(a/'sprites.rgba').read_bytes()
 assert len(pixels)==sum(p['width']*p['height']*4 for p in meta['pages'])<=meta['vram_budget']==2621440
-assert all(p['width'] in (512,1024) and p['height']<=512 for p in meta['pages'])
+assert all(p['width']==512 and p['height']<=512 for p in meta['pages'])
 assert hashlib.sha256(pixels).hexdigest()==meta['atlas_sha256']
 assert max(pixels[3::4])==128 and min(pixels[3::4])==0
-assert len(meta['sprites'])==132
+assert len(meta['sprites'])==144
 occupied=set()
 for frame in meta['sprites']:
     page=meta['pages'][frame['page']]
@@ -45,3 +45,21 @@ except ValueError:pass
 else:raise AssertionError('Out-of-bounds PNG frame accepted')
 assert next(s for s in meta['sprites'] if s['sprite']=='DROPPABLE_EGG')['source_format']=='PNG RGBA8'
 print('PNG sprites OK: original egg frame, crop bounds and 8-bit-to-GS alpha conversion.')
+
+# Ground masks are stored at half resolution and drawn at SPRITE_MASK_SCALE.
+assert module.MASK_SCALE==2 and '#define SPRITE_MASK_SCALE 2' in (a/'sprite_data.h').read_text()
+half,w,h=module.halve_mask(bytes([9,9,9,128, 9,9,9,0, 9,9,9,64,  9,9,9,128, 9,9,9,128, 9,9,9,64]),3,2)
+assert (w,h)==(2,1) and half==bytes([255,255,255,96, 255,255,255,32])
+try:module.halve_mask(b'',3,2)
+except ValueError:pass
+else:raise AssertionError('Truncated mask accepted')
+sizes={s['sprite']:(s['width'],s['height']) for s in meta['sprites']}
+assert sizes['GROUND_BLOCK_05']==(97,98) and sizes['GROUND_BLOCK_03']==(321,17) and sizes['GROUND_BLOCK_04']==(49,49)
+for s in meta['sprites']:
+    if s['sprite'].startswith('GROUND_BLOCK_'):
+        page=meta['pages'][s['page']];body=bytearray()
+        for row in range(s['atlas_y'],s['atlas_y']+s['height']):
+            o=page['offset']+(row*page['width']+s['atlas_x'])*4;body+=pixels[o:o+s['width']*4]
+        assert set(body[0::4])=={255} and max(body[3::4])==128
+for name in ['BLOCK_EXTRA_TNT','BLOCK_PILLAR','BLOCK_DIAMOND','BLOCK_HOLYGRAIL','BLOCK_BANANA','PIG_MUSTACHE_01','PIG_MUSTACHE_01_BLINK','PIG_MUSTACHE_02','BLOCK_WOOD_1_8','BLOCK_WOOD_4_8']:assert name in sizes
+print('Mask/new sprites OK: half-resolution ground masks with box-filtered alpha, TNT, pillar, treasures, mustache pig and round wood present.')

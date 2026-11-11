@@ -183,5 +183,35 @@
     "width": 53,
     "height": 52,
     "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_EXTRA_TNT": {
+    "width": 70,
+    "height": 69,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_DIAMOND": {
+    "width": 49,
+    "height": 40,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_HOLYGRAIL": {
+    "width": 45,
+    "height": 81,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_PILLAR": {
+    "width": 87,
+    "height": 197,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_BANANA": {
+    "width": 80,
+    "height": 44,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_WOOD_1_8": {
+    "width": 40,
+    "height": 40,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
   }
 }

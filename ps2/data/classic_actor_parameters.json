@@ -86,5 +86,43 @@
     "activation": "once before parent contact",
     "falloff": "linear by body center, no occlusion, force divided by 120",
     "notes": "drop/recoil/timing/shape/damage integration are port approximations; EggGranade explosion values used, not the separate BasicBird2 explosion fields"
+  },
+  "ExtraBlockTNT": {
+    "type": "box",
+    "strength": 10,
+    "defence": 1,
+    "explosionRadius": 10,
+    "explosionForce": 30000,
+    "explosionDamageRadius": 5,
+    "explosionDamage": 150,
+    "chain_delay_seconds": 0.1,
+    "notes": "Blast fields recovered; chain delay and radial falloff are port approximations."
+  },
+  "GrandpaPiglette": {
+    "radius": 2.2,
+    "strength": 30,
+    "sprite": "PIG_MUSTACHE_01"
+  },
+  "WoodBlock8": {
+    "type": "circle",
+    "strength": 150
+  },
+  "ExtraPillar": {
+    "type": "box",
+    "density": 10,
+    "defence": 40,
+    "strength": 120
+  },
+  "ExtraDiamond": {
+    "type": "circle",
+    "strength": 25
+  },
+  "ExtraHolyGrail": {
+    "type": "box",
+    "strength": 25
+  },
+  "ExtraBanana": {
+    "type": "box",
+    "strength": 30
   }
 }

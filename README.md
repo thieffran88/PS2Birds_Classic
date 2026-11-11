@@ -1,7 +1,7 @@
-# PS2Birds Classic — protótipo 0.14.0
+# PS2Birds Classic — protótipo 0.15.0
 
 Foco exclusivo no Classic. Inclui a primeira página completa de Poached Eggs
-e quatorze fases da segunda página (35 fases) na ordem declarada pelo próprio APK, com sprites originais, pássaros
+e a segunda página completa (42 fases) na ordem declarada pelo próprio APK, com sprites originais, pássaros
 vermelho, azul, amarelo, preto e branco, porcos pequeno/médio/grande/capacete, pedra, madeira,
 vidro, pedras circulares, baú, bloco sorridente, bola, pato e morango, seleção de fases, desbloqueio
 sequencial e recordes persistentes no Memory Card 1. Ainda não é o port completo.
@@ -20,7 +20,7 @@ físico ainda não foi validado. Vídeo NTSC 640×448 em 16 bits com dithering, 
 - Pássaro branco: X após lançar e antes de colidir solta um ovo verticalmente; o pássaro recua e o ovo explode ao atingir um corpo ou o chão. Uma vez por lançamento.
 - Segure Quadrado para ajuste fino; Triângulo reinicia; Start pausa/continua.
 - Select abre/fecha a seleção de fases. O jogo pausa enquanto o menu está aberto.
-- Vitória: X avança para a próxima fase; após 2-14 retorna à seleção.
+- Vitória: X avança para a próxima fase; após 2-21 retorna à seleção.
 - L1 salva/tenta novamente no Memory Card 1. A vitória salva automaticamente.
 - Use cartão PS2 previamente formatado pelo navegador do console; o jogo não formata.
 - Aguarde o aviso de salvamento terminar antes de remover o cartão.
@@ -58,7 +58,7 @@ python tools/build_save_icon.py
 python tools/extract_audio.py /caminho/com.rovio.angrybirds.apk ps2/assets --adpenc "$PS2SDK/bin/adpenc"
 ```
 
-As 35 fontes Lua decompiladas e métricas estão em ps2/data; o importador não
+As 42 fontes Lua decompiladas e métricas estão em ps2/data; o importador não
 executa Lua. A extração de gráficos exige o APK original e OpenSSL; `tools/py7z.py`
 substitui o 7-Zip usando o pacote `py7zr` (um 7z nativo também serve). As três
 páginas de atlas usam 2,5 MiB (limite 2,5 MiB) e ficam incorporadas no ELF; o
@@ -71,7 +71,7 @@ já estão incluídos. O audsrv é compilado das fontes incluídas. Se o módulo
 inicializar, o jogo continua com SOM INDISPONIVEL. Ainda não há música de fundo.
 
 As ferramentas/perfis de outras séries permanecem no pacote, sem novos ports.
-Consulte docs/MODIFICACOES_0.14.0.md e docs/VALIDACAO_0.14.0.md. Documentos das versões
+Consulte docs/MODIFICACOES_0.15.0.md e docs/VALIDACAO_0.15.0.md. Documentos das versões
 anteriores são históricos. Saves da 0.6.0 à 0.8.0 são aproveitados e regravados no
 formato versão 3 (288 bytes, até 64 fases). A seleção mostra três fases por página
 e muda automaticamente conforme cima/baixo.
@@ -92,6 +92,17 @@ WoodBlock7 e LightBlock7 usam colisão circular, conferida nas definições recu
 
 A física continua em passos de 120 Hz, usando o tempo transcorrido do relógio do PS2SDK (até 100 ms recuperados por quadro). Isso preserva o ritmo da partida e da mira quando uma cena renderiza abaixo de 60 FPS, sem garantir 60 FPS em cenas pesadas.
 
-A versão 0.14.0 lê saves v1 (96 bytes) e v2 (160 bytes) e grava v3 (288 bytes). Os recordes e desbloqueios são preservados; na primeira gravação da migração, a cópia anterior permanece no outro slot. Versões antigas do port reconhecem o cabeçalho v3 como mais novo e recusam sobrescrevê-lo. A capacidade de 64 posições prepara a continuação da campanha; esta versão contém 35 fases jogáveis.
+A versão 0.15.0 lê saves v1 (96 bytes) e v2 (160 bytes) e grava v3 (288 bytes). Os recordes e desbloqueios são preservados; na primeira gravação da migração, a cópia anterior permanece no outro slot. Versões antigas do port reconhecem o cabeçalho v3 como mais novo e recusam sobrescrevê-lo. A capacidade de 64 posições prepara a continuação da campanha; esta versão contém 42 fases jogáveis.
 
 O branco usa raio/densidade/restituição recuperados. O ovo usa densidade/restituição e valores de explosão de EggGranade; raio inferido da largura do sprite, velocidades de queda/recuo e propagação radial são aproximações do port. Melancias e pneus usam discos sólidos simplificados, com o modelo de materiais existente; pneus não reproduzem a elasticidade/forma interna do original. O atlas do ovo vem de PNG e requer Pillow para regeneração. Há dez canais de efeitos: soltar o ovo e explodir usam canais diferentes.
+
+## Novidades da 0.15.0
+
+A segunda página fica completa com Level66, Level85, Level27, Level32, Level72, Level90 e Level96 (fases 2-15 a 2-21), na ordem de episodes.lua.
+
+- Caixas de TNT (ExtraBlockTNT) explodem ao serem destruídas: raio de impulso 10, força 30000, raio de dano 5 e dano 150, valores recuperados. Uma caixa destruída por outra explosão detona 0,1 s depois (aproximação do port), produzindo reações em cadeia. Uma caixa que apenas cai para fora do mundo não explode.
+- Novos objetos com sprites originais: porco de bigode (GrandpaPiglette, raio 2,2), madeira redonda WoodBlock8, pilar, diamante, cálice e banana.
+- As máscaras de terreno (GROUND_BLOCK_01 a 05) são guardadas em meia resolução, com alfa filtrado 2×2, e desenhadas em escala 2. Como são formas chapadas tingidas em tempo de execução, isso liberou espaço para 12 sprites novos sem aumentar a VRAM: 144 sprites em três páginas de 512 de largura, os mesmos 2,5 MiB.
+- Saves da 0.14.0 (35 fases) são aceitos: vencer a 2-14 libera a 2-15.
+
+Trechos das definições recuperadas estão em `ps2/data/tnt_definitions_excerpt.lua`. Faltam a terceira página de Poached Eggs e os demais episódios.

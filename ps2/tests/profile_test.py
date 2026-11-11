@@ -86,7 +86,7 @@ assert 'L4_1.folder_name = "/levels/1_PoachedEggs"' in episode
 print('Episode order OK: 21 stages match the independently recovered episodes.lua excerpt.')
 
 page2=(root/'ps2/data/episode_page2.decompiled.lua').read_text()
-assert re.findall(r'^L\d+_1.name = "(Level\d+)"$',page2,re.M)[:14]==profile['additional_pages'][0]['levels']
+assert re.findall(r'^L\d+_1.name = "(Level\d+)"$',page2,re.M)==profile['additional_pages'][0]['levels']
 # Different registers and computed keys must preserve every world object.
 env=read_assignments('local L0_1, L1_1, L2_1\nL0_1 = {}\nL2_1 = {}\nL2_1.name = "second"\nL1_1 = "computed"\nL0_1[L1_1] = L2_1\nworld = L0_1')
 assert env['world']['computed']['name']=='second'
@@ -119,3 +119,20 @@ excerpt=(root/'ps2/data/white_definitions_excerpt.lua').read_text().split('L3_1 
 assert 'L5_1 = "explosionForce"\nL6_1 = 10000' in excerpt and parameters['EggGranade']['explosionForce']==10000
 assert 'L5_1 = "explosionDamage"\nL6_1 = 400' in excerpt and parameters['EggGranade']['explosionDamage']==400
 print('White provenance OK: complete 105-entry world, four BasicBird2 birds, EggGranade blast fields checked against recovered source.')
+
+# TNT provenance and the complete second page.
+tnt=(root/'ps2/data/tnt_definitions_excerpt.lua').read_text().split('L3_1 = "ExtraBlockTNT"',1)[1].split('L3_1 = "',1)[0]
+for field,value in [('explosionRadius',10),('explosionForce',30000),('explosionDamageRadius',5),('explosionDamage',150)]:
+    assert f'L5_1 = "{field}"\nL6_1 = {value}' in tnt and parameters['ExtraBlockTNT'][field]==value
+assert adapter['objects']['ExtraBlockTNT']['kind']==7 and adapter['objects']['WoodBlock8']['shape']=='circle' and adapter['objects']['GrandpaPiglette']['diameter']==4.4
+game_h=(root/'ps2/src/game.h').read_text()
+for text in ['TNT_BLAST_RADIUS 10.0f','TNT_BLAST_FORCE 30000.0f','TNT_DAMAGE_RADIUS 5.0f','TNT_BLAST_DAMAGE 150.0f']:assert text in game_h
+page2=re.findall(r'\.name = "(Level\d+)"',(root/'ps2/data/episode_page2.decompiled.lua').read_text())
+episode=json.loads((root/'profiles/classic_episode.json').read_text())
+assert len(page2)==21 and episode['additional_pages'][0]['levels']==page2
+kinds={}
+for number in range(15,22):
+    d=json.loads((root/f'ps2/data/level_2_{number}.json').read_text());assert d['stage_script']==page2[number-1]
+    for o in d['objects']:kinds.setdefault(o['definition'],set()).add(o['kind'])
+assert kinds['ExtraBlockTNT']=={7} and kinds['GrandpaPiglette']=={4} and kinds['WoodBlock8']=={1}
+print('Second page OK: all 21 stages match the recovered episodes.lua excerpt; TNT blast fields checked against recovered source.')

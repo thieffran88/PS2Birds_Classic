@@ -44,6 +44,13 @@ static const Stage stages[]={
  {"Level35",45,2,43,6,{{10,350,-1.0f}},1},
  {"Level20",55,4,43,4,{{15,360,-1.0f}},1},
  {"Level26",100,4,56,4,{{30,350,0.4f},{30,350,0.7f},{30,420,0.9f}},3},
+ {"Level66",93,5,51,5,{{10,290,-1.0f}},1}, /* POACHED EGGS 2-15 */
+ {"Level85",83,3,70,3,{{10,290,-1.0f}},1}, /* POACHED EGGS 2-16 */
+ {"Level27",58,3,48,3,{{15,330,-1.0f}},1}, /* POACHED EGGS 2-17 */
+ {"Level32",66,5,45,4,{{10,270,-1.0f}},1}, /* POACHED EGGS 2-18 */
+ {"Level72",55,2,40,3,{{68,275,-1.0f},{66,255,-1.0f}},2}, /* POACHED EGGS 2-19 */
+ {"Level90",70,4,49,3,{{20,320,0.4f}},1}, /* POACHED EGGS 2-20 */
+ {"Level96",86,5,62,6,{{45,230,-1.0f}},1}, /* POACHED EGGS 2-21 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -64,7 +71,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};
-    assert(game_level_count()==STAGES && STAGES==35 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==42 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));
@@ -94,6 +101,18 @@ int main(){
         }
     }
     assert(chests>=1 && smileys>=1 && large>=1 && helmet>=1 && round_stones>=3);
+    int tnt=0,grandpa=0,round_wood=0,treasures=0;
+    for(int level=35;level<STAGES;level++){
+        assert(game_load_level(&g,level));
+        for(int i=0;i<game_object_count(&g);i++){GameObject o;assert(game_get_object(&g,i,&o));
+            if(!strcmp(o.definition,"ExtraBlockTNT")){tnt++;assert(o.kind==OBJECT_KIND_TNT);}
+            if(!strcmp(o.definition,"GrandpaPiglette")){grandpa++;assert(o.kind==4);}
+            if(!strcmp(o.definition,"WoodBlock8")){round_wood++;assert(o.kind==1);}
+            if(!strcmp(o.definition,"ExtraDiamond") || !strcmp(o.definition,"ExtraHolyGrail") || !strcmp(o.definition,"ExtraPillar") || !strcmp(o.definition,"ExtraBanana")){treasures++;assert(o.kind==6);}
+        }
+    }
+    assert(tnt==4 && grandpa==1 && round_wood==3 && treasures==19);
+
     /* A shot that never reaches the scene must not activate resting-pressure damage. */
     for(int level=0;level<21;level+=4){
         assert(game_load_level(&g,level));int pigs=g.pig_alive,blocks=g.block_alive;settle(&g);Shot miss={10,160,-1};fire(&g,&miss);

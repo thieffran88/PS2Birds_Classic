@@ -195,6 +195,40 @@
       "sprite": "BLOCK_WATERMELON",
       "kind": 6,
       "shape": "circle"
+    },
+    "ExtraBlockTNT": {
+      "sprite": "BLOCK_EXTRA_TNT",
+      "kind": 7,
+      "shape": "box"
+    },
+    "ExtraDiamond": {
+      "sprite": "BLOCK_DIAMOND",
+      "kind": 6,
+      "shape": "circle"
+    },
+    "ExtraHolyGrail": {
+      "sprite": "BLOCK_HOLYGRAIL",
+      "kind": 6,
+      "shape": "box"
+    },
+    "ExtraPillar": {
+      "sprite": "BLOCK_PILLAR",
+      "kind": 6,
+      "shape": "box"
+    },
+    "ExtraBanana": {
+      "sprite": "BLOCK_BANANA",
+      "kind": 6,
+      "shape": "box"
+    },
+    "WoodBlock8": {
+      "sprite": "BLOCK_WOOD_1_8",
+      "kind": 1,
+      "shape": "circle"
+    },
+    "GrandpaPiglette": {
+      "diameter": 4.4,
+      "kind": 4
     }
   },
   "metrics": "ps2/data/sprite_metrics.json",

@@ -70,7 +70,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
         shape=profile['objects'].get(o['definition'])
         if not shape:raise ValueError('Unsupported definition; add a verified adapter: '+o['definition'])
         kind=shape['kind']
-        if kind not in [1,2,3,4,5,6]:raise ValueError('Unsupported runtime object kind')
+        if kind not in [1,2,3,4,5,6,7]:raise ValueError('Unsupported runtime object kind')
         if 'sprite' in shape:
             metric=metrics[shape['sprite']];w,h=metric['width']/pixels,metric['height']/pixels
         else:w=h=float(shape['diameter'])

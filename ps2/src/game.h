@@ -24,6 +24,14 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 #define EGG_DAMAGE_RADIUS 8.0f
 #define EGG_BLAST_FORCE 10000.0f
 #define EGG_BLAST_DAMAGE 400.0f
+/* ExtraBlockTNT blast values recovered from blocks.lua; propagation shares the port's radial model. */
+#define TNT_BLAST_RADIUS 10.0f
+#define TNT_DAMAGE_RADIUS 5.0f
+#define TNT_BLAST_FORCE 30000.0f
+#define TNT_BLAST_DAMAGE 150.0f
+#define OBJECT_KIND_TNT 7
+/* Delay before a crate destroyed by another blast goes off; port approximation. */
+#define TNT_CHAIN_SECONDS 0.1f
 #define BLACK_BLAST_RADIUS 15.0f
 #define BLACK_DAMAGE_RADIUS 5.0f
 #define BLACK_BLAST_FORCE 40000.0f

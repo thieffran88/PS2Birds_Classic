@@ -1,7 +1,7 @@
 {
   "game_profile": "classic",
   "sprite_adapter": "classic_campaign_sprites",
-  "apk": "com.rovio.angrybirds.apk",
+  "apk": "apk.bin",
   "width": 512,
   "height": 512,
   "vram_budget": 2621440,
@@ -17,8 +17,8 @@
       "offset": 1048576
     },
     {
-      "width": 1024,
-      "height": 128,
+      "width": 512,
+      "height": 256,
       "offset": 2097152
     }
   ],
@@ -27,7 +27,7 @@
     0,
     128
   ],
-  "atlas_sha256": "e0aa36b1090047444aa78703ad6cdb7ba827c163ae3a7f0ce14229125c6b4723",
+  "atlas_sha256": "5e5fcab7d2f03b8b119465109b63674bd49f4fd26bf626abe3c08ccf278958e0",
   "sprites": [
     {
       "sprite": "BIRD_GREEN",
@@ -41,8 +41,8 @@
         "x": 49,
         "y": 57
       },
-      "atlas_x": 126,
-      "atlas_y": 199,
+      "atlas_x": 142,
+      "atlas_y": 221,
       "page": 0
     },
     {
@@ -57,8 +57,8 @@
         "x": 49,
         "y": 57
       },
-      "atlas_x": 209,
-      "atlas_y": 199,
+      "atlas_x": 1,
+      "atlas_y": 299,
       "page": 0
     },
     {
@@ -73,8 +73,8 @@
         "x": 50,
         "y": 57
       },
-      "atlas_x": 41,
-      "atlas_y": 199,
+      "atlas_x": 296,
+      "atlas_y": 211,
       "page": 0
     },
     {
@@ -89,8 +89,8 @@
         "x": 32,
         "y": 47
       },
-      "atlas_x": 1,
-      "atlas_y": 297,
+      "atlas_x": 191,
+      "atlas_y": 401,
       "page": 0
     },
     {
@@ -105,8 +105,8 @@
         "x": 35,
         "y": 40
       },
-      "atlas_x": 303,
-      "atlas_y": 78,
+      "atlas_x": 77,
+      "atlas_y": 155,
       "page": 1
     },
     {
@@ -121,8 +121,8 @@
         "x": 32,
         "y": 49
       },
-      "atlas_x": 399,
-      "atlas_y": 291,
+      "atlas_x": 439,
+      "atlas_y": 309,
       "page": 0
     },
     {
@@ -137,8 +137,8 @@
         "x": 32,
         "y": 49
       },
-      "atlas_x": 126,
-      "atlas_y": 295,
+      "atlas_x": 439,
+      "atlas_y": 393,
       "page": 0
     },
     {
@@ -153,8 +153,8 @@
         "x": 33,
         "y": 49
       },
-      "atlas_x": 190,
-      "atlas_y": 295,
+      "atlas_x": 1,
+      "atlas_y": 395,
       "page": 0
     },
     {
@@ -169,9 +169,9 @@
         "x": 16,
         "y": 16
       },
-      "atlas_x": 83,
-      "atlas_y": 444,
-      "page": 1
+      "atlas_x": 464,
+      "atlas_y": 477,
+      "page": 0
     },
     {
       "sprite": "BIRD_BLUE_COLLISION",
@@ -185,9 +185,9 @@
         "x": 16,
         "y": 16
       },
-      "atlas_x": 83,
-      "atlas_y": 411,
-      "page": 1
+      "atlas_x": 430,
+      "atlas_y": 477,
+      "page": 0
     },
     {
       "sprite": "BIRD_RED",
@@ -201,9 +201,9 @@
         "x": 27,
         "y": 27
       },
-      "atlas_x": 259,
-      "atlas_y": 461,
-      "page": 0
+      "atlas_x": 60,
+      "atlas_y": 305,
+      "page": 1
     },
     {
       "sprite": "BIRD_YELLOW",
@@ -217,9 +217,9 @@
         "x": 31,
         "y": 34
       },
-      "atlas_x": 378,
-      "atlas_y": 455,
-      "page": 0
+      "atlas_x": 1,
+      "atlas_y": 231,
+      "page": 1
     },
     {
       "sprite": "BIRD_YELLOW_COLLISION",
@@ -233,9 +233,9 @@
         "x": 31,
         "y": 34
       },
-      "atlas_x": 438,
-      "atlas_y": 455,
-      "page": 0
+      "atlas_x": 1,
+      "atlas_y": 287,
+      "page": 1
     },
     {
       "sprite": "SLING_SHOT_01_BACK",
@@ -265,7 +265,7 @@
         "x": 35,
         "y": 37
       },
-      "atlas_x": 237,
+      "atlas_x": 130,
       "atlas_y": 1,
       "page": 0
     },
@@ -281,8 +281,8 @@
         "x": 23,
         "y": 23
       },
-      "atlas_x": 112,
-      "atlas_y": 457,
+      "atlas_x": 139,
+      "atlas_y": 460,
       "page": 0
     },
     {
@@ -297,8 +297,8 @@
         "x": 23,
         "y": 23
       },
-      "atlas_x": 161,
-      "atlas_y": 457,
+      "atlas_x": 381,
+      "atlas_y": 461,
       "page": 0
     },
     {
@@ -313,9 +313,9 @@
         "x": 23,
         "y": 23
       },
-      "atlas_x": 210,
-      "atlas_y": 461,
-      "page": 0
+      "atlas_x": 145,
+      "atlas_y": 301,
+      "page": 1
     },
     {
       "sprite": "PIG_BASIC_MEDIUM_01",
@@ -329,9 +329,9 @@
         "x": 39,
         "y": 39
       },
-      "atlas_x": 138,
-      "atlas_y": 379,
-      "page": 0
+      "atlas_x": 1,
+      "atlas_y": 1,
+      "page": 1
     },
     {
       "sprite": "PIG_BASIC_MEDIUM_01_BLINK",
@@ -345,9 +345,9 @@
         "x": 39,
         "y": 39
       },
-      "atlas_x": 218,
-      "atlas_y": 383,
-      "page": 0
+      "atlas_x": 81,
+      "atlas_y": 1,
+      "page": 1
     },
     {
       "sprite": "PIG_BASIC_MEDIUM_02",
@@ -361,9 +361,9 @@
         "x": 39,
         "y": 39
       },
-      "atlas_x": 298,
-      "atlas_y": 383,
-      "page": 0
+      "atlas_x": 161,
+      "atlas_y": 1,
+      "page": 1
     },
     {
       "sprite": "PIG_BASIC_BIG_01",
@@ -377,8 +377,8 @@
         "x": 49,
         "y": 50
       },
-      "atlas_x": 381,
-      "atlas_y": 1,
+      "atlas_x": 395,
+      "atlas_y": 111,
       "page": 0
     },
     {
@@ -393,8 +393,8 @@
         "x": 49,
         "y": 50
       },
-      "atlas_x": 282,
-      "atlas_y": 100,
+      "atlas_x": 41,
+      "atlas_y": 200,
       "page": 0
     },
     {
@@ -409,8 +409,8 @@
         "x": 49,
         "y": 50
       },
-      "atlas_x": 383,
-      "atlas_y": 100,
+      "atlas_x": 395,
+      "atlas_y": 210,
       "page": 0
     },
     {
@@ -425,8 +425,8 @@
         "x": 52,
         "y": 44
       },
-      "atlas_x": 292,
-      "atlas_y": 199,
+      "atlas_x": 225,
+      "atlas_y": 309,
       "page": 0
     },
     {
@@ -441,8 +441,8 @@
         "x": 52,
         "y": 45
       },
-      "atlas_x": 399,
-      "atlas_y": 199,
+      "atlas_x": 332,
+      "atlas_y": 309,
       "page": 0
     },
     {
@@ -457,8 +457,56 @@
         "x": 52,
         "y": 45
       },
-      "atlas_x": 292,
-      "atlas_y": 291,
+      "atlas_x": 84,
+      "atlas_y": 317,
+      "page": 0
+    },
+    {
+      "sprite": "PIG_MUSTACHE_01",
+      "sheet": "assets/data/images/base/INGAME_PIGS_NEW_SHEET_0_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "9b3b00b2dfa579fc3bb62f12df3ecf911c2f0e9e584c007cee206b602ad3ecda",
+      "width": 119,
+      "height": 108,
+      "pivot": {
+        "x": 59,
+        "y": 54
+      },
+      "atlas_x": 175,
+      "atlas_y": 1,
+      "page": 0
+    },
+    {
+      "sprite": "PIG_MUSTACHE_01_BLINK",
+      "sheet": "assets/data/images/base/INGAME_PIGS_NEW_SHEET_0_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "00f81d6f068103c02689de85a22c4ec7f1f6085ede1a40b6fd60f779f5432a0b",
+      "width": 119,
+      "height": 108,
+      "pivot": {
+        "x": 59,
+        "y": 54
+      },
+      "atlas_x": 296,
+      "atlas_y": 1,
+      "page": 0
+    },
+    {
+      "sprite": "PIG_MUSTACHE_02",
+      "sheet": "assets/data/images/base/INGAME_PIGS_NEW_SHEET_0_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "bec62cc9c9bf27d55bb9c4537ebaddea1a4e1ef0fcc133f03dea804a1522d0db",
+      "width": 119,
+      "height": 108,
+      "pivot": {
+        "x": 59,
+        "y": 54
+      },
+      "atlas_x": 175,
+      "atlas_y": 111,
       "page": 0
     },
     {
@@ -473,8 +521,8 @@
         "x": 74,
         "y": 22
       },
-      "atlas_x": 1,
-      "atlas_y": 279,
+      "atlas_x": 276,
+      "atlas_y": 350,
       "page": 1
     },
     {
@@ -489,8 +537,8 @@
         "x": 89,
         "y": 28
       },
-      "atlas_x": 244,
-      "atlas_y": 228,
+      "atlas_x": 290,
+      "atlas_y": 292,
       "page": 1
     },
     {
@@ -505,8 +553,8 @@
         "x": 47,
         "y": 30
       },
-      "atlas_x": 147,
-      "atlas_y": 217,
+      "atlas_x": 290,
+      "atlas_y": 230,
       "page": 1
     },
     {
@@ -521,7 +569,7 @@
         "x": 37,
         "y": 37
       },
-      "atlas_x": 78,
+      "atlas_x": 318,
       "atlas_y": 1,
       "page": 1
     },
@@ -537,8 +585,8 @@
         "x": 36,
         "y": 38
       },
-      "atlas_x": 64,
-      "atlas_y": 379,
+      "atlas_x": 65,
+      "atlas_y": 409,
       "page": 0
     },
     {
@@ -553,7 +601,7 @@
         "x": 37,
         "y": 37
       },
-      "atlas_x": 1,
+      "atlas_x": 241,
       "atlas_y": 1,
       "page": 1
     },
@@ -569,8 +617,8 @@
         "x": 33,
         "y": 36
       },
-      "atlas_x": 79,
-      "atlas_y": 154,
+      "atlas_x": 77,
+      "atlas_y": 230,
       "page": 1
     },
     {
@@ -585,9 +633,9 @@
         "x": 27,
         "y": 31
       },
-      "atlas_x": 1,
-      "atlas_y": 440,
-      "page": 0
+      "atlas_x": 455,
+      "atlas_y": 155,
+      "page": 1
     },
     {
       "sprite": "BLOCK_TIRE_01",
@@ -601,8 +649,8 @@
         "x": 39,
         "y": 39
       },
-      "atlas_x": 399,
-      "atlas_y": 375,
+      "atlas_x": 301,
+      "atlas_y": 401,
       "page": 0
     },
     {
@@ -617,9 +665,9 @@
         "x": 26,
         "y": 26
       },
-      "atlas_x": 57,
-      "atlas_y": 457,
-      "page": 0
+      "atlas_x": 217,
+      "atlas_y": 293,
+      "page": 1
     },
     {
       "sprite": "BLOCK_WATERMELON",
@@ -633,8 +681,88 @@
         "x": 35,
         "y": 30
       },
-      "atlas_x": 147,
-      "atlas_y": 154,
+      "atlas_x": 217,
+      "atlas_y": 230,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_EXTRA_TNT",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "9ee0e586743daf110eeb4745d71e71c187f6e28630a0c55a62769423d494f073",
+      "width": 70,
+      "height": 69,
+      "pivot": {
+        "x": 35,
+        "y": 34
+      },
+      "atlas_x": 145,
+      "atlas_y": 230,
+      "page": 1
+    },
+    {
+      "sprite": "BLOCK_DIAMOND",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "09ee41f27b62be3835f3e9fa54568dbca7815fbd28a9fa3cfe96e8854fe9587e",
+      "width": 49,
+      "height": 40,
+      "pivot": {
+        "x": 24,
+        "y": 20
+      },
+      "atlas_x": 342,
+      "atlas_y": 1,
+      "page": 2
+    },
+    {
+      "sprite": "BLOCK_HOLYGRAIL",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "0477d88e7622e4fbb5bf9bf8ebf84bf105c05f9b1c80f122d341af17cfaa2792",
+      "width": 45,
+      "height": 81,
+      "pivot": {
+        "x": 22,
+        "y": 40
+      },
+      "atlas_x": 254,
+      "atlas_y": 401,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_PILLAR",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "7cad1e6214f07bae17921977300daf74951c906a971878d0a61312f00a987dc7",
+      "width": 87,
+      "height": 197,
+      "pivot": {
+        "x": 43,
+        "y": 98
+      },
+      "atlas_x": 41,
+      "atlas_y": 1,
+      "page": 0
+    },
+    {
+      "sprite": "BLOCK_BANANA",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "13dab4df4ef455cd229cd27c2bb2ddfc4ed62c11ebbfd834cad97b1eb16c2cfa",
+      "width": 80,
+      "height": 44,
+      "pivot": {
+        "x": 40,
+        "y": 22
+      },
+      "atlas_x": 194,
+      "atlas_y": 347,
       "page": 1
     },
     {
@@ -649,8 +777,8 @@
         "x": 10,
         "y": 10
       },
-      "atlas_x": 980,
-      "atlas_y": 45,
+      "atlas_x": 384,
+      "atlas_y": 110,
       "page": 2
     },
     {
@@ -665,8 +793,8 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 171,
-      "atlas_y": 58,
+      "atlas_x": 406,
+      "atlas_y": 126,
       "page": 2
     },
     {
@@ -681,8 +809,8 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 129,
-      "atlas_y": 365,
+      "atlas_x": 470,
+      "atlas_y": 436,
       "page": 1
     },
     {
@@ -697,8 +825,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 214,
-      "atlas_y": 58,
+      "atlas_x": 171,
+      "atlas_y": 132,
       "page": 2
     },
     {
@@ -713,8 +841,8 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 1,
-      "atlas_y": 368,
+      "atlas_x": 257,
+      "atlas_y": 439,
       "page": 1
     },
     {
@@ -729,8 +857,8 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 299,
-      "atlas_y": 58,
+      "atlas_x": 256,
+      "atlas_y": 148,
       "page": 2
     },
     {
@@ -745,9 +873,25 @@
         "x": 37,
         "y": 37
       },
-      "atlas_x": 155,
+      "atlas_x": 395,
       "atlas_y": 1,
       "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_1_8",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "521f24ae1d9b5679fd0adc0728512894702606d2d9f4b9815006437eeb3220c5",
+      "width": 40,
+      "height": 40,
+      "pivot": {
+        "x": 20,
+        "y": 20
+      },
+      "atlas_x": 393,
+      "atlas_y": 1,
+      "page": 2
     },
     {
       "sprite": "BLOCK_WOOD_2_1",
@@ -761,8 +905,8 @@
         "x": 10,
         "y": 10
       },
-      "atlas_x": 1002,
-      "atlas_y": 45,
+      "atlas_x": 449,
+      "atlas_y": 126,
       "page": 2
     },
     {
@@ -777,8 +921,8 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 469,
-      "atlas_y": 58,
+      "atlas_x": 426,
+      "atlas_y": 148,
       "page": 2
     },
     {
@@ -793,8 +937,8 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 172,
-      "atlas_y": 365,
+      "atlas_x": 342,
+      "atlas_y": 439,
       "page": 1
     },
     {
@@ -809,8 +953,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 512,
-      "atlas_y": 58,
+      "atlas_x": 1,
+      "atlas_y": 154,
       "page": 2
     },
     {
@@ -825,9 +969,9 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 215,
-      "atlas_y": 372,
-      "page": 1
+      "atlas_x": 1,
+      "atlas_y": 1,
+      "page": 2
     },
     {
       "sprite": "BLOCK_WOOD_2_6",
@@ -841,8 +985,8 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 597,
-      "atlas_y": 67,
+      "atlas_x": 86,
+      "atlas_y": 154,
       "page": 2
     },
     {
@@ -857,9 +1001,25 @@
         "x": 37,
         "y": 37
       },
-      "atlas_x": 232,
-      "atlas_y": 1,
+      "atlas_x": 241,
+      "atlas_y": 78,
       "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_2_8",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "6c20622a58e9ac58128690bd352c4c7523409134448508dc63f7470dc73aa3e9",
+      "width": 40,
+      "height": 40,
+      "pivot": {
+        "x": 20,
+        "y": 20
+      },
+      "atlas_x": 435,
+      "atlas_y": 1,
+      "page": 2
     },
     {
       "sprite": "BLOCK_WOOD_3_1",
@@ -873,8 +1033,8 @@
         "x": 10,
         "y": 10
       },
-      "atlas_x": 767,
-      "atlas_y": 67,
+      "atlas_x": 471,
+      "atlas_y": 126,
       "page": 2
     },
     {
@@ -889,8 +1049,8 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 789,
-      "atlas_y": 67,
+      "atlas_x": 469,
+      "atlas_y": 148,
       "page": 2
     },
     {
@@ -906,8 +1066,8 @@
         "y": 20
       },
       "atlas_x": 86,
-      "atlas_y": 368,
-      "page": 1
+      "atlas_y": 1,
+      "page": 2
     },
     {
       "sprite": "BLOCK_WOOD_3_4",
@@ -921,8 +1081,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 832,
-      "atlas_y": 67,
+      "atlas_x": 256,
+      "atlas_y": 170,
       "page": 2
     },
     {
@@ -937,9 +1097,9 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 300,
-      "atlas_y": 400,
-      "page": 1
+      "atlas_x": 129,
+      "atlas_y": 1,
+      "page": 2
     },
     {
       "sprite": "BLOCK_WOOD_3_6",
@@ -953,8 +1113,8 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 1,
-      "atlas_y": 80,
+      "atlas_x": 341,
+      "atlas_y": 170,
       "page": 2
     },
     {
@@ -969,9 +1129,25 @@
         "x": 37,
         "y": 37
       },
-      "atlas_x": 309,
-      "atlas_y": 1,
+      "atlas_x": 318,
+      "atlas_y": 78,
       "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_3_8",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "f14f8ec9376e58ca23c67ac0cbe675859c0843522ad9d6223c2486f3b6e44946",
+      "width": 40,
+      "height": 40,
+      "pivot": {
+        "x": 20,
+        "y": 20
+      },
+      "atlas_x": 342,
+      "atlas_y": 43,
+      "page": 2
     },
     {
       "sprite": "BLOCK_WOOD_4_1",
@@ -985,8 +1161,8 @@
         "x": 10,
         "y": 10
       },
-      "atlas_x": 917,
-      "atlas_y": 67,
+      "atlas_x": 1,
+      "atlas_y": 176,
       "page": 2
     },
     {
@@ -1001,8 +1177,8 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 939,
-      "atlas_y": 67,
+      "atlas_x": 23,
+      "atlas_y": 176,
       "page": 2
     },
     {
@@ -1017,9 +1193,9 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 385,
-      "atlas_y": 400,
-      "page": 1
+      "atlas_x": 214,
+      "atlas_y": 1,
+      "page": 2
     },
     {
       "sprite": "BLOCK_WOOD_4_4",
@@ -1033,8 +1209,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 171,
-      "atlas_y": 80,
+      "atlas_x": 66,
+      "atlas_y": 176,
       "page": 2
     },
     {
@@ -1049,9 +1225,9 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 428,
-      "atlas_y": 400,
-      "page": 1
+      "atlas_x": 257,
+      "atlas_y": 1,
+      "page": 2
     },
     {
       "sprite": "BLOCK_WOOD_4_6",
@@ -1065,8 +1241,8 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 256,
-      "atlas_y": 80,
+      "atlas_x": 151,
+      "atlas_y": 192,
       "page": 2
     },
     {
@@ -1081,9 +1257,25 @@
         "x": 37,
         "y": 37
       },
-      "atlas_x": 386,
-      "atlas_y": 1,
+      "atlas_x": 395,
+      "atlas_y": 78,
       "page": 1
+    },
+    {
+      "sprite": "BLOCK_WOOD_4_8",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "df5c77811bcdee830f31a711105b13b2ffca81599444d4a205d7ebdd79218bca",
+      "width": 40,
+      "height": 40,
+      "pivot": {
+        "x": 20,
+        "y": 20
+      },
+      "atlas_x": 384,
+      "atlas_y": 43,
+      "page": 2
     },
     {
       "sprite": "BLOCK_LIGHT_1_1",
@@ -1097,8 +1289,8 @@
         "x": 10,
         "y": 10
       },
-      "atlas_x": 351,
-      "atlas_y": 461,
+      "atlas_x": 1,
+      "atlas_y": 479,
       "page": 0
     },
     {
@@ -1113,9 +1305,9 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 116,
-      "atlas_y": 447,
-      "page": 1
+      "atlas_x": 301,
+      "atlas_y": 481,
+      "page": 0
     },
     {
       "sprite": "BLOCK_LIGHT_1_3",
@@ -1129,9 +1321,9 @@
         "x": 21,
         "y": 20
       },
-      "atlas_x": 307,
-      "atlas_y": 461,
-      "page": 0
+      "atlas_x": 1,
+      "atlas_y": 343,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_1_4",
@@ -1145,9 +1337,9 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 116,
-      "atlas_y": 469,
-      "page": 1
+      "atlas_x": 188,
+      "atlas_y": 484,
+      "page": 0
     },
     {
       "sprite": "BLOCK_LIGHT_1_5",
@@ -1161,8 +1353,8 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 425,
-      "atlas_y": 228,
+      "atlas_x": 108,
+      "atlas_y": 349,
       "page": 1
     },
     {
@@ -1177,8 +1369,8 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 201,
-      "atlas_y": 478,
+      "atlas_x": 83,
+      "atlas_y": 479,
       "page": 1
     },
     {
@@ -1194,7 +1386,7 @@
         "y": 37
       },
       "atlas_x": 1,
-      "atlas_y": 78,
+      "atlas_y": 79,
       "page": 1
     },
     {
@@ -1209,8 +1401,8 @@
         "x": 10,
         "y": 10
       },
-      "atlas_x": 351,
-      "atlas_y": 483,
+      "atlas_x": 24,
+      "atlas_y": 479,
       "page": 0
     },
     {
@@ -1225,9 +1417,9 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 1,
-      "atlas_y": 450,
-      "page": 1
+      "atlas_x": 46,
+      "atlas_y": 487,
+      "page": 0
     },
     {
       "sprite": "BLOCK_LIGHT_2_3",
@@ -1241,8 +1433,8 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 425,
-      "atlas_y": 271,
+      "atlas_x": 427,
+      "atlas_y": 350,
       "page": 1
     },
     {
@@ -1257,8 +1449,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 1,
-      "atlas_y": 476,
+      "atlas_x": 385,
+      "atlas_y": 479,
       "page": 1
     },
     {
@@ -1273,8 +1465,8 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 152,
-      "atlas_y": 279,
+      "atlas_x": 1,
+      "atlas_y": 386,
       "page": 1
     },
     {
@@ -1289,8 +1481,8 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 645,
-      "atlas_y": 1,
+      "atlas_x": 1,
+      "atlas_y": 44,
       "page": 2
     },
     {
@@ -1306,7 +1498,7 @@
         "y": 37
       },
       "atlas_x": 76,
-      "atlas_y": 78,
+      "atlas_y": 79,
       "page": 1
     },
     {
@@ -1321,9 +1513,9 @@
         "x": 10,
         "y": 10
       },
-      "atlas_x": 86,
-      "atlas_y": 476,
-      "page": 1
+      "atlas_x": 344,
+      "atlas_y": 481,
+      "page": 0
     },
     {
       "sprite": "BLOCK_LIGHT_3_2",
@@ -1337,9 +1529,9 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 407,
-      "atlas_y": 477,
-      "page": 1
+      "atlas_x": 89,
+      "atlas_y": 487,
+      "page": 0
     },
     {
       "sprite": "BLOCK_LIGHT_3_3",
@@ -1353,8 +1545,8 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 468,
-      "atlas_y": 271,
+      "atlas_x": 470,
+      "atlas_y": 350,
       "page": 1
     },
     {
@@ -1369,8 +1561,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 108,
-      "atlas_y": 491,
+      "atlas_x": 253,
+      "atlas_y": 482,
       "page": 1
     },
     {
@@ -1385,8 +1577,8 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 237,
-      "atlas_y": 286,
+      "atlas_x": 86,
+      "atlas_y": 392,
       "page": 1
     },
     {
@@ -1401,8 +1593,8 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 815,
-      "atlas_y": 1,
+      "atlas_x": 171,
+      "atlas_y": 44,
       "page": 2
     },
     {
@@ -1418,7 +1610,7 @@
         "y": 37
       },
       "atlas_x": 151,
-      "atlas_y": 78,
+      "atlas_y": 79,
       "page": 1
     },
     {
@@ -1433,9 +1625,9 @@
         "x": 10,
         "y": 10
       },
-      "atlas_x": 450,
-      "atlas_y": 477,
-      "page": 1
+      "atlas_x": 273,
+      "atlas_y": 484,
+      "page": 0
     },
     {
       "sprite": "BLOCK_LIGHT_4_2",
@@ -1449,9 +1641,9 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 645,
-      "atlas_y": 23,
-      "page": 2
+      "atlas_x": 470,
+      "atlas_y": 479,
+      "page": 1
     },
     {
       "sprite": "BLOCK_LIGHT_4_3",
@@ -1465,8 +1657,8 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 322,
-      "atlas_y": 286,
+      "atlas_x": 171,
+      "atlas_y": 393,
       "page": 1
     },
     {
@@ -1481,8 +1673,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 688,
-      "atlas_y": 23,
+      "atlas_x": 1,
+      "atlas_y": 66,
       "page": 2
     },
     {
@@ -1497,8 +1689,8 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 365,
-      "atlas_y": 314,
+      "atlas_x": 427,
+      "atlas_y": 393,
       "page": 1
     },
     {
@@ -1513,8 +1705,8 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 773,
-      "atlas_y": 23,
+      "atlas_x": 86,
+      "atlas_y": 66,
       "page": 2
     },
     {
@@ -1529,8 +1721,8 @@
         "x": 37,
         "y": 37
       },
-      "atlas_x": 227,
-      "atlas_y": 78,
+      "atlas_x": 1,
+      "atlas_y": 155,
       "page": 1
     },
     {
@@ -1545,8 +1737,8 @@
         "x": 10,
         "y": 10
       },
-      "atlas_x": 472,
-      "atlas_y": 477,
+      "atlas_x": 338,
+      "atlas_y": 482,
       "page": 1
     },
     {
@@ -1561,8 +1753,8 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 943,
-      "atlas_y": 23,
+      "atlas_x": 256,
+      "atlas_y": 66,
       "page": 2
     },
     {
@@ -1577,8 +1769,8 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 450,
-      "atlas_y": 314,
+      "atlas_x": 214,
+      "atlas_y": 393,
       "page": 1
     },
     {
@@ -1593,8 +1785,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 1,
-      "atlas_y": 36,
+      "atlas_x": 426,
+      "atlas_y": 82,
       "page": 2
     },
     {
@@ -1609,8 +1801,8 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 152,
-      "atlas_y": 322,
+      "atlas_x": 257,
+      "atlas_y": 396,
       "page": 1
     },
     {
@@ -1625,8 +1817,8 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 86,
-      "atlas_y": 36,
+      "atlas_x": 1,
+      "atlas_y": 88,
       "page": 2
     },
     {
@@ -1641,8 +1833,8 @@
         "x": 38,
         "y": 36
       },
-      "atlas_x": 369,
-      "atlas_y": 78,
+      "atlas_x": 143,
+      "atlas_y": 155,
       "page": 1
     },
     {
@@ -1657,8 +1849,8 @@
         "x": 19,
         "y": 18
       },
-      "atlas_x": 129,
-      "atlas_y": 408,
+      "atlas_x": 1,
+      "atlas_y": 472,
       "page": 1
     },
     {
@@ -1673,8 +1865,8 @@
         "x": 10,
         "y": 10
       },
-      "atlas_x": 371,
-      "atlas_y": 478,
+      "atlas_x": 360,
+      "atlas_y": 482,
       "page": 1
     },
     {
@@ -1689,8 +1881,8 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 256,
-      "atlas_y": 36,
+      "atlas_x": 299,
+      "atlas_y": 66,
       "page": 2
     },
     {
@@ -1705,8 +1897,8 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 1,
-      "atlas_y": 325,
+      "atlas_x": 342,
+      "atlas_y": 396,
       "page": 1
     },
     {
@@ -1721,8 +1913,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 299,
-      "atlas_y": 36,
+      "atlas_x": 171,
+      "atlas_y": 88,
       "page": 2
     },
     {
@@ -1737,8 +1929,8 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 44,
-      "atlas_y": 325,
+      "atlas_x": 1,
+      "atlas_y": 429,
       "page": 1
     },
     {
@@ -1753,8 +1945,8 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 384,
-      "atlas_y": 36,
+      "atlas_x": 256,
+      "atlas_y": 88,
       "page": 2
     },
     {
@@ -1769,8 +1961,8 @@
         "x": 38,
         "y": 36
       },
-      "atlas_x": 303,
-      "atlas_y": 153,
+      "atlas_x": 221,
+      "atlas_y": 155,
       "page": 1
     },
     {
@@ -1785,8 +1977,8 @@
         "x": 19,
         "y": 18
       },
-      "atlas_x": 170,
-      "atlas_y": 408,
+      "atlas_x": 42,
+      "atlas_y": 472,
       "page": 1
     },
     {
@@ -1801,8 +1993,8 @@
         "x": 10,
         "y": 10
       },
-      "atlas_x": 986,
-      "atlas_y": 1,
+      "atlas_x": 426,
+      "atlas_y": 104,
       "page": 2
     },
     {
@@ -1817,8 +2009,8 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 554,
-      "atlas_y": 36,
+      "atlas_x": 448,
+      "atlas_y": 104,
       "page": 2
     },
     {
@@ -1833,8 +2025,8 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 237,
-      "atlas_y": 329,
+      "atlas_x": 86,
+      "atlas_y": 435,
       "page": 1
     },
     {
@@ -1849,8 +2041,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 597,
-      "atlas_y": 45,
+      "atlas_x": 1,
+      "atlas_y": 110,
       "page": 2
     },
     {
@@ -1865,8 +2057,8 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 280,
-      "atlas_y": 329,
+      "atlas_x": 129,
+      "atlas_y": 436,
       "page": 1
     },
     {
@@ -1881,8 +2073,8 @@
         "x": 84,
         "y": 10
       },
-      "atlas_x": 682,
-      "atlas_y": 45,
+      "atlas_x": 86,
+      "atlas_y": 110,
       "page": 2
     },
     {
@@ -1897,8 +2089,8 @@
         "x": 38,
         "y": 36
       },
-      "atlas_x": 381,
-      "atlas_y": 153,
+      "atlas_x": 299,
+      "atlas_y": 155,
       "page": 1
     },
     {
@@ -1913,9 +2105,9 @@
         "x": 19,
         "y": 18
       },
-      "atlas_x": 1,
-      "atlas_y": 411,
-      "page": 1
+      "atlas_x": 426,
+      "atlas_y": 43,
+      "page": 2
     },
     {
       "sprite": "BLOCK_ROCK_4_1",
@@ -1929,8 +2121,8 @@
         "x": 10,
         "y": 10
       },
-      "atlas_x": 986,
-      "atlas_y": 23,
+      "atlas_x": 491,
+      "atlas_y": 104,
       "page": 2
     },
     {
@@ -1945,8 +2137,8 @@
         "x": 20,
         "y": 10
       },
-      "atlas_x": 852,
-      "atlas_y": 45,
+      "atlas_x": 256,
+      "atlas_y": 110,
       "page": 2
     },
     {
@@ -1961,8 +2153,8 @@
         "x": 20,
         "y": 20
       },
-      "atlas_x": 365,
-      "atlas_y": 357,
+      "atlas_x": 214,
+      "atlas_y": 436,
       "page": 1
     },
     {
@@ -1977,8 +2169,8 @@
         "x": 41,
         "y": 10
       },
-      "atlas_x": 895,
-      "atlas_y": 45,
+      "atlas_x": 299,
+      "atlas_y": 110,
       "page": 2
     },
     {
@@ -1993,8 +2185,8 @@
         "x": 41,
         "y": 20
       },
-      "atlas_x": 408,
-      "atlas_y": 357,
+      "atlas_x": 385,
+      "atlas_y": 436,
       "page": 1
     },
     {
@@ -2010,7 +2202,7 @@
         "y": 10
       },
       "atlas_x": 1,
-      "atlas_y": 58,
+      "atlas_y": 132,
       "page": 2
     },
     {
@@ -2025,8 +2217,8 @@
         "x": 38,
         "y": 36
       },
-      "atlas_x": 1,
-      "atlas_y": 154,
+      "atlas_x": 377,
+      "atlas_y": 155,
       "page": 1
     },
     {
@@ -2041,9 +2233,9 @@
         "x": 19,
         "y": 18
       },
-      "atlas_x": 42,
-      "atlas_y": 411,
-      "page": 1
+      "atlas_x": 467,
+      "atlas_y": 43,
+      "page": 2
     },
     {
       "sprite": "DROPPABLE_EGG",
@@ -2057,88 +2249,88 @@
         "x": 22,
         "y": 29
       },
-      "atlas_x": 1,
-      "atlas_y": 380,
+      "atlas_x": 381,
+      "atlas_y": 401,
       "page": 0
     },
     {
       "sprite": "GROUND_BLOCK_01",
       "sheet": "assets/data/images/base/INGAME_MASKS_1",
       "source_format": "RGBA4444 little-endian",
-      "processing": "alpha mask, white RGB for runtime tint",
-      "rgba_sha256": "118beddcfc96e7422dfad2d5625ee1787859acb481d0c1cd653b77d829d582a8",
-      "width": 97,
-      "height": 32,
+      "processing": "alpha mask at half resolution (2x2 box filter), white RGB for runtime tint; drawn at SPRITE_MASK_SCALE",
+      "rgba_sha256": "d9e2cc95ae2a1e330dcf65a24535679d86cceeaf6fd72a226100891bd9849d31",
+      "width": 49,
+      "height": 16,
       "pivot": {
-        "x": 48,
-        "y": 16
+        "x": 24,
+        "y": 8
       },
-      "atlas_x": 407,
-      "atlas_y": 443,
-      "page": 1
+      "atlas_x": 420,
+      "atlas_y": 192,
+      "page": 2
     },
     {
       "sprite": "GROUND_BLOCK_02",
       "sheet": "assets/data/images/base/INGAME_MASKS_1",
       "source_format": "RGBA4444 little-endian",
-      "processing": "alpha mask, white RGB for runtime tint",
-      "rgba_sha256": "b0a0a0a14cf621db0971568b7a90560243740b1cf6002df5530881fe9325c1e7",
-      "width": 194,
-      "height": 33,
+      "processing": "alpha mask at half resolution (2x2 box filter), white RGB for runtime tint; drawn at SPRITE_MASK_SCALE",
+      "rgba_sha256": "6faee59605b02a5ea337b2080845e9eeed5fb4416533b4f7d6733914742f566d",
+      "width": 97,
+      "height": 17,
       "pivot": {
-        "x": 97,
-        "y": 16
+        "x": 49,
+        "y": 8
       },
-      "atlas_x": 211,
-      "atlas_y": 443,
-      "page": 1
+      "atlas_x": 321,
+      "atlas_y": 192,
+      "page": 2
     },
     {
       "sprite": "GROUND_BLOCK_03",
       "sheet": "assets/data/images/base/INGAME_MASKS_1",
       "source_format": "RGBA4444 little-endian",
-      "processing": "alpha mask, white RGB for runtime tint",
-      "rgba_sha256": "03a6c9ba3547af810d47fe4d9f8b27967683c57e1f2e951a0720044cac19a6fd",
-      "width": 642,
-      "height": 33,
+      "processing": "alpha mask at half resolution (2x2 box filter), white RGB for runtime tint; drawn at SPRITE_MASK_SCALE",
+      "rgba_sha256": "8a11563a0f5f519da488505c65efff473995c17ed4cdfe45ce360a259cac8e30",
+      "width": 321,
+      "height": 17,
       "pivot": {
-        "x": 321,
-        "y": 16
+        "x": 161,
+        "y": 8
       },
       "atlas_x": 1,
-      "atlas_y": 1,
+      "atlas_y": 214,
       "page": 2
     },
     {
       "sprite": "GROUND_BLOCK_04",
       "sheet": "assets/data/images/base/INGAME_MASKS_1",
       "source_format": "RGBA4444 little-endian",
-      "processing": "alpha mask, white RGB for runtime tint",
-      "rgba_sha256": "b8ed30c293e77460985ba084842e0e3dd51d777ea57447592c9e5dde887cc86c",
-      "width": 97,
-      "height": 97,
+      "processing": "alpha mask at half resolution (2x2 box filter), white RGB for runtime tint; drawn at SPRITE_MASK_SCALE",
+      "rgba_sha256": "801cf9c150b3d799476cfb14467e49ba492b943cf28ea01092d45c327d29eb0c",
+      "width": 49,
+      "height": 49,
       "pivot": {
-        "x": 48,
-        "y": 48
+        "x": 24,
+        "y": 24
       },
-      "atlas_x": 282,
-      "atlas_y": 1,
+      "atlas_x": 139,
+      "atlas_y": 409,
       "page": 0
     },
     {
       "sprite": "GROUND_BLOCK_05",
       "sheet": "assets/data/images/base/INGAME_MASKS_1",
       "source_format": "RGBA4444 little-endian",
-      "processing": "alpha mask, white RGB for runtime tint",
-      "rgba_sha256": "13b9a45dc5aa0366e06086c2e25e1213e3bf5cb9091aa0fd46f58955fcab656b",
-      "width": 194,
-      "height": 196,
+      "processing": "alpha mask at half resolution (2x2 box filter), white RGB for runtime tint; drawn at SPRITE_MASK_SCALE",
+      "rgba_sha256": "1708d348e123a9f73840498870b7db8a79d2f5572f3ab351cc3466ccc94bdc7b",
+      "width": 97,
+      "height": 98,
       "pivot": {
-        "x": 97,
-        "y": 98
+        "x": 49,
+        "y": 49
       },
-      "atlas_x": 41,
-      "atlas_y": 1,
+      "atlas_x": 296,
+      "atlas_y": 111,
       "page": 0
     }
   ]

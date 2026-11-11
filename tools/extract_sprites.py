@@ -8,14 +8,16 @@ from game_profiles import PROFILES, decode_payload, archive_command
 SHEETS={
  'INGAME_BIRDS_1':['BIRD_GREEN','BIRD_GREEN_FLYING','BIRD_GREEN_COLLISION','BIRD_GREY','BIRD_GREY_FLYING','BIRD_GREY_1','BIRD_GREY_2','BIRD_GREY_3','BIRD_BLUE','BIRD_BLUE_COLLISION','BIRD_RED','BIRD_YELLOW','BIRD_YELLOW_COLLISION','SLING_SHOT_01_BACK','SLING_SHOT_01_FRONT'],
  'INGAME_PIGS_NEW_SHEET_1_1':['PIG_BASIC_SMALL_01','PIG_BASIC_SMALL_01_BLINK','PIG_BASIC_SMALL_02','PIG_BASIC_MEDIUM_01','PIG_BASIC_MEDIUM_01_BLINK','PIG_BASIC_MEDIUM_02'],
- 'INGAME_PIGS_NEW_SHEET_0_1':['PIG_BASIC_BIG_01','PIG_BASIC_BIG_01_BLINK','PIG_BASIC_BIG_02','PIG_HELMET_01','PIG_HELMET_01_BLINK','PIG_HELMET_02'],
- 'INGAME_BLOCKS_1_1':['ESTRADE_01','ESTRADE_02','BLOCK_TREASURE_CHEST','BLOCK_SMILEY_1','BLOCK_SMILEY_3','BLOCK_BEACHBALL','BLOCK_RUBBERDUCK','BLOCK_STRAWBERRY','BLOCK_TIRE_01','BLOCK_TIRE_03','BLOCK_WATERMELON'],
- 'INGAME_BLOCKS_3_1':[f'BLOCK_{m}_{state}_{size}' for m,sizes in [('WOOD',[1,2,3,4,5,6,7]),('LIGHT',[1,2,3,4,5,6,7]),('ROCK',[1,2,3,4,5,6,7,8])] for state in range(1,5) for size in sizes],
+ 'INGAME_PIGS_NEW_SHEET_0_1':['PIG_BASIC_BIG_01','PIG_BASIC_BIG_01_BLINK','PIG_BASIC_BIG_02','PIG_HELMET_01','PIG_HELMET_01_BLINK','PIG_HELMET_02','PIG_MUSTACHE_01','PIG_MUSTACHE_01_BLINK','PIG_MUSTACHE_02'],
+ 'INGAME_BLOCKS_1_1':['ESTRADE_01','ESTRADE_02','BLOCK_TREASURE_CHEST','BLOCK_SMILEY_1','BLOCK_SMILEY_3','BLOCK_BEACHBALL','BLOCK_RUBBERDUCK','BLOCK_STRAWBERRY','BLOCK_TIRE_01','BLOCK_TIRE_03','BLOCK_WATERMELON','BLOCK_EXTRA_TNT','BLOCK_DIAMOND','BLOCK_HOLYGRAIL','BLOCK_PILLAR','BLOCK_BANANA'],
+ 'INGAME_BLOCKS_3_1':[f'BLOCK_{m}_{state}_{size}' for m,sizes in [('WOOD',[1,2,3,4,5,6,7,8]),('LIGHT',[1,2,3,4,5,6,7]),('ROCK',[1,2,3,4,5,6,7,8])] for state in range(1,5) for size in sizes],
  'PARTICLES_1':['DROPPABLE_EGG'],
  'INGAME_MASKS_1':['GROUND_BLOCK_01','GROUND_BLOCK_02','GROUND_BLOCK_03','GROUND_BLOCK_04','GROUND_BLOCK_05']}
-# VRAM budget: 4 MiB minus two 640x448 CT16 frame buffers (1.09 MiB) leaves
-# about 2.9 MiB; keep a margin below that for the embedded texture pages.
+# VRAM: 4 MiB minus two 640x448 CT16 frame buffers (2 x 573440 bytes) leaves
+# 3047424 bytes for textures. The budget keeps the 2.5 MiB already validated;
+# the optional fourth page of the layout would need the budget raised to 3014656.
 VRAM_BUDGET=2621440
+PAGE_LAYOUT=[(512,512),(512,512),(512,256),(512,128)]
 
 def decode_rgba4444(data,w,h):
     if w<3 or h<3 or len(data)!=w*h*2:raise ValueError('Invalid pixel buffer')
@@ -25,6 +27,21 @@ def decode_rgba4444(data,w,h):
             v=struct.unpack_from('<H',data,(y*w+x)*2)[0]
             rgba+=bytes(((v>>12&15)*17,(v>>8&15)*17,(v>>4&15)*17,((v&15)*128+7)//15))
     return rgba
+
+MASK_SCALE=2
+def halve_mask(rgba,w,h):
+    """Static ground masks are flat tinted shapes: keep only a 2x2 box-filtered alpha at half resolution."""
+    if len(rgba)!=w*h*4:raise ValueError('Invalid mask buffer')
+    ow,oh=(w+1)//2,(h+1)//2;out=bytearray()
+    for y in range(oh):
+        for x in range(ow):
+            total=0
+            for dy in (0,1):
+                for dx in (0,1):
+                    sx,sy=x*2+dx,y*2+dy
+                    if sx<w and sy<h:total+=rgba[(sy*w+sx)*4+3]
+            out+=bytes([255,255,255,(total+2)//4])
+    return out,ow,oh
 
 def decode_png_frame(data,frame):
     from PIL import Image
@@ -66,28 +83,28 @@ def extract(apk,out,sevenzip,game="classic"):
                     if len(data)!=w*h*2:raise ValueError('Truncated sprite: '+name)
                     rgba=decode_rgba4444(data,w,h)
                     rgba=bytearray().join(rgba[((y+top)*(w-2)+left)*4:((y+top)*(w-2)+left+fw)*4] for y in range(fh))
+                pivot=dict(f['pivot'])
                 if name.startswith('GROUND_BLOCK_'):
-                    for pixel in range(0,len(rgba),4):rgba[pixel:pixel+3]=bytes([255,255,255])
-                sprite={'name':name,'width':fw,'height':fh,'pivot_x':f['pivot']['x'],'pivot_y':f['pivot']['y'],'rgba':rgba}
+                    rgba,fw,fh=halve_mask(rgba,fw,fh);pivot={'x':(pivot['x']+1)//MASK_SCALE,'y':(pivot['y']+1)//MASK_SCALE}
+                sprite={'name':name,'width':fw,'height':fh,'pivot_x':pivot['x'],'pivot_y':pivot['y'],'rgba':rgba}
                 sprites.append(sprite)
-                manifest.append({'sprite':name,'sheet':base,'source_format':'PNG RGBA8' if is_png else 'RGBA4444 little-endian','processing':'alpha mask, white RGB for runtime tint' if name.startswith('GROUND_BLOCK_') else 'crop extrusion and convert to GS RGBA32','rgba_sha256':hashlib.sha256(rgba).hexdigest(),'width':fw,'height':fh,'pivot':f['pivot']})
-    # Deterministic skyline packing with a transparent one-pixel gutter.
-    # Pages are 512 wide; a page is widened to 1024 only for sprites wider than 510.
+                manifest.append({'sprite':name,'sheet':base,'source_format':'PNG RGBA8' if is_png else 'RGBA4444 little-endian','processing':'alpha mask at half resolution (2x2 box filter), white RGB for runtime tint; drawn at SPRITE_MASK_SCALE' if name.startswith('GROUND_BLOCK_') else 'crop extrusion and convert to GS RGBA32','rgba_sha256':hashlib.sha256(rgba).hexdigest(),'width':fw,'height':fh,'pivot':pivot})
+    # Deterministic skyline packing with a transparent one-pixel gutter into a
+    # fixed page layout (width, height cap). Trailing unused pages are dropped.
     sprites.sort(key=lambda s:(-s['height'],s['name']))
-    pages=[]
+    pages=[{'width':w,'cap':cap,'skyline':[0]*w} for w,cap in PAGE_LAYOUT]
     for s in sprites:
         span=s['width']+2
-        if span>1024 or s['height']+2>512:raise ValueError('Sprite exceeds page limits')
-        for page,entry in enumerate(pages+[None]):
-            if entry is None:entry={'width':1024 if span>512 else 512};entry['skyline']=[0]*entry['width']
+        for page,entry in enumerate(pages):
             width=entry['width'];skyline=entry['skyline']
             if span>width:continue
             y,x=min((max(skyline[x:x+span]),x) for x in range(width-span+1))
-            if y+s['height']+2<=512:
-                if page==len(pages):pages.append(entry)
+            if y+s['height']+2<=entry['cap']:
                 s['page']=page;s['atlas_x']=x+1;s['atlas_y']=y+1
                 skyline[x:x+span]=[y+s['height']+2]*span
                 break
+        else:raise ValueError('Sprite does not fit the atlas page layout: '+s['name'])
+    while pages and max(pages[-1]['skyline'])==0:pages.pop()
     specs=[];pixels=bytearray()
     for entry in pages:
         height=1
@@ -101,7 +118,7 @@ def extract(apk,out,sevenzip,game="classic"):
             start=page['offset']+((s['atlas_y']+row)*page['width']+s['atlas_x'])*4
             pixels[start:start+s['width']*4]=s['rgba'][row*s['width']*4:(row+1)*s['width']*4]
     out.mkdir(parents=True,exist_ok=True);(out/'sprites.rgba').write_bytes(pixels)
-    lines=['/* Generated from the supplied APK by tools/extract_sprites.py. */','#ifndef PS2BIRDS_SPRITE_DATA_H','#define PS2BIRDS_SPRITE_DATA_H',f'#define SPRITE_ATLAS_WIDTH {specs[0]["width"]}',f'#define SPRITE_ATLAS_HEIGHT {specs[0]["height"]}',f'#define SPRITE_VRAM_BUDGET {VRAM_BUDGET}',f'#define SPRITE_PAGE_COUNT {len(specs)}','typedef struct { int width,height,offset; } SpritePage;','static const SpritePage sprite_pages[] = {']
+    lines=['/* Generated from the supplied APK by tools/extract_sprites.py. */','#ifndef PS2BIRDS_SPRITE_DATA_H','#define PS2BIRDS_SPRITE_DATA_H',f'#define SPRITE_ATLAS_WIDTH {specs[0]["width"]}',f'#define SPRITE_ATLAS_HEIGHT {specs[0]["height"]}',f'#define SPRITE_VRAM_BUDGET {VRAM_BUDGET}',f'#define SPRITE_MASK_SCALE {MASK_SCALE}',f'#define SPRITE_PAGE_COUNT {len(specs)}','typedef struct { int width,height,offset; } SpritePage;','static const SpritePage sprite_pages[] = {']
     for page in specs:lines.append(' {'+','.join(str(page[k]) for k in ['width','height','offset'])+'},')
     lines+=['};','typedef struct { int x,y,w,h,px,py,page; } SpriteFrame;']
     for i,s in enumerate(sprites):lines.append('#define SPR_'+s['name']+' '+str(i))
