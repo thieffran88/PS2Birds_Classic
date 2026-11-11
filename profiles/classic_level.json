@@ -229,6 +229,40 @@
     "GrandpaPiglette": {
       "diameter": 4.4,
       "kind": 4
+    },
+    "ExtraBlockStairs": {
+      "sprite": "ESTRADE_STAIRS",
+      "kind": 6,
+      "shape": "box"
+    },
+    "ExtraTire02": {
+      "sprite": "BLOCK_TIRE_02",
+      "kind": 6,
+      "shape": "circle"
+    },
+    "ExtraBlockDice": {
+      "sprite": "BLOCK_EXTRA_DICE_6",
+      "kind": 6,
+      "shape": "box"
+    },
+    "ExtraStolenEgg": {
+      "sprite": "BLOCK_STOLEN_EGG",
+      "kind": 6,
+      "shape": "circle"
+    },
+    "Estrade03": {
+      "sprite": "ESTRADE_03",
+      "kind": 3,
+      "shape": "box"
+    },
+    "KingPiglette": {
+      "diameter": 5.65,
+      "kind": 4
+    },
+    "ExtraDonut01": {
+      "sprite": "BLOCK_DONUT",
+      "kind": 6,
+      "shape": "circle"
     }
   },
   "metrics": "ps2/data/sprite_metrics.json",

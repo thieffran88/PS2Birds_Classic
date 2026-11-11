@@ -213,5 +213,35 @@
     "width": 40,
     "height": 40,
     "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "ESTRADE_STAIRS": {
+    "width": 47,
+    "height": 42,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_TIRE_02": {
+    "width": 63,
+    "height": 64,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_EXTRA_DICE_6": {
+    "width": 58,
+    "height": 57,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_STOLEN_EGG": {
+    "width": 45,
+    "height": 58,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "ESTRADE_03": {
+    "width": 225,
+    "height": 65,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_DONUT": {
+    "width": 62,
+    "height": 60,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
   }
 }

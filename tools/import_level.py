@@ -77,11 +77,11 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
         if w<=0 or h<=0:raise ValueError('Invalid shape dimensions')
         for key in ['x','y','angle','density','strength','defence']:
             if key not in o or type(o[key]) not in (int,float):raise ValueError('Missing or invalid object property '+key)
-        if o['density']<0 or o['strength']<=0 or o['defence']<=0:raise ValueError('Invalid material properties')
+        if o['density']<0 or o['strength']<=0 or o['defence']<0:raise ValueError('Invalid material properties')
         collision=shape.get('shape','circle' if kind==4 else 'box')
         if collision not in ['box','circle']:raise ValueError('Unsupported collision shape')
         level.append(dict(o,width=w,height=h,kind=kind,shape=collision))
-    if not 1<=len(level)<=128:raise ValueError('Adapter supports 1..128 scene objects')
+    if not 1<=len(level)<=160:raise ValueError('Adapter supports 1..160 scene objects')
     doc={'adapter':profile['id'],'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
          'source':source_name or source.name,'collision_dimensions':'atlas extents / physicsToWorld; native hulls not recovered',
          'gravity':gravity,'physics_to_world':pixels,'ground_y':ground,'view':view,

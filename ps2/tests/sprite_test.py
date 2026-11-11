@@ -13,11 +13,11 @@ try:module.decode_rgba4444(b'',3,3)
 except ValueError:pass
 else:raise AssertionError('Truncated input accepted')
 a=root/'ps2/assets';meta=json.loads((a/'manifest.json').read_text());pixels=(a/'sprites.rgba').read_bytes()
-assert len(pixels)==sum(p['width']*p['height']*4 for p in meta['pages'])<=meta['vram_budget']==2621440
-assert all(p['width']==512 and p['height']<=512 for p in meta['pages'])
+assert len(pixels)==sum(p['width']*p['height']*4 for p in meta['pages'])<=meta['vram_budget']==2883584
+assert [(p['width'],p['height']) for p in meta['pages']]==[(512,512),(512,512),(512,256),(512,128)]
 assert hashlib.sha256(pixels).hexdigest()==meta['atlas_sha256']
 assert max(pixels[3::4])==128 and min(pixels[3::4])==0
-assert len(meta['sprites'])==144
+assert len(meta['sprites'])==152
 occupied=set()
 for frame in meta['sprites']:
     page=meta['pages'][frame['page']]
@@ -63,3 +63,11 @@ for s in meta['sprites']:
         assert set(body[0::4])=={255} and max(body[3::4])==128
 for name in ['BLOCK_EXTRA_TNT','BLOCK_PILLAR','BLOCK_DIAMOND','BLOCK_HOLYGRAIL','BLOCK_BANANA','PIG_MUSTACHE_01','PIG_MUSTACHE_01_BLINK','PIG_MUSTACHE_02','BLOCK_WOOD_1_8','BLOCK_WOOD_4_8']:assert name in sizes
 print('Mask/new sprites OK: half-resolution ground masks with box-filtered alpha, TNT, pillar, treasures, mustache pig and round wood present.')
+
+# The king pig appears in a single stage and is stored at half resolution with alpha-weighted colour.
+half,w,h=module.halve_rgba(bytes([200,0,0,128, 0,0,0,0, 0,0,0,0, 0,0,0,0]),2,2)
+assert (w,h)==(1,1) and half==bytes([200,0,0,32])
+for name,size in [('PIG_KING_01',(66,74)),('PIG_KING_02',(66,74))]:assert sizes[name]==size
+for name in ['ESTRADE_03','ESTRADE_STAIRS','BLOCK_TIRE_02','BLOCK_EXTRA_DICE_6','BLOCK_STOLEN_EGG','BLOCK_DONUT']:assert name in sizes
+assert meta['bytes']<=3047424-160*1024
+print('Third page sprites OK: half-resolution king pig, estrade 03, stairs, tire, dice, stolen egg and donut; 160 KiB VRAM margin kept.')

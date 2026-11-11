@@ -124,5 +124,38 @@
   "ExtraBanana": {
     "type": "box",
     "strength": 30
+  },
+  "KingPiglette": {
+    "radius": 2.825,
+    "density": 1,
+    "strength": 100,
+    "defence": 0,
+    "sprite": "PIG_KING_01",
+    "notes": "defence 0 recovered; the core applies max(defence,1). Frames stored at half resolution."
+  },
+  "ExtraStolenEgg": {
+    "type": "circle",
+    "strength": 20,
+    "defence": 20000
+  },
+  "ExtraTire02": {
+    "type": "circle",
+    "strength": 200
+  },
+  "ExtraBlockDice": {
+    "type": "box",
+    "strength": 30,
+    "defence": 1
+  },
+  "ExtraDonut01": {
+    "type": "circle",
+    "strength": 50
+  },
+  "ExtraBlockStairs": {
+    "type": "box"
+  },
+  "Estrade03": {
+    "type": "box",
+    "material": "immovable"
   }
 }

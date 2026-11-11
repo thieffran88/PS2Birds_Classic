@@ -136,3 +136,11 @@ for number in range(15,22):
     for o in d['objects']:kinds.setdefault(o['definition'],set()).add(o['kind'])
 assert kinds['ExtraBlockTNT']=={7} and kinds['GrandpaPiglette']=={4} and kinds['WoodBlock8']=={1}
 print('Second page OK: all 21 stages match the recovered episodes.lua excerpt; TNT blast fields checked against recovered source.')
+
+page3=re.findall(r'^L\d+_1.name = "(Level\d+)"$',(root/'ps2/data/episode_page3.decompiled.lua').read_text(),re.M)
+assert len(page3)==21 and episode['additional_pages'][1]['levels']==page3
+king=(root/'ps2/data/page3_definitions_excerpt.lua').read_text().split('L3_1 = "KingPiglette"',1)[1].split('L3_1 = "',1)[0]
+assert 'L5_1 = 2.825\nL4_1.radius = L5_1' in king and adapter['objects']['KingPiglette']['diameter']==5.65
+assert json.loads((root/'ps2/data/level_3_21.json').read_text())['stage_script']=='Level81'
+assert len(json.loads((root/'ps2/data/level_3_21.json').read_text())['objects'])==135
+print('Third page OK: 21 stages match the recovered episodes.lua excerpt; king pig radius checked; 135-object final stage.')
