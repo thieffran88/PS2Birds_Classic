@@ -117,4 +117,6 @@ O episódio Poached Eggs fica completo: a terceira página traz Level43, Level77
 - Atlas de 152 sprites em quatro páginas (512×512, 512×512, 512×256, 512×128), 2,75 MiB; sobram 160 KiB de VRAM após os frame buffers.
 - Saves da 0.15.0 (42 fases) são aceitos: vencer a 2-21 libera a 3-1.
 
+- Não foi encontrado roteiro vencedor para 3-2, 3-19, 3-20 e 3-21 com a física aproximada do port; elas podem bloquear o avanço sequencial.
+
 Trechos das definições estão em `ps2/data/page3_definitions_excerpt.lua` e a ordem da página em `ps2/data/episode_page3.decompiled.lua`.
