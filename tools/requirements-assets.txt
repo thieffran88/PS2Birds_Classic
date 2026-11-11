@@ -1,0 +1,2 @@
+# PNG sprite extraction and PNG conversion tests only.
+Pillow>=10.0

@@ -3,7 +3,7 @@ from pathlib import Path
 root=Path(__file__).resolve().parents[2];sys.path.insert(0,str(root/'tools'))
 from game_profiles import PROFILES,ROVIO_LZMA,decode_payload
 from inspect_apk import recover_lua
-from import_level import convert
+from import_level import convert,read_assignments
 # Independently cross-check declarations against the supplied reference, not another copy of the manifest.
 reference=(root/'profiles/REFERENCE_DECOMPILATION_README.md')
 assert reference.exists()
@@ -37,6 +37,10 @@ with tempfile.TemporaryDirectory(prefix='ps2birds-adapter-') as folder:
     assert result.read_bytes()==chunk and single.read_bytes()==encrypted
     rejected=subprocess.run([sys.executable,str(root/'tools/recover_lua_file.py'),str(single),str(single),'--game','seasons'],capture_output=True)
     assert rejected.returncode!=0 and single.read_bytes()==encrypted
+    wrapper=folder/'archive helper.py'
+    wrapper.write_text("import sys\nassert sys.argv[1:3]==['x','-so']\nsys.stdout.buffer.write("+repr(chunk)+")\n")
+    wrapper.chmod(0o600)
+    assert decode_payload(b'7z\xbc\xaf\x27\x1cfixture',sevenzip=wrapper)==chunk
     original=(root/'ps2/data/Level1.decompiled.lua').read_text()
     # Prove constants and bird counts come from data, without pretending this fixture is a real game.
     source.write_text(original.replace('L0_1 = 20\nworldGravity','L0_1 = 10\nworldGravity').replace('L0_1 = -352.76\nbirdZeroPosX','L0_1 = -200\nbirdZeroPosX'))
@@ -64,7 +68,7 @@ with tempfile.TemporaryDirectory(prefix='ps2birds-adapter-') as folder:
     # Level 7 uses register-backed object fields. Verify independently known queue data.
     convert(root/'ps2/data/Level7.decompiled.lua',out,header)
     recovered=json.loads(out.read_text());bird=next(b for b in recovered['birds'] if b['name']=='RedBird_2')
-    assert bird['startNumber']==2 and bird['x']==-10.6631 and bird['density']==6 and len(recovered['objects'])==41
+    assert bird['startNumber']==2 and bird['x']==-10.6631 and bird['density']==6 and len(recovered['objects'])==45
     source.write_text(original.replace('L1_1.startNumber = 1','L1_1.startNumber = 2'))
     before=header.read_bytes()
     try:convert(source,out,header)
@@ -72,3 +76,46 @@ with tempfile.TemporaryDirectory(prefix='ps2birds-adapter-') as folder:
     else:raise AssertionError('Duplicate queue position accepted')
     assert header.read_bytes()==before
 print('Profiles OK: 6 declared keys, synthetic AES/LZMA round trips, wrong/unknown keys, data-driven constants, unsupported-adapter rejection.')
+
+# Independent source excerpt, recovered again from the APK for the 0.10.0 review.
+episode=(root/'ps2/data/episode_page1.decompiled.lua').read_text()
+official=re.findall(r'^L\d+_1.name = "(Level\d+)"$',episode,re.M)
+profile=json.loads((root/'profiles/classic_episode.json').read_text())
+assert official==profile['levels'] and len(official)==21
+assert 'L4_1.folder_name = "/levels/1_PoachedEggs"' in episode
+print('Episode order OK: 21 stages match the independently recovered episodes.lua excerpt.')
+
+page2=(root/'ps2/data/episode_page2.decompiled.lua').read_text()
+assert re.findall(r'^L\d+_1.name = "(Level\d+)"$',page2,re.M)[:14]==profile['additional_pages'][0]['levels']
+# Different registers and computed keys must preserve every world object.
+env=read_assignments('local L0_1, L1_1, L2_1\nL0_1 = {}\nL2_1 = {}\nL2_1.name = "second"\nL1_1 = "computed"\nL0_1[L1_1] = L2_1\nworld = L0_1')
+assert env['world']['computed']['name']=='second'
+for bad in ['os.execute("touch /tmp/never")','world = require("x")','while true do']:
+    try:read_assignments(bad)
+    except ValueError:pass
+    else:raise AssertionError('Executable Lua accepted')
+for name,expected in [('Level7',50),('Level8',51),('Level9',55),('Level17',51),('Level16',54),('Level44',89),('Level88',82)]:
+    text=(root/f'ps2/data/{name}.decompiled.lua').read_text()
+    assert len(read_assignments(text)['world'])==expected
+print('Full world tables OK: register aliases/computed keys, seven formerly truncated scenes, executable Lua rejected; second-page official prefix OK.')
+
+# Shape declarations are checked against a recovered blocks.lua excerpt.
+excerpt=(root/'ps2/data/circle_definitions_excerpt.lua').read_text()
+adapter=json.loads((root/'profiles/classic_level.json').read_text())
+for name in ['WoodBlock7','LightBlock7','ExtraStrawberry']:
+    part=excerpt.split('L3_1 = "'+name+'"',1)[1].split('\n\n',1)[0]
+    assert 'L4_1.type = "circle"' in part and adapter['objects'][name]['shape']=='circle'
+for name in ['WoodBlock7','LightBlock7']:
+    all_objects=[o for p in (root/'ps2/data').glob('level_*.json') for o in json.loads(p.read_text())['objects'] if o['definition']==name]
+    assert all_objects and all(o['shape']=='circle' for o in all_objects)
+print('Circle shapes OK: recovered WoodBlock7, LightBlock7 and strawberry declarations match adapter and generated scenes.')
+
+white=json.loads((root/'ps2/data/level_2_14.json').read_text())
+assert white['stage_script']=='Level26' and len(white['objects'])==100
+assert [b['definition'] for b in white['birds']]==['BasicBird2']*4 and [b['type'] for b in white['birds']]==[4]*4
+assert len(read_assignments((root/'ps2/data/Level26.decompiled.lua').read_text())['world'])==105
+parameters=json.loads((root/'ps2/data/classic_actor_parameters.json').read_text())
+excerpt=(root/'ps2/data/white_definitions_excerpt.lua').read_text().split('L3_1 = "EggGranade"',1)[1]
+assert 'L5_1 = "explosionForce"\nL6_1 = 10000' in excerpt and parameters['EggGranade']['explosionForce']==10000
+assert 'L5_1 = "explosionDamage"\nL6_1 = 400' in excerpt and parameters['EggGranade']['explosionDamage']==400
+print('White provenance OK: complete 105-entry world, four BasicBird2 birds, EggGranade blast fields checked against recovered source.')

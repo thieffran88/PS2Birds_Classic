@@ -1,0 +1,45 @@
+# Modificações completas — PS2Birds Classic 0.11.0
+
+- Expandida a campanha de 21 para 27 fases: primeira página completa e fases 2-1 a 2-6 de Poached Eggs.
+- Adicionadas Level52, Level34, Level42, Level24, Level88 e Level36, na ordem de episodes.lua do APK.
+- Incluídos os seis arquivos Lua recuperados e um trecho independente da segunda página para conferir a procedência e a ordem.
+- Perfil da campanha agora declara páginas adicionais com numeração e títulos próprios, mantendo as posições anteriores dos saves.
+- Gerador valida nomes únicos e capacidade máxima de 32 fases; gera os dados das duas páginas sem apagar os JSON da segunda página.
+- Substituído o leitor parcial de objetos por um leitor seguro de atribuições, tabelas, aliases de registradores e chaves calculadas; scripts Lua continuam sem execução.
+- Corrigida a omissão de objetos armazenados em registradores diferentes de L1_1.
+- Reimportadas todas as 27 fases. Corrigidos cenários antigos: Level7 agora 45 objetos; Level8 45; Level9 50; Level17 47; Level16 49; Level44 80.
+- Recuperadas também filas de pássaros omitidas: Level9 tem quatro pássaros e Level44 oito. As contagens referem-se aos dados do APK, não a uma expansão inventada dos cenários.
+- Adicionado o pássaro preto/Bomb, com fila, lançamento e representação durante voo e pavio.
+- Consultados no APK raio 1, densidade 6, restituição 0,03 e fator de dano direto contra pedra 4 do preto.
+- Implementada detonação manual com X, antes ou depois do contato, uma vez por pássaro.
+- Implementado pavio automático de aproximadamente um segundo após o primeiro contato.
+- Agendada a explosão para fora da etapa interna de contatos do Box2D, evitando destruir corpos durante callbacks.
+- Implementados impulso radial até 15 unidades e dano até cinco unidades, com parâmetros-base 40000 e 300 recuperados do APK.
+- Aplicadas aproximações explícitas do port: força convertida em impulso dividindo por 120, queda linear pela distância ao centro, sem oclusão e pavio de um segundo; não representam uma reprodução integral do motor original.
+- Corpos estáticos ficam imunes à explosão; corpos dinâmicos atingidos passam a participar da cadeia de dano.
+- Removido o projétil após explodir, preservando a sequência de pássaros e a avaliação de vitória/derrota.
+- Evitado encerrar o turno por tempo enquanto o pavio está ativo; reiniciar ou trocar fase limpa o estado da explosão.
+- Adicionado evento próprio de explosão e API de consulta do efeito e do pavio.
+- Adicionados anel e fumaça temporários da explosão, com recorte na área de jogo.
+- Adicionados sprites originais do preto, suas três etapas de pavio, madeira pequena, bola de praia e pato de borracha.
+- Bola e pato usam corpos circulares simplificados e a categoria de objetos extras do port.
+- Atlas ampliado de 109 para 120 sprites, mantendo três páginas e 2359296 bytes de texturas (2,25 MiB), dentro do orçamento anterior.
+- Regenerado o ícone do save junto aos dados gráficos.
+- Adicionados sons originais de lançamento do preto e explosão.
+- Corrigido o som da divisão do azul: o alias special_group aponta para o arquivo special egg, conforme audio.lua; o arquivo special group pertence a outra habilidade.
+- Banco ampliado de 16 para 18 efeitos, totalizando 360816 bytes, dentro do limite de 1 MiB de SPU2.
+- Mantidos nove canais por categoria, controle R3, carregamento único e funcionamento sem áudio quando indisponível.
+- Menu agora permite esquerda/direita para saltar páginas de três itens, preservando a linha e circulando nas extremidades.
+- Ajustados rodapé, instruções, títulos 2-N e mensagem de detonação do preto.
+- Mantido o formato v2 de 160 bytes e capacidade de 32 fases; nenhum formato novo é necessário para 27 fases.
+- Acrescentados testes de expansão de saves com 21 fases, incluindo desbloqueio da 22ª quando a anterior já estava concluída.
+- Atualizados testes de campanha com contagens completas e trajetórias que concluem todas as 27 fases sequencialmente.
+- Acrescentado teste isolado de explosão: dano, queda por distância, impulso, imunidade estática, evento único, pavio, detonação após contato, próximo pássaro e 20 trocas de mundo.
+- Acrescentados testes do importador para aliases, chaves calculadas, sete tabelas completas e rejeição de chamadas/código executável.
+- Atualizados testes do atlas e das 18 amostras ADPCM, incluindo hashes, cabeçalhos, sinal decodificado e orçamento de memória.
+- Atualizados parâmetros de procedência, README e relatório de validação; mantidos documentos antigos como histórico no código-fonte.
+- Validada a compilação e toda a suíte novamente a partir do ZIP extraído em diretório novo.
+- Gerados ELF, ISO e ZIP de fontes 0.11.0, com comparação do ELF incorporado à ISO e conferência de integridade do ZIP.
+- Publicação substitui os três artefatos anteriores e os dois relatórios consolidados; preserva APK, decompilação original e estudo de compatibilidade por serem relevantes ao projeto.
+
+O port continua parcial: faltam outras fases e episódios, demais pássaros/habilidades, música, cenários mais fiéis e validação em PS2 físico. Nesta versão, os recordes antigos são preservados mesmo quando o cenário correspondente foi corrigido.

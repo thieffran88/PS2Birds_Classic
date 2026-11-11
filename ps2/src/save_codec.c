@@ -7,7 +7,7 @@ uint32_t save_crc32(const unsigned char *p,size_t size){
     for(size_t i=0;i<size;i++){crc^=p[i];for(int bit=0;bit<8;bit++)crc=(crc>>1)^((0u-(crc&1u))&0xedb88320u);}
     return ~crc;
 }
-static unsigned capacity_of(uint32_t version){return version==1?SAVE_LEVEL_CAPACITY_V1:version==SAVE_VERSION?SAVE_LEVEL_CAPACITY:0;}
+static unsigned capacity_of(uint32_t version){return version==1?SAVE_LEVEL_CAPACITY_V1:version==2?SAVE_LEVEL_CAPACITY_V2:version==SAVE_VERSION?SAVE_LEVEL_CAPACITY:0;}
 static size_t bytes_of(uint32_t version){return 28+capacity_of(version)*4+4;}
 static int valid(const SaveRecord *r){
     unsigned capacity=r?capacity_of(r->version):0;
@@ -31,6 +31,16 @@ int save_decode(const unsigned char *data,size_t size,SaveRecord *out){
     for(unsigned i=0;i<capacity;i++)r.scores[i]=get32(data+28+i*4);
     if(!valid(&r))return 0;
     *out=r;return 1;
+}
+/* Inspect the shared header before selecting a slot. Unknown future layouts
+   cannot be CRC-validated here, so preserve recognizable future records. */
+int save_requires_newer(const unsigned char *data,size_t size,unsigned supported_count){
+    if(!data || size<16 || memcmp(data,"PS2BIRD1",8) || get32(data+12)!=0x434c4153u)return 0;
+    uint32_t version=get32(data+8);
+    if(version>SAVE_VERSION)return 1;
+    if(size<28)return 0;
+    uint32_t count=get32(data+20);
+    return count>supported_count || (version==1 && count>8);
 }
 int save_choose(const unsigned char *a,size_t na,const unsigned char *b,size_t nb,SaveRecord *out){
     SaveRecord ra,rb;int va=save_decode(a,na,&ra),vb=save_decode(b,nb,&rb);

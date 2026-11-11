@@ -694,5 +694,7 @@
     }
   ],
   "title": "POACHED EGGS 1-5",
-  "stage_script": "Level6"
+  "stage_script": "Level6",
+  "episode_page": 1,
+  "stage_number": 5
 }

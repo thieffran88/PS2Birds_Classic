@@ -7,11 +7,11 @@
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
 // Repeats the same shot for every bird; the special is triggered at `special` seconds of flight (<0: never).
 static int run(Game *g,int level,float angle,float power,float special){
-    g->unlocked=32;if(!game_load_level(g,level))return -1;settle(g);
+    g->unlocked=game_level_count();if(!game_load_level(g,level))return -1;settle(g);
     int birds=g->birds;
     for(int i=0;i<birds && g->state!=WON && g->state!=LOST;i++){
         g->angle=angle;g->power=power;game_launch(g);bool used=false;
-        for(int t=0;t<1320 && g->state==FLYING;t++){
+        for(int t=0;t<2400 && g->state==FLYING;t++){
             if(!used && special>=0 && g->flight_time>=special)used=game_special(g)!=0;
             game_update(g,1.0f/120);
         }

@@ -2,15 +2,16 @@
 """Convert selected original APK sprites into an embedded PS2 RGBA32 atlas.
 Requires Python 3.9+, OpenSSL and 7-Zip. Never executes game scripts.
 """
-import argparse,hashlib,json,lzma,struct,subprocess,tempfile,zipfile
+import argparse,hashlib,json,lzma,struct,subprocess,tempfile,zipfile,io
 from pathlib import Path
-from game_profiles import PROFILES, decode_payload
+from game_profiles import PROFILES, decode_payload, archive_command
 SHEETS={
- 'INGAME_BIRDS_1':['BIRD_BLUE','BIRD_BLUE_COLLISION','BIRD_RED','BIRD_YELLOW','BIRD_YELLOW_COLLISION','SLING_SHOT_01_BACK','SLING_SHOT_01_FRONT'],
+ 'INGAME_BIRDS_1':['BIRD_GREEN','BIRD_GREEN_FLYING','BIRD_GREEN_COLLISION','BIRD_GREY','BIRD_GREY_FLYING','BIRD_GREY_1','BIRD_GREY_2','BIRD_GREY_3','BIRD_BLUE','BIRD_BLUE_COLLISION','BIRD_RED','BIRD_YELLOW','BIRD_YELLOW_COLLISION','SLING_SHOT_01_BACK','SLING_SHOT_01_FRONT'],
  'INGAME_PIGS_NEW_SHEET_1_1':['PIG_BASIC_SMALL_01','PIG_BASIC_SMALL_01_BLINK','PIG_BASIC_SMALL_02','PIG_BASIC_MEDIUM_01','PIG_BASIC_MEDIUM_01_BLINK','PIG_BASIC_MEDIUM_02'],
  'INGAME_PIGS_NEW_SHEET_0_1':['PIG_BASIC_BIG_01','PIG_BASIC_BIG_01_BLINK','PIG_BASIC_BIG_02','PIG_HELMET_01','PIG_HELMET_01_BLINK','PIG_HELMET_02'],
- 'INGAME_BLOCKS_1_1':['ESTRADE_01','ESTRADE_02','BLOCK_TREASURE_CHEST','BLOCK_SMILEY_1','BLOCK_SMILEY_3'],
- 'INGAME_BLOCKS_3_1':[f'BLOCK_{m}_{state}_{size}' for m,sizes in [('WOOD',[2,3,4,5,6,7]),('LIGHT',[1,2,3,4,5,6]),('ROCK',[1,2,3,4,5,6,7,8])] for state in range(1,5) for size in sizes],
+ 'INGAME_BLOCKS_1_1':['ESTRADE_01','ESTRADE_02','BLOCK_TREASURE_CHEST','BLOCK_SMILEY_1','BLOCK_SMILEY_3','BLOCK_BEACHBALL','BLOCK_RUBBERDUCK','BLOCK_STRAWBERRY','BLOCK_TIRE_01','BLOCK_TIRE_03','BLOCK_WATERMELON'],
+ 'INGAME_BLOCKS_3_1':[f'BLOCK_{m}_{state}_{size}' for m,sizes in [('WOOD',[1,2,3,4,5,6,7]),('LIGHT',[1,2,3,4,5,6,7]),('ROCK',[1,2,3,4,5,6,7,8])] for state in range(1,5) for size in sizes],
+ 'PARTICLES_1':['DROPPABLE_EGG'],
  'INGAME_MASKS_1':['GROUND_BLOCK_01','GROUND_BLOCK_02','GROUND_BLOCK_03','GROUND_BLOCK_04','GROUND_BLOCK_05']}
 # VRAM budget: 4 MiB minus two 640x448 CT16 frame buffers (1.09 MiB) leaves
 # about 2.9 MiB; keep a margin below that for the embedded texture pages.
@@ -25,6 +26,16 @@ def decode_rgba4444(data,w,h):
             rgba+=bytes(((v>>12&15)*17,(v>>8&15)*17,(v>>4&15)*17,((v&15)*128+7)//15))
     return rgba
 
+def decode_png_frame(data,frame):
+    from PIL import Image
+    if frame['rotated'] or any(frame['extrude']):raise ValueError('Unsupported PNG orientation/extrusion')
+    f=frame['frame'];x,y,w,h=(f[k] for k in ['x','y','w','h'])
+    with Image.open(io.BytesIO(data)) as source:
+        if source.format!='PNG' or w<=0 or h<=0 or x<0 or y<0 or x+w>source.width or y+h>source.height:raise ValueError('PNG frame outside sheet')
+        rgba=bytearray(source.convert('RGBA').crop((x,y,x+w,y+h)).tobytes())
+    for pixel in range(3,len(rgba),4):rgba[pixel]=(rgba[pixel]*128+127)//255
+    return rgba
+
 def extract(apk,out,sevenzip,game="classic"):
     sprites=[];manifest=[]
     with zipfile.ZipFile(apk) as archive,tempfile.TemporaryDirectory(prefix='ps2birds-sprites-') as folder:
@@ -33,27 +44,33 @@ def extract(apk,out,sevenzip,game="classic"):
             encrypted=archive.read(base+'.sheet.json')
             decoded=decode_payload(encrypted,game,sevenzip)
             frames={f['filename']:f for f in json.loads(decoded)['frames']}
-            packed=Path(folder)/'sheet.7z';packed.write_bytes(archive.read(base+'.stream.7z'))
-            raw=subprocess.run([sevenzip,'x','-so',str(packed)],capture_output=True,check=True).stdout
+            is_png=base+'.stream.7z' not in archive.namelist()
+            if is_png:png=archive.read(base+'.png')
+            else:
+                packed=Path(folder)/'sheet.7z';packed.write_bytes(archive.read(base+'.stream.7z'))
+                raw=subprocess.run(archive_command(sevenzip)+['x','-so',str(packed)],capture_output=True,check=True).stdout
             for name in names:
                 if name not in frames:raise ValueError('Classic sprite adapter missing '+name+'; this game/version needs its own asset adapter')
-                f=frames[name];s=f['stream'];p=s['position'];w=s['width'];h=s['height']
-                head=raw[p:p+40]
-                if len(head)!=40 or head[4:6]!=b'\x00\x28' or head[32:40]!=b'RGBA4444':raise ValueError('Unsupported stream header: '+name)
-                if struct.unpack('>HH',head[6:10])!=(w,h) or s['length']!=w*h*2:raise ValueError('Bad dimensions: '+name)
-                if f['rotated']:raise ValueError('Unsupported frame orientation: '+name)
-                left,top,right,bottom=f['extrude']
-                fw,fh=f['frame']['w'],f['frame']['h']
-                if (w,h)!=(fw+2+left+right,fh+2+top+bottom):raise ValueError('Bad extrusion: '+name)
-                data=raw[p+40:p+40+w*h*2]
-                if len(data)!=w*h*2:raise ValueError('Truncated sprite: '+name)
-                rgba=decode_rgba4444(data,w,h)
-                rgba=bytearray().join(rgba[((y+top)*(w-2)+left)*4:((y+top)*(w-2)+left+fw)*4] for y in range(fh))
+                f=frames[name];fw,fh=f['frame']['w'],f['frame']['h']
+                if is_png:rgba=decode_png_frame(png,f)
+                else:
+                    s=f['stream'];p=s['position'];w=s['width'];h=s['height']
+                    head=raw[p:p+40]
+                    if len(head)!=40 or head[4:6]!=b'\x00\x28' or head[32:40]!=b'RGBA4444':raise ValueError('Unsupported stream header: '+name)
+                    if struct.unpack('>HH',head[6:10])!=(w,h) or s['length']!=w*h*2:raise ValueError('Bad dimensions: '+name)
+                    if f['rotated']:raise ValueError('Unsupported frame orientation: '+name)
+                    left,top,right,bottom=f['extrude']
+                    fw,fh=f['frame']['w'],f['frame']['h']
+                    if (w,h)!=(fw+2+left+right,fh+2+top+bottom):raise ValueError('Bad extrusion: '+name)
+                    data=raw[p+40:p+40+w*h*2]
+                    if len(data)!=w*h*2:raise ValueError('Truncated sprite: '+name)
+                    rgba=decode_rgba4444(data,w,h)
+                    rgba=bytearray().join(rgba[((y+top)*(w-2)+left)*4:((y+top)*(w-2)+left+fw)*4] for y in range(fh))
                 if name.startswith('GROUND_BLOCK_'):
                     for pixel in range(0,len(rgba),4):rgba[pixel:pixel+3]=bytes([255,255,255])
                 sprite={'name':name,'width':fw,'height':fh,'pivot_x':f['pivot']['x'],'pivot_y':f['pivot']['y'],'rgba':rgba}
                 sprites.append(sprite)
-                manifest.append({'sprite':name,'sheet':base,'source_format':'RGBA4444 little-endian','processing':'alpha mask, white RGB for runtime tint' if name.startswith('GROUND_BLOCK_') else 'crop extrusion and convert to GS RGBA32','rgba_sha256':hashlib.sha256(rgba).hexdigest(),'width':fw,'height':fh,'pivot':f['pivot']})
+                manifest.append({'sprite':name,'sheet':base,'source_format':'PNG RGBA8' if is_png else 'RGBA4444 little-endian','processing':'alpha mask, white RGB for runtime tint' if name.startswith('GROUND_BLOCK_') else 'crop extrusion and convert to GS RGBA32','rgba_sha256':hashlib.sha256(rgba).hexdigest(),'width':fw,'height':fh,'pivot':f['pivot']})
     # Deterministic skyline packing with a transparent one-pixel gutter.
     # Pages are 512 wide; a page is widened to 1024 only for sprites wider than 510.
     sprites.sort(key=lambda s:(-s['height'],s['name']))

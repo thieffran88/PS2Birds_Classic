@@ -46,3 +46,15 @@ BIOS, SDK, emulador e cartões de teste não integram o pacote de fontes.
   saída para Level8.lua foi comparada com a versão guardada e é idêntica.
 - APK Classic SHA-256 `8cdea1ef39a2a5c3bad5ac27050b491dbdf68050754241390cf9f0d3d24979b8`,
   igual ao do diagnóstico inicial.
+
+## Áudio 0.10.0
+
+- PS2SDK audsrv: https://github.com/ps2dev/ps2sdk, fontes EE/IOP incluídas em
+  ps2/vendor/audsrv, com GNU Library GPL v2 e avisos AFL v2 preservados.
+- Makefile IOP adaptado ao SDK instalado; chamada opcional EE de detecção de
+  reboot omitida por compatibilidade (o port não reinicia o IOP).
+- O módulo audsrv.irx e o objeto EE são recompilados dessas fontes; não é preciso
+  baixar módulo binário. LIBSD é carregado do ROM do console, sem redistribuir BIOS.
+- FFmpeg e adpenc do SDK são ferramentas de preparação. As 16 fontes Ogg são do
+  APK fornecido; hashes e parâmetros constam em ps2/assets/audio_manifest.json.
+- Nenhuma captura, BIOS, cartão de teste, SDK completo ou emulador integra o ZIP.

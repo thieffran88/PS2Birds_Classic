@@ -143,5 +143,45 @@
     "width": 642,
     "height": 33,
     "sheet": "INGAME_MASKS_1.sheet.json"
+  },
+  "BLOCK_BEACHBALL": {
+    "width": 75,
+    "height": 75,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_RUBBERDUCK": {
+    "width": 66,
+    "height": 73,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_WOOD_1_1": {
+    "width": 20,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_STRAWBERRY": {
+    "width": 54,
+    "height": 56,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_LIGHT_1_7": {
+    "width": 73,
+    "height": 74,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_TIRE_01": {
+    "width": 78,
+    "height": 78,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_WATERMELON": {
+    "width": 71,
+    "height": 61,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_TIRE_03": {
+    "width": 53,
+    "height": 52,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
   }
 }

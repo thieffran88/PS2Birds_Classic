@@ -7,7 +7,7 @@ static void update(Game *g,int frames){for(int i=0;i<frames;i++)game_update(g,1.
 int main(){
  Game g;game_init(&g);assert(!game_special(&g) && !game_special_available(&g));
  assert(game_queue_type(&g,0)==BIRD_RED_TYPE && game_queue_type(&g,-1)==-1 && game_queue_type(&g,3)==-1);
- game_launch(&g);assert(!game_special(&g) && game_projectile_count(&g)==1);g.unlocked=32;
+ game_launch(&g);assert(!game_special(&g) && game_projectile_count(&g)==1);g.unlocked=game_level_count();
  assert(game_load_level(&g,9) && !strcmp(game_level_script(9),"Level8"));assert(g.birds==5 && g.pig_alive==2 && game_projectile_count(&g)==0);
  for(int i=0;i<5;i++)assert(game_queue_type(&g,i)==BIRD_BLUE_TYPE);
  assert(game_queue_type(&g,5)==-1 && !game_special(&g));update(&g,240);

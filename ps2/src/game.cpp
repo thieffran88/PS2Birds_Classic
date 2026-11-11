@@ -1,5 +1,11 @@
 #include "game.h"
+#if defined(PS2BIRDS_WHITE_TEST)
+#include "white_fixture.h"
+#elif defined(PS2BIRDS_BLAST_TEST)
+#include "blast_fixture.h"
+#else
 #include "campaign_data.h"
+#endif
 #include <box2d/box2d.h>
 #include <math.h>
 #include <string.h>
@@ -14,12 +20,16 @@ struct Physics: b2ContactListener {
     float health[MAX_LEVEL_OBJECTS], impact[MAX_LEVEL_OBJECTS], age;
     bool has_launched,special_used,bird_collided;
     int bird_type;
-    b2Body *split[2];
+    b2Body *split[2],*egg;bool egg_collided;
     bool split_collided[2],disturbed[MAX_LEVEL_OBJECTS];
+    bool bomb_requested,detonated;
+    float bomb_fuse,blast_life,blast_radius;
+    b2Vec2 blast_position;
     b2Contact *damage_contacts[MAX_LEVEL_OBJECTS*2];int damage_contact_count;
     /* Static scenery the launched bird overlapped at spawn; ignored until they separate. */
     b2Body *spawn_ignore[8];int spawn_ignore_count;
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),bird_type(BIRD_RED_TYPE) {
+        egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
         damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
         memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));
         world.SetContactListener(this);
@@ -43,10 +53,11 @@ struct Physics: b2ContactListener {
         b2BodyDef def;def.type=b2_dynamicBody;def.bullet=true;def.position=position;
         b2Body *body=world.CreateBody(&def);
         /* Radii, densities and restitutions consulted in the recovered blocks.lua. */
-        b2CircleShape circle;circle.m_radius=type==BIRD_BLUE_TYPE?0.6f:type==BIRD_YELLOW_TYPE?0.8f:0.75f;
-        b2FixtureDef fixture;fixture.shape=&circle;fixture.density=type==BIRD_BLUE_TYPE?4.5f:6;
-        fixture.friction=0.3f;fixture.restitution=type==BIRD_YELLOW_TYPE?0.23f:0.25f;
+        b2CircleShape circle;circle.m_radius=type==BIRD_BLUE_TYPE?0.6f:type==BIRD_YELLOW_TYPE?0.8f:type==BIRD_BLACK_TYPE?1.0f:type==BIRD_WHITE_TYPE?1.3f:type==BIRD_EGG_TYPE?WHITE_EGG_RADIUS:0.75f;
+        b2FixtureDef fixture;fixture.shape=&circle;fixture.density=(type==BIRD_BLUE_TYPE || type==BIRD_WHITE_TYPE)?4.5f:type==BIRD_EGG_TYPE?3:6;
+        fixture.friction=0.3f;fixture.restitution=(type==BIRD_YELLOW_TYPE || type==BIRD_WHITE_TYPE || type==BIRD_EGG_TYPE)?0.23f:type==BIRD_BLACK_TYPE?0.03f:0.25f;
         if(type==BIRD_BLUE_TYPE)fixture.filter.groupIndex=-1;
+        if(type==BIRD_WHITE_TYPE || type==BIRD_EGG_TYPE)fixture.filter.groupIndex=-2;
         body->CreateFixture(&fixture);body->SetLinearVelocity(velocity);return body;
     }
     void PreSolve(b2Contact *contact,const b2Manifold *) override {
@@ -57,7 +68,7 @@ struct Physics: b2ContactListener {
         b2Body *pair[]={a,b};bool activated=false;
         for(b2Body *body:pair){
             uintptr_t id=body->GetUserData().pointer;
-            if(body==bird || body==split[0] || body==split[1] || (id>0 && id<=(uintptr_t)level->count && disturbed[id-1]))activated=true;
+            if(body==bird || body==egg || body==split[0] || body==split[1] || (id>0 && id<=(uintptr_t)level->count && disturbed[id-1]))activated=true;
         }
         if(!activated)return;
         float approach=0;
@@ -103,6 +114,7 @@ struct Physics: b2ContactListener {
     }
     void PostSolve(b2Contact *contact,const b2ContactImpulse *impulse) override {
         if(counts_as_hit(contact,bird))bird_collided=true;
+        if(egg && counts_as_hit(contact,egg))egg_collided=true;
         for(int i=0;i<2;i++)if(split[i] && counts_as_hit(contact,split[i]))split_collided[i]=true;
         if (!has_launched || age<0.75f) return;
         bool damaging=false;for(int i=0;i<damage_contact_count;i++)if(damage_contacts[i]==contact){damaging=true;break;}
@@ -114,11 +126,12 @@ struct Physics: b2ContactListener {
             if (id>0 && id<=(uintptr_t)level->count && body->GetMass()>0) {
                 unsigned i=(unsigned)id-1;
                 b2Body *other=pair[0]==body?pair[1]:pair[0];
-                bool projectile=other==bird || other==split[0] || other==split[1];
+                bool projectile=other==bird || other==egg || other==split[0] || other==split[1];
                 /* Direct-hit multipliers from the recovered damage tables: blue vs glass 2.9, yellow vs wood 2.4. */
                 float factor=1.0f;
                 if(projectile && bird_type==BIRD_BLUE_TYPE && level->objects[i].kind==2)factor=2.9f;
                 if(projectile && bird_type==BIRD_YELLOW_TYPE && level->objects[i].kind==1)factor=2.4f;
+                if(projectile && bird_type==BIRD_BLACK_TYPE && level->objects[i].kind==5)factor=4.0f;
                 impact[i]=fmaxf(impact[i],normal/body->GetMass()*factor);
             }
         }
@@ -151,12 +164,15 @@ void game_launch(Game *g) {
     if(g->state!=AIMING || g->birds<=0)return;
     Physics *p=static_cast<Physics*>(g->physics);
     if(p->bird)p->world.DestroyBody(p->bird);
+    if(p->egg)p->world.DestroyBody(p->egg);
+    p->egg=NULL;p->egg_collided=false;
     p->spawn_ignore_count=0;
     for(int i=0;i<2;i++){if(p->split[i])p->world.DestroyBody(p->split[i]);p->split[i]=NULL;p->split_collided[i]=false;}
     p->bird_type=game_queue_type(g,0);p->special_used=false;p->bird_collided=false;
     float a=g->angle*0.01745329252f;
     p->bird=p->make_bird(b2Vec2(p->level->sling_x,p->level->sling_y),b2Vec2(cosf(a)*g->power/g->view_scale,-sinf(a)*g->power/g->view_scale),p->bird_type);
     p->record_spawn_overlaps();
+    p->bomb_requested=p->detonated=false;p->bomb_fuse=-1;
     p->has_launched=true;g->birds--;g->flight_time=g->cooldown=0;g->state=FLYING;
 }
 int game_queue_type(const Game *g,int offset){
@@ -166,11 +182,20 @@ int game_queue_type(const Game *g,int offset){
 }
 int game_special_available(const Game *g){
     const Physics *p=static_cast<const Physics*>(g->physics);
-    return g->state==FLYING && (p->bird_type==BIRD_BLUE_TYPE || p->bird_type==BIRD_YELLOW_TYPE) && !p->special_used && !p->bird_collided;
+    if(g->state!=FLYING || p->special_used || !p->bird)return 0;
+    if(p->bird_type==BIRD_BLACK_TYPE)return 1;
+    return (p->bird_type==BIRD_BLUE_TYPE || p->bird_type==BIRD_YELLOW_TYPE || p->bird_type==BIRD_WHITE_TYPE) && !p->bird_collided;
 }
 int game_special(Game *g){
     if(!game_special_available(g))return 0;
-    Physics *p=static_cast<Physics*>(g->physics);b2Vec2 velocity=p->bird->GetLinearVelocity();
+    Physics *p=static_cast<Physics*>(g->physics);
+    if(p->bird_type==BIRD_BLACK_TYPE){p->bomb_requested=true;p->special_used=true;return 1;}
+    b2Vec2 velocity=p->bird->GetLinearVelocity();
+    if(p->bird_type==BIRD_WHITE_TYPE){
+        p->egg=p->make_bird(p->bird->GetPosition()+b2Vec2(0,1.3f+WHITE_EGG_RADIUS+0.1f),b2Vec2(0,WHITE_DROP_SPEED),BIRD_EGG_TYPE);
+        p->bird->SetLinearVelocity(b2Vec2(velocity.x*WHITE_RECOIL_X_FACTOR,-WHITE_RECOIL_SPEED));
+        p->special_used=true;p->egg_collided=false;g->cooldown=0;return 1;
+    }
     float speed=velocity.Length();if(speed<1)return 0;
     if(p->bird_type==BIRD_YELLOW_TYPE){
         p->bird->SetLinearVelocity(YELLOW_BOOST_FACTOR*velocity);p->special_used=true;g->cooldown=0;return 1;
@@ -184,14 +209,44 @@ int game_special(Game *g){
     p->special_used=true;g->cooldown=0;return 1;
 }
 int game_projectile_count(const Game *g){
-    const Physics *p=static_cast<const Physics*>(g->physics);return p->bird?(p->split[0]?3:1):0;
+    const Physics *p=static_cast<const Physics*>(g->physics);return p->bird?(p->split[0]?3:p->egg?2:1):0;
 }
 int game_get_projectile(const Game *g,int index,GameBird *out){
     if(!out || index<0 || index>=game_projectile_count(g))return 0;
-    const Physics *p=static_cast<const Physics*>(g->physics);b2Body *body=index==0?p->bird:p->split[index-1];
+    const Physics *p=static_cast<const Physics*>(g->physics);b2Body *body=index==0?p->bird:p->egg?p->egg:p->split[index-1];
     b2Vec2 pos=body->GetPosition(),vel=body->GetLinearVelocity();
     out->x=g->view_x+pos.x*g->view_scale;out->y=g->view_y+pos.y*g->view_scale;
-    out->vx=vel.x*g->view_scale;out->vy=vel.y*g->view_scale;out->angle=body->GetAngle();out->type=p->bird_type;out->collided=index==0?p->bird_collided:p->split_collided[index-1];return 1;
+    out->vx=vel.x*g->view_scale;out->vy=vel.y*g->view_scale;out->angle=body->GetAngle();out->type=body==p->egg?BIRD_EGG_TYPE:p->bird_type;out->special_used=p->special_used;out->fuse=p->bird_type==BIRD_BLACK_TYPE?p->bomb_fuse:-1;out->collided=index==0?p->bird_collided:body==p->egg?p->egg_collided:p->split_collided[index-1];return 1;
+}
+int game_get_blast(const Game *g,GameBlast *out){
+    const Physics *p=static_cast<const Physics*>(g->physics);
+    if(!out || p->blast_life<=0)return 0;
+    out->x=g->view_x+p->blast_position.x*g->view_scale;out->y=g->view_y+p->blast_position.y*g->view_scale;
+    out->radius=p->blast_radius*g->view_scale;out->life=p->blast_life;return 1;
+}
+static void radial_blast(Game *g,const b2Vec2 &position,float radius,float force,float damage_radius,float damage){
+    Physics *p=static_cast<Physics*>(g->physics);
+    p->blast_position=position;p->blast_life=BLACK_VISUAL_SECONDS;p->blast_radius=radius;
+    for(int i=0;i<p->level->count;i++){
+        b2Body *body=p->bodies[i];if(!body || body->GetType()!=b2_dynamicBody)continue;
+        b2Vec2 delta=body->GetPosition()-position;float distance=delta.Length();
+        if(distance>=radius)continue;
+        p->disturbed[i]=true;
+        b2Vec2 direction=distance>0.001f?(1.0f/distance)*delta:b2Vec2(0,-1);
+        float impulse=(force/120.0f)*(1-distance/radius);
+        body->ApplyLinearImpulseToCenter(impulse*direction,true);
+        if(distance<damage_radius)p->health[i]-=damage*(1-distance/damage_radius);
+    }
+    g->events|=GAME_EVENT_EXPLOSION;g->cooldown=0;
+}
+static void detonate(Game *g){
+    Physics *p=static_cast<Physics*>(g->physics);
+    if(p->detonated || !p->bird)return;
+    radial_blast(g,p->bird->GetPosition(),BLACK_BLAST_RADIUS,BLACK_BLAST_FORCE,BLACK_DAMAGE_RADIUS,BLACK_BLAST_DAMAGE);
+    p->detonated=p->special_used=true;p->bomb_requested=false;
+    p->world.DestroyBody(p->bird);p->bird=NULL;p->spawn_ignore_count=0;
+    g->x=g->view_x+p->blast_position.x*g->view_scale;g->y=g->view_y+p->blast_position.y*g->view_scale;
+    g->vx=g->vy=g->flight_time=0;
 }
 void game_preview(const Game *g,float t,float *x,float *y) {
     float a=g->angle*0.01745329252f;
@@ -202,6 +257,14 @@ void game_preview(const Game *g,float t,float *x,float *y) {
 static void tick(Game *g) {
     Physics *p=static_cast<Physics*>(g->physics); const float dt=1.0f/120;
     p->age+=dt;p->damage_contact_count=0;p->world.Step(dt,8,3);
+    if(p->bird_type==BIRD_BLACK_TYPE && p->bird && !p->detonated){
+        if(p->bird_collided){if(p->bomb_fuse<0)p->bomb_fuse=0;p->bomb_fuse+=dt;}
+        if(p->bomb_requested || p->bomb_fuse>=BLACK_FUSE_SECONDS)detonate(g);
+    }
+    if(p->egg && p->egg_collided){
+        radial_blast(g,p->egg->GetPosition(),EGG_BLAST_RADIUS,EGG_BLAST_FORCE,EGG_DAMAGE_RADIUS,EGG_BLAST_DAMAGE);
+        p->world.DestroyBody(p->egg);p->egg=NULL;p->egg_collided=false;g->flight_time=0;
+    }
     for(int i=0;i<p->level->count;i++) {
         b2Body *body=p->bodies[i];if(!body)continue;
         const CampaignObject &o=p->level->objects[i];
@@ -209,7 +272,7 @@ static void tick(Game *g) {
         p->impact[i]=0;
         if(o.kind!=3 && (p->health[i]<=0 || body->GetPosition().y>p->level->ground_y+25)) {
             p->world.DestroyBody(body);p->bodies[i]=NULL;
-            if(o.kind==4){g->pig_alive--;g->score+=5000;}else {g->block_alive--;g->score+=500;}
+            if(o.kind==4){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else {g->block_alive--;g->score+=500;g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
         }
     }
     if(g->pig_alive==0) {
@@ -221,21 +284,24 @@ static void tick(Game *g) {
     }
     if(g->state!=FLYING)return;
     g->flight_time+=dt;
-    b2Vec2 pos=p->bird->GetPosition(),vel=p->bird->GetLinearVelocity();
+    b2Vec2 pos=p->bird?p->bird->GetPosition():p->blast_position,vel=p->bird?p->bird->GetLinearVelocity():b2Vec2(0,0);
     g->x=g->view_x+pos.x*g->view_scale;g->y=g->view_y+pos.y*g->view_scale;
     g->vx=vel.x*g->view_scale;g->vy=vel.y*g->view_scale;
     bool moving=false;
     for(int i=0;i<game_projectile_count(g);i++){
-        b2Body *body=i==0?p->bird:p->split[i-1];b2Vec2 position=body->GetPosition();
+        b2Body *body=i==0?p->bird:p->egg?p->egg:p->split[i-1];b2Vec2 position=body->GetPosition();
         if(body->GetLinearVelocity().LengthSquared()>=0.3f && position.x<=fmaxf(65,(660-g->view_x)/g->view_scale) && position.x>=fminf(-40,(-20-g->view_x)/g->view_scale) && position.y<=p->level->ground_y+25)moving=true;
     }
     if(moving)g->cooldown=0;else g->cooldown+=dt;
-    if(g->cooldown>2.5f || g->flight_time>10) {
+    if(g->cooldown>2.5f || (g->flight_time>10 && !(p->bird_type==BIRD_BLACK_TYPE && p->bird_collided && !p->detonated))) {
+        if(p->egg){p->world.DestroyBody(p->egg);p->egg=NULL;p->egg_collided=false;}
         if(g->birds>0){g->state=AIMING;g->x=g->sling_x;g->y=g->sling_y;}
         else g->state=LOST;
     }
 }
 void game_update(Game *g,float seconds) {
+    g->events=0;
+    Physics *p=static_cast<Physics*>(g->physics);p->blast_life=fmaxf(0,p->blast_life-clamp(seconds,0,0.1f));
     if(g->state==WON || g->state==LOST)return;
     g->accumulator+=clamp(seconds,0,0.1f);
     while(g->accumulator+0.000001f>=1.0f/120 && g->state!=WON && g->state!=LOST) {

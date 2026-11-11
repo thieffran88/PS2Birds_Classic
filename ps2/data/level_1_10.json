@@ -773,8 +773,42 @@
       "height": 1.0,
       "kind": 5,
       "shape": "box"
+    },
+    {
+      "definition": "LightBlock3",
+      "strength": 40.0,
+      "z_order": 2.0,
+      "y": -23.9999,
+      "x": 0.283978,
+      "name": "LightBlock3_5",
+      "baseDefinition": "",
+      "angle": 4.7131,
+      "density": 0.75,
+      "defence": 2.0,
+      "width": 2.1,
+      "height": 2.05,
+      "kind": 2,
+      "shape": "box"
+    },
+    {
+      "definition": "StoneBlock6",
+      "strength": 120.0,
+      "z_order": 2.0,
+      "y": -17.6249,
+      "x": 12.5575,
+      "name": "StoneBlock6_6",
+      "baseDefinition": "",
+      "angle": 1.57096,
+      "density": 4.0,
+      "defence": 15.0,
+      "width": 8.4,
+      "height": 1.0,
+      "kind": 5,
+      "shape": "box"
     }
   ],
   "title": "POACHED EGGS 1-10",
-  "stage_script": "Level8"
+  "stage_script": "Level8",
+  "episode_page": 1,
+  "stage_number": 10
 }

@@ -7,9 +7,9 @@
   "physics_to_world": 20.0,
   "ground_y": 5.0,
   "view": {
-    "scale": 5.777007995284263,
-    "x": 97.308313509259,
-    "y": 339.1149600235787
+    "scale": 5.774187062298041,
+    "x": 97.27642323387714,
+    "y": 339.1290646885098
   },
   "sling_x": 3.1268000000000002,
   "sling_y": 0.1776275,
@@ -723,8 +723,74 @@
       "height": 1.0,
       "kind": 1,
       "shape": "box"
+    },
+    {
+      "definition": "LightBlock1",
+      "strength": 13.0,
+      "z_order": 2.0,
+      "y": -11.7855,
+      "x": 85.8105,
+      "name": "LightBlock1_1",
+      "baseDefinition": "",
+      "angle": 0.00150483,
+      "density": 0.75,
+      "defence": 2.0,
+      "width": 1.05,
+      "height": 1.0,
+      "kind": 2,
+      "shape": "box"
+    },
+    {
+      "definition": "SmallPiglette",
+      "strength": 4.0,
+      "z_order": 4.0,
+      "y": -12.3025,
+      "x": 84.2287,
+      "name": "SmallPiglette_1",
+      "baseDefinition": "",
+      "angle": 0.035253,
+      "density": 2.0,
+      "defence": 1.0,
+      "width": 2.15,
+      "height": 2.15,
+      "kind": 4,
+      "shape": "circle"
+    },
+    {
+      "definition": "WoodBlock4",
+      "strength": 50.0,
+      "z_order": 2.0,
+      "y": -13.2317,
+      "x": 87.9494,
+      "name": "WoodBlock4_6",
+      "baseDefinition": "",
+      "angle": 1.57078,
+      "density": 1.5,
+      "defence": 2.5,
+      "width": 4.15,
+      "height": 1.0,
+      "kind": 1,
+      "shape": "box"
+    },
+    {
+      "definition": "LightBlock5",
+      "strength": 53.0,
+      "z_order": 2.0,
+      "y": -17.316,
+      "x": 69.1347,
+      "name": "LightBlock5_1",
+      "baseDefinition": "",
+      "angle": 6.28046,
+      "density": 0.75,
+      "defence": 2.0,
+      "width": 4.15,
+      "height": 2.05,
+      "kind": 2,
+      "shape": "box"
     }
   ],
   "title": "POACHED EGGS 1-9",
-  "stage_script": "Level7"
+  "stage_script": "Level7",
+  "episode_page": 1,
+  "stage_number": 9
 }

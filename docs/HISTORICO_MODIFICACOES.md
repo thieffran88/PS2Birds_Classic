@@ -1,4 +1,178 @@
-# Histórico consolidado — versões anteriores à 0.9.0
+# Modificações completas — PS2Birds Classic 0.14.0
+
+- Expandida a campanha de 34 para 35 fases, adicionando Poached Eggs 2-14 (Level26), na ordem oficial de episodes.lua.
+- Incluída a fonte Lua recuperada da fase, com 100 objetos de cenário, quatro porcos e quatro pássaros brancos. A tabela world completa tem 105 entradas contando pássaros e chão.
+- Atualizados perfil, JSON, enquadramento e tabela C++ da campanha; mantidas as posições das fases anteriores.
+- Adicionado BasicBird2 como quinto pássaro de fila suportado: o branco, apesar do nome BIRD_GREEN de seus sprites no APK.
+- Implementados raio 1,3, densidade 4,5, atrito 0,3 e restituição 0,23 do branco, consultados nas definições recuperadas.
+- Implementada habilidade com X, uma vez por lançamento e antes de contato: criação de um ovo abaixo do pássaro e recuo do pássaro para cima.
+- O ovo não consome outro pássaro da fila. Pássaro e ovo são acompanhados como dois projéteis simultâneos.
+- Aplicadas aproximações explícitas de queda/recuo: ovo sem velocidade horizontal inicial, queda de 35 unidades/s, recuo vertical de -25 unidades/s e velocidade horizontal do pássaro multiplicada por 1,2.
+- Adicionado EggGranade como projétil circular, com densidade 3 e restituição 0,23 recuperadas; raio 1,125 inferido da largura de 45 pixels do sprite e escala de 20 pixels/unidade, pois a definição não traz raio explícito.
+- Separadas as colisões entre o pássaro branco e seu próprio ovo por filtro de grupo.
+- Implementada explosão do ovo no primeiro impacto com corpo ou chão. O callback apenas registra o impacto; aplicação de dano e remoção do corpo ocorrem depois do passo do Box2D.
+- Usados os parâmetros da definição EggGranade: raio de impulso 10, força-base 10000, raio de dano 8 e dano-base 400. Não foram confundidos com os campos de explosão diferentes da definição BasicBird2.
+- Compartilhado o cálculo radial entre ovo e preto, preservando os parâmetros próprios de cada um. Mantidas queda linear pela distância ao centro, força convertida em impulso por divisão por 120 e ausência de oclusão, aproximações do port.
+- Corpos estáticos permanecem imunes ao dano/impulso de explosão. Corpos dinâmicos atingidos passam a participar da cadeia de dano.
+- O ovo é removido após explodir; o branco continua em voo. Removidos ovos pendentes ao reiniciar, trocar mundo, lançar o próximo pássaro ou expirar o turno.
+- Atualizadas APIs de contagem/consulta de projéteis para identificar o ovo e informar uso da habilidade; efeito visual de explosão passa a consultar o raio específico da explosão atual.
+- Adicionados sprites originais do branco parado, voando e após contato/uso da habilidade, além do ovo.
+- Adicionados ExtraMelon, ExtraTire01 e ExtraTire03, com sprites originais, propriedades importadas e colisões circulares simplificadas. Pneus usam discos sólidos e o modelo de materiais existente, sem reprodução da forma interna/elasticidade original.
+- Ampliado o extrator de sprites para ler também folhas PNG, usadas pelo sprite DROPPABLE_EGG; os sprites anteriores continuam extraídos dos streams RGBA4444.
+- Adicionados recorte validado de PNG e conversão de alfa de 0–255 para 0–128 do GS, com rejeição de orientação/extrusão não suportadas.
+- Atlas ampliado de 125 para 132 sprites, mantendo três páginas: 512×512, 512×512 e 1024×128. Uso de texturas ampliado em 256 KiB, de 2,25 para 2,5 MiB, dentro do limite configurado.
+- Regenerados atlas, manifesto, identificadores e ícone de salvamento; atualizadas métricas dos objetos novos.
+- Adicionada dependência Pillow, limitada à extração/testes de PNG, com arquivo de requisitos e instruções. Compilar ELF/ISO com assets já convertidos não exige Pillow; executar a suíte de conversão exige.
+- Adicionados sons originais do lançamento do branco e da habilidade: bird 05 flying e special group, arquivo associado ao alias special_egg no APK.
+- Banco ampliado de 18 para 20 efeitos, totalizando 385712 bytes de ADPCM SPU2 mono 22050 Hz, abaixo do orçamento de 1 MiB.
+- Efeitos organizados em dez canais em vez de nove; explosões usam canal próprio, separado de soltar o ovo, permitindo os dois sons simultâneos. Mantidos controle R3 e funcionamento sem áudio.
+- Atualizadas renderização do branco/ovo, escolha do som de lançamento e instrução contextual X: SOLTAR OVO.
+- Adicionados trechos originais das definições BasicBird2/EggGranade e parâmetros documentados, distinguindo valores recuperados e aproximações.
+- Criado teste isolado do branco: ovo único, fila preservada, queda/recuo, explosão no chão e em corpo dinâmico, dano/queda por distância, imunidade estática, evento único, sobrevivência do branco, próximo pássaro, recusa após contato, descarte no timeout e 30 trocas de mundo.
+- Teste do branco passou também com AddressSanitizer e UndefinedBehaviorSanitizer; detecção de vazamentos desativada pela limitação do LeakSanitizer sob ptrace no ambiente.
+- Expandido teste de campanha para 35 fases; fase 2-14 concluída com três ovos no roteiro 30°/350/0,4 s, 30°/350/0,7 s e 30°/420/0,9 s, somando 37500 pontos nesse teste.
+- Ampliada a janela dos roteiros auxiliares de simulação para acompanhar turnos com o ovo e o pássaro em voo. Mantida a regressão das 34 fases anteriores, incluindo o preto após compartilhar a função radial.
+- Atualizados testes de atlas para 132 sprites, PNG/alfa/limites, áudio para 20 efeitos/canais separados e procedência da ordem da segunda página até 2-14.
+- Mantido formato de save v3 de 288 bytes e capacidade para 64 fases. Acrescentados testes de expansão de campanha de 34 para 35, desbloqueio condicionado à vitória anterior e gravação/recarga do novo recorde final.
+- Atualizadas identificação 0.14.0, instruções, histórico e validação. Gerados ELF, ISO e ZIP de fontes, com verificação de integridade e identidade do ELF dentro da ISO.
+- Verificadas compilação de ELF/ISO e toda a suíte de testes a partir do ZIP extraído em pasta nova, sem depender do diretório original.
+- Substituídos os três artefatos anteriores e os relatórios substituídos após conferência da publicação. Mantidos APK, decompilação original e estudo de compatibilidade, relevantes ao projeto; nenhum outro arquivo avulso irrelevante foi identificado na pasta.
+
+O port continua parcial: faltam as fases 2-15 a 2-21, outras páginas/episódios, demais habilidades/objetos, música, refinamentos de física/cenários e validação em PS2 físico. O branco está funcional nesta versão, com aproximações documentadas de trajetória e explosão.
+
+
+---
+
+# Modificações completas — PS2Birds Classic 0.13.0
+
+- Expandida a campanha de 32 para 34 fases, adicionando Poached Eggs 2-12 e 2-13 após as fases já disponíveis.
+- Integrada a fase 2-12 (Level35), com 45 objetos de cenário, dois porcos e seis pássaros: azul/azul/amarelo/amarelo/amarelo/preto.
+- Integrada a fase 2-13 (Level20), com 55 objetos de cenário, quatro porcos e quatro pássaros: amarelo/preto/preto/preto.
+- Incluídas as duas fontes Lua recuperadas do APK, sem execução dos scripts; mantidas as propriedades materiais e a ordem de fila importadas.
+- Atualizado o perfil da campanha e gerados os JSON, enquadramentos e tabelas C++ das 34 fases, mantendo a posição das 32 anteriores.
+- Ampliada a capacidade de campanha e de recordes em memória de 32 para 64 posições.
+- Ampliado o limite do gerador de campanha para até 64 fases únicas, preparando a continuação do Classic sem novo limite imediato de 32 fases.
+- Criado o formato de save v3: 288 bytes, com até 64 recordes, mesma assinatura/identificador, sequência de gravação e CRC32.
+- Preservada a leitura dos formatos v1 (96 bytes/16 posições) e v2 (160 bytes/32 posições), com validação específica de tamanho e capacidade de cada versão.
+- Mantida a migração de ordem das fases antigas v1; saves v2 preservam as posições oficiais já usadas nas versões 0.9.0 a 0.12.0.
+- Novas gravações usam v3. Recordes e desbloqueios anteriores são mesclados; vencer a última fase de uma campanha antiga libera somente a primeira fase adicionada.
+- Mantida a gravação alternada: na primeira migração v2 → v3, o novo registro é escrito e relido no outro slot, preservando a cópia v2 anterior.
+- Mantida a escolha do registro válido mais recente entre tamanhos/formatações diferentes; se a nova cópia estiver truncada, a cópia v2 válida pode ser recuperada.
+- Mantida a proteção contra sobrescrever cabeçalhos reconhecíveis de formato/campanha mais novos, mesmo quando o outro slot é legível.
+- Ampliados buffers de leitura, gravação e verificação para 320 bytes, calculados a partir do formato atual e alinhados a 64 bytes, acomodando leitura de 289 bytes sem ultrapassar a memória reservada.
+- Acrescentada verificação em compilação de que as capacidades de recordes do jogo e do codec permanecem iguais.
+- Atualizados os auxiliares de busca de trajetórias e testes de pássaros para usar a quantidade real de fases, sem desbloqueio fixo em 32.
+- Expandido o teste sequencial da campanha para 34 fases, com contagens, bloqueios, vitórias, desbloqueios, recordes e reinício.
+- Registradas trajetórias determinísticas das fases novas: 2-12 com 21000 pontos e 2-13 com 28000 pontos nos roteiros de teste; não são metas de estrelas do original.
+- Acrescentadas as filas de 2-12/2-13 à regressão de habilidades mistas, verificando troca de tipo, pavio limpo, uso único, divisão azul e explosão preta.
+- Atualizada a conferência de procedência para os treze primeiros nomes da segunda página oficial de episodes.lua.
+- Acrescentado codificador independente de save v2 aos testes, verificando sua leitura sem depender do novo codificador de produção.
+- Acrescentados testes de migração de save v2 com 32 fases para 34, preservação dos recordes inicial/final, desbloqueio da fase 33, gravação e recarga da fase 34 e preservação da cópia anterior.
+- Acrescentados testes de corrupção de cada byte de um registro v2, truncamento do novo slot v3, retorno à cópia v2 e recusa de desbloquear fase nova sem vitória anterior.
+- Testado o último índice do formato v3 (64º recorde) e rejeitada contagem 65; mantidos testes de CRC, limites, slots, cartão cheio, saves inválidos e futuros.
+- Executados testes de save com AddressSanitizer e UndefinedBehaviorSanitizer; detecção de vazamentos desativada porque o ambiente sob ptrace não oferece suporte ao LeakSanitizer.
+- Verificada migração no PCSX2 usando cópia separada do cartão de teste: registro v2 de 160 bytes convertido em v3 de 288, CRC válido, recordes/desbloqueios preservados e cópia v2 mantida no outro slot. A ISO foi reiniciada e carregou o registro v3.
+- Conferidas visualmente as duas fases novas com ELF local de teste e desbloqueio temporário, excluído dos artefatos publicados.
+- Mantidos os 125 sprites, três páginas de atlas (2359296 bytes), 18 efeitos sonoros (360816 bytes), quatro pássaros e temporização por relógio do PS2SDK.
+- Atualizadas identificação 0.13.0, instruções, histórico e relatório de validação; gerados ELF, ISO e ZIP das fontes.
+- Verificados integridade do ZIP, identidade do ELF dentro da ISO e build/testes a partir das fontes extraídas em pasta separada.
+- Substituídos os três artefatos anteriores e os dois relatórios substituídos após conferência da publicação. Mantidos APK, decompilação e estudo de compatibilidade, que continuam relevantes ao projeto; nenhum outro arquivo avulso irrelevante foi identificado na pasta.
+
+Esta versão contém 34 fases jogáveis, não 64: 64 é a capacidade preparada no jogo/save. O port continua parcial. Faltam as fases 2-14 a 2-21, outras páginas/episódios, demais pássaros e habilidades, música, maior fidelidade de cenário/física e testes em PS2 físico.
+
+
+---
+
+# Modificações completas — PS2Birds Classic 0.12.0
+
+- Expandida a campanha de 27 para 32 fases, mantendo as 21 fases da primeira página e adicionando Poached Eggs 2-7 a 2-11.
+- Integrada a fase 2-7 (Level31): 44 objetos de cenário, três porcos e quatro pássaros, na fila amarelo/amarelo/preto/azul.
+- Integrada a fase 2-8 (Level21): 43 objetos, cinco porcos e três pássaros, na fila amarelo/vermelho/preto.
+- Integrada a fase 2-9 (Level41): 41 objetos, um porco e quatro pássaros, na fila preto/azul/amarelo/preto.
+- Integrada a fase 2-10 (Level76): 29 objetos, três porcos e três pássaros, na fila amarelo/vermelho/vermelho.
+- Integrada a fase 2-11 (Level38): 94 objetos, três porcos e quatro pássaros pretos.
+- Recuperadas do APK e incluídas nas fontes as cinco tabelas Lua decompiladas, sem execução de scripts do jogo.
+- Atualizado o perfil da campanha com o próximo trecho da ordem oficial de episodes.lua; mantidas as posições das fases já existentes.
+- Gerados JSON, enquadramentos e tabelas C++ das 32 fases a partir dos dados recuperados. A seleção existente passa a exibir os novos títulos e a página final de dois itens.
+- Adicionado ExtraStrawberry (morango), com sprite original, corpo circular simplificado, propriedades materiais importadas e categoria de pontuação dos objetos extras (500 pontos).
+- Adicionado LightBlock7 circular, com geometria simplificada e propriedades importadas do material de vidro.
+- Corrigida WoodBlock7 de caixa para círculo, conforme blocks.lua; isso corrige a colisão da peça na fase 1-3 (Level53). Preservados os recordes anteriores.
+- Incluídos trechos recuperados das definições de WoodBlock7, LightBlock7 e ExtraStrawberry e teste que confere seus tipos circulares contra o perfil e os cenários gerados.
+- Adicionados os quatro sprites originais dos estados de dano de LightBlock7 e o sprite original do morango.
+- Atlas ampliado de 120 para 125 sprites; mantidas três páginas, 2359296 bytes (2,25 MiB) e o limite de 2,5 MiB. Não houve aumento da memória gráfica das texturas.
+- Regenerados o atlas, manifesto, identificadores de sprites e ícone de salvamento; atualizadas métricas dos dois objetos novos.
+- Mantidos os quatro pássaros e suas habilidades, os 18 efeitos sonoros e o funcionamento sem áudio quando a inicialização não estiver disponível.
+- Mantido o formato de save v2, de 160 bytes; a campanha agora ocupa suas 32 posições disponíveis, sem alterar o layout dos arquivos anteriores.
+- Acrescentado teste de migração de save com 27 fases: recorde da 2-6 preservado, fase 2-7 desbloqueada somente quando a anterior foi vencida.
+- Acrescentado teste de gravação e recarga da 32ª fase, verificando desbloqueio e recorde no último índice do formato.
+- Ajustado teste de preservação de cabeçalho que declara campanha futura com 33 fases; mantidos os testes de formatos futuros, CRC, cópias alternadas e migração antiga.
+- Expandido o teste de campanha para verificar contagens, bloqueios, vitórias, desbloqueio sequencial e recordes em todas as 32 fases.
+- Encontrados e registrados roteiros determinísticos de conclusão das cinco fases novas, com pontuações 21000/39000/41500/19500/42000.
+- Acrescentada regressão de filas mistas em três fases novas: tipo do pássaro, limpeza do pavio, habilidade única, explosão do preto, três projéteis do azul e recusa de habilidade no vermelho.
+- Atualizados os testes de atlas para 125 sprites e de procedência para os onze primeiros nomes da segunda página oficial.
+- Corrigido o avanço de tempo da partida: usado o relógio do PS2SDK em vez de assumir 59,94 quadros desenhados por segundo. Cenas a 30 FPS deixam de avançar a simulação à metade da velocidade somente por essa suposição.
+- Mantida integração física em passos fixos de 120 Hz e limitado o tempo recuperado por quadro a 100 ms para conter atrasos extremos. O relógio é atualizado também no menu e na pausa para evitar recuperar todo o tempo pausado.
+- Ajustada a velocidade de mira por segundo, preservando aproximadamente a sensibilidade anterior a 60 FPS e evitando que diminua pela metade a 30 FPS.
+- Acrescentada comparação de posições do projétil e dos 94 objetos da fase 2-11 após o mesmo tempo simulado com atualizações a 30/60/120 Hz.
+- Atualizadas a identificação de versão, documentação de uso, documentação do gerador e relatório de validação.
+- Gerados ELF, ISO e ZIP de fontes 0.12.0; conferidos integridade do ZIP, ELF incorporado na ISO e compilação independente do pacote de fontes.
+- Substituídos os três artefatos e os relatórios da versão anterior após conferência da publicação. Preservados APK, decompilação e estudo de compatibilidade, relevantes ao desenvolvimento; não havia outro arquivo avulso sem relevância na pasta.
+
+O port continua parcial. Faltam as fases 2-12 a 2-21, outras páginas e episódios, demais pássaros/habilidades, música, cenários/colisões mais fiéis e validação em PS2 físico. O morango e os novos vidros usam as mesmas aproximações de física do port. A expansão além de 32 fases exigirá ampliar o formato de save com migração.
+
+
+---
+
+# Modificações completas — PS2Birds Classic 0.11.0
+
+- Expandida a campanha de 21 para 27 fases: primeira página completa e fases 2-1 a 2-6 de Poached Eggs.
+- Adicionadas Level52, Level34, Level42, Level24, Level88 e Level36, na ordem de episodes.lua do APK.
+- Incluídos os seis arquivos Lua recuperados e um trecho independente da segunda página para conferir a procedência e a ordem.
+- Perfil da campanha agora declara páginas adicionais com numeração e títulos próprios, mantendo as posições anteriores dos saves.
+- Gerador valida nomes únicos e capacidade máxima de 32 fases; gera os dados das duas páginas sem apagar os JSON da segunda página.
+- Substituído o leitor parcial de objetos por um leitor seguro de atribuições, tabelas, aliases de registradores e chaves calculadas; scripts Lua continuam sem execução.
+- Corrigida a omissão de objetos armazenados em registradores diferentes de L1_1.
+- Reimportadas todas as 27 fases. Corrigidos cenários antigos: Level7 agora 45 objetos; Level8 45; Level9 50; Level17 47; Level16 49; Level44 80.
+- Recuperadas também filas de pássaros omitidas: Level9 tem quatro pássaros e Level44 oito. As contagens referem-se aos dados do APK, não a uma expansão inventada dos cenários.
+- Adicionado o pássaro preto/Bomb, com fila, lançamento e representação durante voo e pavio.
+- Consultados no APK raio 1, densidade 6, restituição 0,03 e fator de dano direto contra pedra 4 do preto.
+- Implementada detonação manual com X, antes ou depois do contato, uma vez por pássaro.
+- Implementado pavio automático de aproximadamente um segundo após o primeiro contato.
+- Agendada a explosão para fora da etapa interna de contatos do Box2D, evitando destruir corpos durante callbacks.
+- Implementados impulso radial até 15 unidades e dano até cinco unidades, com parâmetros-base 40000 e 300 recuperados do APK.
+- Aplicadas aproximações explícitas do port: força convertida em impulso dividindo por 120, queda linear pela distância ao centro, sem oclusão e pavio de um segundo; não representam uma reprodução integral do motor original.
+- Corpos estáticos ficam imunes à explosão; corpos dinâmicos atingidos passam a participar da cadeia de dano.
+- Removido o projétil após explodir, preservando a sequência de pássaros e a avaliação de vitória/derrota.
+- Evitado encerrar o turno por tempo enquanto o pavio está ativo; reiniciar ou trocar fase limpa o estado da explosão.
+- Adicionado evento próprio de explosão e API de consulta do efeito e do pavio.
+- Adicionados anel e fumaça temporários da explosão, com recorte na área de jogo.
+- Adicionados sprites originais do preto, suas três etapas de pavio, madeira pequena, bola de praia e pato de borracha.
+- Bola e pato usam corpos circulares simplificados e a categoria de objetos extras do port.
+- Atlas ampliado de 109 para 120 sprites, mantendo três páginas e 2359296 bytes de texturas (2,25 MiB), dentro do orçamento anterior.
+- Regenerado o ícone do save junto aos dados gráficos.
+- Adicionados sons originais de lançamento do preto e explosão.
+- Corrigido o som da divisão do azul: o alias special_group aponta para o arquivo special egg, conforme audio.lua; o arquivo special group pertence a outra habilidade.
+- Banco ampliado de 16 para 18 efeitos, totalizando 360816 bytes, dentro do limite de 1 MiB de SPU2.
+- Mantidos nove canais por categoria, controle R3, carregamento único e funcionamento sem áudio quando indisponível.
+- Menu agora permite esquerda/direita para saltar páginas de três itens, preservando a linha e circulando nas extremidades.
+- Ajustados rodapé, instruções, títulos 2-N e mensagem de detonação do preto.
+- Mantido o formato v2 de 160 bytes e capacidade de 32 fases; nenhum formato novo é necessário para 27 fases.
+- Acrescentados testes de expansão de saves com 21 fases, incluindo desbloqueio da 22ª quando a anterior já estava concluída.
+- Atualizados testes de campanha com contagens completas e trajetórias que concluem todas as 27 fases sequencialmente.
+- Acrescentado teste isolado de explosão: dano, queda por distância, impulso, imunidade estática, evento único, pavio, detonação após contato, próximo pássaro e 20 trocas de mundo.
+- Acrescentados testes do importador para aliases, chaves calculadas, sete tabelas completas e rejeição de chamadas/código executável.
+- Atualizados testes do atlas e das 18 amostras ADPCM, incluindo hashes, cabeçalhos, sinal decodificado e orçamento de memória.
+- Atualizados parâmetros de procedência, README e relatório de validação; mantidos documentos antigos como histórico no código-fonte.
+- Validada a compilação e toda a suíte novamente a partir do ZIP extraído em diretório novo.
+- Gerados ELF, ISO e ZIP de fontes 0.11.0, com comparação do ELF incorporado à ISO e conferência de integridade do ZIP.
+- Publicação substitui os três artefatos anteriores e os dois relatórios consolidados; preserva APK, decompilação original e estudo de compatibilidade por serem relevantes ao projeto.
+
+O port continua parcial: faltam outras fases e episódios, demais pássaros/habilidades, música, cenários mais fiéis e validação em PS2 físico. Nesta versão, os recordes antigos são preservados mesmo quando o cenário correspondente foi corrigido.
+
+
+---
+
+# Histórico consolidado — versões anteriores à 0.10.0
 
 Os relatórios soltos do Drive foram reunidos aqui. Os textos descrevem o estado de cada versão na época, não o estado atual.
 
@@ -312,3 +486,47 @@ Ainda não é o Classic completo: faltam as demais fases/episódios, outros pás
 - Substituídos os três artefatos 0.7.0; preservados APK original, decompilação e estudo de compatibilidade, ainda relevantes. Nenhum material da pasta Ferramentas é excluído.
 
 Continua um protótipo parcial do Classic. Faltam as demais fases/episódios, outros pássaros/habilidades, áudio, maior fidelidade de colisões/terreno/pontuação e validação em console físico.
+
+
+---
+
+# Modificações completas — 0.9.0 sobre 0.8.0
+
+- Recuperada de `assets/data/scripts/episodes.lua` a ordem oficial da primeira página de Poached Eggs; o script foi decompilado, lido e nunca executado.
+- Corrigida a numeração das fases: as versões 0.2.0 a 0.8.0 assumiam que 1-N era LevelN, mas o APK declara Level1, Level57, Level53, Level3, Level6, Level2, Level4, Level5, Level7, Level8, Level9, Level13, Level10, Level39, Level12, Level15, Level17, Level14, Level16, Level23 e Level44.
+- Criado `profiles/classic_episode.json` com a lista ordenada, pasta de origem e nota de procedência; `tools/build_campaign.py` passou a gerar a campanha a partir dele e grava o nome do script em cada descritor.
+- Recuperados e decompilados 13 novos scripts de fase (Level57, Level53, Level9, Level13, Level10, Level39, Level12, Level15, Level17, Level14, Level16, Level23 e Level44) com o unluac do ZIP de referência; a saída para Level8.lua foi comparada com a guardada e é idêntica.
+- Campanha ampliada de 8 para 21 fases jogáveis, cobrindo toda a primeira página do episódio.
+- Preservados posições, rotações, materiais e filas originais de pássaros das 21 cenas; as colisões continuam caixas/círculos aproximados.
+- Adicionado o pássaro amarelo (YellowBird): raio 0,8, densidade 6, atrito 0,3 e restituição 0,23 consultados em blocks.lua.
+- Implementada a aceleração do amarelo pelo segundo toque em X durante o voo, antes da primeira colisão: velocidade multiplicada por 1,8 (aproximação do port; a constante nativa não foi recuperada), direção e posição preservadas, uma ativação por lançamento.
+- Aplicado fator 2,4 de dano direto do amarelo contra madeira, consultado em YellowBirdDamageFactors; mantido o fator 2,9 do azul contra vidro.
+- Adicionados porcos grande (raio 2,325, resistência 20) e com capacete (raio 1,95, resistência 15, defesa 8) com sprites originais normal, piscada e dano.
+- Adicionados StoneBlock1, StoneBlock2 e WoodBlock7 com quatro estados de dano cada.
+- Adicionado ExtraBlockSmiley como objeto destrutível circular, com os dois estados originais (sorriso e dano).
+- Adicionadas a plataforma StaticBlock_03 (máscara original de 642×33, cor provisória) e a Estrade01 com sprite original.
+- Ampliado o adaptador de importação com o tipo 2 de pássaro e as nove definições novas; definições desconhecidas continuam rejeitadas.
+- Ampliada a extração de 85 para 109 sprites originais, agora também das folhas INGAME_PIGS_NEW_SHEET_0_1 e dos quadros amarelos.
+- Empacotador de atlas passou a aceitar páginas de 1024 de largura apenas quando um sprite excede 510 pixels; resultado: três páginas (512×512, 512×512 e 1024×64), 2,25 MiB de RGBA32 incorporados no ELF.
+- Orçamento de texturas elevado de 1,5 MiB para 2,5 MiB; o frame buffer duplo passou de 32 para 16 bits com dithering do GS, liberando a VRAM necessária.
+- Renderizador escolhe a página e os quadros corretos para amarelo, porcos grandes/capacete, sorridente, Estrade01 e StaticBlock_03; largura de página deixou de ser constante global.
+- Aviso contextual de X passou a distinguir "dividir azul" de "acelerar amarelo" pelo pássaro em voo, não pelo próximo da fila.
+- Corrigido o lançamento em fases cujo estilingue fica sobre uma rampa aproximada por caixa (StaticBlock_04 girado em Level15 e Level44): as plataformas estáticas que o pássaro já sobrepõe ao nascer são registradas e seus contatos ficam desativados até a separação, evitando colisão falsa, perda de velocidade e habilidade indisponível; antes disso a 1-21 não tinha vitória possível no buscador.
+- Capacidade de campanha elevada de 16 para 32 fases nos descritores, no núcleo e nos recordes.
+- Formato de save versão 2: 160 bytes, até 32 fases, mesma assinatura, identificador e CRC32; o jogo lê as versões 1 e 2 e grava sempre a versão 2.
+- Migração de saves 0.6.0–0.8.0: recordes das antigas fases 1-1…1-8 movidos para as posições 1, 6, 4, 7, 8, 5, 9 e 10 da nova ordem; cada fase antiga vencida continua liberando a seguinte na nova ordem.
+- Saves que declaram mais fases do que o executável suporta continuam preservados com aviso.
+- Buffers de leitura do Memory Card ampliados para acomodar os dois tamanhos de arquivo; a verificação pós-gravação exige exatamente 160 bytes.
+- Gerador de ISO ganhou alternativa em Python puro (pycdlib) quando genisoimage/mkisofs não existem; SYSTEM.CNF e nome do ELF inalterados.
+- Adicionado `tools/py7z.py`, substituto do 7-Zip baseado em py7zr para os streams de sprites, deixando a reprodução da extração sem binário externo.
+- Teste de campanha reescrito para as 21 fases em ordem de episódio: scripts de tiro encontrados por um buscador nativo, contagens de objetos/porcos/blocos/pássaros, bloqueios, recordes, bônus único, reinício, tiros que erram o cenário e 50 transições.
+- Adicionado teste do amarelo: fila, aceleração preserva posição e direção, ativação única, indisponível após contato, vermelho rejeitado, azul continua dividindo, 30 trocas de mundo.
+- Teste do azul ajustado para a nova posição de Level8 (fase 1-10).
+- Teste de save reescrito: layouts v1 e v2, corrupção byte a byte dos 160 bytes, migração das três gerações de saves antigos, saves mais novos preservados.
+- Teste de sprites passou a validar 109 quadros, larguras de página de 512/1024 e o orçamento de VRAM registrado no manifesto.
+- Adicionados `ps2/tests/solver.cpp` e `solver2.cpp`, utilitários de host para localizar tiros vencedores; não entram no ELF.
+- Atualizados `ps2/data/classic_actor_parameters.json`, métricas de sprites, 21 JSON de fase, descritores compilados, ícone do save, README, dependências e versão exibida.
+- Incorporadas as modificações 0.8.0 ao histórico consolidado.
+- Substituídos os três artefatos 0.8.0 no Drive por ELF, ISO e código-fonte 0.9.0; removidos da pasta os artefatos 0.7.0, o relatório 0.7.0 já consolidado e a cópia duplicada do histórico. APK, decompilação e estudo de compatibilidade preservados; a pasta Ferramentas não é alterada.
+
+Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached Eggs e os demais episódios, pássaros preto/branco/grande, áudio, formas de colisão originais do cenário, pontuação fiel e validação em console físico.

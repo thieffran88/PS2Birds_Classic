@@ -8,7 +8,7 @@ struct Shot{float angle,power,special;};
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
 static void fire(Game *g,const Shot &s){
     g->angle=s.angle;g->power=s.power;game_launch(g);bool used=false;
-    for(int t=0;t<1320 && g->state==FLYING;t++){
+    for(int t=0;t<2400 && g->state==FLYING;t++){
         if(!used && s.special>=0 && g->flight_time>=s.special)used=game_special(g)!=0;
         game_update(g,1.0f/120);
     }
@@ -20,7 +20,7 @@ static double evaluate(Game *g){
     return damage*1e6+g->score;
 }
 int main(int argc,char **argv){
-    int level=argc>1?atoi(argv[1]):0;Game g;game_init(&g);g.unlocked=32;
+    int level=argc>1?atoi(argv[1]):0;Game g;game_init(&g);g.unlocked=game_level_count();
     game_load_level(&g,level);int birds=g.birds;std::vector<Shot> plan;
     const float specials[]={-1,0.3f,0.5f,0.7f,0.9f,1.2f};
     for(int k=0;k<birds;k++){

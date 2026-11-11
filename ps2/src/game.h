@@ -12,14 +12,32 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE } BirdType;
+typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE, BIRD_WHITE_TYPE, BIRD_EGG_TYPE } BirdType;
 /* Yellow boost: prototype approximation of the native BOOST specialty. */
 #define YELLOW_BOOST_FACTOR 1.8f
-typedef struct {float x,y,vx,vy,angle;int type,collided;} GameBird;
+/* White drop/recoil are port approximations; egg blast values are recovered. */
+#define WHITE_EGG_RADIUS 1.125f
+#define WHITE_DROP_SPEED 35.0f
+#define WHITE_RECOIL_SPEED 25.0f
+#define WHITE_RECOIL_X_FACTOR 1.2f
+#define EGG_BLAST_RADIUS 10.0f
+#define EGG_DAMAGE_RADIUS 8.0f
+#define EGG_BLAST_FORCE 10000.0f
+#define EGG_BLAST_DAMAGE 400.0f
+#define BLACK_BLAST_RADIUS 15.0f
+#define BLACK_DAMAGE_RADIUS 5.0f
+#define BLACK_BLAST_FORCE 40000.0f
+#define BLACK_BLAST_DAMAGE 300.0f
+#define BLACK_FUSE_SECONDS 1.0f
+#define BLACK_VISUAL_SECONDS 0.45f
+typedef struct {float x,y,vx,vy,angle,fuse;int type,collided,special_used;} GameBird;
+typedef struct {float x,y,radius,life;} GameBlast;
+enum {GAME_EVENT_PIG=1, GAME_EVENT_WOOD=2, GAME_EVENT_GLASS=4, GAME_EVENT_STONE=8, GAME_EVENT_EXTRA=16, GAME_EVENT_EXPLOSION=32};
 typedef enum { AIMING, FLYING, WON, LOST } GameState;
 typedef struct {
     float x,y,vx,vy,angle,power,flight_time,cooldown,accumulator;
     int birds,score,pig_alive,block_alive;
+    unsigned int events;
     int level,unlocked,highscores[MAX_CAMPAIGN_LEVELS];
     float view_x,view_y,view_scale,pixels,ground_y,gravity,sling_x,sling_y;
     GameState state;
@@ -36,6 +54,7 @@ void game_update(Game *game,float seconds);
 int game_special(Game *game);
 int game_special_available(const Game *game);
 int game_queue_type(const Game *game,int offset);
+int game_get_blast(const Game *game,GameBlast *blast);
 int game_projectile_count(const Game *game);
 int game_get_projectile(const Game *game,int index,GameBird *bird);
 void game_preview(const Game *game,float time,float *x,float *y);

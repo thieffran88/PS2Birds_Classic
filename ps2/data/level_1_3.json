@@ -226,7 +226,7 @@
       "width": 3.75,
       "height": 3.75,
       "kind": 1,
-      "shape": "box"
+      "shape": "circle"
     },
     {
       "definition": "StaticBlock_05",
@@ -310,5 +310,7 @@
     }
   ],
   "title": "POACHED EGGS 1-3",
-  "stage_script": "Level53"
+  "stage_script": "Level53",
+  "episode_page": 1,
+  "stage_number": 3
 }

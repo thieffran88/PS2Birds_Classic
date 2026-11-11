@@ -15,12 +15,14 @@
 extern unsigned char save_icon[],save_icon_sys[];
 static const char *slots[]={"/PS2BIRDS/progress_a.dat","/PS2BIRDS/progress_b.dat"};
 enum {IDLE,INFO,OPEN_READ,READ,CLOSE_READ,CHECK_CARD,CHECK_DIR,MKDIR,OPEN_WRITE,WRITE,FLUSH,CLOSE_WRITE,OPEN_VERIFY,VERIFY,CLOSE_VERIFY};
+typedef char save_capacity_matches_game[(MAX_CAMPAIGN_LEVELS==SAVE_LEVEL_CAPACITY)?1:-1];
+#define SAVE_IO_BUFFER_BYTES (((SAVE_BYTES+1+63)/64)*64)
 static struct {
     Game *game;int available,state,writing,pending,fd,read_slot,target,write_file,failed;
     int type,free_blocks,format,bytes[2],present[2],verify_size;
-    unsigned char records[2][256] __attribute__((aligned(64)));
-    unsigned char tx[256] __attribute__((aligned(64)));
-    unsigned char verify[256] __attribute__((aligned(64)));
+    unsigned char records[2][SAVE_IO_BUFFER_BYTES] __attribute__((aligned(64)));
+    unsigned char tx[SAVE_IO_BUFFER_BYTES] __attribute__((aligned(64)));
+    unsigned char verify[SAVE_IO_BUFFER_BYTES] __attribute__((aligned(64)));
     SaveRecord record;const char *status;
 } io;
 static sceMcTblGetDir entry __attribute__((aligned(64)));
@@ -76,6 +78,9 @@ static void open_write(void){
     io.failed=0;queue(mcOpen(0,0,path,FIO_O_WRONLY|FIO_O_CREAT|FIO_O_TRUNC),OPEN_WRITE);
 }
 static void finish_reads(void){
+    for(int i=0;i<2;i++)if(save_requires_newer(io.records[i],io.bytes[i],(unsigned)game_level_count())){
+        io.status="SAVE DE VERSAO MAIS NOVA";io.state=IDLE;io.pending=0;return;
+    }
     SaveRecord best;int slot=save_choose(io.records[0],io.bytes[0],io.records[1],io.bytes[1],&best);
     if(slot>=0 && best.count>(unsigned)game_level_count()){io.status="SAVE DE VERSAO MAIS NOVA";io.state=IDLE;io.pending=0;return;}
     if(slot>=0)merge(&best);

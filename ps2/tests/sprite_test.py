@@ -17,7 +17,7 @@ assert len(pixels)==sum(p['width']*p['height']*4 for p in meta['pages'])<=meta['
 assert all(p['width'] in (512,1024) and p['height']<=512 for p in meta['pages'])
 assert hashlib.sha256(pixels).hexdigest()==meta['atlas_sha256']
 assert max(pixels[3::4])==128 and min(pixels[3::4])==0
-assert len(meta['sprites'])==109
+assert len(meta['sprites'])==132
 occupied=set()
 for frame in meta['sprites']:
     page=meta['pages'][frame['page']]
@@ -31,3 +31,17 @@ for frame in meta['sprites']:
     assert hashlib.sha256(content).hexdigest()==frame['rgba_sha256']
     if frame['sprite']=='BIRD_RED':assert sum(content[i]>150 and content[i]>content[i+1]*2 and content[i+3]>0 for i in range(0,len(content),4))>100
 print(f'Sprites OK: endian/channels, alpha, crop, {len(meta["sprites"])} frames, {len(meta["pages"])} pages within {meta["vram_budget"]} bytes, atlas bounds, no overlap, per-frame hashes.')
+
+# PNG sheets use 8-bit alpha, unlike the existing RGBA4444 streams.
+import io
+from PIL import Image
+source=Image.new('RGBA',(2,1));source.putdata([(255,0,0,255),(0,255,0,128)])
+png=io.BytesIO();source.save(png,format='PNG')
+f={'frame':{'x':0,'y':0,'w':2,'h':1},'rotated':False,'extrude':[0,0,0,0]}
+assert module.decode_png_frame(png.getvalue(),f)==bytes([255,0,0,128,0,255,0,64])
+f['frame']['w']=3
+try:module.decode_png_frame(png.getvalue(),f)
+except ValueError:pass
+else:raise AssertionError('Out-of-bounds PNG frame accepted')
+assert next(s for s in meta['sprites'] if s['sprite']=='DROPPABLE_EGG')['source_format']=='PNG RGBA8'
+print('PNG sprites OK: original egg frame, crop bounds and 8-bit-to-GS alpha conversion.')

@@ -1,5 +1,6 @@
 #include <tamtypes.h>
 #include <kernel.h>
+#include <timer.h>
 #include <sifrpc.h>
 #include <loadfile.h>
 #include <libpad.h>
@@ -12,6 +13,7 @@
 #include "game.h"
 #include "sprites.h"
 #include "save_mc.h"
+#include "audio.h"
 
 static GSGLOBAL *gs;
 static char pad_buffer[256] __attribute__((aligned(64)));
@@ -65,9 +67,9 @@ static void disk(float x, float y, float radius, u64 c)
 
 static unsigned int visual_frame;
 static float render_scale,render_pixels,render_ground,render_sling_x,render_sling_y;
-static void bird(float x,float y,float radius,int type,float angle,int collided)
+static void bird(float x,float y,float radius,int type,float angle,int collided,float fuse,int special_used)
 {
-    int id=type==BIRD_BLUE_TYPE?(collided?SPR_BIRD_BLUE_COLLISION:SPR_BIRD_BLUE):type==BIRD_YELLOW_TYPE?(collided?SPR_BIRD_YELLOW_COLLISION:SPR_BIRD_YELLOW):SPR_BIRD_RED;
+    int id=type==BIRD_EGG_TYPE?SPR_DROPPABLE_EGG:type==BIRD_WHITE_TYPE?((collided || special_used)?SPR_BIRD_GREEN_COLLISION:fuse==-2?SPR_BIRD_GREEN:SPR_BIRD_GREEN_FLYING):type==BIRD_BLACK_TYPE?(fuse>=0?(fuse<0.33f?SPR_BIRD_GREY_1:fuse<0.66f?SPR_BIRD_GREY_2:SPR_BIRD_GREY_3):fuse==-2?SPR_BIRD_GREY:SPR_BIRD_GREY_FLYING):type==BIRD_BLUE_TYPE?(collided?SPR_BIRD_BLUE_COLLISION:SPR_BIRD_BLUE):type==BIRD_YELLOW_TYPE?(collided?SPR_BIRD_YELLOW_COLLISION:SPR_BIRD_YELLOW):SPR_BIRD_RED;
     sprite_draw(gs,id,x,y,(render_scale/render_pixels)*(radius/6.0f),angle);
 }
 static void pig(const GameObject *o)
@@ -86,6 +88,7 @@ static void pig(const GameObject *o)
 }
 typedef struct {const char *name;int frames[4];} BlockSprites;
 static const BlockSprites block_sprites[]={
+ {"WoodBlock1",{SPR_BLOCK_WOOD_1_1,SPR_BLOCK_WOOD_2_1,SPR_BLOCK_WOOD_3_1,SPR_BLOCK_WOOD_4_1}},
  {"WoodBlock2",{SPR_BLOCK_WOOD_1_2,SPR_BLOCK_WOOD_2_2,SPR_BLOCK_WOOD_3_2,SPR_BLOCK_WOOD_4_2}},
  {"WoodBlock3",{SPR_BLOCK_WOOD_1_3,SPR_BLOCK_WOOD_2_3,SPR_BLOCK_WOOD_3_3,SPR_BLOCK_WOOD_4_3}},
  {"WoodBlock4",{SPR_BLOCK_WOOD_1_4,SPR_BLOCK_WOOD_2_4,SPR_BLOCK_WOOD_3_4,SPR_BLOCK_WOOD_4_4}},
@@ -102,6 +105,7 @@ static const BlockSprites block_sprites[]={
  {"StoneBlock8",{SPR_BLOCK_ROCK_1_8,SPR_BLOCK_ROCK_2_8,SPR_BLOCK_ROCK_3_8,SPR_BLOCK_ROCK_4_8}},
  {"LightBlock4",{SPR_BLOCK_LIGHT_1_4,SPR_BLOCK_LIGHT_2_4,SPR_BLOCK_LIGHT_3_4,SPR_BLOCK_LIGHT_4_4}},
  {"LightBlock5",{SPR_BLOCK_LIGHT_1_5,SPR_BLOCK_LIGHT_2_5,SPR_BLOCK_LIGHT_3_5,SPR_BLOCK_LIGHT_4_5}},
+ {"LightBlock7",{SPR_BLOCK_LIGHT_1_7,SPR_BLOCK_LIGHT_2_7,SPR_BLOCK_LIGHT_3_7,SPR_BLOCK_LIGHT_4_7}},
  {"LightBlock6",{SPR_BLOCK_LIGHT_1_6,SPR_BLOCK_LIGHT_2_6,SPR_BLOCK_LIGHT_3_6,SPR_BLOCK_LIGHT_4_6}},
  {"StoneBlock4",{SPR_BLOCK_ROCK_1_4,SPR_BLOCK_ROCK_2_4,SPR_BLOCK_ROCK_3_4,SPR_BLOCK_ROCK_4_4}},
  {"StoneBlock5",{SPR_BLOCK_ROCK_1_5,SPR_BLOCK_ROCK_2_5,SPR_BLOCK_ROCK_3_5,SPR_BLOCK_ROCK_4_5}},
@@ -115,7 +119,7 @@ static void block(const GameObject *o)
         sprite_draw_tint(gs,id,o->x,o->y,render_scale/render_pixels,o->angle,tint);return;
     }
     if(o->kind==6){
-        int id=!strcmp(o->definition,"ExtraBlockSmiley")?(o->health<0.5f?SPR_BLOCK_SMILEY_3:SPR_BLOCK_SMILEY_1):SPR_BLOCK_TREASURE_CHEST;
+        int id=!strcmp(o->definition,"ExtraMelon")?SPR_BLOCK_WATERMELON:!strcmp(o->definition,"ExtraTire01")?SPR_BLOCK_TIRE_01:!strcmp(o->definition,"ExtraTire03")?SPR_BLOCK_TIRE_03:!strcmp(o->definition,"ExtraStrawberry")?SPR_BLOCK_STRAWBERRY:!strcmp(o->definition,"ExtraBeachBall")?SPR_BLOCK_BEACHBALL:!strcmp(o->definition,"ExtraRubberDuck")?SPR_BLOCK_RUBBERDUCK:!strcmp(o->definition,"ExtraBlockSmiley")?(o->health<0.5f?SPR_BLOCK_SMILEY_3:SPR_BLOCK_SMILEY_1):SPR_BLOCK_TREASURE_CHEST;
         sprite_draw(gs,id,o->x,o->y,render_scale/render_pixels,o->angle);return;
     }
     int stage=o->health>0.75f?0:o->health>0.5f?1:o->health>0.25f?2:3;
@@ -134,7 +138,8 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     gsKit_clear(gs,color(120,194,205));
     rect(0,0,640,109,dark);
     text(30,22,3,cream,"PS2BIRDS CLASSIC");
-    text(31,55,1,color(135,192,181),"PROTOTIPO 0.9.0 / PLAYSTATION 2");
+    text(31,55,1,color(135,192,181),"PROTOTIPO 0.14.0 / PLAYSTATION 2");
+    text(430,55,1,color(135,192,181),audio_status());
     text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
     text(31,80,2,gold,game_level_title(g->level));
     char line[64];
@@ -170,12 +175,22 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
         }
     }
     for(int i=0;i<game_projectile_count(g);i++){
-        GameBird projectile;if(game_get_projectile(g,i,&projectile))bird(projectile.x,projectile.y,6,projectile.type,projectile.angle,projectile.collided);
+        GameBird projectile;if(game_get_projectile(g,i,&projectile))bird(projectile.x,projectile.y,6,projectile.type,projectile.angle,projectile.collided,projectile.fuse,projectile.special_used);
     }
-    if(g->state==AIMING)bird(g->x,g->y,6,game_queue_type(g,0),0,0);
+    GameBlast blast;
+    if(game_get_blast(g,&blast)){
+        float t=1-blast.life/BLACK_VISUAL_SECONDS,r=blast.radius*(0.2f+0.8f*t);
+        if(blast.y>130 && blast.y<370)disk(blast.x,blast.y,6+12*t,color(69,64,58));
+        for(int i=0;i<24;i++){
+            float a=i*6.2831853f/24,b=(i+1)*6.2831853f/24;
+            float y1=blast.y+sinf(a)*r,y2=blast.y+sinf(b)*r;
+            if(y1>=109 && y1<391 && y2>=109 && y2<391)gsKit_prim_line(gs,blast.x+cosf(a)*r,y1,blast.x+cosf(b)*r,y2,3,GS_SETREG_RGBAQ(255,188,65,(int)(128*(1-t)),0));
+        }
+    }
+    if(g->state==AIMING)bird(g->x,g->y,6,game_queue_type(g,0),0,0,-2,0);
     sprite_draw(gs,SPR_SLING_SHOT_01_FRONT,render_sling_x,render_sling_y,render_scale/render_pixels,0);
     int waiting=g->birds-(g->state==AIMING?1:0);
-    for (int i=0; i<waiting; i++) bird(49+i*24,render_ground-15,7,game_queue_type(g,i+(g->state==AIMING?1:0)),0,0);
+    for (int i=0; i<waiting; i++) bird(49+i*24,render_ground-15,7,game_queue_type(g,i+(g->state==AIMING?1:0)),0,0,-2,0);
     snprintf(line,sizeof(line),"ANGULO %04.1f  FORCA %05.1f",g->angle,g->power);
     text(30,119,1,dark,line);
     rect(30,135,110,4,color(76,137,137));
@@ -184,7 +199,7 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     text(30,400,1,cream,"DIRECIONAL/ANALOGICO: MIRA  X: LANCAR");
     text(30,415,1,color(156,195,178),"TRIANGULO: REINICIO  SELECT: FASES  START: PAUSA");
     GameBird airborne;int airborne_type=game_get_projectile(g,0,&airborne)?airborne.type:-1;
-    text(30,430,1,color(156,195,178),!game_special_available(g)?"SEGURE QUADRADO PARA AJUSTE FINO":airborne_type==BIRD_YELLOW_TYPE?"X: ACELERAR AMARELO  QUADRADO: AJUSTE FINO":"X: DIVIDIR AZUL EM TRES  QUADRADO: AJUSTE FINO");
+    text(30,430,1,color(156,195,178),!game_special_available(g)?"SEGURE QUADRADO PARA AJUSTE FINO":airborne_type==BIRD_WHITE_TYPE?"X: SOLTAR OVO  QUADRADO: AJUSTE FINO":airborne_type==BIRD_BLACK_TYPE?"X: EXPLODIR PRETO  QUADRADO: AJUSTE FINO":airborne_type==BIRD_YELLOW_TYPE?"X: ACELERAR AMARELO  QUADRADO: AJUSTE FINO":"X: DIVIDIR AZUL EM TRES  QUADRADO: AJUSTE FINO");
     if (g->state==WON || g->state==LOST || paused) {
         rect(106,185,428,86,dark);
         text(130,204,2,gold,paused?"PAUSADO":g->state==WON?"FASE CONCLUIDA":"TENTE NOVAMENTE");
@@ -201,10 +216,11 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
             snprintf(line,sizeof(line),i<g->unlocked?"RECORDE %05d":"BLOQUEADA",g->highscores[i]);
             text(340,y,1,i<g->unlocked?gold:color(125,142,138),line);
         }
-        snprintf(line,sizeof(line),"FASES %d-%d DE %d",first+1,first+3<game_level_count()?first+3:game_level_count(),game_level_count());
+        snprintf(line,sizeof(line),"LISTA %d-%d DE %d",first+1,first+3<game_level_count()?first+3:game_level_count(),game_level_count());
         text(95,307,1,color(156,195,178),line);
-        text(95,328,1,cream,"CIMA/BAIXO: FASE  X: JOGAR  L1: SALVAR");
-        text(95,347,1,color(156,195,178),save_mc_status());
+        text(95,321,1,cream,"CIMA/BAIXO: FASE  ESQ/DIR: PAGINA");
+        text(95,335,1,cream,"X: JOGAR  L1: SALVAR  R3: SOM");
+        text(95,351,1,color(156,195,178),save_mc_status());
     }
     gsKit_queue_exec(gs);
     gsKit_sync_flip(gs);
@@ -241,12 +257,17 @@ int main(void)
     gsKit_set_primalpha(gs,ALPHA_BLEND_NORMAL,0);
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.9.0: GS ready, pad open=%d\n",pad_open);
-    Game g; game_init(&g); save_mc_init(&g);
+    printf("PS2Birds Classic 0.14.0: GS ready, pad open=%d\n",pad_open);
+    Game g; game_init(&g); save_mc_init(&g); audio_init();
     u32 old_buttons=0;
     int paused=0, previously_connected=0, analog_requested=0,menu=1,selected=0;
+    u64 previous_time=GetTimerSystemTime();
     for (;;) {
-        save_mc_poll();
+        u64 now=GetTimerSystemTime();u32 elapsed_seconds,elapsed_us;
+        TimerBusClock2USec(now-previous_time,&elapsed_seconds,&elapsed_us);previous_time=now;
+        float frame_seconds=(float)elapsed_seconds+(float)elapsed_us/1000000.0f;
+        if(frame_seconds>0.1f)frame_seconds=0.1f;
+        save_mc_poll();audio_tick();
         struct padButtonStatus status;
         u32 buttons=0;
         int state=pad_open?padGetState(0,0):PAD_STATE_DISCONN;
@@ -262,20 +283,26 @@ int main(void)
         if (connected && !previously_connected) old_buttons=buttons;
         u32 pressed=buttons & ~old_buttons;
         if ((state==PAD_STATE_DISCONN || state==PAD_STATE_ERROR) && previously_connected) paused=1;
+        if(pressed & PAD_R3)audio_toggle();
         if(pressed & PAD_L1)save_mc_request();
-        if(pressed & PAD_SELECT){menu=!menu;selected=g.level;}
+        if(pressed & PAD_SELECT){menu=!menu;selected=g.level;audio_play(menu?SFX_MENU_MOVE:SFX_MENU_BACK);}
         if(menu){
-            if(pressed&PAD_UP)selected=(selected+game_level_count()-1)%game_level_count();
-            if(pressed&PAD_DOWN)selected=(selected+1)%game_level_count();
-            if((pressed&PAD_CROSS) && game_load_level(&g,selected)){menu=0;paused=0;}
+            if(pressed&PAD_UP){selected=(selected+game_level_count()-1)%game_level_count();audio_play(SFX_MENU_MOVE);}
+            if(pressed&PAD_DOWN){selected=(selected+1)%game_level_count();audio_play(SFX_MENU_MOVE);}
+            if(pressed&(PAD_LEFT|PAD_RIGHT)){
+                int count=game_level_count(),pages=(count+2)/3,row=selected%3;
+                int page=(selected/3+((pressed&PAD_RIGHT)?1:pages-1))%pages;
+                selected=page*3+row;if(selected>=count)selected=count-1;audio_play(SFX_MENU_MOVE);
+            }
+            if((pressed&PAD_CROSS) && game_load_level(&g,selected)){menu=0;paused=0;audio_play(SFX_MENU_CONFIRM);audio_play(SFX_START);}
             old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu,selected);continue;
         }
         if ((pressed & PAD_CROSS) && g.state==WON){
-            if(!game_next_level(&g)){menu=1;selected=g.level;}
+            if(!game_next_level(&g)){menu=1;selected=g.level;audio_play(SFX_MENU_BACK);}else audio_play(SFX_START);
             paused=0;old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu,selected);continue;
         }
-        if (pressed & PAD_TRIANGLE) { game_reset(&g); paused=0; }
-        if (connected && (pressed & PAD_START)) paused=!paused;
+        if (pressed & PAD_TRIANGLE) { game_reset(&g); paused=0;audio_play(SFX_START); }
+        if (connected && (pressed & PAD_START)){paused=!paused;audio_play(SFX_MENU_BACK);}
         if (connected && !paused) {
             float horizontal=0, vertical=0;
             if ((status.mode >> 4)==7) {
@@ -286,14 +313,22 @@ int main(void)
             if (buttons & (PAD_UP|PAD_DOWN)) vertical=((buttons&PAD_UP)?1:0)-((buttons&PAD_DOWN)?1:0);
             if (buttons & (PAD_RIGHT|PAD_LEFT)) horizontal=((buttons&PAD_RIGHT)?1:0)-((buttons&PAD_LEFT)?1:0);
             float precision=(buttons&PAD_SQUARE)?0.25f:1.0f;
-            game_aim(&g,vertical*0.5f*precision,horizontal*1.5f*precision);
+            if(g.state==AIMING && (horizontal!=0 || vertical!=0))audio_play(SFX_STRETCH);
+            game_aim(&g,vertical*29.97f*precision*frame_seconds,horizontal*89.91f*precision*frame_seconds);
             if (pressed & PAD_CROSS) {
-                if(g.state==AIMING)game_launch(&g);else game_special(&g);
+                if(g.state==AIMING){int type=game_queue_type(&g,0);game_launch(&g);audio_play(type==BIRD_WHITE_TYPE?SFX_LAUNCH_WHITE:type==BIRD_BLACK_TYPE?SFX_LAUNCH_BLACK:type==BIRD_BLUE_TYPE?SFX_LAUNCH_BLUE:type==BIRD_YELLOW_TYPE?SFX_LAUNCH_YELLOW:SFX_LAUNCH_RED);}
+                else if(game_special(&g)){GameBird active;if(game_get_projectile(&g,0,&active)){if(active.type==BIRD_BLUE_TYPE)audio_play(SFX_SPLIT);else if(active.type==BIRD_YELLOW_TYPE)audio_play(SFX_BOOST);else if(active.type==BIRD_WHITE_TYPE)audio_play(SFX_DROP_EGG);}}
                 printf("PS2Birds: launch state=%d angle=%.1f power=%.1f birds=%d\n",g.state,g.angle,g.power,g.birds);
             }
             GameState before=g.state;
-            game_update(&g,1.0f/59.94f);
-            if(before!=g.state && g.state==WON)save_mc_request();
+            game_update(&g,frame_seconds);
+            if(g.events&GAME_EVENT_EXPLOSION)audio_play(SFX_EXPLOSION);
+            if(g.events&GAME_EVENT_PIG)audio_play(SFX_PIG);
+            if(g.events&GAME_EVENT_GLASS)audio_play(SFX_GLASS);
+            else if(g.events&GAME_EVENT_STONE)audio_play(SFX_STONE);
+            else if(g.events&(GAME_EVENT_WOOD|GAME_EVENT_EXTRA))audio_play(SFX_WOOD);
+            if(before!=g.state && g.state==WON){save_mc_request();audio_play(SFX_WIN);}
+            if(before!=g.state && g.state==LOST)audio_play(SFX_LOSE);
             if (before!=g.state) printf("PS2Birds: state=%d score=%d\n",g.state,g.score);
         }
         old_buttons=buttons;

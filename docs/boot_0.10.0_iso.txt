@@ -1,0 +1,16 @@
+[    0.2073] isoFile open ok: /workspace/PS2Birds-Classic/ps2/build/PS2Birds_Classic.iso
+[    0.2074] (SYSTEM.CNF) Detected PS2 Disc = cdrom0:\PS2BIRDS.ELF;1
+[    0.2074] cdvdLoadElf(): 'cdrom0:\PS2BIRDS.ELF;1' -> 'PS2BIRDS.ELF' in ISO.
+[    0.2207] Disc changed to PS2Birds_Classic.iso.
+[    0.2207]   Name: cdrom0:\PS2BIRDS.ELF [?]
+[    0.3692] HLE Host: Set 'host:' root path to: /workspace/PS2Birds-Classic/ps2/build
+[    3.1413] (SYSTEM.CNF) Detected PS2 Disc = cdrom0:\PS2BIRDS.ELF;1
+[    3.1413] cdvdLoadElf(): 'cdrom0:\PS2BIRDS.ELF;1' -> 'PS2BIRDS.ELF' in ISO.
+[    3.1661] ELF Loading: cdrom0:\PS2BIRDS.ELF;1, Game CRC = D74CA128, EntryPoint = 0x00100D20
+[    5.5038] ELF cdrom0:\PS2BIRDS.ELF;1 with entry point at 0x00100D20 is executing.
+[    5.5044] ELF changed, active CRC D74CA128 (cdrom0:\PS2BIRDS.ELF;1)
+[    5.6219] RegisterLibraryEntries:    mcman version 1.01
+[    5.6380] RegisterLibraryEntries:   mcserv version 1.01
+[    5.6714] RegisterLibraryEntries:    libsd version 1.04
+[    5.6734] RegisterLibraryEntries:   audsrv version 1.04
+[   83.8907] OSD [MemoryCardSave0]: Memory Card 'Mcd001.ps2' was saved to storage.

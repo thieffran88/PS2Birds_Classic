@@ -3,10 +3,10 @@
 #include <cmath>
 #include <cstdio>
 static void update(Game *g,int frames){for(int i=0;i<frames;i++)game_update(g,1.f/120);}
-static int first_level_with(int type){for(int i=0;i<game_level_count();i++){Game g;game_init(&g);g.unlocked=32;game_load_level(&g,i);int found=game_queue_type(&g,0)==type;game_destroy(&g);if(found)return i;}return -1;}
+static int first_level_with(int type){for(int i=0;i<game_level_count();i++){Game g;game_init(&g);g.unlocked=game_level_count();game_load_level(&g,i);int found=game_queue_type(&g,0)==type;game_destroy(&g);if(found)return i;}return -1;}
 int main(){
  int level=first_level_with(BIRD_YELLOW_TYPE);assert(level>=0);
- Game g;game_init(&g);g.unlocked=32;assert(game_load_level(&g,level));
+ Game g;game_init(&g);g.unlocked=game_level_count();assert(game_load_level(&g,level));
  int birds=g.birds;assert(birds>=1 && game_queue_type(&g,0)==BIRD_YELLOW_TYPE && !game_special_available(&g) && !game_special(&g));
  update(&g,240);g.angle=30;g.power=300;game_launch(&g);assert(g.birds==birds-1 && game_projectile_count(&g)==1 && game_special_available(&g));
  update(&g,30);GameBird before,after;assert(game_get_projectile(&g,0,&before) && before.type==BIRD_YELLOW_TYPE && !before.collided);

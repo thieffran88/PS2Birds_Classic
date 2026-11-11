@@ -1,10 +1,12 @@
 {
   "id": "classic_redbird_boxes",
-  "description": "Classic Poached Eggs page 1 (21 stages in APK episode order): RedBird, SmallBlueBird split, YellowBird boost, small/medium/large/helmet pigs, material boxes, round stones, estrades and extras.",
+  "description": "Classic Poached Eggs supported campaign: five bird types, imported material bodies, circular extras and static scenery approximations.",
   "bird_definitions": [
     "RedBird",
     "SmallBlueBird",
-    "YellowBird"
+    "YellowBird",
+    "BlackBird",
+    "BasicBird2"
   ],
   "objects": {
     "WoodBlock2": {
@@ -129,7 +131,7 @@
     "WoodBlock7": {
       "sprite": "BLOCK_WOOD_1_7",
       "kind": 1,
-      "shape": "box"
+      "shape": "circle"
     },
     "LargePiglette": {
       "diameter": 4.65,
@@ -153,6 +155,46 @@
       "sprite": "ESTRADE_01",
       "kind": 3,
       "shape": "box"
+    },
+    "WoodBlock1": {
+      "sprite": "BLOCK_WOOD_1_1",
+      "kind": 1,
+      "shape": "box"
+    },
+    "ExtraBeachBall": {
+      "sprite": "BLOCK_BEACHBALL",
+      "kind": 6,
+      "shape": "circle"
+    },
+    "ExtraRubberDuck": {
+      "sprite": "BLOCK_RUBBERDUCK",
+      "kind": 6,
+      "shape": "circle"
+    },
+    "ExtraStrawberry": {
+      "kind": 6,
+      "sprite": "BLOCK_STRAWBERRY",
+      "shape": "circle"
+    },
+    "LightBlock7": {
+      "sprite": "BLOCK_LIGHT_1_7",
+      "kind": 2,
+      "shape": "circle"
+    },
+    "ExtraTire01": {
+      "sprite": "BLOCK_TIRE_01",
+      "kind": 6,
+      "shape": "circle"
+    },
+    "ExtraTire03": {
+      "sprite": "BLOCK_TIRE_03",
+      "kind": 6,
+      "shape": "circle"
+    },
+    "ExtraMelon": {
+      "sprite": "BLOCK_WATERMELON",
+      "kind": 6,
+      "shape": "circle"
     }
   },
   "metrics": "ps2/data/sprite_metrics.json",
@@ -164,6 +206,8 @@
   "bird_types": {
     "RedBird": 0,
     "SmallBlueBird": 1,
-    "YellowBird": 2
+    "YellowBird": 2,
+    "BlackBird": 3,
+    "BasicBird2": 4
   }
 }
