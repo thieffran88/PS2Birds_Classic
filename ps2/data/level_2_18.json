@@ -1,5 +1,6 @@
 {
   "adapter": "classic_redbird_boxes",
+  "joints": [],
   "source_sha256": "1c5b082d08609c766e7157ed4b46fc07374b62565f0d40c87939fab588e4b301",
   "source": "assets/data/levels/1_PoachedEggs/Level32.lua",
   "collision_dimensions": "sprite extents / physicsToWorld x 0.92 for dynamic objects (ObjectCreation.lua sizeFactor); static objects use the full sprite",

@@ -1,5 +1,6 @@
 {
   "adapter": "classic_redbird_boxes",
+  "joints": [],
   "source_sha256": "246165b13ff745a9bd8ca45d17b2677bee638bc84187b1d65a8d82ae6465c411",
   "source": "assets/data/levels/2_MightyHoax/LevelP2_64.lua",
   "collision_dimensions": "sprite extents / physicsToWorld x 0.92 for dynamic objects (ObjectCreation.lua sizeFactor); static objects use the full sprite",

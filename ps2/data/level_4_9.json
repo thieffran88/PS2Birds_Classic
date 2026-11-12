@@ -1,5 +1,63 @@
 {
   "adapter": "classic_redbird_boxes",
+  "joints": [
+    {
+      "name": "ExtraTire01_4ExtraTire01_5",
+      "type": 1,
+      "a": 31,
+      "b": 18,
+      "ax": 80.1676,
+      "ay": -1.84358,
+      "bx": 84.0109,
+      "by": -1.8487,
+      "frequency": 4.0,
+      "damping": 0.5,
+      "break_force": 0.0,
+      "collide": false
+    },
+    {
+      "name": "ExtraTire01_1ExtraTire01_2",
+      "type": 1,
+      "a": 4,
+      "b": 19,
+      "ax": 68.164,
+      "ay": -1.84379,
+      "bx": 72.0332,
+      "by": -1.83896,
+      "frequency": 4.0,
+      "damping": 0.5,
+      "break_force": 0.0,
+      "collide": false
+    },
+    {
+      "name": "ExtraTire01_2ExtraTire01_3",
+      "type": 1,
+      "a": 19,
+      "b": 12,
+      "ax": 72.0332,
+      "ay": -1.83896,
+      "bx": 76.2484,
+      "by": -1.84879,
+      "frequency": 4.0,
+      "damping": 0.5,
+      "break_force": 0.0,
+      "collide": false
+    },
+    {
+      "name": "ExtraTire01_3ExtraTire01_4",
+      "type": 1,
+      "a": 12,
+      "b": 31,
+      "ax": 76.2484,
+      "ay": -1.84879,
+      "bx": 80.1676,
+      "by": -1.84358,
+      "frequency": 4.0,
+      "damping": 0.5,
+      "break_force": 0.0,
+      "collide": false
+    }
+  ],
   "source_sha256": "657a6072435fa2b22991e9f201b0c8572b7680f7990aaf85a58c37cb2ce6df15",
   "source": "assets/data/levels/2_MightyHoax/LevelP2_108.lua",
   "collision_dimensions": "sprite extents / physicsToWorld x 0.92 for dynamic objects (ObjectCreation.lua sizeFactor); static objects use the full sprite",

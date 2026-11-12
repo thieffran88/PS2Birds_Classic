@@ -1,5 +1,7 @@
 #include "game.h"
-#if defined(PS2BIRDS_TRIANGLE_TEST)
+#if defined(PS2BIRDS_JOINT_TEST)
+#include "joint_fixture.h"
+#elif defined(PS2BIRDS_TRIANGLE_TEST)
 #include "triangle_fixture.h"
 #elif defined(PS2BIRDS_TNT_TEST)
 #include "tnt_fixture.h"
@@ -17,7 +19,14 @@
 static_assert(CAMPAIGN_COUNT<=MAX_CAMPAIGN_LEVELS,"Campaign exceeds progress capacity");
 
 static float clamp(float v,float lo,float hi) { return v<lo?lo:v>hi?hi:v; }
+struct Physics;
+struct JointListener: b2DestructionListener {
+    Physics *owner;
+    void SayGoodbye(b2Joint *joint) override;
+    void SayGoodbye(b2Fixture *) override {}
+};
 struct Physics: b2ContactListener {
+    JointListener destruction;
     b2World world;
     const CampaignLevel *level;
     b2Body *bodies[MAX_LEVEL_OBJECTS], *bird;
@@ -33,13 +42,15 @@ struct Physics: b2ContactListener {
     b2Contact *damage_contacts[MAX_LEVEL_OBJECTS*2];int damage_contact_count;
     /* Static scenery the launched bird overlapped at spawn; ignored until they separate. */
     b2Body *spawn_ignore[8];int spawn_ignore_count;
+    b2Body *floor_body;
+    b2Joint *joints[MAX_LEVEL_JOINTS];float joint_break[MAX_LEVEL_JOINTS];int joint_count;
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),bird_type(BIRD_RED_TYPE) {
         egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
         damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
         memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));
-        world.SetContactListener(this);
+        world.SetContactListener(this);destruction.owner=this;world.SetDestructionListener(&destruction);
         b2BodyDef floor_def; floor_def.position.Set(20,level->ground_y+1);
-        b2Body *floor=world.CreateBody(&floor_def);
+        b2Body *floor=world.CreateBody(&floor_def);floor_body=floor;joint_count=0;
         b2PolygonShape shape;shape.SetAsBox(120,1);
         /* staticGround material: friction 0.8, restitution 0. */
         b2FixtureDef ground;ground.shape=&shape;ground.friction=0.8f;ground.restitution=0;floor->CreateFixture(&ground);
@@ -59,6 +70,37 @@ struct Physics: b2ContactListener {
             }
             else {box.SetAsBox(o.width/2,o.height/2);fixture.shape=&box;}
             body->CreateFixture(&fixture);bodies[i]=body;health[i]=o.strength;
+        }
+        for(int i=0;i<level->joint_count && i<MAX_LEVEL_JOINTS;i++)create_joint(level->joints[i]);
+    }
+    b2Body *joint_body(int index) const {return index>=0 && index<level->count?bodies[index]:floor_body;}
+    void create_joint(const CampaignJoint &j){
+        b2Body *a=joint_body(j.a),*b=joint_body(j.b);if(!a || !b || a==b)return;
+        b2Vec2 pa(j.ax,j.ay),pb(j.bx,j.by);b2Joint *made=NULL;
+        if(j.type==JOINT_DISTANCE){
+            b2DistanceJointDef def;def.Initialize(a,b,pa,pb);def.collideConnected=j.collide!=0;
+            if(j.frequency>0)b2LinearStiffness(def.stiffness,def.damping,j.frequency,j.damping,a,b);
+            made=world.CreateJoint(&def);
+        }else if(j.type==JOINT_WELD){
+            /* Like b2WeldJointDef::Initialize: one anchor (end1's) keeps the bodies' current relative pose. */
+            b2WeldJointDef def;def.Initialize(a,b,pa);def.collideConnected=j.collide!=0;
+            if(j.frequency>0)b2AngularStiffness(def.stiffness,def.damping,j.frequency,j.damping,a,b);
+            made=world.CreateJoint(&def);
+        }else if(j.type==JOINT_REVOLUTE){
+            b2RevoluteJointDef def;def.Initialize(a,b,pa);def.collideConnected=j.collide!=0;
+            made=world.CreateJoint(&def);
+        }
+        if(made){
+            /* Port approximation: a breakable joint fails when its reaction force exceeds
+               breakForce x (mass of both bodies) x gravity. */
+            joint_break[joint_count]=j.break_force>0?j.break_force*(a->GetMass()+b->GetMass())*level->gravity:0;
+            joints[joint_count++]=made;
+        }
+    }
+    void forget_joint(b2Joint *joint){for(int i=0;i<joint_count;i++)if(joints[i]==joint)joints[i]=NULL;}
+    void break_joints(float inv_dt){
+        for(int i=0;i<joint_count;i++)if(joints[i] && joint_break[i]>0 && joints[i]->GetReactionForce(inv_dt).Length()>joint_break[i]){
+            world.DestroyJoint(joints[i]);joints[i]=NULL;
         }
     }
     b2Body *make_bird(const b2Vec2 &position,const b2Vec2 &velocity,int type){
@@ -149,10 +191,16 @@ struct Physics: b2ContactListener {
         }
     }
 };
+void JointListener::SayGoodbye(b2Joint *joint){owner->forget_joint(joint);}
 void game_init(Game *g) { memset(g,0,sizeof(*g));g->unlocked=1;game_load_level(g,0); }
 void game_destroy(Game *g) { delete static_cast<Physics*>(g->physics);g->physics=NULL; }
 int game_level_count(void){return (int)CAMPAIGN_COUNT;}
 const char *game_level_title(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].title:"";}
+int game_level_stars(int index,int score){
+    if(index<0 || index>=(int)CAMPAIGN_COUNT || score<=0)return 0;
+    const CampaignLevel &l=campaign_levels[index];
+    return score>=l.star_gold?3:score>=l.star_silver?2:1;
+}
 int game_level_bank(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].bank:0;}
 const char *game_level_script(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].script:"";}
 int game_load_level(Game *g,int index) {
@@ -275,7 +323,7 @@ void game_preview(const Game *g,float t,float *x,float *y) {
 }
 static void tick(Game *g) {
     Physics *p=static_cast<Physics*>(g->physics); const float dt=1.0f/120;
-    p->age+=dt;p->damage_contact_count=0;p->world.Step(dt,8,3);
+    p->age+=dt;p->damage_contact_count=0;p->world.Step(dt,8,3);p->break_joints(1.0f/dt);
     if(p->bird_type==BIRD_BLACK_TYPE && p->bird && !p->detonated){
         if(p->bird_collided){if(p->bomb_fuse<0)p->bomb_fuse=0;p->bomb_fuse+=dt;}
         if(p->bomb_requested || p->bomb_fuse>=BLACK_FUSE_SECONDS)detonate(g);

@@ -83,6 +83,8 @@ const char *game_level_title(int index);
 const char *game_level_script(int index);
 /* Texture bank holding the sprites of a stage's episode. */
 int game_level_bank(int index);
+/* Stars (0-3) a score earns on a stage: 0 when unwon, then win/silver/gold thresholds. */
+int game_level_stars(int index,int score);
 int game_get_object(const Game *game,int index,GameObject *object);
 #ifdef __cplusplus
 }

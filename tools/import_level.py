@@ -102,7 +102,27 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
     first=birds[0];radius=BIRD_RADIUS[first['definition']]
     sling_x=first['x']-0.1
     sling_y=first['y']-(SLING_BACK_HEIGHT-SLING_BACK_PIVOT_Y)/pixels+radius+0.2-0.1
-    doc={'adapter':profile['id'],'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
+    # Joints: coordType 0 stores world anchors, coordType 2 stores anchors relative to
+    # each body (rotated with it). Unsupported types are rejected rather than dropped.
+    index={o['name']:i for i,o in enumerate(level)};joints=[]
+    for j in (env.get('joints') or {}).values():
+        if not isinstance(j,dict):continue
+        kind=int(j.get('type',0))
+        if kind not in (1,2,3):raise ValueError('Unsupported joint type: '+str(kind))
+        ends=[]
+        for end,xk,yk in [('end1','x1','y1'),('end2','x2','y2')]:
+            name=j[end]
+            if name not in index and name not in ('ground','Ground'):raise ValueError('Joint end not in scene: '+name)
+            i=index.get(name,-1);x,y=float(j[xk]),float(j[yk])
+            if int(j.get('coordType',0))==2 and i>=0:
+                o=level[i];c,s=math.cos(o['angle']),math.sin(o['angle']);x,y=o['x']+x*c-y*s,o['y']+x*s+y*c
+            elif int(j.get('coordType',0)) not in (0,2):raise ValueError('Unsupported joint coordType')
+            ends.append((i,x,y))
+        joints.append({'name':j.get('name',''),'type':kind,'a':ends[0][0],'b':ends[1][0],'ax':ends[0][1],'ay':ends[0][2],'bx':ends[1][1],'by':ends[1][2],
+            'frequency':float(j.get('frequency',0)),'damping':float(j.get('dampingRatio',0)),'break_force':float(j.get('breakForce',0)) if j.get('breakable') else 0.0,
+            'collide':bool(j.get('collideConnected',False))})
+    if len(joints)>64:raise ValueError('Adapter supports up to 64 joints')
+    doc={'adapter':profile['id'],'joints':joints,'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
          'source':source_name or source.name,'collision_dimensions':'sprite extents / physicsToWorld x 0.92 for dynamic objects (ObjectCreation.lua sizeFactor); static objects use the full sprite',
          'gravity':gravity,'physics_to_world':pixels,'ground_y':ground,'ground_object_y':grounds[0]['y'],'view':view,
          'sling_x':sling_x,'sling_y':sling_y,'bird_queue_x':scalar('birdZeroPosX')/pixels,'bird_queue_y':scalar('birdZeroPosY')/pixels,'birds':birds,'objects':level}

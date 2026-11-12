@@ -20,7 +20,7 @@ static char pad_buffer[256] __attribute__((aligned(64)));
 static int pad_open;
 
 /* Small built-in 5x7 alphabet: no external fonts or files needed to boot. */
-static const char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:.-/+";
+static const char alphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:.-/+*";
 static const unsigned char glyphs[][7] = {
  {14,17,17,31,17,17,17},{30,17,17,30,17,17,30},{14,17,16,16,16,17,14},
  {30,17,17,17,17,17,30},{31,16,16,30,16,16,31},{31,16,16,30,16,16,16},
@@ -35,7 +35,8 @@ static const unsigned char glyphs[][7] = {
  {30,1,1,14,1,1,30},{2,6,10,18,31,2,2},{31,16,16,30,1,1,30},
  {14,16,16,30,17,17,14},{31,1,2,4,8,8,8},{14,17,17,14,17,17,14},
  {14,17,17,15,1,1,14},{0,4,4,0,4,4,0},{0,0,0,0,0,4,4},
- {0,0,0,31,0,0,0},{1,2,2,4,8,8,16},{0,4,4,31,4,4,0}
+ {0,0,0,31,0,0,0},{1,2,2,4,8,8,16},{0,4,4,31,4,4,0},
+ {4,4,31,14,14,27,17}
 };
 
 static u64 color(int r, int g, int b) { return GS_SETREG_RGBAQ(r,g,b,0x80,0); }
@@ -161,7 +162,7 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     gsKit_clear(gs,color(120,194,205));
     rect(0,0,640,109,dark);
     text(30,22,3,cream,"PS2BIRDS CLASSIC");
-    text(31,55,1,color(135,192,181),"PROTOTIPO 0.19.0 / PLAYSTATION 2");
+    text(31,55,1,color(135,192,181),"PROTOTIPO 0.20.0 / PLAYSTATION 2");
     text(430,55,1,color(135,192,181),audio_status());
     text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
     text(31,80,2,gold,game_level_title(g->level));
@@ -226,6 +227,7 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     if (g->state==WON || g->state==LOST || paused) {
         rect(106,185,428,86,dark);
         text(130,204,2,gold,paused?"PAUSADO":g->state==WON?"FASE CONCLUIDA":"TENTE NOVAMENTE");
+        if(!paused && g->state==WON){static const char *stars[4]={"","*","* *","* * *"};text(400,200,3,gold,stars[game_level_stars(g->level,g->score)]);}
         text(130,241,1,cream,paused?"START PARA CONTINUAR":g->state==WON?(g->level+1<game_level_count()?"X: PROXIMA FASE  TRIANGULO: REINICIAR":"X: SELECAO  TRIANGULO: REINICIAR"):"TRIANGULO PARA REINICIAR");
     }
     if (!connected) text(300,119,1,color(128,48,41),"CONECTE O CONTROLE 1");
@@ -236,7 +238,9 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
             float y=207+(i-first)*37;
             if(i==selected)rect(89,y-5,460,31,color(44,82,79));
             text(101,y,1,i<g->unlocked?cream:color(125,142,138),game_level_title(i));
-            snprintf(line,sizeof(line),i<g->unlocked?"RECORDE %05d":"BLOQUEADA",g->highscores[i]);
+            static const char *star_text[4]={"","*","**","***"};
+            if(i<g->unlocked)snprintf(line,sizeof(line),"RECORDE %05d %s",g->highscores[i],star_text[game_level_stars(i,g->highscores[i])]);
+            else snprintf(line,sizeof(line),"BLOQUEADA");
             text(340,y,1,i<g->unlocked?gold:color(125,142,138),line);
         }
         snprintf(line,sizeof(line),"LISTA %d-%d DE %d",first+1,first+3<game_level_count()?first+3:game_level_count(),game_level_count());
@@ -280,7 +284,7 @@ int main(void)
     gsKit_set_primalpha(gs,ALPHA_BLEND_NORMAL,0);
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.19.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.20.0: GS ready, pad open=%d\n",pad_open);
     Game g; game_init(&g); save_mc_init(&g); audio_init();
     u32 old_buttons=0;
     int paused=0, previously_connected=0, analog_requested=0,menu=1,selected=0;

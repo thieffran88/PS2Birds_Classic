@@ -8,9 +8,10 @@ import argparse,json,math,tempfile
 from pathlib import Path
 from import_level import convert,ROOT,DEFAULT_PROFILE
 EPISODE=ROOT/'profiles/classic_episode.json'
+STARS=ROOT/'ps2/data/star_limits.json'
 
 def build(episode_path=EPISODE):
-    episode=json.loads(Path(episode_path).read_text());levels=[]
+    episode=json.loads(Path(episode_path).read_text());levels=[];stars=json.loads(STARS.read_text())['limits']
     pages=[{'number':1,'title_prefix':episode['title_prefix'],'levels':episode['levels']}]+episode.get('additional_pages',[])
     entries=[(page,number,name) for page in pages for number,name in enumerate(page['levels'],1)]
     names=[entry[2] for entry in entries]
@@ -38,10 +39,16 @@ def build(episode_path=EPISODE):
             values=[o[k] for k in ['x','y','angle','width','height','density','strength','defence']]
             lines.append(' {'+','.join(f(v) for v in values)+','+str(o['kind'])+','+str(['box','circle','triangle_l','triangle_m'].index(o['shape']))+','+json.dumps(o['definition'])+','+f(o['friction'])+','+f(o['restitution'])+'},')
         lines.append('};')
+    for i,d in enumerate(levels):
+        if d.get('joints'):
+            lines.append(f'static const CampaignJoint campaign_joints_{i}[] = {{')
+            for j in d['joints']:
+                lines.append(' {'+','.join(str(j[k]) for k in ['type','a','b'])+','+','.join(f(j[k]) for k in ['ax','ay','bx','by','frequency','damping','break_force'])+','+str(int(j['collide']))+'}, /* '+j['name']+' */')
+            lines.append('};')
     lines.append('static const CampaignLevel campaign_levels[] = {')
     for i,d in enumerate(levels):
         values=[d['gravity'],d['sling_x'],d['sling_y'],d['ground_y'],d['physics_to_world'],d['view']['x'],d['view']['y'],d['view']['scale']]
-        lines.append(' {campaign_objects_'+str(i)+','+str(len(d['objects']))+','+str(len(d['birds']))+',{'+','.join(str(b['type']) for b in d['birds'])+'},'+','.join(f(v) for v in values)+','+json.dumps(d['title'])+','+json.dumps(d['stage_script'])+','+str(d.get('texture_bank',0))+'},')
+        lines.append(' {campaign_objects_'+str(i)+','+str(len(d['objects']))+','+str(len(d['birds']))+',{'+','.join(str(b['type']) for b in d['birds'])+'},'+','.join(f(v) for v in values)+','+json.dumps(d['title'])+','+json.dumps(d['stage_script'])+','+str(d.get('texture_bank',0))+','+(f'campaign_joints_{i},{len(d["joints"])}' if d.get('joints') else '0,0')+','+str(stars[d['stage_script']]['silver'])+','+str(stars[d['stage_script']]['gold'])+'},')
     lines+=['};','#define CAMPAIGN_COUNT (sizeof(campaign_levels)/sizeof(campaign_levels[0]))','#endif','']
     (ROOT/'ps2/src/campaign_data.h').write_text('\n'.join(lines))
     print([(d['title'],d['stage_script'],len(d['objects']),len(d['birds'])) for d in levels])

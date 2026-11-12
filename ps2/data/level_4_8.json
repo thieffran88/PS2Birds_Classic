@@ -1,5 +1,21 @@
 {
   "adapter": "classic_redbird_boxes",
+  "joints": [
+    {
+      "name": "WoodBlock4_30WoodBlock4_31",
+      "type": 2,
+      "a": 41,
+      "b": 2,
+      "ax": 57.42859560579157,
+      "ay": -18.04234499740852,
+      "bx": 57.776710342585126,
+      "by": -18.75792558069056,
+      "frequency": 0.0,
+      "damping": 0.0,
+      "break_force": 3.0,
+      "collide": false
+    }
+  ],
   "source_sha256": "61816fc4a07f21243849f49f8088c31b4c39f8cd67158e591bb8625fa53f0625",
   "source": "assets/data/levels/2_MightyHoax/LevelP2_80.lua",
   "collision_dimensions": "sprite extents / physicsToWorld x 0.92 for dynamic objects (ObjectCreation.lua sizeFactor); static objects use the full sprite",
