@@ -358,5 +358,15 @@
     "width": 151,
     "height": 32,
     "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "GROUND_BLOCK_06": {
+    "width": 20,
+    "height": 20,
+    "sheet": "INGAME_MASKS_1.sheet.json"
+  },
+  "BLOCK_PIG_BALLOON_1": {
+    "width": 79,
+    "height": 119,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
   }
 }

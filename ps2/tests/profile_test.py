@@ -222,3 +222,20 @@ assert 'boomerangHorizontalForce' in logic and 'boomerangMaxHorizontalSpeed' in 
 for number in range(1,16):
     d=json.loads((root/f'ps2/data/level_6_{number}.json').read_text());assert d['stage_script']==da[number-1] and d['texture_bank']==3 and d['title']==f'DANGER ABOVE 6-{number}'
 print('Danger Above page 6 OK: 15 stages match episodes.lua; boomerang bird body/specialty, balloons, trampoline and boomerang ornament checked against blocks.lua and gamelogic.lua; texture bank 3.')
+
+# Danger Above page 7: order, bank and the three new static pieces.
+da2=re.findall(r'"(LevelP3_\d+)"',(root/'ps2/data/episode_danger_above_page2.decompiled.lua').read_text())
+page7=episode['additional_pages'][5]
+assert len(da2)==15 and page7['levels']==da2 and page7['bank']==3 and page7['number']==7
+defs7=(root/'ps2/data/page7_definitions_excerpt.lua').read_text()
+def block7(name):return defs7.split(f'L3_1 = "{name}"',1)[1].split('L3_1 = "',1)[0]
+f=block7('StaticFragileBlock06');assert '"GROUND_BLOCK_06"' in f and '"immovableFragile"' in f and '"staticFragile"' in f and 'L6_1 = 0' in f
+g=block7('StaticBlock_06');assert '"GROUND_BLOCK_06"' in g and '"immovable"' in g and '"staticBlocks"' in g
+b=block7('StaticBalloon01');assert '"BLOCK_PIG_BALLOON_1"' in b and '"clouds"' in b and '"staticFragile"' in b
+assert objs['objects']['StaticFragileBlock06']['kind']==9 and objs['objects']['StaticBlock_06']['kind']==3 and objs['objects']['StaticBalloon01']['kind']==8
+assert objs['materials']['by_kind']['9']=={'name':'immovableFragile','friction':0.8,'restitution':0.0}
+m=(root/'ps2/data/page7_definitions_excerpt.lua').read_text();assert 'L2_1.immovableFragile = L3_1' in m
+for number in range(1,16):
+    d=json.loads((root/f'ps2/data/level_7_{number}.json').read_text());assert d['stage_script']==da2[number-1] and d['texture_bank']==3 and d['title']==f'DANGER ABOVE 7-{number}'
+assert max(len(json.loads((root/f'ps2/data/level_7_{n}.json').read_text())['objects']) for n in range(1,16))<=224
+print('Danger Above page 7 OK: 15 stages match episodes.lua; StaticFragileBlock06, StaticBlock_06 and StaticBalloon01 checked against blocks.lua; texture bank 3; up to 224 objects.')

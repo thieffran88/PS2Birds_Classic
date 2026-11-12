@@ -130,6 +130,21 @@ static const Stage stages[]={
  {"LevelP3_215",101,6,54,5,{{25,86,0.4f}},1}, /* DANGER ABOVE 6-13 */
  {"LevelP3_220",115,7,61,5,{{0,94,-1.0f}},1}, /* DANGER ABOVE 6-14 */
  {"LevelP3_231",169,14,52,5,{{20,95,2.3f},{60,75,2.3f},{55,85,1.4f},{20,80,1.4f}},4}, /* DANGER ABOVE 6-15 */
+ {"LevelP3_166",110,7,72,4,{{40,50,2.0f},{60,80,-1.0f},{60,100,-1.0f}},3}, /* DANGER ABOVE 7-1 */
+ {"LevelP3_237",201,15,107,3,{{30,95,-1.0f},{15,85,1.4f}},2}, /* DANGER ABOVE 7-2 */
+ {"LevelP3_216",81,7,64,4,{{-10,78,0.4f}},1}, /* DANGER ABOVE 7-3 */
+ {"LevelP3_298",111,4,98,4,{{0,94,-1.0f}},1}, /* DANGER ABOVE 7-4 */
+ {"LevelP3_303",77,4,72,5,{{10,94,-1.0f}},1}, /* DANGER ABOVE 7-5 */
+ {"LevelP3_214",105,9,43,4,{{15,65,1.4f},{20,90,1.8f},{30,55,1.0f}},3}, /* DANGER ABOVE 7-6 */
+ {"LevelP3_159",86,10,69,4,{{30,86,-1.0f}},1}, /* DANGER ABOVE 7-7 */
+ {"LevelP3_164",116,7,84,5,{{20,98,-1.0f}},1}, /* DANGER ABOVE 7-8 */
+ {"LevelP3_299",84,13,53,5,{{-5,82,-1.0f}},1}, /* DANGER ABOVE 7-9 */
+ {"LevelP3_302",89,9,74,5,{{-5,86,-1.0f}},1}, /* DANGER ABOVE 7-10 */
+ {"LevelP3_219",97,11,73,4,{{-5,94,-1.0f}},1}, /* DANGER ABOVE 7-11 */
+ {"LevelP3_163",98,6,62,4,{{0,86,-1.0f}},1}, /* DANGER ABOVE 7-12 */
+ {"LevelP3_160",86,5,62,4,{{25,98,-1.0f}},1}, /* DANGER ABOVE 7-13 */
+ {"LevelP3_161",93,5,55,5,{{45,90,-1.0f}},1}, /* DANGER ABOVE 7-14 */
+ {"LevelP3_304",133,13,85,5,{{60,80,2.3f},{25,90,-1.0f},{20,100,2.6f}},3}, /* DANGER ABOVE 7-15 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -150,7 +165,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==120 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==135 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));

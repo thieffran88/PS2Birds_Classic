@@ -78,7 +78,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
         shape=profile['objects'].get(o['definition'])
         if not shape:raise ValueError('Unsupported definition; add a verified adapter: '+o['definition'])
         kind=shape['kind']
-        if kind not in [1,2,3,4,5,6,7,8]:raise ValueError('Unsupported runtime object kind')
+        if kind not in [1,2,3,4,5,6,7,8,9]:raise ValueError('Unsupported runtime object kind')
         if 'sprite' in shape:
             metric=metrics[shape['sprite']];w,h=metric['width']/pixels,metric['height']/pixels
             # ObjectCreation.lua: sprite-sized shapes are scaled by sizeFactorX/Y (default
@@ -95,7 +95,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
         friction=profile['materials']['friction_overrides'].get(o['definition'],material['friction'])
         restitution=profile['materials'].get('restitution_overrides',{}).get(o['definition'],material['restitution'])
         level.append(dict(o,width=w,height=h,kind=kind,shape=collision,friction=friction,restitution=restitution))
-    if not 1<=len(level)<=192:raise ValueError('Adapter supports 1..192 scene objects')
+    if not 1<=len(level)<=224:raise ValueError('Adapter supports 1..224 scene objects')
     # SlingshotSystem.setPositionByStartObject (Slingshot.lua) places the slingshot on the
     # first bird of the queue: rest point = (x - 0.1, y - (h - pivot_y) * physicsScale +
     # radius + 0.2 - 0.1) with h/pivot_y from SLING_SHOT_01_BACK (199 px, pivot 30).

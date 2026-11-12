@@ -57,6 +57,10 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
    destroyedScoreInc 100 from blocks.lua. */
 #define OBJECT_KIND_FRAGILE 8
 #define FRAGILE_DESTROYED_SCORE 100
+/* StaticFragileBlock06: ground piece of the staticFragile group (immovableFragile material,
+   destroyedScoreInc 0). Shares the pop-on-impact rule of the balloons. */
+#define OBJECT_KIND_FRAGILE_GROUND 9
+#define IS_FRAGILE_KIND(k) ((k)==OBJECT_KIND_FRAGILE || (k)==OBJECT_KIND_FRAGILE_GROUND)
 /* Delay before a crate destroyed by another blast goes off; port approximation. */
 #define TNT_CHAIN_SECONDS 0.1f
 #define BLACK_BLAST_RADIUS 15.0f

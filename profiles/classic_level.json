@@ -384,6 +384,20 @@
       "sprite": "BLOCK_TRAMPOLINE_01",
       "kind": 3,
       "shape": "box"
+    },
+    "StaticBlock_06": {
+      "sprite": "GROUND_BLOCK_06",
+      "kind": 3
+    },
+    "StaticFragileBlock06": {
+      "sprite": "GROUND_BLOCK_06",
+      "kind": 9,
+      "shape": "box"
+    },
+    "StaticBalloon01": {
+      "sprite": "BLOCK_PIG_BALLOON_1",
+      "kind": 8,
+      "shape": "box"
     }
   },
   "metrics": "ps2/data/sprite_metrics.json",
@@ -440,6 +454,11 @@
       },
       "8": {
         "name": "clouds",
+        "friction": 0.8,
+        "restitution": 0.0
+      },
+      "9": {
+        "name": "immovableFragile",
         "friction": 0.8,
         "restitution": 0.0
       }

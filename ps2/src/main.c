@@ -133,15 +133,15 @@ static const BlockSprites block_sprites[]={
 };
 static void block(const GameObject *o)
 {
-    if(o->kind==3){
-        int id=!strcmp(o->definition,"StaticBlock_01")?SPR_GROUND_BLOCK_01:!strcmp(o->definition,"StaticBlock_02")?SPR_GROUND_BLOCK_02:!strcmp(o->definition,"StaticBlock_03")?SPR_GROUND_BLOCK_03:!strcmp(o->definition,"StaticBlock_04")?SPR_GROUND_BLOCK_04:!strcmp(o->definition,"StaticBlock_05")?SPR_GROUND_BLOCK_05:!strcmp(o->definition,"Estrade01")?SPR_ESTRADE_01:!strcmp(o->definition,"Estrade03")?SPR_ESTRADE_03:!strcmp(o->definition,"ExtraTrampoline2")?SPR_BLOCK_TRAMPOLINE_01:SPR_ESTRADE_02;
+    if(o->kind==3 || o->kind==OBJECT_KIND_FRAGILE_GROUND){
+        int id=(!strcmp(o->definition,"StaticBlock_06")||!strcmp(o->definition,"StaticFragileBlock06"))?SPR_GROUND_BLOCK_06:!strcmp(o->definition,"StaticBlock_01")?SPR_GROUND_BLOCK_01:!strcmp(o->definition,"StaticBlock_02")?SPR_GROUND_BLOCK_02:!strcmp(o->definition,"StaticBlock_03")?SPR_GROUND_BLOCK_03:!strcmp(o->definition,"StaticBlock_04")?SPR_GROUND_BLOCK_04:!strcmp(o->definition,"StaticBlock_05")?SPR_GROUND_BLOCK_05:!strcmp(o->definition,"Estrade01")?SPR_ESTRADE_01:!strcmp(o->definition,"Estrade03")?SPR_ESTRADE_03:!strcmp(o->definition,"ExtraTrampoline2")?SPR_BLOCK_TRAMPOLINE_01:SPR_ESTRADE_02;
         int estrade=id==SPR_ESTRADE_01 || id==SPR_ESTRADE_02 || id==SPR_ESTRADE_03 || id==SPR_BLOCK_TRAMPOLINE_01;
         unsigned int tint=estrade?0x80808080:0x80284466;
         /* Ground masks are stored at 1/SPRITE_MASK_SCALE resolution. */
         sprite_draw_tint(gs,id,o->x,o->y,(render_scale/render_pixels)*(estrade?1:SPRITE_MASK_SCALE),o->angle,tint);return;
     }
     if(o->kind==OBJECT_KIND_FRAGILE){
-        int id=!strcmp(o->definition,"StaticBalloon02")?SPR_BLOCK_PIG_BALLOON_2:!strcmp(o->definition,"StaticBalloon04")?SPR_BLOCK_BALLOON_2:!strcmp(o->definition,"StaticBalloon05")?SPR_BLOCK_BALLOON_3:SPR_BLOCK_BALLOON_1;
+        int id=!strcmp(o->definition,"StaticBalloon01")?SPR_BLOCK_PIG_BALLOON_1:!strcmp(o->definition,"StaticBalloon02")?SPR_BLOCK_PIG_BALLOON_2:!strcmp(o->definition,"StaticBalloon04")?SPR_BLOCK_BALLOON_2:!strcmp(o->definition,"StaticBalloon05")?SPR_BLOCK_BALLOON_3:SPR_BLOCK_BALLOON_1;
         sprite_draw(gs,id,o->x,o->y,render_scale/render_pixels,o->angle);return;
     }
     if(o->kind==OBJECT_KIND_TNT){sprite_draw(gs,SPR_BLOCK_EXTRA_TNT,o->x,o->y,render_scale/render_pixels,o->angle);return;}
@@ -167,7 +167,7 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     gsKit_clear(gs,color(120,194,205));
     rect(0,0,640,109,dark);
     text(30,22,3,cream,"PS2BIRDS CLASSIC");
-    text(31,55,1,color(135,192,181),"PROTOTIPO 0.22.0 / PLAYSTATION 2");
+    text(31,55,1,color(135,192,181),"PROTOTIPO 0.23.0 / PLAYSTATION 2");
     text(430,55,1,color(135,192,181),audio_status());
     text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
     text(31,80,2,gold,game_level_title(g->level));
@@ -289,7 +289,7 @@ int main(void)
     gsKit_set_primalpha(gs,ALPHA_BLEND_NORMAL,0);
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.22.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.23.0: GS ready, pad open=%d\n",pad_open);
     Game g; game_init(&g); save_mc_init(&g); audio_init();
     u32 old_buttons=0;
     int paused=0, previously_connected=0, analog_requested=0,menu=1,selected=0;

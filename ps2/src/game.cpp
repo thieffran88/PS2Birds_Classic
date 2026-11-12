@@ -58,7 +58,7 @@ struct Physics: b2ContactListener {
         b2FixtureDef ground;ground.shape=&shape;ground.friction=0.8f;ground.restitution=0;floor->CreateFixture(&ground);
         for (int i=0;i<level->count;i++) {
             const CampaignObject &o=level->objects[i];
-            b2BodyDef def;def.type=(o.kind==3||o.kind==OBJECT_KIND_FRAGILE)?b2_staticBody:b2_dynamicBody;
+            b2BodyDef def;def.type=(o.kind==3||IS_FRAGILE_KIND(o.kind))?b2_staticBody:b2_dynamicBody;
             def.position.Set(o.x,o.y);def.angle=o.angle;
             b2Body *body=world.CreateBody(&def);
             body->GetUserData().pointer=i+1;
@@ -179,7 +179,7 @@ struct Physics: b2ContactListener {
             b2Body *pair[]={contact->GetFixtureA()->GetBody(),contact->GetFixtureB()->GetBody()};
             for(int k=0;k<2;k++){
                 uintptr_t id=pair[k]->GetUserData().pointer;b2Body *other=pair[1-k];
-                if(id>0 && id<=(uintptr_t)level->count && level->objects[id-1].kind==OBJECT_KIND_FRAGILE && other->GetType()==b2_dynamicBody && impulse->normalImpulses[0]>0)
+                if(id>0 && id<=(uintptr_t)level->count && IS_FRAGILE_KIND(level->objects[id-1].kind) && other->GetType()==b2_dynamicBody && impulse->normalImpulses[0]>0)
                     fragile_hit[id-1]=true;
             }
         }
@@ -371,14 +371,14 @@ static void tick(Game *g) {
         if(o.kind!=3 && p->impact[i]>3) p->health[i]-=(p->impact[i]-3)*12/fmaxf(o.defence,1);
         p->impact[i]=0;
         if(p->chain_delay[i]>0){p->chain_delay[i]-=dt;if(p->chain_delay[i]>0)continue;}
-        if(o.kind==OBJECT_KIND_FRAGILE && p->fragile_hit[i])p->health[i]=0;
+        if(IS_FRAGILE_KIND(o.kind) && p->fragile_hit[i])p->health[i]=0;
         if(o.kind!=3 && (p->health[i]<=0 || body->GetPosition().y>p->level->ground_y+25)) {
             b2Vec2 where=body->GetPosition();bool exploded=o.kind==OBJECT_KIND_TNT && p->health[i]<=0;
             p->world.DestroyBody(body);p->bodies[i]=NULL;
             /* A destroyed TNT crate blasts its surroundings; crates caught in the blast
                go off in the following ticks, giving chain reactions. */
             if(exploded)radial_blast(g,where,TNT_BLAST_RADIUS,TNT_BLAST_FORCE,TNT_DAMAGE_RADIUS,TNT_BLAST_DAMAGE);
-            if(o.kind==4){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else {g->block_alive--;g->score+=o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:500;g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
+            if(o.kind==4){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else {g->block_alive--;g->score+=o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
         }
     }
     if(g->pig_alive==0) {

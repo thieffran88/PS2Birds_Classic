@@ -21,7 +21,7 @@ assert [(p['width'],p['height']) for p in banks[0]['pages']]==[(512,512),(512,51
 assert sum(meta['slot_bytes'])<=meta['vram_budget']==2883584 and meta['slot_bytes']==[1048576,1048576,524288,262144]
 assert hashlib.sha256(pixels).hexdigest()==meta['atlas_sha256']
 assert max(pixels[3::4])==128 and min(pixels[3::4])==0
-assert len(meta['sprites'])==217 and len(banks[0]['sprites'])==152 and len(banks[1]['sprites'])==150 and len(banks[2]['sprites'])==126 and len(banks[3]['sprites'])==140
+assert len(meta['sprites'])==219 and len(banks[0]['sprites'])==153 and len(banks[1]['sprites'])==151 and len(banks[2]['sprites'])==127 and len(banks[3]['sprites'])==128
 occupied=set();checked=0
 for frame in meta['sprites']:
     for place in frame['banks']:
@@ -37,7 +37,7 @@ for frame in meta['sprites']:
         if frame['sprite']=='BIRD_RED':assert sum(content[i]>150 and content[i]>content[i+1]*2 and content[i+3]>0 for i in range(0,len(content),4))>100
 # Aliased frames in the Mighty Hoax bank point at sprites present in that bank.
 for name,target in banks[1]['aliases'].items():assert target in banks[1]['sprites'] and name not in banks[1]['sprites'] and (name.endswith('_BLINK') or name[-1] in '23')
-header=(a/'sprite_data.h').read_text();assert '#define SPRITE_BANK_COUNT 4' in header and '#define SPRITE_COUNT 217' in header
+header=(a/'sprite_data.h').read_text();assert '#define SPRITE_BANK_COUNT 4' in header and '#define SPRITE_COUNT 219' in header
 print(f'Sprites OK: endian/channels, alpha, crop, {len(meta["sprites"])} frames in {len(banks)} texture banks ({checked} placements), shared slots within {meta["vram_budget"]} bytes, bounds, no overlap, per-frame hashes, aliases.')
 
 # PNG sheets use 8-bit alpha, unlike the existing RGBA4444 streams.
@@ -68,7 +68,8 @@ for s in meta['sprites']:
         place=s['banks'][0];page=banks[place['bank']]['pages'][place['page']];body=bytearray()
         for row in range(place['atlas_y'],place['atlas_y']+s['height']):
             o=page['offset']+(row*page['width']+place['atlas_x'])*4;body+=pixels[o:o+s['width']*4]
-        assert set(body[0::4])=={255} and max(body[3::4])==128
+        # GROUND_BLOCK_06 is a faint 20x20 mask in the APK (the original fills it with a theme texture).
+        assert set(body[0::4])=={255} and (max(body[3::4])==128 if s['sprite']!='GROUND_BLOCK_06' else 0<max(body[3::4])<128)
 for name in ['BLOCK_EXTRA_TNT','BLOCK_PILLAR','BLOCK_DIAMOND','BLOCK_HOLYGRAIL','BLOCK_BANANA','PIG_MUSTACHE_01','PIG_MUSTACHE_01_BLINK','PIG_MUSTACHE_02','BLOCK_WOOD_1_8','BLOCK_WOOD_4_8']:assert name in sizes
 print('Mask/new sprites OK: half-resolution ground masks with box-filtered alpha, TNT, pillar, treasures, mustache pig and round wood present.')
 
@@ -95,8 +96,8 @@ print('Mighty Hoax page 5 bank OK: LightBlock8, apple and flag only in bank 2; n
 print('Mighty Hoax bank OK: 12 new block families and 3 extras only in bank 1; birds and slingshot in both banks.')
 
 # Danger Above bank 3: the green boomerang bird and the new pieces live only where they are used.
-for name in ['BIRD_BOOMERANG','BIRD_BOOMERANG_SPECIAL','BIRD_BOOMERANG_COLLISION','BLOCK_BALLOON_1','BLOCK_BALLOON_2','BLOCK_BALLOON_3','BLOCK_PIG_BALLOON_2','BLOCK_TRAMPOLINE_01','BIRD_RED','SLING_SHOT_01_BACK']:assert name in banks[3]['sprites'],name
+for name in ['GROUND_BLOCK_06','BLOCK_PIG_BALLOON_1','BIRD_BOOMERANG','BIRD_BOOMERANG_SPECIAL','BIRD_BOOMERANG_COLLISION','BLOCK_BALLOON_1','BLOCK_BALLOON_2','BLOCK_BALLOON_3','BLOCK_PIG_BALLOON_2','BLOCK_TRAMPOLINE_01','BIRD_RED','SLING_SHOT_01_BACK']:assert name in banks[3]['sprites'],name
 for b in range(3):
     for name in ['BIRD_BOOMERANG','BIRD_BOOMERANG_SPECIAL','BLOCK_BALLOON_1','BLOCK_TRAMPOLINE_01']:assert name not in banks[b]['sprites'],(b,name)
 assert sum(meta['slot_bytes'])<=meta['vram_budget']
-print('Danger Above bank OK: boomerang bird, balloons and trampoline only in bank 3; earlier banks unchanged.')
+print('Danger Above bank OK: boomerang bird, balloons, trampoline and ground block 06 in bank 3; boomerang and balloons absent from earlier banks.')

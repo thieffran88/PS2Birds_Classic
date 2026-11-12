@@ -1,0 +1,33 @@
+# Modificações 0.23.0
+
+- **Danger Above 7-1 a 7-15**
+  - 15 fases na ordem do mundo 7 do `episodes.lua` (trecho em `ps2/data/episode_danger_above_page2.decompiled.lua`), com limites de estrelas do `starLimits.lua`.
+  - A campanha passa de 120 para 135 fases, todas as 15 novas com roteiro vencedor.
+  - Usam o banco de texturas 3, compartilhado com a página 6.
+- **Peças novas (definições conferidas contra o `blocks.lua`, trecho em `ps2/data/page7_definitions_excerpt.lua`)**
+  - StaticFragileBlock06: bloco de terreno frágil (grupo `staticFragile`, material `immovableFragile`, 0 pontos). Novo tipo de objeto 9.
+  - StaticBlock_06: bloco de terreno fixo com a máscara GROUND_BLOCK_06.
+  - StaticBalloon01: balão-porco que estoura (BLOCK_PIG_BALLOON_1).
+  - Material `immovableFragile` (atrito 0,8, restituição 0) no perfil.
+- **Save v5**
+  - Capacidade de 128 para 256 fases (1.056 bytes).
+  - Saves v4 são lidos e migrados: com a 7-15 ainda não existente no save antigo, a próxima fase é liberada se a última foi vencida.
+  - O teste de save cobre a migração v4 → v5, a expansão 84 → 85 e o limite de 256 posições.
+- **Motor e limites**
+  - Limite de objetos por fase de 192 para 224 (a 7-2 tem 200).
+  - Balões e blocos de terreno frágeis compartilham a regra de estouro (`IS_FRAGILE_KIND`).
+- **Texturas**
+  - O banco 3 passa a usar dois quadros de dano nas peças numeradas (intacto e muito danificado), como o banco 2, para caber as páginas 6 e 7 sem criar um quinto banco. Cada banco novo custaria 2,8 MB de RAM.
+  - GROUND_BLOCK_06 e BLOCK_PIG_BALLOON_1 adicionados.
+- **Ferramentas de investigação**
+  - `settle_probe` e `settle_detail` guardavam só 200 objetos e mostravam movimento falso na 7-2; agora usam o limite do jogo.
+  - Com isso, 12 fases antigas aparecem com alguma peça se deslocando mais de 3 unidades ao carregar; registrado em `docs/LACUNAS_PORT.md`.
+- **Testes**
+  - Novo teste de procedência da página 7 (ordem, banco, três peças, material e limite de objetos).
+  - Testes de sprites atualizados (219 quadros em 4 bancos; máscara GROUND_BLOCK_06 quase transparente como no APK).
+  - Tabela da campanha regenerada para 135 fases: 133 com roteiro (3-20 e 5-16 seguem sem).
+- **Versão e documentos**
+  - Tela e log em 0.23.0. README (inclui o save v5), lacunas, validação e histórico atualizados; capturas das fases 7-2 e 7-3 no PCSX2.
+- **Limpeza**
+  - Capturas da 0.22.0 removidas do repositório.
+  - No Drive, os arquivos 0.22.0 foram substituídos pelos 0.23.0.

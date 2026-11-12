@@ -1,11 +1,12 @@
 // Host helper: per-object displacement after the first 0.25 s and 2 s of settling.
 #include "game.h"
+#include "campaign_types.h"
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
 int main(int argc,char **argv){
     Game g;game_init(&g);g.unlocked=game_level_count();int level=atoi(argv[1]);game_load_level(&g,level);
-    int n=game_object_count(&g);float x0[200],y0[200],a0[200],x1[200],y1[200];
+    int n=game_object_count(&g);float x0[MAX_LEVEL_OBJECTS],y0[MAX_LEVEL_OBJECTS],a0[MAX_LEVEL_OBJECTS],x1[MAX_LEVEL_OBJECTS],y1[MAX_LEVEL_OBJECTS];
     for(int i=0;i<n;i++){GameObject o;game_get_object(&g,i,&o);x0[i]=o.x;y0[i]=o.y;a0[i]=o.angle;}
     for(int t=0;t<30;t++)game_update(&g,1.0f/120);
     for(int i=0;i<n;i++){GameObject o;game_get_object(&g,i,&o);x1[i]=o.x;y1[i]=o.y;}

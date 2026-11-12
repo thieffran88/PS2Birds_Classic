@@ -15,7 +15,7 @@ def build(episode_path=EPISODE):
     pages=[{'number':1,'title_prefix':episode['title_prefix'],'levels':episode['levels']}]+episode.get('additional_pages',[])
     entries=[(page,number,name) for page in pages for number,name in enumerate(page['levels'],1)]
     names=[entry[2] for entry in entries]
-    if len(names)!=len(set(names)) or not 1<=len(names)<=128:raise ValueError('Episode list must be 1..128 unique stages')
+    if len(names)!=len(set(names)) or not 1<=len(names)<=256:raise ValueError('Episode list must be 1..256 unique stages')
     with tempfile.TemporaryDirectory(prefix='ps2birds-campaign-') as folder:
         for page,position,name in entries:
             source=ROOT/f'ps2/data/{name}.decompiled.lua'
