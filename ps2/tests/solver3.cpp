@@ -28,6 +28,8 @@ int main(int argc,char **argv){
     int level=atoi(argv[1]);std::vector<Shot> prefix;
     for(int i=2;i+2<argc;i+=3)prefix.push_back(Shot{(float)atof(argv[i]),(float)atof(argv[i+1]),(float)atof(argv[i+2])});
     Game g;game_init(&g);g.unlocked=game_level_count();
+    game_load_level(&g,level);settle(&g);for(const Shot &s:prefix)fire(&g,s);
+    if(g.state!=AIMING){game_destroy(&g);return 0;}  // prefix already ended the stage
     struct Result{double value;Shot shot;};std::vector<Result> results;
     const float specials[]={-1,0.6f,0.8f,1.0f,1.2f,1.4f,1.6f,1.8f,2.0f,2.3f,2.6f};
     // Optional refinement window: A0/A1/AS and P0/P1/PS environment variables.

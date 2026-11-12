@@ -1,4 +1,4 @@
-# PS2Birds Classic — protótipo 0.18.0
+# PS2Birds Classic — protótipo 0.19.0
 
 Foco exclusivo no Classic. Inclui a primeira página completa de Poached Eggs
 e a segunda e a terceira páginas completas (63 fases, todo o episódio Poached Eggs) e a primeira página de Mighty Hoax (84 fases) na ordem declarada pelo próprio APK, com sprites originais, pássaros
@@ -71,7 +71,7 @@ já estão incluídos. O audsrv é compilado das fontes incluídas. Se o módulo
 inicializar, o jogo continua com SOM INDISPONIVEL. Ainda não há música de fundo.
 
 As ferramentas/perfis de outras séries permanecem no pacote, sem novos ports.
-Consulte docs/MODIFICACOES_0.18.0.md e docs/VALIDACAO_0.18.0.md. Documentos das versões
+Consulte docs/MODIFICACOES_0.19.0.md e docs/VALIDACAO_0.19.0.md. Documentos das versões
 anteriores são históricos. Saves da 0.6.0 à 0.8.0 são aproveitados e regravados no
 formato versão 3 (288 bytes, até 64 fases). A seleção mostra três fases por página
 e muda automaticamente conforme cima/baixo.
@@ -90,7 +90,7 @@ WoodBlock7 e LightBlock7 usam colisão circular, conferida nas definições recu
 
 A física continua em passos de 120 Hz, usando o tempo transcorrido do relógio do PS2SDK (até 100 ms recuperados por quadro). Isso preserva o ritmo da partida e da mira quando uma cena renderiza abaixo de 60 FPS, sem garantir 60 FPS em cenas pesadas.
 
-A versão 0.18.0 lê saves v1 (96 bytes) e v2 (160 bytes) e grava v3 (288 bytes). Os recordes e desbloqueios são preservados; na primeira gravação da migração, a cópia anterior permanece no outro slot. Versões antigas do port reconhecem o cabeçalho v3 como mais novo e recusam sobrescrevê-lo. A capacidade de 64 posições prepara a continuação da campanha; esta versão contém 84 fases jogáveis.
+A versão 0.19.0 lê saves v1 (96 bytes) e v2 (160 bytes) e grava v3 (288 bytes). Os recordes e desbloqueios são preservados; na primeira gravação da migração, a cópia anterior permanece no outro slot. Versões antigas do port reconhecem o cabeçalho v3 como mais novo e recusam sobrescrevê-lo. A capacidade de 64 posições prepara a continuação da campanha; esta versão contém 84 fases jogáveis.
 
 O branco usa raio/densidade/restituição recuperados. O ovo usa densidade/restituição e valores de explosão de EggGranade; raio inferido da largura do sprite, velocidades de queda/recuo e propagação radial são aproximações do port. Melancias e pneus usam discos sólidos simplificados, com o modelo de materiais existente; pneus não reproduzem a elasticidade/forma interna do original. O atlas do ovo vem de PNG e requer Pillow para regeneração. Há dez canais de efeitos: soltar o ovo e explodir usam canais diferentes.
 
@@ -138,3 +138,12 @@ A investigação das fases sem vitória encontrou três erros de importação pr
 - Velocidade de lançamento dependente do zoom. O original usa 46,25 unidades/s com o estilingue esticado ao máximo (`defaultForce = -925`, `physicsScale = 1/20`); o port dividia a força pela escala da câmera, de 23 a 152 unidades/s conforme a fase. A força agora é a porcentagem de esticamento.
 
 Com isso, 82 das 84 fases têm vitória encontrada pela busca automática. Continuam sem roteiro 3-9 e 3-19; nelas a vitória depende de quedas e esmagamentos, cuja fórmula de dano fica no código nativo do jogo e não nos scripts Lua recuperados. Não existe regra de desbloqueio extra: o avanço é o do jogo original.
+
+## Correções da 0.19.0
+
+A primeira execução no PCSX2 mostrou a fase 4-1 desmoronando ao carregar. A investigação encontrou mais duas diferenças em relação ao original:
+
+- Tamanho físico das peças. `ObjectCreation.lua` reduz caixas, círculos e polígonos dinâmicos a 92% do sprite (`sizeFactorX/Y`, padrão 0,92); só objetos estáticos usam o sprite inteiro. O port usava 100%, então as peças nasciam sobrepostas e se empurravam.
+- Materiais. Atrito e restituição vêm da tabela `materials` de blocks.lua (madeira 4,0/0,2, vidro 0,7/0,2, pedra 4,0/0,1, estático e chão 0,8/0, porco 0,7/0,05 ou 0,3 quando a definição declara, extras 0,7/0,4). O port usava 0,6/0,03 para tudo e 0,2 no chão.
+
+Com as duas correções, 83 das 84 fases têm vitória encontrada pela busca automática, inclusive 3-9 e 3-19. A 3-20 continua sem roteiro.
