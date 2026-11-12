@@ -11,7 +11,7 @@
   - Material `immovableFragile` (atrito 0,8, restituição 0) no perfil.
 - **Save v5**
   - Capacidade de 128 para 256 fases (1.056 bytes).
-  - Saves v4 são lidos e migrados: com a 7-15 ainda não existente no save antigo, a próxima fase é liberada se a última foi vencida.
+  - Saves v4 são lidos e migrados para v5. Um save de 120 fases com a 6-15 vencida libera a 7-1.
   - O teste de save cobre a migração v4 → v5, a expansão 84 → 85 e o limite de 256 posições.
 - **Motor e limites**
   - Limite de objetos por fase de 192 para 224 (a 7-2 tem 200).
