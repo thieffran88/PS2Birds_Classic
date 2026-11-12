@@ -176,8 +176,18 @@
       "sprite": "BLOCK_STRAWBERRY",
       "shape": "circle"
     },
+    "ExtraApple": {
+      "kind": 6,
+      "sprite": "BLOCK_APPLE",
+      "shape": "circle"
+    },
     "LightBlock7": {
       "sprite": "BLOCK_LIGHT_1_7",
+      "kind": 2,
+      "shape": "circle"
+    },
+    "LightBlock8": {
+      "sprite": "BLOCK_LIGHT_1_8",
       "kind": 2,
       "shape": "circle"
     },
@@ -185,6 +195,11 @@
       "sprite": "BLOCK_TIRE_01",
       "kind": 6,
       "shape": "circle"
+    },
+    "ExtraBlockFlag01": {
+      "sprite": "BLOCK_EXTRA_FLAG_01",
+      "kind": 6,
+      "shape": "box"
     },
     "ExtraTire03": {
       "sprite": "BLOCK_TIRE_03",

@@ -391,14 +391,238 @@
         "PIG_HELMET_01_BLINK": "PIG_HELMET_01",
         "PIG_MUSTACHE_01_BLINK": "PIG_MUSTACHE_01"
       }
+    },
+    {
+      "bank": 2,
+      "pages": [
+        {
+          "width": 512,
+          "height": 512,
+          "offset": 5767168
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "offset": 6815744
+        },
+        {
+          "width": 512,
+          "height": 256,
+          "offset": 7864320
+        },
+        {
+          "width": 512,
+          "height": 64,
+          "offset": 8388608
+        }
+      ],
+      "sprites": [
+        "BIRD_BLUE",
+        "BIRD_BLUE_COLLISION",
+        "BIRD_GREEN",
+        "BIRD_GREEN_COLLISION",
+        "BIRD_GREEN_FLYING",
+        "BIRD_GREY",
+        "BIRD_GREY_1",
+        "BIRD_GREY_2",
+        "BIRD_GREY_3",
+        "BIRD_GREY_FLYING",
+        "BIRD_RED",
+        "BIRD_YELLOW",
+        "BIRD_YELLOW_COLLISION",
+        "BLOCK_APPLE",
+        "BLOCK_BANANA",
+        "BLOCK_BEACHBALL",
+        "BLOCK_DONUT",
+        "BLOCK_EXTRA_FLAG_01",
+        "BLOCK_EXTRA_FLAG_02",
+        "BLOCK_EXTRA_TNT",
+        "BLOCK_GOLDEN_EGG",
+        "BLOCK_HAM",
+        "BLOCK_LIGHT_10X1_1",
+        "BLOCK_LIGHT_10X1_2",
+        "BLOCK_LIGHT_10X1_3",
+        "BLOCK_LIGHT_10X1_4",
+        "BLOCK_LIGHT_1_1",
+        "BLOCK_LIGHT_1_2",
+        "BLOCK_LIGHT_1_3",
+        "BLOCK_LIGHT_1_4",
+        "BLOCK_LIGHT_1_5",
+        "BLOCK_LIGHT_1_6",
+        "BLOCK_LIGHT_1_7",
+        "BLOCK_LIGHT_1_8",
+        "BLOCK_LIGHT_4X4_1",
+        "BLOCK_LIGHT_4X4_4",
+        "BLOCK_LIGHT_4_1",
+        "BLOCK_LIGHT_4_2",
+        "BLOCK_LIGHT_4_3",
+        "BLOCK_LIGHT_4_4",
+        "BLOCK_LIGHT_4_5",
+        "BLOCK_LIGHT_4_6",
+        "BLOCK_LIGHT_4_7",
+        "BLOCK_LIGHT_4_8",
+        "BLOCK_LIGHT_TRIANGLE_L_1",
+        "BLOCK_LIGHT_TRIANGLE_L_4",
+        "BLOCK_LIGHT_TRIANGLE_M_1",
+        "BLOCK_LIGHT_TRIANGLE_M_4",
+        "BLOCK_PILLAR",
+        "BLOCK_ROCK_10X1_1",
+        "BLOCK_ROCK_10X1_2",
+        "BLOCK_ROCK_10X1_3",
+        "BLOCK_ROCK_10X1_4",
+        "BLOCK_ROCK_1_1",
+        "BLOCK_ROCK_1_2",
+        "BLOCK_ROCK_1_3",
+        "BLOCK_ROCK_1_4",
+        "BLOCK_ROCK_1_5",
+        "BLOCK_ROCK_1_6",
+        "BLOCK_ROCK_1_8",
+        "BLOCK_ROCK_4X4_1",
+        "BLOCK_ROCK_4X4_4",
+        "BLOCK_ROCK_4_1",
+        "BLOCK_ROCK_4_2",
+        "BLOCK_ROCK_4_3",
+        "BLOCK_ROCK_4_4",
+        "BLOCK_ROCK_4_5",
+        "BLOCK_ROCK_4_6",
+        "BLOCK_ROCK_4_8",
+        "BLOCK_ROCK_TRIANGLE_L_1",
+        "BLOCK_ROCK_TRIANGLE_L_4",
+        "BLOCK_ROCK_TRIANGLE_M_1",
+        "BLOCK_ROCK_TRIANGLE_M_4",
+        "BLOCK_RUBBERDUCK",
+        "BLOCK_STRAWBERRY",
+        "BLOCK_TIRE_01",
+        "BLOCK_TIRE_03",
+        "BLOCK_WATERMELON",
+        "BLOCK_WOOD_10X1_1",
+        "BLOCK_WOOD_10X1_2",
+        "BLOCK_WOOD_10X1_3",
+        "BLOCK_WOOD_10X1_4",
+        "BLOCK_WOOD_1_1",
+        "BLOCK_WOOD_1_2",
+        "BLOCK_WOOD_1_3",
+        "BLOCK_WOOD_1_4",
+        "BLOCK_WOOD_1_5",
+        "BLOCK_WOOD_1_6",
+        "BLOCK_WOOD_1_7",
+        "BLOCK_WOOD_1_8",
+        "BLOCK_WOOD_4X4_1",
+        "BLOCK_WOOD_4X4_4",
+        "BLOCK_WOOD_4_1",
+        "BLOCK_WOOD_4_2",
+        "BLOCK_WOOD_4_3",
+        "BLOCK_WOOD_4_4",
+        "BLOCK_WOOD_4_5",
+        "BLOCK_WOOD_4_6",
+        "BLOCK_WOOD_4_7",
+        "BLOCK_WOOD_4_8",
+        "BLOCK_WOOD_TRIANGLE_L_1",
+        "BLOCK_WOOD_TRIANGLE_L_4",
+        "BLOCK_WOOD_TRIANGLE_M_1",
+        "BLOCK_WOOD_TRIANGLE_M_4",
+        "DROPPABLE_EGG",
+        "ESTRADE_01",
+        "ESTRADE_02",
+        "GROUND_BLOCK_01",
+        "GROUND_BLOCK_02",
+        "GROUND_BLOCK_03",
+        "GROUND_BLOCK_04",
+        "GROUND_BLOCK_05",
+        "PIG_BASIC_BIG_01",
+        "PIG_BASIC_BIG_02",
+        "PIG_BASIC_MEDIUM_01",
+        "PIG_BASIC_MEDIUM_02",
+        "PIG_BASIC_SMALL_01",
+        "PIG_BASIC_SMALL_02",
+        "PIG_HELMET_01",
+        "PIG_HELMET_02",
+        "PIG_KING_01",
+        "PIG_KING_02",
+        "PIG_MUSTACHE_01",
+        "PIG_MUSTACHE_02",
+        "SLING_SHOT_01_BACK",
+        "SLING_SHOT_01_FRONT"
+      ],
+      "aliases": {
+        "BLOCK_LIGHT_2_1": "BLOCK_LIGHT_1_1",
+        "BLOCK_LIGHT_2_2": "BLOCK_LIGHT_1_2",
+        "BLOCK_LIGHT_2_3": "BLOCK_LIGHT_1_3",
+        "BLOCK_LIGHT_2_4": "BLOCK_LIGHT_1_4",
+        "BLOCK_LIGHT_2_5": "BLOCK_LIGHT_1_5",
+        "BLOCK_LIGHT_2_6": "BLOCK_LIGHT_1_6",
+        "BLOCK_LIGHT_2_7": "BLOCK_LIGHT_1_7",
+        "BLOCK_LIGHT_2_8": "BLOCK_LIGHT_1_8",
+        "BLOCK_LIGHT_3_1": "BLOCK_LIGHT_4_1",
+        "BLOCK_LIGHT_3_2": "BLOCK_LIGHT_4_2",
+        "BLOCK_LIGHT_3_3": "BLOCK_LIGHT_4_3",
+        "BLOCK_LIGHT_3_4": "BLOCK_LIGHT_4_4",
+        "BLOCK_LIGHT_3_5": "BLOCK_LIGHT_4_5",
+        "BLOCK_LIGHT_3_6": "BLOCK_LIGHT_4_6",
+        "BLOCK_LIGHT_3_7": "BLOCK_LIGHT_4_7",
+        "BLOCK_LIGHT_3_8": "BLOCK_LIGHT_4_8",
+        "BLOCK_LIGHT_4X4_2": "BLOCK_LIGHT_4X4_1",
+        "BLOCK_LIGHT_4X4_3": "BLOCK_LIGHT_4X4_4",
+        "BLOCK_LIGHT_TRIANGLE_L_2": "BLOCK_LIGHT_TRIANGLE_L_1",
+        "BLOCK_LIGHT_TRIANGLE_L_3": "BLOCK_LIGHT_TRIANGLE_L_4",
+        "BLOCK_LIGHT_TRIANGLE_M_2": "BLOCK_LIGHT_TRIANGLE_M_1",
+        "BLOCK_LIGHT_TRIANGLE_M_3": "BLOCK_LIGHT_TRIANGLE_M_4",
+        "BLOCK_ROCK_2_1": "BLOCK_ROCK_1_1",
+        "BLOCK_ROCK_2_2": "BLOCK_ROCK_1_2",
+        "BLOCK_ROCK_2_3": "BLOCK_ROCK_1_3",
+        "BLOCK_ROCK_2_4": "BLOCK_ROCK_1_4",
+        "BLOCK_ROCK_2_5": "BLOCK_ROCK_1_5",
+        "BLOCK_ROCK_2_6": "BLOCK_ROCK_1_6",
+        "BLOCK_ROCK_2_8": "BLOCK_ROCK_1_8",
+        "BLOCK_ROCK_3_1": "BLOCK_ROCK_4_1",
+        "BLOCK_ROCK_3_2": "BLOCK_ROCK_4_2",
+        "BLOCK_ROCK_3_3": "BLOCK_ROCK_4_3",
+        "BLOCK_ROCK_3_4": "BLOCK_ROCK_4_4",
+        "BLOCK_ROCK_3_5": "BLOCK_ROCK_4_5",
+        "BLOCK_ROCK_3_6": "BLOCK_ROCK_4_6",
+        "BLOCK_ROCK_3_8": "BLOCK_ROCK_4_8",
+        "BLOCK_ROCK_4X4_2": "BLOCK_ROCK_4X4_1",
+        "BLOCK_ROCK_4X4_3": "BLOCK_ROCK_4X4_4",
+        "BLOCK_ROCK_TRIANGLE_L_2": "BLOCK_ROCK_TRIANGLE_L_1",
+        "BLOCK_ROCK_TRIANGLE_L_3": "BLOCK_ROCK_TRIANGLE_L_4",
+        "BLOCK_ROCK_TRIANGLE_M_2": "BLOCK_ROCK_TRIANGLE_M_1",
+        "BLOCK_ROCK_TRIANGLE_M_3": "BLOCK_ROCK_TRIANGLE_M_4",
+        "BLOCK_WOOD_2_1": "BLOCK_WOOD_1_1",
+        "BLOCK_WOOD_2_2": "BLOCK_WOOD_1_2",
+        "BLOCK_WOOD_2_3": "BLOCK_WOOD_1_3",
+        "BLOCK_WOOD_2_4": "BLOCK_WOOD_1_4",
+        "BLOCK_WOOD_2_5": "BLOCK_WOOD_1_5",
+        "BLOCK_WOOD_2_6": "BLOCK_WOOD_1_6",
+        "BLOCK_WOOD_2_7": "BLOCK_WOOD_1_7",
+        "BLOCK_WOOD_2_8": "BLOCK_WOOD_1_8",
+        "BLOCK_WOOD_3_1": "BLOCK_WOOD_4_1",
+        "BLOCK_WOOD_3_2": "BLOCK_WOOD_4_2",
+        "BLOCK_WOOD_3_3": "BLOCK_WOOD_4_3",
+        "BLOCK_WOOD_3_4": "BLOCK_WOOD_4_4",
+        "BLOCK_WOOD_3_5": "BLOCK_WOOD_4_5",
+        "BLOCK_WOOD_3_6": "BLOCK_WOOD_4_6",
+        "BLOCK_WOOD_3_7": "BLOCK_WOOD_4_7",
+        "BLOCK_WOOD_3_8": "BLOCK_WOOD_4_8",
+        "BLOCK_WOOD_4X4_2": "BLOCK_WOOD_4X4_1",
+        "BLOCK_WOOD_4X4_3": "BLOCK_WOOD_4X4_4",
+        "BLOCK_WOOD_TRIANGLE_L_2": "BLOCK_WOOD_TRIANGLE_L_1",
+        "BLOCK_WOOD_TRIANGLE_L_3": "BLOCK_WOOD_TRIANGLE_L_4",
+        "BLOCK_WOOD_TRIANGLE_M_2": "BLOCK_WOOD_TRIANGLE_M_1",
+        "BLOCK_WOOD_TRIANGLE_M_3": "BLOCK_WOOD_TRIANGLE_M_4",
+        "PIG_BASIC_BIG_01_BLINK": "PIG_BASIC_BIG_01",
+        "PIG_BASIC_MEDIUM_01_BLINK": "PIG_BASIC_MEDIUM_01",
+        "PIG_BASIC_SMALL_01_BLINK": "PIG_BASIC_SMALL_01",
+        "PIG_HELMET_01_BLINK": "PIG_HELMET_01",
+        "PIG_MUSTACHE_01_BLINK": "PIG_MUSTACHE_01"
+      }
     }
   ],
-  "bytes": 5767168,
+  "bytes": 8519680,
   "alpha_range": [
     0,
     128
   ],
-  "atlas_sha256": "5ce504a16905615812a2cea69b779252637f397eb40338151ff432d098a621d7",
+  "atlas_sha256": "d51734deaf1607e8eb53e15ee420ec1482f4a44916c70aa0f91d4896274d5b72",
   "sprites": [
     {
       "sprite": "BIRD_GREEN",
@@ -424,6 +648,12 @@
           "page": 0,
           "atlas_x": 41,
           "atlas_y": 127
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 369,
+          "atlas_y": 210
         }
       ]
     },
@@ -451,6 +681,12 @@
           "page": 0,
           "atlas_x": 319,
           "atlas_y": 200
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 231,
+          "atlas_y": 211
         }
       ]
     },
@@ -478,6 +714,12 @@
           "page": 0,
           "atlas_x": 234,
           "atlas_y": 111
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 41,
+          "atlas_y": 200
         }
       ]
     },
@@ -505,6 +747,12 @@
           "page": 0,
           "atlas_x": 169,
           "atlas_y": 386
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 85,
+          "atlas_y": 85
         }
       ]
     },
@@ -532,6 +780,12 @@
           "page": 1,
           "atlas_x": 377,
           "atlas_y": 167
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 324
         }
       ]
     },
@@ -559,6 +813,12 @@
           "page": 0,
           "atlas_x": 1,
           "atlas_y": 223
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 384,
+          "atlas_y": 306
         }
       ]
     },
@@ -586,6 +846,12 @@
           "page": 0,
           "atlas_x": 402,
           "atlas_y": 292
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 448,
+          "atlas_y": 306
         }
       ]
     },
@@ -613,6 +879,12 @@
           "page": 0,
           "atlas_x": 304,
           "atlas_y": 296
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 215,
+          "atlas_y": 307
         }
       ]
     },
@@ -640,6 +912,12 @@
           "page": 0,
           "atlas_x": 280,
           "atlas_y": 464
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 117,
+          "atlas_y": 474
         }
       ]
     },
@@ -667,6 +945,12 @@
           "page": 0,
           "atlas_x": 415,
           "atlas_y": 460
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 83,
+          "atlas_y": 474
         }
       ]
     },
@@ -694,6 +978,12 @@
           "page": 0,
           "atlas_x": 232,
           "atlas_y": 464
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 385,
+          "atlas_y": 454
         }
       ]
     },
@@ -721,6 +1011,12 @@
           "page": 1,
           "atlas_x": 69,
           "atlas_y": 320
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 365,
+          "atlas_y": 398
         }
       ]
     },
@@ -748,6 +1044,12 @@
           "page": 1,
           "atlas_x": 129,
           "atlas_y": 320
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 425,
+          "atlas_y": 398
         }
       ]
     },
@@ -772,6 +1074,12 @@
         },
         {
           "bank": 1,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 1
+        },
+        {
+          "bank": 2,
           "page": 0,
           "atlas_x": 1,
           "atlas_y": 1
@@ -802,6 +1110,12 @@
           "page": 0,
           "atlas_x": 41,
           "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 130,
+          "atlas_y": 1
         }
       ]
     },
@@ -829,6 +1143,12 @@
           "page": 0,
           "atlas_x": 317,
           "atlas_y": 431
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 287,
+          "atlas_y": 453
         }
       ]
     },
@@ -877,6 +1197,12 @@
           "page": 0,
           "atlas_x": 366,
           "atlas_y": 460
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 336,
+          "atlas_y": 454
         }
       ]
     },
@@ -903,6 +1229,12 @@
           "bank": 1,
           "page": 1,
           "atlas_x": 81,
+          "atlas_y": 167
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 392,
           "atlas_y": 167
         }
       ]
@@ -952,6 +1284,12 @@
           "page": 1,
           "atlas_x": 161,
           "atlas_y": 167
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 169
         }
       ]
     },
@@ -979,6 +1317,12 @@
           "page": 1,
           "atlas_x": 241,
           "atlas_y": 167
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 229,
+          "atlas_y": 249
         }
       ]
     },
@@ -1006,6 +1350,12 @@
           "page": 1,
           "atlas_x": 309,
           "atlas_y": 167
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 389,
+          "atlas_y": 322
         }
       ]
     },
@@ -1033,6 +1383,12 @@
           "page": 0,
           "atlas_x": 375,
           "atlas_y": 101
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 369,
+          "atlas_y": 111
         }
       ]
     },
@@ -1081,6 +1437,12 @@
           "page": 0,
           "atlas_x": 133,
           "atlas_y": 111
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 130,
+          "atlas_y": 127
         }
       ]
     },
@@ -1108,6 +1470,12 @@
           "page": 0,
           "atlas_x": 402,
           "atlas_y": 200
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 298
         }
       ]
     },
@@ -1156,6 +1524,12 @@
           "page": 0,
           "atlas_x": 124,
           "atlas_y": 210
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 108,
+          "atlas_y": 298
         }
       ]
     },
@@ -1182,6 +1556,12 @@
           "bank": 1,
           "page": 0,
           "atlas_x": 133,
+          "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 270,
           "atlas_y": 1
         }
       ]
@@ -1231,6 +1611,12 @@
           "page": 0,
           "atlas_x": 254,
           "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 391,
+          "atlas_y": 1
         }
       ]
     },
@@ -1258,6 +1644,12 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 376
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 1
         }
       ]
     },
@@ -1279,6 +1671,12 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 372
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 399
         }
       ]
     },
@@ -1369,6 +1767,12 @@
           "page": 1,
           "atlas_x": 241,
           "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 392,
+          "atlas_y": 245
         }
       ]
     },
@@ -1396,6 +1800,12 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 247
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 297,
+          "atlas_y": 324
         }
       ]
     },
@@ -1417,6 +1827,33 @@
           "page": 1,
           "atlas_x": 325,
           "atlas_y": 363
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 457,
+          "atlas_y": 322
+        }
+      ]
+    },
+    {
+      "sprite": "BLOCK_APPLE",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "c7adf4266608ed1c917ad7c4f3c07c8c602f4889e7210ef29ffa0d5cdc03977a",
+      "width": 52,
+      "height": 50,
+      "pivot": {
+        "x": 26,
+        "y": 25
+      },
+      "banks": [
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 182,
+          "atlas_y": 445
         }
       ]
     },
@@ -1444,6 +1881,12 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 167
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 312,
+          "atlas_y": 167
         }
       ]
     },
@@ -1465,6 +1908,12 @@
           "page": 1,
           "atlas_x": 440,
           "atlas_y": 418
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 284,
+          "atlas_y": 399
         }
       ]
     },
@@ -1486,6 +1935,12 @@
           "page": 1,
           "atlas_x": 431,
           "atlas_y": 296
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 139,
+          "atlas_y": 325
         }
       ]
     },
@@ -1513,6 +1968,33 @@
           "page": 1,
           "atlas_x": 319,
           "atlas_y": 317
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 67,
+          "atlas_y": 325
+        }
+      ]
+    },
+    {
+      "sprite": "BLOCK_EXTRA_FLAG_01",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "366e9e1c00932ca067e875609e0e8fdfbfb0d79c62ce85e173a280986796e44a",
+      "width": 46,
+      "height": 123,
+      "pivot": {
+        "x": 23,
+        "y": 61
+      },
+      "banks": [
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 175,
+          "atlas_y": 1
         }
       ]
     },
@@ -1588,6 +2070,12 @@
           "page": 0,
           "atlas_x": 41,
           "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 41,
+          "atlas_y": 1
         }
       ]
     },
@@ -1609,6 +2097,12 @@
           "page": 1,
           "atlas_x": 49,
           "atlas_y": 430
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 457
         }
       ]
     },
@@ -1741,6 +2235,12 @@
           "page": 1,
           "atlas_x": 359,
           "atlas_y": 301
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 212,
+          "atlas_y": 325
         }
       ]
     },
@@ -1762,6 +2262,12 @@
           "page": 1,
           "atlas_x": 237,
           "atlas_y": 318
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 212,
+          "atlas_y": 387
         }
       ]
     },
@@ -1783,6 +2289,12 @@
           "page": 0,
           "atlas_x": 234,
           "atlas_y": 209
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 314,
+          "atlas_y": 306
         }
       ]
     },
@@ -1803,6 +2315,12 @@
           "bank": 1,
           "page": 0,
           "atlas_x": 86,
+          "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 223,
           "atlas_y": 1
         }
       ]
@@ -1831,6 +2349,12 @@
           "page": 3,
           "atlas_x": 415,
           "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 484,
+          "atlas_y": 380
         }
       ]
     },
@@ -1858,6 +2382,12 @@
           "page": 3,
           "atlas_x": 437,
           "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 174
         }
       ]
     },
@@ -1885,6 +2415,12 @@
           "page": 1,
           "atlas_x": 214,
           "atlas_y": 462
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 152,
+          "atlas_y": 44
         }
       ]
     },
@@ -1912,6 +2448,12 @@
           "page": 3,
           "atlas_x": 208,
           "atlas_y": 23
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 196
         }
       ]
     },
@@ -1939,6 +2481,12 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 465
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 195,
+          "atlas_y": 44
         }
       ]
     },
@@ -1966,6 +2514,12 @@
           "page": 3,
           "atlas_x": 293,
           "atlas_y": 23
+        },
+        {
+          "bank": 2,
+          "page": 3,
+          "atlas_x": 1,
+          "atlas_y": 23
         }
       ]
     },
@@ -1987,6 +2541,12 @@
           "page": 1,
           "atlas_x": 395,
           "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 247
         }
       ]
     },
@@ -2008,6 +2568,12 @@
           "page": 1,
           "atlas_x": 225,
           "atlas_y": 471
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 408,
+          "atlas_y": 44
         }
       ]
     },
@@ -2443,6 +3009,12 @@
           "page": 3,
           "atlas_x": 406,
           "atlas_y": 45
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 484,
+          "atlas_y": 402
         }
       ]
     },
@@ -2470,6 +3042,12 @@
           "page": 3,
           "atlas_x": 428,
           "atlas_y": 45
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 218
         }
       ]
     },
@@ -2497,6 +3075,12 @@
           "page": 2,
           "atlas_x": 86,
           "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 280,
+          "atlas_y": 44
         }
       ]
     },
@@ -2524,6 +3108,12 @@
           "page": 3,
           "atlas_x": 171,
           "atlas_y": 67
+        },
+        {
+          "bank": 2,
+          "page": 3,
+          "atlas_x": 415,
+          "atlas_y": 1
         }
       ]
     },
@@ -2551,6 +3141,12 @@
           "page": 2,
           "atlas_x": 129,
           "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 323,
+          "atlas_y": 44
         }
       ]
     },
@@ -2578,6 +3174,12 @@
           "page": 3,
           "atlas_x": 256,
           "atlas_y": 67
+        },
+        {
+          "bank": 2,
+          "page": 3,
+          "atlas_x": 171,
+          "atlas_y": 23
         }
       ]
     },
@@ -2599,6 +3201,12 @@
           "page": 1,
           "atlas_x": 395,
           "atlas_y": 78
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 312,
+          "atlas_y": 247
         }
       ]
     },
@@ -2620,6 +3228,12 @@
           "page": 2,
           "atlas_x": 255,
           "atlas_y": 130
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 450,
+          "atlas_y": 44
         }
       ]
     },
@@ -2641,6 +3255,12 @@
           "page": 0,
           "atlas_x": 1,
           "atlas_y": 479
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 381,
+          "atlas_y": 474
         }
       ]
     },
@@ -2668,6 +3288,12 @@
           "page": 0,
           "atlas_x": 313,
           "atlas_y": 479
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 404,
+          "atlas_y": 474
         }
       ]
     },
@@ -2695,6 +3321,12 @@
           "page": 0,
           "atlas_x": 169,
           "atlas_y": 469
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 337,
+          "atlas_y": 456
         }
       ]
     },
@@ -2722,6 +3354,12 @@
           "page": 2,
           "atlas_x": 415,
           "atlas_y": 62
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 150,
+          "atlas_y": 475
         }
       ]
     },
@@ -2749,6 +3387,12 @@
           "page": 0,
           "atlas_x": 1,
           "atlas_y": 470
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 83,
+          "atlas_y": 457
         }
       ]
     },
@@ -2776,6 +3420,12 @@
           "page": 2,
           "atlas_x": 208,
           "atlas_y": 84
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 131
         }
       ]
     },
@@ -2797,6 +3447,33 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 79
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 78,
+          "atlas_y": 249
+        }
+      ]
+    },
+    {
+      "sprite": "BLOCK_LIGHT_1_8",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "a23f027321e16537a233ab505af57b5c7d4579d148372c3fe948735ec3e783ed",
+      "width": 42,
+      "height": 43,
+      "pivot": {
+        "x": 21,
+        "y": 21
+      },
+      "banks": [
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 468,
+          "atlas_y": 390
         }
       ]
     },
@@ -2978,6 +3655,20 @@
       ]
     },
     {
+      "sprite": "BLOCK_LIGHT_2_8",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "87d0d4891a0e780b904a0451553df9bacde6a39458f2dd325b1782848d71da13",
+      "width": 42,
+      "height": 43,
+      "pivot": {
+        "x": 21,
+        "y": 21
+      },
+      "banks": []
+    },
+    {
       "sprite": "BLOCK_LIGHT_3_1",
       "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
       "source_format": "RGBA4444 little-endian",
@@ -3155,6 +3846,20 @@
       ]
     },
     {
+      "sprite": "BLOCK_LIGHT_3_8",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "fc254001d7e2fa278722e436c0ae857b81c8402951b26f546b10f63587f1b162",
+      "width": 43,
+      "height": 43,
+      "pivot": {
+        "x": 21,
+        "y": 21
+      },
+      "banks": []
+    },
+    {
       "sprite": "BLOCK_LIGHT_4_1",
       "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
       "source_format": "RGBA4444 little-endian",
@@ -3172,6 +3877,12 @@
           "page": 0,
           "atlas_x": 273,
           "atlas_y": 484
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 235,
+          "atlas_y": 480
         }
       ]
     },
@@ -3199,6 +3910,12 @@
           "page": 2,
           "atlas_x": 469,
           "atlas_y": 106
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 257,
+          "atlas_y": 480
         }
       ]
     },
@@ -3226,6 +3943,12 @@
           "page": 1,
           "atlas_x": 280,
           "atlas_y": 388
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 433,
+          "atlas_y": 454
         }
       ]
     },
@@ -3253,6 +3976,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 110
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 86
         }
       ]
     },
@@ -3280,6 +4009,12 @@
           "page": 1,
           "atlas_x": 152,
           "atlas_y": 419
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 152,
+          "atlas_y": 1
         }
       ]
     },
@@ -3307,6 +4042,12 @@
           "page": 2,
           "atlas_x": 86,
           "atlas_y": 128
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 171,
+          "atlas_y": 131
         }
       ]
     },
@@ -3328,6 +4069,33 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 155
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 153,
+          "atlas_y": 249
+        }
+      ]
+    },
+    {
+      "sprite": "BLOCK_LIGHT_4_8",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_3_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "ded8aef16626dbb580f6ce3ca0d8b792fddb4b865af15b8e9be3ef9c60a3f6a7",
+      "width": 43,
+      "height": 43,
+      "pivot": {
+        "x": 21,
+        "y": 21
+      },
+      "banks": [
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 468,
+          "atlas_y": 435
         }
       ]
     },
@@ -3355,6 +4123,12 @@
           "page": 0,
           "atlas_x": 129,
           "atlas_y": 470
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 300,
+          "atlas_y": 480
         }
       ]
     },
@@ -3382,6 +4156,12 @@
           "page": 2,
           "atlas_x": 463,
           "atlas_y": 128
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 447,
+          "atlas_y": 480
         }
       ]
     },
@@ -3409,6 +4189,12 @@
           "page": 1,
           "atlas_x": 323,
           "atlas_y": 388
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 237,
+          "atlas_y": 1
         }
       ]
     },
@@ -3436,6 +4222,12 @@
           "page": 2,
           "atlas_x": 415,
           "atlas_y": 150
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 108
         }
       ]
     },
@@ -3463,6 +4255,12 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 422
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 280,
+          "atlas_y": 1
         }
       ]
     },
@@ -3490,6 +4288,12 @@
           "page": 2,
           "atlas_x": 208,
           "atlas_y": 172
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 197
         }
       ]
     },
@@ -3543,6 +4347,12 @@
           "bank": 1,
           "page": 1,
           "atlas_x": 257,
+          "atlas_y": 474
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 1,
           "atlas_y": 474
         }
       ]
@@ -4003,6 +4813,12 @@
           "page": 2,
           "atlas_x": 491,
           "atlas_y": 194
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 490,
+          "atlas_y": 480
         }
       ]
     },
@@ -4030,6 +4846,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 216
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 130
         }
       ]
     },
@@ -4057,6 +4879,12 @@
           "page": 1,
           "atlas_x": 451,
           "atlas_y": 422
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 365,
+          "atlas_y": 1
         }
       ]
     },
@@ -4084,6 +4912,12 @@
           "page": 2,
           "atlas_x": 44,
           "atlas_y": 216
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 152
         }
       ]
     },
@@ -4111,6 +4945,12 @@
           "page": 1,
           "atlas_x": 129,
           "atlas_y": 462
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 408,
+          "atlas_y": 1
         }
       ]
     },
@@ -4138,6 +4978,12 @@
           "page": 2,
           "atlas_x": 129,
           "atlas_y": 216
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 171,
+          "atlas_y": 197
         }
       ]
     },
@@ -4192,6 +5038,12 @@
           "page": 2,
           "atlas_x": 306,
           "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 42,
+          "atlas_y": 474
         }
       ]
     },
@@ -4212,6 +5064,12 @@
           "bank": 1,
           "page": 1,
           "atlas_x": 169,
+          "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 253,
           "atlas_y": 1
         }
       ]
@@ -4262,6 +5120,12 @@
           "page": 1,
           "atlas_x": 253,
           "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 337,
+          "atlas_y": 1
         }
       ]
     },
@@ -4283,6 +5147,12 @@
           "page": 2,
           "atlas_x": 299,
           "atlas_y": 216
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 219
         }
       ]
     },
@@ -4304,6 +5174,12 @@
           "page": 3,
           "atlas_x": 1,
           "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 219
         }
       ]
     },
@@ -4324,6 +5200,12 @@
           "bank": 1,
           "page": 3,
           "atlas_x": 208,
+          "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 3,
+          "atlas_x": 1,
           "atlas_y": 1
         }
       ]
@@ -4346,6 +5228,12 @@
           "page": 3,
           "atlas_x": 1,
           "atlas_y": 23
+        },
+        {
+          "bank": 2,
+          "page": 3,
+          "atlas_x": 208,
+          "atlas_y": 1
         }
       ]
     },
@@ -4367,6 +5255,12 @@
           "page": 1,
           "atlas_x": 329,
           "atlas_y": 85
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 148,
+          "atlas_y": 167
         }
       ]
     },
@@ -4416,6 +5310,12 @@
           "page": 1,
           "atlas_x": 411,
           "atlas_y": 85
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 230,
+          "atlas_y": 167
         }
       ]
     },
@@ -4436,6 +5336,12 @@
           "bank": 1,
           "page": 1,
           "atlas_x": 337,
+          "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 421,
           "atlas_y": 1
         }
       ]
@@ -4486,6 +5392,12 @@
           "page": 1,
           "atlas_x": 421,
           "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 85
         }
       ]
     },
@@ -4507,6 +5419,12 @@
           "page": 0,
           "atlas_x": 65,
           "atlas_y": 302
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 390
         }
       ]
     },
@@ -4556,6 +5474,12 @@
           "page": 0,
           "atlas_x": 149,
           "atlas_y": 302
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 85,
+          "atlas_y": 390
         }
       ]
     },
@@ -4577,6 +5501,12 @@
           "page": 2,
           "atlas_x": 265,
           "atlas_y": 40
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 87
         }
       ]
     },
@@ -4598,6 +5528,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 44
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 87
         }
       ]
     },
@@ -4619,6 +5555,12 @@
           "page": 2,
           "atlas_x": 208,
           "atlas_y": 62
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 109
         }
       ]
     },
@@ -4640,6 +5582,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 66
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 109
         }
       ]
     },
@@ -4660,6 +5608,12 @@
           "bank": 1,
           "page": 1,
           "atlas_x": 1,
+          "atlas_y": 85
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 148,
           "atlas_y": 85
         }
       ]
@@ -4710,6 +5664,12 @@
           "page": 1,
           "atlas_x": 83,
           "atlas_y": 85
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 230,
+          "atlas_y": 85
         }
       ]
     },
@@ -4731,6 +5691,12 @@
           "page": 0,
           "atlas_x": 368,
           "atlas_y": 376
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 384,
+          "atlas_y": 390
         }
       ]
     },
@@ -4780,6 +5746,12 @@
           "page": 0,
           "atlas_x": 233,
           "atlas_y": 380
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 169,
+          "atlas_y": 391
         }
       ]
     },
@@ -4801,6 +5773,12 @@
           "page": 0,
           "atlas_x": 1,
           "atlas_y": 386
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 253,
+          "atlas_y": 396
         }
       ]
     },
@@ -4850,6 +5828,12 @@
           "page": 0,
           "atlas_x": 85,
           "atlas_y": 386
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 1
         }
       ]
     },
@@ -4871,6 +5855,12 @@
           "page": 2,
           "atlas_x": 256,
           "atlas_y": 128
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 153
         }
       ]
     },
@@ -4892,6 +5882,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 150
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 153
         }
       ]
     },
@@ -4913,6 +5909,12 @@
           "page": 2,
           "atlas_x": 208,
           "atlas_y": 150
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 175
         }
       ]
     },
@@ -4934,6 +5936,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 172
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 175
         }
       ]
     },
@@ -4954,6 +5962,12 @@
           "bank": 1,
           "page": 1,
           "atlas_x": 165,
+          "atlas_y": 85
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 312,
           "atlas_y": 85
         }
       ]
@@ -5004,6 +6018,12 @@
           "page": 1,
           "atlas_x": 247,
           "atlas_y": 85
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 394,
+          "atlas_y": 85
         }
       ]
     },
@@ -5024,6 +6044,12 @@
           "bank": 1,
           "page": 1,
           "atlas_x": 1,
+          "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 85,
           "atlas_y": 1
         }
       ]
@@ -5074,6 +6100,12 @@
           "page": 1,
           "atlas_x": 85,
           "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 169,
+          "atlas_y": 1
         }
       ]
     },
@@ -5101,6 +6133,12 @@
           "page": 0,
           "atlas_x": 466,
           "atlas_y": 375
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 337,
+          "atlas_y": 396
         }
       ]
     },
@@ -5128,6 +6166,12 @@
           "page": 0,
           "atlas_x": 415,
           "atlas_y": 494
+        },
+        {
+          "bank": 2,
+          "page": 2,
+          "atlas_x": 458,
+          "atlas_y": 218
         }
       ]
     },
@@ -5155,6 +6199,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 238
+        },
+        {
+          "bank": 2,
+          "page": 3,
+          "atlas_x": 341,
+          "atlas_y": 23
         }
       ]
     },
@@ -5182,6 +6232,12 @@
           "page": 2,
           "atlas_x": 100,
           "atlas_y": 238
+        },
+        {
+          "bank": 2,
+          "page": 3,
+          "atlas_x": 1,
+          "atlas_y": 45
         }
       ]
     },
@@ -5209,6 +6265,12 @@
           "page": 0,
           "atlas_x": 317,
           "atlas_y": 380
+        },
+        {
+          "bank": 2,
+          "page": 1,
+          "atlas_x": 236,
+          "atlas_y": 453
         }
       ]
     },
@@ -5236,6 +6298,12 @@
           "page": 0,
           "atlas_x": 375,
           "atlas_y": 1
+        },
+        {
+          "bank": 2,
+          "page": 0,
+          "atlas_x": 270,
+          "atlas_y": 111
         }
       ]
     }

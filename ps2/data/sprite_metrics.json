@@ -318,5 +318,20 @@
     "width": 45,
     "height": 122,
     "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_LIGHT_1_8": {
+    "width": 42,
+    "height": 43,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_EXTRA_FLAG_01": {
+    "width": 46,
+    "height": 123,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_APPLE": {
+    "width": 52,
+    "height": 50,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
   }
 }

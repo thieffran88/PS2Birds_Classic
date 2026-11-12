@@ -1,4 +1,35 @@
-# Modificações completas — PS2Birds Classic 0.20.0
+# Modificações completas — PS2Birds Classic 0.21.0
+
+- **Nova página: Mighty Hoax 5-1 a 5-21**
+  - 21 fases recuperadas do APK (`LevelP2_78` a `LevelP2_90`), na ordem do mundo 5 do `episodes.lua` (trecho em `ps2/data/episode_mighty_hoax_page2.decompiled.lua`).
+  - A campanha passa de 84 para 105 fases.
+  - Limites de estrelas (prata/ouro) das 21 fases lidos do `starLimits.lua`. O leitor agora entende os dois formatos de atribuição que o unluac gera, e confere os 84 valores antigos.
+- **Peças novas (definições do `blocks.lua`, trecho em `ps2/data/page5_definitions_excerpt.lua`)**
+  - LightBlock8: círculo de gelo de 42×43 px, com 4 estados de dano.
+  - ExtraBlockFlag01: bandeira, caixa do material "extras".
+  - ExtraApple: maçã, círculo do material "extras" (mesmo tipo do morango).
+  - Medidas dos sprites lidas das folhas originais do APK e registradas em `sprite_metrics.json`.
+- **Texturas**
+  - Terceiro banco (banco 2) só para a página 5, trocado ao mudar de episódio como os outros.
+  - VRAM sem alteração (2,75 MiB, com 160 KiB livres).
+  - No banco 2, as peças numeradas usam dois quadros de dano: intacto (estados 1 e 2) e muito danificado (estados 3 e 4). Os bancos 0 e 1 não mudaram.
+- **Campanha e investigação**
+  - 20 das 21 fases novas têm roteiro vencedor encontrado pela busca automática.
+  - 5-16 (só pássaros pretos) segue sem vitória, como a 3-20. A cena assenta sem perder porcos; a limitação é a fórmula nativa da explosão.
+  - Identificada a tabela `velocityMultiplier` por material, ainda não usada pelo port (documentada em `docs/LACUNAS_PORT.md`).
+- **Saves**
+  - Saves de 84 fases continuam válidos; se a 4-21 foi vencida, a 5-1 é liberada.
+- **Testes**
+  - Novo teste de procedência da página 5: ordem do `episodes.lua`, banco 2 e definições das três peças conferidas contra o `blocks.lua`.
+  - Testes de sprites cobrem os 3 bancos (209 quadros), os quadros reaproveitados do banco 2 e as peças novas, que existem só nele.
+  - Tabela da campanha regenerada para 105 fases.
+- **Versão e documentos**
+  - Tela e log em 0.21.0; README atualizado (inclui a descrição correta do save v4); validação, histórico e capturas das fases 5-1 e 5-16 no PCSX2.
+- **Limpeza**
+  - Capturas antigas (`pcsx2_0.19.0_fase_1-1.png`, `pcsx2_0.20.0_menu.png`) removidas do repositório.
+  - No Drive, os arquivos 0.20.0 foram substituídos pelos 0.21.0.
+
+## Modificações completas — 0.20.0
 
 - **Juntas (novo)**
   - Importador lê juntas dos níveis: tipos 1 (distância), 2 (solda) e 3 (dobradiça); converte âncoras relativas (coordType 2) para coordenadas do mundo.

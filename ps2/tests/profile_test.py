@@ -182,3 +182,17 @@ for path in sorted(glob.glob(str(root/'ps2/data/level_*_*.json'))):
         assert o['restitution']==m['restitution'] and o['friction']==adapter['materials']['friction_overrides'].get(o['definition'],m['friction'])
 assert adapter['materials']['by_kind']['1']['friction']==4.0 and adapter['materials']['by_kind']['5']['restitution']==0.1
 print('Sizes and materials OK: 0.92 size factor on dynamic shapes, full size on static ones, friction/restitution from the materials table.')
+
+# Mighty Hoax page 5 (world 5): order, bank and the three new definitions.
+mh2=re.findall(r'^L\d+_1.name = "(LevelP2_\d+)"$',(root/'ps2/data/episode_mighty_hoax_page2.decompiled.lua').read_text(),re.M)
+page5=episode['additional_pages'][3]
+assert len(mh2)==21 and page5['levels']==mh2 and page5['bank']==2 and page5['number']==5
+defs=(root/'ps2/data/page5_definitions_excerpt.lua').read_text()
+def block(name):return defs.split(f'L3_1 = "{name}"',1)[1].split('L3_1 = "',1)[0]
+objs=json.loads((root/'profiles/classic_level.json').read_text())['objects']
+for name,shape,sprite,material in [('LightBlock8','circle','BLOCK_LIGHT_1_8','light'),('ExtraBlockFlag01','box','BLOCK_EXTRA_FLAG_01','extras'),('ExtraApple','circle','BLOCK_APPLE','extras')]:
+    b=block(name);assert f'"{shape}"' in b and f'"{sprite}"' in b and f'"{material}"' in b
+    assert objs[name]['shape']==shape and objs[name]['sprite']==sprite and objs[name]['kind']==(2 if material=='light' else 6)
+for number in range(1,22):
+    d=json.loads((root/f'ps2/data/level_5_{number}.json').read_text());assert d['stage_script']==mh2[number-1] and d['texture_bank']==2 and d['title']==f'MIGHTY HOAX 5-{number}'
+print('Mighty Hoax page 5 OK: 21 stages match the recovered episodes.lua excerpt; LightBlock8, ExtraBlockFlag01 and ExtraApple checked against blocks.lua; texture bank 2.')

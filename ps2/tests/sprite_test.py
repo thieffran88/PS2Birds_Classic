@@ -13,13 +13,15 @@ try:module.decode_rgba4444(b'',3,3)
 except ValueError:pass
 else:raise AssertionError('Truncated input accepted')
 a=root/'ps2/assets';meta=json.loads((a/'manifest.json').read_text());pixels=(a/'sprites.rgba').read_bytes()
-banks=meta['banks'];assert len(banks)==2
+banks=meta['banks'];assert len(banks)==3
 assert len(pixels)==sum(p['width']*p['height']*4 for b in banks for p in b['pages'])
-for b in banks:assert [(p['width'],p['height']) for p in b['pages']]==[(512,512),(512,512),(512,256),(512,128)]
+for b in banks:
+    sizes=[(p['width'],p['height']) for p in b['pages']];assert len(sizes)==4 and all(w==512 and h<=cap for (w,h),cap in zip(sizes,[512,512,256,128]))
+assert [(p['width'],p['height']) for p in banks[0]['pages']]==[(512,512),(512,512),(512,256),(512,128)]
 assert sum(meta['slot_bytes'])<=meta['vram_budget']==2883584 and meta['slot_bytes']==[1048576,1048576,524288,262144]
 assert hashlib.sha256(pixels).hexdigest()==meta['atlas_sha256']
 assert max(pixels[3::4])==128 and min(pixels[3::4])==0
-assert len(meta['sprites'])==203 and len(banks[0]['sprites'])==152 and len(banks[1]['sprites'])==150
+assert len(meta['sprites'])==209 and len(banks[0]['sprites'])==152 and len(banks[1]['sprites'])==150 and len(banks[2]['sprites'])==126
 occupied=set();checked=0
 for frame in meta['sprites']:
     for place in frame['banks']:
@@ -35,7 +37,7 @@ for frame in meta['sprites']:
         if frame['sprite']=='BIRD_RED':assert sum(content[i]>150 and content[i]>content[i+1]*2 and content[i+3]>0 for i in range(0,len(content),4))>100
 # Aliased frames in the Mighty Hoax bank point at sprites present in that bank.
 for name,target in banks[1]['aliases'].items():assert target in banks[1]['sprites'] and name not in banks[1]['sprites'] and (name.endswith('_BLINK') or name[-1] in '23')
-header=(a/'sprite_data.h').read_text();assert '#define SPRITE_BANK_COUNT 2' in header and '#define SPRITE_COUNT 203' in header
+header=(a/'sprite_data.h').read_text();assert '#define SPRITE_BANK_COUNT 3' in header and '#define SPRITE_COUNT 209' in header
 print(f'Sprites OK: endian/channels, alpha, crop, {len(meta["sprites"])} frames in {len(banks)} texture banks ({checked} placements), shared slots within {meta["vram_budget"]} bytes, bounds, no overlap, per-frame hashes, aliases.')
 
 # PNG sheets use 8-bit alpha, unlike the existing RGBA4444 streams.
@@ -82,4 +84,12 @@ for mat in ['WOOD','LIGHT','ROCK']:
     for shape in ['4X4','10X1','TRIANGLE_L','TRIANGLE_M']:
         assert f'BLOCK_{mat}_{shape}_1' in banks[1]['sprites'] and f'BLOCK_{mat}_{shape}_1' not in banks[0]['sprites']
 for name in ['BLOCK_HAM','BLOCK_GOLDEN_EGG','BLOCK_EXTRA_FLAG_02','BIRD_RED','SLING_SHOT_01_BACK']:assert name in banks[1]['sprites']
+import re as _re
+for name,target in banks[2]['aliases'].items():
+    assert target in banks[2]['sprites'] and name not in banks[2]['sprites']
+    assert name.endswith('_BLINK') or name[-1] in '23' or _re.fullmatch(r'BLOCK_(WOOD|LIGHT|ROCK)_[23]_\d+',name)
+for name in ['BLOCK_LIGHT_1_8','BLOCK_LIGHT_4_8','BLOCK_APPLE','BLOCK_EXTRA_FLAG_01','BIRD_RED','SLING_SHOT_01_BACK']:assert name in banks[2]['sprites']
+assert banks[2]['aliases']['BLOCK_LIGHT_2_8']=='BLOCK_LIGHT_1_8' and banks[2]['aliases']['BLOCK_LIGHT_3_8']=='BLOCK_LIGHT_4_8'
+for name in ['BLOCK_LIGHT_1_8','BLOCK_APPLE','BLOCK_EXTRA_FLAG_01']:assert name not in banks[0]['sprites'] and name not in banks[1]['sprites']
+print('Mighty Hoax page 5 bank OK: LightBlock8, apple and flag only in bank 2; numbered blocks keep intact and heavily damaged frames.')
 print('Mighty Hoax bank OK: 12 new block families and 3 extras only in bank 1; birds and slingshot in both banks.')

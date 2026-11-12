@@ -1,7 +1,7 @@
-# PS2Birds Classic — protótipo 0.20.0
+# PS2Birds Classic — protótipo 0.21.0
 
 Foco exclusivo no Classic. Inclui a primeira página completa de Poached Eggs
-e a segunda e a terceira páginas completas (63 fases, todo o episódio Poached Eggs) e a primeira página de Mighty Hoax (84 fases) na ordem declarada pelo próprio APK, com sprites originais, pássaros
+e a segunda e a terceira páginas completas (63 fases, todo o episódio Poached Eggs) e as duas primeiras páginas de Mighty Hoax (105 fases) na ordem declarada pelo próprio APK, com sprites originais, pássaros
 vermelho, azul, amarelo, preto e branco, porcos pequeno/médio/grande/capacete, pedra, madeira,
 vidro, pedras circulares, baú, bloco sorridente, bola, pato e morango, seleção de fases, desbloqueio
 sequencial e recordes persistentes no Memory Card 1. Ainda não é o port completo.
@@ -71,7 +71,7 @@ já estão incluídos. O audsrv é compilado das fontes incluídas. Se o módulo
 inicializar, o jogo continua com SOM INDISPONIVEL. Ainda não há música de fundo.
 
 As ferramentas/perfis de outras séries permanecem no pacote, sem novos ports.
-Consulte docs/MODIFICACOES_0.20.0.md e docs/VALIDACAO_0.20.0.md. Documentos das versões
+Consulte docs/MODIFICACOES_0.21.0.md e docs/VALIDACAO_0.21.0.md. Documentos das versões
 anteriores são históricos. Saves da 0.6.0 à 0.8.0 são aproveitados e regravados no
 formato versão 3 (288 bytes, até 64 fases). A seleção mostra três fases por página
 e muda automaticamente conforme cima/baixo.
@@ -90,7 +90,7 @@ WoodBlock7 e LightBlock7 usam colisão circular, conferida nas definições recu
 
 A física continua em passos de 120 Hz, usando o tempo transcorrido do relógio do PS2SDK (até 100 ms recuperados por quadro). Isso preserva o ritmo da partida e da mira quando uma cena renderiza abaixo de 60 FPS, sem garantir 60 FPS em cenas pesadas.
 
-A versão 0.19.0 lê saves v1 (96 bytes) e v2 (160 bytes) e grava v3 (288 bytes). Os recordes e desbloqueios são preservados; na primeira gravação da migração, a cópia anterior permanece no outro slot. Versões antigas do port reconhecem o cabeçalho v3 como mais novo e recusam sobrescrevê-lo. A capacidade de 64 posições prepara a continuação da campanha; esta versão contém 84 fases jogáveis.
+O save atual é o v4 (544 bytes, capacidade de 128 fases). Saves v1, v2 e v3 de versões anteriores são migrados preservando recordes e desbloqueios. Um save de uma versão com menos fases continua válido: se a última fase daquela versão foi vencida, a próxima é liberada. Esta versão contém 105 fases jogáveis.
 
 O branco usa raio/densidade/restituição recuperados. O ovo usa densidade/restituição e valores de explosão de EggGranade; raio inferido da largura do sprite, velocidades de queda/recuo e propagação radial são aproximações do port. Melancias e pneus usam discos sólidos simplificados, com o modelo de materiais existente; pneus não reproduzem a elasticidade/forma interna do original. O atlas do ovo vem de PNG e requer Pillow para regeneração. Há dez canais de efeitos: soltar o ovo e explodir usam canais diferentes.
 
@@ -138,6 +138,13 @@ A investigação das fases sem vitória encontrou três erros de importação pr
 - Velocidade de lançamento dependente do zoom. O original usa 46,25 unidades/s com o estilingue esticado ao máximo (`defaultForce = -925`, `physicsScale = 1/20`); o port dividia a força pela escala da câmera, de 23 a 152 unidades/s conforme a fase. A força agora é a porcentagem de esticamento.
 
 Com isso, 82 das 84 fases têm vitória encontrada pela busca automática. Continuam sem roteiro 3-9 e 3-19; nelas a vitória depende de quedas e esmagamentos, cuja fórmula de dano fica no código nativo do jogo e não nos scripts Lua recuperados. Não existe regra de desbloqueio extra: o avanço é o do jogo original.
+
+## Novidades da 0.21.0
+
+- Segunda página de Mighty Hoax (5-1 a 5-21) na ordem do `episodes.lua`, com limites de estrelas do `starLimits.lua`.
+- Três peças novas lidas do `blocks.lua`: LightBlock8 (círculo de gelo pequeno), ExtraBlockFlag01 (bandeira) e ExtraApple (maçã).
+- Terceiro banco de texturas (banco 2) para a página 5, na mesma VRAM dos outros.
+- 103 das 105 fases com vitória encontrada pela busca automática; 3-20 e 5-16 (ambas só com pássaros explosivos) continuam sem roteiro.
 
 ## Novidades da 0.20.0
 

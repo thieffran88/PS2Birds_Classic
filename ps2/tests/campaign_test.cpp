@@ -94,6 +94,27 @@ static const Stage stages[]={
  {"LevelP2_81",60,4,48,3,{{5,98,0.4f}},1}, /* MIGHTY HOAX 4-19 */
  {"LevelP2_68",62,10,50,5,{{15,98,-1.0f}},1}, /* MIGHTY HOAX 4-20 */
  {"LevelP2_95",64,7,34,6,{{40,82,-1.0f}},1}, /* MIGHTY HOAX 4-21 */
+ {"LevelP2_78",56,7,43,3,{{5,98,-1.0f}},1}, /* MIGHTY HOAX 5-1 */
+ {"LevelP2_100",76,5,53,3,{{55,85,2.6f},{45,55,2.3f}},2}, /* MIGHTY HOAX 5-2 */
+ {"LevelP2_92",86,4,72,4,{{25,90,-1.0f}},1}, /* MIGHTY HOAX 5-3 */
+ {"LevelP2_94",77,7,62,4,{{20,70,0.4f}},1}, /* MIGHTY HOAX 5-4 */
+ {"LevelP2_89",79,7,46,4,{{80,90,1.6f},{35,60,1.4f}},2}, /* MIGHTY HOAX 5-5 */
+ {"LevelP2_73",96,7,69,4,{{25,94,-1.0f}},1}, /* MIGHTY HOAX 5-6 */
+ {"LevelP2_76",84,5,63,5,{{35,94,1.0f}},1}, /* MIGHTY HOAX 5-7 */
+ {"LevelP2_122",75,6,55,5,{{-10,70,-1.0f}},1}, /* MIGHTY HOAX 5-8 */
+ {"LevelP2_99",63,7,53,4,{{5,98,-1.0f}},1}, /* MIGHTY HOAX 5-9 */
+ {"LevelP2_84",85,5,53,4,{{15,98,0.4f}},1}, /* MIGHTY HOAX 5-10 */
+ {"LevelP2_86",105,5,72,4,{{-5,54,0.4f}},1}, /* MIGHTY HOAX 5-11 */
+ {"LevelP2_74",97,8,61,4,{{25,82,0.7f}},1}, /* MIGHTY HOAX 5-12 */
+ {"LevelP2_115",95,4,71,3,{{15,94,-1.0f}},1}, /* MIGHTY HOAX 5-13 */
+ {"LevelP2_98",47,3,40,3,{{10,94,-1.0f}},1}, /* MIGHTY HOAX 5-14 */
+ {"LevelP2_71",63,4,47,4,{{5,94,-1.0f}},1}, /* MIGHTY HOAX 5-15 */
+ {"LevelP2_72",127,7,100,4,{{0,0,-1.0f}},0}, /* MIGHTY HOAX 5-16 (sem roteiro vencedor) */
+ {"LevelP2_87",82,7,47,7,{{0,98,-1.0f}},1}, /* MIGHTY HOAX 5-17 */
+ {"LevelP2_93",66,13,47,5,{{10,86,-1.0f}},1}, /* MIGHTY HOAX 5-18 */
+ {"LevelP2_67",126,3,94,5,{{55,86,-1.0f}},1}, /* MIGHTY HOAX 5-19 */
+ {"LevelP2_97",89,8,61,4,{{20,90,0.4f}},1}, /* MIGHTY HOAX 5-20 */
+ {"LevelP2_90",122,15,87,5,{{5,82,1.0f}},1}, /* MIGHTY HOAX 5-21 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -114,7 +135,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==84 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==105 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));
@@ -212,7 +233,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==1);
+    assert(unverified==2);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");

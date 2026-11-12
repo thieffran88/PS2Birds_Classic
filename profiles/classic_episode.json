@@ -110,6 +110,35 @@
         "LevelP2_68",
         "LevelP2_95"
       ]
+    },
+    {
+      "number": 5,
+      "title_prefix": "MIGHTY HOAX 5-",
+      "folder": "/levels/2_MightyHoax",
+      "bank": 2,
+      "levels": [
+        "LevelP2_78",
+        "LevelP2_100",
+        "LevelP2_92",
+        "LevelP2_94",
+        "LevelP2_89",
+        "LevelP2_73",
+        "LevelP2_76",
+        "LevelP2_122",
+        "LevelP2_99",
+        "LevelP2_84",
+        "LevelP2_86",
+        "LevelP2_74",
+        "LevelP2_115",
+        "LevelP2_98",
+        "LevelP2_71",
+        "LevelP2_72",
+        "LevelP2_87",
+        "LevelP2_93",
+        "LevelP2_67",
+        "LevelP2_97",
+        "LevelP2_90"
+      ]
     }
   ]
 }
