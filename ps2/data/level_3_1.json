@@ -5,14 +5,17 @@
   "collision_dimensions": "atlas extents / physicsToWorld; native hulls not recovered",
   "gravity": 20.0,
   "physics_to_world": 20.0,
-  "ground_y": 5.0,
+  "ground_y": 0.0,
+  "ground_object_y": 5.0,
   "view": {
-    "scale": 4.055716914706069,
-    "x": 200.18298431121306,
-    "y": 347.72141542646966
+    "scale": 4.215662797872433,
+    "x": 206.81564051600668,
+    "y": 368.0
   },
-  "sling_x": -9.2537,
-  "sling_y": -12.2478,
+  "sling_x": -17.317800000000002,
+  "sling_y": -26.5763,
+  "bird_queue_x": -9.2537,
+  "bird_queue_y": -12.2478,
   "birds": [
     {
       "startNumber": 1.0,
