@@ -71,7 +71,7 @@ static const Stage stages[]={
  {"Level82",111,7,73,5,{{10,86,-1.0f}},1}, /* POACHED EGGS 3-18 */
  {"Level22",91,5,68,3,{{0,0,-1.0f}},0}, /* POACHED EGGS 3-19 (sem roteiro vencedor) */
  {"Level89",107,9,69,5,{{25,95,2.3f},{40,70,1.8f},{60,70,-1.0f},{35,85,2.0f},{70,95,-1.0f}},5}, /* POACHED EGGS 3-20 */
- {"Level81",135,9,92,7,{{0,0,-1.0f}},0}, /* POACHED EGGS 3-21 (sem roteiro vencedor) */
+ {"Level81",135,9,92,7,{{25,100,1.8f},{55,75,-1.0f},{40,100,2.6f},{35,100,-1.0f},{55,100,2.3f}},5}, /* POACHED EGGS 3-21 */
  {"LevelP2_103",41,3,35,3,{{25,74,-1.0f}},1}, /* MIGHTY HOAX 4-1 */
  {"LevelP2_91",79,8,54,3,{{20,90,0.4f}},1}, /* MIGHTY HOAX 4-2 */
  {"LevelP2_65",76,3,69,3,{{25,90,0.8f},{60,90,1.6f},{35,95,2.3f}},3}, /* MIGHTY HOAX 4-3 */
@@ -206,7 +206,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==3);
+    assert(unverified==2);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");
