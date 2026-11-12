@@ -157,5 +157,40 @@
   "Estrade03": {
     "type": "box",
     "material": "immovable"
+  },
+  "MightyHoaxBlocks": {
+    "shapes": {
+      "9": "box 4x4",
+      "10": "box 10x1",
+      "11": "polygon (0,0) (1,1) (0,1)",
+      "12": "polygon (0.5,0) (1,1) (0,1)"
+    },
+    "strength": {
+      "WoodBlock9": 120,
+      "WoodBlock10": 100,
+      "WoodBlock11": 80,
+      "WoodBlock12": 70,
+      "LightBlock9": 70,
+      "LightBlock10": 65,
+      "LightBlock11": 53,
+      "LightBlock12": 48,
+      "StoneBlock9": 160,
+      "StoneBlock10": 140,
+      "StoneBlock11": 140,
+      "StoneBlock12": 140
+    },
+    "notes": "Polygon vertices are normalized over the sprite extents and centred on the body origin by the port."
+  },
+  "ExtraHam": {
+    "type": "circle",
+    "strength": 60
+  },
+  "ExtraGoldenEgg": {
+    "type": "circle",
+    "strength": 5,
+    "defence": 1
+  },
+  "ExtraBlockFlag02": {
+    "type": "box"
   }
 }

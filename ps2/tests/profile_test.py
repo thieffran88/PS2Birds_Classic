@@ -144,3 +144,16 @@ assert 'L5_1 = 2.825\nL4_1.radius = L5_1' in king and adapter['objects']['KingPi
 assert json.loads((root/'ps2/data/level_3_21.json').read_text())['stage_script']=='Level81'
 assert len(json.loads((root/'ps2/data/level_3_21.json').read_text())['objects'])==135
 print('Third page OK: 21 stages match the recovered episodes.lua excerpt; king pig radius checked; 135-object final stage.')
+
+mh=re.findall(r'^L\d+_1.name = "(LevelP2_\d+)"$',(root/'ps2/data/episode_mighty_hoax_page1.decompiled.lua').read_text(),re.M)
+assert len(mh)==21 and episode['additional_pages'][2]['levels']==mh and episode['additional_pages'][2]['bank']==1
+excerpt=(root/'ps2/data/mighty_hoax_definitions_excerpt.lua').read_text()
+for name,shape in [('WoodBlock11','triangle_l'),('WoodBlock12','triangle_m'),('StoneBlock11','triangle_l'),('LightBlock12','triangle_m')]:
+    part=excerpt.split('L3_1 = "'+name+'"',1)[1].split('L3_1 = "',1)[0]
+    assert 'L5_1 = "polygon"' in part and adapter['objects'][name]['shape']==shape
+    assert ('L9_1 = 0.5' in part)==(shape=='triangle_m')
+for name in ['WoodBlock9','StoneBlock10']:
+    assert 'L5_1 = "box"' in excerpt.split('L3_1 = "'+name+'"',1)[1].split('L3_1 = "',1)[0]
+shapes={o['shape'] for n in range(1,22) for o in json.loads((root/f'ps2/data/level_4_{n}.json').read_text())['objects']}
+assert {'triangle_l','triangle_m'}<=shapes and all(json.loads((root/f'ps2/data/level_4_{n}.json').read_text())['texture_bank']==1 for n in range(1,22))
+print('Mighty Hoax OK: 21 stages match the recovered episodes.lua excerpt; polygon triangles and boxes checked against blocks.lua; texture bank 1.')
