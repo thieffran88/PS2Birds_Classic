@@ -2,7 +2,7 @@
   "adapter": "classic_redbird_boxes",
   "source_sha256": "c97895f9d08844b34f7283a35b74f171e999a3e6373f26a99764fde98929ee47",
   "source": "assets/data/levels/1_PoachedEggs/Level27.lua",
-  "collision_dimensions": "atlas extents / physicsToWorld; native hulls not recovered",
+  "collision_dimensions": "sprite extents / physicsToWorld x 0.92 for dynamic objects (ObjectCreation.lua sizeFactor); static objects use the full sprite",
   "gravity": 20.0,
   "physics_to_world": 20.0,
   "ground_y": 0.0,
@@ -69,10 +69,12 @@
       "angle": 1.57114,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -85,10 +87,12 @@
       "angle": 1.5721,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "LightBlock3",
@@ -101,10 +105,12 @@
       "angle": 0.00327602,
       "density": 0.75,
       "defence": 2.0,
-      "width": 2.1,
-      "height": 2.05,
+      "width": 1.9320000000000002,
+      "height": 1.886,
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock4",
@@ -117,10 +123,12 @@
       "angle": 3.12929,
       "density": 1.5,
       "defence": 2.5,
-      "width": 4.15,
-      "height": 1.0,
+      "width": 3.8180000000000005,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "LightBlock5",
@@ -133,10 +141,12 @@
       "angle": 0.000327436,
       "density": 0.75,
       "defence": 2.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.2
     },
     {
       "definition": "StaticBlock_05",
@@ -152,7 +162,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "WoodBlock6",
@@ -165,10 +177,12 @@
       "angle": 1.57214,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "LightBlock3",
@@ -181,10 +195,12 @@
       "angle": 0.0184908,
       "density": 0.75,
       "defence": 2.0,
-      "width": 2.1,
-      "height": 2.05,
+      "width": 1.9320000000000002,
+      "height": 1.886,
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -197,10 +213,12 @@
       "angle": 1.57185,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -213,10 +231,12 @@
       "angle": 3.13453,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -229,10 +249,12 @@
       "angle": 1.56964,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "LightBlock5",
@@ -245,10 +267,12 @@
       "angle": 6.28312,
       "density": 0.75,
       "defence": 2.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.2
     },
     {
       "definition": "LightBlock3",
@@ -261,10 +285,12 @@
       "angle": 0.0145931,
       "density": 0.75,
       "defence": 2.0,
-      "width": 2.1,
-      "height": 2.05,
+      "width": 1.9320000000000002,
+      "height": 1.886,
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -277,10 +303,12 @@
       "angle": 1.56917,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -293,10 +321,12 @@
       "angle": 1.5693,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "LightBlock5",
@@ -309,10 +339,12 @@
       "angle": 6.28298,
       "density": 0.75,
       "defence": 2.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -325,10 +357,12 @@
       "angle": 4.71267,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -341,10 +375,12 @@
       "angle": 1.57111,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -357,10 +393,12 @@
       "angle": 4.71237,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "LightBlock5",
@@ -373,10 +411,12 @@
       "angle": 0.000397301,
       "density": 0.75,
       "defence": 2.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -389,10 +429,12 @@
       "angle": 1.57067,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -405,10 +447,12 @@
       "angle": 4.71273,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -421,10 +465,12 @@
       "angle": 3.141,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -437,10 +483,12 @@
       "angle": 1.57211,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -453,10 +501,12 @@
       "angle": 1.56909,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "MediumPiglette",
@@ -472,7 +522,9 @@
       "width": 3.7,
       "height": 3.7,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.3,
+      "restitution": 0.05
     },
     {
       "definition": "WoodBlock4",
@@ -485,10 +537,12 @@
       "angle": 3.13016,
       "density": 1.5,
       "defence": 2.5,
-      "width": 4.15,
-      "height": 1.0,
+      "width": 3.8180000000000005,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock4",
@@ -501,10 +555,12 @@
       "angle": 3.16032,
       "density": 1.5,
       "defence": 2.5,
-      "width": 4.15,
-      "height": 1.0,
+      "width": 3.8180000000000005,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "StaticBlock_05",
@@ -520,7 +576,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "LightBlock5",
@@ -533,10 +591,12 @@
       "angle": 0.000480092,
       "density": 0.75,
       "defence": 2.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.2
     },
     {
       "definition": "LightBlock3",
@@ -549,10 +609,12 @@
       "angle": 6.28258,
       "density": 0.75,
       "defence": 2.0,
-      "width": 2.1,
-      "height": 2.05,
+      "width": 1.9320000000000002,
+      "height": 1.886,
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock4",
@@ -565,10 +627,12 @@
       "angle": 3.14519,
       "density": 1.5,
       "defence": 2.5,
-      "width": 4.15,
-      "height": 1.0,
+      "width": 3.8180000000000005,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "LightBlock3",
@@ -581,10 +645,12 @@
       "angle": 6.27219,
       "density": 0.75,
       "defence": 2.0,
-      "width": 2.1,
-      "height": 2.05,
+      "width": 1.9320000000000002,
+      "height": 1.886,
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.2
     },
     {
       "definition": "StaticBlock_05",
@@ -600,7 +666,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "WoodBlock6",
@@ -613,10 +681,12 @@
       "angle": 1.57135,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -629,10 +699,12 @@
       "angle": 0.00144693,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -645,10 +717,12 @@
       "angle": 1.57111,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "StaticBlock_05",
@@ -664,7 +738,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StaticBlock_05",
@@ -680,7 +756,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "WoodBlock4",
@@ -693,10 +771,12 @@
       "angle": 3.14103,
       "density": 1.5,
       "defence": 2.5,
-      "width": 4.15,
-      "height": 1.0,
+      "width": 3.8180000000000005,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "StaticBlock_05",
@@ -712,7 +792,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StaticBlock_05",
@@ -728,7 +810,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "WoodBlock6",
@@ -741,10 +825,12 @@
       "angle": 3.13104,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock4",
@@ -757,10 +843,12 @@
       "angle": 3.15607,
       "density": 1.5,
       "defence": 2.5,
-      "width": 4.15,
-      "height": 1.0,
+      "width": 3.8180000000000005,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "MediumPiglette",
@@ -776,7 +864,9 @@
       "width": 3.7,
       "height": 3.7,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.3,
+      "restitution": 0.05
     },
     {
       "definition": "WoodBlock6",
@@ -789,10 +879,12 @@
       "angle": 4.71266,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -805,10 +897,12 @@
       "angle": 1.57141,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -821,10 +915,12 @@
       "angle": 4.71261,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -837,10 +933,12 @@
       "angle": 1.57118,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -853,10 +951,12 @@
       "angle": 1.57071,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -869,10 +969,12 @@
       "angle": 0.00731596,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -885,10 +987,12 @@
       "angle": 1.57073,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -901,10 +1005,12 @@
       "angle": 1.55868,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -917,10 +1023,12 @@
       "angle": 1.57409,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "WoodBlock6",
@@ -933,10 +1041,12 @@
       "angle": 0.00231263,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     },
     {
       "definition": "MediumPiglette",
@@ -952,7 +1062,9 @@
       "width": 3.7,
       "height": 3.7,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.3,
+      "restitution": 0.05
     },
     {
       "definition": "LightBlock3",
@@ -965,10 +1077,12 @@
       "angle": 6.26963,
       "density": 0.75,
       "defence": 2.0,
-      "width": 2.1,
-      "height": 2.05,
+      "width": 1.9320000000000002,
+      "height": 1.886,
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.2
     },
     {
       "definition": "LightBlock5",
@@ -981,10 +1095,12 @@
       "angle": 1.94663e-06,
       "density": 0.75,
       "defence": 2.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.2
     }
   ],
   "title": "POACHED EGGS 2-17",

@@ -2,7 +2,9 @@
 #define PS2BIRDS_CAMPAIGN_TYPES_H
 #define MAX_LEVEL_OBJECTS 160
 #define MAX_CAMPAIGN_LEVELS 128
-typedef struct {float x,y,angle,width,height,density,strength,defence;int kind,shape;const char *definition;} CampaignObject;
+typedef struct {float x,y,angle,width,height,density,strength,defence;int kind,shape;const char *definition;float friction,restitution;} CampaignObject;
+/* friction/restitution come from the materials table of blocks.lua (wood 4.0/0.2,
+   light 0.7/0.2, rock 4.0/0.1, immovable 0.8/0, piglette 0.7/0.05, extras 0.7/0.4). */
 /* CampaignObject.shape: box, circle, right triangle (vertices 0,0 1,1 0,1) and
    isosceles triangle (0.5,0 1,1 0,1), normalized over the sprite extents. */
 enum {SHAPE_BOX=0,SHAPE_CIRCLE=1,SHAPE_TRIANGLE_L=2,SHAPE_TRIANGLE_M=3};

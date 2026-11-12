@@ -2,7 +2,7 @@
   "adapter": "classic_redbird_boxes",
   "source_sha256": "6d989b372b9cf8357ad440493303815e662d85ee68432780597aa997d4037eec",
   "source": "assets/data/levels/1_PoachedEggs/Level66.lua",
-  "collision_dimensions": "atlas extents / physicsToWorld; native hulls not recovered",
+  "collision_dimensions": "sprite extents / physicsToWorld x 0.92 for dynamic objects (ObjectCreation.lua sizeFactor); static objects use the full sprite",
   "gravity": 20.0,
   "physics_to_world": 20.0,
   "ground_y": 0.0,
@@ -98,7 +98,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock3",
@@ -111,10 +113,12 @@
       "angle": 3.1011,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "ExtraDiamond",
@@ -127,10 +131,12 @@
       "angle": 1.02156,
       "density": 0.75,
       "defence": 5.0,
-      "width": 2.45,
-      "height": 2.0,
+      "width": 2.2540000000000004,
+      "height": 1.84,
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "ExtraPillar",
@@ -143,10 +149,12 @@
       "angle": 6.27518,
       "density": 10.0,
       "defence": 40.0,
-      "width": 4.35,
-      "height": 9.85,
+      "width": 4.002,
+      "height": 9.062,
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "StoneBlock3",
@@ -159,10 +167,12 @@
       "angle": 3.15509,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StoneBlock3",
@@ -175,10 +185,12 @@
       "angle": 3.14478,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StoneBlock3",
@@ -191,10 +203,12 @@
       "angle": 3.1546,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "HelmetPiglette",
@@ -210,7 +224,9 @@
       "width": 3.9,
       "height": 3.9,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.3,
+      "restitution": 0.05
     },
     {
       "definition": "StaticBlock_05",
@@ -226,7 +242,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StaticBlock_05",
@@ -242,7 +260,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock3",
@@ -255,10 +275,12 @@
       "angle": 3.13894,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StaticBlock_05",
@@ -274,7 +296,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StaticBlock_05",
@@ -290,7 +314,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StaticBlock_05",
@@ -306,7 +332,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "ExtraDiamond",
@@ -319,10 +347,12 @@
       "angle": 1.07591,
       "density": 0.75,
       "defence": 5.0,
-      "width": 2.45,
-      "height": 2.0,
+      "width": 2.2540000000000004,
+      "height": 1.84,
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "ExtraPillar",
@@ -335,10 +365,12 @@
       "angle": 0.0010919,
       "density": 10.0,
       "defence": 40.0,
-      "width": 4.35,
-      "height": 9.85,
+      "width": 4.002,
+      "height": 9.062,
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "ExtraBlockTNT",
@@ -351,10 +383,12 @@
       "angle": 0.00368578,
       "density": 0.75,
       "defence": 1.0,
-      "width": 3.5,
-      "height": 3.45,
+      "width": 3.22,
+      "height": 3.1740000000000004,
       "kind": 7,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "StaticBlock_05",
@@ -370,7 +404,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StaticBlock_05",
@@ -386,7 +422,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock3",
@@ -399,10 +437,12 @@
       "angle": 3.07575,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "HelmetPiglette",
@@ -418,7 +458,9 @@
       "width": 3.9,
       "height": 3.9,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.3,
+      "restitution": 0.05
     },
     {
       "definition": "StoneBlock5",
@@ -431,10 +473,12 @@
       "angle": 3.14005,
       "density": 4.0,
       "defence": 15.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StoneBlock5",
@@ -447,10 +491,12 @@
       "angle": 3.16559,
       "density": 4.0,
       "defence": 15.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StoneBlock5",
@@ -463,10 +509,12 @@
       "angle": 3.09505,
       "density": 4.0,
       "defence": 15.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StoneBlock5",
@@ -479,10 +527,12 @@
       "angle": 3.12952,
       "density": 4.0,
       "defence": 15.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "ExtraHolyGrail",
@@ -495,10 +545,12 @@
       "angle": 6.27996,
       "density": 0.75,
       "defence": 5.0,
-      "width": 2.25,
-      "height": 4.05,
+      "width": 2.0700000000000003,
+      "height": 3.726,
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "StoneBlock3",
@@ -511,10 +563,12 @@
       "angle": 3.1415,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StoneBlock5",
@@ -527,10 +581,12 @@
       "angle": 3.14371,
       "density": 4.0,
       "defence": 15.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StoneBlock5",
@@ -543,10 +599,12 @@
       "angle": 3.14588,
       "density": 4.0,
       "defence": 15.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StaticBlock_05",
@@ -562,7 +620,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "ExtraHolyGrail",
@@ -575,10 +635,12 @@
       "angle": 6.28318,
       "density": 0.75,
       "defence": 5.0,
-      "width": 2.25,
-      "height": 4.05,
+      "width": 2.0700000000000003,
+      "height": 3.726,
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "StoneBlock3",
@@ -591,10 +653,12 @@
       "angle": 3.15028,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "HelmetPiglette",
@@ -610,7 +674,9 @@
       "width": 3.9,
       "height": 3.9,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.3,
+      "restitution": 0.05
     },
     {
       "definition": "StoneBlock3",
@@ -623,10 +689,12 @@
       "angle": 3.14309,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StaticBlock_05",
@@ -642,7 +710,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock3",
@@ -655,10 +725,12 @@
       "angle": 3.18559,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StaticBlock_05",
@@ -674,7 +746,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StaticBlock_05",
@@ -690,7 +764,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock3",
@@ -703,10 +779,12 @@
       "angle": 3.14614,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "ExtraDiamond",
@@ -719,10 +797,12 @@
       "angle": 4.42587,
       "density": 0.75,
       "defence": 5.0,
-      "width": 2.45,
-      "height": 2.0,
+      "width": 2.2540000000000004,
+      "height": 1.84,
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "StaticBlock_05",
@@ -738,7 +818,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "ExtraDiamond",
@@ -751,10 +833,12 @@
       "angle": 0.464713,
       "density": 0.75,
       "defence": 5.0,
-      "width": 2.45,
-      "height": 2.0,
+      "width": 2.2540000000000004,
+      "height": 1.84,
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "StaticBlock_05",
@@ -770,7 +854,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StaticBlock_05",
@@ -786,7 +872,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StaticBlock_05",
@@ -802,7 +890,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock8",
@@ -815,10 +905,12 @@
       "angle": 0.00895272,
       "density": 4.0,
       "defence": 15.0,
-      "width": 1.95,
-      "height": 1.85,
+      "width": 1.794,
+      "height": 1.7020000000000002,
       "kind": 5,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "ExtraDiamond",
@@ -831,10 +923,12 @@
       "angle": 5.69961,
       "density": 0.75,
       "defence": 5.0,
-      "width": 2.45,
-      "height": 2.0,
+      "width": 2.2540000000000004,
+      "height": 1.84,
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "ExtraPillar",
@@ -847,10 +941,12 @@
       "angle": 6.28313,
       "density": 10.0,
       "defence": 40.0,
-      "width": 4.35,
-      "height": 9.85,
+      "width": 4.002,
+      "height": 9.062,
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "StaticBlock_05",
@@ -866,7 +962,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StaticBlock_05",
@@ -882,7 +980,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "HelmetPiglette",
@@ -898,7 +998,9 @@
       "width": 3.9,
       "height": 3.9,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.3,
+      "restitution": 0.05
     },
     {
       "definition": "StoneBlock3",
@@ -911,10 +1013,12 @@
       "angle": 3.13967,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StaticBlock_05",
@@ -930,7 +1034,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "ExtraTreasureChest",
@@ -943,10 +1049,12 @@
       "angle": 0.00176255,
       "density": 0.75,
       "defence": 5.0,
-      "width": 4.75,
-      "height": 3.0,
+      "width": 4.37,
+      "height": 2.7600000000000002,
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "StaticBlock_05",
@@ -962,7 +1070,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock3",
@@ -975,10 +1085,12 @@
       "angle": 3.14211,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StaticBlock_05",
@@ -994,7 +1106,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "ExtraDiamond",
@@ -1007,10 +1121,12 @@
       "angle": 5.04592,
       "density": 0.75,
       "defence": 5.0,
-      "width": 2.45,
-      "height": 2.0,
+      "width": 2.2540000000000004,
+      "height": 1.84,
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "StaticBlock_05",
@@ -1026,7 +1142,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock5",
@@ -1039,10 +1157,12 @@
       "angle": 3.14563,
       "density": 4.0,
       "defence": 15.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "HelmetPiglette",
@@ -1058,7 +1178,9 @@
       "width": 3.9,
       "height": 3.9,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.3,
+      "restitution": 0.05
     },
     {
       "definition": "ExtraDiamond",
@@ -1071,10 +1193,12 @@
       "angle": 4.89271,
       "density": 0.75,
       "defence": 5.0,
-      "width": 2.45,
-      "height": 2.0,
+      "width": 2.2540000000000004,
+      "height": 1.84,
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "ExtraTreasureChest",
@@ -1087,10 +1211,12 @@
       "angle": 0.000654166,
       "density": 0.75,
       "defence": 5.0,
-      "width": 4.75,
-      "height": 3.0,
+      "width": 4.37,
+      "height": 2.7600000000000002,
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "StaticBlock_05",
@@ -1106,7 +1232,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock3",
@@ -1119,10 +1247,12 @@
       "angle": 3.15492,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StaticBlock_05",
@@ -1138,7 +1268,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "ExtraDiamond",
@@ -1151,10 +1283,12 @@
       "angle": 0.139684,
       "density": 0.75,
       "defence": 5.0,
-      "width": 2.45,
-      "height": 2.0,
+      "width": 2.2540000000000004,
+      "height": 1.84,
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "StoneBlock3",
@@ -1167,10 +1301,12 @@
       "angle": 3.10627,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StaticBlock_05",
@@ -1186,7 +1322,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock3",
@@ -1199,10 +1337,12 @@
       "angle": 3.13753,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "ExtraPillar",
@@ -1215,10 +1355,12 @@
       "angle": 6.28205,
       "density": 10.0,
       "defence": 40.0,
-      "width": 4.35,
-      "height": 9.85,
+      "width": 4.002,
+      "height": 9.062,
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "StaticBlock_05",
@@ -1234,7 +1376,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock6",
@@ -1247,10 +1391,12 @@
       "angle": 3.15549,
       "density": 4.0,
       "defence": 15.0,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StaticBlock_05",
@@ -1266,7 +1412,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "ExtraTreasureChest",
@@ -1279,10 +1427,12 @@
       "angle": 0.000108894,
       "density": 0.75,
       "defence": 5.0,
-      "width": 4.75,
-      "height": 3.0,
+      "width": 4.37,
+      "height": 2.7600000000000002,
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "StaticBlock_05",
@@ -1298,7 +1448,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock5",
@@ -1311,10 +1463,12 @@
       "angle": 3.1382,
       "density": 4.0,
       "defence": 15.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StoneBlock3",
@@ -1327,10 +1481,12 @@
       "angle": 3.14411,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StaticBlock_05",
@@ -1346,7 +1502,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StaticBlock_05",
@@ -1362,7 +1520,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "ExtraDiamond",
@@ -1375,10 +1535,12 @@
       "angle": 4.78526,
       "density": 0.75,
       "defence": 5.0,
-      "width": 2.45,
-      "height": 2.0,
+      "width": 2.2540000000000004,
+      "height": 1.84,
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "StaticBlock_05",
@@ -1394,7 +1556,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "ExtraHolyGrail",
@@ -1407,10 +1571,12 @@
       "angle": 0.00030249,
       "density": 0.75,
       "defence": 5.0,
-      "width": 2.25,
-      "height": 4.05,
+      "width": 2.0700000000000003,
+      "height": 3.726,
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "StaticBlock_05",
@@ -1426,7 +1592,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock3",
@@ -1439,10 +1607,12 @@
       "angle": 3.14084,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StaticBlock_05",
@@ -1458,7 +1628,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "ExtraDiamond",
@@ -1471,10 +1643,12 @@
       "angle": 1.3836,
       "density": 0.75,
       "defence": 5.0,
-      "width": 2.45,
-      "height": 2.0,
+      "width": 2.2540000000000004,
+      "height": 1.84,
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.7,
+      "restitution": 0.4
     },
     {
       "definition": "StaticBlock_04",
@@ -1490,7 +1664,9 @@
       "width": 4.85,
       "height": 4.85,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StaticBlock_05",
@@ -1506,7 +1682,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StaticBlock_05",
@@ -1522,7 +1700,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock3",
@@ -1535,10 +1715,12 @@
       "angle": 3.15576,
       "density": 4.0,
       "defence": 15.0,
-      "width": 2.05,
-      "height": 2.05,
+      "width": 1.886,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StaticBlock_05",
@@ -1554,7 +1736,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "WoodBlock6",
@@ -1567,10 +1751,12 @@
       "angle": 3.15642,
       "density": 1.5,
       "defence": 2.5,
-      "width": 8.4,
-      "height": 1.0,
+      "width": 7.728000000000001,
+      "height": 0.92,
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.2
     }
   ],
   "title": "POACHED EGGS 2-15",

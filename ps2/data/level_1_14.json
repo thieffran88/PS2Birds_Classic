@@ -2,7 +2,7 @@
   "adapter": "classic_redbird_boxes",
   "source_sha256": "11d87e41d57cbbe64f467add01b73661ce27ac8e34cbaf651f158b39dd5caee7",
   "source": "assets/data/levels/1_PoachedEggs/Level39.lua",
-  "collision_dimensions": "atlas extents / physicsToWorld; native hulls not recovered",
+  "collision_dimensions": "sprite extents / physicsToWorld x 0.92 for dynamic objects (ObjectCreation.lua sizeFactor); static objects use the full sprite",
   "gravity": 20.0,
   "physics_to_world": 20.0,
   "ground_y": 0.0,
@@ -82,10 +82,12 @@
       "angle": 1.37072,
       "density": 4.0,
       "defence": 15.0,
-      "width": 1.95,
-      "height": 1.85,
+      "width": 1.794,
+      "height": 1.7020000000000002,
       "kind": 5,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "Estrade02",
@@ -101,7 +103,9 @@
       "width": 8.95,
       "height": 2.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "LightBlock5",
@@ -114,10 +118,12 @@
       "angle": 3.14231,
       "density": 0.75,
       "defence": 2.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.7,
+      "restitution": 0.2
     },
     {
       "definition": "StaticBlock_02",
@@ -133,7 +139,9 @@
       "width": 9.7,
       "height": 1.65,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "Estrade01",
@@ -149,7 +157,9 @@
       "width": 7.45,
       "height": 2.2,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "Estrade02",
@@ -165,7 +175,9 @@
       "width": 8.95,
       "height": 2.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock8",
@@ -178,10 +190,12 @@
       "angle": 1.48075,
       "density": 4.0,
       "defence": 15.0,
-      "width": 1.95,
-      "height": 1.85,
+      "width": 1.794,
+      "height": 1.7020000000000002,
       "kind": 5,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StoneBlock5",
@@ -194,10 +208,12 @@
       "angle": 1.57145,
       "density": 4.0,
       "defence": 15.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "SmallPiglette",
@@ -213,7 +229,9 @@
       "width": 2.15,
       "height": 2.15,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.7,
+      "restitution": 0.05
     },
     {
       "definition": "StaticBlock_05",
@@ -229,7 +247,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock7",
@@ -242,10 +262,12 @@
       "angle": 1.79147,
       "density": 4.0,
       "defence": 15.0,
-      "width": 3.8,
-      "height": 3.65,
+      "width": 3.496,
+      "height": 3.358,
       "kind": 5,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "MediumPiglette",
@@ -261,7 +283,9 @@
       "width": 3.7,
       "height": 3.7,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.3,
+      "restitution": 0.05
     },
     {
       "definition": "StoneBlock5",
@@ -274,10 +298,12 @@
       "angle": 1.57496,
       "density": 4.0,
       "defence": 15.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "SmallPiglette",
@@ -293,7 +319,9 @@
       "width": 2.15,
       "height": 2.15,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.7,
+      "restitution": 0.05
     },
     {
       "definition": "StoneBlock5",
@@ -306,10 +334,12 @@
       "angle": 6.2824,
       "density": 4.0,
       "defence": 15.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "SmallPiglette",
@@ -325,7 +355,9 @@
       "width": 2.15,
       "height": 2.15,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.7,
+      "restitution": 0.05
     },
     {
       "definition": "SmallPiglette",
@@ -341,7 +373,9 @@
       "width": 2.15,
       "height": 2.15,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.7,
+      "restitution": 0.05
     },
     {
       "definition": "Estrade01",
@@ -357,7 +391,9 @@
       "width": 7.45,
       "height": 2.2,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "StoneBlock8",
@@ -370,10 +406,12 @@
       "angle": 1.7827,
       "density": 4.0,
       "defence": 15.0,
-      "width": 1.95,
-      "height": 1.85,
+      "width": 1.794,
+      "height": 1.7020000000000002,
       "kind": 5,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "StoneBlock8",
@@ -386,10 +424,12 @@
       "angle": 2.0771,
       "density": 4.0,
       "defence": 15.0,
-      "width": 1.95,
-      "height": 1.85,
+      "width": 1.794,
+      "height": 1.7020000000000002,
       "kind": 5,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "LargePiglette",
@@ -405,7 +445,9 @@
       "width": 4.65,
       "height": 4.65,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.3,
+      "restitution": 0.05
     },
     {
       "definition": "StoneBlock8",
@@ -418,10 +460,12 @@
       "angle": 2.00674,
       "density": 4.0,
       "defence": 15.0,
-      "width": 1.95,
-      "height": 1.85,
+      "width": 1.794,
+      "height": 1.7020000000000002,
       "kind": 5,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "MediumPiglette",
@@ -437,7 +481,9 @@
       "width": 3.7,
       "height": 3.7,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.3,
+      "restitution": 0.05
     },
     {
       "definition": "StaticBlock_05",
@@ -453,7 +499,9 @@
       "width": 9.7,
       "height": 9.8,
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "friction": 0.8,
+      "restitution": 0.0
     },
     {
       "definition": "SmallPiglette",
@@ -469,7 +517,9 @@
       "width": 2.15,
       "height": 2.15,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.7,
+      "restitution": 0.05
     },
     {
       "definition": "StoneBlock5",
@@ -482,10 +532,12 @@
       "angle": 6.28264,
       "density": 4.0,
       "defence": 15.0,
-      "width": 4.15,
-      "height": 2.05,
+      "width": 3.8180000000000005,
+      "height": 1.886,
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "friction": 4.0,
+      "restitution": 0.1
     },
     {
       "definition": "SmallPiglette",
@@ -501,7 +553,9 @@
       "width": 2.15,
       "height": 2.15,
       "kind": 4,
-      "shape": "circle"
+      "shape": "circle",
+      "friction": 0.7,
+      "restitution": 0.05
     }
   ],
   "title": "POACHED EGGS 1-14",

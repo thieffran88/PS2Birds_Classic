@@ -40,14 +40,16 @@ struct Physics: b2ContactListener {
         world.SetContactListener(this);
         b2BodyDef floor_def; floor_def.position.Set(20,level->ground_y+1);
         b2Body *floor=world.CreateBody(&floor_def);
-        b2PolygonShape shape;shape.SetAsBox(120,1); floor->CreateFixture(&shape,0);
+        b2PolygonShape shape;shape.SetAsBox(120,1);
+        /* staticGround material: friction 0.8, restitution 0. */
+        b2FixtureDef ground;ground.shape=&shape;ground.friction=0.8f;ground.restitution=0;floor->CreateFixture(&ground);
         for (int i=0;i<level->count;i++) {
             const CampaignObject &o=level->objects[i];
             b2BodyDef def;def.type=o.kind==3?b2_staticBody:b2_dynamicBody;
             def.position.Set(o.x,o.y);def.angle=o.angle;
             b2Body *body=world.CreateBody(&def);
             body->GetUserData().pointer=i+1;
-            b2FixtureDef fixture; fixture.density=o.density;fixture.friction=0.6f;fixture.restitution=0.03f;
+            b2FixtureDef fixture; fixture.density=o.density;fixture.friction=o.friction;fixture.restitution=o.restitution;
             b2PolygonShape box;b2CircleShape circle;
             if (o.shape==SHAPE_CIRCLE) {circle.m_radius=o.width/2;fixture.shape=&circle;}
             else if(o.shape==SHAPE_TRIANGLE_L || o.shape==SHAPE_TRIANGLE_M){

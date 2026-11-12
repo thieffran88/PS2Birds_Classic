@@ -352,5 +352,52 @@
     "YellowBird": 2,
     "BlackBird": 3,
     "BasicBird2": 4
+  },
+  "materials": {
+    "source": "materials table in blocks.lua",
+    "by_kind": {
+      "1": {
+        "name": "wood",
+        "friction": 4.0,
+        "restitution": 0.2
+      },
+      "2": {
+        "name": "light",
+        "friction": 0.7,
+        "restitution": 0.2
+      },
+      "3": {
+        "name": "immovable",
+        "friction": 0.8,
+        "restitution": 0.0
+      },
+      "4": {
+        "name": "piglette",
+        "friction": 0.7,
+        "restitution": 0.05
+      },
+      "5": {
+        "name": "rock",
+        "friction": 4.0,
+        "restitution": 0.1
+      },
+      "6": {
+        "name": "extras",
+        "friction": 0.7,
+        "restitution": 0.4
+      },
+      "7": {
+        "name": "extras",
+        "friction": 0.7,
+        "restitution": 0.4
+      }
+    },
+    "friction_overrides": {
+      "MediumPiglette": 0.3,
+      "LargePiglette": 0.3,
+      "HelmetPiglette": 0.3,
+      "GrandpaPiglette": 0.3,
+      "KingPiglette": 0.3
+    }
   }
 }

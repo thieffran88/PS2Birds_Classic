@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 DEFAULT_PROFILE=ROOT/'profiles/classic_level.json'
 GROUND_HALF_HEIGHT=5.0
+SIZE_FACTOR=0.92
 SLING_BACK_HEIGHT=199
 SLING_BACK_PIVOT_Y=30
 BIRD_RADIUS={'RedBird':0.75,'SmallBlueBird':0.6,'YellowBird':0.8,'BlackBird':1.0,'BasicBird2':1.3}
@@ -80,6 +81,9 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
         if kind not in [1,2,3,4,5,6,7]:raise ValueError('Unsupported runtime object kind')
         if 'sprite' in shape:
             metric=metrics[shape['sprite']];w,h=metric['width']/pixels,metric['height']/pixels
+            # ObjectCreation.lua: sprite-sized shapes are scaled by sizeFactorX/Y (default
+            # 0.92) unless the object is static (density 0), which keeps the full sprite.
+            if o.get('density',0)!=0:w,h=w*SIZE_FACTOR,h*SIZE_FACTOR
         else:w=h=float(shape['diameter'])
         if w<=0 or h<=0:raise ValueError('Invalid shape dimensions')
         for key in ['x','y','angle','density','strength','defence']:
@@ -87,7 +91,9 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
         if o['density']<0 or o['strength']<=0 or o['defence']<0:raise ValueError('Invalid material properties')
         collision=shape.get('shape','circle' if kind==4 else 'box')
         if collision not in ['box','circle','triangle_l','triangle_m']:raise ValueError('Unsupported collision shape')
-        level.append(dict(o,width=w,height=h,kind=kind,shape=collision))
+        material=profile['materials']['by_kind'][str(kind)]
+        friction=profile['materials']['friction_overrides'].get(o['definition'],material['friction'])
+        level.append(dict(o,width=w,height=h,kind=kind,shape=collision,friction=friction,restitution=material['restitution']))
     if not 1<=len(level)<=160:raise ValueError('Adapter supports 1..160 scene objects')
     # SlingshotSystem.setPositionByStartObject (Slingshot.lua) places the slingshot on the
     # first bird of the queue: rest point = (x - 0.1, y - (h - pivot_y) * physicsScale +
@@ -97,7 +103,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
     sling_x=first['x']-0.1
     sling_y=first['y']-(SLING_BACK_HEIGHT-SLING_BACK_PIVOT_Y)/pixels+radius+0.2-0.1
     doc={'adapter':profile['id'],'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
-         'source':source_name or source.name,'collision_dimensions':'atlas extents / physicsToWorld; native hulls not recovered',
+         'source':source_name or source.name,'collision_dimensions':'sprite extents / physicsToWorld x 0.92 for dynamic objects (ObjectCreation.lua sizeFactor); static objects use the full sprite',
          'gravity':gravity,'physics_to_world':pixels,'ground_y':ground,'ground_object_y':grounds[0]['y'],'view':view,
          'sling_x':sling_x,'sling_y':sling_y,'bird_queue_x':scalar('birdZeroPosX')/pixels,'bird_queue_y':scalar('birdZeroPosY')/pixels,'birds':birds,'objects':level}
     def f(v):return f'{v:.8f}f'

@@ -36,7 +36,7 @@ def build(episode_path=EPISODE):
         lines.append(f'static const CampaignObject campaign_objects_{i}[] = {{')
         for o in d['objects']:
             values=[o[k] for k in ['x','y','angle','width','height','density','strength','defence']]
-            lines.append(' {'+','.join(f(v) for v in values)+','+str(o['kind'])+','+str(['box','circle','triangle_l','triangle_m'].index(o['shape']))+','+json.dumps(o['definition'])+'},')
+            lines.append(' {'+','.join(f(v) for v in values)+','+str(o['kind'])+','+str(['box','circle','triangle_l','triangle_m'].index(o['shape']))+','+json.dumps(o['definition'])+','+f(o['friction'])+','+f(o['restitution'])+'},')
         lines.append('};')
     lines.append('static const CampaignLevel campaign_levels[] = {')
     for i,d in enumerate(levels):
