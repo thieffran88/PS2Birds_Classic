@@ -9,90 +9,90 @@ typedef struct {float angle,power,special;} Shot;
    for every bird unless several shots are listed. */
 typedef struct {const char *script;int objects,pigs,blocks,birds;Shot shots[5];int shot_count;} Stage;
 static const Stage stages[]={
- {"Level1",19,1,14,3,{{10,350,-1.0f}},1}, /* POACHED EGGS 1-1 */
- {"Level57",27,4,8,5,{{10,240,-1.0f}},1}, /* POACHED EGGS 1-2 */
- {"Level53",15,2,8,4,{{10,270,-1.0f}},1}, /* POACHED EGGS 1-3 */
- {"Level3",20,1,13,4,{{10,300,-1.0f}},1}, /* POACHED EGGS 1-4 */
- {"Level6",39,5,32,4,{{10,330,-1.0f}},1}, /* POACHED EGGS 1-5 */
- {"Level2",24,2,18,4,{{10,360,-1.0f}},1}, /* POACHED EGGS 1-6 */
- {"Level4",36,3,29,4,{{20,410,-1.0f}},1}, /* POACHED EGGS 1-7 */
- {"Level5",26,4,10,4,{{30,380,-1.0f}},1}, /* POACHED EGGS 1-8 */
- {"Level7",45,3,36,4,{{10,370,-1.0f}},1}, /* POACHED EGGS 1-9 */
- {"Level8",45,2,33,5,{{20,390,-1.0f}},1}, /* POACHED EGGS 1-10 */
- {"Level9",50,4,39,4,{{10,270,-1.0f}},1}, /* POACHED EGGS 1-11 */
- {"Level13",41,3,31,4,{{10,350,-1.0f}},1}, /* POACHED EGGS 1-12 */
- {"Level10",39,3,31,4,{{10,410,-1.0f}},1}, /* POACHED EGGS 1-13 */
- {"Level39",27,9,11,4,{{25,390,-1.0f}},1}, /* POACHED EGGS 1-14 */
- {"Level12",44,3,36,4,{{10,420,-1.0f}},1}, /* POACHED EGGS 1-15 */
- {"Level15",39,4,26,5,{{10,290,-1.0f}},1}, /* POACHED EGGS 1-16 */
- {"Level17",47,3,44,3,{{10,410,-1.0f}},1}, /* POACHED EGGS 1-17 */
- {"Level14",32,4,20,5,{{10,300,0.4f}},1}, /* POACHED EGGS 1-18 */
- {"Level16",49,1,39,4,{{10,260,-1.0f}},1}, /* POACHED EGGS 1-19 */
- {"Level23",36,2,29,5,{{10,280,-1.0f}},1}, /* POACHED EGGS 1-20 */
- {"Level44",80,3,65,8,{{10,320,-1.0f}},1}, /* POACHED EGGS 1-21 */
- {"Level52",46,7,39,4,{{10,370,-1.0f}},1},
- {"Level34",63,5,41,4,{{10,270,-1.0f}},1},
- {"Level42",50,11,34,5,{{15,360,-1.0f}},1},
- {"Level24",48,4,21,4,{{10,340,-1.0f}},1},
- {"Level88",77,4,64,4,{{25,300,-1.0f}},1},
- {"Level36",67,4,38,3,{{10,170,-1.0f}},1},
- {"Level31",44,3,26,4,{{30,320,-1.0f}},1},
- {"Level21",43,5,28,3,{{20,320,-1.0f}},1},
- {"Level41",41,1,25,4,{{65,210,-1.0f}},1},
- {"Level76",29,3,22,3,{{30,350,-1.0f}},1},
- {"Level38",94,3,80,4,{{10,180,-1.0f}},1},
- {"Level35",45,2,43,6,{{10,350,-1.0f}},1},
- {"Level20",55,4,43,4,{{15,360,-1.0f}},1},
- {"Level26",100,4,56,4,{{30,350,0.4f},{30,350,0.7f},{30,420,0.9f}},3},
- {"Level66",93,5,51,5,{{10,290,-1.0f}},1}, /* POACHED EGGS 2-15 */
- {"Level85",83,3,70,3,{{10,290,-1.0f}},1}, /* POACHED EGGS 2-16 */
- {"Level27",58,3,48,3,{{15,330,-1.0f}},1}, /* POACHED EGGS 2-17 */
- {"Level32",66,5,45,4,{{10,270,-1.0f}},1}, /* POACHED EGGS 2-18 */
- {"Level72",55,2,40,3,{{68,275,-1.0f},{66,255,-1.0f}},2}, /* POACHED EGGS 2-19 */
- {"Level90",70,4,49,3,{{20,320,0.4f}},1}, /* POACHED EGGS 2-20 */
- {"Level96",86,5,62,6,{{45,230,-1.0f}},1}, /* POACHED EGGS 2-21 */
- {"Level43",54,7,20,3,{{30,310,-1.0f}},1}, /* POACHED EGGS 3-1 */
- {"Level77",22,6,5,4,{{0,0,-1.0f}},0}, /* POACHED EGGS 3-2 (sem roteiro vencedor) */
- {"Level28",105,4,34,3,{{20,160,-1.0f}},1}, /* POACHED EGGS 3-3 */
- {"Level29",59,4,43,3,{{10,260,-1.0f}},1}, /* POACHED EGGS 3-4 */
- {"Level87",86,9,60,3,{{60,240,-1.0f}},1}, /* POACHED EGGS 3-5 */
- {"Level18",42,9,32,3,{{45,200,-1.0f}},1}, /* POACHED EGGS 3-6 */
- {"Level91",50,7,16,4,{{25,220,0.6f},{30,320,1.2f},{20,340,1.0f}},3}, /* POACHED EGGS 3-7 */
- {"Level49",78,5,64,4,{{25,240,-1.0f}},1}, /* POACHED EGGS 3-8 */
- {"Level45",74,7,30,3,{{50,200,2.6f},{35,300,1.2f},{25,260,1.6f}},3}, /* POACHED EGGS 3-9 */
- {"Level75",36,6,25,4,{{10,240,0.7f}},1}, /* POACHED EGGS 3-10 */
- {"Level51",54,4,39,4,{{50,250,0.4f}},1}, /* POACHED EGGS 3-11 */
- {"Level30",56,3,47,5,{{30,340,-1.0f}},1}, /* POACHED EGGS 3-12 */
- {"Level79",59,4,18,3,{{35,200,1.4f},{20,200,2.3f},{30,340,1.8f}},3}, /* POACHED EGGS 3-13 */
- {"Level40",59,5,37,4,{{50,200,0.8f},{15,240,0.8f},{70,260,0.8f}},3}, /* POACHED EGGS 3-14 */
- {"Level59",65,4,51,3,{{70,210,-1.0f}},1}, /* POACHED EGGS 3-15 */
- {"Level58",73,4,61,3,{{15,320,-1.0f}},1}, /* POACHED EGGS 3-16 */
- {"Level95",82,5,65,4,{{15,360,-1.0f}},1}, /* POACHED EGGS 3-17 */
- {"Level82",111,7,73,5,{{30,260,2.3f},{15,400,0.8f},{15,220,1.4f},{50,380,1.0f}},4}, /* POACHED EGGS 3-18 */
+ {"Level1",19,1,14,3,{{-10,74,-1.0f}},1}, /* POACHED EGGS 1-1 */
+ {"Level57",27,4,8,5,{{-5,86,-1.0f}},1}, /* POACHED EGGS 1-2 */
+ {"Level53",15,2,8,4,{{-10,78,-1.0f}},1}, /* POACHED EGGS 1-3 */
+ {"Level3",20,1,13,4,{{-10,90,-1.0f}},1}, /* POACHED EGGS 1-4 */
+ {"Level6",39,5,32,4,{{0,94,-1.0f}},1}, /* POACHED EGGS 1-5 */
+ {"Level2",24,2,18,4,{{25,94,-1.0f}},1}, /* POACHED EGGS 1-6 */
+ {"Level4",36,3,29,4,{{30,90,-1.0f}},1}, /* POACHED EGGS 1-7 */
+ {"Level5",26,4,10,4,{{60,90,-1.0f}},1}, /* POACHED EGGS 1-8 */
+ {"Level7",45,3,36,4,{{20,98,-1.0f}},1}, /* POACHED EGGS 1-9 */
+ {"Level8",45,2,33,5,{{30,94,0.4f}},1}, /* POACHED EGGS 1-10 */
+ {"Level9",50,4,39,4,{{20,98,-1.0f}},1}, /* POACHED EGGS 1-11 */
+ {"Level13",41,3,31,4,{{10,94,-1.0f}},1}, /* POACHED EGGS 1-12 */
+ {"Level10",39,3,31,4,{{30,90,-1.0f}},1}, /* POACHED EGGS 1-13 */
+ {"Level39",27,9,11,4,{{10,90,-1.0f}},1}, /* POACHED EGGS 1-14 */
+ {"Level12",44,3,36,4,{{40,86,-1.0f}},1}, /* POACHED EGGS 1-15 */
+ {"Level15",39,4,26,5,{{20,98,-1.0f}},1}, /* POACHED EGGS 1-16 */
+ {"Level17",47,3,44,3,{{20,98,-1.0f}},1}, /* POACHED EGGS 1-17 */
+ {"Level14",32,4,20,5,{{35,90,-1.0f}},1}, /* POACHED EGGS 1-18 */
+ {"Level16",49,1,39,4,{{-10,94,-1.0f}},1}, /* POACHED EGGS 1-19 */
+ {"Level23",36,2,29,5,{{-10,98,-1.0f}},1}, /* POACHED EGGS 1-20 */
+ {"Level44",80,3,65,8,{{15,94,-1.0f}},1}, /* POACHED EGGS 1-21 */
+ {"Level52",46,7,39,4,{{40,90,-1.0f}},1}, /* POACHED EGGS 2-1 */
+ {"Level34",63,5,41,4,{{-5,94,-1.0f}},1}, /* POACHED EGGS 2-2 */
+ {"Level42",50,11,34,5,{{30,95,0.8f},{40,75,1.8f}},2}, /* POACHED EGGS 2-3 */
+ {"Level24",48,4,21,4,{{25,90,-1.0f}},1}, /* POACHED EGGS 2-4 */
+ {"Level88",77,4,64,4,{{20,100,1.2f},{60,100,-1.0f}},2}, /* POACHED EGGS 2-5 */
+ {"Level36",67,4,38,3,{{10,98,-1.0f}},1}, /* POACHED EGGS 2-6 */
+ {"Level31",44,3,26,4,{{20,94,-1.0f}},1}, /* POACHED EGGS 2-7 */
+ {"Level21",43,5,28,3,{{60,98,-1.0f}},1}, /* POACHED EGGS 2-8 */
+ {"Level41",41,1,25,4,{{-10,94,-1.0f}},1}, /* POACHED EGGS 2-9 */
+ {"Level76",29,3,22,3,{{25,86,-1.0f}},1}, /* POACHED EGGS 2-10 */
+ {"Level38",94,3,80,4,{{30,90,-1.0f}},1}, /* POACHED EGGS 2-11 */
+ {"Level35",45,2,43,6,{{30,94,-1.0f}},1}, /* POACHED EGGS 2-12 */
+ {"Level20",55,4,43,4,{{5,98,-1.0f}},1}, /* POACHED EGGS 2-13 */
+ {"Level26",100,4,56,4,{{-10,94,-1.0f}},1}, /* POACHED EGGS 2-14 */
+ {"Level66",93,5,51,5,{{15,95,1.4f},{20,95,1.6f}},2}, /* POACHED EGGS 2-15 */
+ {"Level85",83,3,70,3,{{5,94,-1.0f}},1}, /* POACHED EGGS 2-16 */
+ {"Level27",58,3,48,3,{{10,90,-1.0f}},1}, /* POACHED EGGS 2-17 */
+ {"Level32",66,5,45,4,{{25,98,-1.0f}},1}, /* POACHED EGGS 2-18 */
+ {"Level72",55,2,40,3,{{20,95,1.4f},{45,80,2.6f}},2}, /* POACHED EGGS 2-19 */
+ {"Level90",70,4,49,3,{{15,94,1.0f}},1}, /* POACHED EGGS 2-20 */
+ {"Level96",86,5,62,6,{{20,98,-1.0f}},1}, /* POACHED EGGS 2-21 */
+ {"Level43",54,7,20,3,{{50,90,-1.0f}},1}, /* POACHED EGGS 3-1 */
+ {"Level77",22,6,5,4,{{70,30,2.0f},{20,90,0.6f},{75,60,2.0f},{30,60,2.3f}},4}, /* POACHED EGGS 3-2 */
+ {"Level28",105,4,34,3,{{35,74,-1.0f}},1}, /* POACHED EGGS 3-3 */
+ {"Level29",59,4,43,3,{{15,94,-1.0f}},1}, /* POACHED EGGS 3-4 */
+ {"Level87",86,9,60,3,{{20,94,-1.0f}},1}, /* POACHED EGGS 3-5 */
+ {"Level18",42,9,32,3,{{20,62,0.4f}},1}, /* POACHED EGGS 3-6 */
+ {"Level91",50,7,16,4,{{25,70,1.8f},{60,95,2.3f},{5,50,1.2f}},3}, /* POACHED EGGS 3-7 */
+ {"Level49",78,5,64,4,{{25,98,-1.0f}},1}, /* POACHED EGGS 3-8 */
+ {"Level45",74,7,30,3,{{0,0,-1.0f}},0}, /* POACHED EGGS 3-9 (sem roteiro vencedor) */
+ {"Level75",36,6,25,4,{{30,100,0.6f},{40,75,2.0f}},2}, /* POACHED EGGS 3-10 */
+ {"Level51",54,4,39,4,{{35,98,-1.0f}},1}, /* POACHED EGGS 3-11 */
+ {"Level30",56,3,47,5,{{20,98,-1.0f}},1}, /* POACHED EGGS 3-12 */
+ {"Level79",59,4,18,3,{{15,90,-1.0f}},1}, /* POACHED EGGS 3-13 */
+ {"Level40",59,5,37,4,{{30,82,-1.0f}},1}, /* POACHED EGGS 3-14 */
+ {"Level59",65,4,51,3,{{-10,90,-1.0f}},1}, /* POACHED EGGS 3-15 */
+ {"Level58",73,4,61,3,{{5,90,-1.0f}},1}, /* POACHED EGGS 3-16 */
+ {"Level95",82,5,65,4,{{20,98,-1.0f}},1}, /* POACHED EGGS 3-17 */
+ {"Level82",111,7,73,5,{{10,86,-1.0f}},1}, /* POACHED EGGS 3-18 */
  {"Level22",91,5,68,3,{{0,0,-1.0f}},0}, /* POACHED EGGS 3-19 (sem roteiro vencedor) */
  {"Level89",107,9,69,5,{{0,0,-1.0f}},0}, /* POACHED EGGS 3-20 (sem roteiro vencedor) */
  {"Level81",135,9,92,7,{{0,0,-1.0f}},0}, /* POACHED EGGS 3-21 (sem roteiro vencedor) */
- {"LevelP2_103",41,3,35,3,{{15,350,-1.0f}},1}, /* MIGHTY HOAX 4-1 */
- {"LevelP2_91",79,8,54,3,{{10,290,-1.0f}},1}, /* MIGHTY HOAX 4-2 */
- {"LevelP2_65",76,3,69,3,{{40,240,0.8f},{20,300,1.2f},{15,400,0.6f}},3}, /* MIGHTY HOAX 4-3 */
- {"LevelP2_96",79,4,53,4,{{0,0,-1.0f}},0}, /* MIGHTY HOAX 4-4 (sem roteiro vencedor) */
- {"LevelP2_69",65,10,47,4,{{15,290,-1.0f}},1}, /* MIGHTY HOAX 4-5 */
- {"LevelP2_88",57,5,48,4,{{15,370,-1.0f}},1}, /* MIGHTY HOAX 4-6 */
- {"LevelP2_64",90,4,51,5,{{10,220,-1.0f}},1}, /* MIGHTY HOAX 4-7 */
- {"LevelP2_80",75,3,62,4,{{15,320,-1.0f}},1}, /* MIGHTY HOAX 4-8 */
- {"LevelP2_108",34,3,30,4,{{10,420,1.0f}},1}, /* MIGHTY HOAX 4-9 */
- {"LevelP2_85",88,4,46,4,{{40,340,2.0f},{40,320,1.2f},{65,200,0.6f},{40,360,0.6f}},4}, /* MIGHTY HOAX 4-10 */
- {"LevelP2_82",85,5,52,3,{{10,200,-1.0f}},1}, /* MIGHTY HOAX 4-11 */
- {"LevelP2_66",68,6,54,4,{{15,420,-1.0f}},1}, /* MIGHTY HOAX 4-12 */
- {"LevelP2_104",54,4,47,4,{{20,390,-1.0f}},1}, /* MIGHTY HOAX 4-13 */
- {"LevelP2_210",55,10,43,6,{{15,220,0.6f},{70,260,1.2f},{55,200,1.2f},{30,200,0.8f}},4}, /* MIGHTY HOAX 4-14 */
- {"LevelP2_83",68,4,52,5,{{30,300,-1.0f}},1}, /* MIGHTY HOAX 4-15 */
- {"LevelP2_79",52,8,32,4,{{30,290,-1.0f}},1}, /* MIGHTY HOAX 4-16 */
- {"LevelP2_77",44,1,33,3,{{15,420,-1.0f}},1}, /* MIGHTY HOAX 4-17 */
- {"LevelP2_114",66,3,53,5,{{35,200,-1.0f}},1}, /* MIGHTY HOAX 4-18 */
- {"LevelP2_81",60,4,48,3,{{20,410,-1.0f}},1}, /* MIGHTY HOAX 4-19 */
- {"LevelP2_68",62,10,50,5,{{70,270,-1.0f}},1}, /* MIGHTY HOAX 4-20 */
- {"LevelP2_95",64,7,34,6,{{15,280,-1.0f}},1}, /* MIGHTY HOAX 4-21 */
+ {"LevelP2_103",41,3,35,3,{{25,74,-1.0f}},1}, /* MIGHTY HOAX 4-1 */
+ {"LevelP2_91",79,8,54,3,{{20,90,0.4f}},1}, /* MIGHTY HOAX 4-2 */
+ {"LevelP2_65",76,3,69,3,{{25,90,0.8f},{60,90,1.6f},{35,95,2.3f}},3}, /* MIGHTY HOAX 4-3 */
+ {"LevelP2_96",79,4,53,4,{{-5,98,0.4f}},1}, /* MIGHTY HOAX 4-4 */
+ {"LevelP2_69",65,10,47,4,{{30,70,1.2f},{60,100,0.6f},{25,75,1.4f},{45,80,-1.0f}},4}, /* MIGHTY HOAX 4-5 */
+ {"LevelP2_88",57,5,48,4,{{15,90,0.4f}},1}, /* MIGHTY HOAX 4-6 */
+ {"LevelP2_64",90,4,51,5,{{25,98,-1.0f}},1}, /* MIGHTY HOAX 4-7 */
+ {"LevelP2_80",75,3,62,4,{{-10,94,0.7f}},1}, /* MIGHTY HOAX 4-8 */
+ {"LevelP2_108",34,3,30,4,{{20,98,-1.0f}},1}, /* MIGHTY HOAX 4-9 */
+ {"LevelP2_85",88,4,46,4,{{25,90,0.7f}},1}, /* MIGHTY HOAX 4-10 */
+ {"LevelP2_82",85,5,52,3,{{10,90,-1.0f}},1}, /* MIGHTY HOAX 4-11 */
+ {"LevelP2_66",68,6,54,4,{{10,94,-1.0f}},1}, /* MIGHTY HOAX 4-12 */
+ {"LevelP2_104",54,4,47,4,{{20,94,-1.0f}},1}, /* MIGHTY HOAX 4-13 */
+ {"LevelP2_210",55,10,43,6,{{20,94,0.4f}},1}, /* MIGHTY HOAX 4-14 */
+ {"LevelP2_83",68,4,52,5,{{70,85,-1.0f},{50,100,2.6f}},2}, /* MIGHTY HOAX 4-15 */
+ {"LevelP2_79",52,8,32,4,{{35,94,-1.0f}},1}, /* MIGHTY HOAX 4-16 */
+ {"LevelP2_77",44,1,33,3,{{25,98,-1.0f}},1}, /* MIGHTY HOAX 4-17 */
+ {"LevelP2_114",66,3,53,5,{{10,98,-1.0f}},1}, /* MIGHTY HOAX 4-18 */
+ {"LevelP2_81",60,4,48,3,{{10,94,0.4f}},1}, /* MIGHTY HOAX 4-19 */
+ {"LevelP2_68",62,10,50,5,{{20,98,-1.0f}},1}, /* MIGHTY HOAX 4-20 */
+ {"LevelP2_95",64,7,34,6,{{20,98,-1.0f}},1}, /* MIGHTY HOAX 4-21 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -206,7 +206,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==5);
+    assert(unverified==4);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");
