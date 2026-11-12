@@ -17,6 +17,15 @@ int main() {
     assert(g.birds==2);
     for(int i=0;i<60;i++)game_update(&g,1.0f/120);
     assert(fabsf(g.x-x)<0.1f && fabsf(g.y-y)<0.1f);
+    // Launch speed follows gamelogic.lua (46.25 physics units/s at full stretch) whatever the camera zoom.
+    for(int level=0;level<game_level_count();level+=20){
+        g.unlocked=game_level_count();assert(game_load_level(&g,level));g.angle=0;g.power=POWER_MAX;game_launch(&g);
+        GameBird b;assert(game_get_projectile(&g,0,&b));
+        assert(fabsf(b.vx/g.view_scale-LAUNCH_SPEED_MAX)<0.01f && fabsf(b.vy)<0.01f*g.view_scale);
+        assert(game_load_level(&g,level));g.angle=45;g.power=50;game_launch(&g);assert(game_get_projectile(&g,0,&b));
+        assert(fabsf(sqrtf(b.vx*b.vx+b.vy*b.vy)/g.view_scale-LAUNCH_SPEED_MAX*0.5f)<0.01f);
+    }
+    g.unlocked=1;assert(game_load_level(&g,0));
     int wins=0,destruction=0;float winning_angle=0,winning_power=0;
     for(int angle=10;angle<=70;angle+=3)for(int power=20;power<=100;power+=3) {
         game_reset(&g);
@@ -37,5 +46,5 @@ int main() {
     game_launch(&g);assert(g.birds==0);
     game_reset(&g);assert(g.pig_alive==1 && g.block_alive==14 && g.score==0);
     game_destroy(&g);assert(g.physics==NULL);
-    printf("Box2D OK: 19 objects, imported positions, settling, trajectory, %d wins, %d destruction shots, loss/reset. Example %.0f degrees / %.0f power\n",wins,destruction,winning_angle,winning_power);
+    printf("Box2D OK: 19 objects, imported positions, settling, trajectory, %d wins, %d destruction shots, launch speed independent of zoom, loss/reset. Example %.0f degrees / %.0f power\n",wins,destruction,winning_angle,winning_power);
 }

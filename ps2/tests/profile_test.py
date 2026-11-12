@@ -46,8 +46,12 @@ with tempfile.TemporaryDirectory(prefix='ps2birds-adapter-') as folder:
     source.write_text(original.replace('L0_1 = 20\nworldGravity','L0_1 = 10\nworldGravity').replace('L0_1 = -352.76\nbirdZeroPosX','L0_1 = -200\nbirdZeroPosX'))
     convert(source,out,header)
     config=(folder/'level_config.h').read_text()
-    assert '#define LEVEL_GRAVITY 10.00000000f' in config and '#define LEVEL_SLING_X -10.00000000f' in config
-    assert json.loads(out.read_text())['ground_y']==5
+    doc=json.loads(out.read_text());first=doc['birds'][0]
+    assert '#define LEVEL_GRAVITY 10.00000000f' in config and doc['bird_queue_x']==-10
+    # Slingshot rest point follows SlingshotSystem.setPositionByStartObject on the first bird.
+    assert abs(doc['sling_x']-(first['x']-0.1))<1e-9 and abs(doc['sling_y']-(first['y']-169/20+0.75+0.1))<1e-9
+    # The floor is the Ground slab's top surface, 5 units above its stored centre.
+    assert doc['ground_object_y']==5 and doc['ground_y']==0
     two_birds=re.sub(r'L1_1 = {}\nL1_1.startNumber = 1\n.*?L0_1.RedBird_4 = L1_1\n','',original,flags=re.S)
     source.write_text(two_birds);convert(source,out,header)
     assert '#define LEVEL_BIRDS 2' in (folder/'level_config.h').read_text()
@@ -157,3 +161,10 @@ for name in ['WoodBlock9','StoneBlock10']:
 shapes={o['shape'] for n in range(1,22) for o in json.loads((root/f'ps2/data/level_4_{n}.json').read_text())['objects']}
 assert {'triangle_l','triangle_m'}<=shapes and all(json.loads((root/f'ps2/data/level_4_{n}.json').read_text())['texture_bank']==1 for n in range(1,22))
 print('Mighty Hoax OK: 21 stages match the recovered episodes.lua excerpt; polygon triangles and boxes checked against blocks.lua; texture bank 1.')
+
+# Every stage's resting objects sit on the corrected floor and the slingshot sits on its first bird.
+import glob,math
+for path in sorted(glob.glob(str(root/'ps2/data/level_*_*.json'))):
+    d=json.loads(Path(path).read_text());assert d['ground_y']==d['ground_object_y']-5
+    assert abs(d['sling_x']-(d['birds'][0]['x']-0.1))<1e-9
+print('Ground and slingshot OK: floor at Ground.y - 5 and slingshot on the first queued bird in all stages.')

@@ -1,4 +1,4 @@
-# PS2Birds Classic — protótipo 0.17.0
+# PS2Birds Classic — protótipo 0.18.0
 
 Foco exclusivo no Classic. Inclui a primeira página completa de Poached Eggs
 e a segunda e a terceira páginas completas (63 fases, todo o episódio Poached Eggs) e a primeira página de Mighty Hoax (84 fases) na ordem declarada pelo próprio APK, com sprites originais, pássaros
@@ -13,7 +13,7 @@ físico ainda não foi validado. Vídeo NTSC 640×448 em 16 bits com dithering, 
 
 - R3 liga/desliga os efeitos sonoros; a preferência vale para a sessão.
 - Menu: cima/baixo escolhem a fase, esquerda/direita mudam três posições; X inicia se estiver desbloqueada.
-- Partida: direcional/analógico esquerdo ajustam ângulo e força; X lança.
+- Partida: direcional/analógico esquerdo ajustam ângulo (−30° a 85°) e força (20 a 100% do esticamento); X lança.
 - Pássaro azul: após lançar, pressione X novamente antes de colidir para dividir em três.
 - Pássaro amarelo: após lançar, pressione X novamente antes de colidir para acelerar.
 - Pássaro preto: X detona durante o voo ou após contato; detona automaticamente cerca de um segundo após contato.
@@ -71,7 +71,7 @@ já estão incluídos. O audsrv é compilado das fontes incluídas. Se o módulo
 inicializar, o jogo continua com SOM INDISPONIVEL. Ainda não há música de fundo.
 
 As ferramentas/perfis de outras séries permanecem no pacote, sem novos ports.
-Consulte docs/MODIFICACOES_0.17.0.md e docs/VALIDACAO_0.17.0.md. Documentos das versões
+Consulte docs/MODIFICACOES_0.18.0.md e docs/VALIDACAO_0.18.0.md. Documentos das versões
 anteriores são históricos. Saves da 0.6.0 à 0.8.0 são aproveitados e regravados no
 formato versão 3 (288 bytes, até 64 fases). A seleção mostra três fases por página
 e muda automaticamente conforme cima/baixo.
@@ -79,9 +79,7 @@ e muda automaticamente conforme cima/baixo.
 Raios, densidades, restituições e fatores de dano direto (azul no vidro 2,9;
 amarelo na madeira 2,4) foram consultados nos dados recuperados. O fator de
 aceleração do amarelo (1,8×), a abertura do leque do azul (±10°), o cálculo de
-dano e as colisões de cenário (caixas) continuam aproximações. Plataformas
-estáticas que o pássaro já sobrepõe ao nascer no estilingue ficam sem colisão
-até a separação, porque algumas rampas são aproximadas por caixas giradas.
+dano e as colisões de cenário (caixas) continuam aproximações. Plataformas estáticas que o pássaro já sobrepõe ao nascer ficam sem colisão até a separação.
 
 Faltam as demais páginas e episódios, outros pássaros e habilidades, música e refinamento de áudio,
 fidelidade do motor e testes no PS2 físico.
@@ -92,7 +90,7 @@ WoodBlock7 e LightBlock7 usam colisão circular, conferida nas definições recu
 
 A física continua em passos de 120 Hz, usando o tempo transcorrido do relógio do PS2SDK (até 100 ms recuperados por quadro). Isso preserva o ritmo da partida e da mira quando uma cena renderiza abaixo de 60 FPS, sem garantir 60 FPS em cenas pesadas.
 
-A versão 0.17.0 lê saves v1 (96 bytes) e v2 (160 bytes) e grava v3 (288 bytes). Os recordes e desbloqueios são preservados; na primeira gravação da migração, a cópia anterior permanece no outro slot. Versões antigas do port reconhecem o cabeçalho v3 como mais novo e recusam sobrescrevê-lo. A capacidade de 64 posições prepara a continuação da campanha; esta versão contém 84 fases jogáveis.
+A versão 0.18.0 lê saves v1 (96 bytes) e v2 (160 bytes) e grava v3 (288 bytes). Os recordes e desbloqueios são preservados; na primeira gravação da migração, a cópia anterior permanece no outro slot. Versões antigas do port reconhecem o cabeçalho v3 como mais novo e recusam sobrescrevê-lo. A capacidade de 64 posições prepara a continuação da campanha; esta versão contém 84 fases jogáveis.
 
 O branco usa raio/densidade/restituição recuperados. O ovo usa densidade/restituição e valores de explosão de EggGranade; raio inferido da largura do sprite, velocidades de queda/recuo e propagação radial são aproximações do port. Melancias e pneus usam discos sólidos simplificados, com o modelo de materiais existente; pneus não reproduzem a elasticidade/forma interna do original. O atlas do ovo vem de PNG e requer Pillow para regeneração. Há dez canais de efeitos: soltar o ovo e explodir usam canais diferentes.
 
@@ -130,3 +128,13 @@ Começa o episódio Mighty Hoax: fases 4-1 a 4-21 (LevelP2_103 a LevelP2_95), na
 - Bancos de textura: as texturas ficam em dois bancos na memória principal (Poached Eggs e Mighty Hoax) e são reenviadas à VRAM quando a fase muda de episódio. A VRAM usada continua 2,75 MiB.
 - No banco de Mighty Hoax, o piscar dos porcos e os estados intermediários de dano das peças grandes reutilizam quadros vizinhos.
 - Save versão 4 (544 bytes, até 128 fases). Saves v3 da 0.16.0 são lidos; vencer a 3-21 libera a 4-1.
+
+## Correções da 0.18.0
+
+A investigação das fases sem vitória encontrou três erros de importação presentes desde as primeiras versões:
+
+- Chão 5 unidades abaixo do original. O objeto Ground é uma laje de 10 unidades com centro em y=5; a superfície fica em y=0, onde todos os objetos das fases estão apoiados. Antes, o cenário caía 5 unidades ao iniciar e se desarranjava.
+- Estilingue no lugar errado. O original posiciona o estilingue sobre o primeiro pássaro da fila (`setPositionByStartObject`), cerca de 7,6 unidades acima dele; o port usava `birdZeroPos`, que é só a posição da fila de espera. Em várias fases o estilingue fica no alto de uma plataforma, e o port lançava do chão.
+- Velocidade de lançamento dependente do zoom. O original usa 46,25 unidades/s com o estilingue esticado ao máximo (`defaultForce = -925`, `physicsScale = 1/20`); o port dividia a força pela escala da câmera, de 23 a 152 unidades/s conforme a fase. A força agora é a porcentagem de esticamento.
+
+Com isso, 81 das 84 fases têm vitória encontrada pela busca automática. Continuam sem roteiro 3-9, 3-19 e 3-21; nelas a vitória depende de quedas e esmagamentos, cuja fórmula de dano fica no código nativo do jogo e não nos scripts Lua recuperados. Não existe regra de desbloqueio extra: o avanço é o do jogo original.
