@@ -146,4 +146,4 @@ A primeira execução no PCSX2 mostrou a fase 4-1 desmoronando ao carregar. A in
 - Tamanho físico das peças. `ObjectCreation.lua` reduz caixas, círculos e polígonos dinâmicos a 92% do sprite (`sizeFactorX/Y`, padrão 0,92); só objetos estáticos usam o sprite inteiro. O port usava 100%, então as peças nasciam sobrepostas e se empurravam.
 - Materiais. Atrito e restituição vêm da tabela `materials` de blocks.lua (madeira 4,0/0,2, vidro 0,7/0,2, pedra 4,0/0,1, estático e chão 0,8/0, porco 0,7/0,05 ou 0,3 quando a definição declara, extras 0,7/0,4). O port usava 0,6/0,03 para tudo e 0,2 no chão.
 
-Com as duas correções, 83 das 84 fases têm vitória encontrada pela busca automática, inclusive 3-9 e 3-19. A 3-20 continua sem roteiro.
+Com as duas correções, 83 das 84 fases têm vitória encontrada pela busca automática, inclusive 3-9 e 3-19. A 3-20 continua sem roteiro: seus cinco pássaros são explosivos, e a propagação da explosão (queda com a distância e impulso) é uma aproximação do port.
