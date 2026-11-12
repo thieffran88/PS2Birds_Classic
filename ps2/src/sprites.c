@@ -4,25 +4,37 @@
 #include <string.h>
 extern unsigned int sprite_pixels[];
 static GSTEXTURE atlases[SPRITE_PAGE_COUNT];
-static int ready;
+static int ready,bank=-1;
 int sprites_init(GSGLOBAL *gs)
 {
+    /* Each page slot is allocated once for its largest page; banks reuse the slots. */
     for(int i=0;i<SPRITE_PAGE_COUNT;i++){
-        GSTEXTURE *atlas=&atlases[i];
-        memset(atlas,0,sizeof(*atlas));
-        atlas->Width=sprite_pages[i].width;atlas->Height=sprite_pages[i].height;
+        memset(&atlases[i],0,sizeof(atlases[i]));
+        atlases[i].Vram=gsKit_vram_alloc(gs,sprite_slot_bytes[i],GSKIT_ALLOC_USERBUFFER);
+        if(atlases[i].Vram==GSKIT_ALLOC_ERROR)return 0;
+    }
+    ready=1;return sprites_select_bank(gs,0);
+}
+int sprites_select_bank(GSGLOBAL *gs,int next)
+{
+    if(!ready || next<0 || next>=SPRITE_BANK_COUNT)return 0;
+    if(next==bank)return 1;
+    for(int i=0;i<SPRITE_PAGE_COUNT;i++){
+        const SpritePage *page=&sprite_pages[next][i];GSTEXTURE *atlas=&atlases[i];
+        if(!page->width)continue;
+        atlas->Width=page->width;atlas->Height=page->height;
         atlas->PSM=GS_PSM_CT32;atlas->Filter=GS_FILTER_NEAREST;
-        atlas->Mem=(unsigned int*)((unsigned char*)sprite_pixels+sprite_pages[i].offset);
-        atlas->Vram=gsKit_vram_alloc(gs,gsKit_texture_size(atlas->Width,atlas->Height,atlas->PSM),GSKIT_ALLOC_USERBUFFER);
-        if(atlas->Vram==GSKIT_ALLOC_ERROR)return 0;
+        atlas->Mem=(unsigned int*)((unsigned char*)sprite_pixels+page->offset);
         gsKit_texture_upload(gs,atlas);
     }
-    ready=1;return 1;
+    bank=next;return 1;
 }
+int sprites_bank(void){return bank;}
 void sprite_draw_tint(GSGLOBAL *gs,int id,float x,float y,float scale,float angle,unsigned int rgba)
 {
-    if(!ready || id<0 || id>=SPRITE_COUNT)return;
-    const SpriteFrame *s=&sprite_frames[id];
+    if(!ready || bank<0 || id<0 || id>=SPRITE_COUNT)return;
+    const SpriteFrame *s=&sprite_frames[bank][id];
+    if(s->page<0)return;
     GSTEXTURE *atlas=&atlases[s->page];
     float cs=cosf(angle),sn=sinf(angle),px[4],py[4];
     for(int i=0;i<4;i++) {

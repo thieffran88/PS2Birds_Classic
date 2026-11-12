@@ -923,5 +923,6 @@
   "title": "POACHED EGGS 3-1",
   "stage_script": "Level43",
   "episode_page": 3,
-  "stage_number": 1
+  "stage_number": 1,
+  "texture_bank": 0
 }

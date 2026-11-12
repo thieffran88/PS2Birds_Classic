@@ -14,13 +14,13 @@ def build(episode_path=EPISODE):
     pages=[{'number':1,'title_prefix':episode['title_prefix'],'levels':episode['levels']}]+episode.get('additional_pages',[])
     entries=[(page,number,name) for page in pages for number,name in enumerate(page['levels'],1)]
     names=[entry[2] for entry in entries]
-    if len(names)!=len(set(names)) or not 1<=len(names)<=64:raise ValueError('Episode list must be 1..64 unique stages')
+    if len(names)!=len(set(names)) or not 1<=len(names)<=128:raise ValueError('Episode list must be 1..128 unique stages')
     with tempfile.TemporaryDirectory(prefix='ps2birds-campaign-') as folder:
         for page,position,name in entries:
             source=ROOT/f'ps2/data/{name}.decompiled.lua'
             output=ROOT/f'ps2/data/level_{page["number"]}_{position}.json'
-            convert(source,output,Path(folder)/'level_data.h',DEFAULT_PROFILE,f'assets/data{episode["folder"]}/{name}.lua')
-            d=json.loads(output.read_text());d['title']=f'{page["title_prefix"]}{position}';d['stage_script']=name;d['episode_page']=page['number'];d['stage_number']=position
+            convert(source,output,Path(folder)/'level_data.h',DEFAULT_PROFILE,f'assets/data{page.get("folder",episode["folder"])}/{name}.lua')
+            d=json.loads(output.read_text());d['title']=f'{page["title_prefix"]}{position}';d['stage_script']=name;d['episode_page']=page['number'];d['stage_number']=position;d['texture_bank']=page.get('bank',0)
             if name!='Level1':
                 left=d['sling_x']-4;right=d['sling_x']+4;top=d['sling_y']-5
                 for o in d['objects']:
@@ -36,12 +36,12 @@ def build(episode_path=EPISODE):
         lines.append(f'static const CampaignObject campaign_objects_{i}[] = {{')
         for o in d['objects']:
             values=[o[k] for k in ['x','y','angle','width','height','density','strength','defence']]
-            lines.append(' {'+','.join(f(v) for v in values)+','+str(o['kind'])+','+str(int(o['shape']=='circle'))+','+json.dumps(o['definition'])+'},')
+            lines.append(' {'+','.join(f(v) for v in values)+','+str(o['kind'])+','+str(['box','circle','triangle_l','triangle_m'].index(o['shape']))+','+json.dumps(o['definition'])+'},')
         lines.append('};')
     lines.append('static const CampaignLevel campaign_levels[] = {')
     for i,d in enumerate(levels):
         values=[d['gravity'],d['sling_x'],d['sling_y'],d['ground_y'],d['physics_to_world'],d['view']['x'],d['view']['y'],d['view']['scale']]
-        lines.append(' {campaign_objects_'+str(i)+','+str(len(d['objects']))+','+str(len(d['birds']))+',{'+','.join(str(b['type']) for b in d['birds'])+'},'+','.join(f(v) for v in values)+','+json.dumps(d['title'])+','+json.dumps(d['stage_script'])+'},')
+        lines.append(' {campaign_objects_'+str(i)+','+str(len(d['objects']))+','+str(len(d['birds']))+',{'+','.join(str(b['type']) for b in d['birds'])+'},'+','.join(f(v) for v in values)+','+json.dumps(d['title'])+','+json.dumps(d['stage_script'])+','+str(d.get('texture_bank',0))+'},')
     lines+=['};','#define CAMPAIGN_COUNT (sizeof(campaign_levels)/sizeof(campaign_levels[0]))','#endif','']
     (ROOT/'ps2/src/campaign_data.h').write_text('\n'.join(lines))
     print([(d['title'],d['stage_script'],len(d['objects']),len(d['birds'])) for d in levels])

@@ -101,6 +101,18 @@ static const BlockSprites block_sprites[]={
  {"WoodBlock6",{SPR_BLOCK_WOOD_1_6,SPR_BLOCK_WOOD_2_6,SPR_BLOCK_WOOD_3_6,SPR_BLOCK_WOOD_4_6}},
  {"WoodBlock7",{SPR_BLOCK_WOOD_1_7,SPR_BLOCK_WOOD_2_7,SPR_BLOCK_WOOD_3_7,SPR_BLOCK_WOOD_4_7}},
  {"WoodBlock8",{SPR_BLOCK_WOOD_1_8,SPR_BLOCK_WOOD_2_8,SPR_BLOCK_WOOD_3_8,SPR_BLOCK_WOOD_4_8}},
+ {"WoodBlock9",{SPR_BLOCK_WOOD_4X4_1,SPR_BLOCK_WOOD_4X4_2,SPR_BLOCK_WOOD_4X4_3,SPR_BLOCK_WOOD_4X4_4}},
+ {"WoodBlock10",{SPR_BLOCK_WOOD_10X1_1,SPR_BLOCK_WOOD_10X1_2,SPR_BLOCK_WOOD_10X1_3,SPR_BLOCK_WOOD_10X1_4}},
+ {"WoodBlock11",{SPR_BLOCK_WOOD_TRIANGLE_L_1,SPR_BLOCK_WOOD_TRIANGLE_L_2,SPR_BLOCK_WOOD_TRIANGLE_L_3,SPR_BLOCK_WOOD_TRIANGLE_L_4}},
+ {"WoodBlock12",{SPR_BLOCK_WOOD_TRIANGLE_M_1,SPR_BLOCK_WOOD_TRIANGLE_M_2,SPR_BLOCK_WOOD_TRIANGLE_M_3,SPR_BLOCK_WOOD_TRIANGLE_M_4}},
+ {"LightBlock9",{SPR_BLOCK_LIGHT_4X4_1,SPR_BLOCK_LIGHT_4X4_2,SPR_BLOCK_LIGHT_4X4_3,SPR_BLOCK_LIGHT_4X4_4}},
+ {"LightBlock10",{SPR_BLOCK_LIGHT_10X1_1,SPR_BLOCK_LIGHT_10X1_2,SPR_BLOCK_LIGHT_10X1_3,SPR_BLOCK_LIGHT_10X1_4}},
+ {"LightBlock11",{SPR_BLOCK_LIGHT_TRIANGLE_L_1,SPR_BLOCK_LIGHT_TRIANGLE_L_2,SPR_BLOCK_LIGHT_TRIANGLE_L_3,SPR_BLOCK_LIGHT_TRIANGLE_L_4}},
+ {"LightBlock12",{SPR_BLOCK_LIGHT_TRIANGLE_M_1,SPR_BLOCK_LIGHT_TRIANGLE_M_2,SPR_BLOCK_LIGHT_TRIANGLE_M_3,SPR_BLOCK_LIGHT_TRIANGLE_M_4}},
+ {"StoneBlock9",{SPR_BLOCK_ROCK_4X4_1,SPR_BLOCK_ROCK_4X4_2,SPR_BLOCK_ROCK_4X4_3,SPR_BLOCK_ROCK_4X4_4}},
+ {"StoneBlock10",{SPR_BLOCK_ROCK_10X1_1,SPR_BLOCK_ROCK_10X1_2,SPR_BLOCK_ROCK_10X1_3,SPR_BLOCK_ROCK_10X1_4}},
+ {"StoneBlock11",{SPR_BLOCK_ROCK_TRIANGLE_L_1,SPR_BLOCK_ROCK_TRIANGLE_L_2,SPR_BLOCK_ROCK_TRIANGLE_L_3,SPR_BLOCK_ROCK_TRIANGLE_L_4}},
+ {"StoneBlock12",{SPR_BLOCK_ROCK_TRIANGLE_M_1,SPR_BLOCK_ROCK_TRIANGLE_M_2,SPR_BLOCK_ROCK_TRIANGLE_M_3,SPR_BLOCK_ROCK_TRIANGLE_M_4}},
  {"StoneBlock1",{SPR_BLOCK_ROCK_1_1,SPR_BLOCK_ROCK_2_1,SPR_BLOCK_ROCK_3_1,SPR_BLOCK_ROCK_4_1}},
  {"StoneBlock2",{SPR_BLOCK_ROCK_1_2,SPR_BLOCK_ROCK_2_2,SPR_BLOCK_ROCK_3_2,SPR_BLOCK_ROCK_4_2}},
  {"LightBlock1",{SPR_BLOCK_LIGHT_1_1,SPR_BLOCK_LIGHT_2_1,SPR_BLOCK_LIGHT_3_1,SPR_BLOCK_LIGHT_4_1}},
@@ -128,7 +140,7 @@ static void block(const GameObject *o)
     }
     if(o->kind==OBJECT_KIND_TNT){sprite_draw(gs,SPR_BLOCK_EXTRA_TNT,o->x,o->y,render_scale/render_pixels,o->angle);return;}
     if(o->kind==6){
-        int id=!strcmp(o->definition,"ExtraBlockStairs")?SPR_ESTRADE_STAIRS:!strcmp(o->definition,"ExtraTire02")?SPR_BLOCK_TIRE_02:!strcmp(o->definition,"ExtraBlockDice")?SPR_BLOCK_EXTRA_DICE_6:!strcmp(o->definition,"ExtraStolenEgg")?SPR_BLOCK_STOLEN_EGG:!strcmp(o->definition,"ExtraDonut01")?SPR_BLOCK_DONUT:!strcmp(o->definition,"ExtraDiamond")?SPR_BLOCK_DIAMOND:!strcmp(o->definition,"ExtraHolyGrail")?SPR_BLOCK_HOLYGRAIL:!strcmp(o->definition,"ExtraPillar")?SPR_BLOCK_PILLAR:!strcmp(o->definition,"ExtraBanana")?SPR_BLOCK_BANANA:!strcmp(o->definition,"ExtraMelon")?SPR_BLOCK_WATERMELON:!strcmp(o->definition,"ExtraTire01")?SPR_BLOCK_TIRE_01:!strcmp(o->definition,"ExtraTire03")?SPR_BLOCK_TIRE_03:!strcmp(o->definition,"ExtraStrawberry")?SPR_BLOCK_STRAWBERRY:!strcmp(o->definition,"ExtraBeachBall")?SPR_BLOCK_BEACHBALL:!strcmp(o->definition,"ExtraRubberDuck")?SPR_BLOCK_RUBBERDUCK:!strcmp(o->definition,"ExtraBlockSmiley")?(o->health<0.5f?SPR_BLOCK_SMILEY_3:SPR_BLOCK_SMILEY_1):SPR_BLOCK_TREASURE_CHEST;
+        int id=!strcmp(o->definition,"ExtraHam")?SPR_BLOCK_HAM:!strcmp(o->definition,"ExtraGoldenEgg")?SPR_BLOCK_GOLDEN_EGG:!strcmp(o->definition,"ExtraBlockFlag02")?SPR_BLOCK_EXTRA_FLAG_02:!strcmp(o->definition,"ExtraBlockStairs")?SPR_ESTRADE_STAIRS:!strcmp(o->definition,"ExtraTire02")?SPR_BLOCK_TIRE_02:!strcmp(o->definition,"ExtraBlockDice")?SPR_BLOCK_EXTRA_DICE_6:!strcmp(o->definition,"ExtraStolenEgg")?SPR_BLOCK_STOLEN_EGG:!strcmp(o->definition,"ExtraDonut01")?SPR_BLOCK_DONUT:!strcmp(o->definition,"ExtraDiamond")?SPR_BLOCK_DIAMOND:!strcmp(o->definition,"ExtraHolyGrail")?SPR_BLOCK_HOLYGRAIL:!strcmp(o->definition,"ExtraPillar")?SPR_BLOCK_PILLAR:!strcmp(o->definition,"ExtraBanana")?SPR_BLOCK_BANANA:!strcmp(o->definition,"ExtraMelon")?SPR_BLOCK_WATERMELON:!strcmp(o->definition,"ExtraTire01")?SPR_BLOCK_TIRE_01:!strcmp(o->definition,"ExtraTire03")?SPR_BLOCK_TIRE_03:!strcmp(o->definition,"ExtraStrawberry")?SPR_BLOCK_STRAWBERRY:!strcmp(o->definition,"ExtraBeachBall")?SPR_BLOCK_BEACHBALL:!strcmp(o->definition,"ExtraRubberDuck")?SPR_BLOCK_RUBBERDUCK:!strcmp(o->definition,"ExtraBlockSmiley")?(o->health<0.5f?SPR_BLOCK_SMILEY_3:SPR_BLOCK_SMILEY_1):SPR_BLOCK_TREASURE_CHEST;
         sprite_draw(gs,id,o->x,o->y,render_scale/render_pixels,o->angle);return;
     }
     int stage=o->health>0.75f?0:o->health>0.5f?1:o->health>0.25f?2:3;
@@ -140,6 +152,8 @@ static void block(const GameObject *o)
 
 static void render(const Game *g, int connected, int paused,int menu,int selected)
 {
+    /* Swap texture banks when the active stage belongs to another episode. */
+    sprites_select_bank(gs,game_level_bank(g->level));
     render_scale=g->view_scale;render_pixels=g->pixels;render_ground=g->ground_y;
     render_sling_x=g->sling_x;render_sling_y=g->sling_y;
     if(!paused && !menu)visual_frame++;
@@ -147,7 +161,7 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     gsKit_clear(gs,color(120,194,205));
     rect(0,0,640,109,dark);
     text(30,22,3,cream,"PS2BIRDS CLASSIC");
-    text(31,55,1,color(135,192,181),"PROTOTIPO 0.16.0 / PLAYSTATION 2");
+    text(31,55,1,color(135,192,181),"PROTOTIPO 0.17.0 / PLAYSTATION 2");
     text(430,55,1,color(135,192,181),audio_status());
     text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
     text(31,80,2,gold,game_level_title(g->level));
@@ -266,7 +280,7 @@ int main(void)
     gsKit_set_primalpha(gs,ALPHA_BLEND_NORMAL,0);
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.16.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.17.0: GS ready, pad open=%d\n",pad_open);
     Game g; game_init(&g); save_mc_init(&g); audio_init();
     u32 old_buttons=0;
     int paused=0, previously_connected=0, analog_requested=0,menu=1,selected=0;

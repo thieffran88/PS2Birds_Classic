@@ -72,6 +72,8 @@ int game_load_level(Game *game,int index);
 int game_next_level(Game *game);
 const char *game_level_title(int index);
 const char *game_level_script(int index);
+/* Texture bank holding the sprites of a stage's episode. */
+int game_level_bank(int index);
 int game_get_object(const Game *game,int index,GameObject *object);
 #ifdef __cplusplus
 }

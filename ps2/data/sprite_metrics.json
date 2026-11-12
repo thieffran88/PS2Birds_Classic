@@ -243,5 +243,80 @@
     "width": 62,
     "height": 60,
     "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_WOOD_4X4_1": {
+    "width": 82,
+    "height": 82,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_WOOD_10X1_1": {
+    "width": 205,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_WOOD_TRIANGLE_L_1": {
+    "width": 80,
+    "height": 80,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_WOOD_TRIANGLE_M_1": {
+    "width": 82,
+    "height": 82,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_LIGHT_4X4_1": {
+    "width": 82,
+    "height": 82,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_LIGHT_10X1_1": {
+    "width": 205,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_LIGHT_TRIANGLE_L_1": {
+    "width": 80,
+    "height": 80,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_LIGHT_TRIANGLE_M_1": {
+    "width": 82,
+    "height": 82,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_ROCK_4X4_1": {
+    "width": 82,
+    "height": 82,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_ROCK_10X1_1": {
+    "width": 205,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_ROCK_TRIANGLE_L_1": {
+    "width": 80,
+    "height": 80,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_ROCK_TRIANGLE_M_1": {
+    "width": 82,
+    "height": 82,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_HAM": {
+    "width": 70,
+    "height": 56,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_GOLDEN_EGG": {
+    "width": 68,
+    "height": 88,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_EXTRA_FLAG_02": {
+    "width": 45,
+    "height": 122,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
   }
 }

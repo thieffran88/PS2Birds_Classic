@@ -1,5 +1,7 @@
 #include "game.h"
-#if defined(PS2BIRDS_TNT_TEST)
+#if defined(PS2BIRDS_TRIANGLE_TEST)
+#include "triangle_fixture.h"
+#elif defined(PS2BIRDS_TNT_TEST)
 #include "tnt_fixture.h"
 #elif defined(PS2BIRDS_WHITE_TEST)
 #include "white_fixture.h"
@@ -47,7 +49,12 @@ struct Physics: b2ContactListener {
             body->GetUserData().pointer=i+1;
             b2FixtureDef fixture; fixture.density=o.density;fixture.friction=0.6f;fixture.restitution=0.03f;
             b2PolygonShape box;b2CircleShape circle;
-            if (o.circle) {circle.m_radius=o.width/2;fixture.shape=&circle;}
+            if (o.shape==SHAPE_CIRCLE) {circle.m_radius=o.width/2;fixture.shape=&circle;}
+            else if(o.shape==SHAPE_TRIANGLE_L || o.shape==SHAPE_TRIANGLE_M){
+                const float apex=o.shape==SHAPE_TRIANGLE_L?0.0f:0.5f;
+                b2Vec2 v[3]={b2Vec2((apex-0.5f)*o.width,-0.5f*o.height),b2Vec2(0.5f*o.width,0.5f*o.height),b2Vec2(-0.5f*o.width,0.5f*o.height)};
+                box.Set(v,3);fixture.shape=&box;
+            }
             else {box.SetAsBox(o.width/2,o.height/2);fixture.shape=&box;}
             body->CreateFixture(&fixture);bodies[i]=body;health[i]=o.strength;
         }
@@ -144,6 +151,7 @@ void game_init(Game *g) { memset(g,0,sizeof(*g));g->unlocked=1;game_load_level(g
 void game_destroy(Game *g) { delete static_cast<Physics*>(g->physics);g->physics=NULL; }
 int game_level_count(void){return (int)CAMPAIGN_COUNT;}
 const char *game_level_title(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].title:"";}
+int game_level_bank(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].bank:0;}
 const char *game_level_script(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].script:"";}
 int game_load_level(Game *g,int index) {
     if(index<0 || index>=(int)CAMPAIGN_COUNT || index>=g->unlocked)return 0;

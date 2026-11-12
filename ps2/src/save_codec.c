@@ -7,7 +7,7 @@ uint32_t save_crc32(const unsigned char *p,size_t size){
     for(size_t i=0;i<size;i++){crc^=p[i];for(int bit=0;bit<8;bit++)crc=(crc>>1)^((0u-(crc&1u))&0xedb88320u);}
     return ~crc;
 }
-static unsigned capacity_of(uint32_t version){return version==1?SAVE_LEVEL_CAPACITY_V1:version==2?SAVE_LEVEL_CAPACITY_V2:version==SAVE_VERSION?SAVE_LEVEL_CAPACITY:0;}
+static unsigned capacity_of(uint32_t version){return version==1?SAVE_LEVEL_CAPACITY_V1:version==2?SAVE_LEVEL_CAPACITY_V2:version==3?SAVE_LEVEL_CAPACITY_V3:version==SAVE_VERSION?SAVE_LEVEL_CAPACITY:0;}
 static size_t bytes_of(uint32_t version){return 28+capacity_of(version)*4+4;}
 static int valid(const SaveRecord *r){
     unsigned capacity=r?capacity_of(r->version):0;

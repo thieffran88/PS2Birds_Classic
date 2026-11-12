@@ -9,13 +9,14 @@ ROOT=Path(__file__).resolve().parents[1]
 def build():
     assets=ROOT/'ps2/assets';meta=json.loads((assets/'manifest.json').read_text())
     frame=next(s for s in meta['sprites'] if s['sprite']=='BIRD_RED');raw=(assets/'sprites.rgba').read_bytes()
+    place=next(b for b in frame['banks'] if b['bank']==0);frame=dict(frame,page=place['page'],atlas_x=place['atlas_x'],atlas_y=place['atlas_y']);pages=meta['banks'][0]['pages']
     tex=bytearray()
     for y in range(128):
         for x in range(128):
             bg=(23,53,58);left,top,width,height=15,16,98,96
             if left<=x<left+width and top<=y<top+height:
                 sx=(x-left)*frame['width']//width;sy=(y-top)*frame['height']//height
-                page=meta['pages'][frame['page']];p=page['offset']+((frame['atlas_y']+sy)*page['width']+frame['atlas_x']+sx)*4
+                page=pages[frame['page']];p=page['offset']+((frame['atlas_y']+sy)*page['width']+frame['atlas_x']+sx)*4
                 r,g,b,a=raw[p:p+4];bg=tuple((c*a+d*(128-a))//128 for c,d in zip((r,g,b),bg))
             r,g,b=bg;tex+=struct.pack('<H',(r>>3)|((g>>3)<<5)|((b>>3)<<10))
     corners=[(-1,1,0,0),(1,1,1,0),(1,-1,1,1),(-1,-1,0,1)]

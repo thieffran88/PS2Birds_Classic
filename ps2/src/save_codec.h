@@ -6,15 +6,17 @@ extern "C" {
 #include <stddef.h>
 #include <stdint.h>
 /* Version 1 (0.6.0-0.8.0): 96 bytes, 16 scores. Version 2 (0.9.0+): 160 bytes, 32 scores.
-   Version 3 (0.13.0+): 288 bytes, 64 scores.
+   Version 3 (0.13.0-0.16.0): 288 bytes, 64 scores. Version 4 (0.17.0+): 544 bytes, 128 scores.
    All share the signature, identifier, CRC32 trailer and field layout. */
 #define SAVE_BYTES_V1 96
 #define SAVE_LEVEL_CAPACITY_V1 16
 #define SAVE_BYTES_V2 160
 #define SAVE_LEVEL_CAPACITY_V2 32
-#define SAVE_BYTES 288
-#define SAVE_LEVEL_CAPACITY 64
-#define SAVE_VERSION 3
+#define SAVE_BYTES_V3 288
+#define SAVE_LEVEL_CAPACITY_V3 64
+#define SAVE_BYTES 544
+#define SAVE_LEVEL_CAPACITY 128
+#define SAVE_VERSION 4
 typedef struct {uint32_t sequence,count,unlocked,scores[SAVE_LEVEL_CAPACITY];uint32_t version;} SaveRecord;
 uint32_t save_crc32(const unsigned char *data,size_t size);
 int save_encode(const SaveRecord *record,unsigned char output[SAVE_BYTES]);
