@@ -615,15 +615,270 @@
         "PIG_HELMET_01_BLINK": "PIG_HELMET_01",
         "PIG_MUSTACHE_01_BLINK": "PIG_MUSTACHE_01"
       }
+    },
+    {
+      "bank": 3,
+      "pages": [
+        {
+          "width": 512,
+          "height": 512,
+          "offset": 8519680
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "offset": 9568256
+        },
+        {
+          "width": 512,
+          "height": 256,
+          "offset": 10616832
+        },
+        {
+          "width": 512,
+          "height": 32,
+          "offset": 11141120
+        }
+      ],
+      "sprites": [
+        "BIRD_BLUE",
+        "BIRD_BLUE_COLLISION",
+        "BIRD_BOOMERANG",
+        "BIRD_BOOMERANG_COLLISION",
+        "BIRD_BOOMERANG_SPECIAL",
+        "BIRD_GREEN",
+        "BIRD_GREEN_COLLISION",
+        "BIRD_GREEN_FLYING",
+        "BIRD_GREY",
+        "BIRD_GREY_1",
+        "BIRD_GREY_2",
+        "BIRD_GREY_3",
+        "BIRD_GREY_FLYING",
+        "BIRD_RED",
+        "BIRD_YELLOW",
+        "BIRD_YELLOW_COLLISION",
+        "BLOCK_BALLOON_1",
+        "BLOCK_BALLOON_2",
+        "BLOCK_BALLOON_3",
+        "BLOCK_EXTRA_TNT",
+        "BLOCK_LIGHT_10X1_1",
+        "BLOCK_LIGHT_10X1_2",
+        "BLOCK_LIGHT_10X1_3",
+        "BLOCK_LIGHT_10X1_4",
+        "BLOCK_LIGHT_1_1",
+        "BLOCK_LIGHT_1_2",
+        "BLOCK_LIGHT_1_3",
+        "BLOCK_LIGHT_1_4",
+        "BLOCK_LIGHT_1_5",
+        "BLOCK_LIGHT_1_6",
+        "BLOCK_LIGHT_2_1",
+        "BLOCK_LIGHT_2_2",
+        "BLOCK_LIGHT_2_3",
+        "BLOCK_LIGHT_2_4",
+        "BLOCK_LIGHT_2_5",
+        "BLOCK_LIGHT_2_6",
+        "BLOCK_LIGHT_3_1",
+        "BLOCK_LIGHT_3_2",
+        "BLOCK_LIGHT_3_3",
+        "BLOCK_LIGHT_3_4",
+        "BLOCK_LIGHT_3_5",
+        "BLOCK_LIGHT_3_6",
+        "BLOCK_LIGHT_4X4_1",
+        "BLOCK_LIGHT_4X4_4",
+        "BLOCK_LIGHT_4_1",
+        "BLOCK_LIGHT_4_2",
+        "BLOCK_LIGHT_4_3",
+        "BLOCK_LIGHT_4_4",
+        "BLOCK_LIGHT_4_5",
+        "BLOCK_LIGHT_4_6",
+        "BLOCK_LIGHT_TRIANGLE_L_1",
+        "BLOCK_LIGHT_TRIANGLE_L_4",
+        "BLOCK_LIGHT_TRIANGLE_M_1",
+        "BLOCK_LIGHT_TRIANGLE_M_4",
+        "BLOCK_PIG_BALLOON_2",
+        "BLOCK_ROCK_10X1_1",
+        "BLOCK_ROCK_10X1_2",
+        "BLOCK_ROCK_10X1_3",
+        "BLOCK_ROCK_10X1_4",
+        "BLOCK_ROCK_1_2",
+        "BLOCK_ROCK_1_3",
+        "BLOCK_ROCK_1_4",
+        "BLOCK_ROCK_1_5",
+        "BLOCK_ROCK_1_6",
+        "BLOCK_ROCK_1_8",
+        "BLOCK_ROCK_2_2",
+        "BLOCK_ROCK_2_3",
+        "BLOCK_ROCK_2_4",
+        "BLOCK_ROCK_2_5",
+        "BLOCK_ROCK_2_6",
+        "BLOCK_ROCK_2_8",
+        "BLOCK_ROCK_3_2",
+        "BLOCK_ROCK_3_3",
+        "BLOCK_ROCK_3_4",
+        "BLOCK_ROCK_3_5",
+        "BLOCK_ROCK_3_6",
+        "BLOCK_ROCK_3_8",
+        "BLOCK_ROCK_4X4_1",
+        "BLOCK_ROCK_4X4_4",
+        "BLOCK_ROCK_4_2",
+        "BLOCK_ROCK_4_3",
+        "BLOCK_ROCK_4_4",
+        "BLOCK_ROCK_4_5",
+        "BLOCK_ROCK_4_6",
+        "BLOCK_ROCK_4_8",
+        "BLOCK_ROCK_TRIANGLE_L_1",
+        "BLOCK_ROCK_TRIANGLE_L_4",
+        "BLOCK_ROCK_TRIANGLE_M_1",
+        "BLOCK_ROCK_TRIANGLE_M_4",
+        "BLOCK_TIRE_03",
+        "BLOCK_TRAMPOLINE_01",
+        "BLOCK_WOOD_10X1_1",
+        "BLOCK_WOOD_10X1_2",
+        "BLOCK_WOOD_10X1_3",
+        "BLOCK_WOOD_10X1_4",
+        "BLOCK_WOOD_1_1",
+        "BLOCK_WOOD_1_2",
+        "BLOCK_WOOD_1_4",
+        "BLOCK_WOOD_1_5",
+        "BLOCK_WOOD_1_6",
+        "BLOCK_WOOD_2_1",
+        "BLOCK_WOOD_2_2",
+        "BLOCK_WOOD_2_4",
+        "BLOCK_WOOD_2_5",
+        "BLOCK_WOOD_2_6",
+        "BLOCK_WOOD_3_1",
+        "BLOCK_WOOD_3_2",
+        "BLOCK_WOOD_3_4",
+        "BLOCK_WOOD_3_5",
+        "BLOCK_WOOD_3_6",
+        "BLOCK_WOOD_4X4_1",
+        "BLOCK_WOOD_4X4_4",
+        "BLOCK_WOOD_4_1",
+        "BLOCK_WOOD_4_2",
+        "BLOCK_WOOD_4_4",
+        "BLOCK_WOOD_4_5",
+        "BLOCK_WOOD_4_6",
+        "BLOCK_WOOD_TRIANGLE_L_1",
+        "BLOCK_WOOD_TRIANGLE_L_4",
+        "BLOCK_WOOD_TRIANGLE_M_1",
+        "BLOCK_WOOD_TRIANGLE_M_4",
+        "DROPPABLE_EGG",
+        "ESTRADE_02",
+        "GROUND_BLOCK_01",
+        "GROUND_BLOCK_02",
+        "GROUND_BLOCK_03",
+        "GROUND_BLOCK_04",
+        "GROUND_BLOCK_05",
+        "PIG_BASIC_BIG_01",
+        "PIG_BASIC_BIG_02",
+        "PIG_BASIC_MEDIUM_01",
+        "PIG_BASIC_MEDIUM_02",
+        "PIG_BASIC_SMALL_01",
+        "PIG_BASIC_SMALL_02",
+        "PIG_HELMET_01",
+        "PIG_HELMET_02",
+        "PIG_MUSTACHE_01",
+        "PIG_MUSTACHE_02",
+        "SLING_SHOT_01_BACK",
+        "SLING_SHOT_01_FRONT"
+      ],
+      "aliases": {
+        "BLOCK_LIGHT_4X4_2": "BLOCK_LIGHT_4X4_1",
+        "BLOCK_LIGHT_4X4_3": "BLOCK_LIGHT_4X4_4",
+        "BLOCK_LIGHT_TRIANGLE_L_2": "BLOCK_LIGHT_TRIANGLE_L_1",
+        "BLOCK_LIGHT_TRIANGLE_L_3": "BLOCK_LIGHT_TRIANGLE_L_4",
+        "BLOCK_LIGHT_TRIANGLE_M_2": "BLOCK_LIGHT_TRIANGLE_M_1",
+        "BLOCK_LIGHT_TRIANGLE_M_3": "BLOCK_LIGHT_TRIANGLE_M_4",
+        "BLOCK_ROCK_4X4_2": "BLOCK_ROCK_4X4_1",
+        "BLOCK_ROCK_4X4_3": "BLOCK_ROCK_4X4_4",
+        "BLOCK_ROCK_TRIANGLE_L_2": "BLOCK_ROCK_TRIANGLE_L_1",
+        "BLOCK_ROCK_TRIANGLE_L_3": "BLOCK_ROCK_TRIANGLE_L_4",
+        "BLOCK_ROCK_TRIANGLE_M_2": "BLOCK_ROCK_TRIANGLE_M_1",
+        "BLOCK_ROCK_TRIANGLE_M_3": "BLOCK_ROCK_TRIANGLE_M_4",
+        "BLOCK_WOOD_4X4_2": "BLOCK_WOOD_4X4_1",
+        "BLOCK_WOOD_4X4_3": "BLOCK_WOOD_4X4_4",
+        "BLOCK_WOOD_TRIANGLE_L_2": "BLOCK_WOOD_TRIANGLE_L_1",
+        "BLOCK_WOOD_TRIANGLE_L_3": "BLOCK_WOOD_TRIANGLE_L_4",
+        "BLOCK_WOOD_TRIANGLE_M_2": "BLOCK_WOOD_TRIANGLE_M_1",
+        "BLOCK_WOOD_TRIANGLE_M_3": "BLOCK_WOOD_TRIANGLE_M_4",
+        "PIG_BASIC_BIG_01_BLINK": "PIG_BASIC_BIG_01",
+        "PIG_BASIC_MEDIUM_01_BLINK": "PIG_BASIC_MEDIUM_01",
+        "PIG_BASIC_SMALL_01_BLINK": "PIG_BASIC_SMALL_01",
+        "PIG_HELMET_01_BLINK": "PIG_HELMET_01",
+        "PIG_MUSTACHE_01_BLINK": "PIG_MUSTACHE_01"
+      }
     }
   ],
-  "bytes": 8519680,
+  "bytes": 11206656,
   "alpha_range": [
     0,
     128
   ],
-  "atlas_sha256": "d51734deaf1607e8eb53e15ee420ec1482f4a44916c70aa0f91d4896274d5b72",
+  "atlas_sha256": "9baeeb48414b528e7fb7f6d0e18ea419463b20e22ff585dce5586ebfab09ab3c",
   "sprites": [
+    {
+      "sprite": "BIRD_BOOMERANG",
+      "sheet": "assets/data/images/base/INGAME_BIRDS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "b3c0a0709cb6fcc1e4727ffdd06ea3880b69c9cd91876d3918e84bf580184229",
+      "width": 104,
+      "height": 65,
+      "pivot": {
+        "x": 55,
+        "y": 34
+      },
+      "banks": [
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 67,
+          "atlas_y": 241
+        }
+      ]
+    },
+    {
+      "sprite": "BIRD_BOOMERANG_SPECIAL",
+      "sheet": "assets/data/images/base/INGAME_BIRDS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "b5aa152c375a57e16cb7826c4891bd6f7a3d8f95a6a9a433f83ea989fedd3f3e",
+      "width": 89,
+      "height": 96,
+      "pivot": {
+        "x": 54,
+        "y": 47
+      },
+      "banks": [
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 268,
+          "atlas_y": 111
+        }
+      ]
+    },
+    {
+      "sprite": "BIRD_BOOMERANG_COLLISION",
+      "sheet": "assets/data/images/base/INGAME_BIRDS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "73ff3e76f5c58cba7a955cb54cf16542ca8dff48e1334cc214f39a97f06a7293",
+      "width": 104,
+      "height": 71,
+      "pivot": {
+        "x": 47,
+        "y": 40
+      },
+      "banks": [
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 175,
+          "atlas_y": 167
+        }
+      ]
+    },
     {
       "sprite": "BIRD_GREEN",
       "sheet": "assets/data/images/base/INGAME_BIRDS_1",
@@ -654,6 +909,12 @@
           "page": 0,
           "atlas_x": 369,
           "atlas_y": 210
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 359,
+          "atlas_y": 200
         }
       ]
     },
@@ -687,6 +948,12 @@
           "page": 0,
           "atlas_x": 231,
           "atlas_y": 211
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 268,
+          "atlas_y": 209
         }
       ]
     },
@@ -720,6 +987,12 @@
           "page": 0,
           "atlas_x": 41,
           "atlas_y": 200
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 41,
+          "atlas_y": 127
         }
       ]
     },
@@ -753,6 +1026,12 @@
           "page": 1,
           "atlas_x": 85,
           "atlas_y": 85
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 337,
+          "atlas_y": 1
         }
       ]
     },
@@ -786,6 +1065,12 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 324
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 167
         }
       ]
     },
@@ -819,6 +1104,12 @@
           "page": 0,
           "atlas_x": 384,
           "atlas_y": 306
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 442,
+          "atlas_y": 200
         }
       ]
     },
@@ -852,6 +1143,12 @@
           "page": 0,
           "atlas_x": 448,
           "atlas_y": 306
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 442,
+          "atlas_y": 284
         }
       ]
     },
@@ -885,6 +1182,12 @@
           "page": 0,
           "atlas_x": 215,
           "atlas_y": 307
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 351,
+          "atlas_y": 296
         }
       ]
     },
@@ -918,6 +1221,12 @@
           "page": 0,
           "atlas_x": 117,
           "atlas_y": 474
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 430,
+          "atlas_y": 428
         }
       ]
     },
@@ -951,6 +1260,12 @@
           "page": 0,
           "atlas_x": 83,
           "atlas_y": 474
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 396,
+          "atlas_y": 428
         }
       ]
     },
@@ -984,6 +1299,12 @@
           "page": 1,
           "atlas_x": 385,
           "atlas_y": 454
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 302,
+          "atlas_y": 464
         }
       ]
     },
@@ -1017,6 +1338,12 @@
           "page": 1,
           "atlas_x": 365,
           "atlas_y": 398
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 242
         }
       ]
     },
@@ -1050,6 +1377,12 @@
           "page": 1,
           "atlas_x": 425,
           "atlas_y": 398
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 428,
+          "atlas_y": 243
         }
       ]
     },
@@ -1080,6 +1413,12 @@
         },
         {
           "bank": 2,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 1
+        },
+        {
+          "bank": 3,
           "page": 0,
           "atlas_x": 1,
           "atlas_y": 1
@@ -1116,6 +1455,12 @@
           "page": 0,
           "atlas_x": 130,
           "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 41,
+          "atlas_y": 1
         }
       ]
     },
@@ -1149,6 +1494,12 @@
           "page": 1,
           "atlas_x": 287,
           "atlas_y": 453
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 360,
+          "atlas_y": 454
         }
       ]
     },
@@ -1203,6 +1554,12 @@
           "page": 1,
           "atlas_x": 336,
           "atlas_y": 454
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 253,
+          "atlas_y": 464
         }
       ]
     },
@@ -1236,6 +1593,12 @@
           "page": 1,
           "atlas_x": 392,
           "atlas_y": 167
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 329,
+          "atlas_y": 165
         }
       ]
     },
@@ -1290,6 +1653,12 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 169
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 409,
+          "atlas_y": 165
         }
       ]
     },
@@ -1389,6 +1758,12 @@
           "page": 0,
           "atlas_x": 369,
           "atlas_y": 111
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 409,
+          "atlas_y": 101
         }
       ]
     },
@@ -1443,6 +1818,12 @@
           "page": 0,
           "atlas_x": 130,
           "atlas_y": 127
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 167,
+          "atlas_y": 111
         }
       ]
     },
@@ -1476,6 +1857,12 @@
           "page": 0,
           "atlas_x": 1,
           "atlas_y": 298
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 126,
+          "atlas_y": 210
         }
       ]
     },
@@ -1530,6 +1917,12 @@
           "page": 0,
           "atlas_x": 108,
           "atlas_y": 298
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 225
         }
       ]
     },
@@ -1562,6 +1955,12 @@
           "bank": 2,
           "page": 0,
           "atlas_x": 270,
+          "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 167,
           "atlas_y": 1
         }
       ]
@@ -1616,6 +2015,12 @@
           "bank": 2,
           "page": 0,
           "atlas_x": 391,
+          "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 288,
           "atlas_y": 1
         }
       ]
@@ -1677,6 +2082,12 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 399
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 247,
+          "atlas_y": 243
         }
       ]
     },
@@ -1858,6 +2269,111 @@
       ]
     },
     {
+      "sprite": "BLOCK_BALLOON_1",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "830c925495b7d9060d5c717f69d902e60acf850980501493165866526c137cee",
+      "width": 52,
+      "height": 72,
+      "pivot": {
+        "x": 25,
+        "y": 36
+      },
+      "banks": [
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 360,
+          "atlas_y": 380
+        }
+      ]
+    },
+    {
+      "sprite": "BLOCK_BALLOON_2",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "b7753fb7bab46409348278818e43c54208ae138fe102e11856912568bd739a5a",
+      "width": 52,
+      "height": 72,
+      "pivot": {
+        "x": 25,
+        "y": 36
+      },
+      "banks": [
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 67,
+          "atlas_y": 167
+        }
+      ]
+    },
+    {
+      "sprite": "BLOCK_BALLOON_3",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "d412f85d1361b9c54d2b631c6f0029954006c3cddb854d394828f6dff5a9cbe1",
+      "width": 52,
+      "height": 72,
+      "pivot": {
+        "x": 25,
+        "y": 36
+      },
+      "banks": [
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 121,
+          "atlas_y": 167
+        }
+      ]
+    },
+    {
+      "sprite": "BLOCK_PIG_BALLOON_2",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "ce5b896dee9cdb0fd3fd218dccc9696d627275ef4bb162397ba3668ffeb7ce96",
+      "width": 79,
+      "height": 119,
+      "pivot": {
+        "x": 39,
+        "y": 60
+      },
+      "banks": [
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 86,
+          "atlas_y": 1
+        }
+      ]
+    },
+    {
+      "sprite": "BLOCK_TRAMPOLINE_01",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "83983f0fc944a270e7abd4d8d6abbe1eb5bcb0aeb066dda95c6c843fa23434bc",
+      "width": 151,
+      "height": 32,
+      "pivot": {
+        "x": 75,
+        "y": 16
+      },
+      "banks": [
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 214,
+          "atlas_y": 430
+        }
+      ]
+    },
+    {
       "sprite": "BLOCK_TIRE_01",
       "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
       "source_format": "RGBA4444 little-endian",
@@ -1914,6 +2430,12 @@
           "page": 1,
           "atlas_x": 284,
           "atlas_y": 399
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 298
         }
       ]
     },
@@ -1974,6 +2496,12 @@
           "page": 1,
           "atlas_x": 67,
           "atlas_y": 325
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 175,
+          "atlas_y": 240
         }
       ]
     },
@@ -2355,6 +2883,12 @@
           "page": 1,
           "atlas_x": 484,
           "atlas_y": 380
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 469,
+          "atlas_y": 111
         }
       ]
     },
@@ -2388,6 +2922,12 @@
           "page": 2,
           "atlas_x": 415,
           "atlas_y": 174
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 133
         }
       ]
     },
@@ -2454,6 +2994,12 @@
           "page": 2,
           "atlas_x": 415,
           "atlas_y": 196
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 155
         }
       ]
     },
@@ -2487,6 +3033,12 @@
           "page": 2,
           "atlas_x": 195,
           "atlas_y": 44
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 226,
+          "atlas_y": 387
         }
       ]
     },
@@ -2520,6 +3072,12 @@
           "page": 3,
           "atlas_x": 1,
           "atlas_y": 23
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 177
         }
       ]
     },
@@ -2601,6 +3159,12 @@
           "page": 3,
           "atlas_x": 480,
           "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 171,
+          "atlas_y": 177
         }
       ]
     },
@@ -2628,6 +3192,12 @@
           "page": 3,
           "atlas_x": 463,
           "atlas_y": 23
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 193,
+          "atlas_y": 177
         }
       ]
     },
@@ -2682,6 +3252,12 @@
           "page": 3,
           "atlas_x": 1,
           "atlas_y": 45
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 236,
+          "atlas_y": 177
         }
       ]
     },
@@ -2709,6 +3285,12 @@
           "page": 1,
           "atlas_x": 365,
           "atlas_y": 465
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 311,
+          "atlas_y": 387
         }
       ]
     },
@@ -2736,6 +3318,12 @@
           "page": 3,
           "atlas_x": 86,
           "atlas_y": 45
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 321,
+          "atlas_y": 177
         }
       ]
     },
@@ -2805,6 +3393,12 @@
           "page": 3,
           "atlas_x": 256,
           "atlas_y": 45
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 491,
+          "atlas_y": 177
         }
       ]
     },
@@ -2832,6 +3426,12 @@
           "page": 3,
           "atlas_x": 278,
           "atlas_y": 45
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 199
         }
       ]
     },
@@ -2886,6 +3486,12 @@
           "page": 3,
           "atlas_x": 321,
           "atlas_y": 45
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 44,
+          "atlas_y": 199
         }
       ]
     },
@@ -2913,6 +3519,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 44,
+          "atlas_y": 394
         }
       ]
     },
@@ -2940,6 +3552,12 @@
           "page": 3,
           "atlas_x": 1,
           "atlas_y": 67
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 129,
+          "atlas_y": 199
         }
       ]
     },
@@ -3015,6 +3633,12 @@
           "page": 1,
           "atlas_x": 484,
           "atlas_y": 402
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 299,
+          "atlas_y": 199
         }
       ]
     },
@@ -3048,6 +3672,12 @@
           "page": 2,
           "atlas_x": 415,
           "atlas_y": 218
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 321,
+          "atlas_y": 199
         }
       ]
     },
@@ -3114,6 +3744,12 @@
           "page": 3,
           "atlas_x": 415,
           "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 364,
+          "atlas_y": 199
         }
       ]
     },
@@ -3147,6 +3783,12 @@
           "page": 2,
           "atlas_x": 323,
           "atlas_y": 44
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 129,
+          "atlas_y": 397
         }
       ]
     },
@@ -3180,6 +3822,12 @@
           "page": 3,
           "atlas_x": 171,
           "atlas_y": 23
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 221
         }
       ]
     },
@@ -3261,6 +3909,12 @@
           "page": 0,
           "atlas_x": 381,
           "atlas_y": 474
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 485
         }
       ]
     },
@@ -3294,6 +3948,12 @@
           "page": 0,
           "atlas_x": 404,
           "atlas_y": 474
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 24,
+          "atlas_y": 485
         }
       ]
     },
@@ -3327,6 +3987,12 @@
           "page": 0,
           "atlas_x": 337,
           "atlas_y": 456
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 85,
+          "atlas_y": 470
         }
       ]
     },
@@ -3360,6 +4026,12 @@
           "page": 0,
           "atlas_x": 150,
           "atlas_y": 475
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 415,
+          "atlas_y": 461
         }
       ]
     },
@@ -3393,6 +4065,12 @@
           "page": 1,
           "atlas_x": 83,
           "atlas_y": 457
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 428,
+          "atlas_y": 299
         }
       ]
     },
@@ -3426,6 +4104,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 131
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 208,
+          "atlas_y": 486
         }
       ]
     },
@@ -3495,6 +4179,12 @@
           "page": 0,
           "atlas_x": 24,
           "atlas_y": 479
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 415,
+          "atlas_y": 483
         }
       ]
     },
@@ -3522,6 +4212,12 @@
           "page": 2,
           "atlas_x": 378,
           "atlas_y": 84
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 437,
+          "atlas_y": 483
         }
       ]
     },
@@ -3549,6 +4245,12 @@
           "page": 0,
           "atlas_x": 86,
           "atlas_y": 470
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 247,
+          "atlas_y": 301
         }
       ]
     },
@@ -3576,6 +4278,12 @@
           "page": 2,
           "atlas_x": 421,
           "atlas_y": 84
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 1
         }
       ]
     },
@@ -3603,6 +4311,12 @@
           "page": 1,
           "atlas_x": 152,
           "atlas_y": 376
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 290,
+          "atlas_y": 301
         }
       ]
     },
@@ -3630,6 +4344,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 88
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 86,
+          "atlas_y": 1
         }
       ]
     },
@@ -3686,6 +4406,12 @@
           "page": 0,
           "atlas_x": 344,
           "atlas_y": 481
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 480,
+          "atlas_y": 483
         }
       ]
     },
@@ -3713,6 +4439,12 @@
           "page": 2,
           "atlas_x": 171,
           "atlas_y": 106
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 256,
+          "atlas_y": 1
         }
       ]
     },
@@ -3740,6 +4472,12 @@
           "page": 1,
           "atlas_x": 237,
           "atlas_y": 376
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 375,
+          "atlas_y": 301
         }
       ]
     },
@@ -3767,6 +4505,12 @@
           "page": 2,
           "atlas_x": 214,
           "atlas_y": 106
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 299,
+          "atlas_y": 1
         }
       ]
     },
@@ -3794,6 +4538,12 @@
           "page": 1,
           "atlas_x": 391,
           "atlas_y": 379
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 56,
+          "atlas_y": 308
         }
       ]
     },
@@ -3821,6 +4571,12 @@
           "page": 2,
           "atlas_x": 299,
           "atlas_y": 106
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 23
         }
       ]
     },
@@ -3883,6 +4639,12 @@
           "page": 0,
           "atlas_x": 235,
           "atlas_y": 480
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 378,
+          "atlas_y": 486
         }
       ]
     },
@@ -3916,6 +4678,12 @@
           "page": 0,
           "atlas_x": 257,
           "atlas_y": 480
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 384,
+          "atlas_y": 1
         }
       ]
     },
@@ -3949,6 +4717,12 @@
           "page": 1,
           "atlas_x": 433,
           "atlas_y": 454
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 141,
+          "atlas_y": 311
         }
       ]
     },
@@ -3982,6 +4756,12 @@
           "page": 2,
           "atlas_x": 415,
           "atlas_y": 86
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 427,
+          "atlas_y": 1
         }
       ]
     },
@@ -4015,6 +4795,12 @@
           "page": 2,
           "atlas_x": 152,
           "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 418,
+          "atlas_y": 342
         }
       ]
     },
@@ -4048,6 +4834,12 @@
           "page": 2,
           "atlas_x": 171,
           "atlas_y": 131
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 171,
+          "atlas_y": 23
         }
       ]
     },
@@ -4162,6 +4954,12 @@
           "page": 0,
           "atlas_x": 447,
           "atlas_y": 480
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 23
         }
       ]
     },
@@ -4195,6 +4993,12 @@
           "page": 2,
           "atlas_x": 237,
           "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 184,
+          "atlas_y": 311
         }
       ]
     },
@@ -4228,6 +5032,12 @@
           "page": 2,
           "atlas_x": 415,
           "atlas_y": 108
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 45
         }
       ]
     },
@@ -4261,6 +5071,12 @@
           "page": 2,
           "atlas_x": 280,
           "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 227,
+          "atlas_y": 344
         }
       ]
     },
@@ -4294,6 +5110,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 197
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 89
         }
       ]
     },
@@ -4354,6 +5176,12 @@
           "page": 0,
           "atlas_x": 1,
           "atlas_y": 474
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 129,
+          "atlas_y": 473
         }
       ]
     },
@@ -4408,6 +5236,12 @@
           "page": 2,
           "atlas_x": 378,
           "atlas_y": 172
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 67
         }
       ]
     },
@@ -4435,6 +5269,12 @@
           "page": 1,
           "atlas_x": 237,
           "atlas_y": 419
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 312,
+          "atlas_y": 344
         }
       ]
     },
@@ -4462,6 +5302,12 @@
           "page": 2,
           "atlas_x": 421,
           "atlas_y": 172
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 171,
+          "atlas_y": 89
         }
       ]
     },
@@ -4489,6 +5335,12 @@
           "page": 1,
           "atlas_x": 366,
           "atlas_y": 422
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 56,
+          "atlas_y": 351
         }
       ]
     },
@@ -4516,6 +5368,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 194
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 256,
+          "atlas_y": 89
         }
       ]
     },
@@ -4570,6 +5428,12 @@
           "page": 1,
           "atlas_x": 298,
           "atlas_y": 474
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 170,
+          "atlas_y": 473
         }
       ]
     },
@@ -4624,6 +5488,12 @@
           "page": 2,
           "atlas_x": 193,
           "atlas_y": 194
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 458,
+          "atlas_y": 67
         }
       ]
     },
@@ -4651,6 +5521,12 @@
           "page": 1,
           "atlas_x": 86,
           "atlas_y": 422
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 355,
+          "atlas_y": 344
         }
       ]
     },
@@ -4678,6 +5554,12 @@
           "page": 2,
           "atlas_x": 236,
           "atlas_y": 194
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 426,
+          "atlas_y": 89
         }
       ]
     },
@@ -4705,6 +5587,12 @@
           "page": 1,
           "atlas_x": 280,
           "atlas_y": 431
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 141,
+          "atlas_y": 354
         }
       ]
     },
@@ -4732,6 +5620,12 @@
           "page": 2,
           "atlas_x": 321,
           "atlas_y": 194
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 111
         }
       ]
     },
@@ -4786,6 +5680,12 @@
           "page": 2,
           "atlas_x": 265,
           "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 211,
+          "atlas_y": 473
         }
       ]
     },
@@ -4852,6 +5752,12 @@
           "page": 2,
           "atlas_x": 415,
           "atlas_y": 130
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 171,
+          "atlas_y": 111
         }
       ]
     },
@@ -4885,6 +5791,12 @@
           "page": 2,
           "atlas_x": 365,
           "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 352
         }
       ]
     },
@@ -4918,6 +5830,12 @@
           "page": 2,
           "atlas_x": 415,
           "atlas_y": 152
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 214,
+          "atlas_y": 111
         }
       ]
     },
@@ -4951,6 +5869,12 @@
           "page": 2,
           "atlas_x": 408,
           "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 398,
+          "atlas_y": 385
         }
       ]
     },
@@ -4984,6 +5908,12 @@
           "page": 2,
           "atlas_x": 171,
           "atlas_y": 197
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 299,
+          "atlas_y": 111
         }
       ]
     },
@@ -5044,6 +5974,12 @@
           "page": 0,
           "atlas_x": 42,
           "atlas_y": 474
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 395
         }
       ]
     },
@@ -5070,6 +6006,12 @@
           "bank": 2,
           "page": 1,
           "atlas_x": 253,
+          "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 1,
           "atlas_y": 1
         }
       ]
@@ -5126,6 +6068,12 @@
           "page": 1,
           "atlas_x": 337,
           "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 85,
+          "atlas_y": 1
         }
       ]
     },
@@ -5153,6 +6101,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 219
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 133
         }
       ]
     },
@@ -5180,6 +6134,12 @@
           "page": 2,
           "atlas_x": 208,
           "atlas_y": 219
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 133
         }
       ]
     },
@@ -5207,6 +6167,12 @@
           "page": 3,
           "atlas_x": 1,
           "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 155
         }
       ]
     },
@@ -5234,6 +6200,12 @@
           "page": 3,
           "atlas_x": 208,
           "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 155
         }
       ]
     },
@@ -5261,6 +6233,12 @@
           "page": 1,
           "atlas_x": 148,
           "atlas_y": 167
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 165,
+          "atlas_y": 85
         }
       ]
     },
@@ -5316,6 +6294,12 @@
           "page": 1,
           "atlas_x": 230,
           "atlas_y": 167
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 247,
+          "atlas_y": 85
         }
       ]
     },
@@ -5342,6 +6326,12 @@
           "bank": 2,
           "page": 1,
           "atlas_x": 421,
+          "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 169,
           "atlas_y": 1
         }
       ]
@@ -5398,6 +6388,12 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 85
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 253,
+          "atlas_y": 1
         }
       ]
     },
@@ -5425,6 +6421,12 @@
           "page": 0,
           "atlas_x": 1,
           "atlas_y": 390
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 108,
+          "atlas_y": 302
         }
       ]
     },
@@ -5480,6 +6482,12 @@
           "page": 0,
           "atlas_x": 85,
           "atlas_y": 390
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 192,
+          "atlas_y": 305
         }
       ]
     },
@@ -5507,6 +6515,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 87
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 440
         }
       ]
     },
@@ -5534,6 +6548,12 @@
           "page": 2,
           "atlas_x": 208,
           "atlas_y": 87
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 462
         }
       ]
     },
@@ -5561,6 +6581,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 109
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 208,
+          "atlas_y": 464
         }
       ]
     },
@@ -5588,6 +6614,12 @@
           "page": 2,
           "atlas_x": 208,
           "atlas_y": 109
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 484
         }
       ]
     },
@@ -5615,6 +6647,12 @@
           "page": 1,
           "atlas_x": 148,
           "atlas_y": 85
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 400,
+          "atlas_y": 1
         }
       ]
     },
@@ -5670,6 +6708,12 @@
           "page": 1,
           "atlas_x": 230,
           "atlas_y": 85
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 400,
+          "atlas_y": 83
         }
       ]
     },
@@ -5697,6 +6741,12 @@
           "page": 0,
           "atlas_x": 384,
           "atlas_y": 390
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 317
         }
       ]
     },
@@ -5752,6 +6802,12 @@
           "page": 0,
           "atlas_x": 169,
           "atlas_y": 391
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 415,
+          "atlas_y": 368
         }
       ]
     },
@@ -5779,6 +6835,12 @@
           "page": 0,
           "atlas_x": 253,
           "atlas_y": 396
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 276,
+          "atlas_y": 380
         }
       ]
     },
@@ -5834,6 +6896,12 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 85,
+          "atlas_y": 386
         }
       ]
     },
@@ -5861,6 +6929,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 153
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 45
         }
       ]
     },
@@ -5888,6 +6962,12 @@
           "page": 2,
           "atlas_x": 208,
           "atlas_y": 153
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 45
         }
       ]
     },
@@ -5915,6 +6995,12 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 175
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 67
         }
       ]
     },
@@ -5942,6 +7028,12 @@
           "page": 2,
           "atlas_x": 208,
           "atlas_y": 175
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 67
         }
       ]
     },
@@ -5968,6 +7060,12 @@
           "bank": 2,
           "page": 1,
           "atlas_x": 312,
+          "atlas_y": 85
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 1,
           "atlas_y": 85
         }
       ]
@@ -6024,6 +7122,12 @@
           "page": 1,
           "atlas_x": 394,
           "atlas_y": 85
+        },
+        {
+          "bank": 3,
+          "page": 1,
+          "atlas_x": 83,
+          "atlas_y": 85
         }
       ]
     },
@@ -6051,6 +7155,12 @@
           "page": 1,
           "atlas_x": 85,
           "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 169,
+          "atlas_y": 389
         }
       ]
     },
@@ -6106,6 +7216,12 @@
           "page": 1,
           "atlas_x": 169,
           "atlas_y": 1
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 401
         }
       ]
     },
@@ -6139,6 +7255,12 @@
           "page": 0,
           "atlas_x": 337,
           "atlas_y": 396
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 414,
+          "atlas_y": 452
         }
       ]
     },
@@ -6172,6 +7294,12 @@
           "page": 2,
           "atlas_x": 458,
           "atlas_y": 218
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 449,
+          "atlas_y": 199
         }
       ]
     },
@@ -6205,6 +7333,12 @@
           "page": 3,
           "atlas_x": 341,
           "atlas_y": 23
+        },
+        {
+          "bank": 3,
+          "page": 2,
+          "atlas_x": 171,
+          "atlas_y": 221
         }
       ]
     },
@@ -6238,6 +7372,12 @@
           "page": 3,
           "atlas_x": 1,
           "atlas_y": 45
+        },
+        {
+          "bank": 3,
+          "page": 3,
+          "atlas_x": 1,
+          "atlas_y": 1
         }
       ]
     },
@@ -6271,6 +7411,12 @@
           "page": 1,
           "atlas_x": 236,
           "atlas_y": 453
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 461,
+          "atlas_y": 452
         }
       ]
     },
@@ -6304,6 +7450,12 @@
           "page": 0,
           "atlas_x": 270,
           "atlas_y": 111
+        },
+        {
+          "bank": 3,
+          "page": 0,
+          "atlas_x": 409,
+          "atlas_y": 1
         }
       ]
     }

@@ -1,6 +1,6 @@
 #ifndef PS2BIRDS_CAMPAIGN_TYPES_H
 #define PS2BIRDS_CAMPAIGN_TYPES_H
-#define MAX_LEVEL_OBJECTS 160
+#define MAX_LEVEL_OBJECTS 192
 #define MAX_LEVEL_JOINTS 64
 #define MAX_CAMPAIGN_LEVELS 128
 typedef struct {float x,y,angle,width,height,density,strength,defence;int kind,shape;const char *definition;float friction,restitution;} CampaignObject;

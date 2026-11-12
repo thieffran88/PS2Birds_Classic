@@ -11,7 +11,7 @@ GROUND_HALF_HEIGHT=5.0
 SIZE_FACTOR=0.92
 SLING_BACK_HEIGHT=199
 SLING_BACK_PIVOT_Y=30
-BIRD_RADIUS={'RedBird':0.75,'SmallBlueBird':0.6,'YellowBird':0.8,'BlackBird':1.0,'BasicBird2':1.3}
+BIRD_RADIUS={'RedBird':0.75,'SmallBlueBird':0.6,'YellowBird':0.8,'BlackBird':1.0,'BasicBird2':1.3,'BoomerangBird':1.5}
 
 def read_assignments(text):
     """Read only the literal/table assignment subset emitted by unluac. No Lua execution."""
@@ -65,7 +65,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
     if not 1<=len(birds)<=16:raise ValueError('Adapter needs 1..16 supported birds')
     for bird in birds:
         bird['type']=profile.get('bird_types',{'RedBird':0}).get(bird['definition'],-1)
-        if bird['type'] not in [0,1,2,3,4]:raise ValueError('Unsupported runtime bird type')
+        if bird['type'] not in [0,1,2,3,4,6]:raise ValueError('Unsupported runtime bird type')
     if len({b['startNumber'] for b in birds})!=len(birds):raise ValueError('Duplicate bird queue position')
     grounds=[o for o in objects if o['definition']=='Ground']
     if len(grounds)!=1:raise ValueError('Adapter requires exactly one Ground object')
@@ -78,7 +78,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
         shape=profile['objects'].get(o['definition'])
         if not shape:raise ValueError('Unsupported definition; add a verified adapter: '+o['definition'])
         kind=shape['kind']
-        if kind not in [1,2,3,4,5,6,7]:raise ValueError('Unsupported runtime object kind')
+        if kind not in [1,2,3,4,5,6,7,8]:raise ValueError('Unsupported runtime object kind')
         if 'sprite' in shape:
             metric=metrics[shape['sprite']];w,h=metric['width']/pixels,metric['height']/pixels
             # ObjectCreation.lua: sprite-sized shapes are scaled by sizeFactorX/Y (default
@@ -93,8 +93,9 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
         if collision not in ['box','circle','triangle_l','triangle_m']:raise ValueError('Unsupported collision shape')
         material=profile['materials']['by_kind'][str(kind)]
         friction=profile['materials']['friction_overrides'].get(o['definition'],material['friction'])
-        level.append(dict(o,width=w,height=h,kind=kind,shape=collision,friction=friction,restitution=material['restitution']))
-    if not 1<=len(level)<=160:raise ValueError('Adapter supports 1..160 scene objects')
+        restitution=profile['materials'].get('restitution_overrides',{}).get(o['definition'],material['restitution'])
+        level.append(dict(o,width=w,height=h,kind=kind,shape=collision,friction=friction,restitution=restitution))
+    if not 1<=len(level)<=192:raise ValueError('Adapter supports 1..192 scene objects')
     # SlingshotSystem.setPositionByStartObject (Slingshot.lua) places the slingshot on the
     # first bird of the queue: rest point = (x - 0.1, y - (h - pivot_y) * physicsScale +
     # radius + 0.2 - 0.1) with h/pivot_y from SLING_SHOT_01_BACK (199 px, pivot 30).

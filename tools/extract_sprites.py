@@ -6,10 +6,10 @@ import argparse,hashlib,json,lzma,re,struct,subprocess,tempfile,zipfile,io
 from pathlib import Path
 from game_profiles import ROOT, PROFILES, decode_payload, archive_command
 SHEETS={
- 'INGAME_BIRDS_1':['BIRD_GREEN','BIRD_GREEN_FLYING','BIRD_GREEN_COLLISION','BIRD_GREY','BIRD_GREY_FLYING','BIRD_GREY_1','BIRD_GREY_2','BIRD_GREY_3','BIRD_BLUE','BIRD_BLUE_COLLISION','BIRD_RED','BIRD_YELLOW','BIRD_YELLOW_COLLISION','SLING_SHOT_01_BACK','SLING_SHOT_01_FRONT'],
+ 'INGAME_BIRDS_1':['BIRD_BOOMERANG','BIRD_BOOMERANG_SPECIAL','BIRD_BOOMERANG_COLLISION','BIRD_GREEN','BIRD_GREEN_FLYING','BIRD_GREEN_COLLISION','BIRD_GREY','BIRD_GREY_FLYING','BIRD_GREY_1','BIRD_GREY_2','BIRD_GREY_3','BIRD_BLUE','BIRD_BLUE_COLLISION','BIRD_RED','BIRD_YELLOW','BIRD_YELLOW_COLLISION','SLING_SHOT_01_BACK','SLING_SHOT_01_FRONT'],
  'INGAME_PIGS_NEW_SHEET_1_1':['PIG_BASIC_SMALL_01','PIG_BASIC_SMALL_01_BLINK','PIG_BASIC_SMALL_02','PIG_BASIC_MEDIUM_01','PIG_BASIC_MEDIUM_01_BLINK','PIG_BASIC_MEDIUM_02','PIG_KING_01','PIG_KING_02'],
  'INGAME_PIGS_NEW_SHEET_0_1':['PIG_BASIC_BIG_01','PIG_BASIC_BIG_01_BLINK','PIG_BASIC_BIG_02','PIG_HELMET_01','PIG_HELMET_01_BLINK','PIG_HELMET_02','PIG_MUSTACHE_01','PIG_MUSTACHE_01_BLINK','PIG_MUSTACHE_02'],
- 'INGAME_BLOCKS_1_1':['ESTRADE_01','ESTRADE_02','BLOCK_TREASURE_CHEST','BLOCK_SMILEY_1','BLOCK_SMILEY_3','BLOCK_BEACHBALL','BLOCK_RUBBERDUCK','BLOCK_STRAWBERRY','BLOCK_APPLE','BLOCK_TIRE_01','BLOCK_TIRE_03','BLOCK_WATERMELON','BLOCK_EXTRA_TNT','BLOCK_EXTRA_FLAG_01','BLOCK_DIAMOND','BLOCK_HOLYGRAIL','BLOCK_PILLAR','BLOCK_BANANA','ESTRADE_03','ESTRADE_STAIRS','BLOCK_TIRE_02','BLOCK_EXTRA_DICE_6','BLOCK_STOLEN_EGG','BLOCK_DONUT','BLOCK_HAM','BLOCK_GOLDEN_EGG','BLOCK_EXTRA_FLAG_02'],
+ 'INGAME_BLOCKS_1_1':['ESTRADE_01','ESTRADE_02','BLOCK_TREASURE_CHEST','BLOCK_SMILEY_1','BLOCK_SMILEY_3','BLOCK_BEACHBALL','BLOCK_RUBBERDUCK','BLOCK_STRAWBERRY','BLOCK_APPLE','BLOCK_BALLOON_1','BLOCK_BALLOON_2','BLOCK_BALLOON_3','BLOCK_PIG_BALLOON_2','BLOCK_TRAMPOLINE_01','BLOCK_TIRE_01','BLOCK_TIRE_03','BLOCK_WATERMELON','BLOCK_EXTRA_TNT','BLOCK_EXTRA_FLAG_01','BLOCK_DIAMOND','BLOCK_HOLYGRAIL','BLOCK_PILLAR','BLOCK_BANANA','ESTRADE_03','ESTRADE_STAIRS','BLOCK_TIRE_02','BLOCK_EXTRA_DICE_6','BLOCK_STOLEN_EGG','BLOCK_DONUT','BLOCK_HAM','BLOCK_GOLDEN_EGG','BLOCK_EXTRA_FLAG_02'],
  'INGAME_BLOCKS_3_1':[f'BLOCK_{m}_{state}_{size}' for m,sizes in [('WOOD',[1,2,3,4,5,6,7,8]),('LIGHT',[1,2,3,4,5,6,7,8]),('ROCK',[1,2,3,4,5,6,7,8])] for state in range(1,5) for size in sizes]+[f'BLOCK_{m}_{shape}_{state}' for m in ['WOOD','LIGHT','ROCK'] for shape in ['4X4','10X1','TRIANGLE_L','TRIANGLE_M'] for state in range(1,5)],
  'PARTICLES_1':['DROPPABLE_EGG'],
  'INGAME_MASKS_1':['GROUND_BLOCK_01','GROUND_BLOCK_02','GROUND_BLOCK_03','GROUND_BLOCK_04','GROUND_BLOCK_05']}
@@ -105,21 +105,24 @@ def bank_members(all_names):
     sprites plus what their stages draw. Banks are swapped when the episode changes."""
     available=set(all_names);profile=json.loads((ROOT/'profiles/classic_level.json').read_text())
     episode=json.loads((ROOT/'profiles/classic_episode.json').read_text())
-    common=[n for n in all_names if n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_'))]
+    # The green boomerang bird is only stored in the banks of stages that use it.
+    common=[n for n in all_names if n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_')) and not n.startswith('BIRD_BOOMERANG')]
     bank_of_page={pg['number']:pg.get('bank',0) for pg in episode.get('additional_pages',[])};bank_of_page[1]=0
     banks=[set(common) for _ in range(max(bank_of_page.values())+1)]
     for path in sorted((ROOT/'ps2/data').glob('level_*_*.json')):
         d=json.loads(path.read_text());b=bank_of_page.get(d.get('episode_page',1),0)
         for o in d['objects']:
+            if o['definition']=='ExtraBlockTNT':banks[b].add('BLOCK_EXTRA_TNT')
+            if o['definition']=='ExtraBoomerangBird':banks[b].add('BIRD_BOOMERANG')
             if o['definition'] in PIG_SPRITES:
                 base=PIG_SPRITES[o['definition']];banks[b]|={f'{base}_01',f'{base}_01_BLINK',f'{base}_02'}&available
                 continue
             spec=profile['objects'][o['definition']]
             if 'sprite' in spec:banks[b]|=set(sprite_family(spec['sprite'],available))&available
-        if o['definition']=='ExtraBlockTNT':banks[b].add('BLOCK_EXTRA_TNT')
+        if any(bird['definition']=='BoomerangBird' for bird in d['birds']):banks[b]|={'BIRD_BOOMERANG','BIRD_BOOMERANG_SPECIAL','BIRD_BOOMERANG_COLLISION'}
     # Bank 0 also keeps everything not claimed by a later bank, matching earlier builds.
     later=set().union(*banks[1:]) if len(banks)>1 else set()
-    banks[0]|={n for n in available if n not in later or n in banks[0]}-{n for n in later if n not in banks[0] and not n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_'))}
+    banks[0]|={n for n in available if n not in later or n in banks[0]}-{n for n in later if n not in banks[0] and (n.startswith('BIRD_BOOMERANG') or not n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_')))}
     missing=[n for b in banks for n in b if n not in available]
     if missing:raise ValueError('Unknown sprites in banks: '+', '.join(sorted(missing)))
     # Later banks reuse neighbouring frames for blinks and middle damage states of
@@ -132,7 +135,7 @@ def bank_members(all_names):
             elif re.fullmatch(r'BLOCK_(?:WOOD|LIGHT|ROCK)_(?:4X4|TRIANGLE_L|TRIANGLE_M)_[23]',n):target=n[:-1]+('1' if n.endswith('2') else '4')
             # Bank 2 (Mighty Hoax page 5) has the largest piece set: numbered blocks keep
             # two frames, intact (states 1-2) and heavily damaged (states 3-4).
-            elif b>=2 and re.fullmatch(r'BLOCK_(?:WOOD|LIGHT|ROCK)_[23]_\d+',n):target=re.sub(r'_([23])_(\d+)$',lambda m:('_1_' if m[1]=='2' else '_4_')+m[2],n)
+            elif b==2 and re.fullmatch(r'BLOCK_(?:WOOD|LIGHT|ROCK)_[23]_\d+',n):target=re.sub(r'_([23])_(\d+)$',lambda m:('_1_' if m[1]=='2' else '_4_')+m[2],n)
             if target and target in banks[b]:aliases[b][n]=target
         banks[b]-=set(aliases[b])
     return [sorted(b) for b in banks],aliases

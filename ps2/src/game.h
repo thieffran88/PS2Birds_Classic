@@ -12,7 +12,21 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE, BIRD_WHITE_TYPE, BIRD_EGG_TYPE } BirdType;
+typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE, BIRD_WHITE_TYPE, BIRD_EGG_TYPE, BIRD_GREEN_TYPE } BirdType;
+/* Green boomerang bird (BoomerangBird): every value below is recovered. blocks.lua gives the
+   body (radius 1.5, density 3, friction 0.3, restitution 0.23) and the specialty fields;
+   gamelogic.lua gives the algorithm. Before the tap the bird gets an upward force of
+   flyVerticalAcceleration*mass. The tap sets xForce=xVel*physicsScale*mass*horizontalForce and
+   yForce=(2-min(|yVel/xVel|,2))*physicsScale*mass*verticalForce (slingshot power is 1); until the
+   first contact xForce is applied while |xVel|<=maxHorizontalSpeed and yForce while yVel>5. */
+#define GREEN_RADIUS 1.5f
+#define GREEN_DENSITY 3.0f
+#define GREEN_RESTITUTION 0.23f
+#define GREEN_FLY_VERTICAL_ACCELERATION -2.8f
+#define GREEN_HORIZONTAL_FORCE -50.0f
+#define GREEN_VERTICAL_FORCE -350.0f
+#define GREEN_MAX_HORIZONTAL_SPEED 50.0f
+#define GREEN_PHYSICS_SCALE (1.0f/20.0f)
 /* Yellow boost: prototype approximation of the native BOOST specialty. */
 #define YELLOW_BOOST_FACTOR 1.8f
 /* Launch speed recovered from gamelogic.lua: updateValues() sets defaultForce=-925 and
@@ -39,6 +53,10 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 #define TNT_BLAST_FORCE 30000.0f
 #define TNT_BLAST_DAMAGE 150.0f
 #define OBJECT_KIND_TNT 7
+/* Static fragile pieces (staticFragile group, clouds material), e.g. StaticBalloon03-05;
+   destroyedScoreInc 100 from blocks.lua. */
+#define OBJECT_KIND_FRAGILE 8
+#define FRAGILE_DESTROYED_SCORE 100
 /* Delay before a crate destroyed by another blast goes off; port approximation. */
 #define TNT_CHAIN_SECONDS 0.1f
 #define BLACK_BLAST_RADIUS 15.0f
@@ -85,6 +103,7 @@ const char *game_level_script(int index);
 int game_level_bank(int index);
 /* Stars (0-3) a score earns on a stage: 0 when unwon, then win/silver/gold thresholds. */
 int game_level_stars(int index,int score);
+float game_level_gravity(int index);
 int game_get_object(const Game *game,int index,GameObject *object);
 #ifdef __cplusplus
 }

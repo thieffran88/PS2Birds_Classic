@@ -333,5 +333,30 @@
     "width": 52,
     "height": 50,
     "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_BALLOON_1": {
+    "width": 52,
+    "height": 72,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_BALLOON_2": {
+    "width": 52,
+    "height": 72,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_BALLOON_3": {
+    "width": 52,
+    "height": 72,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_PIG_BALLOON_2": {
+    "width": 79,
+    "height": 119,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_TRAMPOLINE_01": {
+    "width": 151,
+    "height": 32,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
   }
 }

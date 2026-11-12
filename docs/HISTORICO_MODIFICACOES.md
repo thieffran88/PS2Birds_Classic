@@ -1,4 +1,40 @@
-# Modificações completas — PS2Birds Classic 0.21.0
+# Modificações completas — PS2Birds Classic 0.22.0
+
+- **Pássaro verde (BoomerangBird), novo**
+  - Corpo do `blocks.lua`: raio 1,5, densidade 3, atrito 0,3, restituição 0,23. Multiplicadores de dano do `BoomerangBirdDamageFactors`: madeira 3, gelo 3, pedra 1,5.
+  - Algoritmo do `gamelogic.lua`, portado linha a linha:
+    - antes do toque, força para cima de `flyVerticalAcceleration` (−2,8) × massa;
+    - no toque, força horizontal `xVel × physicsScale × massa × (−50)` e força vertical `(2 − min(|yVel/xVel|, 2)) × physicsScale × massa × (−350)`;
+    - até o primeiro contato, a força horizontal age enquanto |xVel| ≤ 50 e a vertical enquanto yVel > 5;
+    - rotação do corpo como no original (até 6,28 rad/s antes do toque e 20 rad/s depois).
+  - Sprites originais (normal, especial e colisão) só nos bancos de texturas das fases que usam o pássaro.
+  - Novo teste `green_test`: voo mais leve antes do toque, inversão da direção limitada a 50 u/s, ativação única e bloqueio após contato.
+- **Danger Above 6-1 a 6-15**
+  - 15 fases na ordem do mundo 6 do `episodes.lua`, com limites de estrelas do `starLimits.lua`. A campanha passa de 105 para 120 fases.
+  - As 15 têm roteiro vencedor encontrado pela busca automática, e todas assentam sem perder porcos (deslocamento máximo de 2 unidades).
+- **Peças novas (definições conferidas contra o `blocks.lua`)**
+  - StaticBalloon02 a 05: balões do grupo `staticFragile` (material `clouds`). Ficam fixos e estouram no primeiro impacto depois do lançamento, valendo 100 pontos (`destroyedScoreInc`). Novo tipo de objeto 8.
+  - ExtraTrampoline2: trampolim fixo, material `immovableRubber`, restituição 1,1.
+  - ExtraBoomerangBird: enfeite do pássaro verde. Corpo pesado (densidade 8), praticamente indestrutível (defesa 1.000.000), com atrito 0,3 e restituição 0,25 próprios.
+  - O perfil passou a aceitar restituição própria por peça (`restitution_overrides`).
+- **Motor e limites**
+  - Limite de objetos por fase de 160 para 192 (a 6-15 tem 169).
+  - Nova função `game_level_gravity`.
+- **Texturas**
+  - Quarto banco (banco 3) para Danger Above, com os quatro estados de dano das peças. A memória de vídeo não muda; os bancos 0, 1 e 2 seguem idênticos.
+  - Corrigido o extrator de sprites: a regra do TNT só olhava o último objeto de cada fase.
+- **Testes**
+  - Novo teste de procedência da página 6: ordem, banco 3, pássaro verde (corpo e especialidade), balões, trampolim e enfeite conferidos contra `blocks.lua` e `gamelogic.lua`.
+  - Teste de sprites cobre os 4 bancos (217 quadros).
+  - O teste de materiais aceita a restituição própria por peça.
+  - Tabela da campanha regenerada para 120 fases: 118 com roteiro (3-20 e 5-16 seguem sem).
+- **Versão e documentos**
+  - Tela e log em 0.22.0. README, lacunas, validação e histórico atualizados; capturas das fases 6-5 e 6-13 no PCSX2.
+- **Limpeza**
+  - Capturas da 0.21.0 removidas do repositório.
+  - No Drive, os arquivos 0.21.0 foram substituídos pelos 0.22.0.
+
+## Modificações completas — 0.21.0
 
 - **Nova página: Mighty Hoax 5-1 a 5-21**
   - 21 fases recuperadas do APK (`LevelP2_78` a `LevelP2_90`), na ordem do mundo 5 do `episodes.lua` (trecho em `ps2/data/episode_mighty_hoax_page2.decompiled.lua`).

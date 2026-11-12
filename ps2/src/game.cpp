@@ -31,7 +31,9 @@ struct Physics: b2ContactListener {
     const CampaignLevel *level;
     b2Body *bodies[MAX_LEVEL_OBJECTS], *bird;
     float health[MAX_LEVEL_OBJECTS], impact[MAX_LEVEL_OBJECTS], age;
+    bool fragile_hit[MAX_LEVEL_OBJECTS];
     bool has_launched,special_used,bird_collided;
+    bool boomerang_active;float boomerang_x_force,boomerang_y_force,boomerang_spin;
     int bird_type;
     b2Body *split[2],*egg;bool egg_collided;
     bool split_collided[2],disturbed[MAX_LEVEL_OBJECTS];
@@ -44,7 +46,7 @@ struct Physics: b2ContactListener {
     b2Body *spawn_ignore[8];int spawn_ignore_count;
     b2Body *floor_body;
     b2Joint *joints[MAX_LEVEL_JOINTS];float joint_break[MAX_LEVEL_JOINTS];int joint_count;
-    Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),bird_type(BIRD_RED_TYPE) {
+    Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),bird_type(BIRD_RED_TYPE) {
         egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
         damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
         memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));
@@ -56,7 +58,7 @@ struct Physics: b2ContactListener {
         b2FixtureDef ground;ground.shape=&shape;ground.friction=0.8f;ground.restitution=0;floor->CreateFixture(&ground);
         for (int i=0;i<level->count;i++) {
             const CampaignObject &o=level->objects[i];
-            b2BodyDef def;def.type=o.kind==3?b2_staticBody:b2_dynamicBody;
+            b2BodyDef def;def.type=(o.kind==3||o.kind==OBJECT_KIND_FRAGILE)?b2_staticBody:b2_dynamicBody;
             def.position.Set(o.x,o.y);def.angle=o.angle;
             b2Body *body=world.CreateBody(&def);
             body->GetUserData().pointer=i+1;
@@ -69,7 +71,7 @@ struct Physics: b2ContactListener {
                 box.Set(v,3);fixture.shape=&box;
             }
             else {box.SetAsBox(o.width/2,o.height/2);fixture.shape=&box;}
-            body->CreateFixture(&fixture);bodies[i]=body;health[i]=o.strength;
+            body->CreateFixture(&fixture);bodies[i]=body;health[i]=o.strength;fragile_hit[i]=false;
         }
         for(int i=0;i<level->joint_count && i<MAX_LEVEL_JOINTS;i++)create_joint(level->joints[i]);
     }
@@ -107,9 +109,9 @@ struct Physics: b2ContactListener {
         b2BodyDef def;def.type=b2_dynamicBody;def.bullet=true;def.position=position;
         b2Body *body=world.CreateBody(&def);
         /* Radii, densities and restitutions consulted in the recovered blocks.lua. */
-        b2CircleShape circle;circle.m_radius=type==BIRD_BLUE_TYPE?0.6f:type==BIRD_YELLOW_TYPE?0.8f:type==BIRD_BLACK_TYPE?1.0f:type==BIRD_WHITE_TYPE?1.3f:type==BIRD_EGG_TYPE?WHITE_EGG_RADIUS:0.75f;
-        b2FixtureDef fixture;fixture.shape=&circle;fixture.density=(type==BIRD_BLUE_TYPE || type==BIRD_WHITE_TYPE)?4.5f:type==BIRD_EGG_TYPE?3:6;
-        fixture.friction=0.3f;fixture.restitution=(type==BIRD_YELLOW_TYPE || type==BIRD_WHITE_TYPE || type==BIRD_EGG_TYPE)?0.23f:type==BIRD_BLACK_TYPE?0.03f:0.25f;
+        b2CircleShape circle;circle.m_radius=type==BIRD_GREEN_TYPE?GREEN_RADIUS:type==BIRD_BLUE_TYPE?0.6f:type==BIRD_YELLOW_TYPE?0.8f:type==BIRD_BLACK_TYPE?1.0f:type==BIRD_WHITE_TYPE?1.3f:type==BIRD_EGG_TYPE?WHITE_EGG_RADIUS:0.75f;
+        b2FixtureDef fixture;fixture.shape=&circle;fixture.density=type==BIRD_GREEN_TYPE?GREEN_DENSITY:(type==BIRD_BLUE_TYPE || type==BIRD_WHITE_TYPE)?4.5f:type==BIRD_EGG_TYPE?3:6;
+        fixture.friction=0.3f;fixture.restitution=type==BIRD_GREEN_TYPE?GREEN_RESTITUTION:(type==BIRD_YELLOW_TYPE || type==BIRD_WHITE_TYPE || type==BIRD_EGG_TYPE)?0.23f:type==BIRD_BLACK_TYPE?0.03f:0.25f;
         if(type==BIRD_BLUE_TYPE)fixture.filter.groupIndex=-1;
         if(type==BIRD_WHITE_TYPE || type==BIRD_EGG_TYPE)fixture.filter.groupIndex=-2;
         body->CreateFixture(&fixture);body->SetLinearVelocity(velocity);return body;
@@ -171,6 +173,16 @@ struct Physics: b2ContactListener {
         if(egg && counts_as_hit(contact,egg))egg_collided=true;
         for(int i=0;i<2;i++)if(split[i] && counts_as_hit(contact,split[i]))split_collided[i]=true;
         if (!has_launched || age<0.75f) return;
+        /* staticFragile group (clouds material: strength 0.1, defence 1): a static piece
+           that pops on the first impact from a moving body. */
+        {
+            b2Body *pair[]={contact->GetFixtureA()->GetBody(),contact->GetFixtureB()->GetBody()};
+            for(int k=0;k<2;k++){
+                uintptr_t id=pair[k]->GetUserData().pointer;b2Body *other=pair[1-k];
+                if(id>0 && id<=(uintptr_t)level->count && level->objects[id-1].kind==OBJECT_KIND_FRAGILE && other->GetType()==b2_dynamicBody && impulse->normalImpulses[0]>0)
+                    fragile_hit[id-1]=true;
+            }
+        }
         bool damaging=false;for(int i=0;i<damage_contact_count;i++)if(damage_contacts[i]==contact){damaging=true;break;}
         if(!damaging)return;
         float normal=0;for(int i=0;i<impulse->count;i++)normal+=impulse->normalImpulses[i];
@@ -186,6 +198,8 @@ struct Physics: b2ContactListener {
                 if(projectile && bird_type==BIRD_BLUE_TYPE && level->objects[i].kind==2)factor=2.9f;
                 if(projectile && bird_type==BIRD_YELLOW_TYPE && level->objects[i].kind==1)factor=2.4f;
                 if(projectile && bird_type==BIRD_BLACK_TYPE && level->objects[i].kind==5)factor=4.0f;
+                /* BoomerangBirdDamageFactors: wood 3, rock 1.5, light 3. */
+                if(projectile && bird_type==BIRD_GREEN_TYPE)factor=level->objects[i].kind==1||level->objects[i].kind==2?3.0f:level->objects[i].kind==5?1.5f:1.0f;
                 impact[i]=fmaxf(impact[i],normal/body->GetMass()*factor);
             }
         }
@@ -196,6 +210,7 @@ void game_init(Game *g) { memset(g,0,sizeof(*g));g->unlocked=1;game_load_level(g
 void game_destroy(Game *g) { delete static_cast<Physics*>(g->physics);g->physics=NULL; }
 int game_level_count(void){return (int)CAMPAIGN_COUNT;}
 const char *game_level_title(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].title:"";}
+float game_level_gravity(int index){return index<0||index>=(int)CAMPAIGN_COUNT?0.0f:campaign_levels[index].gravity;}
 int game_level_stars(int index,int score){
     if(index<0 || index>=(int)CAMPAIGN_COUNT || score<=0)return 0;
     const CampaignLevel &l=campaign_levels[index];
@@ -230,7 +245,7 @@ void game_launch(Game *g) {
     p->egg=NULL;p->egg_collided=false;
     p->spawn_ignore_count=0;
     for(int i=0;i<2;i++){if(p->split[i])p->world.DestroyBody(p->split[i]);p->split[i]=NULL;p->split_collided[i]=false;}
-    p->bird_type=game_queue_type(g,0);p->special_used=false;p->bird_collided=false;
+    p->bird_type=game_queue_type(g,0);p->special_used=false;p->bird_collided=false;p->boomerang_active=false;p->boomerang_spin=0;
     g->angle=clamp(g->angle,ANGLE_MIN,ANGLE_MAX);g->power=clamp(g->power,POWER_MIN,POWER_MAX);
     float a=g->angle*0.01745329252f;
     p->bird=p->make_bird(b2Vec2(p->level->sling_x,p->level->sling_y),b2Vec2(cosf(a)*LAUNCH_SPEED_MAX*g->power/100.0f,-sinf(a)*LAUNCH_SPEED_MAX*g->power/100.0f),p->bird_type);
@@ -247,7 +262,7 @@ int game_special_available(const Game *g){
     const Physics *p=static_cast<const Physics*>(g->physics);
     if(g->state!=FLYING || p->special_used || !p->bird)return 0;
     if(p->bird_type==BIRD_BLACK_TYPE)return 1;
-    return (p->bird_type==BIRD_BLUE_TYPE || p->bird_type==BIRD_YELLOW_TYPE || p->bird_type==BIRD_WHITE_TYPE) && !p->bird_collided;
+    return (p->bird_type==BIRD_BLUE_TYPE || p->bird_type==BIRD_YELLOW_TYPE || p->bird_type==BIRD_WHITE_TYPE || p->bird_type==BIRD_GREEN_TYPE) && !p->bird_collided;
 }
 int game_special(Game *g){
     if(!game_special_available(g))return 0;
@@ -258,6 +273,12 @@ int game_special(Game *g){
         p->egg=p->make_bird(p->bird->GetPosition()+b2Vec2(0,1.3f+WHITE_EGG_RADIUS+0.1f),b2Vec2(0,WHITE_DROP_SPEED),BIRD_EGG_TYPE);
         p->bird->SetLinearVelocity(b2Vec2(velocity.x*WHITE_RECOIL_X_FACTOR,-WHITE_RECOIL_SPEED));
         p->special_used=true;p->egg_collided=false;g->cooldown=0;return 1;
+    }
+    if(p->bird_type==BIRD_GREEN_TYPE){
+        float mass=p->bird->GetMass(),coeff=velocity.x!=0?2.0f-fminf(fabsf(velocity.y/velocity.x),2.0f):0.0f;
+        p->boomerang_x_force=velocity.x*GREEN_PHYSICS_SCALE*mass*GREEN_HORIZONTAL_FORCE;
+        p->boomerang_y_force=coeff*GREEN_PHYSICS_SCALE*mass*GREEN_VERTICAL_FORCE;
+        p->boomerang_active=true;p->special_used=true;g->cooldown=0;return 1;
     }
     float speed=velocity.Length();if(speed<1)return 0;
     if(p->bird_type==BIRD_YELLOW_TYPE){
@@ -323,6 +344,18 @@ void game_preview(const Game *g,float t,float *x,float *y) {
 }
 static void tick(Game *g) {
     Physics *p=static_cast<Physics*>(g->physics); const float dt=1.0f/120;
+    if(p->bird_type==BIRD_GREEN_TYPE && p->bird){
+        if(p->bird_collided)p->boomerang_active=false;
+        b2Vec2 v=p->bird->GetLinearVelocity();float mass=p->bird->GetMass();
+        if(p->boomerang_active){
+            if(v.x>=-GREEN_MAX_HORIZONTAL_SPEED && v.x<=GREEN_MAX_HORIZONTAL_SPEED)p->bird->ApplyForceToCenter(b2Vec2(p->boomerang_x_force,0),true);
+            if(v.y>5)p->bird->ApplyForceToCenter(b2Vec2(0,p->boomerang_y_force),true);
+            p->boomerang_spin=fminf(p->boomerang_spin+dt*20,20);p->bird->SetAngularVelocity(p->boomerang_spin);
+        }else if(!p->special_used && !p->bird_collided && p->has_launched){
+            p->bird->ApplyForceToCenter(b2Vec2(0,GREEN_FLY_VERTICAL_ACCELERATION*mass),true);
+            p->boomerang_spin=fminf(p->boomerang_spin+dt*15,6.28f);p->bird->SetAngularVelocity(p->boomerang_spin);
+        }
+    }
     p->age+=dt;p->damage_contact_count=0;p->world.Step(dt,8,3);p->break_joints(1.0f/dt);
     if(p->bird_type==BIRD_BLACK_TYPE && p->bird && !p->detonated){
         if(p->bird_collided){if(p->bomb_fuse<0)p->bomb_fuse=0;p->bomb_fuse+=dt;}
@@ -338,13 +371,14 @@ static void tick(Game *g) {
         if(o.kind!=3 && p->impact[i]>3) p->health[i]-=(p->impact[i]-3)*12/fmaxf(o.defence,1);
         p->impact[i]=0;
         if(p->chain_delay[i]>0){p->chain_delay[i]-=dt;if(p->chain_delay[i]>0)continue;}
+        if(o.kind==OBJECT_KIND_FRAGILE && p->fragile_hit[i])p->health[i]=0;
         if(o.kind!=3 && (p->health[i]<=0 || body->GetPosition().y>p->level->ground_y+25)) {
             b2Vec2 where=body->GetPosition();bool exploded=o.kind==OBJECT_KIND_TNT && p->health[i]<=0;
             p->world.DestroyBody(body);p->bodies[i]=NULL;
             /* A destroyed TNT crate blasts its surroundings; crates caught in the blast
                go off in the following ticks, giving chain reactions. */
             if(exploded)radial_blast(g,where,TNT_BLAST_RADIUS,TNT_BLAST_FORCE,TNT_DAMAGE_RADIUS,TNT_BLAST_DAMAGE);
-            if(o.kind==4){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else {g->block_alive--;g->score+=500;g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
+            if(o.kind==4){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else {g->block_alive--;g->score+=o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:500;g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
         }
     }
     if(g->pig_alive==0) {

@@ -79,6 +79,8 @@ test: joint-test triangle-test tnt-test white-test black-test audio-test save-te
 	./build/blue_test
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc tests/yellow_test.cpp build/host/game.o $(HOST_BOX2D_OBJS) -lm -o build/yellow_test
 	./build/yellow_test
+	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc tests/green_test.cpp build/host/game.o $(HOST_BOX2D_OBJS) -lm -o build/green_test
+	./build/green_test
 	python3 tests/sprite_test.py
 	python3 tests/profile_test.py
 

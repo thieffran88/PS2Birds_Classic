@@ -115,6 +115,21 @@ static const Stage stages[]={
  {"LevelP2_67",126,3,94,5,{{55,86,-1.0f}},1}, /* MIGHTY HOAX 5-19 */
  {"LevelP2_97",89,8,61,4,{{20,90,0.4f}},1}, /* MIGHTY HOAX 5-20 */
  {"LevelP2_90",122,15,87,5,{{5,82,1.0f}},1}, /* MIGHTY HOAX 5-21 */
+ {"LevelP3_212",56,7,36,4,{{-10,74,0.4f}},1}, /* DANGER ABOVE 6-1 */
+ {"LevelP3_134",53,4,35,4,{{10,90,-1.0f}},1}, /* DANGER ABOVE 6-2 */
+ {"LevelP3_162",49,5,35,4,{{-10,58,0.4f}},1}, /* DANGER ABOVE 6-3 */
+ {"LevelP3_271",60,4,56,4,{{-5,78,-1.0f}},1}, /* DANGER ABOVE 6-4 */
+ {"LevelP3_224",56,5,25,3,{{75,100,-1.0f},{30,100,2.6f}},2}, /* DANGER ABOVE 6-5 */
+ {"LevelP3_253",72,4,45,3,{{5,90,-1.0f}},1}, /* DANGER ABOVE 6-6 */
+ {"LevelP3_225",73,7,60,4,{{-10,30,-1.0f}},1}, /* DANGER ABOVE 6-7 */
+ {"LevelP3_232",125,8,95,4,{{40,75,2.6f},{35,100,-1.0f}},2}, /* DANGER ABOVE 6-8 */
+ {"LevelP3_150",59,8,41,3,{{25,98,-1.0f}},1}, /* DANGER ABOVE 6-9 */
+ {"LevelP3_211",119,3,93,6,{{60,60,1.4f},{20,100,2.0f},{30,100,2.0f},{25,95,1.8f}},4}, /* DANGER ABOVE 6-10 */
+ {"LevelP3_223",72,7,42,3,{{10,90,-1.0f}},1}, /* DANGER ABOVE 6-11 */
+ {"LevelP3_226",74,12,59,5,{{-10,98,-1.0f}},1}, /* DANGER ABOVE 6-12 */
+ {"LevelP3_215",101,6,54,5,{{25,86,0.4f}},1}, /* DANGER ABOVE 6-13 */
+ {"LevelP3_220",115,7,61,5,{{0,94,-1.0f}},1}, /* DANGER ABOVE 6-14 */
+ {"LevelP3_231",169,14,52,5,{{20,95,2.3f},{60,75,2.3f},{55,85,1.4f},{20,80,1.4f}},4}, /* DANGER ABOVE 6-15 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -135,7 +150,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==105 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==120 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));

@@ -420,6 +420,66 @@
     "LevelP2_90": {
       "silver": 160000,
       "gold": 175000
+    },
+    "LevelP3_212": {
+      "silver": 50000,
+      "gold": 58000
+    },
+    "LevelP3_134": {
+      "silver": 62000,
+      "gold": 72000
+    },
+    "LevelP3_162": {
+      "silver": 53000,
+      "gold": 63000
+    },
+    "LevelP3_271": {
+      "silver": 70000,
+      "gold": 80000
+    },
+    "LevelP3_224": {
+      "silver": 58000,
+      "gold": 65000
+    },
+    "LevelP3_253": {
+      "silver": 68000,
+      "gold": 78000
+    },
+    "LevelP3_225": {
+      "silver": 105000,
+      "gold": 115000
+    },
+    "LevelP3_232": {
+      "silver": 80000,
+      "gold": 88000
+    },
+    "LevelP3_150": {
+      "silver": 94000,
+      "gold": 100000
+    },
+    "LevelP3_211": {
+      "silver": 75000,
+      "gold": 85000
+    },
+    "LevelP3_223": {
+      "silver": 90000,
+      "gold": 100000
+    },
+    "LevelP3_226": {
+      "silver": 90000,
+      "gold": 100000
+    },
+    "LevelP3_215": {
+      "silver": 70000,
+      "gold": 80000
+    },
+    "LevelP3_220": {
+      "silver": 82000,
+      "gold": 92000
+    },
+    "LevelP3_231": {
+      "silver": 110000,
+      "gold": 120000
     }
   }
 }

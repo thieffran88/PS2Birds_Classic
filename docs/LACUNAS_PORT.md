@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.21.0)
+# Lacunas do port (levantamento atualizado na 0.22.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -6,7 +6,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 - Poached Eggs: 63/63 (o port inclui as 3 páginas, 63 fases)
 - Mighty Hoax: 42/42 depois da 0.21.0 (o port inclui as páginas 4 e 5, 42 fases; as duas fases restantes eram as que usavam LightBlock8, maçã e bandeira)
-- Danger Above: 19/45
+- Danger Above: o port inclui a página 6 (15 fases) desde a 0.22.0; as 30 fases restantes (mundos 7 e 8) ainda pedem peças e pássaros novos
 - Mighty Feathers: 15/46; Ham 'Em High: 8/48; Golden Eggs: 4/31
 - Surf and Turf 2/45, Bad Piggies 3/45, Flock Favorites 3/30
 - Zero: Tutorial, Big Setup, Mine and Dine, Short Fuse, Bird Island, Piggy Farm, Dino, Birdday 2–7
@@ -27,6 +27,13 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - 5-16 e 3-20 são as únicas fases sem roteiro, e as duas só têm pássaros pretos/explosivos. A cena da 5-16 assenta sem perder nenhum porco (deslocamento máximo de 2 unidades), então a importação está correta; o que falta é a fórmula nativa da explosão do pássaro preto (raio, queda com a distância e impulso), que não está nos scripts Lua.
 - A página 5 precisou de um terceiro banco de texturas. Para caber, as peças numeradas desse banco usam dois quadros de dano (intacto e muito danificado) em vez de quatro.
 
+## Achados da 0.22.0
+
+- O pássaro verde (BoomerangBird) não depende de código nativo: o algoritmo inteiro está em `gamelogic.lua` (ativação e atualização por quadro) e os parâmetros em `blocks.lua`. Ele foi portado com esses valores (trechos em `ps2/data/boomerang_logic_excerpt.lua` e `ps2/data/page6_definitions_excerpt.lua`).
+- O grupo `staticFragile` (material `clouds`, resistência 0,1) descreve peças estáticas que somem no primeiro impacto: balões. O trampolim usa o material `immovableRubber` com restituição própria de 1,1.
+- Fases da página 6 com até 169 objetos: o limite do port subiu de 160 para 192.
+- O extrator de sprites só verificava o TNT do último objeto de cada fase (erro de indentação), corrigido.
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -35,7 +42,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Pássaros verde, Terence e Stella, mais blocos estáticos frágeis: liberam Danger Above e Ham 'Em High.
+1. Terence (RedBigBird) e Stella (PinkBird), mais StaticFragileBlock06 e as demais peças de Danger Above 7–8 e Ham 'Em High. O pássaro verde e os balões já foram feitos na 0.22.0.
 2. `velocityMultiplier` por material (dado já recuperado).
 3. Juntas prismáticas e cordas.
 4. Pan de câmera e música.

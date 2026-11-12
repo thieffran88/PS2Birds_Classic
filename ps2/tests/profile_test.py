@@ -179,7 +179,7 @@ for path in sorted(glob.glob(str(root/'ps2/data/level_*_*.json'))):
             factor=1.0 if o['density']==0 else 0.92
             assert abs(o['width']-metrics[spec['sprite']]['width']/20*factor)<1e-9
         m=adapter['materials']['by_kind'][str(o['kind'])]
-        assert o['restitution']==m['restitution'] and o['friction']==adapter['materials']['friction_overrides'].get(o['definition'],m['friction'])
+        assert o['restitution']==adapter['materials'].get('restitution_overrides',{}).get(o['definition'],m['restitution']) and o['friction']==adapter['materials']['friction_overrides'].get(o['definition'],m['friction'])
 assert adapter['materials']['by_kind']['1']['friction']==4.0 and adapter['materials']['by_kind']['5']['restitution']==0.1
 print('Sizes and materials OK: 0.92 size factor on dynamic shapes, full size on static ones, friction/restitution from the materials table.')
 
@@ -196,3 +196,29 @@ for name,shape,sprite,material in [('LightBlock8','circle','BLOCK_LIGHT_1_8','li
 for number in range(1,22):
     d=json.loads((root/f'ps2/data/level_5_{number}.json').read_text());assert d['stage_script']==mh2[number-1] and d['texture_bank']==2 and d['title']==f'MIGHTY HOAX 5-{number}'
 print('Mighty Hoax page 5 OK: 21 stages match the recovered episodes.lua excerpt; LightBlock8, ExtraBlockFlag01 and ExtraApple checked against blocks.lua; texture bank 2.')
+
+# Danger Above page 6: order, bank and the recovered definitions of the new pieces and bird.
+da=re.findall(r'^L\d+_1.name = "(LevelP3_\d+)"$',(root/'ps2/data/episode_danger_above_page1.decompiled.lua').read_text(),re.M)
+page6=episode['additional_pages'][4]
+assert len(da)==15 and page6['levels']==da and page6['bank']==3 and page6['number']==6
+defs=(root/'ps2/data/page6_definitions_excerpt.lua').read_text()
+def block6(name):return defs.split(f'L3_1 = "{name}"',1)[1].split('L3_1 = "',1)[0]
+objs=json.loads((root/'profiles/classic_level.json').read_text())
+for name,sprite in [('StaticBalloon02','BLOCK_PIG_BALLOON_2'),('StaticBalloon03','BLOCK_BALLOON_1'),('StaticBalloon04','BLOCK_BALLOON_2'),('StaticBalloon05','BLOCK_BALLOON_3')]:
+    b=block6(name);assert f'"{sprite}"' in b and '"clouds"' in b and '"staticFragile"' in b and 'destroyedScoreInc' in b
+    assert objs['objects'][name]=={'sprite':sprite,'kind':8,'shape':'box'}
+t=block6('ExtraTrampoline2');assert '"BLOCK_TRAMPOLINE_01"' in t and '"immovableRubber"' in t and 'L5_1 = 1.1' in t
+assert objs['objects']['ExtraTrampoline2']['kind']==3 and objs['materials']['restitution_overrides']['ExtraTrampoline2']==1.1
+e=block6('ExtraBoomerangBird');assert 'L5_1 = 1.1\nL4_1.radius' in e and 'L5_1 = 0.3\nL4_1.friction' in e and 'L5_1 = 0.25\nL4_1.restitution' in e
+assert objs['objects']['ExtraBoomerangBird']['diameter']==2.2 and objs['materials']['friction_overrides']['ExtraBoomerangBird']==0.3 and objs['materials']['restitution_overrides']['ExtraBoomerangBird']==0.25
+g=block6('BoomerangBird')
+for field,value in [('radius','1.5'),('density','3'),('restitution','0.23')]:assert f'L5_1 = {value}\nL4_1.{field} = L5_1' in g,field
+for field,value in [('boomerangHorizontalForce','-50'),('boomerangVerticalForce','-350'),('boomerangMaxHorizontalSpeed','50'),('flyVerticalAcceleration','-2.8')]:assert f'L5_1 = "{field}"\nL6_1 = {value}' in g,field
+assert objs['bird_types']['BoomerangBird']==6
+h=(root/'ps2/src/game.h').read_text()
+for macro,value in [('GREEN_RADIUS','1.5f'),('GREEN_DENSITY','3.0f'),('GREEN_RESTITUTION','0.23f'),('GREEN_FLY_VERTICAL_ACCELERATION','-2.8f'),('GREEN_HORIZONTAL_FORCE','-50.0f'),('GREEN_VERTICAL_FORCE','-350.0f'),('GREEN_MAX_HORIZONTAL_SPEED','50.0f'),('FRAGILE_DESTROYED_SCORE','100')]:assert f'#define {macro} {value}' in h,macro
+logic=(root/'ps2/data/boomerang_logic_excerpt.lua').read_text()
+assert 'boomerangHorizontalForce' in logic and 'boomerangMaxHorizontalSpeed' in logic and 'flyVerticalAcceleration' in logic and 'if 5 < L7_2 then' in logic
+for number in range(1,16):
+    d=json.loads((root/f'ps2/data/level_6_{number}.json').read_text());assert d['stage_script']==da[number-1] and d['texture_bank']==3 and d['title']==f'DANGER ABOVE 6-{number}'
+print('Danger Above page 6 OK: 15 stages match episodes.lua; boomerang bird body/specialty, balloons, trampoline and boomerang ornament checked against blocks.lua and gamelogic.lua; texture bank 3.')

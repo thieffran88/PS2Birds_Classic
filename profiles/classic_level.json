@@ -6,7 +6,8 @@
     "SmallBlueBird",
     "YellowBird",
     "BlackBird",
-    "BasicBird2"
+    "BasicBird2",
+    "BoomerangBird"
   ],
   "objects": {
     "WoodBlock2": {
@@ -353,6 +354,36 @@
       "sprite": "BLOCK_EXTRA_FLAG_02",
       "kind": 6,
       "shape": "box"
+    },
+    "ExtraBoomerangBird": {
+      "kind": 6,
+      "shape": "circle",
+      "diameter": 2.2
+    },
+    "StaticBalloon03": {
+      "sprite": "BLOCK_BALLOON_1",
+      "kind": 8,
+      "shape": "box"
+    },
+    "StaticBalloon04": {
+      "sprite": "BLOCK_BALLOON_2",
+      "kind": 8,
+      "shape": "box"
+    },
+    "StaticBalloon05": {
+      "sprite": "BLOCK_BALLOON_3",
+      "kind": 8,
+      "shape": "box"
+    },
+    "StaticBalloon02": {
+      "sprite": "BLOCK_PIG_BALLOON_2",
+      "kind": 8,
+      "shape": "box"
+    },
+    "ExtraTrampoline2": {
+      "sprite": "BLOCK_TRAMPOLINE_01",
+      "kind": 3,
+      "shape": "box"
     }
   },
   "metrics": "ps2/data/sprite_metrics.json",
@@ -366,7 +397,8 @@
     "SmallBlueBird": 1,
     "YellowBird": 2,
     "BlackBird": 3,
-    "BasicBird2": 4
+    "BasicBird2": 4,
+    "BoomerangBird": 6
   },
   "materials": {
     "source": "materials table in blocks.lua",
@@ -405,6 +437,11 @@
         "name": "extras",
         "friction": 0.7,
         "restitution": 0.4
+      },
+      "8": {
+        "name": "clouds",
+        "friction": 0.8,
+        "restitution": 0.0
       }
     },
     "friction_overrides": {
@@ -412,7 +449,12 @@
       "LargePiglette": 0.3,
       "HelmetPiglette": 0.3,
       "GrandpaPiglette": 0.3,
-      "KingPiglette": 0.3
+      "KingPiglette": 0.3,
+      "ExtraBoomerangBird": 0.3
+    },
+    "restitution_overrides": {
+      "ExtraBoomerangBird": 0.25,
+      "ExtraTrampoline2": 1.1
     }
   }
 }

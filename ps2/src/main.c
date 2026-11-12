@@ -70,7 +70,7 @@ static unsigned int visual_frame;
 static float render_scale,render_pixels,render_ground,render_sling_x,render_sling_y;
 static void bird(float x,float y,float radius,int type,float angle,int collided,float fuse,int special_used)
 {
-    int id=type==BIRD_EGG_TYPE?SPR_DROPPABLE_EGG:type==BIRD_WHITE_TYPE?((collided || special_used)?SPR_BIRD_GREEN_COLLISION:fuse==-2?SPR_BIRD_GREEN:SPR_BIRD_GREEN_FLYING):type==BIRD_BLACK_TYPE?(fuse>=0?(fuse<0.33f?SPR_BIRD_GREY_1:fuse<0.66f?SPR_BIRD_GREY_2:SPR_BIRD_GREY_3):fuse==-2?SPR_BIRD_GREY:SPR_BIRD_GREY_FLYING):type==BIRD_BLUE_TYPE?(collided?SPR_BIRD_BLUE_COLLISION:SPR_BIRD_BLUE):type==BIRD_YELLOW_TYPE?(collided?SPR_BIRD_YELLOW_COLLISION:SPR_BIRD_YELLOW):SPR_BIRD_RED;
+    int id=type==BIRD_EGG_TYPE?SPR_DROPPABLE_EGG:type==BIRD_WHITE_TYPE?((collided || special_used)?SPR_BIRD_GREEN_COLLISION:fuse==-2?SPR_BIRD_GREEN:SPR_BIRD_GREEN_FLYING):type==BIRD_BLACK_TYPE?(fuse>=0?(fuse<0.33f?SPR_BIRD_GREY_1:fuse<0.66f?SPR_BIRD_GREY_2:SPR_BIRD_GREY_3):fuse==-2?SPR_BIRD_GREY:SPR_BIRD_GREY_FLYING):type==BIRD_GREEN_TYPE?(collided?SPR_BIRD_BOOMERANG_COLLISION:special_used?SPR_BIRD_BOOMERANG_SPECIAL:SPR_BIRD_BOOMERANG):type==BIRD_BLUE_TYPE?(collided?SPR_BIRD_BLUE_COLLISION:SPR_BIRD_BLUE):type==BIRD_YELLOW_TYPE?(collided?SPR_BIRD_YELLOW_COLLISION:SPR_BIRD_YELLOW):SPR_BIRD_RED;
     sprite_draw(gs,id,x,y,(render_scale/render_pixels)*(radius/6.0f),angle);
 }
 static void pig(const GameObject *o)
@@ -134,15 +134,19 @@ static const BlockSprites block_sprites[]={
 static void block(const GameObject *o)
 {
     if(o->kind==3){
-        int id=!strcmp(o->definition,"StaticBlock_01")?SPR_GROUND_BLOCK_01:!strcmp(o->definition,"StaticBlock_02")?SPR_GROUND_BLOCK_02:!strcmp(o->definition,"StaticBlock_03")?SPR_GROUND_BLOCK_03:!strcmp(o->definition,"StaticBlock_04")?SPR_GROUND_BLOCK_04:!strcmp(o->definition,"StaticBlock_05")?SPR_GROUND_BLOCK_05:!strcmp(o->definition,"Estrade01")?SPR_ESTRADE_01:!strcmp(o->definition,"Estrade03")?SPR_ESTRADE_03:SPR_ESTRADE_02;
-        int estrade=id==SPR_ESTRADE_01 || id==SPR_ESTRADE_02 || id==SPR_ESTRADE_03;
+        int id=!strcmp(o->definition,"StaticBlock_01")?SPR_GROUND_BLOCK_01:!strcmp(o->definition,"StaticBlock_02")?SPR_GROUND_BLOCK_02:!strcmp(o->definition,"StaticBlock_03")?SPR_GROUND_BLOCK_03:!strcmp(o->definition,"StaticBlock_04")?SPR_GROUND_BLOCK_04:!strcmp(o->definition,"StaticBlock_05")?SPR_GROUND_BLOCK_05:!strcmp(o->definition,"Estrade01")?SPR_ESTRADE_01:!strcmp(o->definition,"Estrade03")?SPR_ESTRADE_03:!strcmp(o->definition,"ExtraTrampoline2")?SPR_BLOCK_TRAMPOLINE_01:SPR_ESTRADE_02;
+        int estrade=id==SPR_ESTRADE_01 || id==SPR_ESTRADE_02 || id==SPR_ESTRADE_03 || id==SPR_BLOCK_TRAMPOLINE_01;
         unsigned int tint=estrade?0x80808080:0x80284466;
         /* Ground masks are stored at 1/SPRITE_MASK_SCALE resolution. */
         sprite_draw_tint(gs,id,o->x,o->y,(render_scale/render_pixels)*(estrade?1:SPRITE_MASK_SCALE),o->angle,tint);return;
     }
+    if(o->kind==OBJECT_KIND_FRAGILE){
+        int id=!strcmp(o->definition,"StaticBalloon02")?SPR_BLOCK_PIG_BALLOON_2:!strcmp(o->definition,"StaticBalloon04")?SPR_BLOCK_BALLOON_2:!strcmp(o->definition,"StaticBalloon05")?SPR_BLOCK_BALLOON_3:SPR_BLOCK_BALLOON_1;
+        sprite_draw(gs,id,o->x,o->y,render_scale/render_pixels,o->angle);return;
+    }
     if(o->kind==OBJECT_KIND_TNT){sprite_draw(gs,SPR_BLOCK_EXTRA_TNT,o->x,o->y,render_scale/render_pixels,o->angle);return;}
     if(o->kind==6){
-        int id=!strcmp(o->definition,"ExtraHam")?SPR_BLOCK_HAM:!strcmp(o->definition,"ExtraGoldenEgg")?SPR_BLOCK_GOLDEN_EGG:!strcmp(o->definition,"ExtraBlockFlag02")?SPR_BLOCK_EXTRA_FLAG_02:!strcmp(o->definition,"ExtraBlockFlag01")?SPR_BLOCK_EXTRA_FLAG_01:!strcmp(o->definition,"ExtraBlockStairs")?SPR_ESTRADE_STAIRS:!strcmp(o->definition,"ExtraTire02")?SPR_BLOCK_TIRE_02:!strcmp(o->definition,"ExtraBlockDice")?SPR_BLOCK_EXTRA_DICE_6:!strcmp(o->definition,"ExtraStolenEgg")?SPR_BLOCK_STOLEN_EGG:!strcmp(o->definition,"ExtraDonut01")?SPR_BLOCK_DONUT:!strcmp(o->definition,"ExtraDiamond")?SPR_BLOCK_DIAMOND:!strcmp(o->definition,"ExtraHolyGrail")?SPR_BLOCK_HOLYGRAIL:!strcmp(o->definition,"ExtraPillar")?SPR_BLOCK_PILLAR:!strcmp(o->definition,"ExtraBanana")?SPR_BLOCK_BANANA:!strcmp(o->definition,"ExtraMelon")?SPR_BLOCK_WATERMELON:!strcmp(o->definition,"ExtraTire01")?SPR_BLOCK_TIRE_01:!strcmp(o->definition,"ExtraTire03")?SPR_BLOCK_TIRE_03:!strcmp(o->definition,"ExtraStrawberry")?SPR_BLOCK_STRAWBERRY:!strcmp(o->definition,"ExtraApple")?SPR_BLOCK_APPLE:!strcmp(o->definition,"ExtraBeachBall")?SPR_BLOCK_BEACHBALL:!strcmp(o->definition,"ExtraRubberDuck")?SPR_BLOCK_RUBBERDUCK:!strcmp(o->definition,"ExtraBlockSmiley")?(o->health<0.5f?SPR_BLOCK_SMILEY_3:SPR_BLOCK_SMILEY_1):SPR_BLOCK_TREASURE_CHEST;
+        int id=!strcmp(o->definition,"ExtraHam")?SPR_BLOCK_HAM:!strcmp(o->definition,"ExtraGoldenEgg")?SPR_BLOCK_GOLDEN_EGG:!strcmp(o->definition,"ExtraBlockFlag02")?SPR_BLOCK_EXTRA_FLAG_02:!strcmp(o->definition,"ExtraBlockFlag01")?SPR_BLOCK_EXTRA_FLAG_01:!strcmp(o->definition,"ExtraBlockStairs")?SPR_ESTRADE_STAIRS:!strcmp(o->definition,"ExtraTire02")?SPR_BLOCK_TIRE_02:!strcmp(o->definition,"ExtraBlockDice")?SPR_BLOCK_EXTRA_DICE_6:!strcmp(o->definition,"ExtraStolenEgg")?SPR_BLOCK_STOLEN_EGG:!strcmp(o->definition,"ExtraDonut01")?SPR_BLOCK_DONUT:!strcmp(o->definition,"ExtraDiamond")?SPR_BLOCK_DIAMOND:!strcmp(o->definition,"ExtraHolyGrail")?SPR_BLOCK_HOLYGRAIL:!strcmp(o->definition,"ExtraPillar")?SPR_BLOCK_PILLAR:!strcmp(o->definition,"ExtraBanana")?SPR_BLOCK_BANANA:!strcmp(o->definition,"ExtraMelon")?SPR_BLOCK_WATERMELON:!strcmp(o->definition,"ExtraTire01")?SPR_BLOCK_TIRE_01:!strcmp(o->definition,"ExtraTire03")?SPR_BLOCK_TIRE_03:!strcmp(o->definition,"ExtraStrawberry")?SPR_BLOCK_STRAWBERRY:!strcmp(o->definition,"ExtraApple")?SPR_BLOCK_APPLE:!strcmp(o->definition,"ExtraBoomerangBird")?SPR_BIRD_BOOMERANG:!strcmp(o->definition,"ExtraBeachBall")?SPR_BLOCK_BEACHBALL:!strcmp(o->definition,"ExtraRubberDuck")?SPR_BLOCK_RUBBERDUCK:!strcmp(o->definition,"ExtraBlockSmiley")?(o->health<0.5f?SPR_BLOCK_SMILEY_3:SPR_BLOCK_SMILEY_1):SPR_BLOCK_TREASURE_CHEST;
         sprite_draw(gs,id,o->x,o->y,render_scale/render_pixels,o->angle);return;
     }
     int stage=o->health>0.75f?0:o->health>0.5f?1:o->health>0.25f?2:3;
@@ -163,7 +167,7 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     gsKit_clear(gs,color(120,194,205));
     rect(0,0,640,109,dark);
     text(30,22,3,cream,"PS2BIRDS CLASSIC");
-    text(31,55,1,color(135,192,181),"PROTOTIPO 0.21.0 / PLAYSTATION 2");
+    text(31,55,1,color(135,192,181),"PROTOTIPO 0.22.0 / PLAYSTATION 2");
     text(430,55,1,color(135,192,181),audio_status());
     text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
     text(31,80,2,gold,game_level_title(g->level));
@@ -285,7 +289,7 @@ int main(void)
     gsKit_set_primalpha(gs,ALPHA_BLEND_NORMAL,0);
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.21.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.22.0: GS ready, pad open=%d\n",pad_open);
     Game g; game_init(&g); save_mc_init(&g); audio_init();
     u32 old_buttons=0;
     int paused=0, previously_connected=0, analog_requested=0,menu=1,selected=0;
@@ -344,7 +348,7 @@ int main(void)
             if(g.state==AIMING && (horizontal!=0 || vertical!=0))audio_play(SFX_STRETCH);
             game_aim(&g,vertical*29.97f*precision*frame_seconds,horizontal*89.91f*precision*frame_seconds);
             if (pressed & PAD_CROSS) {
-                if(g.state==AIMING){int type=game_queue_type(&g,0);game_launch(&g);audio_play(type==BIRD_WHITE_TYPE?SFX_LAUNCH_WHITE:type==BIRD_BLACK_TYPE?SFX_LAUNCH_BLACK:type==BIRD_BLUE_TYPE?SFX_LAUNCH_BLUE:type==BIRD_YELLOW_TYPE?SFX_LAUNCH_YELLOW:SFX_LAUNCH_RED);}
+                if(g.state==AIMING){int type=game_queue_type(&g,0);game_launch(&g);audio_play(type==BIRD_WHITE_TYPE?SFX_LAUNCH_WHITE:type==BIRD_GREEN_TYPE?SFX_LAUNCH_RED:type==BIRD_BLACK_TYPE?SFX_LAUNCH_BLACK:type==BIRD_BLUE_TYPE?SFX_LAUNCH_BLUE:type==BIRD_YELLOW_TYPE?SFX_LAUNCH_YELLOW:SFX_LAUNCH_RED);}
                 else if(game_special(&g)){GameBird active;if(game_get_projectile(&g,0,&active)){if(active.type==BIRD_BLUE_TYPE)audio_play(SFX_SPLIT);else if(active.type==BIRD_YELLOW_TYPE)audio_play(SFX_BOOST);else if(active.type==BIRD_WHITE_TYPE)audio_play(SFX_DROP_EGG);}}
                 printf("PS2Birds: launch state=%d angle=%.1f power=%.1f birds=%d\n",g.state,g.angle,g.power,g.birds);
             }
