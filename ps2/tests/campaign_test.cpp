@@ -72,6 +72,27 @@ static const Stage stages[]={
  {"Level22",91,5,68,3,{{0,0,-1.0f}},0}, /* POACHED EGGS 3-19 (sem roteiro vencedor) */
  {"Level89",107,9,69,5,{{0,0,-1.0f}},0}, /* POACHED EGGS 3-20 (sem roteiro vencedor) */
  {"Level81",135,9,92,7,{{0,0,-1.0f}},0}, /* POACHED EGGS 3-21 (sem roteiro vencedor) */
+ {"LevelP2_103",41,3,35,3,{{15,350,-1.0f}},1}, /* MIGHTY HOAX 4-1 */
+ {"LevelP2_91",79,8,54,3,{{10,290,-1.0f}},1}, /* MIGHTY HOAX 4-2 */
+ {"LevelP2_65",76,3,69,3,{{40,240,0.8f},{20,300,1.2f},{15,400,0.6f}},3}, /* MIGHTY HOAX 4-3 */
+ {"LevelP2_96",79,4,53,4,{{0,0,-1.0f}},0}, /* MIGHTY HOAX 4-4 (sem roteiro vencedor) */
+ {"LevelP2_69",65,10,47,4,{{15,290,-1.0f}},1}, /* MIGHTY HOAX 4-5 */
+ {"LevelP2_88",57,5,48,4,{{15,370,-1.0f}},1}, /* MIGHTY HOAX 4-6 */
+ {"LevelP2_64",90,4,51,5,{{10,220,-1.0f}},1}, /* MIGHTY HOAX 4-7 */
+ {"LevelP2_80",75,3,62,4,{{15,320,-1.0f}},1}, /* MIGHTY HOAX 4-8 */
+ {"LevelP2_108",34,3,30,4,{{10,420,1.0f}},1}, /* MIGHTY HOAX 4-9 */
+ {"LevelP2_85",88,4,46,4,{{40,340,2.0f},{40,320,1.2f},{65,200,0.6f},{40,360,0.6f}},4}, /* MIGHTY HOAX 4-10 */
+ {"LevelP2_82",85,5,52,3,{{10,200,-1.0f}},1}, /* MIGHTY HOAX 4-11 */
+ {"LevelP2_66",68,6,54,4,{{15,420,-1.0f}},1}, /* MIGHTY HOAX 4-12 */
+ {"LevelP2_104",54,4,47,4,{{20,390,-1.0f}},1}, /* MIGHTY HOAX 4-13 */
+ {"LevelP2_210",55,10,43,6,{{15,220,0.6f},{70,260,1.2f},{55,200,1.2f},{30,200,0.8f}},4}, /* MIGHTY HOAX 4-14 */
+ {"LevelP2_83",68,4,52,5,{{30,300,-1.0f}},1}, /* MIGHTY HOAX 4-15 */
+ {"LevelP2_79",52,8,32,4,{{30,290,-1.0f}},1}, /* MIGHTY HOAX 4-16 */
+ {"LevelP2_77",44,1,33,3,{{15,420,-1.0f}},1}, /* MIGHTY HOAX 4-17 */
+ {"LevelP2_114",66,3,53,5,{{35,200,-1.0f}},1}, /* MIGHTY HOAX 4-18 */
+ {"LevelP2_81",60,4,48,3,{{20,410,-1.0f}},1}, /* MIGHTY HOAX 4-19 */
+ {"LevelP2_68",62,10,50,5,{{70,270,-1.0f}},1}, /* MIGHTY HOAX 4-20 */
+ {"LevelP2_95",64,7,34,6,{{15,280,-1.0f}},1}, /* MIGHTY HOAX 4-21 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -92,7 +113,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==63 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==84 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));
@@ -185,7 +206,19 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==4);
+    assert(unverified==5);
+    // Three consecutive losses on a stage unlock the next one (port rule); a win resets the count.
+    {
+        Game h;game_init(&h);assert(h.unlocked==1);
+        for(int loss=1;loss<=GAME_SKIP_AFTER_LOSSES;loss++){
+            game_reset(&h);settle(&h);int birds=h.birds;
+            for(int b=0;b<birds;b++){Shot miss={75,160,-1};fire(&h,&miss);}
+            assert(h.state==LOST && h.losses[0]==loss && h.unlocked==(loss<GAME_SKIP_AFTER_LOSSES?1:2));
+        }
+        assert(game_load_level(&h,1) && h.losses[0]==GAME_SKIP_AFTER_LOSSES && game_load_level(&h,0));
+        settle(&h);play(&h,&stages[0]);assert(h.state==WON && h.losses[0]==0 && h.unlocked==2);
+        game_destroy(&h);
+    }
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");

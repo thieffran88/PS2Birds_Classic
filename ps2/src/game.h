@@ -15,6 +15,9 @@ extern "C" {
 typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE, BIRD_WHITE_TYPE, BIRD_EGG_TYPE } BirdType;
 /* Yellow boost: prototype approximation of the native BOOST specialty. */
 #define YELLOW_BOOST_FACTOR 1.8f
+/* Port rule, not in the original: after this many consecutive losses on a stage the
+   next stage unlocks, so stages the approximate physics cannot win do not block play. */
+#define GAME_SKIP_AFTER_LOSSES 3
 /* White drop/recoil are port approximations; egg blast values are recovered. */
 #define WHITE_EGG_RADIUS 1.125f
 #define WHITE_DROP_SPEED 35.0f
@@ -47,6 +50,8 @@ typedef struct {
     int birds,score,pig_alive,block_alive;
     unsigned int events;
     int level,unlocked,highscores[MAX_CAMPAIGN_LEVELS];
+    /* Consecutive losses per stage in this session; see GAME_SKIP_AFTER_LOSSES. */
+    unsigned char losses[MAX_CAMPAIGN_LEVELS];
     float view_x,view_y,view_scale,pixels,ground_y,gravity,sling_x,sling_y;
     GameState state;
     void *physics;

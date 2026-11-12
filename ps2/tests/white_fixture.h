@@ -16,9 +16,9 @@ static const CampaignObject dynamic_target[]={
  {30,6,0,1,1,2,10000,100,4,1,"SmallPiglette"},
 };
 static const CampaignLevel campaign_levels[]={
- {egg_objects,5,2,{4,4},20,0,0,10,20,100,200,5,"EGG DAMAGE","fixture-egg"},
- {distant_pig,1,2,{4,4},20,-30,0,10,20,100,200,5,"WHITE FLIGHT","fixture-white"},
- {dynamic_target,2,1,{4},20,0,0,100,20,100,200,5,"DYNAMIC IMPACT","fixture-dynamic"},
+ {egg_objects,5,2,{4,4},20,0,0,10,20,100,200,5,"EGG DAMAGE","fixture-egg",0},
+ {distant_pig,1,2,{4,4},20,-30,0,10,20,100,200,5,"WHITE FLIGHT","fixture-white",0},
+ {dynamic_target,2,1,{4},20,0,0,100,20,100,200,5,"DYNAMIC IMPACT","fixture-dynamic",0},
 };
 #define CAMPAIGN_COUNT (sizeof(campaign_levels)/sizeof(campaign_levels[0]))
 #endif

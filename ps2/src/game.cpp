@@ -156,7 +156,8 @@ const char *game_level_script(int index){return index>=0 && index<(int)CAMPAIGN_
 int game_load_level(Game *g,int index) {
     if(index<0 || index>=(int)CAMPAIGN_COUNT || index>=g->unlocked)return 0;
     int unlocked=g->unlocked,best[MAX_CAMPAIGN_LEVELS];memcpy(best,g->highscores,sizeof(best));
-    game_destroy(g);memset(g,0,sizeof(*g));g->level=index;g->unlocked=unlocked;memcpy(g->highscores,best,sizeof(best));
+    unsigned char losses[MAX_CAMPAIGN_LEVELS];memcpy(losses,g->losses,sizeof(losses));
+    game_destroy(g);memset(g,0,sizeof(*g));g->level=index;g->unlocked=unlocked;memcpy(g->highscores,best,sizeof(best));memcpy(g->losses,losses,sizeof(losses));
     const CampaignLevel *l=&campaign_levels[index];g->physics=new Physics(l);
     g->view_x=l->view_x;g->view_y=l->view_y;g->view_scale=l->view_scale;g->pixels=l->pixels;
     g->ground_y=l->view_y+l->ground_y*l->view_scale;g->gravity=l->gravity;
@@ -295,7 +296,7 @@ static void tick(Game *g) {
         }
     }
     if(g->pig_alive==0) {
-        g->score+=g->birds*10000;g->state=WON;
+        g->score+=g->birds*10000;g->state=WON;g->losses[g->level]=0;
         g->highscores[g->level]=g->score>g->highscores[g->level]?g->score:g->highscores[g->level];
         int unlocked=g->level+2;if(unlocked>game_level_count())unlocked=game_level_count();
         if(unlocked>g->unlocked)g->unlocked=unlocked;
@@ -315,7 +316,11 @@ static void tick(Game *g) {
     if(g->cooldown>2.5f || (g->flight_time>10 && !(p->bird_type==BIRD_BLACK_TYPE && p->bird_collided && !p->detonated))) {
         if(p->egg){p->world.DestroyBody(p->egg);p->egg=NULL;p->egg_collided=false;}
         if(g->birds>0){g->state=AIMING;g->x=g->sling_x;g->y=g->sling_y;}
-        else g->state=LOST;
+        else{
+            g->state=LOST;
+            if(g->losses[g->level]<255)g->losses[g->level]++;
+            if(g->losses[g->level]>=GAME_SKIP_AFTER_LOSSES && g->level+2>g->unlocked)g->unlocked=g->level+2>game_level_count()?game_level_count():g->level+2;
+        }
     }
 }
 void game_update(Game *g,float seconds) {

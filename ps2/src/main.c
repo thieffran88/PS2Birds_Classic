@@ -226,7 +226,7 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     if (g->state==WON || g->state==LOST || paused) {
         rect(106,185,428,86,dark);
         text(130,204,2,gold,paused?"PAUSADO":g->state==WON?"FASE CONCLUIDA":"TENTE NOVAMENTE");
-        text(130,241,1,cream,paused?"START PARA CONTINUAR":g->state==WON?(g->level+1<game_level_count()?"X: PROXIMA FASE  TRIANGULO: REINICIAR":"X: SELECAO  TRIANGULO: REINICIAR"):"TRIANGULO PARA REINICIAR");
+        text(130,241,1,cream,paused?"START PARA CONTINUAR":g->state==WON?(g->level+1<game_level_count()?"X: PROXIMA FASE  TRIANGULO: REINICIAR":"X: SELECAO  TRIANGULO: REINICIAR"):(g->losses[g->level]>=GAME_SKIP_AFTER_LOSSES && g->level+1<game_level_count())?"TRIANGULO: REINICIAR  SELECT: PROXIMA LIBERADA":"TRIANGULO PARA REINICIAR");
     }
     if (!connected) text(300,119,1,color(128,48,41),"CONECTE O CONTROLE 1");
     if(menu){

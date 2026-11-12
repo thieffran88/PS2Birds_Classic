@@ -14,8 +14,8 @@ static const CampaignObject fuse_objects[]={
  {50,3,0,1,1,2,10000,100,4,1,"SmallPiglette"},
 };
 static const CampaignLevel campaign_levels[]={
- {blast_objects,7,1,{3},20,0,0,100,20,100,200,5,"BLAST FIXTURE","fixture-blast"},
- {fuse_objects,1,2,{3,3},20,-30,0,5,20,100,200,5,"FUSE FIXTURE","fixture-fuse"},
+ {blast_objects,7,1,{3},20,0,0,100,20,100,200,5,"BLAST FIXTURE","fixture-blast",0},
+ {fuse_objects,1,2,{3,3},20,-30,0,5,20,100,200,5,"FUSE FIXTURE","fixture-fuse",0},
 };
 #define CAMPAIGN_COUNT (sizeof(campaign_levels)/sizeof(campaign_levels[0]))
 #endif
