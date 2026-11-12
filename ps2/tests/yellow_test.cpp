@@ -8,7 +8,7 @@ int main(){
  int level=first_level_with(BIRD_YELLOW_TYPE);assert(level>=0);
  Game g;game_init(&g);g.unlocked=game_level_count();assert(game_load_level(&g,level));
  int birds=g.birds;assert(birds>=1 && game_queue_type(&g,0)==BIRD_YELLOW_TYPE && !game_special_available(&g) && !game_special(&g));
- update(&g,240);g.angle=30;g.power=300;game_launch(&g);assert(g.birds==birds-1 && game_projectile_count(&g)==1 && game_special_available(&g));
+ update(&g,240);g.angle=30;g.power=100;game_launch(&g);assert(g.birds==birds-1 && game_projectile_count(&g)==1 && game_special_available(&g));
  update(&g,30);GameBird before,after;assert(game_get_projectile(&g,0,&before) && before.type==BIRD_YELLOW_TYPE && !before.collided);
  assert(game_special(&g) && !game_special_available(&g) && !game_special(&g) && game_projectile_count(&g)==1 && g.birds==birds-1);
  assert(game_get_projectile(&g,0,&after));
@@ -19,7 +19,7 @@ int main(){
  for(int i=0;i<1320 && g.state==FLYING;i++){update(&g,1);GameBird b;assert(game_get_projectile(&g,0,&b) && std::isfinite(b.x) && std::isfinite(b.y));}
  assert(g.state!=FLYING);
  // The boost is unavailable after the first contact and after the shot ends.
- game_reset(&g);update(&g,240);g.angle=10;g.power=420;game_launch(&g);bool touched=false;
+ game_reset(&g);update(&g,240);g.angle=10;g.power=100;game_launch(&g);bool touched=false;
  for(int i=0;i<1320 && g.state==FLYING;i++){update(&g,1);GameBird b;assert(game_get_projectile(&g,0,&b));if(b.collided){assert(!game_special_available(&g) && !game_special(&g));touched=true;break;}}
  assert(touched);
  // A red bird never boosts; a blue one still splits.

@@ -156,13 +156,12 @@ const char *game_level_script(int index){return index>=0 && index<(int)CAMPAIGN_
 int game_load_level(Game *g,int index) {
     if(index<0 || index>=(int)CAMPAIGN_COUNT || index>=g->unlocked)return 0;
     int unlocked=g->unlocked,best[MAX_CAMPAIGN_LEVELS];memcpy(best,g->highscores,sizeof(best));
-    unsigned char losses[MAX_CAMPAIGN_LEVELS];memcpy(losses,g->losses,sizeof(losses));
-    game_destroy(g);memset(g,0,sizeof(*g));g->level=index;g->unlocked=unlocked;memcpy(g->highscores,best,sizeof(best));memcpy(g->losses,losses,sizeof(losses));
+    game_destroy(g);memset(g,0,sizeof(*g));g->level=index;g->unlocked=unlocked;memcpy(g->highscores,best,sizeof(best));
     const CampaignLevel *l=&campaign_levels[index];g->physics=new Physics(l);
     g->view_x=l->view_x;g->view_y=l->view_y;g->view_scale=l->view_scale;g->pixels=l->pixels;
     g->ground_y=l->view_y+l->ground_y*l->view_scale;g->gravity=l->gravity;
     g->sling_x=l->view_x+l->sling_x*l->view_scale;g->sling_y=l->view_y+l->sling_y*l->view_scale;
-    g->x=g->sling_x;g->y=g->sling_y;g->angle=30;g->power=260;g->birds=l->birds;g->state=AIMING;
+    g->x=g->sling_x;g->y=g->sling_y;g->angle=30;g->power=75;g->birds=l->birds;g->state=AIMING;
     for(int i=0;i<l->count;i++){if(l->objects[i].kind==4)g->pig_alive++;if(l->objects[i].kind!=3 && l->objects[i].kind!=4)g->block_alive++;}
     return 1;
 }
@@ -170,7 +169,8 @@ void game_reset(Game *g){game_load_level(g,g->level);}
 int game_next_level(Game *g){return g->state==WON?game_load_level(g,g->level+1):0;}
 void game_aim(Game *g,float a,float p) {
     if(g->state!=AIMING)return;
-    g->angle=clamp(g->angle+a,10,75);g->power=clamp(g->power+p,160,420);
+    /* Callers pass deltas sized for the earlier 260-wide power scale; keep the same feel. */
+    g->angle=clamp(g->angle+a,ANGLE_MIN,ANGLE_MAX);g->power=clamp(g->power+p*(POWER_MAX-POWER_MIN)/260.0f,POWER_MIN,POWER_MAX);
 }
 void game_launch(Game *g) {
     if(g->state!=AIMING || g->birds<=0)return;
@@ -181,8 +181,9 @@ void game_launch(Game *g) {
     p->spawn_ignore_count=0;
     for(int i=0;i<2;i++){if(p->split[i])p->world.DestroyBody(p->split[i]);p->split[i]=NULL;p->split_collided[i]=false;}
     p->bird_type=game_queue_type(g,0);p->special_used=false;p->bird_collided=false;
+    g->angle=clamp(g->angle,ANGLE_MIN,ANGLE_MAX);g->power=clamp(g->power,POWER_MIN,POWER_MAX);
     float a=g->angle*0.01745329252f;
-    p->bird=p->make_bird(b2Vec2(p->level->sling_x,p->level->sling_y),b2Vec2(cosf(a)*g->power/g->view_scale,-sinf(a)*g->power/g->view_scale),p->bird_type);
+    p->bird=p->make_bird(b2Vec2(p->level->sling_x,p->level->sling_y),b2Vec2(cosf(a)*LAUNCH_SPEED_MAX*g->power/100.0f,-sinf(a)*LAUNCH_SPEED_MAX*g->power/100.0f),p->bird_type);
     p->record_spawn_overlaps();
     p->bomb_requested=p->detonated=false;p->bomb_fuse=-1;
     p->has_launched=true;g->birds--;g->flight_time=g->cooldown=0;g->state=FLYING;
@@ -266,8 +267,9 @@ static void detonate(Game *g){
 void game_preview(const Game *g,float t,float *x,float *y) {
     float a=g->angle*0.01745329252f;
     /* Match Box2D's semi-implicit integration at fixed 120 Hz in free flight. */
-    *x=g->sling_x+cosf(a)*g->power*t;
-    *y=g->sling_y-sinf(a)*g->power*t+0.5f*g->gravity*g->view_scale*t*(t+1.0f/120.0f);
+    float speed=LAUNCH_SPEED_MAX*g->power/100.0f*g->view_scale;
+    *x=g->sling_x+cosf(a)*speed*t;
+    *y=g->sling_y-sinf(a)*speed*t+0.5f*g->gravity*g->view_scale*t*(t+1.0f/120.0f);
 }
 static void tick(Game *g) {
     Physics *p=static_cast<Physics*>(g->physics); const float dt=1.0f/120;
@@ -296,7 +298,7 @@ static void tick(Game *g) {
         }
     }
     if(g->pig_alive==0) {
-        g->score+=g->birds*10000;g->state=WON;g->losses[g->level]=0;
+        g->score+=g->birds*10000;g->state=WON;
         g->highscores[g->level]=g->score>g->highscores[g->level]?g->score:g->highscores[g->level];
         int unlocked=g->level+2;if(unlocked>game_level_count())unlocked=game_level_count();
         if(unlocked>g->unlocked)g->unlocked=unlocked;
@@ -316,11 +318,7 @@ static void tick(Game *g) {
     if(g->cooldown>2.5f || (g->flight_time>10 && !(p->bird_type==BIRD_BLACK_TYPE && p->bird_collided && !p->detonated))) {
         if(p->egg){p->world.DestroyBody(p->egg);p->egg=NULL;p->egg_collided=false;}
         if(g->birds>0){g->state=AIMING;g->x=g->sling_x;g->y=g->sling_y;}
-        else{
-            g->state=LOST;
-            if(g->losses[g->level]<255)g->losses[g->level]++;
-            if(g->losses[g->level]>=GAME_SKIP_AFTER_LOSSES && g->level+2>g->unlocked)g->unlocked=g->level+2>game_level_count()?game_level_count():g->level+2;
-        }
+        else g->state=LOST;
     }
 }
 void game_update(Game *g,float seconds) {

@@ -6,7 +6,7 @@ static void update(Game*g,int n){for(int i=0;i<n;i++)game_update(g,1.f/120);}
 static GameObject object(Game*g,int i){GameObject o;assert(game_get_object(g,i,&o));return o;}
 int main(){
  Game g;game_init(&g);assert(game_queue_type(&g,0)==BIRD_WHITE_TYPE && !game_special(&g));
- g.angle=75;g.power=160;game_launch(&g);GameBird before,white,egg;
+ g.angle=75;g.power=69.2f;game_launch(&g);GameBird before,white,egg;
  assert(game_get_projectile(&g,0,&before) && before.type==BIRD_WHITE_TYPE && !before.special_used);
  assert(game_special_available(&g) && game_special(&g) && !game_special(&g) && g.birds==1);
  assert(game_projectile_count(&g)==2 && game_get_projectile(&g,0,&white) && game_get_projectile(&g,1,&egg));
@@ -34,7 +34,7 @@ int main(){
  g.unlocked=2;assert(game_load_level(&g,1));game_launch(&g);assert(game_special(&g));g.flight_time=11;update(&g,1);
  assert(g.state==AIMING && game_projectile_count(&g)==1 && !game_get_projectile(&g,1,&egg));
  // Ability is unavailable after real contact when no egg was dropped.
- game_reset(&g);g.angle=10;g.power=160;game_launch(&g);bool contact=false;
+ game_reset(&g);g.angle=10;g.power=69.2f;game_launch(&g);bool contact=false;
  for(int t=0;t<1200 && g.state==FLYING;t++){update(&g,1);if(game_get_projectile(&g,0,&white) && white.collided){contact=true;break;}}
  assert(contact && !game_special_available(&g) && !game_special(&g));
  for(int i=0;i<30;i++){assert(game_load_level(&g,1));game_launch(&g);assert(game_special(&g));update(&g,1);game_reset(&g);assert(!game_projectile_count(&g));}

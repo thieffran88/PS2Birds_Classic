@@ -32,7 +32,7 @@ int main(int argc,char **argv){
     const float specials[]={-1,0.6f,0.8f,1.0f,1.2f,1.4f,1.6f,1.8f,2.0f,2.3f,2.6f};
     // Optional refinement window: A0/A1/AS and P0/P1/PS environment variables.
     auto env=[](const char *name,int fallback){const char *v=getenv(name);return v?atoi(v):fallback;};
-    int a0=env("A0",15),a1=env("A1",70),as=env("AS",5),p0=env("P0",200),p1=env("P1",420),ps=env("PS",20);
+    int a0=env("A0",-10),a1=env("A1",80),as=env("AS",5),p0=env("P0",30),p1=env("P1",100),ps=env("PS",5);
     for(float special:specials)for(int a=a0;a<=a1;a+=as)for(int p=p0;p<=p1;p+=ps){
         game_load_level(&g,level);settle(&g);for(const Shot &s:prefix)fire(&g,s);
         if(g.state!=AIMING)continue;

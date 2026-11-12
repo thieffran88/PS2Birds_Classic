@@ -20,7 +20,7 @@ int main(){
  int explosions=1;for(int i=0;i<360;i++){update(&g,1);if(g.events&GAME_EVENT_EXPLOSION)explosions++;}
  assert(explosions==1 && !game_get_blast(&g,&blast) && !game_special(&g));
  // The fuse arms on real contact and detonates once after about one second.
- g.unlocked=2;assert(game_load_level(&g,1));update(&g,240);g.angle=10;g.power=160;game_launch(&g);
+ g.unlocked=2;assert(game_load_level(&g,1));update(&g,240);g.angle=10;g.power=69.2f;game_launch(&g);
  int contact=-1,detonation=-1;
  for(int t=0;t<1320 && g.state==FLYING;t++){
   update(&g,1);GameBird bird;if(game_get_projectile(&g,0,&bird) && bird.collided && contact<0)contact=t;
@@ -30,7 +30,7 @@ int main(){
  update(&g,360);assert(g.state==AIMING && g.birds==1);game_launch(&g);
  GameBird fresh;assert(game_get_projectile(&g,0,&fresh) && fresh.fuse<0 && game_special_available(&g));
  // The player can detonate after contact without waiting for the automatic fuse.
- game_reset(&g);update(&g,240);g.angle=10;g.power=160;game_launch(&g);bool touched=false;
+ game_reset(&g);update(&g,240);g.angle=10;g.power=69.2f;game_launch(&g);bool touched=false;
  for(int i=0;i<1320 && g.state==FLYING;i++){update(&g,1);GameBird bird;if(game_get_projectile(&g,0,&bird) && bird.collided){touched=true;break;}}
  assert(touched && game_special_available(&g) && game_special(&g));update(&g,1);assert(g.events&GAME_EVENT_EXPLOSION);
  for(int i=0;i<20;i++){assert(game_load_level(&g,1));game_launch(&g);assert(game_special(&g));update(&g,1);assert(game_load_level(&g,0) && !game_get_blast(&g,&blast) && !game_projectile_count(&g));}

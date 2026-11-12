@@ -21,7 +21,7 @@ int main(){
  // Low shots reach the triangles and register a collision with them.
  for(int t=0;t<2;t++){
   game_reset(&g);update(&g,240);
-  g.angle=10;g.power=t==0?260:330;game_launch(&g);bool hit=false;
+  g.angle=10;g.power=t==0?80:100;game_launch(&g);bool hit=false;
   for(int i=0;i<1320 && g.state==FLYING;i++){update(&g,1);GameBird b;if(game_get_projectile(&g,0,&b) && b.collided)hit=true;}
   assert(hit);
  }

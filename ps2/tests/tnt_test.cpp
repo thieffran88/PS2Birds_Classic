@@ -11,7 +11,7 @@ int main(){
  // Resting crates never explode by themselves.
  GameBlast blast;update(&g,600);assert(object(&g,0).alive && object(&g,1).alive && g.score==0 && !game_get_blast(&g,&blast));
  // A direct hit destroys the first crate, which blasts and chains into the second one.
- g.angle=10;g.power=175;game_launch(&g);
+ g.angle=10;g.power=75.7f;game_launch(&g);
  int explosions=0,first=-1,second=-1,extra_events=0;float first_x=0;
  for(int t=0;t<1320 && g.state==FLYING;t++){
   int blocks=g.block_alive;update(&g,1);
@@ -39,7 +39,7 @@ int main(){
  g.unlocked=2;assert(game_load_level(&g,1));int fell=0;
  for(int i=0;i<1200;i++){update(&g,1);assert(!(g.events&GAME_EVENT_EXPLOSION));if(!object(&g,0).alive)fell=1;}
  assert(fell && g.block_alive==0 && !game_get_blast(&g,&blast));
- for(int i=0;i<20;i++){assert(game_load_level(&g,0));g.angle=10;g.power=420;game_launch(&g);update(&g,90);assert(game_load_level(&g,1) && !game_get_blast(&g,&blast));}
+ for(int i=0;i<20;i++){assert(game_load_level(&g,0));g.angle=10;g.power=100;game_launch(&g);update(&g,90);assert(game_load_level(&g,1) && !game_get_blast(&g,&blast));}
  game_destroy(&g);assert(!g.physics);
  printf("TNT OK: stable at rest, direct-hit blast, delayed chain reaction after %d ticks, damage/pig kill, radius limit, static immunity, single events, score, reset, silent fall-out, 20 world transitions.\n",second-first);
 }

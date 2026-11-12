@@ -11,14 +11,14 @@ int main() {
     assert(!game_get_object(&g,-1,&pig) && !game_get_object(&g,19,&pig));
     for(int i=0;i<360;i++)game_update(&g,1.0f/120);
     assert(g.state==AIMING && g.pig_alive==1 && g.score==0);
-    game_aim(&g,1000,-1000);assert(g.angle==75 && g.power==160);
-    game_aim(&g,-1000,1000);assert(g.angle==10 && g.power==420);
+    game_aim(&g,1000,-1000);assert(g.angle==ANGLE_MAX && g.power==POWER_MIN);
+    game_aim(&g,-1000,1000);assert(g.angle==ANGLE_MIN && g.power==POWER_MAX);
     game_reset(&g);float x,y;game_preview(&g,0.5f,&x,&y);game_launch(&g);game_launch(&g);
     assert(g.birds==2);
     for(int i=0;i<60;i++)game_update(&g,1.0f/120);
     assert(fabsf(g.x-x)<0.1f && fabsf(g.y-y)<0.1f);
     int wins=0,destruction=0;float winning_angle=0,winning_power=0;
-    for(int angle=10;angle<=70;angle+=3)for(int power=160;power<=420;power+=10) {
+    for(int angle=10;angle<=70;angle+=3)for(int power=20;power<=100;power+=3) {
         game_reset(&g);
         for(int i=0;i<120;i++)game_update(&g,1.0f/120);
         g.angle=(float)angle;g.power=(float)power;game_launch(&g);
@@ -30,7 +30,7 @@ int main() {
     assert(wins>0 && destruction>0);
     game_reset(&g);
     for(int shot=0;shot<3;shot++) {
-        g.angle=75;g.power=160;game_launch(&g);
+        g.angle=85;g.power=20;game_launch(&g);
         for(int i=0;i<1320 && g.state==FLYING;i++)game_update(&g,1.0f/120);
     }
     assert(g.state==LOST && g.birds==0);

@@ -214,10 +214,10 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     sprite_draw(gs,SPR_SLING_SHOT_01_FRONT,render_sling_x,render_sling_y,render_scale/render_pixels,0);
     int waiting=g->birds-(g->state==AIMING?1:0);
     for (int i=0; i<waiting; i++) bird(49+i*24,render_ground-15,7,game_queue_type(g,i+(g->state==AIMING?1:0)),0,0,-2,0);
-    snprintf(line,sizeof(line),"ANGULO %04.1f  FORCA %05.1f",g->angle,g->power);
+    snprintf(line,sizeof(line),"ANGULO %05.1f  FORCA %05.1f",g->angle,g->power);
     text(30,119,1,dark,line);
     rect(30,135,110,4,color(76,137,137));
-    rect(30,135,(g->power-160)*110/260,4,gold);
+    rect(30,135,(g->power-POWER_MIN)*110/(POWER_MAX-POWER_MIN),4,gold);
     rect(20,391,600,51,dark);
     text(30,400,1,cream,"DIRECIONAL/ANALOGICO: MIRA  X: LANCAR");
     text(30,415,1,color(156,195,178),"TRIANGULO: REINICIO  SELECT: FASES  START: PAUSA");
@@ -226,7 +226,7 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     if (g->state==WON || g->state==LOST || paused) {
         rect(106,185,428,86,dark);
         text(130,204,2,gold,paused?"PAUSADO":g->state==WON?"FASE CONCLUIDA":"TENTE NOVAMENTE");
-        text(130,241,1,cream,paused?"START PARA CONTINUAR":g->state==WON?(g->level+1<game_level_count()?"X: PROXIMA FASE  TRIANGULO: REINICIAR":"X: SELECAO  TRIANGULO: REINICIAR"):(g->losses[g->level]>=GAME_SKIP_AFTER_LOSSES && g->level+1<game_level_count())?"TRIANGULO: REINICIAR  SELECT: PROXIMA LIBERADA":"TRIANGULO PARA REINICIAR");
+        text(130,241,1,cream,paused?"START PARA CONTINUAR":g->state==WON?(g->level+1<game_level_count()?"X: PROXIMA FASE  TRIANGULO: REINICIAR":"X: SELECAO  TRIANGULO: REINICIAR"):"TRIANGULO PARA REINICIAR");
     }
     if (!connected) text(300,119,1,color(128,48,41),"CONECTE O CONTROLE 1");
     if(menu){

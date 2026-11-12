@@ -25,7 +25,7 @@ int main(int argc,char **argv){
     const float specials[]={-1,0.3f,0.5f,0.7f,0.9f,1.2f};
     for(int k=0;k<birds;k++){
         Shot best{0,0,-1};double best_value=-1;
-        for(float special:specials)for(int a=10;a<=70;a+=5)for(int p=160;p<=420;p+=10){
+        for(float special:specials)for(int a=-10;a<=80;a+=5)for(int p=30;p<=100;p+=4){
             game_load_level(&g,level);settle(&g);for(const Shot &s:plan)fire(&g,s);
             if(g.state!=AIMING)break;
             Shot cand{(float)a,(float)p,special};fire(&g,cand);double value=evaluate(&g);

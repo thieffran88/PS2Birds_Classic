@@ -128,7 +128,7 @@ int main(){
             /* No winning script was found for this stage under the port's approximate
                physics. Check that it stays unwon after a miss, then unlock the next
                stage directly so the rest of the campaign is still exercised. */
-            Shot miss={10,160,-1};fire(&g,&miss);assert(g.state!=WON && g.pig_alive>0);
+            Shot miss={10,20,-1};fire(&g,&miss);assert(g.state!=WON && g.pig_alive>0);
             unverified++;g.unlocked=level+2>STAGES?STAGES:level+2;
             g.state=WON;continue;
         }
@@ -165,7 +165,7 @@ int main(){
 
     /* A shot that never reaches the scene must not activate resting-pressure damage. */
     for(int level=0;level<21;level+=4){
-        assert(game_load_level(&g,level));int pigs=g.pig_alive,blocks=g.block_alive;settle(&g);Shot miss={10,160,-1};fire(&g,&miss);
+        assert(game_load_level(&g,level));int pigs=g.pig_alive,blocks=g.block_alive;settle(&g);Shot miss={10,20,-1};fire(&g,&miss);
         assert(g.state==AIMING && g.pig_alive==pigs && g.block_alive==blocks && g.score==0);
     }
     assert(game_load_level(&g,4));game_reset(&g);assert(g.level==4 && g.highscores[4]==scores[4] && g.score==0);
@@ -178,7 +178,7 @@ int main(){
         assert(game_load_level(&g,mixed_levels[m]));settle(&g);
         for(int q=0;q<mixed_counts[m];q++){
             int type=mixed_types[m][q];assert(g.state==AIMING && game_queue_type(&g,0)==type);
-            g.angle=75;g.power=160;game_launch(&g);GameBird bird;
+            g.angle=85;g.power=20;game_launch(&g);GameBird bird;
             assert(game_get_projectile(&g,0,&bird) && bird.type==type && bird.fuse<0);
             if(type==BIRD_RED_TYPE)assert(!game_special(&g));
             else {assert(game_special_available(&g) && game_special(&g) && !game_special(&g));}
@@ -195,7 +195,7 @@ int main(){
         int hz=rate==0?120:rate==1?60:30;
         assert(game_load_level(&g,31));
         for(int t=0;t<2*hz;t++)game_update(&g,1.0f/hz);
-        g.angle=10;g.power=180;game_launch(&g);
+        g.angle=10;g.power=25;game_launch(&g);
         for(int t=0;t<hz;t++)game_update(&g,1.0f/hz);
         if(rate==0){reference_x=g.x;reference_y=g.y;for(int i=0;i<game_object_count(&g);i++)assert(game_get_object(&g,i,&reference_objects[i]));}
         else {
@@ -207,18 +207,6 @@ int main(){
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
     assert(unverified==5);
-    // Three consecutive losses on a stage unlock the next one (port rule); a win resets the count.
-    {
-        Game h;game_init(&h);assert(h.unlocked==1);
-        for(int loss=1;loss<=GAME_SKIP_AFTER_LOSSES;loss++){
-            game_reset(&h);settle(&h);int birds=h.birds;
-            for(int b=0;b<birds;b++){Shot miss={75,160,-1};fire(&h,&miss);}
-            assert(h.state==LOST && h.losses[0]==loss && h.unlocked==(loss<GAME_SKIP_AFTER_LOSSES?1:2));
-        }
-        assert(game_load_level(&h,1) && h.losses[0]==GAME_SKIP_AFTER_LOSSES && game_load_level(&h,0));
-        settle(&h);play(&h,&stages[0]);assert(h.state==WON && h.losses[0]==0 && h.unlocked==2);
-        game_destroy(&h);
-    }
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");

@@ -130,4 +130,3 @@ Começa o episódio Mighty Hoax: fases 4-1 a 4-21 (LevelP2_103 a LevelP2_95), na
 - Bancos de textura: as texturas ficam em dois bancos na memória principal (Poached Eggs e Mighty Hoax) e são reenviadas à VRAM quando a fase muda de episódio. A VRAM usada continua 2,75 MiB.
 - No banco de Mighty Hoax, o piscar dos porcos e os estados intermediários de dano das peças grandes reutilizam quadros vizinhos.
 - Save versão 4 (544 bytes, até 128 fases). Saves v3 da 0.16.0 são lidos; vencer a 3-21 libera a 4-1.
-- Regra do port, ausente no original: três derrotas seguidas numa fase liberam a próxima. Ela existe porque 3-2, 3-19, 3-20, 3-21 e 4-4 não têm vitória encontrada com a física aproximada.

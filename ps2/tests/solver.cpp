@@ -24,7 +24,7 @@ int main(int argc,char **argv){
     for(int level=first;level<=last;level++){
         int best=0;float ba=0,bp=0,bs=-1;
         const float specials[]={-1,0.4f,0.7f,1.0f,1.3f};
-        for(int si=0;si<5 && !best;si++)for(int a=10;a<=70 && !best;a+=5)for(int p=160;p<=420 && !best;p+=10){
+        for(int si=0;si<5 && !best;si++)for(int a=-10;a<=80 && !best;a+=5)for(int p=30;p<=100 && !best;p+=4){
             int score=run(&g,level,(float)a,(float)p,specials[si]);
             if(score>0){best=score;ba=a;bp=p;bs=specials[si];}
         }
