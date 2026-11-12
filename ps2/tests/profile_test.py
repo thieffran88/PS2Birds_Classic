@@ -168,3 +168,17 @@ for path in sorted(glob.glob(str(root/'ps2/data/level_*_*.json'))):
     d=json.loads(Path(path).read_text());assert d['ground_y']==d['ground_object_y']-5
     assert abs(d['sling_x']-(d['birds'][0]['x']-0.1))<1e-9
 print('Ground and slingshot OK: floor at Ground.y - 5 and slingshot on the first queued bird in all stages.')
+
+# ObjectCreation.lua: dynamic sprite-sized shapes are 0.92 of the sprite; static ones keep it.
+metrics=json.loads((root/'ps2/data/sprite_metrics.json').read_text())
+for path in sorted(glob.glob(str(root/'ps2/data/level_*_*.json'))):
+    d=json.loads(Path(path).read_text())
+    for o in d['objects']:
+        spec=adapter['objects'][o['definition']]
+        if 'sprite' in spec:
+            factor=1.0 if o['density']==0 else 0.92
+            assert abs(o['width']-metrics[spec['sprite']]['width']/20*factor)<1e-9
+        m=adapter['materials']['by_kind'][str(o['kind'])]
+        assert o['restitution']==m['restitution'] and o['friction']==adapter['materials']['friction_overrides'].get(o['definition'],m['friction'])
+assert adapter['materials']['by_kind']['1']['friction']==4.0 and adapter['materials']['by_kind']['5']['restitution']==0.1
+print('Sizes and materials OK: 0.92 size factor on dynamic shapes, full size on static ones, friction/restitution from the materials table.')
