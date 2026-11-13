@@ -1,8 +1,8 @@
-# PS2Birds Classic — protótipo 0.34.0
+# PS2Birds Classic — protótipo 0.35.0
 
-Port não oficial do Angry Birds Classic para PlayStation 2 (homebrew). São 390 fases dos
-episódios Poached Eggs, Mighty Hoax, Danger Above, Big Setup, Ham 'Em High, Mine and Dine e
-Birdday 2 a 7, com física Box2D, os nove pássaros usados nesses episódios, efeitos sonoros e
+Port não oficial do Angry Birds Classic para PlayStation 2 (homebrew). São 435 fases dos
+episódios Poached Eggs, Mighty Hoax, Danger Above, Big Setup, Ham 'Em High, Mine and Dine,
+Birdday 2 a 7 e Surf and Turf, com física Box2D, os nove pássaros usados nesses episódios, efeitos sonoros e
 recordes no Memory Card. Ainda não é o port completo: veja `docs/LACUNAS_PORT.md`.
 
 **Este repositório não contém nada do jogo original.** Fases, texturas, sons e o ícone do

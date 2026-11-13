@@ -400,6 +400,51 @@ static const Stage stages[]={
  {"Level296_BirdDay7",227,13,98,4,{{50,70,2.6f},{40,100,2.3f}},2}, /* BIRDDAY 7-13 */
  {"Level278_BirdDay7",248,3,77,4,{{0,0,-1.0f}},0}, /* BIRDDAY 7-14 (sem roteiro vencedor) */
  {"Level281_BirdDay7",316,8,144,4,{{30,60,2.3f},{60,80,-1.0f}},2}, /* BIRDDAY 7-15 */
+ {"LevelS001",43,3,33,4,{{40,80,1.6f}},1}, /* SURF AND TURF 1-1 */
+ {"LevelS002",48,2,40,4,{{60,90,2.3f}},1}, /* SURF AND TURF 1-2 */
+ {"LevelS003",84,7,54,4,{{40,60,0.8f},{50,70,1.2f}},2}, /* SURF AND TURF 1-3 */
+ {"LevelS004",106,4,60,4,{{20,90,2.6f}},1}, /* SURF AND TURF 1-4 */
+ {"LevelS005",105,5,85,5,{{30,100,0.8f}},1}, /* SURF AND TURF 1-5 */
+ {"LevelS006",137,4,70,4,{{60,70,1.8f},{50,100,2.0f}},2}, /* SURF AND TURF 1-6 */
+ {"LevelS007",64,3,25,4,{{30,80,1.6f},{20,90,2.6f}},2}, /* SURF AND TURF 1-7 */
+ {"LevelS008",113,5,80,4,{{20,60,2.3f}},1}, /* SURF AND TURF 1-8 */
+ {"LevelS009",95,7,60,3,{{10,100,2.3f},{30,100,2.3f}},2}, /* SURF AND TURF 1-9 */
+ {"LevelS010",97,4,81,4,{{0,100,1.0f}},1}, /* SURF AND TURF 1-10 */
+ {"LevelS011",91,6,61,4,{{20,80,1.2f}},1}, /* SURF AND TURF 1-11 */
+ {"LevelS012",104,7,70,3,{{30,90,1.8f}},1}, /* SURF AND TURF 1-12 */
+ {"LevelS013",102,8,67,4,{{20,80,2.3f},{50,100,2.3f}},2}, /* SURF AND TURF 1-13 */
+ {"LevelS014",102,7,77,4,{{20,40,1.4f}},1}, /* SURF AND TURF 1-14 */
+ {"LevelS015",228,6,54,3,{{30,90,-1.0f}},1}, /* SURF AND TURF 1-15 */
+ {"LevelS016",86,7,60,3,{{30,80,0.6f},{10,90,1.2f}},2}, /* SURF AND TURF 2-1 */
+ {"LevelS017",121,6,79,3,{{10,90,1.2f}},1}, /* SURF AND TURF 2-2 */
+ {"LevelS018",61,3,32,3,{{40,90,2.6f}},1}, /* SURF AND TURF 2-3 */
+ {"LevelS019",105,5,89,3,{{20,80,2.0f},{80,100,0.8f}},2}, /* SURF AND TURF 2-4 */
+ {"LevelS020",167,7,115,3,{{40,80,1.8f},{70,100,-1.0f}},2}, /* SURF AND TURF 2-5 */
+ {"LevelS021",132,6,80,3,{{30,100,1.4f}},1}, /* SURF AND TURF 2-6 */
+ {"LevelS022",104,4,60,3,{{40,100,1.0f},{30,80,1.4f}},2}, /* SURF AND TURF 2-7 */
+ {"LevelS023",153,7,105,3,{{10,70,1.2f}},1}, /* SURF AND TURF 2-8 */
+ {"LevelS024",152,9,97,3,{{40,90,-1.0f},{-10,100,0.8f}},2}, /* SURF AND TURF 2-9 */
+ {"LevelS025",58,5,44,4,{{50,70,1.8f}},1}, /* SURF AND TURF 2-10 */
+ {"LevelS026",228,9,77,4,{{40,80,1.4f}},1}, /* SURF AND TURF 2-11 */
+ {"LevelS027",118,10,61,3,{{40,70,0.6f}},1}, /* SURF AND TURF 2-12 */
+ {"LevelS028",204,6,91,4,{{20,90,2.6f},{70,60,0.6f}},2}, /* SURF AND TURF 2-13 */
+ {"LevelS029",134,8,83,4,{{20,80,0.6f},{20,60,1.8f}},2}, /* SURF AND TURF 2-14 */
+ {"LevelS030",151,9,76,4,{{0,0,-1.0f}},0}, /* SURF AND TURF 2-15 (sem roteiro vencedor) */
+ {"LevelS031",113,7,70,3,{{10,100,1.6f}},1}, /* SURF AND TURF 3-1 */
+ {"LevelS032",127,5,96,3,{{20,100,2.3f}},1}, /* SURF AND TURF 3-2 */
+ {"LevelS033",131,7,81,3,{{50,90,-1.0f}},1}, /* SURF AND TURF 3-3 */
+ {"LevelS034",167,12,131,3,{{20,90,2.6f},{30,100,0.8f}},2}, /* SURF AND TURF 3-4 */
+ {"LevelS035",126,6,87,3,{{0,0,-1.0f}},0}, /* SURF AND TURF 3-5 (sem roteiro vencedor) */
+ {"LevelS036",187,13,120,3,{{60,100,2.6f},{80,100,2.6f}},2}, /* SURF AND TURF 3-6 */
+ {"LevelS037",147,7,99,3,{{50,70,2.3f}},1}, /* SURF AND TURF 3-7 */
+ {"LevelS038",175,9,116,4,{{30,100,1.8f},{30,100,0.8f}},2}, /* SURF AND TURF 3-8 */
+ {"LevelS039",217,6,90,3,{{20,70,1.0f},{30,90,0.8f}},2}, /* SURF AND TURF 3-9 */
+ {"LevelS040",105,7,76,3,{{50,100,1.2f},{60,60,1.6f},{10,80,2.3f}},3}, /* SURF AND TURF 3-10 */
+ {"LevelS041",153,8,93,3,{{40,100,1.0f}},1}, /* SURF AND TURF 3-11 */
+ {"LevelS042",128,8,97,3,{{60,80,2.3f},{0,90,1.0f},{10,70,1.6f}},3}, /* SURF AND TURF 3-12 */
+ {"LevelS043",180,6,122,4,{{40,100,1.6f},{10,80,0.8f},{40,100,2.3f}},3}, /* SURF AND TURF 3-13 */
+ {"LevelS044",199,9,116,4,{{0,0,-1.0f}},0}, /* SURF AND TURF 3-14 (sem roteiro vencedor) */
+ {"LevelS045",155,9,90,4,{{50,100,0.8f},{50,100,1.4f}},2}, /* SURF AND TURF 3-15 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -518,7 +563,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==9);
+    assert(unverified==12);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");

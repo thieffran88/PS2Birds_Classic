@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.34.0)
+# Lacunas do port (levantamento atualizado na 0.35.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -119,7 +119,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Episódios seguintes (Surf and Turf, Bad Piggies, Mighty Feathers, Short Fuse, Bird Island, Piggy Farm, Dino); roteiros de 16-5, 16-6, Birdday 4-4, 6-1, 7-7 e 7-14.
+1. Episódios seguintes (Bad Piggies, Mighty Feathers, Short Fuse, Bird Island, Piggy Farm, Dino); roteiros de 16-5, 16-6, Birdday 4-4, 6-1, 7-7, 7-14 e Surf and Turf 2-15, 3-5, 3-14.
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).
