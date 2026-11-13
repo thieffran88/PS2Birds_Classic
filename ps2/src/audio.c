@@ -12,6 +12,8 @@
 #endif
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
 #ifdef PS2BIRDS_AUDIO_TEST
 #define memalign(a,n) malloc(n)
 #else
@@ -30,10 +32,11 @@ static unsigned rd32(const unsigned char *p){return p[0]|(p[1]<<8)|(p[2]<<16)|((
    data start, then the SPU2 ADPCM samples. Read whole (under 1 MiB) and freed after upload. */
 static unsigned char *read_sounds(unsigned *offsets,unsigned *sizes)
 {
-    FILE *f=fopen(data_path,"rb");if(!f)return 0;
-    fseek(f,0,SEEK_END);long n=ftell(f);fseek(f,0,SEEK_SET);
+    int fd=open(data_path,O_RDONLY);if(fd<0)return 0;
+    long n=(long)lseek(fd,0,SEEK_END);lseek(fd,0,SEEK_SET);
     unsigned char *data=n>16 && n<=2*1048576?(unsigned char*)memalign(64,(size_t)n):0;
-    int ok=data && fread(data,1,(size_t)n,f)==(size_t)n;fclose(f);
+    long done=0;while(data && done<n){int r=(int)read(fd,data+done,(size_t)(n-done));if(r<=0)break;done+=r;}
+    close(fd);int ok=data && done==n;
     if(ok)ok=!memcmp(data,"PBSN",4) && rd32(data+4)==1 && rd32(data+8)==SFX_COUNT && 16+8*SFX_COUNT<=rd32(data+12) && rd32(data+12)<=(unsigned)n;
     for(int i=0;ok && i<SFX_COUNT;i++){offsets[i]=rd32(data+12)+rd32(data+16+8*i);sizes[i]=rd32(data+20+8*i);ok=offsets[i]+sizes[i]<=(unsigned)n && sizes[i]>16;}
     if(!ok){free(data);return 0;}

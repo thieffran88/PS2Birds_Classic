@@ -339,7 +339,7 @@ static const Stage stages[]={
  {"Level1902",210,12,139,3,{{20,90,2.3f}},1}, /* BIRDDAY 4-12 */
  {"Level1903",112,9,72,3,{{40,80,1.0f}},1}, /* BIRDDAY 4-13 */
  {"Level1904",218,7,115,4,{{30,50,2.6f},{40,100,2.6f}},2}, /* BIRDDAY 4-14 */
- {"Level1905",174,8,122,4,{{50,100,0.6f},{20,80,2.0f}},2}, /* BIRDDAY 4-15 */
+ {"Level1905",174,8,122,4,{{40,100,1.4f},{50,80,1.2f}},2}, /* BIRDDAY 4-15 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}

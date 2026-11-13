@@ -18,6 +18,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
 #ifdef PS2BIRDS_RUNTIME_CAMPAIGN
 /* The stages are not part of the program: they come from CAMPAIGN.BIN, generated from the
    player's own APK by tools/gerar_iso.py (layout below and in tools/build_campaign.py). */
@@ -72,11 +74,13 @@ bad:free(strings);free(levels);free(objects);free(joints);free(polys);free(force
 }
 int game_campaign_load_file(const char *path)
 {
-    FILE *f=fopen(path,"rb");if(!f)return -1;
-    fseek(f,0,SEEK_END);long n=ftell(f);fseek(f,0,SEEK_SET);
-    unsigned char *buffer=n>0?(unsigned char*)malloc((size_t)n):0;int result=-1;
-    if(buffer && fread(buffer,1,(size_t)n,f)==(size_t)n)result=game_campaign_load(buffer,(unsigned)n);
-    fclose(f);free(buffer);return result;
+    /* open/read in large blocks (stdio reads from the disc in tiny requests). */
+    int fd=open(path,O_RDONLY);if(fd<0)return -1;
+    long n=(long)lseek(fd,0,SEEK_END);lseek(fd,0,SEEK_SET);
+    unsigned char *buffer=n>0?(unsigned char*)malloc((size_t)n):0;int result=-1;long done=0;
+    while(buffer && done<n){long k=n-done>262144?262144:n-done;int r=(int)read(fd,buffer+done,(size_t)k);if(r<=0)break;done+=r;}
+    if(buffer && done==n)result=game_campaign_load(buffer,(unsigned)n);
+    close(fd);free(buffer);return result;
 }
 #if !defined(_EE)
 /* Host builds (tests and solvers) read the generated file before main(). */

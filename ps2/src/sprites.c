@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
+#include <fcntl.h>
+#include <unistd.h>
 /* Nothing of the original art is linked into the ELF: SPRITES.BIN (made from the player's
    APK by tools/gerar_iso.py, on the disc or next to the ELF) holds the frame tables, the
    pixels of every texture bank and the memory-card icon. The tables are read once; a
@@ -49,9 +51,12 @@ static unsigned char *bank_pixels(int b)
     if(loaded==b)return bank_buffer;
     if(!read_header())return NULL;
     if(!bank_buffer){unsigned most=0;for(int i=0;i<SPRITE_BANK_COUNT;i++)if(bank_bytes(i)>most)most=bank_bytes(i);bank_buffer=(unsigned char*)memalign(64,most);if(!bank_buffer)return NULL;}
-    FILE *f=fopen(data_path,"rb");if(!f)return NULL;
-    unsigned want=bank_bytes(b);int ok=fseek(f,(long)(pixel_start+pages[b][0].offset),SEEK_SET)==0 && fread(bank_buffer,1,want,f)==want;
-    fclose(f);if(!ok){loaded=-1;return NULL;}
+    /* Plain open/read in 256 KiB blocks: stdio splits reads into tiny requests, which made a
+       2.9 MB bank take about 17 s from the disc in PCSX2. */
+    int fd=open(data_path,O_RDONLY);if(fd<0)return NULL;
+    unsigned want=bank_bytes(b),done=0;int ok=lseek(fd,(off_t)(pixel_start+pages[b][0].offset),SEEK_SET)==(off_t)(pixel_start+pages[b][0].offset);
+    while(ok && done<want){unsigned n=want-done>262144?262144:want-done;int r=read(fd,bank_buffer+done,n);if(r<=0)ok=0;else done+=(unsigned)r;}
+    close(fd);if(!ok){loaded=-1;return NULL;}
     loaded=b;return bank_buffer;
 }
 int sprites_read_icon(unsigned char *out,unsigned capacity)

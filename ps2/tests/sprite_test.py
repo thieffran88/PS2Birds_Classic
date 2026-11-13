@@ -21,7 +21,8 @@ assert [(p['width'],p['height']) for p in banks[0]['pages']]==[(512,512),(512,51
 assert sum(meta['slot_bytes'])<=meta['vram_budget']==2883584 and meta['slot_bytes']==[1048576,1048576,524288,262144]
 assert hashlib.sha256(pixels).hexdigest()==meta['atlas_sha256']
 assert max(pixels[3::4])==128 and min(pixels[3::4])==0
-assert len(meta['sprites'])==273 and [len(b['sprites']) for b in banks]==[153,151,127,128,119,97,120,128,120,117,115,116,123,117,129,120,123]
+assert len(meta['sprites'])==273 and [len(b['sprites']) for b in banks]==[153,151,127,128,119,97,120,128,120,117,115,116,123,117,129,121,123]
+assert all('BLOCK_CAKECREAM' in banks[b]['sprites'] for b in (15,16)) # released by the big cake (deathSpawn)
 occupied=set();checked=0
 for frame in meta['sprites']:
     for place in frame['banks']:

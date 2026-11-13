@@ -7,6 +7,7 @@
 - **O jogo não embute mais nada do original**
   - O ELF (4,6 MB, antes 10,1 MB) lê na inicialização `CAMPAIGN.BIN` (fases), `SPRITES.BIN` (tabelas de quadros, todas as texturas e o ícone do cartão) e `SOUNDS.BIN` (efeitos), no disco ou ao lado do ELF.
   - Sem os arquivos, o jogo mostra a tela "ARQUIVOS DE DADOS AUSENTES" em vez de travar.
+  - Leitura do disco em blocos de 256 KiB (open/read) no lugar do `fread`: um banco de texturas passou de cerca de 17 s para 3 s no PCSX2, na inicialização e em cada troca de episódio.
   - Cabeçalhos novos só com identificadores do port: `sprite_ids.h`, `audio_ids.h`, `save_assets.h`; `campaign_data.h` (5,3 MB) e `level_data.h` saíram.
 - **Leitores próprios em Python puro (sem programas externos)**
   - `lua51_data.py`: lê as fases direto do bytecode Lua 5.1 do APK, só com operações de dados (recusa qualquer chamada ou laço). Nas 330 fases o resultado é idêntico ao do decompilador unluac, que deixa de ser necessário.
@@ -15,17 +16,19 @@
 - **`deathSpawn` (lacuna da 0.30.0, resolvida)**
   - O bolo grande de Birdday 3/4 solta 10 cremes ao ser destruído, como no `gamelogic.lua`: na posição do bolo, com os valores do próprio `blocks.lua` (raio 1,3, densidade 0,1, resistência 10).
   - Formato do `CAMPAIGN.BIN` com o campo `spawn_of`; 18 bolos em 11 fases, 180 cremes.
-  - Roteiro da Birdday 4-15 refeito, porque a física dela mudou com os cremes.
+  - O sprite do creme passou a estar também no banco 15 (Birdday 3), onde faltava.
+  - Roteiro da Birdday 4-15 refeito, porque a física dela mudou com os cremes; as outras 10 fases com bolo continuam vencendo com o roteiro antigo.
+  - Campanha: 324 de 330 fases com roteiro vencedor (sem roteiro: 3-20, 5-16, 13-7, 16-5, 16-6 e Birdday 4-4).
 - **Repositório sem dados do jogo**
-  - Saíram do Git: 703 arquivos de `ps2/data` (Lua decompilado, fases em JSON) e `ps2/assets` (texturas, sons, manifestos). `.gitignore` impede que voltem.
+  - Saíram do Git: 802 arquivos de `ps2/data` (Lua decompilado, fases em JSON) e `ps2/assets` (texturas, sons, manifestos). `.gitignore` impede que voltem.
   - Dados numéricos do port foram para `profiles/` (tamanhos de sprites, limites de estrelas, parâmetros dos pássaros); saiu a cópia do README de outro projeto.
   - Modo de desenvolvimento: `gerar_iso.py APK --dev` recria `ps2/assets` e `ps2/data` para compilar e testar.
 - **Testes**
   - Novo `tools_test.py`: AES (vetor oficial FIPS-197), leitor Lua (recusa código executável), 7z, PNG e ADPCM.
   - `globe_test`: cremes escondidos no início e soltos quando o bolo cai; `profile_test`: valores do `deathSpawn` contra o `blocks.lua` e leitura do `CAMPAIGN.BIN`.
   - `sprite_test`: formato novo do `SPRITES.BIN`; `audio_test`: `SOUNDS.BIN` sintético e arquivo ausente.
-  - Testes de procedência (contra scripts decompilados) rodam só onde o desenvolvedor tem esses arquivos.
+  - Testes de procedência (contra scripts decompilados) rodam só onde o desenvolvedor tem esses arquivos. Suíte com 48 verificações aprovadas.
 - **Limpeza**
   - `docs`: removidos 59 documentos por versão (0.1 a 0.29), 17 listas de hashes, logs de boot, diagnóstico inicial e capturas antigas; o histórico completo segue em `HISTORICO_MODIFICACOES.md`.
   - `tools`: removidos `split_sprite_banks.py` e `py7z.py`, substituídos.
-  - README reescrito para o novo fluxo; versão 0.31.0 na tela e no log.
+  - README reescrito para o novo fluxo; versão 0.31.0 na tela e no log; captura da Birdday 3-2 no lugar da 0.30.0; documentos da 0.30.0 substituídos.
