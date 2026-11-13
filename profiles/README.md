@@ -1,15 +1,11 @@
-# Perfis e adaptadores
+# Perfis e parâmetros do port
 
-- games.json: chaves declaradas no projeto de referência e limites da evidência.
-- REFERENCE_DECOMPILATION_README.md: referência fornecida que declara os seis jogos.
-- classic_level.json: adaptador real da fase Classic atualmente integrada.
+- `games.json`: chaves de formato dos jogos da série (só o Classic é portado).
+- `classic_level.json`: peças, materiais, pássaros e formas usados na conversão das fases.
+- `classic_episode.json`: ordem das páginas e fases, como no `episodes.lua` do APK.
+- `classic_actor_parameters.json`: valores dos pássaros conferidos no `blocks.lua`.
+- `sprite_metrics.json`: tamanho de cada sprite usado (define o tamanho físico das peças).
+- `star_limits.json`: limites de estrelas do `starLimits.lua`.
+- `supported_apk.json`: SHA-256 do APK aceito pelo Gerador de ISO.
 
-Um perfil criptográfico não é um port. Um adaptador de fase também não fornece
-habilidades ou APIs nativas. Não criamos adaptadores fictícios para os outros jogos.
-Leia docs/COMPATIBILIDADE_ANGRY_BIRDS.md antes de registrar um novo adaptador.
-
-Para objetos equivalentes já suportados, um adaptador JSON pode mapear nomes para
-kinds 1 (madeira), 2 (vidro), 3 (plataforma) 4 (porco circular) e 5 (pedra). Nomes de pássaros
-são aliases do comportamento RedBird atual; não implementam habilidades novas.
-metrics aponta para dimensões verificadas dos sprites. O desenho ainda usa IDs do
-Classic, portanto novos materiais precisam também de um adaptador gráfico.
+São só números e nomes: nenhum gráfico, som ou fase do jogo original fica no repositório.

@@ -1,0 +1,34 @@
+# Modificações 0.32.0
+
+- **Episódio Birdday 6 (página 21, 15 fases)**
+  - Ordem do `episodes.lua` e limites de estrelas do `starLimits.lua`; banco de texturas 17.
+  - A campanha passa de 330 para 345 fases; 14 das 15 novas têm roteiro vencedor (falta a Birdday 6-1).
+  - Quatro peças novas pela `tools/add_definitions.py`: bolo do Birdday 5 (polígono), balão simples de Bad Piggies, roda de madeira fraca e o bloco de cenário sem colisão.
+- **Junta prismática (tipo 4), nova**
+  - Eixo (`worldAxisX/Y`), limites, motor (`motorSpeed`, `maxTorque` como força máxima) e `backAndForth`.
+  - O `gamelogic.lua` chama a função nativa `checkJointLimits` para essas juntas; o port inverte o motor a cada limite.
+  - Usada pelos balões que carregam porcos no Birdday 6 (9 juntas).
+- **Motor e limites nas dobradiças (tipo 3) — correção**
+  - Três dobradiças de fases já suportadas têm motor no APK e o port as deixava soltas; agora giram como no original.
+  - Nenhum roteiro antigo deixou de vencer.
+- **Peças sem colisão**
+  - `collision = false` no `blocks.lua` vira sensor do Box2D: a peça é desenhada e nada esbarra nela.
+  - Peças de material `immovable` adicionadas automaticamente entram como cenário fixo (não contam como blocos).
+- **Força da própria peça e velocidade-alvo**
+  - A `add_definitions.py` lê `forceX`/`forceY` da definição (antes só do material) e `targetVelocity`.
+  - O balão simples (força −80) deixa de ser empurrado quando já sobe a 20 unidades/s.
+- **Formato do `CAMPAIGN.BIN` (versão 3)**
+  - Juntas com eixo, limites, motor e marcas; peças com marca de "sem colisão"; forças com velocidade-alvo.
+- **Ferramentas**
+  - `gerar_iso.py --dev` também atualiza `sprite_ids.h` e `definition_sprites.h` quando entram peças ou episódios.
+  - Cache de tamanhos de sprites refeito direto das folhas do APK (2078 quadros).
+- **Testes**
+  - `joint_test`: bloco em junta prismática com motor, limites e vai-e-vem; dobradiça girando por motor; peça que atravessa o cenário sem colisão.
+  - `profile_test`: Birdday 6 (ordem, banco, peças contra o `blocks.lua`, 9 juntas prismáticas e as dobradiças com motor no `CAMPAIGN.BIN`).
+  - `sprite_test`: 18 bancos, 276 quadros; peças novas só no banco 17. Suíte com 50 verificações aprovadas.
+- **Investigação**
+  - Levantamento de todos os episódios do APK: Birdday 5 precisa de 90 peças (a maioria cenário de papelão sem colisão e objetos de escritório), Birdday 7, Mighty Feathers, Short Fuse, Bird Island, Piggy Farm, Dino e outros têm temas próprios. Registrado em `LACUNAS_PORT.md`.
+- **Versão, documentos e limpeza**
+  - Tela e log em 0.32.0; README com 345 fases; captura da Birdday 6-2; documentos e captura da 0.31.0 substituídos.
+  - Removidos `solver2.cpp` e `settle_detail.cpp` (ferramentas de teste sem uso); `profiles/README.md` reescrito (citava um arquivo que já tinha saído).
+  - Drive: zips da 0.30.0 removidos (você já tinha enviado os da 0.31.0).
