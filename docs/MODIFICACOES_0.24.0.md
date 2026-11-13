@@ -1,0 +1,27 @@
+# Modificações 0.24.0
+
+- **Danger Above 8-1 a 8-15 (episódio completo)**
+  - 15 fases na ordem do mundo 8 do `episodes.lua` (trecho em `ps2/data/episode_danger_above_page3.decompiled.lua`), com limites de estrelas do `starLimits.lua`.
+  - A campanha passa de 135 para 150 fases, todas as 15 novas com roteiro vencedor.
+  - Quinto banco de texturas (banco 4) para a página 8; os bancos 0 a 3 não mudaram.
+- **Peças novas (definições conferidas contra o `blocks.lua`, trecho em `ps2/data/page8_definitions_excerpt.lua`)**
+  - ExtraTrampoline: bola de borracha (BLOCK_SUPER_BALL), material `rubber`, restituição 5,5 própria.
+  - BlockCarpet: tapete (BLOCK_CARPET), material `extras`.
+  - ExtraStrongBall: bola de aço (BLOCK_STEEL_BALL), material `rock`, defesa 2000.
+- **Correção de física: chão da fase inteira**
+  - O chão do port ia de x = −100 a 140; peças além disso caíam no vazio (até x = 825 na 7-13, onde a fase inteira despencava e os porcos "morriam" sozinhos).
+  - Agora o chão cobre ±1000 unidades (`FLOOR_HALF_WIDTH`), abrangendo todas as fases (máximo x = 825).
+  - Na 8-10, uma peça em x = 163 deixa de ser destruída ao carregar.
+  - Oito fases que só venciam por causa da queda receberam roteiros novos: 3-19, 4-1, 4-4, 4-11, 5-8, 6-2, 7-5 e 7-15.
+- **Investigação**
+  - Evidência nos scripts de que as peças começam "dormindo" no original (estado `sleeping` mantido pelo motor nativo, acordado pelo editor e posto para dormir pelo Demolisher). Explica as 15 fases com peças que se movem ao carregar; registrado como próximo passo em `docs/LACUNAS_PORT.md`.
+  - Registrada a necessidade de ler os bancos de textura do disco: o ELF está com 19,7 MB com 5 bancos embutidos.
+- **Testes**
+  - Novo teste de procedência da página 8: ordem, banco 4, as três peças e o chão cobrindo todas as fases.
+  - Testes de sprites cobrem 5 bancos (222 quadros) e as peças novas só no banco 4.
+  - Tabela da campanha regenerada para 150 fases: 148 com roteiro (3-20 e 5-16 seguem sem).
+- **Versão e documentos**
+  - Tela e log em 0.24.0. README, lacunas, validação e histórico atualizados; capturas das fases 7-13 e 8-15 no PCSX2.
+- **Limpeza**
+  - Capturas da 0.23.0 removidas do repositório.
+  - No Drive, o código-fonte da 0.22.0 (que tinha ficado por causa do limite de envio) e os arquivos 0.23.0 foram substituídos pelos 0.24.0.

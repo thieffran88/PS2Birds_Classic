@@ -55,6 +55,7 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 #define OBJECT_KIND_TNT 7
 /* Static fragile pieces (staticFragile group, clouds material), e.g. StaticBalloon03-05;
    destroyedScoreInc 100 from blocks.lua. */
+#define FLOOR_HALF_WIDTH 1000.0f
 #define OBJECT_KIND_FRAGILE 8
 #define FRAGILE_DESTROYED_SCORE 100
 /* StaticFragileBlock06: ground piece of the staticFragile group (immovableFragile material,

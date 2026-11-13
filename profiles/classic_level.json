@@ -398,6 +398,21 @@
       "sprite": "BLOCK_PIG_BALLOON_1",
       "kind": 8,
       "shape": "box"
+    },
+    "ExtraTrampoline": {
+      "sprite": "BLOCK_SUPER_BALL",
+      "kind": 6,
+      "shape": "circle"
+    },
+    "BlockCarpet": {
+      "sprite": "BLOCK_CARPET",
+      "kind": 6,
+      "shape": "box"
+    },
+    "ExtraStrongBall": {
+      "sprite": "BLOCK_STEEL_BALL",
+      "kind": 5,
+      "shape": "circle"
     }
   },
   "metrics": "ps2/data/sprite_metrics.json",
@@ -473,7 +488,8 @@
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
-      "ExtraTrampoline2": 1.1
+      "ExtraTrampoline2": 1.1,
+      "ExtraTrampoline": 5.5
     }
   }
 }

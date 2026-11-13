@@ -185,6 +185,29 @@
         "LevelP3_161",
         "LevelP3_304"
       ]
+    },
+    {
+      "number": 8,
+      "title_prefix": "DANGER ABOVE 8-",
+      "folder": "/levels/3_DangerAbove",
+      "bank": 4,
+      "levels": [
+        "LevelP3_297",
+        "LevelP3_221",
+        "LevelP3_306",
+        "LevelP3_301",
+        "LevelP3_312",
+        "LevelP3_309",
+        "LevelP3_168",
+        "LevelP3_311",
+        "LevelP3_308",
+        "LevelP3_310",
+        "LevelP3_217",
+        "LevelP3_307",
+        "LevelP3_296",
+        "LevelP3_149",
+        "LevelP3_313"
+      ]
     }
   ]
 }

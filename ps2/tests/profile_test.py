@@ -239,3 +239,22 @@ for number in range(1,16):
     d=json.loads((root/f'ps2/data/level_7_{number}.json').read_text());assert d['stage_script']==da2[number-1] and d['texture_bank']==3 and d['title']==f'DANGER ABOVE 7-{number}'
 assert max(len(json.loads((root/f'ps2/data/level_7_{n}.json').read_text())['objects']) for n in range(1,16))<=224
 print('Danger Above page 7 OK: 15 stages match episodes.lua; StaticFragileBlock06, StaticBlock_06 and StaticBalloon01 checked against blocks.lua; texture bank 3; up to 224 objects.')
+
+# Danger Above page 8: order, bank 4 and the three new extras.
+da3=list(dict.fromkeys(re.findall(r'"(LevelP3_\d+)"',(root/'ps2/data/episode_danger_above_page3.decompiled.lua').read_text())))
+page8=episode['additional_pages'][6]
+assert len(da3)==15 and page8['levels']==da3 and page8['bank']==4 and page8['number']==8
+defs8=(root/'ps2/data/page8_definitions_excerpt.lua').read_text()
+def block8(name):return defs8.split(f'L3_1 = "{name}"',1)[1].split('L3_1 = "',1)[0]
+t=block8('ExtraTrampoline');assert '"BLOCK_SUPER_BALL"' in t and '"rubber"' in t and 'L5_1 = 5.5' in t
+c=block8('BlockCarpet');assert '"BLOCK_CARPET"' in c and '"extras"' in c
+b=block8('ExtraStrongBall');assert '"BLOCK_STEEL_BALL"' in b and '"rock"' in b and 'L5_1 = 2000' in b
+assert objs['objects']['ExtraTrampoline']=={'sprite':'BLOCK_SUPER_BALL','kind':6,'shape':'circle'} and objs['materials']['restitution_overrides']['ExtraTrampoline']==5.5
+assert objs['objects']['BlockCarpet']['kind']==6 and objs['objects']['ExtraStrongBall']=={'sprite':'BLOCK_STEEL_BALL','kind':5,'shape':'circle'}
+for number in range(1,16):
+    d=json.loads((root/f'ps2/data/level_8_{number}.json').read_text());assert d['stage_script']==da3[number-1] and d['texture_bank']==4 and d['title']==f'DANGER ABOVE 8-{number}'
+# The stage data place whole stages far from the origin (7-13 sits at x=700..825): the floor must span them.
+h=(root/'ps2/src/game.h').read_text();assert '#define FLOOR_HALF_WIDTH 1000.0f' in h
+import glob as _g
+assert max(abs(o['x']) for f in _g.glob(str(root/'ps2/data/level_*_*.json')) for o in json.loads(Path(f).read_text())['objects'])<1000
+print('Danger Above page 8 OK: 15 stages match episodes.lua; super ball (restitution 5.5), carpet and steel ball checked against blocks.lua; bank 4; floor spans every stage.')

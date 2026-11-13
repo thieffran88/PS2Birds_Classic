@@ -51,9 +51,11 @@ struct Physics: b2ContactListener {
         damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
         memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));
         world.SetContactListener(this);destruction.owner=this;world.SetDestructionListener(&destruction);
-        b2BodyDef floor_def; floor_def.position.Set(20,level->ground_y+1);
+        /* The Ground object of the stage data spans the whole level; stages place pieces up to
+           x=825, so the floor is FLOOR_HALF_WIDTH wide on each side of the origin. */
+        b2BodyDef floor_def; floor_def.position.Set(0,level->ground_y+1);
         b2Body *floor=world.CreateBody(&floor_def);floor_body=floor;joint_count=0;
-        b2PolygonShape shape;shape.SetAsBox(120,1);
+        b2PolygonShape shape;shape.SetAsBox(FLOOR_HALF_WIDTH,1);
         /* staticGround material: friction 0.8, restitution 0. */
         b2FixtureDef ground;ground.shape=&shape;ground.friction=0.8f;ground.restitution=0;floor->CreateFixture(&ground);
         for (int i=0;i<level->count;i++) {

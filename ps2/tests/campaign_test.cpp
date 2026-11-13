@@ -70,21 +70,21 @@ static const Stage stages[]={
  {"Level58",73,4,61,3,{{5,90,-1.0f}},1}, /* POACHED EGGS 3-16 */
  {"Level95",82,5,65,4,{{15,98,-1.0f}},1}, /* POACHED EGGS 3-17 */
  {"Level82",111,7,73,5,{{-5,98,-1.0f}},1}, /* POACHED EGGS 3-18 */
- {"Level22",91,5,68,3,{{10,70,0.7f}},1}, /* POACHED EGGS 3-19 */
+ {"Level22",91,5,68,3,{{15,60,1.6f},{15,85,1.0f},{45,85,2.0f}},3}, /* POACHED EGGS 3-19 */
  {"Level89",107,9,69,5,{{0,0,-1.0f}},0}, /* POACHED EGGS 3-20 (sem roteiro vencedor) */
  {"Level81",135,9,92,7,{{20,100,1.6f},{20,85,1.8f},{-5,70,1.0f},{25,100,2.3f}},4}, /* POACHED EGGS 3-21 */
  {"LevelP2_103",41,3,35,3,{{0,74,-1.0f}},1}, /* MIGHTY HOAX 4-1 */
- {"LevelP2_91",79,8,54,3,{{25,94,0.4f}},1}, /* MIGHTY HOAX 4-2 */
+ {"LevelP2_91",79,8,54,3,{{10,94,0.4f}},1}, /* MIGHTY HOAX 4-2 */
  {"LevelP2_65",76,3,69,3,{{10,94,-1.0f}},1}, /* MIGHTY HOAX 4-3 */
  {"LevelP2_96",79,4,53,4,{{-10,90,-1.0f}},1}, /* MIGHTY HOAX 4-4 */
- {"LevelP2_69",65,10,47,4,{{0,90,-1.0f}},1}, /* MIGHTY HOAX 4-5 */
+ {"LevelP2_69",65,10,47,4,{{15,90,-1.0f}},1}, /* MIGHTY HOAX 4-5 */
  {"LevelP2_88",57,5,48,4,{{20,98,-1.0f}},1}, /* MIGHTY HOAX 4-6 */
  {"LevelP2_64",90,4,51,5,{{25,94,-1.0f}},1}, /* MIGHTY HOAX 4-7 */
  {"LevelP2_80",75,3,62,4,{{40,40,1.6f},{60,60,2.6f}},2}, /* MIGHTY HOAX 4-8 */
  {"LevelP2_108",34,3,30,4,{{55,80,0.8f},{15,85,0.6f}},2}, /* MIGHTY HOAX 4-9 */
  {"LevelP2_85",88,4,46,4,{{25,82,0.4f}},1}, /* MIGHTY HOAX 4-10 */
  {"LevelP2_82",85,5,52,3,{{10,82,-1.0f}},1}, /* MIGHTY HOAX 4-11 */
- {"LevelP2_66",68,6,54,4,{{10,90,-1.0f}},1}, /* MIGHTY HOAX 4-12 */
+ {"LevelP2_66",68,6,54,4,{{20,90,-1.0f}},1}, /* MIGHTY HOAX 4-12 */
  {"LevelP2_104",54,4,47,4,{{20,90,-1.0f}},1}, /* MIGHTY HOAX 4-13 */
  {"LevelP2_210",55,10,43,6,{{20,94,0.4f}},1}, /* MIGHTY HOAX 4-14 */
  {"LevelP2_83",68,4,52,5,{{15,98,1.3f}},1}, /* MIGHTY HOAX 4-15 */
@@ -101,7 +101,7 @@ static const Stage stages[]={
  {"LevelP2_89",79,7,46,4,{{80,90,1.6f},{35,60,1.4f}},2}, /* MIGHTY HOAX 5-5 */
  {"LevelP2_73",96,7,69,4,{{25,94,-1.0f}},1}, /* MIGHTY HOAX 5-6 */
  {"LevelP2_76",84,5,63,5,{{35,94,1.0f}},1}, /* MIGHTY HOAX 5-7 */
- {"LevelP2_122",75,6,55,5,{{-10,70,-1.0f}},1}, /* MIGHTY HOAX 5-8 */
+ {"LevelP2_122",75,6,55,5,{{25,90,-1.0f}},1}, /* MIGHTY HOAX 5-8 */
  {"LevelP2_99",63,7,53,4,{{5,98,-1.0f}},1}, /* MIGHTY HOAX 5-9 */
  {"LevelP2_84",85,5,53,4,{{15,98,0.4f}},1}, /* MIGHTY HOAX 5-10 */
  {"LevelP2_86",105,5,72,4,{{-5,54,0.4f}},1}, /* MIGHTY HOAX 5-11 */
@@ -116,7 +116,7 @@ static const Stage stages[]={
  {"LevelP2_97",89,8,61,4,{{20,90,0.4f}},1}, /* MIGHTY HOAX 5-20 */
  {"LevelP2_90",122,15,87,5,{{5,82,1.0f}},1}, /* MIGHTY HOAX 5-21 */
  {"LevelP3_212",56,7,36,4,{{-10,74,0.4f}},1}, /* DANGER ABOVE 6-1 */
- {"LevelP3_134",53,4,35,4,{{10,90,-1.0f}},1}, /* DANGER ABOVE 6-2 */
+ {"LevelP3_134",53,4,35,4,{{10,94,-1.0f}},1}, /* DANGER ABOVE 6-2 */
  {"LevelP3_162",49,5,35,4,{{-10,58,0.4f}},1}, /* DANGER ABOVE 6-3 */
  {"LevelP3_271",60,4,56,4,{{-5,78,-1.0f}},1}, /* DANGER ABOVE 6-4 */
  {"LevelP3_224",56,5,25,3,{{75,100,-1.0f},{30,100,2.6f}},2}, /* DANGER ABOVE 6-5 */
@@ -134,7 +134,7 @@ static const Stage stages[]={
  {"LevelP3_237",201,15,107,3,{{30,95,-1.0f},{15,85,1.4f}},2}, /* DANGER ABOVE 7-2 */
  {"LevelP3_216",81,7,64,4,{{-10,78,0.4f}},1}, /* DANGER ABOVE 7-3 */
  {"LevelP3_298",111,4,98,4,{{0,94,-1.0f}},1}, /* DANGER ABOVE 7-4 */
- {"LevelP3_303",77,4,72,5,{{10,94,-1.0f}},1}, /* DANGER ABOVE 7-5 */
+ {"LevelP3_303",77,4,72,5,{{10,98,-1.0f}},1}, /* DANGER ABOVE 7-5 */
  {"LevelP3_214",105,9,43,4,{{15,65,1.4f},{20,90,1.8f},{30,55,1.0f}},3}, /* DANGER ABOVE 7-6 */
  {"LevelP3_159",86,10,69,4,{{30,86,-1.0f}},1}, /* DANGER ABOVE 7-7 */
  {"LevelP3_164",116,7,84,5,{{20,98,-1.0f}},1}, /* DANGER ABOVE 7-8 */
@@ -144,7 +144,22 @@ static const Stage stages[]={
  {"LevelP3_163",98,6,62,4,{{0,86,-1.0f}},1}, /* DANGER ABOVE 7-12 */
  {"LevelP3_160",86,5,62,4,{{25,98,-1.0f}},1}, /* DANGER ABOVE 7-13 */
  {"LevelP3_161",93,5,55,5,{{45,90,-1.0f}},1}, /* DANGER ABOVE 7-14 */
- {"LevelP3_304",133,13,85,5,{{60,80,2.3f},{25,90,-1.0f},{20,100,2.6f}},3}, /* DANGER ABOVE 7-15 */
+ {"LevelP3_304",133,13,85,5,{{15,100,1.2f},{25,90,-1.0f},{-10,65,1.4f}},3}, /* DANGER ABOVE 7-15 */
+ {"LevelP3_297",64,12,52,4,{{50,80,-1.0f},{50,90,-1.0f}},2}, /* DANGER ABOVE 8-1 */
+ {"LevelP3_221",94,7,61,4,{{20,94,-1.0f}},1}, /* DANGER ABOVE 8-2 */
+ {"LevelP3_306",129,8,109,5,{{-10,94,-1.0f}},1}, /* DANGER ABOVE 8-3 */
+ {"LevelP3_301",85,8,68,4,{{20,94,-1.0f}},1}, /* DANGER ABOVE 8-4 */
+ {"LevelP3_312",70,6,44,5,{{20,98,-1.0f}},1}, /* DANGER ABOVE 8-5 */
+ {"LevelP3_309",102,7,64,5,{{-5,98,-1.0f}},1}, /* DANGER ABOVE 8-6 */
+ {"LevelP3_168",114,14,82,4,{{60,98,-1.0f}},1}, /* DANGER ABOVE 8-7 */
+ {"LevelP3_311",86,7,61,6,{{-10,34,-1.0f}},1}, /* DANGER ABOVE 8-8 */
+ {"LevelP3_308",101,7,75,4,{{-5,86,-1.0f}},1}, /* DANGER ABOVE 8-9 */
+ {"LevelP3_310",105,6,70,5,{{-10,54,-1.0f}},1}, /* DANGER ABOVE 8-10 */
+ {"LevelP3_217",121,7,77,5,{{-5,98,-1.0f}},1}, /* DANGER ABOVE 8-11 */
+ {"LevelP3_307",74,7,52,5,{{0,90,-1.0f}},1}, /* DANGER ABOVE 8-12 */
+ {"LevelP3_296",115,5,84,6,{{-5,94,-1.0f}},1}, /* DANGER ABOVE 8-13 */
+ {"LevelP3_149",97,5,65,4,{{30,98,-1.0f}},1}, /* DANGER ABOVE 8-14 */
+ {"LevelP3_313",195,8,108,5,{{35,98,-1.0f}},1}, /* DANGER ABOVE 8-15 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -165,7 +180,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==135 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==150 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));

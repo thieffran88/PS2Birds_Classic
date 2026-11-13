@@ -368,5 +368,20 @@
     "width": 79,
     "height": 119,
     "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_SUPER_BALL": {
+    "width": 36,
+    "height": 36,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_CARPET": {
+    "width": 277,
+    "height": 76,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_STEEL_BALL": {
+    "width": 36,
+    "height": 36,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
   }
 }
