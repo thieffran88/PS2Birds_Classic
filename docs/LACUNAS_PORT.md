@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.26.0)
+# Lacunas do port (levantamento atualizado na 0.27.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -63,6 +63,12 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **Corda grossa:** segmentos-caixa (BLOCK_ROPE_THICK_1) ligados por juntas de distância; na 10-15 ela segura um TNT pendurado.
 - **Pendências do Terence:** a tabela `velocityMultiplier` (×1,8 na madeira, no gelo e na pedra) ainda não é usada; só o multiplicador de dano (×0,3).
 
+## Achados da 0.27.0
+
+- **Ham 'Em High — feito.** Só precisou de peças: cinco chapéus de faroeste (polígonos de 6 vértices, mesma regra dos capacetes), corda curta e a tigela do ovo dourado. Nenhum pássaro novo. As 45 fases das três páginas entraram; a quarta página do mundo no `episodes.lua` (4 fases bônus com blocos de tema 16 e a LevelGE_22, ausente do APK) ficou de fora.
+- **13-7 sem roteiro:** 17 porcos para 3 pássaros (Terence e dois pretos). A melhor sequência encontrada chega perto, mas, como na 3-20 e na 5-16, a vitória depende da explosão do pássaro preto, cuja fórmula é nativa.
+- **Próximo episódio, Mine and Dine:** a levantar na próxima rodada.
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -71,7 +77,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Próximo episódio da campanha (Ham 'Em High) e a Stella (PinkBird).
+1. Mine and Dine (episódio seguinte) e, depois, os episódios Birdday com a Stella (PinkBird).
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).

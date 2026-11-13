@@ -512,6 +512,171 @@
       "sprite": "BLOCK_ROPE_THICK_1",
       "kind": 6,
       "shape": "box"
+    },
+    "ExtraCowboyHelmetSmall_1": {
+      "sprite": "COWBOY_HAT_SMALL_1",
+      "kind": 6,
+      "shape": "polygon",
+      "vertices": [
+        [
+          0.3,
+          0.3
+        ],
+        [
+          0.4,
+          0.2
+        ],
+        [
+          0.6,
+          0.2
+        ],
+        [
+          0.65,
+          0.3
+        ],
+        [
+          0.65,
+          0.5
+        ],
+        [
+          0.3,
+          0.5
+        ]
+      ]
+    },
+    "ExtraCowboyHelmet_1": {
+      "sprite": "COWBOY_HAT_BIG_1",
+      "kind": 6,
+      "shape": "polygon",
+      "vertices": [
+        [
+          0.3,
+          0.3
+        ],
+        [
+          0.4,
+          0.2
+        ],
+        [
+          0.6,
+          0.2
+        ],
+        [
+          0.65,
+          0.3
+        ],
+        [
+          0.65,
+          0.5
+        ],
+        [
+          0.3,
+          0.5
+        ]
+      ]
+    },
+    "ExtraSheriffHat_1": {
+      "sprite": "SHERIFF_HAT_1",
+      "kind": 6,
+      "shape": "polygon",
+      "vertices": [
+        [
+          0.35,
+          0.3
+        ],
+        [
+          0.4,
+          0.2
+        ],
+        [
+          0.6,
+          0.2
+        ],
+        [
+          0.7,
+          0.3
+        ],
+        [
+          0.7,
+          0.6
+        ],
+        [
+          0.35,
+          0.6
+        ]
+      ]
+    },
+    "ExtraSheriffHat_2": {
+      "sprite": "SHERIFF_HAT_2",
+      "kind": 6,
+      "shape": "polygon",
+      "vertices": [
+        [
+          0.35,
+          0.3
+        ],
+        [
+          0.4,
+          0.2
+        ],
+        [
+          0.6,
+          0.2
+        ],
+        [
+          0.7,
+          0.3
+        ],
+        [
+          0.7,
+          0.6
+        ],
+        [
+          0.35,
+          0.6
+        ]
+      ]
+    },
+    "ExtraBanditoHat_1": {
+      "sprite": "BANDITO_HAT_1",
+      "kind": 6,
+      "shape": "polygon",
+      "vertices": [
+        [
+          0.4,
+          0.3
+        ],
+        [
+          0.45,
+          0.2
+        ],
+        [
+          0.55,
+          0.2
+        ],
+        [
+          0.6,
+          0.3
+        ],
+        [
+          0.6,
+          0.7
+        ],
+        [
+          0.4,
+          0.7
+        ]
+      ]
+    },
+    "BP_ROPE_THICK": {
+      "sprite": "SHORT_THICK_ROPE",
+      "kind": 6,
+      "shape": "box"
+    },
+    "ExtraSuperBowl": {
+      "sprite": "B_EGG_SUPER_BOWL",
+      "kind": 3,
+      "shape": "circle"
     }
   },
   "metrics": "ps2/data/sprite_metrics.json",
@@ -587,7 +752,12 @@
       "ExtraBoomerangBird": 0.3,
       "ExtraHelmetSmall": 1.0,
       "ExtraHelmetBig": 1.0,
-      "ExtraHelmetBoss": 1.0
+      "ExtraHelmetBoss": 1.0,
+      "ExtraCowboyHelmetSmall_1": 1.0,
+      "ExtraCowboyHelmet_1": 1.0,
+      "ExtraSheriffHat_1": 1.0,
+      "ExtraSheriffHat_2": 1.0,
+      "ExtraBanditoHat_1": 1.0
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -595,7 +765,12 @@
       "ExtraTrampoline": 5.5,
       "ExtraHelmetSmall": 0.1,
       "ExtraHelmetBig": 0.0,
-      "ExtraHelmetBoss": 0.0
+      "ExtraHelmetBoss": 0.0,
+      "ExtraCowboyHelmetSmall_1": 0.1,
+      "ExtraCowboyHelmet_1": 0.0,
+      "ExtraSheriffHat_1": 0.0,
+      "ExtraSheriffHat_2": 0.0,
+      "ExtraBanditoHat_1": 0.0
     }
   }
 }

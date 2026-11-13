@@ -292,3 +292,21 @@ d=json.loads((root/'ps2/data/level_6_14.json').read_text());sb=[o for o in d['ob
 metric=json.loads((root/'ps2/data/sprite_metrics.json').read_text())['GROUND_BLOCK_01']
 assert abs(sb['width']-metric['width']/20*0.254775)<1e-6 and abs(sb['height']-metric['height']/20*0.883135)<1e-6
 print('Big Setup OK: 45 stages match episodes.lua in banks 5-7; Terence body and damage factors, hexagonal helmets (ObjectCreation.lua vertex rule) and thick rope checked against blocks.lua; instance scaleX/scaleY applied.')
+
+# Ham 'Em High (pages 12-14): order, banks 8-10, western hats (polygons), short rope and super bowl.
+for number,name in {12:'episode_ham_em_high_page1',13:'episode_ham_em_high_page2',14:'episode_ham_em_high_page3'}.items():
+    order=list(dict.fromkeys(re.findall(r'"(LevelP5_\d+)"',(root/f'ps2/data/{name}.decompiled.lua').read_text())))
+    page=[pg for pg in episode['additional_pages'] if pg['number']==number][0]
+    assert len(order)==15 and page['levels']==order and page['bank']==number-4 and page['folder']=='/levels/5_HamEmHigh'
+    for n in range(1,16):
+        d=json.loads((root/f'ps2/data/level_{number}_{n}.json').read_text());assert d['stage_script']==order[n-1] and d['texture_bank']==number-4
+hh=(root/'ps2/data/ham_em_high_definitions_excerpt.lua').read_text()
+def blockhh(name):return hh.split(f'L3_1 = "{name}"\n',1)[1].split('\nL3_1 = "',1)[0]
+for name in ['ExtraCowboyHelmetSmall_1','ExtraCowboyHelmet_1','ExtraSheriffHat_1','ExtraSheriffHat_2','ExtraBanditoHat_1']:
+    b=blockhh(name);nums=[float(v) for v in re.findall(r'"[xy]"\nL\d+_1 = (-?[\d.]+)',b)]
+    spec=objs['objects'][name];assert spec['shape']=='polygon' and spec['kind']==6
+    assert [[nums[i],nums[i+1]] for i in range(0,len(nums),2)]==spec['vertices'] and f'"{spec["sprite"]}"' in b
+    rest=float(re.search(r'L5_1 = (-?[\d.]+)\nL4_1.restitution',b)[1]);assert objs['materials']['restitution_overrides'][name]==rest and objs['materials']['friction_overrides'][name]==1.0
+assert '"SHORT_THICK_ROPE"' in blockhh('BP_ROPE_THICK') and objs['objects']['BP_ROPE_THICK']['kind']==6
+assert '"B_EGG_SUPER_BOWL"' in blockhh('ExtraSuperBowl') and objs['objects']['ExtraSuperBowl']=={'sprite':'B_EGG_SUPER_BOWL','kind':3,'shape':'circle'}
+print("Ham 'Em High OK: 45 stages match episodes.lua in banks 8-10; five western hats (polygon vertices, sprite, friction, restitution), short rope and super bowl checked against blocks.lua.")

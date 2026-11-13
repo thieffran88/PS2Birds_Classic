@@ -403,5 +403,40 @@
     "width": 10,
     "height": 131,
     "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "COWBOY_HAT_SMALL_1": {
+    "width": 99,
+    "height": 33,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "COWBOY_HAT_BIG_1": {
+    "width": 161,
+    "height": 53,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "SHERIFF_HAT_1": {
+    "width": 113,
+    "height": 61,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "SHERIFF_HAT_2": {
+    "width": 113,
+    "height": 61,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BANDITO_HAT_1": {
+    "width": 160,
+    "height": 63,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "SHORT_THICK_ROPE": {
+    "width": 12,
+    "height": 52,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "B_EGG_SUPER_BOWL": {
+    "width": 71,
+    "height": 92,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
   }
 }

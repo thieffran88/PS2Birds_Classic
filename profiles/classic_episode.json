@@ -277,6 +277,75 @@
         "LevelP4_477",
         "LevelP4_478"
       ]
+    },
+    {
+      "number": 12,
+      "title_prefix": "HAM EM HIGH 12-",
+      "folder": "/levels/5_HamEmHigh",
+      "bank": 8,
+      "levels": [
+        "LevelP5_610",
+        "LevelP5_356",
+        "LevelP5_615",
+        "LevelP5_616",
+        "LevelP5_620",
+        "LevelP5_341",
+        "LevelP5_339",
+        "LevelP5_628",
+        "LevelP5_634",
+        "LevelP5_640",
+        "LevelP5_347",
+        "LevelP5_357",
+        "LevelP5_343",
+        "LevelP5_352",
+        "LevelP5_350"
+      ]
+    },
+    {
+      "number": 13,
+      "title_prefix": "HAM EM HIGH 13-",
+      "folder": "/levels/5_HamEmHigh",
+      "bank": 9,
+      "levels": [
+        "LevelP5_345",
+        "LevelP5_363",
+        "LevelP5_631",
+        "LevelP5_355",
+        "LevelP5_348",
+        "LevelP5_366",
+        "LevelP5_635",
+        "LevelP5_669",
+        "LevelP5_623",
+        "LevelP5_650",
+        "LevelP5_664",
+        "LevelP5_354",
+        "LevelP5_360",
+        "LevelP5_672",
+        "LevelP5_361"
+      ]
+    },
+    {
+      "number": 14,
+      "title_prefix": "HAM EM HIGH 14-",
+      "folder": "/levels/5_HamEmHigh",
+      "bank": 10,
+      "levels": [
+        "LevelP5_367",
+        "LevelP5_671",
+        "LevelP5_342",
+        "LevelP5_364",
+        "LevelP5_340",
+        "LevelP5_362",
+        "LevelP5_627",
+        "LevelP5_648",
+        "LevelP5_656",
+        "LevelP5_351",
+        "LevelP5_662",
+        "LevelP5_668",
+        "LevelP5_651",
+        "LevelP5_663",
+        "LevelP5_359"
+      ]
     }
   ]
 }

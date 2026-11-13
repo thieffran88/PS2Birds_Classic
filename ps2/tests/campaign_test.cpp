@@ -205,6 +205,51 @@ static const Stage stages[]={
  {"LevelP4_475",111,8,96,3,{{25,90,-1.0f}},1}, /* BIG SETUP 11-13 */
  {"LevelP4_477",112,6,84,3,{{0,94,-1.0f}},1}, /* BIG SETUP 11-14 */
  {"LevelP4_478",124,6,83,3,{{15,94,-1.0f}},1}, /* BIG SETUP 11-15 */
+ {"LevelP5_610",99,8,55,4,{{15,86,-1.0f}},1}, /* HAM EM HIGH 12-1 */
+ {"LevelP5_356",133,8,60,3,{{35,90,-1.0f}},1}, /* HAM EM HIGH 12-2 */
+ {"LevelP5_615",122,5,60,3,{{15,74,-1.0f}},1}, /* HAM EM HIGH 12-3 */
+ {"LevelP5_616",81,10,51,3,{{15,98,-1.0f}},1}, /* HAM EM HIGH 12-4 */
+ {"LevelP5_620",120,8,103,3,{{5,98,-1.0f}},1}, /* HAM EM HIGH 12-5 */
+ {"LevelP5_341",87,5,75,4,{{20,82,0.7f}},1}, /* HAM EM HIGH 12-6 */
+ {"LevelP5_339",111,5,67,3,{{25,94,-1.0f}},1}, /* HAM EM HIGH 12-7 */
+ {"LevelP5_628",92,6,67,3,{{-10,78,-1.0f}},1}, /* HAM EM HIGH 12-8 */
+ {"LevelP5_634",138,9,81,3,{{-5,90,-1.0f}},1}, /* HAM EM HIGH 12-9 */
+ {"LevelP5_640",97,8,75,3,{{70,94,-1.0f}},1}, /* HAM EM HIGH 12-10 */
+ {"LevelP5_347",76,6,49,5,{{15,86,-1.0f}},1}, /* HAM EM HIGH 12-11 */
+ {"LevelP5_357",144,5,99,4,{{15,98,-1.0f}},1}, /* HAM EM HIGH 12-12 */
+ {"LevelP5_343",81,6,57,4,{{-10,58,-1.0f}},1}, /* HAM EM HIGH 12-13 */
+ {"LevelP5_352",90,7,51,4,{{-10,78,0.4f}},1}, /* HAM EM HIGH 12-14 */
+ {"LevelP5_350",146,6,109,6,{{-10,62,-1.0f}},1}, /* HAM EM HIGH 12-15 */
+ {"LevelP5_345",81,7,65,3,{{15,90,1.8f},{15,100,2.6f},{65,75,0.8f}},3}, /* HAM EM HIGH 13-1 */
+ {"LevelP5_363",129,7,73,3,{{15,94,1.0f}},1}, /* HAM EM HIGH 13-2 */
+ {"LevelP5_631",102,8,39,4,{{30,90,0.4f}},1}, /* HAM EM HIGH 13-3 */
+ {"LevelP5_355",108,7,93,3,{{0,78,-1.0f}},1}, /* HAM EM HIGH 13-4 */
+ {"LevelP5_348",94,6,53,4,{{5,98,-1.0f}},1}, /* HAM EM HIGH 13-5 */
+ {"LevelP5_366",77,6,59,5,{{-10,90,-1.0f}},1}, /* HAM EM HIGH 13-6 */
+ {"LevelP5_635",103,17,82,3,{{0,0,-1.0f}},0}, /* HAM EM HIGH 13-7 (sem roteiro vencedor) */
+ {"LevelP5_669",104,7,62,3,{{25,94,0.4f}},1}, /* HAM EM HIGH 13-8 */
+ {"LevelP5_623",69,6,57,4,{{0,98,-1.0f}},1}, /* HAM EM HIGH 13-9 */
+ {"LevelP5_650",107,6,59,3,{{10,86,-1.0f}},1}, /* HAM EM HIGH 13-10 */
+ {"LevelP5_664",77,6,48,3,{{-10,42,-1.0f}},1}, /* HAM EM HIGH 13-11 */
+ {"LevelP5_354",167,7,113,6,{{15,94,-1.0f}},1}, /* HAM EM HIGH 13-12 */
+ {"LevelP5_360",117,5,103,5,{{20,78,0.7f}},1}, /* HAM EM HIGH 13-13 */
+ {"LevelP5_672",138,6,88,4,{{30,98,-1.0f}},1}, /* HAM EM HIGH 13-14 */
+ {"LevelP5_361",124,13,99,5,{{-10,66,-1.0f}},1}, /* HAM EM HIGH 13-15 */
+ {"LevelP5_367",103,10,89,4,{{-10,82,-1.0f}},1}, /* HAM EM HIGH 14-1 */
+ {"LevelP5_671",98,9,59,4,{{-10,98,-1.0f}},1}, /* HAM EM HIGH 14-2 */
+ {"LevelP5_342",119,5,54,3,{{15,86,0.4f}},1}, /* HAM EM HIGH 14-3 */
+ {"LevelP5_364",161,5,105,4,{{25,86,0.4f}},1}, /* HAM EM HIGH 14-4 */
+ {"LevelP5_340",155,5,138,3,{{0,86,-1.0f}},1}, /* HAM EM HIGH 14-5 */
+ {"LevelP5_362",104,12,83,4,{{-10,98,-1.0f}},1}, /* HAM EM HIGH 14-6 */
+ {"LevelP5_627",73,6,61,3,{{-10,90,-1.0f}},1}, /* HAM EM HIGH 14-7 */
+ {"LevelP5_648",72,6,61,4,{{5,86,-1.0f}},1}, /* HAM EM HIGH 14-8 */
+ {"LevelP5_656",139,8,68,3,{{5,98,-1.0f}},1}, /* HAM EM HIGH 14-9 */
+ {"LevelP5_351",112,7,69,7,{{-10,74,-1.0f}},1}, /* HAM EM HIGH 14-10 */
+ {"LevelP5_662",121,6,86,4,{{45,90,-1.0f}},1}, /* HAM EM HIGH 14-11 */
+ {"LevelP5_668",162,10,99,4,{{5,90,0.4f}},1}, /* HAM EM HIGH 14-12 */
+ {"LevelP5_651",60,7,52,4,{{-10,78,-1.0f}},1}, /* HAM EM HIGH 14-13 */
+ {"LevelP5_663",109,6,68,4,{{10,90,0.4f}},1}, /* HAM EM HIGH 14-14 */
+ {"LevelP5_359",111,8,93,5,{{5,94,-1.0f}},1}, /* HAM EM HIGH 14-15 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -225,7 +270,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==195 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==240 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));
@@ -323,7 +368,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==2);
+    assert(unverified==3);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");

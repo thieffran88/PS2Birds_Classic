@@ -780,6 +780,186 @@
     "LevelP4_478": {
       "silver": 85000,
       "gold": 95000
+    },
+    "LevelP5_610": {
+      "silver": 67000,
+      "gold": 74000
+    },
+    "LevelP5_356": {
+      "silver": 74000,
+      "gold": 83000
+    },
+    "LevelP5_615": {
+      "silver": 45000,
+      "gold": 52000
+    },
+    "LevelP5_616": {
+      "silver": 72000,
+      "gold": 79000
+    },
+    "LevelP5_620": {
+      "silver": 67000,
+      "gold": 75000
+    },
+    "LevelP5_341": {
+      "silver": 53000,
+      "gold": 60000
+    },
+    "LevelP5_339": {
+      "silver": 58000,
+      "gold": 65000
+    },
+    "LevelP5_628": {
+      "silver": 53000,
+      "gold": 59000
+    },
+    "LevelP5_634": {
+      "silver": 89000,
+      "gold": 95000
+    },
+    "LevelP5_640": {
+      "silver": 75000,
+      "gold": 84000
+    },
+    "LevelP5_347": {
+      "silver": 65000,
+      "gold": 73000
+    },
+    "LevelP5_357": {
+      "silver": 69000,
+      "gold": 78000
+    },
+    "LevelP5_343": {
+      "silver": 66000,
+      "gold": 75000
+    },
+    "LevelP5_352": {
+      "silver": 72000,
+      "gold": 80000
+    },
+    "LevelP5_350": {
+      "silver": 130000,
+      "gold": 140000
+    },
+    "LevelP5_345": {
+      "silver": 67000,
+      "gold": 76000
+    },
+    "LevelP5_363": {
+      "silver": 73000,
+      "gold": 80000
+    },
+    "LevelP5_631": {
+      "silver": 68000,
+      "gold": 75000
+    },
+    "LevelP5_355": {
+      "silver": 83000,
+      "gold": 90000
+    },
+    "LevelP5_348": {
+      "silver": 90000,
+      "gold": 100000
+    },
+    "LevelP5_366": {
+      "silver": 88000,
+      "gold": 95000
+    },
+    "LevelP5_635": {
+      "silver": 138000,
+      "gold": 145000
+    },
+    "LevelP5_669": {
+      "silver": 51000,
+      "gold": 58000
+    },
+    "LevelP5_623": {
+      "silver": 69000,
+      "gold": 76000
+    },
+    "LevelP5_650": {
+      "silver": 50000,
+      "gold": 57000
+    },
+    "LevelP5_664": {
+      "silver": 78000,
+      "gold": 85000
+    },
+    "LevelP5_354": {
+      "silver": 82000,
+      "gold": 90000
+    },
+    "LevelP5_360": {
+      "silver": 46000,
+      "gold": 53000
+    },
+    "LevelP5_672": {
+      "silver": 70000,
+      "gold": 76000
+    },
+    "LevelP5_361": {
+      "silver": 118000,
+      "gold": 125000
+    },
+    "LevelP5_367": {
+      "silver": 108000,
+      "gold": 117000
+    },
+    "LevelP5_671": {
+      "silver": 102000,
+      "gold": 109000
+    },
+    "LevelP5_342": {
+      "silver": 55000,
+      "gold": 62000
+    },
+    "LevelP5_364": {
+      "silver": 100000,
+      "gold": 110000
+    },
+    "LevelP5_340": {
+      "silver": 58000,
+      "gold": 65000
+    },
+    "LevelP5_362": {
+      "silver": 92000,
+      "gold": 100000
+    },
+    "LevelP5_627": {
+      "silver": 51000,
+      "gold": 58000
+    },
+    "LevelP5_648": {
+      "silver": 61000,
+      "gold": 68000
+    },
+    "LevelP5_656": {
+      "silver": 89000,
+      "gold": 96000
+    },
+    "LevelP5_351": {
+      "silver": 95000,
+      "gold": 105000
+    },
+    "LevelP5_662": {
+      "silver": 75000,
+      "gold": 83000
+    },
+    "LevelP5_668": {
+      "silver": 93000,
+      "gold": 100000
+    },
+    "LevelP5_651": {
+      "silver": 78000,
+      "gold": 85000
+    },
+    "LevelP5_663": {
+      "silver": 64000,
+      "gold": 71000
+    },
+    "LevelP5_359": {
+      "silver": 115000,
+      "gold": 125000
     }
   }
 }
