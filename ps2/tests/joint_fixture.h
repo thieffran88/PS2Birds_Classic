@@ -11,12 +11,12 @@ static const CampaignObject joint_objects[]={
  {80,3.9f,0,2.15f,2.15f,2,10000,100,4,SHAPE_CIRCLE,"SmallPiglette",0.7f,0.05f},
 };
 static const CampaignJoint joint_list[]={
- {JOINT_DISTANCE,0,1,10,-6,16,-6,4,0.5f,0,0},
- {JOINT_WELD,2,3,30,3.5f,30,0.5f,0,0,0,0},
- {JOINT_REVOLUTE,-1,4,46,-10,46,-10,0,0,0,0},
+ {JOINT_DISTANCE,0,1,10,-6,16,-6,4,0.5f,0,0,0},
+ {JOINT_WELD,2,3,30,3.5f,30,0.5f,0,0,0,0,0},
+ {JOINT_REVOLUTE,-1,4,46,-10,46,-10,0,0,0,0,0},
 };
 static const CampaignJoint breakable_list[]={
- {JOINT_WELD,2,3,30,3.5f,30,0.5f,0,0,0.001f,0},
+ {JOINT_WELD,2,3,30,3.5f,30,0.5f,0,0,0.001f,0,0},
 };
 static const CampaignLevel campaign_levels[]={
  {joint_objects,6,1,{0},20,0,0,5,20,100,200,5,"JOINT FIXTURE","fixture-joint",0,joint_list,3,0,0},

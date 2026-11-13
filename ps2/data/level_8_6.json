@@ -13,6 +13,7 @@
       "frequency": 0.0,
       "damping": 0.0,
       "break_force": 1.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -27,6 +28,7 @@
       "frequency": 0.0,
       "damping": 0.0,
       "break_force": 1.25,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -41,6 +43,7 @@
       "frequency": 0.0,
       "damping": 0.0,
       "break_force": 5.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -55,6 +58,7 @@
       "frequency": 0.0,
       "damping": 0.0,
       "break_force": 4.25,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -69,6 +73,7 @@
       "frequency": 0.0,
       "damping": 0.0,
       "break_force": 4.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -83,6 +88,7 @@
       "frequency": 0.0,
       "damping": 0.0,
       "break_force": 4.0,
+      "destroy_timer": 0.0,
       "collide": false
     }
   ],

@@ -13,6 +13,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -27,6 +28,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -41,6 +43,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -55,6 +58,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -69,6 +73,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -83,6 +88,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -97,6 +103,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -111,6 +118,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -125,6 +133,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -139,6 +148,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -153,6 +163,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -167,6 +178,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -181,6 +193,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -195,6 +208,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -209,6 +223,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -223,6 +238,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -237,6 +253,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -251,6 +268,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -265,6 +283,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -279,6 +298,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -293,6 +313,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -307,6 +328,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -321,6 +343,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     },
     {
@@ -335,6 +358,7 @@
       "frequency": 4.0,
       "damping": 0.5,
       "break_force": 0.0,
+      "destroy_timer": 0.0,
       "collide": false
     }
   ],

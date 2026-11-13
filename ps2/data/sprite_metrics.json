@@ -438,5 +438,105 @@
     "width": 71,
     "height": 92,
     "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "CAVE_HAT_1": {
+    "width": 92,
+    "height": 56,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "CAVE_HAT_2": {
+    "width": 112,
+    "height": 73,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "CAVE_HAT_3": {
+    "width": 110,
+    "height": 91,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "KING_CAVE_HAT_1": {
+    "width": 172,
+    "height": 86,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "BLOCK_AMETHYST": {
+    "width": 80,
+    "height": 95,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_AMBER": {
+    "width": 55,
+    "height": 59,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_RUBY": {
+    "width": 42,
+    "height": 77,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "CAVE_SHOVEL_1": {
+    "width": 51,
+    "height": 147,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "CAVE_SHOVEL_2": {
+    "width": 33,
+    "height": 93,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "CAVE_PICKAXE_1": {
+    "width": 92,
+    "height": 117,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "CAVE_PICKAXE_2": {
+    "width": 54,
+    "height": 68,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_ROPE_THIN_1": {
+    "width": 5,
+    "height": 130,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_ROPE_THIN_2": {
+    "width": 5,
+    "height": 64,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_STALAKTITE_1": {
+    "width": 96,
+    "height": 101,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_STALAKTITE_2": {
+    "width": 27,
+    "height": 60,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_STALAKTITE_3": {
+    "width": 31,
+    "height": 64,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_STALAKTITE_TIP_1": {
+    "width": 35,
+    "height": 110,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_STALAKTITE_TIP_2": {
+    "width": 25,
+    "height": 87,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_STALAKTITE_TIP_3": {
+    "width": 26,
+    "height": 122,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_STALAKTITE_TIP_4": {
+    "width": 32,
+    "height": 183,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
   }
 }

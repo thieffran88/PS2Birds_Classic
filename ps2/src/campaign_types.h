@@ -1,8 +1,8 @@
 #ifndef PS2BIRDS_CAMPAIGN_TYPES_H
 #define PS2BIRDS_CAMPAIGN_TYPES_H
-#define MAX_LEVEL_OBJECTS 224
+#define MAX_LEVEL_OBJECTS 352
 #define MAX_LEVEL_JOINTS 64
-#define MAX_CAMPAIGN_LEVELS 256
+#define MAX_CAMPAIGN_LEVELS 512
 typedef struct {float x,y,angle,width,height,density,strength,defence;int kind,shape;const char *definition;float friction,restitution;} CampaignObject;
 /* friction/restitution come from the materials table of blocks.lua (wood 4.0/0.2,
    light 0.7/0.2, rock 4.0/0.1, immovable 0.8/0, piglette 0.7/0.05, extras 0.7/0.4). */
@@ -15,8 +15,9 @@ typedef struct {const char *definition;int count;float v[16];} CampaignPolygon;
    2 weld, 3 revolute). Anchors are world coordinates; a/b index the objects array,
    -1 meaning the ground. frequency/damping 0 makes the joint rigid. breakForce 0 means
    unbreakable. */
-enum {JOINT_DISTANCE=1,JOINT_WELD=2,JOINT_REVOLUTE=3};
-typedef struct {int type,a,b;float ax,ay,bx,by,frequency,damping,break_force;int collide;} CampaignJoint;
+enum {JOINT_DISTANCE=1,JOINT_WELD=2,JOINT_REVOLUTE=3,JOINT_DESTROY_ATTACHED=5};
+/* destroy_timer: type 5 (editor "Destroy-attached"), seconds after which end2 is removed. */
+typedef struct {int type,a,b;float ax,ay,bx,by,frequency,damping,break_force;int collide;float destroy_timer;} CampaignJoint;
 typedef struct {const CampaignObject *objects;int count,birds;int bird_types[16];float gravity,sling_x,sling_y,ground_y,pixels,view_x,view_y,view_scale;const char *title,*script;int bank;const CampaignJoint *joints;int joint_count;
     /* Star thresholds from starLimits.lua: a win is 1 star, silverScore 2, goldScore 3. */
     int star_silver,star_gold;} CampaignLevel;

@@ -52,7 +52,7 @@ int main(){
     assert(save_encode(&r,a) && save_decode(a,SAVE_BYTES,&decoded) && decoded.count==21 && decoded.version==SAVE_VERSION && decoded.scores[0]==28000);
     assert(!save_decode(a,SAVE_BYTES-1,&decoded) && !save_decode(a,SAVE_BYTES_V1,&decoded));
     for(int i=0;i<SAVE_BYTES;i++){memcpy(b,a,SAVE_BYTES);b[i]^=0x55;assert(!save_decode(b,SAVE_BYTES,&decoded));}
-    SaveRecord bad=r;bad.unlocked=22;assert(!save_encode(&bad,b));bad=r;bad.count=257;assert(!save_encode(&bad,b));bad=r;bad.scores[21]=5;assert(!save_encode(&bad,b));
+    SaveRecord bad=r;bad.unlocked=22;assert(!save_encode(&bad,b));bad=r;bad.count=513;assert(!save_encode(&bad,b));bad=r;bad.scores[21]=5;assert(!save_encode(&bad,b));
     r.sequence=0;r.scores[1]=23000;assert(save_encode(&r,b));assert(save_choose(a,SAVE_BYTES,b,SAVE_BYTES,&decoded)==1 && decoded.scores[1]==23000);
     assert(save_choose(b,SAVE_BYTES,a,SAVE_BYTES,&decoded)==0 && decoded.scores[1]==23000);
     assert(save_choose(a,SAVE_BYTES,b,SAVE_BYTES-5,&decoded)==0 && save_choose(a,1,b,2,&decoded)==-1);
@@ -150,12 +150,12 @@ int main(){
         // 0.16.0 saves: winning 3-21 unlocks 4-1; the migrated v4 copy goes to the other slot.
         files.clear();files["/PS2BIRDS/progress_a.dat"]=v3;init(g);assert(g.unlocked==64 && g.highscores[59]==71500 && g.highscores[62]==1000 && !g.highscores[63]);
         g.unlocked=84;g.highscores[83]=40000;save_mc_request();pump();
-        assert(files["/PS2BIRDS/progress_a.dat"]==v3 && files["/PS2BIRDS/progress_b.dat"].size()==SAVE_BYTES && SAVE_BYTES==1056);
+        assert(files["/PS2BIRDS/progress_a.dat"]==v3 && files["/PS2BIRDS/progress_b.dat"].size()==SAVE_BYTES && SAVE_BYTES==2080);
         assert(save_decode(files["/PS2BIRDS/progress_b.dat"].data(),SAVE_BYTES,&decoded) && decoded.version==SAVE_VERSION && decoded.count==84 && decoded.sequence==31 && decoded.scores[83]==40000 && decoded.scores[0]==27000);
         init(g);assert(g.unlocked==84 && g.highscores[83]==40000);
         put(28+62*4,0);put(284,save_crc32(v3.data(),284));files.clear();files["/PS2BIRDS/progress_a.dat"]=v3;init(g);assert(g.unlocked==63);
-        SaveRecord full{};full.count=256;full.unlocked=256;full.scores[255]=5;assert(save_encode(&full,a) && save_decode(a,SAVE_BYTES,&decoded) && decoded.scores[255]==5);
-        full.count=257;assert(!save_encode(&full,a));
+        SaveRecord full{};full.count=512;full.unlocked=512;full.scores[511]=5;assert(save_encode(&full,a) && save_decode(a,SAVE_BYTES,&decoded) && decoded.scores[511]==5);
+        full.count=513;assert(!save_encode(&full,a));
     }
     // Version 4 (544 bytes, 128 scores) written by 0.17.0-0.22.0, encoded independently.
     {
@@ -169,7 +169,19 @@ int main(){
         files.clear();files["/PS2BIRDS/progress_a.dat"]=v4;init(g);assert(g.unlocked==85 && g.highscores[83]==61500 && g.highscores[0]==31000);
         g.highscores[84]=12000;save_mc_request();pump();
         assert(files["/PS2BIRDS/progress_a.dat"]==v4 && files["/PS2BIRDS/progress_b.dat"].size()==SAVE_BYTES);
-        assert(save_decode(files["/PS2BIRDS/progress_b.dat"].data(),SAVE_BYTES,&decoded) && decoded.version==5 && decoded.sequence==51 && decoded.scores[84]==12000 && decoded.scores[83]==61500);
+        assert(save_decode(files["/PS2BIRDS/progress_b.dat"].data(),SAVE_BYTES,&decoded) && decoded.version==SAVE_VERSION && decoded.sequence==51 && decoded.scores[84]==12000 && decoded.scores[83]==61500);
     }
-    puts("Save OK: CRC, v1/v2/v3 layouts, 64-score boundary, v2 migration/fallback, corruption, slots, full card, invalid saves preserved, legacy order migration, 35-to-42 and 42-to-63 and v3-to-v4 63-to-84 and v4-to-v5 84-to-85 expansion, 256-score boundary, newer saves preserved.");
+    // Version 5 (1056 bytes, 256 scores) written by 0.23.0-0.27.0, encoded independently.
+    {
+        std::vector<unsigned char> v5(1056,0);memcpy(v5.data(),"PS2BIRD1",8);
+        auto put=[&](size_t at,uint32_t v){for(int i=0;i<4;i++)v5[at+i]=(unsigned char)(v>>(i*8));};
+        put(8,5);put(12,0x434c4153u);put(16,70);put(20,240);put(24,240);put(28,31000);put(28+239*4,52000);put(1052,save_crc32(v5.data(),1052));
+        assert(save_decode(v5.data(),1056,&decoded) && decoded.version==5 && decoded.count==240 && decoded.scores[239]==52000);
+        for(int i=0;i<1056;i+=11){auto c=v5;c[i]^=0x55;assert(!save_decode(c.data(),c.size(),&decoded));}
+        mock_level_count=285;files.clear();files["/PS2BIRDS/progress_a.dat"]=v5;init(g);assert(g.unlocked==241 && g.highscores[239]==52000);
+        g.highscores[240]=9000;save_mc_request();pump();
+        assert(files["/PS2BIRDS/progress_a.dat"]==v5 && files["/PS2BIRDS/progress_b.dat"].size()==SAVE_BYTES);
+        assert(save_decode(files["/PS2BIRDS/progress_b.dat"].data(),SAVE_BYTES,&decoded) && decoded.version==6 && decoded.sequence==71 && decoded.scores[240]==9000 && decoded.count==285);
+    }
+    puts("Save OK: CRC, v1/v2/v3 layouts, 64-score boundary, v2 migration/fallback, corruption, slots, full card, invalid saves preserved, legacy order migration, 35-to-42 and 42-to-63 and v3-to-v4 63-to-84 and v4-to-v5 84-to-85 and v5-to-v6 240-to-241 expansion, 512-score boundary, newer saves preserved.");
 }

@@ -238,7 +238,7 @@ assert objs['materials']['by_kind']['9']=={'name':'immovableFragile','friction':
 m=(root/'ps2/data/page7_definitions_excerpt.lua').read_text();assert 'L2_1.immovableFragile = L3_1' in m
 for number in range(1,16):
     d=json.loads((root/f'ps2/data/level_7_{number}.json').read_text());assert d['stage_script']==da2[number-1] and d['texture_bank']==3 and d['title']==f'DANGER ABOVE 7-{number}'
-assert max(len(json.loads((root/f'ps2/data/level_7_{n}.json').read_text())['objects']) for n in range(1,16))<=224
+assert max(len(json.loads((root/f'ps2/data/level_7_{n}.json').read_text())['objects']) for n in range(1,16))<=352
 print('Danger Above page 7 OK: 15 stages match episodes.lua; StaticFragileBlock06, StaticBlock_06 and StaticBalloon01 checked against blocks.lua; texture bank 3; up to 224 objects.')
 
 # Danger Above page 8: order, bank 4 and the three new extras.
@@ -310,3 +310,29 @@ for name in ['ExtraCowboyHelmetSmall_1','ExtraCowboyHelmet_1','ExtraSheriffHat_1
 assert '"SHORT_THICK_ROPE"' in blockhh('BP_ROPE_THICK') and objs['objects']['BP_ROPE_THICK']['kind']==6
 assert '"B_EGG_SUPER_BOWL"' in blockhh('ExtraSuperBowl') and objs['objects']['ExtraSuperBowl']=={'sprite':'B_EGG_SUPER_BOWL','kind':3,'shape':'circle'}
 print("Ham 'Em High OK: 45 stages match episodes.lua in banks 8-10; five western hats (polygon vertices, sprite, friction, restitution), short rope and super bowl checked against blocks.lua.")
+
+# Mine and Dine (pages 15-17): order, banks 11-13, the 20 pieces added by tools/add_definitions.py,
+# their materials, density-0 fixed pieces and the destroy-attached joints.
+import importlib.util as _ilu
+_spec=_ilu.spec_from_file_location('add_definitions',root/'tools/add_definitions.py');_ad=_ilu.module_from_spec(_spec);_spec.loader.exec_module(_ad)
+md=(root/'ps2/data/mine_and_dine_definitions_excerpt.lua').read_text()
+mine=['ExtraCaveHat_1','ExtraCaveHat_2','ExtraCaveHat_3','ExtraKingCaveHat_1','ExtraAmethyst','ExtraAmber','ExtraRuby','ExtraCaveShovel_1','ExtraCaveShovel_2','ExtraCavePickaxe_1','ExtraCavePickaxe_2','ExtraRopeThin01','ExtraRopeThin02','ExtraStalaktite_1','ExtraStalaktite_2','ExtraStalaktite_3','ExtraStalaktite_Tip1','ExtraStalaktite_Tip2','ExtraStalaktite_Tip3','ExtraStalaktite_Tip4']
+for name in mine:
+    d=_ad.definition(md,name);spec=objs['objects'][name];mat=_ad.material(md,d['material']) if f'L2_1.{d["material"]} = L3_1' in md else {}
+    assert spec['sprite']==d['sprite'] and spec['shape']==d['type'] and spec.get('auto') and spec['kind']==6,name
+    if d['type']=='polygon':assert spec['vertices']==d['vertices']
+    assert objs['materials']['friction_overrides'][name]==d['props'].get('friction',mat.get('friction',0.7))
+    assert objs['materials']['restitution_overrides'][name]==d['props'].get('restitution',mat.get('restitution',0.4))
+assert _ad.material(md,'amethyst')['friction']==1 and _ad.material(md,'stalaktite')['restitution']==0.4
+for number,name in {15:'episode_mine_and_dine_page1',16:'episode_mine_and_dine_page2',17:'episode_mine_and_dine_page3'}.items():
+    order=list(dict.fromkeys(re.findall(r'"(Level[\w]+)"',(root/f'ps2/data/{name}.decompiled.lua').read_text())))
+    page=[pg for pg in episode['additional_pages'] if pg['number']==number][0]
+    assert len(order)==15 and page['levels']==order and page['bank']==number-4 and page['folder']=='/levels/6_MineAndDine'
+    for n in range(1,16):
+        d=json.loads((root/f'ps2/data/level_{number}_{n}.json').read_text());assert d['stage_script']==order[n-1] and d['texture_bank']==number-4
+gen=(root/'ps2/src/definition_sprites.h').read_text()
+for name in mine:assert '{"%s",SPR_%s}'%(name,objs['objects'][name]['sprite']) in gen
+data=(root/'ps2/src/campaign_data.h').read_text()
+assert data.count('{5,')>=2 and '2.18000000f}' in data and '4.63000000f}' in data
+src=(root/'ps2/src/game.cpp').read_text();assert 'o.density==0)?b2_staticBody' in src
+print("Mine and Dine OK: 45 stages in banks 11-13; 20 pieces (hats, gems, tools, ropes, stalactites) match blocks.lua and its materials; destroy-attached joints keep their timers; density-0 pieces are fixed.")

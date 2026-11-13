@@ -137,6 +137,9 @@ def bank_members(all_names):
             elif re.fullmatch(r'BLOCK_(?:WOOD|LIGHT|ROCK)_(?:4X4|TRIANGLE_L|TRIANGLE_M)_[23]',n):target=n[:-1]+('1' if n.endswith('2') else '4')
             # Banks 2 and 3 (Mighty Hoax page 5, Danger Above) have the largest piece sets: numbered blocks keep
             # two frames, intact (states 1-2) and heavily damaged (states 3-4).
+            # Banks 11+ (Mine and Dine) also draw the hurt pig with its normal frame.
+            elif b>=11 and n.startswith('PIG_') and n.endswith('_02'):target=n[:-3]+'_01'
+            elif b>=11 and re.fullmatch(r'BLOCK_(?:WOOD|LIGHT|ROCK)_10X1_[23]',n):target=n[:-1]+('1' if n.endswith('2') else '4')
             elif b>=2 and re.fullmatch(r'BLOCK_(?:WOOD|LIGHT|ROCK)_[23]_\d+',n):target=re.sub(r'_([23])_(\d+)$',lambda m:('_1_' if m[1]=='2' else '_4_')+m[2],n)
             if target and target in banks[b]:aliases[b][n]=target
         banks[b]-=set(aliases[b])
@@ -145,7 +148,13 @@ def bank_members(all_names):
 def extract(apk,out,sevenzip,game="classic"):
     sprites=[];manifest=[]
     with zipfile.ZipFile(apk) as archive,tempfile.TemporaryDirectory(prefix='ps2birds-sprites-') as folder:
-        for sheet,names in SHEETS.items():
+        # Pieces added by tools/add_definitions.py ("auto") bring their sprite and sheet.
+        sheets={k:list(v) for k,v in SHEETS.items()}
+        profile=json.loads((ROOT/'profiles/classic_level.json').read_text());metrics=json.loads((ROOT/'ps2/data/sprite_metrics.json').read_text())
+        for spec in profile['objects'].values():
+            if spec.get('auto') and spec['sprite'] not in sheets.setdefault(metrics[spec['sprite']]['sheet'].replace('.sheet.json',''),[]):
+                sheets[metrics[spec['sprite']]['sheet'].replace('.sheet.json','')].append(spec['sprite'])
+        for sheet,names in sheets.items():
             base='assets/data/images/base/'+sheet
             encrypted=archive.read(base+'.sheet.json')
             decoded=decode_payload(encrypted,game,sevenzip)
@@ -162,16 +171,25 @@ def extract(apk,out,sevenzip,game="classic"):
                 else:
                     s=f['stream'];p=s['position'];w=s['width'];h=s['height']
                     head=raw[p:p+40]
-                    if len(head)!=40 or head[4:6]!=b'\x00\x28' or head[32:40]!=b'RGBA4444':raise ValueError('Unsupported stream header: '+name)
-                    if struct.unpack('>HH',head[6:10])!=(w,h) or s['length']!=w*h*2:raise ValueError('Bad dimensions: '+name)
+                    if len(head)!=40 or head[4:6]!=b'\x00\x28' or head[32:40] not in (b'RGBA4444',b'RGBA8888'):raise ValueError('Unsupported stream header: '+name)
                     if f['rotated']:raise ValueError('Unsupported frame orientation: '+name)
                     left,top,right,bottom=f['extrude']
-                    fw,fh=f['frame']['w'],f['frame']['h']
-                    if (w,h)!=(fw+2+left+right,fh+2+top+bottom):raise ValueError('Bad extrusion: '+name)
-                    data=raw[p+40:p+40+w*h*2]
-                    if len(data)!=w*h*2:raise ValueError('Truncated sprite: '+name)
-                    rgba=decode_rgba4444(data,w,h)
-                    rgba=bytearray().join(rgba[((y+top)*(w-2)+left)*4:((y+top)*(w-2)+left+fw)*4] for y in range(fh))
+                    if head[32:40]==b'RGBA8888':
+                        # RGBA8888 sheets (e.g. INGAME_TRANSPARENCY_1_1): no padding border, the
+                        # frame sits inside the extrusion margin; alpha scaled to the GS 0..128 range.
+                        if struct.unpack('>HH',head[6:10])!=(w,h) or s['length']!=w*h*4:raise ValueError('Bad dimensions: '+name)
+                        if (w,h)!=(fw+left+right,fh+top+bottom):raise ValueError('Bad extrusion: '+name)
+                        data=raw[p+40:p+40+w*h*4]
+                        if len(data)!=w*h*4:raise ValueError('Truncated sprite: '+name)
+                        rgba=bytearray().join(data[((y+top)*w+left)*4:((y+top)*w+left+fw)*4] for y in range(fh))
+                        for k in range(3,len(rgba),4):rgba[k]=(rgba[k]*128+127)//255
+                    else:
+                        if struct.unpack('>HH',head[6:10])!=(w,h) or s['length']!=w*h*2:raise ValueError('Bad dimensions: '+name)
+                        if (w,h)!=(fw+2+left+right,fh+2+top+bottom):raise ValueError('Bad extrusion: '+name)
+                        data=raw[p+40:p+40+w*h*2]
+                        if len(data)!=w*h*2:raise ValueError('Truncated sprite: '+name)
+                        rgba=decode_rgba4444(data,w,h)
+                        rgba=bytearray().join(rgba[((y+top)*(w-2)+left)*4:((y+top)*(w-2)+left+fw)*4] for y in range(fh))
                 pivot=dict(f['pivot'])
                 if name.startswith('GROUND_BLOCK_'):
                     rgba,fw,fh=halve_mask(rgba,fw,fh);pivot={'x':(pivot['x']+1)//MASK_SCALE,'y':(pivot['y']+1)//MASK_SCALE}

@@ -13,6 +13,7 @@
       "frequency": 0.0,
       "damping": 0.0,
       "break_force": 1.0,
+      "destroy_timer": 0.0,
       "collide": false
     }
   ],

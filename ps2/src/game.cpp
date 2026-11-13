@@ -46,6 +46,7 @@ struct Physics: b2ContactListener {
     b2Body *spawn_ignore[8];int spawn_ignore_count;
     b2Body *floor_body;
     b2Joint *joints[MAX_LEVEL_JOINTS];float joint_break[MAX_LEVEL_JOINTS];int joint_count;
+    float detach_time[MAX_LEVEL_JOINTS];int detach_target[MAX_LEVEL_JOINTS];int detach_count;
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),bird_type(BIRD_RED_TYPE) {
         egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
         damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
@@ -54,13 +55,13 @@ struct Physics: b2ContactListener {
         /* The Ground object of the stage data spans the whole level; stages place pieces up to
            x=825, so the floor is FLOOR_HALF_WIDTH wide on each side of the origin. */
         b2BodyDef floor_def; floor_def.position.Set(0,level->ground_y+1);
-        b2Body *floor=world.CreateBody(&floor_def);floor_body=floor;joint_count=0;
+        b2Body *floor=world.CreateBody(&floor_def);floor_body=floor;joint_count=0;detach_count=0;
         b2PolygonShape shape;shape.SetAsBox(FLOOR_HALF_WIDTH,1);
         /* staticGround material: friction 0.8, restitution 0. */
         b2FixtureDef ground;ground.shape=&shape;ground.friction=0.8f;ground.restitution=0;floor->CreateFixture(&ground);
         for (int i=0;i<level->count;i++) {
             const CampaignObject &o=level->objects[i];
-            b2BodyDef def;def.type=(o.kind==3||IS_FRAGILE_KIND(o.kind))?b2_staticBody:b2_dynamicBody;def.awake=!SCENE_STARTS_ASLEEP;
+            b2BodyDef def;def.type=(o.kind==3||IS_FRAGILE_KIND(o.kind)||o.density==0)?b2_staticBody:b2_dynamicBody; /* density 0 is a fixed piece, as in ObjectCreation.lua */def.awake=!SCENE_STARTS_ASLEEP;
             def.position.Set(o.x,o.y);def.angle=o.angle;
             b2Body *body=world.CreateBody(&def);
             body->GetUserData().pointer=i+1;
@@ -93,7 +94,7 @@ struct Physics: b2ContactListener {
             b2DistanceJointDef def;def.Initialize(a,b,pa,pb);def.collideConnected=j.collide!=0;
             if(j.frequency>0)b2LinearStiffness(def.stiffness,def.damping,j.frequency,j.damping,a,b);
             made=world.CreateJoint(&def);
-        }else if(j.type==JOINT_WELD){
+        }else if(j.type==JOINT_WELD || j.type==JOINT_DESTROY_ATTACHED){
             /* Like b2WeldJointDef::Initialize: one anchor (end1's) keeps the bodies' current relative pose. */
             b2WeldJointDef def;def.Initialize(a,b,pa);def.collideConnected=j.collide!=0;
             if(j.frequency>0)b2AngularStiffness(def.stiffness,def.damping,j.frequency,j.damping,a,b);
@@ -107,6 +108,9 @@ struct Physics: b2ContactListener {
                breakForce x (mass of both bodies) x gravity. */
             joint_break[joint_count]=j.break_force>0?j.break_force*(a->GetMass()+b->GetMass())*level->gravity:0;
             joints[joint_count++]=made;
+            /* Port approximation of the native "Destroy-attached" joint: it holds like a weld and
+               removes end2 once destroy_timer seconds of the stage have passed. */
+            if(j.type==JOINT_DESTROY_ATTACHED && j.b>=0 && detach_count<MAX_LEVEL_JOINTS){detach_time[detach_count]=j.destroy_timer;detach_target[detach_count++]=j.b;}
         }
     }
     void forget_joint(b2Joint *joint){for(int i=0;i<joint_count;i++)if(joints[i]==joint)joints[i]=NULL;}
@@ -368,7 +372,14 @@ static void tick(Game *g) {
             p->boomerang_spin=fminf(p->boomerang_spin+dt*15,6.28f);p->bird->SetAngularVelocity(p->boomerang_spin);
         }
     }
-    p->age+=dt;p->damage_contact_count=0;p->world.Step(dt,8,3);p->break_joints(1.0f/dt);
+    p->age+=dt;p->damage_contact_count=0;p->world.Step(dt,8,3);
+    for(int k=0;k<p->detach_count;k++){
+        int t=p->detach_target[k];
+        if(t>=0 && p->age>=p->detach_time[k] && p->bodies[t]){
+            p->world.DestroyBody(p->bodies[t]);p->bodies[t]=NULL;p->detach_target[k]=-1;
+            if(p->level->objects[t].kind==4){g->pig_alive--;g->events|=GAME_EVENT_PIG;}else if(p->level->objects[t].kind!=3){g->block_alive--;g->events|=GAME_EVENT_EXTRA;}
+        }
+    }p->break_joints(1.0f/dt);
     if(p->bird_type==BIRD_BLACK_TYPE && p->bird && !p->detonated){
         if(p->bird_collided){if(p->bomb_fuse<0)p->bomb_fuse=0;p->bomb_fuse+=dt;}
         if(p->bomb_requested || p->bomb_fuse>=BLACK_FUSE_SECONDS)detonate(g);

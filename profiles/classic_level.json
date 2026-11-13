@@ -677,6 +677,154 @@
       "sprite": "B_EGG_SUPER_BOWL",
       "kind": 3,
       "shape": "circle"
+    },
+    "ExtraCaveHat_1": {
+      "sprite": "CAVE_HAT_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "ExtraCaveHat_2": {
+      "sprite": "CAVE_HAT_2",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "ExtraCaveHat_3": {
+      "sprite": "CAVE_HAT_3",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "ExtraKingCaveHat_1": {
+      "sprite": "KING_CAVE_HAT_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "ExtraAmethyst": {
+      "sprite": "BLOCK_AMETHYST",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "ExtraAmber": {
+      "sprite": "BLOCK_AMBER",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true
+    },
+    "ExtraRuby": {
+      "sprite": "BLOCK_RUBY",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "ExtraCaveShovel_1": {
+      "sprite": "CAVE_SHOVEL_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "ExtraCaveShovel_2": {
+      "sprite": "CAVE_SHOVEL_2",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "ExtraCavePickaxe_1": {
+      "sprite": "CAVE_PICKAXE_1",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.5,
+          1.0
+        ]
+      ]
+    },
+    "ExtraCavePickaxe_2": {
+      "sprite": "CAVE_PICKAXE_2",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.5,
+          1.0
+        ]
+      ]
+    },
+    "ExtraRopeThin01": {
+      "sprite": "BLOCK_ROPE_THIN_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "ExtraRopeThin02": {
+      "sprite": "BLOCK_ROPE_THIN_2",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "ExtraStalaktite_1": {
+      "sprite": "BLOCK_STALAKTITE_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "ExtraStalaktite_2": {
+      "sprite": "BLOCK_STALAKTITE_2",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "ExtraStalaktite_3": {
+      "sprite": "BLOCK_STALAKTITE_3",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "ExtraStalaktite_Tip1": {
+      "sprite": "BLOCK_STALAKTITE_TIP_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "ExtraStalaktite_Tip2": {
+      "sprite": "BLOCK_STALAKTITE_TIP_2",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "ExtraStalaktite_Tip3": {
+      "sprite": "BLOCK_STALAKTITE_TIP_3",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "ExtraStalaktite_Tip4": {
+      "sprite": "BLOCK_STALAKTITE_TIP_4",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
     }
   },
   "metrics": "ps2/data/sprite_metrics.json",
@@ -757,7 +905,27 @@
       "ExtraCowboyHelmet_1": 1.0,
       "ExtraSheriffHat_1": 1.0,
       "ExtraSheriffHat_2": 1.0,
-      "ExtraBanditoHat_1": 1.0
+      "ExtraBanditoHat_1": 1.0,
+      "ExtraCaveHat_1": 1.0,
+      "ExtraCaveHat_2": 1.0,
+      "ExtraCaveHat_3": 1.0,
+      "ExtraKingCaveHat_1": 1.0,
+      "ExtraAmethyst": 1.0,
+      "ExtraAmber": 1.0,
+      "ExtraRuby": 1.0,
+      "ExtraCaveShovel_1": 1.0,
+      "ExtraCaveShovel_2": 1.0,
+      "ExtraCavePickaxe_1": 1.0,
+      "ExtraCavePickaxe_2": 1.0,
+      "ExtraRopeThin01": 0.7,
+      "ExtraRopeThin02": 0.7,
+      "ExtraStalaktite_1": 1.0,
+      "ExtraStalaktite_2": 1.0,
+      "ExtraStalaktite_3": 1.0,
+      "ExtraStalaktite_Tip1": 1.0,
+      "ExtraStalaktite_Tip2": 1.0,
+      "ExtraStalaktite_Tip3": 1.0,
+      "ExtraStalaktite_Tip4": 1.0
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -770,7 +938,27 @@
       "ExtraCowboyHelmet_1": 0.0,
       "ExtraSheriffHat_1": 0.0,
       "ExtraSheriffHat_2": 0.0,
-      "ExtraBanditoHat_1": 0.0
+      "ExtraBanditoHat_1": 0.0,
+      "ExtraCaveHat_1": 0.0,
+      "ExtraCaveHat_2": 0.0,
+      "ExtraCaveHat_3": 0.0,
+      "ExtraKingCaveHat_1": 0.0,
+      "ExtraAmethyst": 0.0,
+      "ExtraAmber": 0.0,
+      "ExtraRuby": 0.0,
+      "ExtraCaveShovel_1": 0.0,
+      "ExtraCaveShovel_2": 0.0,
+      "ExtraCavePickaxe_1": 0.0,
+      "ExtraCavePickaxe_2": 0.0,
+      "ExtraRopeThin01": 0.4,
+      "ExtraRopeThin02": 0.4,
+      "ExtraStalaktite_1": 0.0,
+      "ExtraStalaktite_2": 0.0,
+      "ExtraStalaktite_3": 0.0,
+      "ExtraStalaktite_Tip1": 0.0,
+      "ExtraStalaktite_Tip2": 0.0,
+      "ExtraStalaktite_Tip3": 0.0,
+      "ExtraStalaktite_Tip4": 0.0
     }
   }
 }

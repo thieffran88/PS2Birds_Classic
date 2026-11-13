@@ -346,6 +346,75 @@
         "LevelP5_663",
         "LevelP5_359"
       ]
+    },
+    {
+      "number": 15,
+      "title_prefix": "MINE AND DINE 15-",
+      "folder": "/levels/6_MineAndDine",
+      "bank": 11,
+      "levels": [
+        "LevelP6_8",
+        "Level711",
+        "LevelP6_1",
+        "Level702",
+        "LevelP6_2",
+        "Level707",
+        "LevelP6_28",
+        "Level708",
+        "Level709",
+        "LevelP6_16",
+        "LevelP6_22",
+        "Level695",
+        "LevelP6_12",
+        "LevelP6_26",
+        "LevelP6_20"
+      ]
+    },
+    {
+      "number": 16,
+      "title_prefix": "MINE AND DINE 16-",
+      "folder": "/levels/6_MineAndDine",
+      "bank": 12,
+      "levels": [
+        "LevelP6_4",
+        "LevelP6_15",
+        "Level703",
+        "LevelP6_3",
+        "Level704",
+        "Level705",
+        "LevelP6_23",
+        "LevelP6_25",
+        "Level697",
+        "LevelP6_29",
+        "LevelP6_5",
+        "LevelP6_13",
+        "LevelP6_19",
+        "LevelP6_11",
+        "Level701"
+      ]
+    },
+    {
+      "number": 17,
+      "title_prefix": "MINE AND DINE 17-",
+      "folder": "/levels/6_MineAndDine",
+      "bank": 13,
+      "levels": [
+        "LevelP6_27",
+        "LevelP6_21",
+        "LevelP6_18",
+        "Level713_1",
+        "LevelP6_24",
+        "LevelP6_9",
+        "Level707_1",
+        "LevelP6_30",
+        "LevelP6_10",
+        "Level698_1",
+        "LevelP6_14",
+        "LevelP6_7",
+        "LevelP6_17",
+        "LevelP6_6",
+        "Level711_1"
+      ]
     }
   ]
 }

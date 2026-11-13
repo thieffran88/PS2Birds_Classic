@@ -250,6 +250,51 @@ static const Stage stages[]={
  {"LevelP5_651",60,7,52,4,{{-10,78,-1.0f}},1}, /* HAM EM HIGH 14-13 */
  {"LevelP5_663",109,6,68,4,{{10,90,0.4f}},1}, /* HAM EM HIGH 14-14 */
  {"LevelP5_359",111,8,93,5,{{5,94,-1.0f}},1}, /* HAM EM HIGH 14-15 */
+ {"LevelP6_8",149,7,91,4,{{20,82,-1.0f}},1}, /* MINE AND DINE 15-1 */
+ {"Level711",144,8,92,4,{{0,0,-1.0f}},0}, /* MINE AND DINE 15-2 (sem roteiro vencedor) */
+ {"LevelP6_1",183,7,101,4,{{0,98,-1.0f}},1}, /* MINE AND DINE 15-3 */
+ {"Level702",161,7,75,4,{{30,90,-1.0f}},1}, /* MINE AND DINE 15-4 */
+ {"LevelP6_2",207,10,116,4,{{20,82,1.0f}},1}, /* MINE AND DINE 15-5 */
+ {"Level707",241,7,111,4,{{0,94,0.4f}},1}, /* MINE AND DINE 15-6 */
+ {"LevelP6_28",132,8,68,4,{{0,0,-1.0f}},0}, /* MINE AND DINE 15-7 (sem roteiro vencedor) */
+ {"Level708",229,10,96,5,{{25,94,-1.0f}},1}, /* MINE AND DINE 15-8 */
+ {"Level709",165,7,110,4,{{60,82,-1.0f}},1}, /* MINE AND DINE 15-9 */
+ {"LevelP6_16",93,8,63,4,{{5,98,-1.0f}},1}, /* MINE AND DINE 15-10 */
+ {"LevelP6_22",119,8,72,4,{{10,94,-1.0f}},1}, /* MINE AND DINE 15-11 */
+ {"Level695",318,8,118,5,{{-5,74,0.4f}},1}, /* MINE AND DINE 15-12 */
+ {"LevelP6_12",103,9,77,5,{{20,98,-1.0f}},1}, /* MINE AND DINE 15-13 */
+ {"LevelP6_26",127,9,79,3,{{0,0,-1.0f}},0}, /* MINE AND DINE 15-14 (sem roteiro vencedor) */
+ {"LevelP6_20",161,7,103,5,{{10,82,-1.0f}},1}, /* MINE AND DINE 15-15 */
+ {"LevelP6_4",133,6,75,4,{{25,94,0.4f}},1}, /* MINE AND DINE 16-1 */
+ {"LevelP6_15",150,9,99,3,{{0,0,-1.0f}},0}, /* MINE AND DINE 16-2 (sem roteiro vencedor) */
+ {"Level703",184,14,99,3,{{5,82,-1.0f}},1}, /* MINE AND DINE 16-3 */
+ {"LevelP6_3",126,7,92,3,{{15,74,1.3f}},1}, /* MINE AND DINE 16-4 */
+ {"Level704",244,14,112,3,{{0,0,-1.0f}},0}, /* MINE AND DINE 16-5 (sem roteiro vencedor) */
+ {"Level705",137,8,66,3,{{0,0,-1.0f}},0}, /* MINE AND DINE 16-6 (sem roteiro vencedor) */
+ {"LevelP6_23",164,10,71,4,{{15,98,-1.0f}},1}, /* MINE AND DINE 16-7 */
+ {"LevelP6_25",95,7,75,3,{{0,82,-1.0f}},1}, /* MINE AND DINE 16-8 */
+ {"Level697",298,7,104,4,{{20,78,0.4f}},1}, /* MINE AND DINE 16-9 */
+ {"LevelP6_29",102,8,69,6,{{10,94,-1.0f}},1}, /* MINE AND DINE 16-10 */
+ {"LevelP6_5",142,6,90,4,{{-5,90,0.4f}},1}, /* MINE AND DINE 16-11 */
+ {"LevelP6_13",133,8,84,4,{{15,86,-1.0f}},1}, /* MINE AND DINE 16-12 */
+ {"LevelP6_19",158,10,87,5,{{0,98,0.4f}},1}, /* MINE AND DINE 16-13 */
+ {"LevelP6_11",120,9,93,4,{{20,66,0.4f}},1}, /* MINE AND DINE 16-14 */
+ {"Level701",239,10,97,4,{{20,98,-1.0f}},1}, /* MINE AND DINE 16-15 */
+ {"LevelP6_27",128,6,65,5,{{15,90,-1.0f}},1}, /* MINE AND DINE 17-1 */
+ {"LevelP6_21",90,7,63,3,{{30,94,-1.0f}},1}, /* MINE AND DINE 17-2 */
+ {"LevelP6_18",140,7,95,4,{{20,90,-1.0f}},1}, /* MINE AND DINE 17-3 */
+ {"Level713_1",203,6,91,4,{{0,0,-1.0f}},0}, /* MINE AND DINE 17-4 (sem roteiro vencedor) */
+ {"LevelP6_24",100,8,81,3,{{25,94,-1.0f}},1}, /* MINE AND DINE 17-5 */
+ {"LevelP6_9",188,10,113,4,{{-10,74,0.4f}},1}, /* MINE AND DINE 17-6 */
+ {"Level707_1",115,7,76,4,{{15,98,-1.0f}},1}, /* MINE AND DINE 17-7 */
+ {"LevelP6_30",85,7,48,4,{{5,98,-1.0f}},1}, /* MINE AND DINE 17-8 */
+ {"LevelP6_10",151,8,93,4,{{5,98,-1.0f}},1}, /* MINE AND DINE 17-9 */
+ {"Level698_1",248,8,124,4,{{20,98,-1.0f}},1}, /* MINE AND DINE 17-10 */
+ {"LevelP6_14",201,7,96,4,{{-10,94,0.4f}},1}, /* MINE AND DINE 17-11 */
+ {"LevelP6_7",138,7,99,4,{{-5,70,0.7f}},1}, /* MINE AND DINE 17-12 */
+ {"LevelP6_17",92,9,56,3,{{15,86,-1.0f}},1}, /* MINE AND DINE 17-13 */
+ {"LevelP6_6",160,7,84,5,{{0,0,-1.0f}},0}, /* MINE AND DINE 17-14 (sem roteiro vencedor) */
+ {"Level711_1",234,9,143,4,{{30,98,-1.0f}},1}, /* MINE AND DINE 17-15 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -270,7 +315,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==240 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==285 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));
@@ -368,7 +413,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==3);
+    assert(unverified==11);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");

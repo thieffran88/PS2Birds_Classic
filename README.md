@@ -1,7 +1,7 @@
-# PS2Birds Classic — protótipo 0.27.0
+# PS2Birds Classic — protótipo 0.28.0
 
 Foco exclusivo no Classic. Inclui a primeira página completa de Poached Eggs
-e a segunda e a terceira páginas completas (63 fases, todo o episódio Poached Eggs) Mighty Hoax, Danger Above, Big Setup e Ham 'Em High completos (240 fases) na ordem declarada pelo próprio APK, com sprites originais, pássaros
+e a segunda e a terceira páginas completas (63 fases, todo o episódio Poached Eggs) Mighty Hoax, Danger Above, Big Setup, Ham 'Em High e Mine and Dine completos (285 fases) na ordem declarada pelo próprio APK, com sprites originais, pássaros
 vermelho, azul, amarelo, preto e branco, porcos pequeno/médio/grande/capacete, pedra, madeira,
 vidro, pedras circulares, baú, bloco sorridente, bola, pato e morango, seleção de fases, desbloqueio
 sequencial e recordes persistentes no Memory Card 1. Ainda não é o port completo.
@@ -63,7 +63,7 @@ python tools/extract_audio.py /caminho/com.rovio.angrybirds.apk ps2/assets --adp
 As 84 fontes Lua decompiladas e métricas estão em ps2/data; o importador não
 executa Lua. A extração de gráficos exige o APK original e OpenSSL; `tools/py7z.py`
 substitui o 7-Zip usando o pacote `py7zr` (um 7z nativo também serve). O banco
-de texturas 0 (Poached Eggs) fica incorporado no ELF; os bancos 1 a 10 ficam no `SPRITES.BIN`
+de texturas 0 (Poached Eggs) fica incorporado no ELF; os bancos 1 a 13 ficam no `SPRITES.BIN`
 e são lidos para um único buffer quando o episódio muda; o
 frame buffer passou a 16 bits para abrir espaço na VRAM. As plataformas estáticas
 usam máscaras originais com cor provisória; o preenchimento original ainda está pendente.
@@ -74,7 +74,7 @@ já estão incluídos. O audsrv é compilado das fontes incluídas. Se o módulo
 inicializar, o jogo continua com SOM INDISPONIVEL. Ainda não há música de fundo.
 
 As ferramentas/perfis de outras séries permanecem no pacote, sem novos ports.
-Consulte docs/MODIFICACOES_0.27.0.md e docs/VALIDACAO_0.27.0.md. Documentos das versões
+Consulte docs/MODIFICACOES_0.28.0.md e docs/VALIDACAO_0.28.0.md. Documentos das versões
 anteriores são históricos. Saves da 0.6.0 à 0.8.0 são aproveitados e regravados no
 formato versão 3 (288 bytes, até 64 fases). A seleção mostra três fases por página
 e muda automaticamente conforme cima/baixo.
@@ -93,7 +93,7 @@ WoodBlock7 e LightBlock7 usam colisão circular, conferida nas definições recu
 
 A física continua em passos de 120 Hz, usando o tempo transcorrido do relógio do PS2SDK (até 100 ms recuperados por quadro). Isso preserva o ritmo da partida e da mira quando uma cena renderiza abaixo de 60 FPS, sem garantir 60 FPS em cenas pesadas.
 
-O save atual é o v5 (1.056 bytes, capacidade de 256 fases). Saves v1, v2, v3 e v4 de versões anteriores são migrados preservando recordes e desbloqueios. Um save de uma versão com menos fases continua válido: se a última fase daquela versão foi vencida, a próxima é liberada. Esta versão contém 240 fases jogáveis.
+O save atual é o v6 (2.080 bytes, capacidade de 512 fases). Saves v1 a v5 de versões anteriores são migrados preservando recordes e desbloqueios. Um save de uma versão com menos fases continua válido: se a última fase daquela versão foi vencida, a próxima é liberada. Esta versão contém 285 fases jogáveis.
 
 O branco usa raio/densidade/restituição recuperados. O ovo usa densidade/restituição e valores de explosão de EggGranade; raio inferido da largura do sprite, velocidades de queda/recuo e propagação radial são aproximações do port. Melancias e pneus usam discos sólidos simplificados, com o modelo de materiais existente; pneus não reproduzem a elasticidade/forma interna do original. O atlas do ovo vem de PNG e requer Pillow para regeneração. Há dez canais de efeitos: soltar o ovo e explodir usam canais diferentes.
 
@@ -141,6 +141,13 @@ A investigação das fases sem vitória encontrou três erros de importação pr
 - Velocidade de lançamento dependente do zoom. O original usa 46,25 unidades/s com o estilingue esticado ao máximo (`defaultForce = -925`, `physicsScale = 1/20`); o port dividia a força pela escala da câmera, de 23 a 152 unidades/s conforme a fase. A força agora é a porcentagem de esticamento.
 
 Com isso, 82 das 84 fases têm vitória encontrada pela busca automática. Continuam sem roteiro 3-9 e 3-19; nelas a vitória depende de quedas e esmagamentos, cuja fórmula de dano fica no código nativo do jogo e não nos scripts Lua recuperados. Não existe regra de desbloqueio extra: o avanço é o do jogo original.
+
+## Novidades da 0.28.0
+
+- Episódio Mine and Dine (15-1 a 17-15, 45 fases): chapéus de mineiro, pás, picaretas, pedras preciosas, cordas finas e estalactites.
+- Nova ferramenta `tools/add_definitions.py`: lê peças do `blocks.lua` e os sprites do APK e as adiciona sem editar o código do jogo.
+- Save v6 com 512 posições; peças de densidade 0 fixas, como no original; junta "destruir anexo" (tipo 5).
+- 274 das 285 fases com vitória encontrada pela busca automática.
 
 ## Novidades da 0.27.0
 

@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.27.0)
+# Lacunas do port (levantamento atualizado na 0.28.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -69,6 +69,16 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **13-7 sem roteiro:** 17 porcos para 3 pássaros (Terence e dois pretos). A melhor sequência encontrada chega perto, mas, como na 3-20 e na 5-16, a vitória depende da explosão do pássaro preto, cuja fórmula é nativa.
 - **Próximo episódio, Mine and Dine:** a levantar na próxima rodada.
 
+## Achados da 0.28.0
+
+- **Mine and Dine — feito.** 20 peças novas, todas lidas do `blocks.lua` pela nova `tools/add_definitions.py` (tipo, sprite, vértices, material, atrito e restituição). Cinco materiais novos (ametista, âmbar, rubi, estalactite e ponta de estalactite) lidos da tabela de materiais.
+- **Folhas RGBA8888:** os chapéus de mineiro estão numa folha (INGAME_TRANSPARENCY_1_1) em RGBA8888, sem a borda de 1 pixel das folhas RGBA4444. O extrator passou a ler os dois formatos.
+- **Densidade 0 = peça fixa:** regra do `ObjectCreation.lua`, agora aplicada a qualquer peça (estalactites e outras ficam presas no teto). Peças fixas não recebem dano no port (o dano usa a massa do corpo); a quebra de estalactites fixas depende de código nativo.
+- **Junta tipo 5 ("Destroy-attached"):** aparece só 2 vezes, ligando cordas, com um `destroyTimer` (2,18 s e 4,63 s). A lógica é nativa; o port a trata como solda e remove a peça anexada (end2) quando o tempo passa.
+- **Limites:** fases com até ~320 peças (limite subiu para 352) e campanha acima de 256 fases (save v6 com 512 posições).
+- **Memória de vídeo:** os bancos de Mine and Dine ficaram no limite; neles, o porco machucado usa o quadro normal e as tábuas 10×1 usam dois quadros de dano.
+- **8 fases de Mine and Dine sem roteiro ainda** (15-2, 15-7, 15-14, 16-2, 16-5, 16-6, 17-4, 17-14): são as maiores (até 300 peças) e a busca em feixe leva horas; ficou rodando para a próxima versão.
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -77,7 +87,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Mine and Dine (episódio seguinte) e, depois, os episódios Birdday com a Stella (PinkBird).
+1. Roteiros das 8 fases grandes de Mine and Dine; depois os episódios Birdday, com a Stella (PinkBird).
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).

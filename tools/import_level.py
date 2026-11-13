@@ -98,7 +98,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
         friction=profile['materials']['friction_overrides'].get(o['definition'],material['friction'])
         restitution=profile['materials'].get('restitution_overrides',{}).get(o['definition'],material['restitution'])
         level.append(dict(o,width=w,height=h,kind=kind,shape=collision,friction=friction,restitution=restitution))
-    if not 1<=len(level)<=224:raise ValueError('Adapter supports 1..224 scene objects')
+    if not 1<=len(level)<=352:raise ValueError('Adapter supports 1..352 scene objects')
     # SlingshotSystem.setPositionByStartObject (Slingshot.lua) places the slingshot on the
     # first bird of the queue: rest point = (x - 0.1, y - (h - pivot_y) * physicsScale +
     # radius + 0.2 - 0.1) with h/pivot_y from SLING_SHOT_01_BACK (199 px, pivot 30).
@@ -112,7 +112,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
     for j in (env.get('joints') or {}).values():
         if not isinstance(j,dict):continue
         kind=int(j.get('type',0))
-        if kind not in (1,2,3):raise ValueError('Unsupported joint type: '+str(kind))
+        if kind not in (1,2,3,5):raise ValueError('Unsupported joint type: '+str(kind))
         ends=[]
         for end,xk,yk in [('end1','x1','y1'),('end2','x2','y2')]:
             name=j[end]
@@ -123,7 +123,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
             elif int(j.get('coordType',0)) not in (0,2):raise ValueError('Unsupported joint coordType')
             ends.append((i,x,y))
         joints.append({'name':j.get('name',''),'type':kind,'a':ends[0][0],'b':ends[1][0],'ax':ends[0][1],'ay':ends[0][2],'bx':ends[1][1],'by':ends[1][2],
-            'frequency':float(j.get('frequency',0)),'damping':float(j.get('dampingRatio',0)),'break_force':float(j.get('breakForce',0)) if j.get('breakable') else 0.0,
+            'frequency':float(j.get('frequency',0)),'damping':float(j.get('dampingRatio',0)),'break_force':float(j.get('breakForce',0)) if j.get('breakable') else 0.0,'destroy_timer':float(j.get('destroyTimer',0)) if kind==5 else 0.0,
             'collide':bool(j.get('collideConnected',False))})
     if len(joints)>64:raise ValueError('Adapter supports up to 64 joints')
     doc={'adapter':profile['id'],'joints':joints,'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
