@@ -2571,6 +2571,212 @@
       "kind": 1,
       "shape": "box",
       "auto": true
+    },
+    "MISC_FB_BOBBER": {
+      "sprite": "MISC_FB_BOBBER_1",
+      "kind": 2,
+      "shape": "box",
+      "auto": true
+    },
+    "MISC_FB_BUCKET": {
+      "sprite": "MISC_FB_BUCKET_1",
+      "kind": 2,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.1,
+          0.3
+        ],
+        [
+          0.9,
+          0.3
+        ],
+        [
+          0.8,
+          0.95
+        ],
+        [
+          0.2,
+          0.95
+        ]
+      ]
+    },
+    "MISC_FB_CASTLE": {
+      "sprite": "MISC_FB_CASTLE_1",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "MISC_FB_GLASSES": {
+      "sprite": "MISC_FB_GLASSES_1",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.1,
+          0.3
+        ],
+        [
+          0.4,
+          0.2
+        ],
+        [
+          0.6,
+          0.2
+        ],
+        [
+          0.85,
+          0.3
+        ],
+        [
+          0.85,
+          0.7
+        ],
+        [
+          0.1,
+          0.7
+        ]
+      ]
+    },
+    "MISC_FB_HAMMER": {
+      "sprite": "MISC_FB_HAMMER_1",
+      "kind": 5,
+      "shape": "box",
+      "auto": true
+    },
+    "MISC_FB_HAT": {
+      "sprite": "MISC_FB_HAT_1",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.2,
+          0.3
+        ],
+        [
+          0.4,
+          0.2
+        ],
+        [
+          0.6,
+          0.2
+        ],
+        [
+          0.8,
+          0.3
+        ],
+        [
+          0.8,
+          0.7
+        ],
+        [
+          0.2,
+          0.7
+        ]
+      ]
+    },
+    "MISC_FB_NET": {
+      "sprite": "MISC_FB_NET_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "MISC_FB_ROD": {
+      "sprite": "MISC_FB_ROD_1",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "MISC_FB_SHOVEL": {
+      "sprite": "MISC_FB_SHOVEL_1",
+      "kind": 2,
+      "shape": "box",
+      "auto": true
+    },
+    "MISC_FB_SMALL_HAT": {
+      "sprite": "MISC_FB_SMALL_HAT_1",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.3,
+          0.3
+        ],
+        [
+          0.4,
+          0.2
+        ],
+        [
+          0.6,
+          0.2
+        ],
+        [
+          0.65,
+          0.3
+        ],
+        [
+          0.65,
+          0.5
+        ],
+        [
+          0.3,
+          0.5
+        ]
+      ]
+    },
+    "MISC_FB_STICK": {
+      "sprite": "MISC_FB_STICK_1",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "MISC_FB_TINYGLASSES": {
+      "sprite": "MISC_FB_TINYGLASSES_1",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.2,
+          0.3
+        ],
+        [
+          0.4,
+          0.2
+        ],
+        [
+          0.6,
+          0.2
+        ],
+        [
+          0.85,
+          0.3
+        ],
+        [
+          0.85,
+          0.7
+        ],
+        [
+          0.2,
+          0.7
+        ]
+      ]
+    },
+    "MISC_FB_UMBRELLA_BOTTOM": {
+      "sprite": "MISC_FB_UMBRELLA_BOTTOM_1",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "MISC_FB_UMBRELLA_TOP": {
+      "sprite": "MISC_FB_UMBRELLA_TOP_1",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
     }
   },
   "metrics": "profiles/sprite_metrics.json",
@@ -2821,7 +3027,21 @@
       "WoodBlock6_BD7": 4.0,
       "WoodBlock7_BD7": 4.0,
       "WoodBlock8_BD7": 4.0,
-      "WoodBlock9_BD7": 4.0
+      "WoodBlock9_BD7": 4.0,
+      "MISC_FB_BOBBER": 0.7,
+      "MISC_FB_BUCKET": 0.7,
+      "MISC_FB_CASTLE": 1.0,
+      "MISC_FB_GLASSES": 1.0,
+      "MISC_FB_HAMMER": 1.0,
+      "MISC_FB_HAT": 1.0,
+      "MISC_FB_NET": 1.0,
+      "MISC_FB_ROD": 1.0,
+      "MISC_FB_SHOVEL": 1.0,
+      "MISC_FB_SMALL_HAT": 1.0,
+      "MISC_FB_STICK": 1.0,
+      "MISC_FB_TINYGLASSES": 1.0,
+      "MISC_FB_UMBRELLA_BOTTOM": 1.0,
+      "MISC_FB_UMBRELLA_TOP": 1.0
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -3002,7 +3222,21 @@
       "WoodBlock6_BD7": 0.2,
       "WoodBlock7_BD7": 0.2,
       "WoodBlock8_BD7": 0.2,
-      "WoodBlock9_BD7": 0.2
+      "WoodBlock9_BD7": 0.2,
+      "MISC_FB_BOBBER": 0.2,
+      "MISC_FB_BUCKET": 0.2,
+      "MISC_FB_CASTLE": 0.0,
+      "MISC_FB_GLASSES": 0.0,
+      "MISC_FB_HAMMER": 0.0,
+      "MISC_FB_HAT": 0.0,
+      "MISC_FB_NET": 0.0,
+      "MISC_FB_ROD": 0.0,
+      "MISC_FB_SHOVEL": 0.0,
+      "MISC_FB_SMALL_HAT": 0.1,
+      "MISC_FB_STICK": 0.0,
+      "MISC_FB_TINYGLASSES": 0.0,
+      "MISC_FB_UMBRELLA_BOTTOM": 0.0,
+      "MISC_FB_UMBRELLA_TOP": 0.0
     }
   }
 }

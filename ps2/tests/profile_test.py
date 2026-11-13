@@ -453,3 +453,14 @@ for name in names:
     assert bool(spec.get('no_collision'))==bool(d['props'].get('no_collision')),name
     if 'forceY' in _ad.material(b7,d['material']):assert spec['force']==[_ad.material(b7,d['material'])['forceX'],_ad.material(b7,d['material'])['forceY']],name
 print("Birdday 7 OK: 15 stages in bank 24; 36 pieces match blocks.lua (themed wood as wood, fragile island plants, balloon force).")
+
+# Surf and Turf (pages 29-31, banks 25-27): 45 stages, 14 beach pieces with their material's kind.
+st=(root/'ps2/data/surf_and_turf_definitions_excerpt.lua').read_text()
+order=sum((list(dict.fromkeys(re.findall(r'"(LevelS\d+)"',(root/f'ps2/data/episode_surf_and_turf_page{k}.decompiled.lua').read_text()))) for k in (1,2,3)),[])
+pages=[pg for pg in episode['additional_pages'] if pg.get('folder')=='/levels/15_SurfnTurf']
+assert len(order)==45 and sum((pg['levels'] for pg in pages),[])==order and [pg['bank'] for pg in pages]==[25,26,27]
+names=re.findall(r'L3_1 = "(\w+)"\nL4_1 = \{\}',st);assert len(names)==14
+for name in names:
+    d=_ad.definition(st,name);spec=objs['objects'][name]
+    assert spec['sprite']==d['sprite'] and spec['shape']==d['type'] and spec['kind']=={'wood':1,'light':2,'rock':5}.get(d['material'],6),name
+print("Surf and Turf OK: 45 stages in banks 25-27; 14 beach pieces match blocks.lua (shape, sprite, kind by material).")

@@ -613,6 +613,75 @@
         "Level278_BirdDay7",
         "Level281_BirdDay7"
       ]
+    },
+    {
+      "number": 29,
+      "title_prefix": "SURF AND TURF 1-",
+      "folder": "/levels/15_SurfnTurf",
+      "bank": 25,
+      "levels": [
+        "LevelS001",
+        "LevelS002",
+        "LevelS003",
+        "LevelS004",
+        "LevelS005",
+        "LevelS006",
+        "LevelS007",
+        "LevelS008",
+        "LevelS009",
+        "LevelS010",
+        "LevelS011",
+        "LevelS012",
+        "LevelS013",
+        "LevelS014",
+        "LevelS015"
+      ]
+    },
+    {
+      "number": 30,
+      "title_prefix": "SURF AND TURF 2-",
+      "folder": "/levels/15_SurfnTurf",
+      "bank": 26,
+      "levels": [
+        "LevelS016",
+        "LevelS017",
+        "LevelS018",
+        "LevelS019",
+        "LevelS020",
+        "LevelS021",
+        "LevelS022",
+        "LevelS023",
+        "LevelS024",
+        "LevelS025",
+        "LevelS026",
+        "LevelS027",
+        "LevelS028",
+        "LevelS029",
+        "LevelS030"
+      ]
+    },
+    {
+      "number": 31,
+      "title_prefix": "SURF AND TURF 3-",
+      "folder": "/levels/15_SurfnTurf",
+      "bank": 27,
+      "levels": [
+        "LevelS031",
+        "LevelS032",
+        "LevelS033",
+        "LevelS034",
+        "LevelS035",
+        "LevelS036",
+        "LevelS037",
+        "LevelS038",
+        "LevelS039",
+        "LevelS040",
+        "LevelS041",
+        "LevelS042",
+        "LevelS043",
+        "LevelS044",
+        "LevelS045"
+      ]
     }
   ]
 }

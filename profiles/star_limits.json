@@ -1560,6 +1560,186 @@
     "Level281_BirdDay7": {
       "silver": 85000,
       "gold": 100000
+    },
+    "LevelS001": {
+      "silver": 53000,
+      "gold": 66000
+    },
+    "LevelS002": {
+      "silver": 44000,
+      "gold": 54000
+    },
+    "LevelS003": {
+      "silver": 74000,
+      "gold": 84000
+    },
+    "LevelS004": {
+      "silver": 67000,
+      "gold": 77000
+    },
+    "LevelS005": {
+      "silver": 100000,
+      "gold": 110000
+    },
+    "LevelS006": {
+      "silver": 90000,
+      "gold": 96000
+    },
+    "LevelS007": {
+      "silver": 42000,
+      "gold": 48000
+    },
+    "LevelS008": {
+      "silver": 66000,
+      "gold": 76000
+    },
+    "LevelS009": {
+      "silver": 85000,
+      "gold": 95000
+    },
+    "LevelS010": {
+      "silver": 70000,
+      "gold": 80000
+    },
+    "LevelS011": {
+      "silver": 67000,
+      "gold": 77000
+    },
+    "LevelS012": {
+      "silver": 80000,
+      "gold": 90000
+    },
+    "LevelS013": {
+      "silver": 80000,
+      "gold": 90000
+    },
+    "LevelS014": {
+      "silver": 81000,
+      "gold": 91000
+    },
+    "LevelS015": {
+      "silver": 80000,
+      "gold": 88000
+    },
+    "LevelS016": {
+      "silver": 62000,
+      "gold": 67000
+    },
+    "LevelS017": {
+      "silver": 92000,
+      "gold": 102000
+    },
+    "LevelS018": {
+      "silver": 48000,
+      "gold": 55000
+    },
+    "LevelS019": {
+      "silver": 46000,
+      "gold": 51000
+    },
+    "LevelS020": {
+      "silver": 85000,
+      "gold": 93000
+    },
+    "LevelS021": {
+      "silver": 80000,
+      "gold": 88000
+    },
+    "LevelS022": {
+      "silver": 50000,
+      "gold": 56000
+    },
+    "LevelS023": {
+      "silver": 75000,
+      "gold": 82000
+    },
+    "LevelS024": {
+      "silver": 85000,
+      "gold": 95000
+    },
+    "LevelS025": {
+      "silver": 49000,
+      "gold": 54000
+    },
+    "LevelS026": {
+      "silver": 105000,
+      "gold": 112000
+    },
+    "LevelS027": {
+      "silver": 80000,
+      "gold": 89000
+    },
+    "LevelS028": {
+      "silver": 75000,
+      "gold": 82000
+    },
+    "LevelS029": {
+      "silver": 82000,
+      "gold": 90000
+    },
+    "LevelS030": {
+      "silver": 85000,
+      "gold": 92000
+    },
+    "LevelS031": {
+      "silver": 80000,
+      "gold": 86000
+    },
+    "LevelS032": {
+      "silver": 91000,
+      "gold": 101000
+    },
+    "LevelS033": {
+      "silver": 85000,
+      "gold": 92000
+    },
+    "LevelS034": {
+      "silver": 120000,
+      "gold": 132000
+    },
+    "LevelS035": {
+      "silver": 80000,
+      "gold": 87000
+    },
+    "LevelS036": {
+      "silver": 109000,
+      "gold": 116000
+    },
+    "LevelS037": {
+      "silver": 79000,
+      "gold": 86000
+    },
+    "LevelS038": {
+      "silver": 95000,
+      "gold": 105000
+    },
+    "LevelS039": {
+      "silver": 97000,
+      "gold": 107000
+    },
+    "LevelS040": {
+      "silver": 52000,
+      "gold": 62000
+    },
+    "LevelS041": {
+      "silver": 95000,
+      "gold": 103000
+    },
+    "LevelS042": {
+      "silver": 92000,
+      "gold": 100000
+    },
+    "LevelS043": {
+      "silver": 40000,
+      "gold": 50000
+    },
+    "LevelS044": {
+      "silver": 102000,
+      "gold": 110000
+    },
+    "LevelS045": {
+      "silver": 103000,
+      "gold": 110000
     }
   }
 }
