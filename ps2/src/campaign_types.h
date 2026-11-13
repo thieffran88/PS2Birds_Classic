@@ -8,7 +8,9 @@ typedef struct {float x,y,angle,width,height,density,strength,defence;int kind,s
    light 0.7/0.2, rock 4.0/0.1, immovable 0.8/0, piglette 0.7/0.05, extras 0.7/0.4). */
 /* CampaignObject.shape: box, circle, right triangle (vertices 0,0 1,1 0,1) and
    isosceles triangle (0.5,0 1,1 0,1), normalized over the sprite extents. */
-enum {SHAPE_BOX=0,SHAPE_CIRCLE=1,SHAPE_TRIANGLE_L=2,SHAPE_TRIANGLE_M=3};
+enum {SHAPE_BOX=0,SHAPE_CIRCLE=1,SHAPE_TRIANGLE_L=2,SHAPE_TRIANGLE_M=3,SHAPE_POLYGON=4};
+/* Convex polygon from blocks.lua: vertices as fractions (x,y) of the sprite box. */
+typedef struct {const char *definition;int count;float v[16];} CampaignPolygon;
 /* Joints from the stage's joints table (types as in the level editor: 1 distance,
    2 weld, 3 revolute). Anchors are world coordinates; a/b index the objects array,
    -1 meaning the ground. frequency/damping 0 makes the joint rigid. breakForce 0 means

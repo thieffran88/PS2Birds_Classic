@@ -6,11 +6,12 @@ import argparse,hashlib,json,lzma,re,struct,subprocess,tempfile,zipfile,io
 from pathlib import Path
 from game_profiles import ROOT, PROFILES, decode_payload, archive_command
 SHEETS={
- 'INGAME_BIRDS_1':['BIRD_BOOMERANG','BIRD_BOOMERANG_SPECIAL','BIRD_BOOMERANG_COLLISION','BIRD_GREEN','BIRD_GREEN_FLYING','BIRD_GREEN_COLLISION','BIRD_GREY','BIRD_GREY_FLYING','BIRD_GREY_1','BIRD_GREY_2','BIRD_GREY_3','BIRD_BLUE','BIRD_BLUE_COLLISION','BIRD_RED','BIRD_YELLOW','BIRD_YELLOW_COLLISION','SLING_SHOT_01_BACK','SLING_SHOT_01_FRONT'],
+ 'INGAME_BIRDS_1':['BIRD_BIG_BROTHER','BIRD_BOOMERANG','BIRD_BOOMERANG_SPECIAL','BIRD_BOOMERANG_COLLISION','BIRD_GREEN','BIRD_GREEN_FLYING','BIRD_GREEN_COLLISION','BIRD_GREY','BIRD_GREY_FLYING','BIRD_GREY_1','BIRD_GREY_2','BIRD_GREY_3','BIRD_BLUE','BIRD_BLUE_COLLISION','BIRD_RED','BIRD_YELLOW','BIRD_YELLOW_COLLISION','SLING_SHOT_01_BACK','SLING_SHOT_01_FRONT'],
  'INGAME_PIGS_NEW_SHEET_1_1':['PIG_BASIC_SMALL_01','PIG_BASIC_SMALL_01_BLINK','PIG_BASIC_SMALL_02','PIG_BASIC_MEDIUM_01','PIG_BASIC_MEDIUM_01_BLINK','PIG_BASIC_MEDIUM_02','PIG_KING_01','PIG_KING_02'],
  'INGAME_PIGS_NEW_SHEET_0_1':['PIG_BASIC_BIG_01','PIG_BASIC_BIG_01_BLINK','PIG_BASIC_BIG_02','PIG_HELMET_01','PIG_HELMET_01_BLINK','PIG_HELMET_02','PIG_MUSTACHE_01','PIG_MUSTACHE_01_BLINK','PIG_MUSTACHE_02'],
- 'INGAME_BLOCKS_1_1':['ESTRADE_01','ESTRADE_02','BLOCK_TREASURE_CHEST','BLOCK_SMILEY_1','BLOCK_SMILEY_3','BLOCK_BEACHBALL','BLOCK_RUBBERDUCK','BLOCK_STRAWBERRY','BLOCK_APPLE','BLOCK_BALLOON_1','BLOCK_BALLOON_2','BLOCK_BALLOON_3','BLOCK_PIG_BALLOON_1','BLOCK_PIG_BALLOON_2','BLOCK_TRAMPOLINE_01','BLOCK_SUPER_BALL','BLOCK_CARPET','BLOCK_STEEL_BALL','BLOCK_TIRE_01','BLOCK_TIRE_03','BLOCK_WATERMELON','BLOCK_EXTRA_TNT','BLOCK_EXTRA_FLAG_01','BLOCK_DIAMOND','BLOCK_HOLYGRAIL','BLOCK_PILLAR','BLOCK_BANANA','ESTRADE_03','ESTRADE_STAIRS','BLOCK_TIRE_02','BLOCK_EXTRA_DICE_6','BLOCK_STOLEN_EGG','BLOCK_DONUT','BLOCK_HAM','BLOCK_GOLDEN_EGG','BLOCK_EXTRA_FLAG_02'],
+ 'INGAME_BLOCKS_1_1':['ESTRADE_01','ESTRADE_02','BLOCK_TREASURE_CHEST','BLOCK_SMILEY_1','BLOCK_SMILEY_3','BLOCK_BEACHBALL','BLOCK_RUBBERDUCK','BLOCK_STRAWBERRY','BLOCK_APPLE','BLOCK_BALLOON_1','BLOCK_BALLOON_2','BLOCK_BALLOON_3','BLOCK_PIG_BALLOON_1','BLOCK_PIG_BALLOON_2','BLOCK_TRAMPOLINE_01','BLOCK_SUPER_BALL','BLOCK_ROPE_THICK_1','BLOCK_CARPET','BLOCK_STEEL_BALL','BLOCK_TIRE_01','BLOCK_TIRE_03','BLOCK_WATERMELON','BLOCK_EXTRA_TNT','BLOCK_EXTRA_FLAG_01','BLOCK_DIAMOND','BLOCK_HOLYGRAIL','BLOCK_PILLAR','BLOCK_BANANA','ESTRADE_03','ESTRADE_STAIRS','BLOCK_TIRE_02','BLOCK_EXTRA_DICE_6','BLOCK_STOLEN_EGG','BLOCK_DONUT','BLOCK_HAM','BLOCK_GOLDEN_EGG','BLOCK_EXTRA_FLAG_02'],
  'INGAME_BLOCKS_3_1':[f'BLOCK_{m}_{state}_{size}' for m,sizes in [('WOOD',[1,2,3,4,5,6,7,8]),('LIGHT',[1,2,3,4,5,6,7,8]),('ROCK',[1,2,3,4,5,6,7,8])] for state in range(1,5) for size in sizes]+[f'BLOCK_{m}_{shape}_{state}' for m in ['WOOD','LIGHT','ROCK'] for shape in ['4X4','10X1','TRIANGLE_L','TRIANGLE_M'] for state in range(1,5)],
+ 'INGAME_BLOCKS_2_1':['HELMET_SMALL','HELMET_BIG','HELMET_BOSS'],
  'PARTICLES_1':['DROPPABLE_EGG'],
  'INGAME_MASKS_1':['GROUND_BLOCK_01','GROUND_BLOCK_02','GROUND_BLOCK_03','GROUND_BLOCK_04','GROUND_BLOCK_05','GROUND_BLOCK_06']}
 # VRAM: 4 MiB minus two 640x448 CT16 frame buffers (2 x 573440 bytes) leaves
@@ -106,7 +107,7 @@ def bank_members(all_names):
     available=set(all_names);profile=json.loads((ROOT/'profiles/classic_level.json').read_text())
     episode=json.loads((ROOT/'profiles/classic_episode.json').read_text())
     # The green boomerang bird is only stored in the banks of stages that use it.
-    common=[n for n in all_names if n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_')) and not n.startswith('BIRD_BOOMERANG')]
+    common=[n for n in all_names if n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_')) and not n.startswith(('BIRD_BOOMERANG','BIRD_BIG_BROTHER'))]
     bank_of_page={pg['number']:pg.get('bank',0) for pg in episode.get('additional_pages',[])};bank_of_page[1]=0
     banks=[set(common) for _ in range(max(bank_of_page.values())+1)]
     for path in sorted((ROOT/'ps2/data').glob('level_*_*.json')):
@@ -120,9 +121,10 @@ def bank_members(all_names):
             spec=profile['objects'][o['definition']]
             if 'sprite' in spec:banks[b]|=set(sprite_family(spec['sprite'],available))&available
         if any(bird['definition']=='BoomerangBird' for bird in d['birds']):banks[b]|={'BIRD_BOOMERANG','BIRD_BOOMERANG_SPECIAL','BIRD_BOOMERANG_COLLISION'}
+        if any(bird['definition']=='RedBigBird' for bird in d['birds']):banks[b].add('BIRD_BIG_BROTHER')
     # Bank 0 also keeps everything not claimed by a later bank, matching earlier builds.
     later=set().union(*banks[1:]) if len(banks)>1 else set()
-    banks[0]|={n for n in available if n not in later or n in banks[0]}-{n for n in later if n not in banks[0] and (n.startswith('BIRD_BOOMERANG') or not n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_')))}
+    banks[0]|={n for n in available if n not in later or n in banks[0]}-{n for n in later if n not in banks[0] and (n.startswith(('BIRD_BOOMERANG','BIRD_BIG_BROTHER')) or not n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_')))}
     missing=[n for b in banks for n in b if n not in available]
     if missing:raise ValueError('Unknown sprites in banks: '+', '.join(sorted(missing)))
     # Later banks reuse neighbouring frames for blinks and middle damage states of

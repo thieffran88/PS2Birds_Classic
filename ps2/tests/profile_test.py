@@ -177,7 +177,8 @@ for path in sorted(glob.glob(str(root/'ps2/data/level_*_*.json'))):
         spec=adapter['objects'][o['definition']]
         if 'sprite' in spec:
             factor=1.0 if o['density']==0 else 0.92
-            assert abs(o['width']-metrics[spec['sprite']]['width']/20*factor)<1e-9
+            assert abs(o['width']-metrics[spec['sprite']]['width']/20*factor*(o.get('scaleX') or 1))<1e-9
+            assert abs(o['height']-metrics[spec['sprite']]['height']/20*factor*(o.get('scaleY') or 1))<1e-9
         m=adapter['materials']['by_kind'][str(o['kind'])]
         assert o['restitution']==adapter['materials'].get('restitution_overrides',{}).get(o['definition'],m['restitution']) and o['friction']==adapter['materials']['friction_overrides'].get(o['definition'],m['friction'])
 assert adapter['materials']['by_kind']['1']['friction']==4.0 and adapter['materials']['by_kind']['5']['restitution']==0.1
@@ -258,3 +259,36 @@ h=(root/'ps2/src/game.h').read_text();assert '#define FLOOR_HALF_WIDTH 1000.0f' 
 import glob as _g
 assert max(abs(o['x']) for f in _g.glob(str(root/'ps2/data/level_*_*.json')) for o in json.loads(Path(f).read_text())['objects'])<1000
 print('Danger Above page 8 OK: 15 stages match episodes.lua; super ball (restitution 5.5), carpet and steel ball checked against blocks.lua; bank 4; floor spans every stage.')
+
+# Big Setup (pages 9-11): order, banks, Terence, polygon helmets, rope and instance scale.
+pages_bs={9:'episode_big_setup_page1',10:'episode_big_setup_page2',11:'episode_big_setup_page3'}
+for number,name in pages_bs.items():
+    order=list(dict.fromkeys(re.findall(r'"(LevelP4_\d+)"',(root/f'ps2/data/{name}.decompiled.lua').read_text())))
+    page=[pg for pg in episode['additional_pages'] if pg['number']==number][0]
+    assert len(order)==15 and page['levels']==order and page['bank']==number-4 and page['folder']=='/levels/4_BigSetup'
+    for n in range(1,16):
+        d=json.loads((root/f'ps2/data/level_{number}_{n}.json').read_text());assert d['stage_script']==order[n-1] and d['texture_bank']==number-4
+bs=(root/'ps2/data/big_setup_definitions_excerpt.lua').read_text()
+def blockbs(name):return bs.split(f'L3_1 = "{name}"',1)[1].split('L3_1 = "',1)[0]
+t=blockbs('RedBigBird')
+for field,value in [('radius','1.8'),('restitution','0.45'),('density','10')]:assert f'L5_1 = {value}\nL4_1.{field} = L5_1' in t,field
+assert 'L4_1.wood = 0.3' in bs and 'L4_1.wood = 1.8' in bs and 'L2_1.RedBigBirdDamageFactors = L3_1' in bs
+h=(root/'ps2/src/game.h').read_text()
+for macro,value in [('BIG_RADIUS','1.8f'),('BIG_DENSITY','10.0f'),('BIG_RESTITUTION','0.45f'),('BIG_DAMAGE_FACTOR','0.3f')]:assert f'#define {macro} {value}' in h,macro
+assert objs['bird_types']['RedBigBird']==7
+hexv=[[0.2,0.3],[0.4,0.2],[0.6,0.2],[0.8,0.3],[0.8,0.5],[0.2,0.5]]
+for name,spr,rest,dens in [('ExtraHelmetSmall','HELMET_SMALL','0.1','0.3'),('ExtraHelmetBig','HELMET_BIG','0','0.5'),('ExtraHelmetBoss','HELMET_BOSS','0','0.5')]:
+    b=blockbs(name);nums=[float(v) for v in re.findall(r'"[xy]"\nL\d+_1 = (-?[\d.]+)',b)]
+    assert [[nums[i],nums[i+1]] for i in range(0,len(nums),2)]==hexv and f'"{spr}"' in b and f'L5_1 = {rest}\nL4_1.restitution' in b and 'L5_1 = 1\nL4_1.friction' in b
+    assert objs['objects'][name]=={'sprite':spr,'kind':6,'shape':'polygon','vertices':hexv}
+    assert objs['materials']['friction_overrides'][name]==1.0 and objs['materials']['restitution_overrides'][name]==float(rest)
+data=(root/'ps2/src/campaign_data.h').read_text()
+assert '{"ExtraHelmetSmall",6,{0.20000000f,0.30000000f,0.40000000f,0.20000000f,0.60000000f,0.20000000f,0.80000000f,0.30000000f,0.80000000f,0.50000000f,0.20000000f,0.50000000f}}' in data
+oc=(root/'ps2/data/object_creation_polygon_excerpt.lua').read_text()
+assert 'L77_2 = L63_2 * 0.5' in oc and 'L77_2 = L64_2 * 0.5' in oc and 'scaleX' in oc and 'scaleY' in oc
+r=blockbs('ExtraRopeThick01');assert '"BLOCK_ROPE_THICK_1"' in r and objs['objects']['ExtraRopeThick01']['kind']==6
+# Instance scale: StaticBlock_01_1 of 6-14 is scaled 0.254775 x 0.883135.
+d=json.loads((root/'ps2/data/level_6_14.json').read_text());sb=[o for o in d['objects'] if o['name']=='StaticBlock_01_1'][0]
+metric=json.loads((root/'ps2/data/sprite_metrics.json').read_text())['GROUND_BLOCK_01']
+assert abs(sb['width']-metric['width']/20*0.254775)<1e-6 and abs(sb['height']-metric['height']/20*0.883135)<1e-6
+print('Big Setup OK: 45 stages match episodes.lua in banks 5-7; Terence body and damage factors, hexagonal helmets (ObjectCreation.lua vertex rule) and thick rope checked against blocks.lua; instance scaleX/scaleY applied.')

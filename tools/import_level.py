@@ -11,7 +11,7 @@ GROUND_HALF_HEIGHT=5.0
 SIZE_FACTOR=0.92
 SLING_BACK_HEIGHT=199
 SLING_BACK_PIVOT_Y=30
-BIRD_RADIUS={'RedBird':0.75,'SmallBlueBird':0.6,'YellowBird':0.8,'BlackBird':1.0,'BasicBird2':1.3,'BoomerangBird':1.5}
+BIRD_RADIUS={'RedBird':0.75,'SmallBlueBird':0.6,'YellowBird':0.8,'BlackBird':1.0,'BasicBird2':1.3,'BoomerangBird':1.5,'RedBigBird':1.8}
 
 def read_assignments(text):
     """Read only the literal/table assignment subset emitted by unluac. No Lua execution."""
@@ -65,7 +65,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
     if not 1<=len(birds)<=16:raise ValueError('Adapter needs 1..16 supported birds')
     for bird in birds:
         bird['type']=profile.get('bird_types',{'RedBird':0}).get(bird['definition'],-1)
-        if bird['type'] not in [0,1,2,3,4,6]:raise ValueError('Unsupported runtime bird type')
+        if bird['type'] not in [0,1,2,3,4,6,7]:raise ValueError('Unsupported runtime bird type')
     if len({b['startNumber'] for b in birds})!=len(birds):raise ValueError('Duplicate bird queue position')
     grounds=[o for o in objects if o['definition']=='Ground']
     if len(grounds)!=1:raise ValueError('Adapter requires exactly one Ground object')
@@ -85,12 +85,15 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
             # 0.92) unless the object is static (density 0), which keeps the full sprite.
             if o.get('density',0)!=0:w,h=w*SIZE_FACTOR,h*SIZE_FACTOR
         else:w=h=float(shape['diameter'])
+        # ObjectCreation.lua multiplies the size by the instance's scaleX/scaleY when they are set and non-zero.
+        if o.get('scaleX'):w*=float(o['scaleX'])
+        if o.get('scaleY'):h*=float(o['scaleY'])
         if w<=0 or h<=0:raise ValueError('Invalid shape dimensions')
         for key in ['x','y','angle','density','strength','defence']:
             if key not in o or type(o[key]) not in (int,float):raise ValueError('Missing or invalid object property '+key)
         if o['density']<0 or o['strength']<=0 or o['defence']<0:raise ValueError('Invalid material properties')
         collision=shape.get('shape','circle' if kind==4 else 'box')
-        if collision not in ['box','circle','triangle_l','triangle_m']:raise ValueError('Unsupported collision shape')
+        if collision not in ['box','circle','triangle_l','triangle_m','polygon']:raise ValueError('Unsupported collision shape')
         material=profile['materials']['by_kind'][str(kind)]
         friction=profile['materials']['friction_overrides'].get(o['definition'],material['friction'])
         restitution=profile['materials'].get('restitution_overrides',{}).get(o['definition'],material['restitution'])

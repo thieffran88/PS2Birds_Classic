@@ -383,5 +383,25 @@
     "width": 36,
     "height": 36,
     "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "HELMET_SMALL": {
+    "width": 80,
+    "height": 37,
+    "sheet": "INGAME_BLOCKS_2_1.sheet.json"
+  },
+  "HELMET_BIG": {
+    "width": 135,
+    "height": 62,
+    "sheet": "INGAME_BLOCKS_2_1.sheet.json"
+  },
+  "HELMET_BOSS": {
+    "width": 135,
+    "height": 63,
+    "sheet": "INGAME_BLOCKS_2_1.sheet.json"
+  },
+  "BLOCK_ROPE_THICK_1": {
+    "width": 10,
+    "height": 131,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
   }
 }

@@ -160,6 +160,51 @@ static const Stage stages[]={
  {"LevelP3_296",115,5,84,6,{{-5,94,-1.0f}},1}, /* DANGER ABOVE 8-13 */
  {"LevelP3_149",97,5,65,4,{{30,98,-1.0f}},1}, /* DANGER ABOVE 8-14 */
  {"LevelP3_313",195,8,108,5,{{35,98,-1.0f}},1}, /* DANGER ABOVE 8-15 */
+ {"LevelP4_421",25,2,21,1,{{-10,70,-1.0f}},1}, /* BIG SETUP 9-1 */
+ {"LevelP4_423",47,3,42,1,{{20,98,-1.0f}},1}, /* BIG SETUP 9-2 */
+ {"LevelP4_424",57,3,45,1,{{25,98,-1.0f}},1}, /* BIG SETUP 9-3 */
+ {"LevelP4_425",57,4,53,1,{{20,90,-1.0f}},1}, /* BIG SETUP 9-4 */
+ {"LevelP4_426",52,2,42,1,{{10,94,-1.0f}},1}, /* BIG SETUP 9-5 */
+ {"LevelP4_427",47,3,42,3,{{5,90,-1.0f}},1}, /* BIG SETUP 9-6 */
+ {"LevelP4_428",84,5,67,4,{{-10,94,-1.0f}},1}, /* BIG SETUP 9-7 */
+ {"LevelP4_429",79,4,54,3,{{-10,78,-1.0f}},1}, /* BIG SETUP 9-8 */
+ {"LevelP4_431",51,3,48,2,{{5,90,-1.0f}},1}, /* BIG SETUP 9-9 */
+ {"LevelP4_432",69,5,56,3,{{10,90,-1.0f}},1}, /* BIG SETUP 9-10 */
+ {"LevelP4_433",79,3,68,2,{{0,90,-1.0f}},1}, /* BIG SETUP 9-11 */
+ {"LevelP4_436",75,4,50,5,{{15,98,-1.0f}},1}, /* BIG SETUP 9-12 */
+ {"LevelP4_439",70,4,59,3,{{5,66,-1.0f}},1}, /* BIG SETUP 9-13 */
+ {"LevelP4_440",80,4,64,3,{{5,94,-1.0f}},1}, /* BIG SETUP 9-14 */
+ {"LevelP4_441",77,5,62,5,{{5,66,-1.0f}},1}, /* BIG SETUP 9-15 */
+ {"LevelP4_442",104,4,71,3,{{-10,62,-1.0f}},1}, /* BIG SETUP 10-1 */
+ {"LevelP4_443",100,7,67,4,{{10,94,-1.0f}},1}, /* BIG SETUP 10-2 */
+ {"LevelP4_444",89,6,63,3,{{-10,90,-1.0f}},1}, /* BIG SETUP 10-3 */
+ {"LevelP4_445",96,9,69,3,{{5,70,-1.0f}},1}, /* BIG SETUP 10-4 */
+ {"LevelP4_448",98,6,82,2,{{-10,95,1.6f},{35,80,2.0f}},2}, /* BIG SETUP 10-5 */
+ {"LevelP4_449",101,7,71,3,{{10,90,-1.0f}},1}, /* BIG SETUP 10-6 */
+ {"LevelP4_451",79,6,67,3,{{-10,86,-1.0f}},1}, /* BIG SETUP 10-7 */
+ {"LevelP4_452",89,5,60,3,{{10,98,-1.0f}},1}, /* BIG SETUP 10-8 */
+ {"LevelP4_453",75,3,56,4,{{5,94,-1.0f}},1}, /* BIG SETUP 10-9 */
+ {"LevelP4_454",90,5,68,3,{{-10,94,-1.0f}},1}, /* BIG SETUP 10-10 */
+ {"LevelP4_455",112,9,82,4,{{5,98,-1.0f}},1}, /* BIG SETUP 10-11 */
+ {"LevelP4_457",95,6,68,3,{{0,86,-1.0f}},1}, /* BIG SETUP 10-12 */
+ {"LevelP4_458",96,6,73,3,{{30,94,-1.0f}},1}, /* BIG SETUP 10-13 */
+ {"LevelP4_459",104,7,79,4,{{-10,30,-1.0f}},1}, /* BIG SETUP 10-14 */
+ {"LevelP4_462",100,6,66,3,{{0,98,-1.0f}},1}, /* BIG SETUP 10-15 */
+ {"LevelP4_463",106,14,84,3,{{20,82,-1.0f}},1}, /* BIG SETUP 11-1 */
+ {"LevelP4_464",108,8,84,3,{{0,86,-1.0f}},1}, /* BIG SETUP 11-2 */
+ {"LevelP4_465",123,10,94,3,{{-10,82,-1.0f}},1}, /* BIG SETUP 11-3 */
+ {"LevelP4_466",80,8,72,2,{{15,94,-1.0f}},1}, /* BIG SETUP 11-4 */
+ {"LevelP4_467",138,7,104,3,{{15,98,-1.0f}},1}, /* BIG SETUP 11-5 */
+ {"LevelP4_468",90,6,63,3,{{-10,66,-1.0f}},1}, /* BIG SETUP 11-6 */
+ {"LevelP4_469",86,11,71,3,{{10,90,-1.0f}},1}, /* BIG SETUP 11-7 */
+ {"LevelP4_470",129,8,88,3,{{0,94,-1.0f}},1}, /* BIG SETUP 11-8 */
+ {"LevelP4_471",121,6,104,3,{{5,94,-1.0f}},1}, /* BIG SETUP 11-9 */
+ {"LevelP4_472",87,5,81,3,{{5,98,-1.0f}},1}, /* BIG SETUP 11-10 */
+ {"LevelP4_473",84,9,68,3,{{10,94,-1.0f}},1}, /* BIG SETUP 11-11 */
+ {"LevelP4_474",116,7,82,3,{{10,94,-1.0f}},1}, /* BIG SETUP 11-12 */
+ {"LevelP4_475",111,8,96,3,{{25,90,-1.0f}},1}, /* BIG SETUP 11-13 */
+ {"LevelP4_477",112,6,84,3,{{0,94,-1.0f}},1}, /* BIG SETUP 11-14 */
+ {"LevelP4_478",124,6,83,3,{{15,94,-1.0f}},1}, /* BIG SETUP 11-15 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -180,7 +225,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==150 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==195 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));

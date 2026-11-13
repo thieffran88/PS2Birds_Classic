@@ -1043,15 +1043,650 @@
         "PIG_HELMET_01_BLINK": "PIG_HELMET_01",
         "PIG_MUSTACHE_01_BLINK": "PIG_MUSTACHE_01"
       }
+    },
+    {
+      "bank": 5,
+      "pages": [
+        {
+          "width": 512,
+          "height": 512,
+          "offset": 14024704
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "offset": 15073280
+        },
+        {
+          "width": 512,
+          "height": 32,
+          "offset": 16121856
+        }
+      ],
+      "sprites": [
+        "BIRD_BIG_BROTHER",
+        "BIRD_BLUE",
+        "BIRD_BLUE_COLLISION",
+        "BIRD_BOOMERANG",
+        "BIRD_BOOMERANG_COLLISION",
+        "BIRD_BOOMERANG_SPECIAL",
+        "BIRD_GREEN",
+        "BIRD_GREEN_COLLISION",
+        "BIRD_GREEN_FLYING",
+        "BIRD_GREY",
+        "BIRD_GREY_1",
+        "BIRD_GREY_2",
+        "BIRD_GREY_3",
+        "BIRD_GREY_FLYING",
+        "BIRD_RED",
+        "BIRD_YELLOW",
+        "BIRD_YELLOW_COLLISION",
+        "BLOCK_BEACHBALL",
+        "BLOCK_EXTRA_TNT",
+        "BLOCK_GOLDEN_EGG",
+        "BLOCK_LIGHT_1_1",
+        "BLOCK_LIGHT_1_2",
+        "BLOCK_LIGHT_1_3",
+        "BLOCK_LIGHT_1_4",
+        "BLOCK_LIGHT_1_5",
+        "BLOCK_LIGHT_1_6",
+        "BLOCK_LIGHT_4_1",
+        "BLOCK_LIGHT_4_2",
+        "BLOCK_LIGHT_4_3",
+        "BLOCK_LIGHT_4_4",
+        "BLOCK_LIGHT_4_5",
+        "BLOCK_LIGHT_4_6",
+        "BLOCK_PILLAR",
+        "BLOCK_ROCK_10X1_1",
+        "BLOCK_ROCK_10X1_2",
+        "BLOCK_ROCK_10X1_3",
+        "BLOCK_ROCK_10X1_4",
+        "BLOCK_ROCK_1_1",
+        "BLOCK_ROCK_1_2",
+        "BLOCK_ROCK_1_3",
+        "BLOCK_ROCK_1_4",
+        "BLOCK_ROCK_1_5",
+        "BLOCK_ROCK_1_6",
+        "BLOCK_ROCK_1_7",
+        "BLOCK_ROCK_1_8",
+        "BLOCK_ROCK_4_1",
+        "BLOCK_ROCK_4_2",
+        "BLOCK_ROCK_4_3",
+        "BLOCK_ROCK_4_4",
+        "BLOCK_ROCK_4_5",
+        "BLOCK_ROCK_4_6",
+        "BLOCK_ROCK_4_7",
+        "BLOCK_ROCK_4_8",
+        "BLOCK_RUBBERDUCK",
+        "BLOCK_WOOD_10X1_1",
+        "BLOCK_WOOD_10X1_2",
+        "BLOCK_WOOD_10X1_3",
+        "BLOCK_WOOD_10X1_4",
+        "BLOCK_WOOD_1_1",
+        "BLOCK_WOOD_1_2",
+        "BLOCK_WOOD_1_3",
+        "BLOCK_WOOD_1_4",
+        "BLOCK_WOOD_1_5",
+        "BLOCK_WOOD_1_6",
+        "BLOCK_WOOD_4X4_1",
+        "BLOCK_WOOD_4X4_4",
+        "BLOCK_WOOD_4_1",
+        "BLOCK_WOOD_4_2",
+        "BLOCK_WOOD_4_3",
+        "BLOCK_WOOD_4_4",
+        "BLOCK_WOOD_4_5",
+        "BLOCK_WOOD_4_6",
+        "BLOCK_WOOD_TRIANGLE_L_1",
+        "BLOCK_WOOD_TRIANGLE_L_4",
+        "DROPPABLE_EGG",
+        "ESTRADE_02",
+        "GROUND_BLOCK_01",
+        "GROUND_BLOCK_02",
+        "GROUND_BLOCK_03",
+        "GROUND_BLOCK_04",
+        "GROUND_BLOCK_05",
+        "GROUND_BLOCK_06",
+        "HELMET_BIG",
+        "HELMET_BOSS",
+        "HELMET_SMALL",
+        "PIG_BASIC_BIG_01",
+        "PIG_BASIC_BIG_02",
+        "PIG_BASIC_MEDIUM_01",
+        "PIG_BASIC_MEDIUM_02",
+        "PIG_BASIC_SMALL_01",
+        "PIG_BASIC_SMALL_02",
+        "PIG_HELMET_01",
+        "PIG_HELMET_02",
+        "PIG_MUSTACHE_01",
+        "PIG_MUSTACHE_02",
+        "SLING_SHOT_01_BACK",
+        "SLING_SHOT_01_FRONT"
+      ],
+      "aliases": {
+        "BLOCK_LIGHT_2_1": "BLOCK_LIGHT_1_1",
+        "BLOCK_LIGHT_2_2": "BLOCK_LIGHT_1_2",
+        "BLOCK_LIGHT_2_3": "BLOCK_LIGHT_1_3",
+        "BLOCK_LIGHT_2_4": "BLOCK_LIGHT_1_4",
+        "BLOCK_LIGHT_2_5": "BLOCK_LIGHT_1_5",
+        "BLOCK_LIGHT_2_6": "BLOCK_LIGHT_1_6",
+        "BLOCK_LIGHT_3_1": "BLOCK_LIGHT_4_1",
+        "BLOCK_LIGHT_3_2": "BLOCK_LIGHT_4_2",
+        "BLOCK_LIGHT_3_3": "BLOCK_LIGHT_4_3",
+        "BLOCK_LIGHT_3_4": "BLOCK_LIGHT_4_4",
+        "BLOCK_LIGHT_3_5": "BLOCK_LIGHT_4_5",
+        "BLOCK_LIGHT_3_6": "BLOCK_LIGHT_4_6",
+        "BLOCK_ROCK_2_1": "BLOCK_ROCK_1_1",
+        "BLOCK_ROCK_2_2": "BLOCK_ROCK_1_2",
+        "BLOCK_ROCK_2_3": "BLOCK_ROCK_1_3",
+        "BLOCK_ROCK_2_4": "BLOCK_ROCK_1_4",
+        "BLOCK_ROCK_2_5": "BLOCK_ROCK_1_5",
+        "BLOCK_ROCK_2_6": "BLOCK_ROCK_1_6",
+        "BLOCK_ROCK_2_7": "BLOCK_ROCK_1_7",
+        "BLOCK_ROCK_2_8": "BLOCK_ROCK_1_8",
+        "BLOCK_ROCK_3_1": "BLOCK_ROCK_4_1",
+        "BLOCK_ROCK_3_2": "BLOCK_ROCK_4_2",
+        "BLOCK_ROCK_3_3": "BLOCK_ROCK_4_3",
+        "BLOCK_ROCK_3_4": "BLOCK_ROCK_4_4",
+        "BLOCK_ROCK_3_5": "BLOCK_ROCK_4_5",
+        "BLOCK_ROCK_3_6": "BLOCK_ROCK_4_6",
+        "BLOCK_ROCK_3_7": "BLOCK_ROCK_4_7",
+        "BLOCK_ROCK_3_8": "BLOCK_ROCK_4_8",
+        "BLOCK_WOOD_2_1": "BLOCK_WOOD_1_1",
+        "BLOCK_WOOD_2_2": "BLOCK_WOOD_1_2",
+        "BLOCK_WOOD_2_3": "BLOCK_WOOD_1_3",
+        "BLOCK_WOOD_2_4": "BLOCK_WOOD_1_4",
+        "BLOCK_WOOD_2_5": "BLOCK_WOOD_1_5",
+        "BLOCK_WOOD_2_6": "BLOCK_WOOD_1_6",
+        "BLOCK_WOOD_3_1": "BLOCK_WOOD_4_1",
+        "BLOCK_WOOD_3_2": "BLOCK_WOOD_4_2",
+        "BLOCK_WOOD_3_3": "BLOCK_WOOD_4_3",
+        "BLOCK_WOOD_3_4": "BLOCK_WOOD_4_4",
+        "BLOCK_WOOD_3_5": "BLOCK_WOOD_4_5",
+        "BLOCK_WOOD_3_6": "BLOCK_WOOD_4_6",
+        "BLOCK_WOOD_4X4_2": "BLOCK_WOOD_4X4_1",
+        "BLOCK_WOOD_4X4_3": "BLOCK_WOOD_4X4_4",
+        "BLOCK_WOOD_TRIANGLE_L_2": "BLOCK_WOOD_TRIANGLE_L_1",
+        "BLOCK_WOOD_TRIANGLE_L_3": "BLOCK_WOOD_TRIANGLE_L_4",
+        "PIG_BASIC_BIG_01_BLINK": "PIG_BASIC_BIG_01",
+        "PIG_BASIC_MEDIUM_01_BLINK": "PIG_BASIC_MEDIUM_01",
+        "PIG_BASIC_SMALL_01_BLINK": "PIG_BASIC_SMALL_01",
+        "PIG_HELMET_01_BLINK": "PIG_HELMET_01",
+        "PIG_MUSTACHE_01_BLINK": "PIG_MUSTACHE_01"
+      }
+    },
+    {
+      "bank": 6,
+      "pages": [
+        {
+          "width": 512,
+          "height": 512,
+          "offset": 16187392
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "offset": 17235968
+        },
+        {
+          "width": 512,
+          "height": 256,
+          "offset": 18284544
+        },
+        {
+          "width": 512,
+          "height": 64,
+          "offset": 18808832
+        }
+      ],
+      "sprites": [
+        "BIRD_BIG_BROTHER",
+        "BIRD_BLUE",
+        "BIRD_BLUE_COLLISION",
+        "BIRD_BOOMERANG",
+        "BIRD_BOOMERANG_COLLISION",
+        "BIRD_BOOMERANG_SPECIAL",
+        "BIRD_GREEN",
+        "BIRD_GREEN_COLLISION",
+        "BIRD_GREEN_FLYING",
+        "BIRD_GREY",
+        "BIRD_GREY_1",
+        "BIRD_GREY_2",
+        "BIRD_GREY_3",
+        "BIRD_GREY_FLYING",
+        "BIRD_RED",
+        "BIRD_YELLOW",
+        "BIRD_YELLOW_COLLISION",
+        "BLOCK_BANANA",
+        "BLOCK_DIAMOND",
+        "BLOCK_EXTRA_TNT",
+        "BLOCK_HAM",
+        "BLOCK_HOLYGRAIL",
+        "BLOCK_LIGHT_10X1_1",
+        "BLOCK_LIGHT_10X1_2",
+        "BLOCK_LIGHT_10X1_3",
+        "BLOCK_LIGHT_10X1_4",
+        "BLOCK_LIGHT_1_1",
+        "BLOCK_LIGHT_1_2",
+        "BLOCK_LIGHT_1_3",
+        "BLOCK_LIGHT_1_4",
+        "BLOCK_LIGHT_1_5",
+        "BLOCK_LIGHT_1_6",
+        "BLOCK_LIGHT_1_8",
+        "BLOCK_LIGHT_4X4_1",
+        "BLOCK_LIGHT_4X4_4",
+        "BLOCK_LIGHT_4_1",
+        "BLOCK_LIGHT_4_2",
+        "BLOCK_LIGHT_4_3",
+        "BLOCK_LIGHT_4_4",
+        "BLOCK_LIGHT_4_5",
+        "BLOCK_LIGHT_4_6",
+        "BLOCK_LIGHT_4_8",
+        "BLOCK_LIGHT_TRIANGLE_L_1",
+        "BLOCK_LIGHT_TRIANGLE_L_4",
+        "BLOCK_LIGHT_TRIANGLE_M_1",
+        "BLOCK_LIGHT_TRIANGLE_M_4",
+        "BLOCK_PILLAR",
+        "BLOCK_ROCK_10X1_1",
+        "BLOCK_ROCK_10X1_2",
+        "BLOCK_ROCK_10X1_3",
+        "BLOCK_ROCK_10X1_4",
+        "BLOCK_ROCK_1_1",
+        "BLOCK_ROCK_1_2",
+        "BLOCK_ROCK_1_3",
+        "BLOCK_ROCK_1_4",
+        "BLOCK_ROCK_1_5",
+        "BLOCK_ROCK_1_6",
+        "BLOCK_ROCK_4X4_1",
+        "BLOCK_ROCK_4X4_4",
+        "BLOCK_ROCK_4_1",
+        "BLOCK_ROCK_4_2",
+        "BLOCK_ROCK_4_3",
+        "BLOCK_ROCK_4_4",
+        "BLOCK_ROCK_4_5",
+        "BLOCK_ROCK_4_6",
+        "BLOCK_ROCK_TRIANGLE_L_1",
+        "BLOCK_ROCK_TRIANGLE_L_4",
+        "BLOCK_ROCK_TRIANGLE_M_1",
+        "BLOCK_ROCK_TRIANGLE_M_4",
+        "BLOCK_ROPE_THICK_1",
+        "BLOCK_RUBBERDUCK",
+        "BLOCK_TIRE_01",
+        "BLOCK_TREASURE_CHEST",
+        "BLOCK_WOOD_10X1_1",
+        "BLOCK_WOOD_10X1_2",
+        "BLOCK_WOOD_10X1_3",
+        "BLOCK_WOOD_10X1_4",
+        "BLOCK_WOOD_1_1",
+        "BLOCK_WOOD_1_2",
+        "BLOCK_WOOD_1_3",
+        "BLOCK_WOOD_1_4",
+        "BLOCK_WOOD_1_5",
+        "BLOCK_WOOD_1_6",
+        "BLOCK_WOOD_1_7",
+        "BLOCK_WOOD_4X4_1",
+        "BLOCK_WOOD_4X4_4",
+        "BLOCK_WOOD_4_1",
+        "BLOCK_WOOD_4_2",
+        "BLOCK_WOOD_4_3",
+        "BLOCK_WOOD_4_4",
+        "BLOCK_WOOD_4_5",
+        "BLOCK_WOOD_4_6",
+        "BLOCK_WOOD_4_7",
+        "BLOCK_WOOD_TRIANGLE_L_1",
+        "BLOCK_WOOD_TRIANGLE_L_4",
+        "BLOCK_WOOD_TRIANGLE_M_1",
+        "BLOCK_WOOD_TRIANGLE_M_4",
+        "DROPPABLE_EGG",
+        "ESTRADE_02",
+        "GROUND_BLOCK_01",
+        "GROUND_BLOCK_02",
+        "GROUND_BLOCK_03",
+        "GROUND_BLOCK_04",
+        "GROUND_BLOCK_05",
+        "GROUND_BLOCK_06",
+        "HELMET_BIG",
+        "HELMET_BOSS",
+        "HELMET_SMALL",
+        "PIG_BASIC_BIG_01",
+        "PIG_BASIC_BIG_02",
+        "PIG_BASIC_MEDIUM_01",
+        "PIG_BASIC_MEDIUM_02",
+        "PIG_BASIC_SMALL_01",
+        "PIG_BASIC_SMALL_02",
+        "PIG_HELMET_01",
+        "PIG_HELMET_02",
+        "PIG_MUSTACHE_01",
+        "PIG_MUSTACHE_02",
+        "SLING_SHOT_01_BACK",
+        "SLING_SHOT_01_FRONT"
+      ],
+      "aliases": {
+        "BLOCK_LIGHT_2_1": "BLOCK_LIGHT_1_1",
+        "BLOCK_LIGHT_2_2": "BLOCK_LIGHT_1_2",
+        "BLOCK_LIGHT_2_3": "BLOCK_LIGHT_1_3",
+        "BLOCK_LIGHT_2_4": "BLOCK_LIGHT_1_4",
+        "BLOCK_LIGHT_2_5": "BLOCK_LIGHT_1_5",
+        "BLOCK_LIGHT_2_6": "BLOCK_LIGHT_1_6",
+        "BLOCK_LIGHT_2_8": "BLOCK_LIGHT_1_8",
+        "BLOCK_LIGHT_3_1": "BLOCK_LIGHT_4_1",
+        "BLOCK_LIGHT_3_2": "BLOCK_LIGHT_4_2",
+        "BLOCK_LIGHT_3_3": "BLOCK_LIGHT_4_3",
+        "BLOCK_LIGHT_3_4": "BLOCK_LIGHT_4_4",
+        "BLOCK_LIGHT_3_5": "BLOCK_LIGHT_4_5",
+        "BLOCK_LIGHT_3_6": "BLOCK_LIGHT_4_6",
+        "BLOCK_LIGHT_3_8": "BLOCK_LIGHT_4_8",
+        "BLOCK_LIGHT_4X4_2": "BLOCK_LIGHT_4X4_1",
+        "BLOCK_LIGHT_4X4_3": "BLOCK_LIGHT_4X4_4",
+        "BLOCK_LIGHT_TRIANGLE_L_2": "BLOCK_LIGHT_TRIANGLE_L_1",
+        "BLOCK_LIGHT_TRIANGLE_L_3": "BLOCK_LIGHT_TRIANGLE_L_4",
+        "BLOCK_LIGHT_TRIANGLE_M_2": "BLOCK_LIGHT_TRIANGLE_M_1",
+        "BLOCK_LIGHT_TRIANGLE_M_3": "BLOCK_LIGHT_TRIANGLE_M_4",
+        "BLOCK_ROCK_2_1": "BLOCK_ROCK_1_1",
+        "BLOCK_ROCK_2_2": "BLOCK_ROCK_1_2",
+        "BLOCK_ROCK_2_3": "BLOCK_ROCK_1_3",
+        "BLOCK_ROCK_2_4": "BLOCK_ROCK_1_4",
+        "BLOCK_ROCK_2_5": "BLOCK_ROCK_1_5",
+        "BLOCK_ROCK_2_6": "BLOCK_ROCK_1_6",
+        "BLOCK_ROCK_3_1": "BLOCK_ROCK_4_1",
+        "BLOCK_ROCK_3_2": "BLOCK_ROCK_4_2",
+        "BLOCK_ROCK_3_3": "BLOCK_ROCK_4_3",
+        "BLOCK_ROCK_3_4": "BLOCK_ROCK_4_4",
+        "BLOCK_ROCK_3_5": "BLOCK_ROCK_4_5",
+        "BLOCK_ROCK_3_6": "BLOCK_ROCK_4_6",
+        "BLOCK_ROCK_4X4_2": "BLOCK_ROCK_4X4_1",
+        "BLOCK_ROCK_4X4_3": "BLOCK_ROCK_4X4_4",
+        "BLOCK_ROCK_TRIANGLE_L_2": "BLOCK_ROCK_TRIANGLE_L_1",
+        "BLOCK_ROCK_TRIANGLE_L_3": "BLOCK_ROCK_TRIANGLE_L_4",
+        "BLOCK_ROCK_TRIANGLE_M_2": "BLOCK_ROCK_TRIANGLE_M_1",
+        "BLOCK_ROCK_TRIANGLE_M_3": "BLOCK_ROCK_TRIANGLE_M_4",
+        "BLOCK_WOOD_2_1": "BLOCK_WOOD_1_1",
+        "BLOCK_WOOD_2_2": "BLOCK_WOOD_1_2",
+        "BLOCK_WOOD_2_3": "BLOCK_WOOD_1_3",
+        "BLOCK_WOOD_2_4": "BLOCK_WOOD_1_4",
+        "BLOCK_WOOD_2_5": "BLOCK_WOOD_1_5",
+        "BLOCK_WOOD_2_6": "BLOCK_WOOD_1_6",
+        "BLOCK_WOOD_2_7": "BLOCK_WOOD_1_7",
+        "BLOCK_WOOD_3_1": "BLOCK_WOOD_4_1",
+        "BLOCK_WOOD_3_2": "BLOCK_WOOD_4_2",
+        "BLOCK_WOOD_3_3": "BLOCK_WOOD_4_3",
+        "BLOCK_WOOD_3_4": "BLOCK_WOOD_4_4",
+        "BLOCK_WOOD_3_5": "BLOCK_WOOD_4_5",
+        "BLOCK_WOOD_3_6": "BLOCK_WOOD_4_6",
+        "BLOCK_WOOD_3_7": "BLOCK_WOOD_4_7",
+        "BLOCK_WOOD_4X4_2": "BLOCK_WOOD_4X4_1",
+        "BLOCK_WOOD_4X4_3": "BLOCK_WOOD_4X4_4",
+        "BLOCK_WOOD_TRIANGLE_L_2": "BLOCK_WOOD_TRIANGLE_L_1",
+        "BLOCK_WOOD_TRIANGLE_L_3": "BLOCK_WOOD_TRIANGLE_L_4",
+        "BLOCK_WOOD_TRIANGLE_M_2": "BLOCK_WOOD_TRIANGLE_M_1",
+        "BLOCK_WOOD_TRIANGLE_M_3": "BLOCK_WOOD_TRIANGLE_M_4",
+        "PIG_BASIC_BIG_01_BLINK": "PIG_BASIC_BIG_01",
+        "PIG_BASIC_MEDIUM_01_BLINK": "PIG_BASIC_MEDIUM_01",
+        "PIG_BASIC_SMALL_01_BLINK": "PIG_BASIC_SMALL_01",
+        "PIG_HELMET_01_BLINK": "PIG_HELMET_01",
+        "PIG_MUSTACHE_01_BLINK": "PIG_MUSTACHE_01"
+      }
+    },
+    {
+      "bank": 7,
+      "pages": [
+        {
+          "width": 512,
+          "height": 512,
+          "offset": 18939904
+        },
+        {
+          "width": 512,
+          "height": 512,
+          "offset": 19988480
+        },
+        {
+          "width": 512,
+          "height": 256,
+          "offset": 21037056
+        },
+        {
+          "width": 512,
+          "height": 128,
+          "offset": 21561344
+        }
+      ],
+      "sprites": [
+        "BIRD_BIG_BROTHER",
+        "BIRD_BLUE",
+        "BIRD_BLUE_COLLISION",
+        "BIRD_BOOMERANG",
+        "BIRD_BOOMERANG_COLLISION",
+        "BIRD_BOOMERANG_SPECIAL",
+        "BIRD_GREEN",
+        "BIRD_GREEN_COLLISION",
+        "BIRD_GREEN_FLYING",
+        "BIRD_GREY",
+        "BIRD_GREY_1",
+        "BIRD_GREY_2",
+        "BIRD_GREY_3",
+        "BIRD_GREY_FLYING",
+        "BIRD_RED",
+        "BIRD_YELLOW",
+        "BIRD_YELLOW_COLLISION",
+        "BLOCK_APPLE",
+        "BLOCK_BALLOON_1",
+        "BLOCK_BALLOON_2",
+        "BLOCK_BALLOON_3",
+        "BLOCK_BANANA",
+        "BLOCK_BEACHBALL",
+        "BLOCK_DONUT",
+        "BLOCK_EXTRA_TNT",
+        "BLOCK_GOLDEN_EGG",
+        "BLOCK_HAM",
+        "BLOCK_LIGHT_10X1_1",
+        "BLOCK_LIGHT_10X1_2",
+        "BLOCK_LIGHT_10X1_3",
+        "BLOCK_LIGHT_10X1_4",
+        "BLOCK_LIGHT_1_1",
+        "BLOCK_LIGHT_1_2",
+        "BLOCK_LIGHT_1_3",
+        "BLOCK_LIGHT_1_4",
+        "BLOCK_LIGHT_1_5",
+        "BLOCK_LIGHT_1_6",
+        "BLOCK_LIGHT_1_7",
+        "BLOCK_LIGHT_1_8",
+        "BLOCK_LIGHT_4X4_1",
+        "BLOCK_LIGHT_4X4_4",
+        "BLOCK_LIGHT_4_1",
+        "BLOCK_LIGHT_4_2",
+        "BLOCK_LIGHT_4_3",
+        "BLOCK_LIGHT_4_4",
+        "BLOCK_LIGHT_4_5",
+        "BLOCK_LIGHT_4_6",
+        "BLOCK_LIGHT_4_7",
+        "BLOCK_LIGHT_4_8",
+        "BLOCK_LIGHT_TRIANGLE_L_1",
+        "BLOCK_LIGHT_TRIANGLE_L_4",
+        "BLOCK_LIGHT_TRIANGLE_M_1",
+        "BLOCK_LIGHT_TRIANGLE_M_4",
+        "BLOCK_ROCK_10X1_1",
+        "BLOCK_ROCK_10X1_2",
+        "BLOCK_ROCK_10X1_3",
+        "BLOCK_ROCK_10X1_4",
+        "BLOCK_ROCK_1_1",
+        "BLOCK_ROCK_1_2",
+        "BLOCK_ROCK_1_3",
+        "BLOCK_ROCK_1_4",
+        "BLOCK_ROCK_1_5",
+        "BLOCK_ROCK_1_6",
+        "BLOCK_ROCK_4X4_1",
+        "BLOCK_ROCK_4X4_4",
+        "BLOCK_ROCK_4_1",
+        "BLOCK_ROCK_4_2",
+        "BLOCK_ROCK_4_3",
+        "BLOCK_ROCK_4_4",
+        "BLOCK_ROCK_4_5",
+        "BLOCK_ROCK_4_6",
+        "BLOCK_ROCK_TRIANGLE_L_1",
+        "BLOCK_ROCK_TRIANGLE_L_4",
+        "BLOCK_ROCK_TRIANGLE_M_1",
+        "BLOCK_ROCK_TRIANGLE_M_4",
+        "BLOCK_RUBBERDUCK",
+        "BLOCK_SMILEY_1",
+        "BLOCK_SMILEY_3",
+        "BLOCK_STRAWBERRY",
+        "BLOCK_TIRE_01",
+        "BLOCK_WATERMELON",
+        "BLOCK_WOOD_10X1_1",
+        "BLOCK_WOOD_10X1_2",
+        "BLOCK_WOOD_10X1_3",
+        "BLOCK_WOOD_10X1_4",
+        "BLOCK_WOOD_1_1",
+        "BLOCK_WOOD_1_2",
+        "BLOCK_WOOD_1_3",
+        "BLOCK_WOOD_1_4",
+        "BLOCK_WOOD_1_5",
+        "BLOCK_WOOD_1_6",
+        "BLOCK_WOOD_4X4_1",
+        "BLOCK_WOOD_4X4_4",
+        "BLOCK_WOOD_4_1",
+        "BLOCK_WOOD_4_2",
+        "BLOCK_WOOD_4_3",
+        "BLOCK_WOOD_4_4",
+        "BLOCK_WOOD_4_5",
+        "BLOCK_WOOD_4_6",
+        "BLOCK_WOOD_TRIANGLE_L_1",
+        "BLOCK_WOOD_TRIANGLE_L_4",
+        "BLOCK_WOOD_TRIANGLE_M_1",
+        "BLOCK_WOOD_TRIANGLE_M_4",
+        "DROPPABLE_EGG",
+        "ESTRADE_02",
+        "GROUND_BLOCK_01",
+        "GROUND_BLOCK_02",
+        "GROUND_BLOCK_03",
+        "GROUND_BLOCK_04",
+        "GROUND_BLOCK_05",
+        "GROUND_BLOCK_06",
+        "HELMET_BIG",
+        "HELMET_BOSS",
+        "HELMET_SMALL",
+        "PIG_BASIC_BIG_01",
+        "PIG_BASIC_BIG_02",
+        "PIG_BASIC_MEDIUM_01",
+        "PIG_BASIC_MEDIUM_02",
+        "PIG_BASIC_SMALL_01",
+        "PIG_BASIC_SMALL_02",
+        "PIG_HELMET_01",
+        "PIG_HELMET_02",
+        "PIG_KING_01",
+        "PIG_KING_02",
+        "PIG_MUSTACHE_01",
+        "PIG_MUSTACHE_02",
+        "SLING_SHOT_01_BACK",
+        "SLING_SHOT_01_FRONT"
+      ],
+      "aliases": {
+        "BLOCK_LIGHT_2_1": "BLOCK_LIGHT_1_1",
+        "BLOCK_LIGHT_2_2": "BLOCK_LIGHT_1_2",
+        "BLOCK_LIGHT_2_3": "BLOCK_LIGHT_1_3",
+        "BLOCK_LIGHT_2_4": "BLOCK_LIGHT_1_4",
+        "BLOCK_LIGHT_2_5": "BLOCK_LIGHT_1_5",
+        "BLOCK_LIGHT_2_6": "BLOCK_LIGHT_1_6",
+        "BLOCK_LIGHT_2_7": "BLOCK_LIGHT_1_7",
+        "BLOCK_LIGHT_2_8": "BLOCK_LIGHT_1_8",
+        "BLOCK_LIGHT_3_1": "BLOCK_LIGHT_4_1",
+        "BLOCK_LIGHT_3_2": "BLOCK_LIGHT_4_2",
+        "BLOCK_LIGHT_3_3": "BLOCK_LIGHT_4_3",
+        "BLOCK_LIGHT_3_4": "BLOCK_LIGHT_4_4",
+        "BLOCK_LIGHT_3_5": "BLOCK_LIGHT_4_5",
+        "BLOCK_LIGHT_3_6": "BLOCK_LIGHT_4_6",
+        "BLOCK_LIGHT_3_7": "BLOCK_LIGHT_4_7",
+        "BLOCK_LIGHT_3_8": "BLOCK_LIGHT_4_8",
+        "BLOCK_LIGHT_4X4_2": "BLOCK_LIGHT_4X4_1",
+        "BLOCK_LIGHT_4X4_3": "BLOCK_LIGHT_4X4_4",
+        "BLOCK_LIGHT_TRIANGLE_L_2": "BLOCK_LIGHT_TRIANGLE_L_1",
+        "BLOCK_LIGHT_TRIANGLE_L_3": "BLOCK_LIGHT_TRIANGLE_L_4",
+        "BLOCK_LIGHT_TRIANGLE_M_2": "BLOCK_LIGHT_TRIANGLE_M_1",
+        "BLOCK_LIGHT_TRIANGLE_M_3": "BLOCK_LIGHT_TRIANGLE_M_4",
+        "BLOCK_ROCK_2_1": "BLOCK_ROCK_1_1",
+        "BLOCK_ROCK_2_2": "BLOCK_ROCK_1_2",
+        "BLOCK_ROCK_2_3": "BLOCK_ROCK_1_3",
+        "BLOCK_ROCK_2_4": "BLOCK_ROCK_1_4",
+        "BLOCK_ROCK_2_5": "BLOCK_ROCK_1_5",
+        "BLOCK_ROCK_2_6": "BLOCK_ROCK_1_6",
+        "BLOCK_ROCK_3_1": "BLOCK_ROCK_4_1",
+        "BLOCK_ROCK_3_2": "BLOCK_ROCK_4_2",
+        "BLOCK_ROCK_3_3": "BLOCK_ROCK_4_3",
+        "BLOCK_ROCK_3_4": "BLOCK_ROCK_4_4",
+        "BLOCK_ROCK_3_5": "BLOCK_ROCK_4_5",
+        "BLOCK_ROCK_3_6": "BLOCK_ROCK_4_6",
+        "BLOCK_ROCK_4X4_2": "BLOCK_ROCK_4X4_1",
+        "BLOCK_ROCK_4X4_3": "BLOCK_ROCK_4X4_4",
+        "BLOCK_ROCK_TRIANGLE_L_2": "BLOCK_ROCK_TRIANGLE_L_1",
+        "BLOCK_ROCK_TRIANGLE_L_3": "BLOCK_ROCK_TRIANGLE_L_4",
+        "BLOCK_ROCK_TRIANGLE_M_2": "BLOCK_ROCK_TRIANGLE_M_1",
+        "BLOCK_ROCK_TRIANGLE_M_3": "BLOCK_ROCK_TRIANGLE_M_4",
+        "BLOCK_WOOD_2_1": "BLOCK_WOOD_1_1",
+        "BLOCK_WOOD_2_2": "BLOCK_WOOD_1_2",
+        "BLOCK_WOOD_2_3": "BLOCK_WOOD_1_3",
+        "BLOCK_WOOD_2_4": "BLOCK_WOOD_1_4",
+        "BLOCK_WOOD_2_5": "BLOCK_WOOD_1_5",
+        "BLOCK_WOOD_2_6": "BLOCK_WOOD_1_6",
+        "BLOCK_WOOD_3_1": "BLOCK_WOOD_4_1",
+        "BLOCK_WOOD_3_2": "BLOCK_WOOD_4_2",
+        "BLOCK_WOOD_3_3": "BLOCK_WOOD_4_3",
+        "BLOCK_WOOD_3_4": "BLOCK_WOOD_4_4",
+        "BLOCK_WOOD_3_5": "BLOCK_WOOD_4_5",
+        "BLOCK_WOOD_3_6": "BLOCK_WOOD_4_6",
+        "BLOCK_WOOD_4X4_2": "BLOCK_WOOD_4X4_1",
+        "BLOCK_WOOD_4X4_3": "BLOCK_WOOD_4X4_4",
+        "BLOCK_WOOD_TRIANGLE_L_2": "BLOCK_WOOD_TRIANGLE_L_1",
+        "BLOCK_WOOD_TRIANGLE_L_3": "BLOCK_WOOD_TRIANGLE_L_4",
+        "BLOCK_WOOD_TRIANGLE_M_2": "BLOCK_WOOD_TRIANGLE_M_1",
+        "BLOCK_WOOD_TRIANGLE_M_3": "BLOCK_WOOD_TRIANGLE_M_4",
+        "PIG_BASIC_BIG_01_BLINK": "PIG_BASIC_BIG_01",
+        "PIG_BASIC_MEDIUM_01_BLINK": "PIG_BASIC_MEDIUM_01",
+        "PIG_BASIC_SMALL_01_BLINK": "PIG_BASIC_SMALL_01",
+        "PIG_HELMET_01_BLINK": "PIG_HELMET_01",
+        "PIG_MUSTACHE_01_BLINK": "PIG_MUSTACHE_01"
+      }
     }
   ],
-  "bytes": 14024704,
+  "bytes": 21823488,
   "alpha_range": [
     0,
     128
   ],
-  "atlas_sha256": "6dd67844b089207b29730bf48aea2ab561b944288c5b038dddcd18e6b8063be0",
+  "atlas_sha256": "91914d44a3b89382d529d2aff547fb4213e0b7cdac27b53ab7b73ca369bdad1c",
   "sprites": [
+    {
+      "sprite": "BIRD_BIG_BROTHER",
+      "sheet": "assets/data/images/base/INGAME_BIRDS_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "a52299865fe54621683c652be00afd2253bc5174a56fdeef6f618291246af4e3",
+      "width": 98,
+      "height": 95,
+      "pivot": {
+        "x": 54,
+        "y": 56
+      },
+      "banks": [
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 359,
+          "atlas_y": 210
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 371,
+          "atlas_y": 210
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 363,
+          "atlas_y": 200
+        }
+      ]
+    },
     {
       "sprite": "BIRD_BOOMERANG",
       "sheet": "assets/data/images/base/INGAME_BIRDS_1",
@@ -1076,6 +1711,24 @@
           "page": 1,
           "atlas_x": 292,
           "atlas_y": 394
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 189,
+          "atlas_y": 149
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 218,
+          "atlas_y": 322
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 399
         }
       ]
     },
@@ -1103,6 +1756,24 @@
           "page": 0,
           "atlas_x": 41,
           "atlas_y": 200
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 41,
+          "atlas_y": 200
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 41,
+          "atlas_y": 200
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 187,
+          "atlas_y": 111
         }
       ]
     },
@@ -1130,6 +1801,24 @@
           "page": 1,
           "atlas_x": 400,
           "atlas_y": 321
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 83,
+          "atlas_y": 79
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 146,
+          "atlas_y": 249
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 175,
+          "atlas_y": 325
         }
       ]
     },
@@ -1175,6 +1864,24 @@
           "page": 0,
           "atlas_x": 359,
           "atlas_y": 210
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 132,
+          "atlas_y": 211
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 132,
+          "atlas_y": 211
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 202
         }
       ]
     },
@@ -1220,6 +1927,24 @@
           "page": 0,
           "atlas_x": 132,
           "atlas_y": 211
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 298
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 298
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 187,
+          "atlas_y": 209
         }
       ]
     },
@@ -1265,6 +1990,24 @@
           "page": 0,
           "atlas_x": 274,
           "atlas_y": 210
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 274,
+          "atlas_y": 210
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 286,
+          "atlas_y": 210
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 278,
+          "atlas_y": 200
         }
       ]
     },
@@ -1310,6 +2053,24 @@
           "page": 0,
           "atlas_x": 430,
           "atlas_y": 398
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 325,
+          "atlas_y": 399
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 443,
+          "atlas_y": 399
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 85,
+          "atlas_y": 85
         }
       ]
     },
@@ -1355,6 +2116,24 @@
           "page": 1,
           "atlas_x": 214,
           "atlas_y": 245
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 320,
+          "atlas_y": 1
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 296,
+          "atlas_y": 247
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 324
         }
       ]
     },
@@ -1400,6 +2179,24 @@
           "page": 0,
           "atlas_x": 178,
           "atlas_y": 307
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 261,
+          "atlas_y": 308
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 215,
+          "atlas_y": 211
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 270,
+          "atlas_y": 298
         }
       ]
     },
@@ -1445,6 +2242,24 @@
           "page": 0,
           "atlas_x": 242,
           "atlas_y": 308
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 261,
+          "atlas_y": 392
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 215,
+          "atlas_y": 295
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 108,
+          "atlas_y": 300
         }
       ]
     },
@@ -1490,6 +2305,24 @@
           "page": 0,
           "atlas_x": 1,
           "atlas_y": 390
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 394
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 279,
+          "atlas_y": 308
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 172,
+          "atlas_y": 305
         }
       ]
     },
@@ -1535,6 +2368,24 @@
           "page": 0,
           "atlas_x": 39,
           "atlas_y": 481
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 267,
+          "atlas_y": 476
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 301,
+          "atlas_y": 476
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 318,
+          "atlas_y": 473
         }
       ]
     },
@@ -1580,6 +2431,24 @@
           "page": 0,
           "atlas_x": 302,
           "atlas_y": 476
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 233,
+          "atlas_y": 476
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 267,
+          "atlas_y": 476
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 284,
+          "atlas_y": 466
         }
       ]
     },
@@ -1625,6 +2494,24 @@
           "page": 1,
           "atlas_x": 341,
           "atlas_y": 461
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 331,
+          "atlas_y": 216
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 421,
+          "atlas_y": 445
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 192,
+          "atlas_y": 466
         }
       ]
     },
@@ -1670,6 +2557,24 @@
           "page": 1,
           "atlas_x": 188,
           "atlas_y": 395
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 432,
+          "atlas_y": 151
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 218,
+          "atlas_y": 389
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 447,
+          "atlas_y": 1
         }
       ]
     },
@@ -1715,6 +2620,24 @@
           "page": 1,
           "atlas_x": 182,
           "atlas_y": 451
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 432,
+          "atlas_y": 207
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 182,
+          "atlas_y": 445
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 447,
+          "atlas_y": 57
         }
       ]
     },
@@ -1757,6 +2680,24 @@
         },
         {
           "bank": 4,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 1
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
           "page": 0,
           "atlas_x": 1,
           "atlas_y": 1
@@ -1805,6 +2746,24 @@
           "page": 0,
           "atlas_x": 130,
           "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 130,
+          "atlas_y": 1
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 142,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 41,
+          "atlas_y": 1
         }
       ]
     },
@@ -1850,6 +2809,24 @@
           "page": 1,
           "atlas_x": 453,
           "atlas_y": 456
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 233,
+          "atlas_y": 216
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 169,
+          "atlas_y": 463
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 384,
+          "atlas_y": 462
         }
       ]
     },
@@ -1916,6 +2893,24 @@
           "page": 1,
           "atlas_x": 292,
           "atlas_y": 461
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 282,
+          "atlas_y": 216
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 218,
+          "atlas_y": 463
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 247,
+          "atlas_y": 464
         }
       ]
     },
@@ -1961,6 +2956,24 @@
           "page": 1,
           "atlas_x": 409,
           "atlas_y": 165
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 83,
+          "atlas_y": 1
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 376,
+          "atlas_y": 167
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 169
         }
       ]
     },
@@ -2027,6 +3040,24 @@
           "page": 1,
           "atlas_x": 409,
           "atlas_y": 243
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 163,
+          "atlas_y": 1
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 169
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 392,
+          "atlas_y": 245
         }
       ]
     },
@@ -2066,6 +3097,12 @@
           "page": 1,
           "atlas_x": 78,
           "atlas_y": 245
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 229,
+          "atlas_y": 249
         }
       ]
     },
@@ -2105,6 +3142,12 @@
           "page": 1,
           "atlas_x": 146,
           "atlas_y": 245
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 389,
+          "atlas_y": 323
         }
       ]
     },
@@ -2150,6 +3193,24 @@
           "page": 0,
           "atlas_x": 274,
           "atlas_y": 111
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 274,
+          "atlas_y": 111
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 286,
+          "atlas_y": 111
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 328,
+          "atlas_y": 101
         }
       ]
     },
@@ -2216,6 +3277,24 @@
           "page": 0,
           "atlas_x": 375,
           "atlas_y": 111
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 375,
+          "atlas_y": 111
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 387,
+          "atlas_y": 111
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 86,
+          "atlas_y": 111
         }
       ]
     },
@@ -2261,6 +3340,24 @@
           "page": 0,
           "atlas_x": 1,
           "atlas_y": 298
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 84,
+          "atlas_y": 307
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 84,
+          "atlas_y": 307
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 363,
+          "atlas_y": 297
         }
       ]
     },
@@ -2327,6 +3424,24 @@
           "page": 0,
           "atlas_x": 359,
           "atlas_y": 306
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 359,
+          "atlas_y": 307
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 371,
+          "atlas_y": 307
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 298
         }
       ]
     },
@@ -2371,6 +3486,24 @@
           "bank": 4,
           "page": 0,
           "atlas_x": 175,
+          "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 175,
+          "atlas_y": 1
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 187,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 86,
           "atlas_y": 1
         }
       ]
@@ -2437,6 +3570,24 @@
           "bank": 4,
           "page": 0,
           "atlas_x": 296,
+          "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 296,
+          "atlas_y": 1
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 308,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 207,
           "atlas_y": 1
         }
       ]
@@ -2510,6 +3661,24 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 450
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 216
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 393
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 266,
+          "atlas_y": 1
         }
       ]
     },
@@ -2543,6 +3712,12 @@
           "page": 1,
           "atlas_x": 398,
           "atlas_y": 394
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 324,
+          "atlas_y": 387
         }
       ]
     },
@@ -2570,6 +3745,12 @@
           "page": 1,
           "atlas_x": 247,
           "atlas_y": 245
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 312,
+          "atlas_y": 247
         }
       ]
     },
@@ -2596,6 +3777,12 @@
           "bank": 3,
           "page": 1,
           "atlas_x": 247,
+          "atlas_y": 167
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 392,
           "atlas_y": 167
         }
       ]
@@ -2636,6 +3823,18 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 245
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 243,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 247
         }
       ]
     },
@@ -2675,6 +3874,24 @@
           "page": 1,
           "atlas_x": 167,
           "atlas_y": 247
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 398,
+          "atlas_y": 76
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 78,
+          "atlas_y": 249
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 297,
+          "atlas_y": 324
         }
       ]
     },
@@ -2714,6 +3931,12 @@
           "page": 1,
           "atlas_x": 132,
           "atlas_y": 392
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 210,
+          "atlas_y": 1
         }
       ]
     },
@@ -2741,6 +3964,12 @@
           "page": 0,
           "atlas_x": 394,
           "atlas_y": 461
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 457,
+          "atlas_y": 457
         }
       ]
     },
@@ -2768,6 +3997,12 @@
           "page": 1,
           "atlas_x": 292,
           "atlas_y": 320
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 457,
+          "atlas_y": 323
         }
       ]
     },
@@ -2795,6 +4030,12 @@
           "page": 1,
           "atlas_x": 346,
           "atlas_y": 320
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 67,
+          "atlas_y": 325
         }
       ]
     },
@@ -2822,6 +4063,12 @@
           "page": 1,
           "atlas_x": 78,
           "atlas_y": 321
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 121,
+          "atlas_y": 325
         }
       ]
     },
@@ -2916,6 +4163,27 @@
       ]
     },
     {
+      "sprite": "BLOCK_ROPE_THICK_1",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "19042aec64fe70e4e87d3a04ccd440a2ef60d3a15597746c28f0dc105be07dac",
+      "width": 10,
+      "height": 131,
+      "pivot": {
+        "x": 5,
+        "y": 65
+      },
+      "banks": [
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 130,
+          "atlas_y": 1
+        }
+      ]
+    },
+    {
       "sprite": "BLOCK_CARPET",
       "sheet": "assets/data/images/base/INGAME_BLOCKS_1_1",
       "source_format": "RGBA4444 little-endian",
@@ -2999,6 +4267,18 @@
           "page": 1,
           "atlas_x": 329,
           "atlas_y": 165
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 296,
+          "atlas_y": 167
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 312,
+          "atlas_y": 167
         }
       ]
     },
@@ -3077,6 +4357,12 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 322
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 384,
+          "atlas_y": 399
         }
       ]
     },
@@ -3122,6 +4408,24 @@
           "page": 1,
           "atlas_x": 132,
           "atlas_y": 321
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 243,
+          "atlas_y": 78
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 146,
+          "atlas_y": 322
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 175,
+          "atlas_y": 398
         }
       ]
     },
@@ -3182,6 +4486,12 @@
           "page": 2,
           "atlas_x": 424,
           "atlas_y": 44
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 86,
+          "atlas_y": 44
         }
       ]
     },
@@ -3215,6 +4525,12 @@
           "page": 1,
           "atlas_x": 337,
           "atlas_y": 1
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 85,
+          "atlas_y": 85
         }
       ]
     },
@@ -3245,6 +4561,18 @@
         },
         {
           "bank": 4,
+          "page": 0,
+          "atlas_x": 41,
+          "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 41,
+          "atlas_y": 1
+        },
+        {
+          "bank": 6,
           "page": 0,
           "atlas_x": 41,
           "atlas_y": 1
@@ -3287,6 +4615,18 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 1
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 292,
+          "atlas_y": 449
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 296,
+          "atlas_y": 464
         }
       ]
     },
@@ -3431,6 +4771,12 @@
           "page": 1,
           "atlas_x": 55,
           "atlas_y": 323
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 107,
+          "atlas_y": 399
         }
       ]
     },
@@ -3464,6 +4810,18 @@
           "page": 1,
           "atlas_x": 227,
           "atlas_y": 385
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 421,
+          "atlas_y": 387
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 138,
+          "atlas_y": 1
         }
       ]
     },
@@ -3497,6 +4855,18 @@
           "page": 0,
           "atlas_x": 108,
           "atlas_y": 307
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 191,
+          "atlas_y": 307
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 108,
+          "atlas_y": 210
         }
       ]
     },
@@ -3569,6 +4939,24 @@
           "page": 2,
           "atlas_x": 415,
           "atlas_y": 174
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 485,
+          "atlas_y": 389
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 110
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 488,
+          "atlas_y": 89
         }
       ]
     },
@@ -3614,6 +5002,24 @@
           "page": 2,
           "atlas_x": 437,
           "atlas_y": 174
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 415,
+          "atlas_y": 433
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 437,
+          "atlas_y": 110
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 223
         }
       ]
     },
@@ -3659,6 +5065,24 @@
           "page": 2,
           "atlas_x": 168,
           "atlas_y": 44
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 470,
+          "atlas_y": 339
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 342,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 86,
+          "atlas_y": 65
         }
       ]
     },
@@ -3704,6 +5128,24 @@
           "page": 2,
           "atlas_x": 415,
           "atlas_y": 196
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 208,
+          "atlas_y": 455
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 132
+        },
+        {
+          "bank": 7,
+          "page": 3,
+          "atlas_x": 415,
+          "atlas_y": 1
         }
       ]
     },
@@ -3749,6 +5191,24 @@
           "page": 2,
           "atlas_x": 211,
           "atlas_y": 44
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 86,
+          "atlas_y": 274
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 385,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 129,
+          "atlas_y": 102
         }
       ]
     },
@@ -3794,6 +5254,24 @@
           "page": 3,
           "atlas_x": 1,
           "atlas_y": 23
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 293,
+          "atlas_y": 455
+        },
+        {
+          "bank": 6,
+          "page": 3,
+          "atlas_x": 1,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 3,
+          "atlas_x": 1,
+          "atlas_y": 67
         }
       ]
     },
@@ -3821,6 +5299,12 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 247
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 376,
+          "atlas_y": 245
         }
       ]
     },
@@ -4301,6 +5785,24 @@
           "page": 2,
           "atlas_x": 415,
           "atlas_y": 218
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 485,
+          "atlas_y": 411
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 154
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 488,
+          "atlas_y": 111
         }
       ]
     },
@@ -4346,6 +5848,24 @@
           "page": 2,
           "atlas_x": 437,
           "atlas_y": 218
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 463,
+          "atlas_y": 433
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 437,
+          "atlas_y": 154
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 458,
+          "atlas_y": 223
         }
       ]
     },
@@ -4391,6 +5911,24 @@
           "page": 2,
           "atlas_x": 296,
           "atlas_y": 44
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 470,
+          "atlas_y": 382
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 470,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 214,
+          "atlas_y": 102
         }
       ]
     },
@@ -4436,6 +5974,24 @@
           "page": 3,
           "atlas_x": 415,
           "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 471
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 176
+        },
+        {
+          "bank": 7,
+          "page": 3,
+          "atlas_x": 415,
+          "atlas_y": 23
         }
       ]
     },
@@ -4481,6 +6037,24 @@
           "page": 2,
           "atlas_x": 339,
           "atlas_y": 44
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 318,
+          "atlas_y": 306
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 44
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 257,
+          "atlas_y": 102
         }
       ]
     },
@@ -4526,6 +6100,24 @@
           "page": 3,
           "atlas_x": 171,
           "atlas_y": 23
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 86,
+          "atlas_y": 477
+        },
+        {
+          "bank": 6,
+          "page": 3,
+          "atlas_x": 171,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 3,
+          "atlas_x": 171,
+          "atlas_y": 67
         }
       ]
     },
@@ -4552,6 +6144,12 @@
           "bank": 2,
           "page": 1,
           "atlas_x": 312,
+          "atlas_y": 247
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 1,
           "atlas_y": 247
         }
       ]
@@ -4619,6 +6217,24 @@
           "page": 0,
           "atlas_x": 72,
           "atlas_y": 481
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 300,
+          "atlas_y": 476
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 334,
+          "atlas_y": 476
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 488,
+          "atlas_y": 1
         }
       ]
     },
@@ -4658,6 +6274,24 @@
           "page": 0,
           "atlas_x": 1,
           "atlas_y": 490
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 478
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 443,
+          "atlas_y": 482
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 351,
+          "atlas_y": 473
         }
       ]
     },
@@ -4703,6 +6337,24 @@
           "page": 2,
           "atlas_x": 83,
           "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 379,
+          "atlas_y": 216
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 451
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 46,
+          "atlas_y": 466
         }
       ]
     },
@@ -4748,6 +6400,24 @@
           "page": 0,
           "atlas_x": 336,
           "atlas_y": 482
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 323,
+          "atlas_y": 482
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 483
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 394,
+          "atlas_y": 473
         }
       ]
     },
@@ -4793,6 +6463,24 @@
           "page": 2,
           "atlas_x": 127,
           "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 331,
+          "atlas_y": 263
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 45,
+          "atlas_y": 451
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 158,
+          "atlas_y": 469
         }
       ]
     },
@@ -4838,6 +6526,24 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 131
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 44,
+          "atlas_y": 483
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 109
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 189
         }
       ]
     },
@@ -4871,6 +6577,12 @@
           "page": 1,
           "atlas_x": 324,
           "atlas_y": 245
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 78,
+          "atlas_y": 249
         }
       ]
     },
@@ -4898,6 +6610,18 @@
           "page": 1,
           "atlas_x": 359,
           "atlas_y": 452
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 469,
+          "atlas_y": 445
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 240,
+          "atlas_y": 466
         }
       ]
     },
@@ -5319,6 +7043,24 @@
           "page": 0,
           "atlas_x": 95,
           "atlas_y": 481
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 408,
+          "atlas_y": 481
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 486,
+          "atlas_y": 482
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 488,
+          "atlas_y": 23
         }
       ]
     },
@@ -5358,6 +7100,24 @@
           "page": 2,
           "atlas_x": 171,
           "atlas_y": 122
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 182,
+          "atlas_y": 267
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 86,
+          "atlas_y": 483
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 474
         }
       ]
     },
@@ -5403,6 +7163,24 @@
           "page": 2,
           "atlas_x": 212,
           "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 470,
+          "atlas_y": 210
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 130,
+          "atlas_y": 451
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 138,
+          "atlas_y": 59
         }
       ]
     },
@@ -5448,6 +7226,24 @@
           "page": 0,
           "atlas_x": 421,
           "atlas_y": 482
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 171,
+          "atlas_y": 307
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 357,
+          "atlas_y": 483
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 113
         }
       ]
     },
@@ -5493,6 +7289,24 @@
           "page": 2,
           "atlas_x": 255,
           "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 416,
+          "atlas_y": 263
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 181,
+          "atlas_y": 59
         }
       ]
     },
@@ -5538,6 +7352,24 @@
           "page": 2,
           "atlas_x": 171,
           "atlas_y": 131
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 317
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 171,
+          "atlas_y": 110
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 171,
+          "atlas_y": 189
         }
       ]
     },
@@ -5571,6 +7403,12 @@
           "page": 1,
           "atlas_x": 399,
           "atlas_y": 245
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 153,
+          "atlas_y": 249
         }
       ]
     },
@@ -5598,6 +7436,18 @@
           "page": 1,
           "atlas_x": 403,
           "atlas_y": 452
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 374,
+          "atlas_y": 449
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 466
         }
       ]
     },
@@ -5643,6 +7493,24 @@
           "page": 0,
           "atlas_x": 117,
           "atlas_y": 481
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 430,
+          "atlas_y": 481
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 129,
+          "atlas_y": 483
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 488,
+          "atlas_y": 45
         }
       ]
     },
@@ -5688,6 +7556,24 @@
           "page": 2,
           "atlas_x": 424,
           "atlas_y": 86
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 415,
+          "atlas_y": 345
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 469,
+          "atlas_y": 490
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 135
         }
       ]
     },
@@ -5733,6 +7619,24 @@
           "page": 2,
           "atlas_x": 340,
           "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 470,
+          "atlas_y": 253
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 86,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 266,
+          "atlas_y": 59
         }
       ]
     },
@@ -5778,6 +7682,24 @@
           "page": 2,
           "atlas_x": 415,
           "atlas_y": 108
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 415,
+          "atlas_y": 367
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 426,
+          "atlas_y": 44
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 157
         }
       ]
     },
@@ -5823,6 +7745,24 @@
           "page": 2,
           "atlas_x": 383,
           "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 233,
+          "atlas_y": 264
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 129,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 309,
+          "atlas_y": 59
         }
       ]
     },
@@ -5868,6 +7808,24 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 197
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 383
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 176
+        },
+        {
+          "bank": 7,
+          "page": 3,
+          "atlas_x": 1,
+          "atlas_y": 1
         }
       ]
     },
@@ -5901,6 +7859,12 @@
           "page": 1,
           "atlas_x": 280,
           "atlas_y": 245
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 386,
+          "atlas_y": 1
         }
       ]
     },
@@ -5940,6 +7904,12 @@
           "page": 2,
           "atlas_x": 214,
           "atlas_y": 44
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 470,
+          "atlas_y": 425
         }
       ]
     },
@@ -6417,6 +8387,24 @@
           "page": 2,
           "atlas_x": 415,
           "atlas_y": 130
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 171,
+          "atlas_y": 383
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 426,
+          "atlas_y": 66
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 488,
+          "atlas_y": 67
         }
       ]
     },
@@ -6462,6 +8450,24 @@
           "page": 2,
           "atlas_x": 437,
           "atlas_y": 130
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 415,
+          "atlas_y": 389
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 448,
+          "atlas_y": 66
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 179
         }
       ]
     },
@@ -6507,6 +8513,24 @@
           "page": 2,
           "atlas_x": 468,
           "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 470,
+          "atlas_y": 296
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 214,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 394,
+          "atlas_y": 59
         }
       ]
     },
@@ -6552,6 +8576,24 @@
           "page": 2,
           "atlas_x": 415,
           "atlas_y": 152
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 193,
+          "atlas_y": 393
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 88
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 415,
+          "atlas_y": 201
         }
       ]
     },
@@ -6597,6 +8639,24 @@
           "page": 2,
           "atlas_x": 83,
           "atlas_y": 44
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 274
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 257,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 65
         }
       ]
     },
@@ -6642,6 +8702,24 @@
           "page": 2,
           "atlas_x": 171,
           "atlas_y": 197
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 405
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 171,
+          "atlas_y": 176
+        },
+        {
+          "bank": 7,
+          "page": 3,
+          "atlas_x": 171,
+          "atlas_y": 1
         }
       ]
     },
@@ -6675,6 +8753,12 @@
           "page": 1,
           "atlas_x": 214,
           "atlas_y": 320
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 320,
+          "atlas_y": 76
         }
       ]
     },
@@ -6714,6 +8798,12 @@
           "page": 2,
           "atlas_x": 255,
           "atlas_y": 44
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 470,
+          "atlas_y": 464
         }
       ]
     },
@@ -6752,6 +8842,24 @@
           "bank": 4,
           "page": 1,
           "atlas_x": 169,
+          "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 65,
+          "atlas_y": 399
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 253,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 253,
           "atlas_y": 1
         }
       ]
@@ -6820,6 +8928,24 @@
           "page": 1,
           "atlas_x": 253,
           "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 149,
+          "atlas_y": 399
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 337,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 337,
+          "atlas_y": 1
         }
       ]
     },
@@ -6859,6 +8985,24 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 219
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 278,
+          "atlas_y": 411
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 198
+        },
+        {
+          "bank": 7,
+          "page": 3,
+          "atlas_x": 1,
+          "atlas_y": 23
         }
       ]
     },
@@ -6898,6 +9042,24 @@
           "page": 2,
           "atlas_x": 208,
           "atlas_y": 219
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 427
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 198
+        },
+        {
+          "bank": 7,
+          "page": 3,
+          "atlas_x": 208,
+          "atlas_y": 23
         }
       ]
     },
@@ -6937,6 +9099,24 @@
           "page": 3,
           "atlas_x": 1,
           "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 208,
+          "atlas_y": 433
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 220
+        },
+        {
+          "bank": 7,
+          "page": 3,
+          "atlas_x": 1,
+          "atlas_y": 45
         }
       ]
     },
@@ -6976,6 +9156,24 @@
           "page": 3,
           "atlas_x": 208,
           "atlas_y": 1
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 449
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 220
+        },
+        {
+          "bank": 7,
+          "page": 3,
+          "atlas_x": 208,
+          "atlas_y": 45
         }
       ]
     },
@@ -7015,6 +9213,24 @@
           "page": 1,
           "atlas_x": 165,
           "atlas_y": 85
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 388,
+          "atlas_y": 399
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 132,
+          "atlas_y": 167
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 148,
+          "atlas_y": 167
         }
       ]
     },
@@ -7082,6 +9298,24 @@
           "page": 1,
           "atlas_x": 247,
           "atlas_y": 85
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 1
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 214,
+          "atlas_y": 167
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 230,
+          "atlas_y": 167
         }
       ]
     },
@@ -7112,6 +9346,18 @@
         },
         {
           "bank": 3,
+          "page": 1,
+          "atlas_x": 421,
+          "atlas_y": 1
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 421,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
           "page": 1,
           "atlas_x": 421,
           "atlas_y": 1
@@ -7176,6 +9422,18 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 85
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 85
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 85
         }
       ]
     },
@@ -7215,6 +9473,18 @@
           "page": 0,
           "atlas_x": 178,
           "atlas_y": 392
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 191,
+          "atlas_y": 379
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 236,
+          "atlas_y": 382
         }
       ]
     },
@@ -7282,6 +9552,18 @@
           "page": 0,
           "atlas_x": 262,
           "atlas_y": 392
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 275,
+          "atlas_y": 392
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 108,
+          "atlas_y": 389
         }
       ]
     },
@@ -7321,6 +9603,18 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 87
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 219,
+          "atlas_y": 44
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 145
         }
       ]
     },
@@ -7360,6 +9654,18 @@
           "page": 2,
           "atlas_x": 208,
           "atlas_y": 87
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 219,
+          "atlas_y": 66
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 145
         }
       ]
     },
@@ -7399,6 +9705,18 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 109
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 87
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 167
         }
       ]
     },
@@ -7438,6 +9756,18 @@
           "page": 2,
           "atlas_x": 208,
           "atlas_y": 109
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 88
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 167
         }
       ]
     },
@@ -7477,6 +9807,18 @@
           "page": 1,
           "atlas_x": 384,
           "atlas_y": 1
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 132,
+          "atlas_y": 85
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 148,
+          "atlas_y": 85
         }
       ]
     },
@@ -7544,6 +9886,18 @@
           "page": 1,
           "atlas_x": 384,
           "atlas_y": 83
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 214,
+          "atlas_y": 85
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 230,
+          "atlas_y": 85
         }
       ]
     },
@@ -7577,6 +9931,18 @@
           "page": 0,
           "atlas_x": 256,
           "atlas_y": 401
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 399
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 320,
+          "atlas_y": 389
         }
       ]
     },
@@ -7638,6 +10004,18 @@
           "page": 0,
           "atlas_x": 108,
           "atlas_y": 404
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 85,
+          "atlas_y": 399
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 404,
+          "atlas_y": 389
         }
       ]
     },
@@ -7677,6 +10055,18 @@
           "page": 0,
           "atlas_x": 65,
           "atlas_y": 397
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 359,
+          "atlas_y": 399
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 1,
+          "atlas_y": 390
         }
       ]
     },
@@ -7744,6 +10134,18 @@
           "page": 0,
           "atlas_x": 346,
           "atlas_y": 398
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 1
         }
       ]
     },
@@ -7783,6 +10185,24 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 153
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 339
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 132
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 211
         }
       ]
     },
@@ -7822,6 +10242,24 @@
           "page": 2,
           "atlas_x": 208,
           "atlas_y": 153
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 208,
+          "atlas_y": 349
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 132
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 211
         }
       ]
     },
@@ -7861,6 +10299,24 @@
           "page": 2,
           "atlas_x": 1,
           "atlas_y": 175
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 361
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 154
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 233
         }
       ]
     },
@@ -7900,6 +10356,24 @@
           "page": 2,
           "atlas_x": 208,
           "atlas_y": 175
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 208,
+          "atlas_y": 371
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 154
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 208,
+          "atlas_y": 233
         }
       ]
     },
@@ -7938,6 +10412,18 @@
           "bank": 4,
           "page": 1,
           "atlas_x": 1,
+          "atlas_y": 85
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 296,
+          "atlas_y": 85
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 312,
           "atlas_y": 85
         }
       ]
@@ -8006,6 +10492,18 @@
           "page": 1,
           "atlas_x": 83,
           "atlas_y": 85
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 378,
+          "atlas_y": 85
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 394,
+          "atlas_y": 85
         }
       ]
     },
@@ -8044,6 +10542,18 @@
           "bank": 4,
           "page": 1,
           "atlas_x": 1,
+          "atlas_y": 1
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 85,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 85,
           "atlas_y": 1
         }
       ]
@@ -8112,6 +10622,117 @@
           "page": 1,
           "atlas_x": 85,
           "atlas_y": 1
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 169,
+          "atlas_y": 1
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 169,
+          "atlas_y": 1
+        }
+      ]
+    },
+    {
+      "sprite": "HELMET_SMALL",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_2_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "c61d61e90bf957bb058e457055f94f6e80fff5cac0ac5e76ed462f3284313283",
+      "width": 80,
+      "height": 37,
+      "pivot": {
+        "x": 40,
+        "y": 18
+      },
+      "banks": [
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 403,
+          "atlas_y": 306
+        },
+        {
+          "bank": 6,
+          "page": 2,
+          "atlas_x": 137,
+          "atlas_y": 44
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 85,
+          "atlas_y": 473
+        }
+      ]
+    },
+    {
+      "sprite": "HELMET_BIG",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_2_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "ddd689f21da72366c81b744416399d4b62ad768641ff3263246928c9373d2f95",
+      "width": 135,
+      "height": 62,
+      "pivot": {
+        "x": 67,
+        "y": 31
+      },
+      "banks": [
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 152
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 324
+        },
+        {
+          "bank": 7,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 1
+        }
+      ]
+    },
+    {
+      "sprite": "HELMET_BOSS",
+      "sheet": "assets/data/images/base/INGAME_BLOCKS_2_1",
+      "source_format": "RGBA4444 little-endian",
+      "processing": "crop extrusion and convert to GS RGBA32",
+      "rgba_sha256": "75bcb833efce6ddba086391ae73d2532c9e63a8ba6e26ba1e1a654e770121b3a",
+      "width": 135,
+      "height": 63,
+      "pivot": {
+        "x": 67,
+        "y": 31
+      },
+      "banks": [
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 295,
+          "atlas_y": 151
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 324,
+          "atlas_y": 322
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 247,
+          "atlas_y": 399
         }
       ]
     },
@@ -8157,6 +10778,24 @@
           "page": 1,
           "atlas_x": 1,
           "atlas_y": 385
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 466,
+          "atlas_y": 1
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 461,
+          "atlas_y": 85
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 457,
+          "atlas_y": 397
         }
       ]
     },
@@ -8202,6 +10841,24 @@
           "page": 3,
           "atlas_x": 440,
           "atlas_y": 23
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 355,
+          "atlas_y": 477
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 100,
+          "atlas_y": 494
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 351,
+          "atlas_y": 495
         }
       ]
     },
@@ -8247,6 +10904,24 @@
           "page": 3,
           "atlas_x": 341,
           "atlas_y": 23
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 256,
+          "atlas_y": 477
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 1,
+          "atlas_y": 494
+        },
+        {
+          "bank": 7,
+          "page": 3,
+          "atlas_x": 341,
+          "atlas_y": 67
         }
       ]
     },
@@ -8292,6 +10967,24 @@
           "page": 3,
           "atlas_x": 1,
           "atlas_y": 45
+        },
+        {
+          "bank": 5,
+          "page": 2,
+          "atlas_x": 1,
+          "atlas_y": 1
+        },
+        {
+          "bank": 6,
+          "page": 3,
+          "atlas_x": 1,
+          "atlas_y": 23
+        },
+        {
+          "bank": 7,
+          "page": 3,
+          "atlas_x": 1,
+          "atlas_y": 89
         }
       ]
     },
@@ -8337,6 +11030,24 @@
           "page": 1,
           "atlas_x": 241,
           "atlas_y": 451
+        },
+        {
+          "bank": 5,
+          "page": 1,
+          "atlas_x": 182,
+          "atlas_y": 216
+        },
+        {
+          "bank": 6,
+          "page": 1,
+          "atlas_x": 241,
+          "atlas_y": 445
+        },
+        {
+          "bank": 7,
+          "page": 1,
+          "atlas_x": 107,
+          "atlas_y": 461
         }
       ]
     },
@@ -8382,6 +11093,24 @@
           "page": 0,
           "atlas_x": 175,
           "atlas_y": 111
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 175,
+          "atlas_y": 111
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 187,
+          "atlas_y": 111
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 328,
+          "atlas_y": 1
         }
       ]
     },
@@ -8427,6 +11156,24 @@
           "page": 2,
           "atlas_x": 500,
           "atlas_y": 82
+        },
+        {
+          "bank": 5,
+          "page": 0,
+          "atlas_x": 452,
+          "atlas_y": 481
+        },
+        {
+          "bank": 6,
+          "page": 0,
+          "atlas_x": 151,
+          "atlas_y": 483
+        },
+        {
+          "bank": 7,
+          "page": 0,
+          "atlas_x": 488,
+          "atlas_y": 133
         }
       ]
     }

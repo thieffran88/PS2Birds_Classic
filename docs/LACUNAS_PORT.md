@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.25.0)
+# Lacunas do port (levantamento atualizado na 0.26.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -55,6 +55,14 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **Memória — resolvido.** Os bancos de textura 1+ saem do ELF e vão para o `SPRITES.BIN`; cada novo episódio passa a custar só disco, não RAM. Testado no PCSX2 pela ISO (disco) e pelo ELF com o arquivo ao lado (HostFs).
 - **Big Setup (mundos 9–11, 45 fases):** nenhuma fase importa ainda. Todas usam o Terence (RedBigBird: raio 1,8, densidade 10, restituição 0,45, sem habilidade especial; `RedBigBirdDamageFactors` dá dano ×0,3 e velocidade ×1,8) e capacetes (ExtraHelmetSmall/Big/Boss) definidos como polígonos livres, com vértices relativos ao tamanho do sprite. O port só tem triângulos fixos: falta um importador de polígonos genéricos. Uma fase também usa corda (ExtraRopeThick01).
 
+## Achados da 0.26.0
+
+- **Big Setup — feito.** Terence (RedBigBird) e capacetes (ExtraHelmetSmall/Big/Boss) portados. Os capacetes são hexágonos com vértices em frações do sprite; o `ObjectCreation.lua` converte cada vértice em `(x·largura − largura/2, y·altura − altura/2)`, e o port usa a mesma regra para qualquer polígono de até 8 vértices.
+- **Escala por peça (corrigido):** o `ObjectCreation.lua` multiplica o tamanho pela `scaleX`/`scaleY` da instância. O importador ignorava esses campos; só a 6-14 os usa (um bloco de terreno reduzido a 25% × 88%).
+- **Capacetes escorregando:** o capacete grande é mais largo que o porco e fica apoiado no topo redondo; no port ele escorrega devagar ao carregar. Faz parte da mesma questão das peças em repouso.
+- **Corda grossa:** segmentos-caixa (BLOCK_ROPE_THICK_1) ligados por juntas de distância; na 10-15 ela segura um TNT pendurado.
+- **Pendências do Terence:** a tabela `velocityMultiplier` (×1,8 na madeira, no gelo e na pedra) ainda não é usada; só o multiplicador de dano (×0,3).
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -63,7 +71,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Polígonos genéricos (capacetes) e o Terence: liberam Big Setup.
+1. Próximo episódio da campanha (Ham 'Em High) e a Stella (PinkBird).
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).

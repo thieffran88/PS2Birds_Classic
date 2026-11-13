@@ -7,7 +7,8 @@
     "YellowBird",
     "BlackBird",
     "BasicBird2",
-    "BoomerangBird"
+    "BoomerangBird",
+    "RedBigBird"
   ],
   "objects": {
     "WoodBlock2": {
@@ -413,6 +414,104 @@
       "sprite": "BLOCK_STEEL_BALL",
       "kind": 5,
       "shape": "circle"
+    },
+    "ExtraHelmetSmall": {
+      "sprite": "HELMET_SMALL",
+      "kind": 6,
+      "shape": "polygon",
+      "vertices": [
+        [
+          0.2,
+          0.3
+        ],
+        [
+          0.4,
+          0.2
+        ],
+        [
+          0.6,
+          0.2
+        ],
+        [
+          0.8,
+          0.3
+        ],
+        [
+          0.8,
+          0.5
+        ],
+        [
+          0.2,
+          0.5
+        ]
+      ]
+    },
+    "ExtraHelmetBig": {
+      "sprite": "HELMET_BIG",
+      "kind": 6,
+      "shape": "polygon",
+      "vertices": [
+        [
+          0.2,
+          0.3
+        ],
+        [
+          0.4,
+          0.2
+        ],
+        [
+          0.6,
+          0.2
+        ],
+        [
+          0.8,
+          0.3
+        ],
+        [
+          0.8,
+          0.5
+        ],
+        [
+          0.2,
+          0.5
+        ]
+      ]
+    },
+    "ExtraHelmetBoss": {
+      "sprite": "HELMET_BOSS",
+      "kind": 6,
+      "shape": "polygon",
+      "vertices": [
+        [
+          0.2,
+          0.3
+        ],
+        [
+          0.4,
+          0.2
+        ],
+        [
+          0.6,
+          0.2
+        ],
+        [
+          0.8,
+          0.3
+        ],
+        [
+          0.8,
+          0.5
+        ],
+        [
+          0.2,
+          0.5
+        ]
+      ]
+    },
+    "ExtraRopeThick01": {
+      "sprite": "BLOCK_ROPE_THICK_1",
+      "kind": 6,
+      "shape": "box"
     }
   },
   "metrics": "ps2/data/sprite_metrics.json",
@@ -427,7 +526,8 @@
     "YellowBird": 2,
     "BlackBird": 3,
     "BasicBird2": 4,
-    "BoomerangBird": 6
+    "BoomerangBird": 6,
+    "RedBigBird": 7
   },
   "materials": {
     "source": "materials table in blocks.lua",
@@ -484,12 +584,18 @@
       "HelmetPiglette": 0.3,
       "GrandpaPiglette": 0.3,
       "KingPiglette": 0.3,
-      "ExtraBoomerangBird": 0.3
+      "ExtraBoomerangBird": 0.3,
+      "ExtraHelmetSmall": 1.0,
+      "ExtraHelmetBig": 1.0,
+      "ExtraHelmetBoss": 1.0
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
       "ExtraTrampoline2": 1.1,
-      "ExtraTrampoline": 5.5
+      "ExtraTrampoline": 5.5,
+      "ExtraHelmetSmall": 0.1,
+      "ExtraHelmetBig": 0.0,
+      "ExtraHelmetBoss": 0.0
     }
   }
 }

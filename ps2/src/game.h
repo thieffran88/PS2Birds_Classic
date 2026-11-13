@@ -12,7 +12,13 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE, BIRD_WHITE_TYPE, BIRD_EGG_TYPE, BIRD_GREEN_TYPE } BirdType;
+typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE, BIRD_WHITE_TYPE, BIRD_EGG_TYPE, BIRD_GREEN_TYPE, BIRD_BIG_TYPE } BirdType;
+/* Terence (RedBigBird), from blocks.lua: radius 1.8, density 10, friction 0.3, restitution 0.45,
+   no specialty. RedBigBirdDamageFactors: damage x0.3 on wood/rock/light (velocity x1.8 not ported). */
+#define BIG_RADIUS 1.8f
+#define BIG_DENSITY 10.0f
+#define BIG_RESTITUTION 0.45f
+#define BIG_DAMAGE_FACTOR 0.3f
 /* Green boomerang bird (BoomerangBird): every value below is recovered. blocks.lua gives the
    body (radius 1.5, density 3, friction 0.3, restitution 0.23) and the specialty fields;
    gamelogic.lua gives the algorithm. Before the tap the bird gets an upward force of

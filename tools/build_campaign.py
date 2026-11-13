@@ -37,7 +37,7 @@ def build(episode_path=EPISODE):
         lines.append(f'static const CampaignObject campaign_objects_{i}[] = {{')
         for o in d['objects']:
             values=[o[k] for k in ['x','y','angle','width','height','density','strength','defence']]
-            lines.append(' {'+','.join(f(v) for v in values)+','+str(o['kind'])+','+str(['box','circle','triangle_l','triangle_m'].index(o['shape']))+','+json.dumps(o['definition'])+','+f(o['friction'])+','+f(o['restitution'])+'},')
+            lines.append(' {'+','.join(f(v) for v in values)+','+str(o['kind'])+','+str(['box','circle','triangle_l','triangle_m','polygon'].index(o['shape']))+','+json.dumps(o['definition'])+','+f(o['friction'])+','+f(o['restitution'])+'},')
         lines.append('};')
     for i,d in enumerate(levels):
         if d.get('joints'):
@@ -45,6 +45,15 @@ def build(episode_path=EPISODE):
             for j in d['joints']:
                 lines.append(' {'+','.join(str(j[k]) for k in ['type','a','b'])+','+','.join(f(j[k]) for k in ['ax','ay','bx','by','frequency','damping','break_force'])+','+str(int(j['collide']))+'}, /* '+j['name']+' */')
             lines.append('};')
+    # Polygon shapes (blocks.lua "vertices", fractions of the sprite box), looked up by definition.
+    profile=json.loads(Path(DEFAULT_PROFILE).read_text())
+    polys=sorted({o['definition'] for d in levels for o in d['objects'] if o['shape']=='polygon'})
+    lines.append('static const CampaignPolygon campaign_polygons[] = {')
+    for name in polys:
+        v=profile['objects'][name]['vertices']
+        if not 3<=len(v)<=8:raise ValueError('Polygon needs 3..8 vertices: '+name)
+        lines.append(' {'+json.dumps(name)+','+str(len(v))+',{'+','.join(f(c) for xy in v for c in xy)+'}},')
+    lines.append(' {0,0,{0}}};')
     lines.append('static const CampaignLevel campaign_levels[] = {')
     for i,d in enumerate(levels):
         values=[d['gravity'],d['sling_x'],d['sling_y'],d['ground_y'],d['physics_to_world'],d['view']['x'],d['view']['y'],d['view']['scale']]

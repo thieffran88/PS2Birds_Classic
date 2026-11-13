@@ -23,4 +23,5 @@ static const CampaignLevel campaign_levels[]={
  {joint_objects,6,1,{0},20,0,0,5,20,100,200,5,"BREAK FIXTURE","fixture-break",0,breakable_list,1,0,0},
 };
 #define CAMPAIGN_COUNT (sizeof(campaign_levels)/sizeof(campaign_levels[0]))
+static const CampaignPolygon campaign_polygons[]={{0,0,{0}}};
 #endif
