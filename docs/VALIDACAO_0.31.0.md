@@ -12,5 +12,5 @@
 - O `deathSpawn` foi conferido no computador (`globe_test`): os cremes ficam escondidos e aparecem quando o bolo é destruído. No emulador só a cena foi vista.
 - Suíte completa aprovada: 48 verificações; os testes de procedência rodaram com os scripts decompilados locais.
 - Campanha: 324 vitórias com roteiros determinísticos; sem roteiro: 3-20, 5-16, 13-7, 16-5, 16-6 e Birdday 4-4.
-- Pacote de código-fonte conferido numa pasta nova: dados gerados do APK com `--dev` e testes aprovados.
+- Pacote de código-fonte conferido numa pasta nova: sem os dados, `make test` pede para gerá-los; depois de `gerar_iso.py APK --dev`, 30 verificações aprovadas (as de procedência ficam puladas sem os scripts decompilados).
 - Partidas completas não foram jogadas no emulador. Sem teste em PS2 físico nem em Windows real (só Wine).

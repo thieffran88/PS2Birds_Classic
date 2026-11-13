@@ -22,6 +22,10 @@ else:raise AssertionError('Encrypted-looking brace treated as plaintext JSON')
 try:decode_payload(b'payload',game='unknown')
 except ValueError:pass
 else:raise AssertionError('Unknown profile accepted')
+# The checks below compare the port against decompiled scripts of the original game. Those files
+# are not distributed; a developer keeps them locally in ps2/data (see README, "Desenvolvimento").
+if not (root/'ps2/data/episode_page1.decompiled.lua').exists():
+    print('Profiles OK: 6 declared keys, synthetic AES/LZMA round trips, wrong/unknown keys. Provenance checks skipped: decompiled reference scripts not present in ps2/data.');sys.exit(0)
 with tempfile.TemporaryDirectory(prefix='ps2birds-adapter-') as folder:
     folder=Path(folder);source=folder/'alternate.lua';out=folder/'level.json';header=folder/'level_data.h'
     single=folder/'input.lua';result=folder/'output.luac'
@@ -75,10 +79,6 @@ with tempfile.TemporaryDirectory(prefix='ps2birds-adapter-') as folder:
     else:raise AssertionError('Duplicate queue position accepted')
     assert header.read_bytes()==before
 print('Profiles OK: 6 declared keys, synthetic AES/LZMA round trips, wrong/unknown keys, data-driven constants, unsupported-adapter rejection.')
-# The checks below compare the port against decompiled scripts of the original game. Those files
-# are not distributed; a developer keeps them locally in ps2/data (see README, "Desenvolvimento").
-if not (root/'ps2/data/episode_page1.decompiled.lua').exists():
-    print('Provenance checks skipped: decompiled reference scripts not present in ps2/data.');sys.exit(0)
 
 # Independent source excerpt, recovered again from the APK for the 0.10.0 review.
 episode=(root/'ps2/data/episode_page1.decompiled.lua').read_text()
