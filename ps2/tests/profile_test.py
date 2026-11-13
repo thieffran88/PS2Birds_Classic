@@ -416,7 +416,7 @@ assert 'L5_1 = false\nL4_1.collision = L5_1' in blk('StaticNoCollisionBig') and 
 assert 'L5_1 = 1.472\nL4_1.radius' in blk('BP_WOODEN_WHEEL_WEAK') and objs['objects']['BP_WOODEN_WHEEL_WEAK']['size']==[2.944,2.944]
 assert objs['objects']['BIRDDAY5_CAKE']['vertices']==[[0.1,1.0],[0.9,1.0],[0.75,0.2],[0.25,0.2]]
 camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN')
-assert sum(1 for o in camp['objects'] if o['no_collision'] and o['definition']=='StaticNoCollisionBig')==3
+assert sum(1 for n in range(1,16) for o in json.loads((root/f'ps2/data/level_21_{n}.json').read_text())['objects'] if o.get('no_collision') and o['definition']=='StaticNoCollisionBig')==3
 bd6j=[j for n in range(1,16) for j in json.loads((root/f'ps2/data/level_21_{n}.json').read_text())['joints']]
 prism=[j for j in bd6j if j['type']==4];assert len(prism)==9 and all(j['motor'] and j['limit'] for j in prism)
 motors=[j for j in camp['joints'] if j['type']==3 and j['flags']&2];assert len(motors)>=3
@@ -439,3 +439,17 @@ for name in names:
 d=json.loads((root/'ps2/data/level_27_5.json').read_text());assert d['title']=='BIRDDAY 5-30' and d['texture_bank']==23
 nocol=sum(1 for n in names if objs['objects'][n].get('no_collision'));assert nocol==39
 print(f"Birdday 5 OK: 30 stages in banks 18-23 numbered 5-1 to 5-30; 90 pieces (sprite, shape, polygon, material, {nocol} without collision) match blocks.lua.")
+
+# Birdday 7 (page 28, bank 24): 15 stages, 36 pieces; themed wood keeps the wood kind, island plants are fragile scenery.
+b7=(root/'ps2/data/birdday7_definitions_excerpt.lua').read_text()
+order=list(dict.fromkeys(re.findall(r'"(Level\d+_BirdDay7)"',(root/'ps2/data/episode_birdday7.decompiled.lua').read_text())))
+page=[pg for pg in episode['additional_pages'] if pg['number']==28][0]
+assert len(order)==15 and page['levels']==order and page['bank']==24
+names=re.findall(r'L3_1 = "(\w+)"\nL4_1 = \{\}',b7);assert len(names)==36
+kinds={'wood':1,'light':2,'rock':5,'immovableFragile':9,'immovable':3}
+for name in names:
+    d=_ad.definition(b7,name);spec=objs['objects'][name]
+    assert spec['sprite']==d['sprite'] and spec['shape']==d['type'] and spec['kind']==kinds.get(d['material'],6),name
+    assert bool(spec.get('no_collision'))==bool(d['props'].get('no_collision')),name
+    if 'forceY' in _ad.material(b7,d['material']):assert spec['force']==[_ad.material(b7,d['material'])['forceX'],_ad.material(b7,d['material'])['forceY']],name
+print("Birdday 7 OK: 15 stages in bank 24; 36 pieces match blocks.lua (themed wood as wood, fragile island plants, balloon force).")

@@ -590,6 +590,29 @@
         "UGC1Level30"
       ],
       "first": 26
+    },
+    {
+      "number": 28,
+      "title_prefix": "BIRDDAY 7-",
+      "folder": "/levels/12_Birdday7",
+      "bank": 24,
+      "levels": [
+        "Level263_BirdDay7",
+        "Level299_BirdDay7",
+        "Level275_BirdDay7",
+        "Level301_BirdDay7",
+        "Level274_BirdDay7",
+        "Level300_BirdDay7",
+        "Level277_BirdDay7",
+        "Level276_BirdDay7",
+        "Level295_BirdDay7",
+        "Level279_BirdDay7",
+        "Level297_BirdDay7",
+        "Level298_BirdDay7",
+        "Level296_BirdDay7",
+        "Level278_BirdDay7",
+        "Level281_BirdDay7"
+      ]
     }
   ]
 }

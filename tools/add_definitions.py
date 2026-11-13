@@ -29,7 +29,7 @@ def material(blocks,name):
     n=blocks.index(f'\nL2_1.{name} = L3_1\n');start=blocks.rindex('L3_1 = {}',0,n)
     return {k:float(v) for k,v in re.findall(r'L3_1\.(\w+) = (-?[\d.]+)',blocks[start:n])}
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('blocks',type=Path);p.add_argument('frames',type=Path,help='JSON {sprite:[sheet,width,height]}');p.add_argument('names',nargs='+')
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('blocks',type=Path);p.add_argument('frames',type=Path,help='JSON {sprite:[sheet,width,height]}');p.add_argument('names',nargs='+');p.add_argument('--material-kinds',action='store_true',help='kind from the material (wood 1, light 2, rock 5, immovableFragile 9) instead of extras')
     a=p.parse_args();blocks=a.blocks.read_text().replace('\r','');frames=json.loads(a.frames.read_text())
     prof_path=ROOT/'profiles/classic_level.json';prof=json.loads(prof_path.read_text())
     met_path=ROOT/'profiles/sprite_metrics.json';met=json.loads(met_path.read_text())
@@ -49,6 +49,9 @@ def main():
         if d['props'].get('no_collision'):spec['no_collision']=True
         # immovable material: static scenery, drawn like the ground pieces and not counted as a block.
         if d['material']=='immovable':spec['kind']=3
+        # Birdday 7 onwards: themed copies of the wood/glass/stone blocks and fragile scenery keep
+        # their material's kind (damage factors, sounds, score), as in the original.
+        if a.material_kinds and d['material'] in ('wood','light','rock','immovableFragile'):spec['kind']={'wood':1,'light':2,'rock':5,'immovableFragile':9}[d['material']]
         prof['objects'][name]=spec
         prof['materials']['friction_overrides'][name]=d['props'].get('friction',mat.get('friction',0.7))
         prof['materials']['restitution_overrides'][name]=d['props'].get('restitution',mat.get('restitution',0.4))

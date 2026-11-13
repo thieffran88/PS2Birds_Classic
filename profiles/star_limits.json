@@ -1500,6 +1500,66 @@
     "UGC1Level30": {
       "silver": 146000,
       "gold": 154000
+    },
+    "Level263_BirdDay7": {
+      "silver": 88000,
+      "gold": 100000
+    },
+    "Level299_BirdDay7": {
+      "silver": 123000,
+      "gold": 130000
+    },
+    "Level275_BirdDay7": {
+      "silver": 62000,
+      "gold": 75000
+    },
+    "Level301_BirdDay7": {
+      "silver": 125000,
+      "gold": 135000
+    },
+    "Level274_BirdDay7": {
+      "silver": 64000,
+      "gold": 75000
+    },
+    "Level300_BirdDay7": {
+      "silver": 125000,
+      "gold": 135000
+    },
+    "Level277_BirdDay7": {
+      "silver": 40000,
+      "gold": 50000
+    },
+    "Level276_BirdDay7": {
+      "silver": 100000,
+      "gold": 110000
+    },
+    "Level295_BirdDay7": {
+      "silver": 125000,
+      "gold": 135000
+    },
+    "Level279_BirdDay7": {
+      "silver": 68000,
+      "gold": 75000
+    },
+    "Level297_BirdDay7": {
+      "silver": 160000,
+      "gold": 170000
+    },
+    "Level298_BirdDay7": {
+      "silver": 260000,
+      "gold": 270000
+    },
+    "Level296_BirdDay7": {
+      "silver": 113000,
+      "gold": 120000
+    },
+    "Level278_BirdDay7": {
+      "silver": 43000,
+      "gold": 50000
+    },
+    "Level281_BirdDay7": {
+      "silver": 85000,
+      "gold": 100000
     }
   }
 }

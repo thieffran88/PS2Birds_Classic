@@ -1093,5 +1093,175 @@
     "width": 304,
     "height": 106,
     "sheet": "INGAME_BLOCKS_2_1.sheet.json"
+  },
+  "BD7_BALLOON_BLUE": {
+    "width": 65,
+    "height": 89,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BD7_BALLOON_RED": {
+    "width": 64,
+    "height": 89,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BD7_BALLOON_ROUND_GREEN": {
+    "width": 58,
+    "height": 86,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BD7_BALLOON_ROUND_ORANGE": {
+    "width": 58,
+    "height": 85,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BD7_BALLOON_YELLOW": {
+    "width": 65,
+    "height": 89,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BD7_CUPCACE": {
+    "width": 42,
+    "height": 45,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BD7_FLAG_PURPLE": {
+    "width": 41,
+    "height": 42,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BD7_FLAG_RED": {
+    "width": 41,
+    "height": 42,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BD7_FLAG_YELLOW": {
+    "width": 41,
+    "height": 44,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BD7_STICKER": {
+    "width": 38,
+    "height": 50,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BLOCK_GREEN_ENGINE_3": {
+    "width": 90,
+    "height": 91,
+    "sheet": "INGAME_BLOCKS_GREEN_1.sheet.json"
+  },
+  "BLOCK_GREEN_SPANNER_2": {
+    "width": 42,
+    "height": 105,
+    "sheet": "INGAME_BLOCKS_GREEN_1.sheet.json"
+  },
+  "ML_FLOWER001": {
+    "width": 33,
+    "height": 31,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "ML_FLOWER003": {
+    "width": 27,
+    "height": 26,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "MISC_FB_BARREL_1": {
+    "width": 90,
+    "height": 90,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "ML_BUSH001": {
+    "width": 98,
+    "height": 42,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "ML_BUSH001_PINK": {
+    "width": 98,
+    "height": 42,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "ML_BUSH002": {
+    "width": 72,
+    "height": 29,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "ML_BUSH002_PINK": {
+    "width": 72,
+    "height": 29,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "ML_PINK_LEAVES001": {
+    "width": 72,
+    "height": 48,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "ML_PINK_LEAVES002": {
+    "width": 96,
+    "height": 61,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "ML_PINK_LEAVES003": {
+    "width": 53,
+    "height": 56,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "ML_SAND_PILE001": {
+    "width": 176,
+    "height": 42,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "BLOCK_WOOD_10X1_1_BD7": {
+    "width": 205,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BLOCK_WOOD_TRIANGLE_L_1_BD7": {
+    "width": 80,
+    "height": 80,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BLOCK_WOOD_1_1_BD7": {
+    "width": 20,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BLOCK_WOOD_1_2_BD7": {
+    "width": 41,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BLOCK_WOOD_1_3_BD7": {
+    "width": 41,
+    "height": 41,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BLOCK_WOOD_1_4_BD7": {
+    "width": 83,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BLOCK_WOOD_1_5_BD7": {
+    "width": 83,
+    "height": 41,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BLOCK_WOOD_1_6_BD7": {
+    "width": 168,
+    "height": 20,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BLOCK_WOOD_1_7_BD7": {
+    "width": 75,
+    "height": 75,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BLOCK_WOOD_1_8_BD7": {
+    "width": 40,
+    "height": 40,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
+  },
+  "BLOCK_WOOD_4X4_1_BD7": {
+    "width": 82,
+    "height": 82,
+    "sheet": "INGAME_BLOCKS_BIRD_DAY7_1.sheet.json"
   }
 }

@@ -2276,6 +2276,301 @@
         ]
       ],
       "half_resolution": true
+    },
+    "BD7_Balloon_Blue": {
+      "sprite": "BD7_BALLOON_BLUE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.4,
+        2.4
+      ],
+      "force": [
+        -1.0,
+        -30.0
+      ]
+    },
+    "BD7_Balloon_Red": {
+      "sprite": "BD7_BALLOON_RED",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.4,
+        2.4
+      ],
+      "force": [
+        -1.0,
+        -30.0
+      ]
+    },
+    "BD7_Balloon_Round_Green": {
+      "sprite": "BD7_BALLOON_ROUND_GREEN",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.4,
+        2.4
+      ],
+      "force": [
+        -1.0,
+        -30.0
+      ]
+    },
+    "BD7_Balloon_Round_Orange": {
+      "sprite": "BD7_BALLOON_ROUND_ORANGE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.4,
+        2.4
+      ],
+      "force": [
+        -1.0,
+        -30.0
+      ]
+    },
+    "BD7_Balloon_Yellow": {
+      "sprite": "BD7_BALLOON_YELLOW",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.4,
+        2.4
+      ],
+      "force": [
+        -1.0,
+        -30.0
+      ]
+    },
+    "BD7_Cupcake": {
+      "sprite": "BD7_CUPCACE",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.3,
+        1.85
+      ]
+    },
+    "BD7_Flag_Purple": {
+      "sprite": "BD7_FLAG_PURPLE",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "BD7_Flag_Red": {
+      "sprite": "BD7_FLAG_RED",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "BD7_Flag_Yellow": {
+      "sprite": "BD7_FLAG_YELLOW",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "BD7_Sticker": {
+      "sprite": "BD7_STICKER",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "BLOCK_GREEN_ENGINE_3": {
+      "sprite": "BLOCK_GREEN_ENGINE_3",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        4.0,
+        4.0
+      ]
+    },
+    "BLOCK_GREEN_SPANNER_2": {
+      "sprite": "BLOCK_GREEN_SPANNER_2",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        4.0
+      ]
+    },
+    "FLOWER001": {
+      "sprite": "ML_FLOWER001",
+      "kind": 9,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "FLOWER003": {
+      "sprite": "ML_FLOWER003",
+      "kind": 9,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "MISC_FB_BARREL": {
+      "sprite": "MISC_FB_BARREL_1",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "ML_BUSH001": {
+      "sprite": "ML_BUSH001",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "ML_BUSH001_PINK": {
+      "sprite": "ML_BUSH001_PINK",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "ML_BUSH002": {
+      "sprite": "ML_BUSH002",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "ML_BUSH002_PINK": {
+      "sprite": "ML_BUSH002_PINK",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "ML_PINK_LEAVES001": {
+      "sprite": "ML_PINK_LEAVES001",
+      "kind": 9,
+      "shape": "box",
+      "auto": true
+    },
+    "ML_PINK_LEAVES002": {
+      "sprite": "ML_PINK_LEAVES002",
+      "kind": 9,
+      "shape": "box",
+      "auto": true
+    },
+    "ML_PINK_LEAVES003": {
+      "sprite": "ML_PINK_LEAVES003",
+      "kind": 9,
+      "shape": "box",
+      "auto": true
+    },
+    "SAND_PILE001": {
+      "sprite": "ML_SAND_PILE001",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "STATIC_WALL_4": {
+      "sprite": "GROUND_BLOCK_04",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "STATIC_WALL_5": {
+      "sprite": "GROUND_BLOCK_05",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "WoodBlock10_BD7": {
+      "sprite": "BLOCK_WOOD_10X1_1_BD7",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "WoodBlock11_BD7": {
+      "sprite": "BLOCK_WOOD_TRIANGLE_L_1_BD7",
+      "kind": 1,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "WoodBlock1_BD7": {
+      "sprite": "BLOCK_WOOD_1_1_BD7",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "WoodBlock2_BD7": {
+      "sprite": "BLOCK_WOOD_1_2_BD7",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "WoodBlock3_BD7": {
+      "sprite": "BLOCK_WOOD_1_3_BD7",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "WoodBlock4_BD7": {
+      "sprite": "BLOCK_WOOD_1_4_BD7",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "WoodBlock5_BD7": {
+      "sprite": "BLOCK_WOOD_1_5_BD7",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "WoodBlock6_BD7": {
+      "sprite": "BLOCK_WOOD_1_6_BD7",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "WoodBlock7_BD7": {
+      "sprite": "BLOCK_WOOD_1_7_BD7",
+      "kind": 1,
+      "shape": "circle",
+      "auto": true
+    },
+    "WoodBlock8_BD7": {
+      "sprite": "BLOCK_WOOD_1_8_BD7",
+      "kind": 1,
+      "shape": "circle",
+      "auto": true
+    },
+    "WoodBlock9_BD7": {
+      "sprite": "BLOCK_WOOD_4X4_1_BD7",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
     }
   },
   "metrics": "profiles/sprite_metrics.json",
@@ -2490,7 +2785,43 @@
       "UGC_CAMERA": 0.8,
       "UGC_GLASSES": 1.0,
       "UGC_RHINO": 1.0,
-      "UGC_SCHOOL_SIGN": 0.8
+      "UGC_SCHOOL_SIGN": 0.8,
+      "BD7_Balloon_Blue": 4.0,
+      "BD7_Balloon_Red": 4.0,
+      "BD7_Balloon_Round_Green": 4.0,
+      "BD7_Balloon_Round_Orange": 4.0,
+      "BD7_Balloon_Yellow": 4.0,
+      "BD7_Cupcake": 1.0,
+      "BD7_Flag_Purple": 0.8,
+      "BD7_Flag_Red": 0.8,
+      "BD7_Flag_Yellow": 0.8,
+      "BD7_Sticker": 0.8,
+      "BLOCK_GREEN_ENGINE_3": 0.5,
+      "BLOCK_GREEN_SPANNER_2": 1.0,
+      "FLOWER001": 1.0,
+      "FLOWER003": 1.0,
+      "MISC_FB_BARREL": 4.0,
+      "ML_BUSH001": 0.8,
+      "ML_BUSH001_PINK": 0.8,
+      "ML_BUSH002": 0.8,
+      "ML_BUSH002_PINK": 0.8,
+      "ML_PINK_LEAVES001": 1.0,
+      "ML_PINK_LEAVES002": 1.0,
+      "ML_PINK_LEAVES003": 1.0,
+      "SAND_PILE001": 0.8,
+      "STATIC_WALL_4": 0.8,
+      "STATIC_WALL_5": 0.8,
+      "WoodBlock10_BD7": 4.0,
+      "WoodBlock11_BD7": 4.0,
+      "WoodBlock1_BD7": 4.0,
+      "WoodBlock2_BD7": 4.0,
+      "WoodBlock3_BD7": 4.0,
+      "WoodBlock4_BD7": 4.0,
+      "WoodBlock5_BD7": 4.0,
+      "WoodBlock6_BD7": 4.0,
+      "WoodBlock7_BD7": 4.0,
+      "WoodBlock8_BD7": 4.0,
+      "WoodBlock9_BD7": 4.0
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -2635,7 +2966,43 @@
       "UGC_CAMERA": 0.2,
       "UGC_GLASSES": 0.0,
       "UGC_RHINO": 1.0,
-      "UGC_SCHOOL_SIGN": 0.1
+      "UGC_SCHOOL_SIGN": 0.1,
+      "BD7_Balloon_Blue": 0.2,
+      "BD7_Balloon_Red": 0.2,
+      "BD7_Balloon_Round_Green": 0.2,
+      "BD7_Balloon_Round_Orange": 0.2,
+      "BD7_Balloon_Yellow": 0.2,
+      "BD7_Cupcake": 0.0,
+      "BD7_Flag_Purple": 0.0,
+      "BD7_Flag_Red": 0.0,
+      "BD7_Flag_Yellow": 0.0,
+      "BD7_Sticker": 0.0,
+      "BLOCK_GREEN_ENGINE_3": 0.0,
+      "BLOCK_GREEN_SPANNER_2": 0.0,
+      "FLOWER001": 0.1,
+      "FLOWER003": 0.1,
+      "MISC_FB_BARREL": 0.2,
+      "ML_BUSH001": 0.0,
+      "ML_BUSH001_PINK": 0.0,
+      "ML_BUSH002": 0.0,
+      "ML_BUSH002_PINK": 0.0,
+      "ML_PINK_LEAVES001": 0.1,
+      "ML_PINK_LEAVES002": 0.1,
+      "ML_PINK_LEAVES003": 0.1,
+      "SAND_PILE001": 0.0,
+      "STATIC_WALL_4": 0.0,
+      "STATIC_WALL_5": 0.0,
+      "WoodBlock10_BD7": 0.2,
+      "WoodBlock11_BD7": 0.2,
+      "WoodBlock1_BD7": 0.2,
+      "WoodBlock2_BD7": 0.2,
+      "WoodBlock3_BD7": 0.2,
+      "WoodBlock4_BD7": 0.2,
+      "WoodBlock5_BD7": 0.2,
+      "WoodBlock6_BD7": 0.2,
+      "WoodBlock7_BD7": 0.2,
+      "WoodBlock8_BD7": 0.2,
+      "WoodBlock9_BD7": 0.2
     }
   }
 }
