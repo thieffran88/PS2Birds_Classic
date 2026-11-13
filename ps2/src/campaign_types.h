@@ -11,6 +11,8 @@ typedef struct {float x,y,angle,width,height,density,strength,defence;int kind,s
 enum {SHAPE_BOX=0,SHAPE_CIRCLE=1,SHAPE_TRIANGLE_L=2,SHAPE_TRIANGLE_M=3,SHAPE_POLYGON=4};
 /* Convex polygon from blocks.lua: vertices as fractions (x,y) of the sprite box. */
 typedef struct {const char *definition;int count;float v[16];} CampaignPolygon;
+/* Material forceX/forceY (e.g. balloon): constant push applied every step, scaled by the body mass. */
+typedef struct {const char *definition;float fx,fy;} CampaignForce;
 /* Joints from the stage's joints table (types as in the level editor: 1 distance,
    2 weld, 3 revolute). Anchors are world coordinates; a/b index the objects array,
    -1 meaning the ground. frequency/damping 0 makes the joint rigid. breakForce 0 means

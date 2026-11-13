@@ -415,6 +415,29 @@
         "LevelP6_6",
         "Level711_1"
       ]
+    },
+    {
+      "number": 18,
+      "title_prefix": "BIRDDAY 2-",
+      "folder": "/levels/7_Birdday2",
+      "bank": 14,
+      "levels": [
+        "LevelH552",
+        "LevelH555",
+        "LevelH556",
+        "LevelH560",
+        "LevelH561",
+        "LevelH564",
+        "LevelH565",
+        "LevelH566",
+        "LevelH567",
+        "LevelH806",
+        "LevelH800",
+        "LevelH801",
+        "LevelH802",
+        "LevelH804",
+        "LevelH900"
+      ]
     }
   ]
 }

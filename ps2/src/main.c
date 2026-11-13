@@ -71,7 +71,9 @@ static unsigned int visual_frame;
 static float render_scale,render_pixels,render_ground,render_sling_x,render_sling_y;
 static void bird(float x,float y,float radius,int type,float angle,int collided,float fuse,int special_used)
 {
-    int id=type==BIRD_BIG_TYPE?SPR_BIRD_BIG_BROTHER:type==BIRD_EGG_TYPE?SPR_DROPPABLE_EGG:type==BIRD_WHITE_TYPE?((collided || special_used)?SPR_BIRD_GREEN_COLLISION:fuse==-2?SPR_BIRD_GREEN:SPR_BIRD_GREEN_FLYING):type==BIRD_BLACK_TYPE?(fuse>=0?(fuse<0.33f?SPR_BIRD_GREY_1:fuse<0.66f?SPR_BIRD_GREY_2:SPR_BIRD_GREY_3):fuse==-2?SPR_BIRD_GREY:SPR_BIRD_GREY_FLYING):type==BIRD_GREEN_TYPE?(collided?SPR_BIRD_BOOMERANG_COLLISION:special_used?SPR_BIRD_BOOMERANG_SPECIAL:SPR_BIRD_BOOMERANG):type==BIRD_BLUE_TYPE?(collided?SPR_BIRD_BLUE_COLLISION:SPR_BIRD_BLUE):type==BIRD_YELLOW_TYPE?(collided?SPR_BIRD_YELLOW_COLLISION:SPR_BIRD_YELLOW):SPR_BIRD_RED;
+    /* GlobeBird: puffed sprite is stored at half resolution; fuse carries the puffed size (0..1). */
+    if(type==BIRD_PUFFER_TYPE && fuse>0){sprite_draw(gs,SPR_BIRD_PUFFER_2,x,y,(render_scale/render_pixels)*SPRITE_MASK_SCALE*fuse,angle);return;}
+    int id=type==BIRD_PUFFER_TYPE?SPR_BIRD_PUFFER_1:type==BIRD_BIG_TYPE?SPR_BIRD_BIG_BROTHER:type==BIRD_EGG_TYPE?SPR_DROPPABLE_EGG:type==BIRD_WHITE_TYPE?((collided || special_used)?SPR_BIRD_GREEN_COLLISION:fuse==-2?SPR_BIRD_GREEN:SPR_BIRD_GREEN_FLYING):type==BIRD_BLACK_TYPE?(fuse>=0?(fuse<0.33f?SPR_BIRD_GREY_1:fuse<0.66f?SPR_BIRD_GREY_2:SPR_BIRD_GREY_3):fuse==-2?SPR_BIRD_GREY:SPR_BIRD_GREY_FLYING):type==BIRD_GREEN_TYPE?(collided?SPR_BIRD_BOOMERANG_COLLISION:special_used?SPR_BIRD_BOOMERANG_SPECIAL:SPR_BIRD_BOOMERANG):type==BIRD_BLUE_TYPE?(collided?SPR_BIRD_BLUE_COLLISION:SPR_BIRD_BLUE):type==BIRD_YELLOW_TYPE?(collided?SPR_BIRD_YELLOW_COLLISION:SPR_BIRD_YELLOW):SPR_BIRD_RED;
     sprite_draw(gs,id,x,y,(render_scale/render_pixels)*(radius/6.0f),angle);
 }
 static void pig(const GameObject *o)
@@ -171,7 +173,7 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     rect(0,0,640,109,dark);
     text(30,22,3,cream,"PS2BIRDS CLASSIC");
     if(sprites_load_failed())text(31,55,1,gold,"SPRITES.BIN AUSENTE: COPIE-O PARA A PASTA DO ELF");
-    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.28.0 / PLAYSTATION 2");
+    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.29.0 / PLAYSTATION 2");
     text(430,55,1,color(135,192,181),audio_status());
     text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
     text(31,80,2,gold,game_level_title(g->level));
@@ -306,7 +308,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: started as '%s'\n",argc>0 && argv && argv[0]?argv[0]:"");
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.28.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.29.0: GS ready, pad open=%d\n",pad_open);
     Game g; game_init(&g); save_mc_init(&g); audio_init();
     u32 old_buttons=0;
     int paused=0, previously_connected=0, analog_requested=0,menu=1,selected=0;

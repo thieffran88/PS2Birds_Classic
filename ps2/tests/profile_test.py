@@ -336,3 +336,30 @@ data=(root/'ps2/src/campaign_data.h').read_text()
 assert data.count('{5,')>=2 and '2.18000000f}' in data and '4.63000000f}' in data
 src=(root/'ps2/src/game.cpp').read_text();assert 'o.density==0)?b2_staticBody' in src
 print("Mine and Dine OK: 45 stages in banks 11-13; 20 pieces (hats, gems, tools, ropes, stalactites) match blocks.lua and its materials; destroy-attached joints keep their timers; density-0 pieces are fixed.")
+
+# Birdday 2 (page 18): order, bank 14, GlobeBird (blocks.lua + puffer_bird.lua), party pieces and balloon force.
+bd=(root/'ps2/data/birdday2_definitions_excerpt.lua').read_text()
+order=list(dict.fromkeys(re.findall(r'"(Level[\w]+)"',(root/'ps2/data/episode_birdday2.decompiled.lua').read_text())))
+page=[pg for pg in episode['additional_pages'] if pg['number']==18][0]
+assert len(order)==15 and page['levels']==order and page['bank']==14 and page['folder']=='/levels/7_Birdday2'
+for n in range(1,16):
+    d=json.loads((root/f'ps2/data/level_18_{n}.json').read_text());assert d['stage_script']==order[n-1] and d['texture_bank']==14
+gb=bd.split('L3_1 = "GlobeBird"',1)[1].split('L3_1 = "',1)[0]
+h=(root/'ps2/src/game.h').read_text()
+for key,macro in [('radius','GLOBE_RADIUS'),('density','GLOBE_DENSITY'),('friction','GLOBE_FRICTION'),('restitution','GLOBE_RESTITUTION')]:
+    v=re.search(r'L5_1 = (-?[\d.]+)\nL4_1.%s = L5_1'%key,gb)[1];assert re.search(r'#define %s %sf'%(macro,re.escape(str(float(v)))),h),macro
+for key,macro in [('automaticPuffDelay','GLOBE_AUTO_PUFF_DELAY'),('puffTime','GLOBE_PUFF_TIME'),('deathTime','GLOBE_DEATH_TIME'),('directionChangeTime','GLOBE_DIRECTION_TIME'),('directionChangeMagnitude','GLOBE_DIRECTION_MAGNITUDE'),('explosionRadius','GLOBE_BLAST_RADIUS'),('explosionForce','GLOBE_BLAST_FORCE'),('explosionDamageRadius','GLOBE_DAMAGE_RADIUS')]:
+    v=re.search(r'L5_1 = "%s"\nL6_1 = (-?[\d.]+)'%key,gb)[1];assert re.search(r'#define %s %sf'%(macro,re.escape(str(float(v)))),h),macro
+pv=gb.split('"puffedValues"',1)[1]
+for key,macro in [('radius','GLOBE_PUFFED_RADIUS'),('friction','GLOBE_PUFFED_FRICTION'),('restitution','GLOBE_PUFFED_RESTITUTION'),('density','GLOBE_PUFFED_DENSITY')]:
+    v=re.search(r'L7_1 = (-?[\d.]+)\nL6_1.%s = L7_1'%key,pv)[1];assert re.search(r'#define %s %sf'%(macro,re.escape(str(float(v)))),h),macro
+pl=(root/'ps2/data/puffer_bird_excerpt.lua').read_text();assert 'resizeCircle' in pl and 'makeExplosion' in pl and 'directionChangeMagnitude' in pl and 'deathTime' in pl
+assert objs['bird_types']['GlobeBird']==8
+party=['BirthdayBalloon_1','BirthdayBalloon_2','BirthdayBalloon_3','BirthdayBalloon_4','BirthdayCake_1','BirthdayCake_2','BirthdayCake_3','BirthdayCandle_1','PartyHat_1','PartyHat_2','PartyHat_3','PartyHat_4','SPECIAL_CAKE_1']
+for name in party:
+    d=_ad.definition(bd,name);mat=_ad.material(bd,d['material']) if f'L2_1.{d["material"]} = L3_1' in bd else {}
+    spec=objs['objects'][name];assert spec['sprite']==d['sprite'] and spec['shape']==d['type'] and spec.get('auto')
+    if 'forceY' in mat:assert spec['force']==[mat['forceX'],mat['forceY']]
+assert _ad.material(bd,'balloon')['forceY']==-30 and objs['objects']['BirthdayBalloon_2']['force']==[-1.0,-30.0]
+data=(root/'ps2/src/campaign_data.h').read_text();assert '{"BirthdayBalloon_2",-1.00000000f,-30.00000000f}' in data
+print("Birdday 2 OK: 15 stages in bank 14; GlobeBird body, puff and death values match blocks.lua and puffer_bird.lua; 13 party pieces and the balloon force (forceX/forceY) match blocks.lua.")

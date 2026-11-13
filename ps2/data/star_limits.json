@@ -1140,6 +1140,66 @@
     "Level711_1": {
       "silver": 106000,
       "gold": 113000
+    },
+    "LevelH552": {
+      "silver": 68000,
+      "gold": 75000
+    },
+    "LevelH555": {
+      "silver": 72000,
+      "gold": 79000
+    },
+    "LevelH556": {
+      "silver": 50000,
+      "gold": 57000
+    },
+    "LevelH560": {
+      "silver": 55000,
+      "gold": 62000
+    },
+    "LevelH561": {
+      "silver": 140000,
+      "gold": 150000
+    },
+    "LevelH564": {
+      "silver": 78000,
+      "gold": 85000
+    },
+    "LevelH565": {
+      "silver": 66000,
+      "gold": 74000
+    },
+    "LevelH566": {
+      "silver": 81000,
+      "gold": 88000
+    },
+    "LevelH567": {
+      "silver": 74000,
+      "gold": 81000
+    },
+    "LevelH806": {
+      "silver": 71000,
+      "gold": 78000
+    },
+    "LevelH800": {
+      "silver": 124000,
+      "gold": 131000
+    },
+    "LevelH801": {
+      "silver": 91000,
+      "gold": 96000
+    },
+    "LevelH802": {
+      "silver": 84000,
+      "gold": 91000
+    },
+    "LevelH804": {
+      "silver": 67000,
+      "gold": 75000
+    },
+    "LevelH900": {
+      "silver": 117000,
+      "gold": 125000
     }
   }
 }

@@ -54,6 +54,11 @@ def build(episode_path=EPISODE):
         if not 3<=len(v)<=8:raise ValueError('Polygon needs 3..8 vertices: '+name)
         lines.append(' {'+json.dumps(name)+','+str(len(v))+',{'+','.join(f(c) for xy in v for c in xy)+'}},')
     lines.append(' {0,0,{0}}};')
+    # Constant forces of balloon-like materials (forceX/forceY), looked up by definition.
+    forced=sorted({o['definition'] for d in levels for o in d['objects'] if 'force' in profile['objects'][o['definition']]})
+    lines.append('static const CampaignForce campaign_forces[] = {')
+    for name in forced:fx,fy=profile['objects'][name]['force'];lines.append(' {'+json.dumps(name)+','+f(fx)+','+f(fy)+'},')
+    lines.append(' {0,0,0}};')
     lines.append('static const CampaignLevel campaign_levels[] = {')
     for i,d in enumerate(levels):
         values=[d['gravity'],d['sling_x'],d['sling_y'],d['ground_y'],d['physics_to_world'],d['view']['x'],d['view']['y'],d['view']['scale']]

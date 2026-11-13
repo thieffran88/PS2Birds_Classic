@@ -30,6 +30,8 @@ def main():
         d=definition(blocks,name);mat=material(blocks,d['material']);sheet,w,h=frames[d['sprite']]
         spec={'sprite':d['sprite'],'kind':6,'shape':d['type'],'auto':True}
         if d['type']=='polygon':spec['vertices']=d['vertices']
+        # Materials with forceX/forceY (balloon) push the piece every step (setObjectAsForceAdder).
+        if 'forceX' in mat or 'forceY' in mat:spec['force']=[mat.get('forceX',0.0),mat.get('forceY',0.0)]
         prof['objects'][name]=spec
         prof['materials']['friction_overrides'][name]=d['props'].get('friction',mat.get('friction',0.7))
         prof['materials']['restitution_overrides'][name]=d['props'].get('restitution',mat.get('restitution',0.4))

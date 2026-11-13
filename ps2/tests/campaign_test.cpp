@@ -261,17 +261,17 @@ static const Stage stages[]={
  {"Level709",165,7,110,4,{{60,82,-1.0f}},1}, /* MINE AND DINE 15-9 */
  {"LevelP6_16",93,8,63,4,{{5,98,-1.0f}},1}, /* MINE AND DINE 15-10 */
  {"LevelP6_22",119,8,72,4,{{10,94,-1.0f}},1}, /* MINE AND DINE 15-11 */
- {"Level695",318,8,118,5,{{-5,74,0.4f}},1}, /* MINE AND DINE 15-12 */
+ {"Level695",318,8,118,5,{{0,0,-1.0f}},0}, /* MINE AND DINE 15-12 (sem roteiro vencedor) */
  {"LevelP6_12",103,9,77,5,{{20,98,-1.0f}},1}, /* MINE AND DINE 15-13 */
  {"LevelP6_26",127,9,79,3,{{0,0,-1.0f}},0}, /* MINE AND DINE 15-14 (sem roteiro vencedor) */
  {"LevelP6_20",161,7,103,5,{{10,82,-1.0f}},1}, /* MINE AND DINE 15-15 */
  {"LevelP6_4",133,6,75,4,{{25,94,0.4f}},1}, /* MINE AND DINE 16-1 */
- {"LevelP6_15",150,9,99,3,{{0,0,-1.0f}},0}, /* MINE AND DINE 16-2 (sem roteiro vencedor) */
+ {"LevelP6_15",150,9,99,3,{{45,85,2.6f},{30,100,-1.0f}},2}, /* MINE AND DINE 16-2 */
  {"Level703",184,14,99,3,{{5,82,-1.0f}},1}, /* MINE AND DINE 16-3 */
  {"LevelP6_3",126,7,92,3,{{15,74,1.3f}},1}, /* MINE AND DINE 16-4 */
  {"Level704",244,14,112,3,{{0,0,-1.0f}},0}, /* MINE AND DINE 16-5 (sem roteiro vencedor) */
  {"Level705",137,8,66,3,{{0,0,-1.0f}},0}, /* MINE AND DINE 16-6 (sem roteiro vencedor) */
- {"LevelP6_23",164,10,71,4,{{15,98,-1.0f}},1}, /* MINE AND DINE 16-7 */
+ {"LevelP6_23",164,10,71,4,{{15,66,0.4f}},1}, /* MINE AND DINE 16-7 */
  {"LevelP6_25",95,7,75,3,{{0,82,-1.0f}},1}, /* MINE AND DINE 16-8 */
  {"Level697",298,7,104,4,{{20,78,0.4f}},1}, /* MINE AND DINE 16-9 */
  {"LevelP6_29",102,8,69,6,{{10,94,-1.0f}},1}, /* MINE AND DINE 16-10 */
@@ -295,6 +295,21 @@ static const Stage stages[]={
  {"LevelP6_17",92,9,56,3,{{15,86,-1.0f}},1}, /* MINE AND DINE 17-13 */
  {"LevelP6_6",160,7,84,5,{{0,0,-1.0f}},0}, /* MINE AND DINE 17-14 (sem roteiro vencedor) */
  {"Level711_1",234,9,143,4,{{30,98,-1.0f}},1}, /* MINE AND DINE 17-15 */
+ {"LevelH552",124,7,56,4,{{0,82,-1.0f}},1}, /* BIRDDAY 2-1 */
+ {"LevelH555",135,6,83,3,{{40,100,-1.0f},{50,80,1.6f}},2}, /* BIRDDAY 2-2 */
+ {"LevelH556",99,5,75,4,{{10,98,-1.0f}},1}, /* BIRDDAY 2-3 */
+ {"LevelH560",115,6,84,4,{{10,98,-1.0f}},1}, /* BIRDDAY 2-4 */
+ {"LevelH561",208,9,123,6,{{20,74,0.4f}},1}, /* BIRDDAY 2-5 */
+ {"LevelH564",123,6,91,4,{{15,94,-1.0f}},1}, /* BIRDDAY 2-6 */
+ {"LevelH565",116,6,77,4,{{40,80,2.6f},{30,90,2.6f},{40,90,2.6f}},3}, /* BIRDDAY 2-7 */
+ {"LevelH566",135,7,60,4,{{10,86,-1.0f}},1}, /* BIRDDAY 2-8 */
+ {"LevelH567",103,5,85,3,{{35,98,-1.0f}},1}, /* BIRDDAY 2-9 */
+ {"LevelH806",145,6,102,4,{{25,86,-1.0f}},1}, /* BIRDDAY 2-10 */
+ {"LevelH800",149,9,107,3,{{60,90,2.0f},{20,90,-1.0f},{50,100,-1.0f}},3}, /* BIRDDAY 2-11 */
+ {"LevelH801",112,6,84,3,{{10,94,-1.0f}},1}, /* BIRDDAY 2-12 */
+ {"LevelH802",182,7,109,4,{{30,80,2.6f},{10,90,-1.0f}},2}, /* BIRDDAY 2-13 */
+ {"LevelH804",110,5,78,3,{{15,98,-1.0f}},1}, /* BIRDDAY 2-14 */
+ {"LevelH900",189,10,149,4,{{50,100,-1.0f},{70,100,-1.0f},{70,80,1.0f}},3}, /* BIRDDAY 2-15 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -315,7 +330,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==285 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==300 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));

@@ -538,5 +538,65 @@
     "width": 32,
     "height": 183,
     "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BLOCK_BALLOON_BDAY": {
+    "width": 53,
+    "height": 72,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "CHOCO_CAKE_1": {
+    "width": 92,
+    "height": 66,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "PINK_CAKE_1": {
+    "width": 98,
+    "height": 82,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "MINT_CAKE_1": {
+    "width": 99,
+    "height": 53,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BDAY_CANDLE_1": {
+    "width": 13,
+    "height": 45,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "PARTY_HAT_1": {
+    "width": 39,
+    "height": 54,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "PARTY_HAT_2": {
+    "width": 55,
+    "height": 78,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "PARTY_HAT_3": {
+    "width": 86,
+    "height": 47,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "PARTY_HAT_4": {
+    "width": 99,
+    "height": 79,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "SPECIAL_CAKE_1": {
+    "width": 56,
+    "height": 54,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BIRD_PUFFER_1": {
+    "width": 65,
+    "height": 70,
+    "sheet": "INGAME_BIRDS_1.sheet.json"
+  },
+  "BIRD_PUFFER_2": {
+    "width": 330,
+    "height": 296,
+    "sheet": "INGAME_BIRDS_1.sheet.json"
   }
 }

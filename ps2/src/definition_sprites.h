@@ -3,6 +3,14 @@
 #define PS2BIRDS_DEFINITION_SPRITES_H
 typedef struct {const char *definition;int sprite;} DefinitionSprite;
 static const DefinitionSprite definition_sprites[]={
+ {"BirthdayBalloon_1",SPR_BLOCK_BALLOON_BDAY},
+ {"BirthdayBalloon_2",SPR_BLOCK_BALLOON_1},
+ {"BirthdayBalloon_3",SPR_BLOCK_BALLOON_2},
+ {"BirthdayBalloon_4",SPR_BLOCK_BALLOON_3},
+ {"BirthdayCake_1",SPR_CHOCO_CAKE_1},
+ {"BirthdayCake_2",SPR_PINK_CAKE_1},
+ {"BirthdayCake_3",SPR_MINT_CAKE_1},
+ {"BirthdayCandle_1",SPR_BDAY_CANDLE_1},
  {"ExtraAmber",SPR_BLOCK_AMBER},
  {"ExtraAmethyst",SPR_BLOCK_AMETHYST},
  {"ExtraCaveHat_1",SPR_CAVE_HAT_1},
@@ -23,5 +31,10 @@ static const DefinitionSprite definition_sprites[]={
  {"ExtraStalaktite_Tip2",SPR_BLOCK_STALAKTITE_TIP_2},
  {"ExtraStalaktite_Tip3",SPR_BLOCK_STALAKTITE_TIP_3},
  {"ExtraStalaktite_Tip4",SPR_BLOCK_STALAKTITE_TIP_4},
+ {"PartyHat_1",SPR_PARTY_HAT_1},
+ {"PartyHat_2",SPR_PARTY_HAT_2},
+ {"PartyHat_3",SPR_PARTY_HAT_3},
+ {"PartyHat_4",SPR_PARTY_HAT_4},
+ {"SPECIAL_CAKE_1",SPR_SPECIAL_CAKE_1},
  {0,0}};
 #endif

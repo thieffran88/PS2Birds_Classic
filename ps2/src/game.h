@@ -12,7 +12,29 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE, BIRD_WHITE_TYPE, BIRD_EGG_TYPE, BIRD_GREEN_TYPE, BIRD_BIG_TYPE } BirdType;
+typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE, BIRD_WHITE_TYPE, BIRD_EGG_TYPE, BIRD_GREEN_TYPE, BIRD_BIG_TYPE, BIRD_PUFFER_TYPE } BirdType;
+/* GlobeBird ("PUFFER"), all values from blocks.lua; algorithm from puffer_bird.lua.
+   Tap (also allowed after contact; automatic GLOBE_AUTO_PUFF_DELAY s after the first contact):
+   friction/restitution/density switch to the puffed values, the circle grows to
+   GLOBE_PUFFED_RADIUS, and makeExplosion pushes nearby pieces (radius 8, force 45000, no damage).
+   After GLOBE_PUFF_TIME s it shrinks to nothing over GLOBE_DEATH_TIME s, jittering its velocity
+   by +-GLOBE_DIRECTION_MAGNITUDE every GLOBE_DIRECTION_TIME s, then disappears. */
+#define GLOBE_RADIUS 0.85f
+#define GLOBE_DENSITY 5.0f
+#define GLOBE_FRICTION 0.3f
+#define GLOBE_RESTITUTION 0.25f
+#define GLOBE_PUFFED_RADIUS 7.5f
+#define GLOBE_PUFFED_FRICTION 0.5f
+#define GLOBE_PUFFED_RESTITUTION 0.0f
+#define GLOBE_PUFFED_DENSITY 0.1f
+#define GLOBE_AUTO_PUFF_DELAY 1.5f
+#define GLOBE_PUFF_TIME 1.5f
+#define GLOBE_DEATH_TIME 1.5f
+#define GLOBE_DIRECTION_TIME 0.05f
+#define GLOBE_DIRECTION_MAGNITUDE 50.0f
+#define GLOBE_BLAST_RADIUS 8.0f
+#define GLOBE_BLAST_FORCE 45000.0f
+#define GLOBE_DAMAGE_RADIUS 5.0f
 /* Terence (RedBigBird), from blocks.lua: radius 1.8, density 10, friction 0.3, restitution 0.45,
    no specialty. RedBigBirdDamageFactors: damage x0.3 on wood/rock/light (velocity x1.8 not ported). */
 #define BIG_RADIUS 1.8f

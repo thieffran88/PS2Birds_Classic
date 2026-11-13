@@ -1,4 +1,32 @@
-# Modificações completas — PS2Birds Classic 0.28.0
+# Modificações completas — PS2Birds Classic 0.29.0
+
+- **GlobeBird (pássaro que infla), novo**
+  - Corpo do `blocks.lua`: raio 0,85, densidade 5, atrito 0,3, restituição 0,25; dano ×3 em madeira e gelo e ×1,5 em pedra (`GlobeBirdDamageFactors`), zero quando inflado (`GlobeBirdBigDamageFactors`).
+  - Algoritmo do `puffer_bird.lua` (cópia em `ps2/data/puffer_bird_excerpt.lua`): infla no toque ou 1,5 s depois do primeiro contato; raio 7,5, atrito 0,5, restituição 0, densidade 0,1; explosão de empurrão (raio 8, força 45000); fica 1,5 s inflado, encolhe em 1,5 s com mudanças de velocidade de ±50 a cada 0,05 s e some.
+  - Sprites originais (normal e inflado, este em meia resolução), só nos bancos que usam o pássaro.
+  - Novo teste `globe_test`: tempos de inflar e encolher, uso depois do contato e inflar automático.
+- **Episódio Birdday 2 (página 18, 15 fases)**
+  - Ordem do `episodes.lua`, limites de estrelas do `starLimits.lua`; banco de texturas 14.
+  - A campanha passa de 285 para 300 fases; as 15 novas com roteiro vencedor.
+  - 13 peças de festa adicionadas pela `tools/add_definitions.py`: balões de aniversário (4), bolos (3), vela, chapéus de festa (4) e bolo especial; materiais `balloon` e `cake`.
+- **Força de material (balões)**
+  - `add_definitions.py` registra `forceX`/`forceY` do material; o gerador cria a tabela `campaign_forces`; o motor aplica força × massa a cada passo (aproximação do `setObjectAsForceAdder` nativo). Os balões sustentam as cordas.
+- **Correção: junta tipo 5 ("Destroy-attached")**
+  - Agora a peça anexada é removida quando a outra ponta é destruída, depois de `destroyTimer`; antes, era removida pelo relógio da fase, o que destruía peças ao carregar a 2-15.
+  - Roteiros refeitos para as fases afetadas: 16-7 resolvida; 15-12 em busca.
+  - Remoção de porco pela junta soma 5000 pontos e gera o evento de porco.
+- **Investigação e busca**
+  - A busca em feixe com grade de 10° e 10% resolveu as 5 fases difíceis de Birdday 2; a 16-2 de Mine and Dine foi resolvida pela busca da rodada anterior; as fases grandes restantes continuam na fila.
+- **Testes**
+  - Novo teste de procedência de Birdday 2: GlobeBird (corpo, inflado, tempos, explosão) contra `blocks.lua` e `puffer_bird.lua`; peças de festa e força dos balões.
+  - Teste de sprites: 15 bancos (266 quadros), sprites do GlobeBird só no banco 14 e quadro inflado em meia resolução.
+  - Tabela da campanha com 300 fases: 289 com roteiro. Suíte com 46 verificações.
+- **Versão e documentos**
+  - Tela e log em 0.29.0. README, lacunas, validação e histórico atualizados; captura da Birdday 2-1; captura da 0.28.0 removida.
+- **Drive**
+  - Arquivos 0.27.0 removidos (substituídos pelos 0.28.0 que você enviou); documentos 0.28.0 substituídos pelos 0.29.0.
+
+## Modificações completas — 0.28.0
 
 - **Episódio Mine and Dine (15-1 a 17-15)**
   - 45 fases na ordem dos mundos 15, 16 e 17 do `episodes.lua` (trechos em `ps2/data/episode_mine_and_dine_page1..3.decompiled.lua`), com limites de estrelas do `starLimits.lua`.
