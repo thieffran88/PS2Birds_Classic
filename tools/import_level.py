@@ -119,7 +119,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
                 width=float(size[0]),height=float(size[1]),kind=ts['kind'],shape=ts.get('shape','box'),spawn_of=parent+1,
                 friction=profile['materials']['friction_overrides'].get(kind_name,material['friction']),
                 restitution=profile['materials'].get('restitution_overrides',{}).get(kind_name,material['restitution'])))
-    if not 1<=len(level)<=352:raise ValueError('Adapter supports 1..352 scene objects')
+    if not 1<=len(level)<=640:raise ValueError('Adapter supports 1..640 scene objects')
     # SlingshotSystem.setPositionByStartObject (Slingshot.lua) places the slingshot on the
     # first bird of the queue: rest point = (x - 0.1, y - (h - pivot_y) * physicsScale +
     # radius + 0.2 - 0.1) with h/pivot_y from SLING_SHOT_01_BACK (199 px, pivot 30).
@@ -151,7 +151,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
             'axis_x':float(j.get('worldAxisX',1.0)) if kind==4 else 0.0,'axis_y':float(j.get('worldAxisY',0.0)) if kind==4 else 0.0,
             'lower':float(j.get('lowerLimit',0)),'upper':float(j.get('upperLimit',0)),'motor_speed':float(j.get('motorSpeed',0)),'max_force':float(j.get('maxTorque',0)),
             'limit':bool(j.get('limit',False)) and kind in (3,4),'motor':bool(j.get('motor',False)) and kind in (3,4),'back_and_forth':bool(j.get('backAndForth',False)) and kind in (3,4)})
-    if len(joints)>64:raise ValueError('Adapter supports up to 64 joints')
+    if len(joints)>512:raise ValueError('Adapter supports up to 512 joints')
     doc={'adapter':profile['id'],'joints':joints,'source_sha256':hashlib.sha256(raw).hexdigest(),
          'source':source_label,'collision_dimensions':'sprite extents / physicsToWorld x 0.92 for dynamic objects (ObjectCreation.lua sizeFactor); static objects use the full sprite',
          'gravity':gravity,'physics_to_world':pixels,'ground_y':ground,'ground_object_y':grounds[0]['y'],'view':view,

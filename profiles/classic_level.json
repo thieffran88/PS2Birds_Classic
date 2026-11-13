@@ -1151,6 +1151,1131 @@
       "shape": "box",
       "auto": true,
       "no_collision": true
+    },
+    "ANTIMATTER_BOX_BLUE": {
+      "sprite": "ANTIMATTER_BOX_BLUE_01",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BIRDDAY5_CAKE_CANDLE": {
+      "sprite": "BIRDDAY5_CAKE_CANDLE",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.05,
+          0.64
+        ],
+        [
+          0.1,
+          1.0
+        ],
+        [
+          0.9,
+          1.0
+        ],
+        [
+          0.95,
+          0.64
+        ],
+        [
+          0.75,
+          0.35
+        ],
+        [
+          0.25,
+          0.35
+        ],
+        [
+          0.0,
+          -3.5
+        ]
+      ],
+      "half_resolution": true
+    },
+    "BLUE_BOTTLE_NECK_BIG": {
+      "sprite": "BLUE_BOTTLE_NECK_BIG",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BLUE_BOTTLE_NECK_SMALL": {
+      "sprite": "BLUE_BOTTLE_NECK_SMALL",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BLUE_GLASS_BOTTLE_BIG": {
+      "sprite": "BLUE_GLASS_BOTTLE_BIG",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BP_CANNON_FUSE_ROPE": {
+      "sprite": "SHORT_THICK_ROPE",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BP_MEDIUM_ENGINE": {
+      "sprite": "BP_MEDIUM_ENGINE",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "CAGE": {
+      "sprite": "CAGE",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.85,
+          1.02
+        ],
+        [
+          0.85,
+          0.0
+        ],
+        [
+          0.05,
+          0.0
+        ],
+        [
+          0.05,
+          1.02
+        ]
+      ],
+      "half_resolution": true
+    },
+    "CLIPBOARD": {
+      "sprite": "CLIPBOARD",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "EMPTY_VIAL_1": {
+      "sprite": "EMPTY_VIAL_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "EMPTY_VIAL_2": {
+      "sprite": "EMPTY_VIAL_2",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.5,
+          0.0
+        ],
+        [
+          1.0,
+          0.95
+        ],
+        [
+          0.5,
+          0.99
+        ],
+        [
+          0.0,
+          0.95
+        ]
+      ],
+      "half_resolution": true
+    },
+    "EMPTY_VIAL_3": {
+      "sprite": "EMPTY_VIAL_3",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.5,
+          0.0
+        ],
+        [
+          1.0,
+          0.7
+        ],
+        [
+          0.8,
+          1.0
+        ],
+        [
+          0.2,
+          1.0
+        ],
+        [
+          0.0,
+          0.7
+        ]
+      ],
+      "half_resolution": true
+    },
+    "EMPTY_VIAL_4": {
+      "sprite": "EMPTY_VIAL_4",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "EMPTY_VIAL_5": {
+      "sprite": "EMPTY_VIAL_5",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.9,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "GLASSES_1_BIG": {
+      "sprite": "GLASSES_1_BIG",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "GLASSES_1_MED": {
+      "sprite": "GLASSES_1_MED",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "GLASSES_2_BIG": {
+      "sprite": "GLASSES_2_BIG",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ],
+      "half_resolution": true
+    },
+    "GLASSES_2_MED": {
+      "sprite": "GLASSES_2_MED",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ],
+      "half_resolution": true
+    },
+    "GREEN_BOTTLE_NECK": {
+      "sprite": "GREEN_BOTTLE_NECK",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "HAIR_KING_LEFT": {
+      "sprite": "HAIR_KING_LEFT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "HAIR_KING_RIGHT": {
+      "sprite": "HAIR_KING_RIGHT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "HAT_BOOK": {
+      "sprite": "HAT_BOOK",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        3.4,
+        3.4
+      ],
+      "half_resolution": true
+    },
+    "HAT_CELEBRITY_1": {
+      "sprite": "HAT_CELEBRITY_1",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        3.4,
+        3.4
+      ],
+      "half_resolution": true
+    },
+    "HAT_CELEBRITY_2": {
+      "sprite": "HAT_CELEBRITY_2",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        3.4,
+        3.4
+      ],
+      "half_resolution": true
+    },
+    "HAT_EXPLORER": {
+      "sprite": "HAT_EXPLORER",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        2.8,
+        1.8
+      ],
+      "half_resolution": true
+    },
+    "HAT_HEADSET_BIG": {
+      "sprite": "HAT_HEADSET_BIG",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        3.4,
+        3.4
+      ],
+      "half_resolution": true
+    },
+    "HAT_HOCKEY": {
+      "sprite": "HAT_HOCKEY",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        3.4,
+        3.4
+      ],
+      "half_resolution": true
+    },
+    "HAT_LION": {
+      "sprite": "HAT_LION",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        3.4,
+        3.4
+      ],
+      "half_resolution": true
+    },
+    "HAT_MONKEY": {
+      "sprite": "HAT_MONKEY",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        1.4,
+        1.4
+      ],
+      "half_resolution": true
+    },
+    "HAT_SPACE": {
+      "sprite": "HAT_SPACE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.6,
+        2.6
+      ],
+      "half_resolution": true
+    },
+    "HOCKEY_STICK": {
+      "sprite": "HOCKEY_STICK",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.75,
+          0.0
+        ],
+        [
+          0.1,
+          1.0
+        ],
+        [
+          1.0,
+          0.85
+        ],
+        [
+          1.0,
+          0.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "MAGNIFYING_GLASS": {
+      "sprite": "MAGNIFYING_GLASS",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.2
+        ],
+        [
+          0.8,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "MASK_1_BIG": {
+      "sprite": "MASK_1_BIG",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "MASK_2_BIG": {
+      "sprite": "MASK_2_BIG",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "MASK_2_MED": {
+      "sprite": "MASK_2_MED",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "MASK_3_BIG_UP": {
+      "sprite": "MASK_3_BIG_UP",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "MASK_3_MEDL_UP": {
+      "sprite": "MASK_3_MEDL_UP",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "MASK_3_MED_DOWN": {
+      "sprite": "MASK_3_MED_DOWN",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "MISC_FB_CONE": {
+      "sprite": "MISC_FB_CONE_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "MISC_FB_TAPE": {
+      "sprite": "MISC_FB_TAPE_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "MUSIC_PLAYER_OLD": {
+      "sprite": "MUSIC_PLAYER_OLD",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        2.8,
+        6.5
+      ],
+      "half_resolution": true
+    },
+    "NERDY_GLASSES_MED": {
+      "sprite": "NERDY_GLASSES_MED",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        2.5,
+        1.0
+      ],
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "NOTEPAD": {
+      "sprite": "NOTEPAD",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "PUCK": {
+      "sprite": "PUCK",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ],
+      "half_resolution": true
+    },
+    "SPLASH_BIG": {
+      "sprite": "SPLASH_BIG",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "STARWARS_HAT": {
+      "sprite": "STARWARS_HAT",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        1.4,
+        1.4
+      ],
+      "half_resolution": true
+    },
+    "STARWARS_HELMET": {
+      "sprite": "STARWARS_HELMET",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        3.4,
+        3.4
+      ],
+      "half_resolution": true
+    },
+    "STARWARS_VADER": {
+      "sprite": "STARWARS_VADER",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        3.4,
+        3.4
+      ],
+      "half_resolution": true
+    },
+    "THEME_UGC_BLUE_SPOT": {
+      "sprite": "THEME_UGC_BLUE_SPOT",
+      "kind": 3,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ],
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_CALCULATOR": {
+      "sprite": "THEME_UGC_CALCULATOR",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_CARDBOARD_DAMAGE_FOLD_01": {
+      "sprite": "THEME_UGC_CARDBOARD_DAMAGE_FOLD_01",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_CARDBOARD_DAMAGE_FOLD_02": {
+      "sprite": "THEME_UGC_CARDBOARD_DAMAGE_FOLD_02",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_CARDBOARD_DAMAGE_TAPE": {
+      "sprite": "THEME_UGC_CARDBOARD_DAMAGE_TAPE",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_CARDBOARD_RIP_DIAMOND_01": {
+      "sprite": "THEME_UGC_CARDBOARD_RIP_DIAMOND_01",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_CARDBOARD_RIP_DIAMOND_02": {
+      "sprite": "THEME_UGC_CARDBOARD_RIP_DIAMOND_02",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_CARDBOARD_RIP_DIAMOND_03": {
+      "sprite": "THEME_UGC_CARDBOARD_RIP_DIAMOND_03",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_CARDBOARD_RIP_DIAMOND_04": {
+      "sprite": "THEME_UGC_CARDBOARD_RIP_DIAMOND_04",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_CARDBOARD_RIP_LEFT_BIG": {
+      "sprite": "THEME_UGC_CARDBOARD_RIP_LEFT_BIG",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_CARDBOARD_RIP_LEFT_SMALL": {
+      "sprite": "THEME_UGC_CARDBOARD_RIP_LEFT_SMALL",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_CARDBOARD_RIP_MIDDLE_01": {
+      "sprite": "THEME_UGC_CARDBOARD_RIP_MIDDLE_01",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_CARDBOARD_RIP_MIDDLE_02": {
+      "sprite": "THEME_UGC_CARDBOARD_RIP_MIDDLE_02",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_CARDBOARD_RIP_RIGHT_BIG": {
+      "sprite": "THEME_UGC_CARDBOARD_RIP_RIGHT_BIG",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_CARDBOARD_RIP_RIGHT_SMALL": {
+      "sprite": "THEME_UGC_CARDBOARD_RIP_RIGHT_SMALL",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_CLIP": {
+      "sprite": "THEME_UGC_CLIP",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_CUTTER_KNIVE": {
+      "sprite": "THEME_UGC_CUTTER_KNIVE",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_FG_COMPASS": {
+      "sprite": "THEME_UGC_FG_COMPASS",
+      "kind": 3,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.15,
+          1.0
+        ],
+        [
+          0.4,
+          0.0
+        ],
+        [
+          0.6,
+          0.0
+        ],
+        [
+          0.85,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "THEME_UGC_FG_ERASER": {
+      "sprite": "THEME_UGC_FG_ERASER",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        9.5,
+        3.8
+      ],
+      "half_resolution": true
+    },
+    "THEME_UGC_FG_PAPERCLIP": {
+      "sprite": "THEME_UGC_FG_PAPERCLIP",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_FG_PAPERCLIP_BIG": {
+      "sprite": "THEME_UGC_FG_PAPERCLIP_BIG",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_FG_PENCIL": {
+      "sprite": "THEME_UGC_FG_PENCIL",
+      "kind": 3,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.03,
+          0.0
+        ],
+        [
+          0.03,
+          1.0
+        ],
+        [
+          0.8,
+          1.0
+        ],
+        [
+          1.0,
+          0.5
+        ],
+        [
+          0.8,
+          0.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "THEME_UGC_FG_PENCIL_BLUE": {
+      "sprite": "THEME_UGC_FG_PENCIL_BLUE",
+      "kind": 3,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0
+        ],
+        [
+          0.8,
+          1.0
+        ],
+        [
+          1.0,
+          0.5
+        ],
+        [
+          0.8,
+          0.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "THEME_UGC_FG_POSTIT_01": {
+      "sprite": "THEME_UGC_FG_POSTIT_YELLOW_01",
+      "kind": 3,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ],
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_FG_POSTIT_02": {
+      "sprite": "THEME_UGC_FG_POSTIT_YELLOW_02",
+      "kind": 3,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ],
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_FG_POSTIT_RED": {
+      "sprite": "THEME_UGC_FG_POSTIT_RED_01",
+      "kind": 3,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ],
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_FG_POSTIT_RED_02": {
+      "sprite": "THEME_UGC_FG_POSTIT_RED_02",
+      "kind": 3,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ],
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_FG_POSTIT_TWITTER1": {
+      "sprite": "THEME_UGC_FG_POSTIT_TWITTER1",
+      "kind": 3,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ],
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_FG_POSTIT_TWITTER2": {
+      "sprite": "THEME_UGC_FG_POSTIT_TWITTER2",
+      "kind": 3,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ],
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_FG_PROTRACTOR": {
+      "sprite": "THEME_UGC_FG_PROTRACTOR",
+      "kind": 3,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.8
+        ],
+        [
+          0.2,
+          0.2
+        ],
+        [
+          0.5,
+          0.0
+        ],
+        [
+          0.8,
+          0.2
+        ],
+        [
+          1.0,
+          0.8
+        ],
+        [
+          1.0,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "THEME_UGC_FG_RULER_FOLDING": {
+      "sprite": "THEME_UGC_FG_RULER_FOLDING",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        26.5,
+        5.0
+      ],
+      "half_resolution": true
+    },
+    "THEME_UGC_FG_TACK_GREEN": {
+      "sprite": "THEME_UGC_FG_TACK_GREEN",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_FG_TACK_PURPLE": {
+      "sprite": "THEME_UGC_FG_TACK_PURPLE",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_PIN": {
+      "sprite": "THEME_UGC_PIN",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_RED_SPOT": {
+      "sprite": "THEME_UGC_RED_SPOT",
+      "kind": 3,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ],
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_STAMP_01": {
+      "sprite": "THEME_UGC_STAMP_01",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "THEME_UGC_STAMP_02": {
+      "sprite": "THEME_UGC_STAMP_02",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "TV_OLD": {
+      "sprite": "TV_OLD",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.4
+        ],
+        [
+          0.1,
+          1.0
+        ],
+        [
+          0.9,
+          1.0
+        ],
+        [
+          1.0,
+          0.4
+        ],
+        [
+          0.5,
+          0.3
+        ]
+      ],
+      "half_resolution": true
+    },
+    "UGC_CAMERA": {
+      "sprite": "UGC_CAMERA",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.25,
+          0.05
+        ],
+        [
+          0.75,
+          0.05
+        ],
+        [
+          0.95,
+          0.65
+        ],
+        [
+          0.95,
+          1.15
+        ],
+        [
+          0.1,
+          1.15
+        ],
+        [
+          0.1,
+          0.65
+        ]
+      ],
+      "half_resolution": true
+    },
+    "UGC_GLASSES": {
+      "sprite": "UGC_GLASSES",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.2,
+          0.1
+        ],
+        [
+          0.8,
+          0.1
+        ],
+        [
+          0.9,
+          0.9
+        ],
+        [
+          0.1,
+          0.9
+        ]
+      ],
+      "half_resolution": true
+    },
+    "UGC_RHINO": {
+      "sprite": "UGC_RHINO",
+      "kind": 3,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.38,
+          0.4
+        ],
+        [
+          0.4,
+          1.0
+        ],
+        [
+          0.9,
+          1.0
+        ],
+        [
+          0.93,
+          0.4
+        ],
+        [
+          0.65,
+          0.03
+        ]
+      ],
+      "half_resolution": true
+    },
+    "UGC_SCHOOL_SIGN": {
+      "sprite": "UGC_SCHOOL_SIGN",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.02,
+          0.05
+        ],
+        [
+          0.88,
+          0.05
+        ],
+        [
+          1.0,
+          0.5
+        ],
+        [
+          0.88,
+          0.95
+        ],
+        [
+          0.02,
+          0.95
+        ]
+      ],
+      "half_resolution": true
     }
   },
   "metrics": "profiles/sprite_metrics.json",
@@ -1275,7 +2400,97 @@
       "BIRDDAY5_CAKE": 1.0,
       "BP_SINGLE_BALLOON": 4.0,
       "BP_WOODEN_WHEEL_WEAK": 4.0,
-      "StaticNoCollisionBig": 0.8
+      "StaticNoCollisionBig": 0.8,
+      "ANTIMATTER_BOX_BLUE": 0.7,
+      "BIRDDAY5_CAKE_CANDLE": 1.0,
+      "BLUE_BOTTLE_NECK_BIG": 1.0,
+      "BLUE_BOTTLE_NECK_SMALL": 1.0,
+      "BLUE_GLASS_BOTTLE_BIG": 1.0,
+      "BP_CANNON_FUSE_ROPE": 0.7,
+      "BP_MEDIUM_ENGINE": 4.0,
+      "CAGE": 4.0,
+      "CLIPBOARD": 1.0,
+      "EMPTY_VIAL_1": 1.0,
+      "EMPTY_VIAL_2": 1.0,
+      "EMPTY_VIAL_3": 1.0,
+      "EMPTY_VIAL_4": 1.0,
+      "EMPTY_VIAL_5": 1.0,
+      "GLASSES_1_BIG": 1.0,
+      "GLASSES_1_MED": 1.0,
+      "GLASSES_2_BIG": 1.0,
+      "GLASSES_2_MED": 1.0,
+      "GREEN_BOTTLE_NECK": 1.0,
+      "HAIR_KING_LEFT": 1.0,
+      "HAIR_KING_RIGHT": 1.0,
+      "HAT_BOOK": 1.0,
+      "HAT_CELEBRITY_1": 1.0,
+      "HAT_CELEBRITY_2": 1.0,
+      "HAT_EXPLORER": 1.0,
+      "HAT_HEADSET_BIG": 1.0,
+      "HAT_HOCKEY": 1.0,
+      "HAT_LION": 1.0,
+      "HAT_MONKEY": 1.0,
+      "HAT_SPACE": 1.0,
+      "HOCKEY_STICK": 1.0,
+      "MAGNIFYING_GLASS": 1.0,
+      "MASK_1_BIG": 1.0,
+      "MASK_2_BIG": 1.0,
+      "MASK_2_MED": 1.0,
+      "MASK_3_BIG_UP": 1.0,
+      "MASK_3_MEDL_UP": 1.0,
+      "MASK_3_MED_DOWN": 1.0,
+      "MISC_FB_CONE": 1.0,
+      "MISC_FB_TAPE": 0.7,
+      "MUSIC_PLAYER_OLD": 1.0,
+      "NERDY_GLASSES_MED": 1.0,
+      "NOTEPAD": 1.0,
+      "PUCK": 0.1,
+      "SPLASH_BIG": 1.0,
+      "STARWARS_HAT": 1.0,
+      "STARWARS_HELMET": 1.0,
+      "STARWARS_VADER": 1.0,
+      "THEME_UGC_BLUE_SPOT": 0.8,
+      "THEME_UGC_CALCULATOR": 0.8,
+      "THEME_UGC_CARDBOARD_DAMAGE_FOLD_01": 0.8,
+      "THEME_UGC_CARDBOARD_DAMAGE_FOLD_02": 0.8,
+      "THEME_UGC_CARDBOARD_DAMAGE_TAPE": 0.8,
+      "THEME_UGC_CARDBOARD_RIP_DIAMOND_01": 0.8,
+      "THEME_UGC_CARDBOARD_RIP_DIAMOND_02": 0.8,
+      "THEME_UGC_CARDBOARD_RIP_DIAMOND_03": 0.8,
+      "THEME_UGC_CARDBOARD_RIP_DIAMOND_04": 0.8,
+      "THEME_UGC_CARDBOARD_RIP_LEFT_BIG": 0.8,
+      "THEME_UGC_CARDBOARD_RIP_LEFT_SMALL": 0.8,
+      "THEME_UGC_CARDBOARD_RIP_MIDDLE_01": 0.8,
+      "THEME_UGC_CARDBOARD_RIP_MIDDLE_02": 0.8,
+      "THEME_UGC_CARDBOARD_RIP_RIGHT_BIG": 0.8,
+      "THEME_UGC_CARDBOARD_RIP_RIGHT_SMALL": 0.8,
+      "THEME_UGC_CLIP": 0.8,
+      "THEME_UGC_CUTTER_KNIVE": 0.8,
+      "THEME_UGC_FG_COMPASS": 0.8,
+      "THEME_UGC_FG_ERASER": 0.8,
+      "THEME_UGC_FG_PAPERCLIP": 0.8,
+      "THEME_UGC_FG_PAPERCLIP_BIG": 0.8,
+      "THEME_UGC_FG_PENCIL": 0.8,
+      "THEME_UGC_FG_PENCIL_BLUE": 0.8,
+      "THEME_UGC_FG_POSTIT_01": 0.8,
+      "THEME_UGC_FG_POSTIT_02": 0.8,
+      "THEME_UGC_FG_POSTIT_RED": 0.8,
+      "THEME_UGC_FG_POSTIT_RED_02": 0.8,
+      "THEME_UGC_FG_POSTIT_TWITTER1": 0.8,
+      "THEME_UGC_FG_POSTIT_TWITTER2": 0.8,
+      "THEME_UGC_FG_PROTRACTOR": 0.8,
+      "THEME_UGC_FG_RULER_FOLDING": 0.8,
+      "THEME_UGC_FG_TACK_GREEN": 0.8,
+      "THEME_UGC_FG_TACK_PURPLE": 0.8,
+      "THEME_UGC_PIN": 0.8,
+      "THEME_UGC_RED_SPOT": 0.8,
+      "THEME_UGC_STAMP_01": 0.8,
+      "THEME_UGC_STAMP_02": 0.8,
+      "TV_OLD": 1.0,
+      "UGC_CAMERA": 0.8,
+      "UGC_GLASSES": 1.0,
+      "UGC_RHINO": 1.0,
+      "UGC_SCHOOL_SIGN": 0.8
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -1330,7 +2545,97 @@
       "BIRDDAY5_CAKE": 0.0,
       "BP_SINGLE_BALLOON": 0.2,
       "BP_WOODEN_WHEEL_WEAK": 0.2,
-      "StaticNoCollisionBig": 0.0
+      "StaticNoCollisionBig": 0.0,
+      "ANTIMATTER_BOX_BLUE": 0.4,
+      "BIRDDAY5_CAKE_CANDLE": 0.0,
+      "BLUE_BOTTLE_NECK_BIG": 0.0,
+      "BLUE_BOTTLE_NECK_SMALL": 0.0,
+      "BLUE_GLASS_BOTTLE_BIG": 0.0,
+      "BP_CANNON_FUSE_ROPE": 0.4,
+      "BP_MEDIUM_ENGINE": 0.15,
+      "CAGE": 0.2,
+      "CLIPBOARD": 0.0,
+      "EMPTY_VIAL_1": 0.0,
+      "EMPTY_VIAL_2": 0.0,
+      "EMPTY_VIAL_3": 0.0,
+      "EMPTY_VIAL_4": 0.0,
+      "EMPTY_VIAL_5": 0.0,
+      "GLASSES_1_BIG": 0.0,
+      "GLASSES_1_MED": 0.0,
+      "GLASSES_2_BIG": 0.0,
+      "GLASSES_2_MED": 0.0,
+      "GREEN_BOTTLE_NECK": 0.0,
+      "HAIR_KING_LEFT": 0.0,
+      "HAIR_KING_RIGHT": 0.0,
+      "HAT_BOOK": 0.01,
+      "HAT_CELEBRITY_1": 0.01,
+      "HAT_CELEBRITY_2": 0.01,
+      "HAT_EXPLORER": 0.4,
+      "HAT_HEADSET_BIG": 0.01,
+      "HAT_HOCKEY": 0.01,
+      "HAT_LION": 0.01,
+      "HAT_MONKEY": 0.01,
+      "HAT_SPACE": 0.01,
+      "HOCKEY_STICK": 0.4,
+      "MAGNIFYING_GLASS": 0.0,
+      "MASK_1_BIG": 0.0,
+      "MASK_2_BIG": 0.0,
+      "MASK_2_MED": 0.0,
+      "MASK_3_BIG_UP": 0.0,
+      "MASK_3_MEDL_UP": 0.0,
+      "MASK_3_MED_DOWN": 0.0,
+      "MISC_FB_CONE": 0.0,
+      "MISC_FB_TAPE": 0.4,
+      "MUSIC_PLAYER_OLD": 0.4,
+      "NERDY_GLASSES_MED": 0.0,
+      "NOTEPAD": 0.0,
+      "PUCK": 0.3,
+      "SPLASH_BIG": 0.0,
+      "STARWARS_HAT": 0.01,
+      "STARWARS_HELMET": 0.01,
+      "STARWARS_VADER": 0.01,
+      "THEME_UGC_BLUE_SPOT": 0.0,
+      "THEME_UGC_CALCULATOR": 0.0,
+      "THEME_UGC_CARDBOARD_DAMAGE_FOLD_01": 0.0,
+      "THEME_UGC_CARDBOARD_DAMAGE_FOLD_02": 0.0,
+      "THEME_UGC_CARDBOARD_DAMAGE_TAPE": 0.0,
+      "THEME_UGC_CARDBOARD_RIP_DIAMOND_01": 0.0,
+      "THEME_UGC_CARDBOARD_RIP_DIAMOND_02": 0.0,
+      "THEME_UGC_CARDBOARD_RIP_DIAMOND_03": 0.0,
+      "THEME_UGC_CARDBOARD_RIP_DIAMOND_04": 0.0,
+      "THEME_UGC_CARDBOARD_RIP_LEFT_BIG": 0.0,
+      "THEME_UGC_CARDBOARD_RIP_LEFT_SMALL": 0.0,
+      "THEME_UGC_CARDBOARD_RIP_MIDDLE_01": 0.0,
+      "THEME_UGC_CARDBOARD_RIP_MIDDLE_02": 0.0,
+      "THEME_UGC_CARDBOARD_RIP_RIGHT_BIG": 0.0,
+      "THEME_UGC_CARDBOARD_RIP_RIGHT_SMALL": 0.0,
+      "THEME_UGC_CLIP": 0.0,
+      "THEME_UGC_CUTTER_KNIVE": 0.0,
+      "THEME_UGC_FG_COMPASS": 0.0,
+      "THEME_UGC_FG_ERASER": 0.7,
+      "THEME_UGC_FG_PAPERCLIP": 0.0,
+      "THEME_UGC_FG_PAPERCLIP_BIG": 0.0,
+      "THEME_UGC_FG_PENCIL": 0.0,
+      "THEME_UGC_FG_PENCIL_BLUE": 0.0,
+      "THEME_UGC_FG_POSTIT_01": 0.0,
+      "THEME_UGC_FG_POSTIT_02": 0.0,
+      "THEME_UGC_FG_POSTIT_RED": 0.0,
+      "THEME_UGC_FG_POSTIT_RED_02": 0.0,
+      "THEME_UGC_FG_POSTIT_TWITTER1": 0.0,
+      "THEME_UGC_FG_POSTIT_TWITTER2": 0.0,
+      "THEME_UGC_FG_PROTRACTOR": 0.0,
+      "THEME_UGC_FG_RULER_FOLDING": 0.0,
+      "THEME_UGC_FG_TACK_GREEN": 0.0,
+      "THEME_UGC_FG_TACK_PURPLE": 0.0,
+      "THEME_UGC_PIN": 0.0,
+      "THEME_UGC_RED_SPOT": 0.0,
+      "THEME_UGC_STAMP_01": 0.0,
+      "THEME_UGC_STAMP_02": 0.0,
+      "TV_OLD": 0.4,
+      "UGC_CAMERA": 0.2,
+      "UGC_GLASSES": 0.0,
+      "UGC_RHINO": 1.0,
+      "UGC_SCHOOL_SIGN": 0.1
     }
   }
 }

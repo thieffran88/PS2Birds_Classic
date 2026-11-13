@@ -507,6 +507,89 @@
         "BD6Level14",
         "BD6Level15"
       ]
+    },
+    {
+      "number": 22,
+      "title_prefix": "BIRDDAY 5-",
+      "folder": "/levels/10_Birdday5",
+      "bank": 18,
+      "levels": [
+        "UGC1Level01",
+        "UGC1Level02",
+        "UGC1Level03",
+        "UGC1Level04",
+        "UGC1Level05"
+      ]
+    },
+    {
+      "number": 23,
+      "title_prefix": "BIRDDAY 5-",
+      "folder": "/levels/10_Birdday5",
+      "bank": 19,
+      "levels": [
+        "UGC1Level06",
+        "UGC1Level07",
+        "UGC1Level08",
+        "UGC1Level09",
+        "UGC1Level10"
+      ],
+      "first": 6
+    },
+    {
+      "number": 24,
+      "title_prefix": "BIRDDAY 5-",
+      "folder": "/levels/10_Birdday5",
+      "bank": 20,
+      "levels": [
+        "UGC1Level11",
+        "UGC1Level12",
+        "UGC1Level13",
+        "UGC1Level14",
+        "UGC1Level15"
+      ],
+      "first": 11
+    },
+    {
+      "number": 25,
+      "title_prefix": "BIRDDAY 5-",
+      "folder": "/levels/10_Birdday5",
+      "bank": 21,
+      "levels": [
+        "UGC1Level16",
+        "UGC1Level17",
+        "UGC1Level18",
+        "UGC1Level19",
+        "UGC1Level20"
+      ],
+      "first": 16
+    },
+    {
+      "number": 26,
+      "title_prefix": "BIRDDAY 5-",
+      "folder": "/levels/10_Birdday5",
+      "bank": 22,
+      "levels": [
+        "UGC1Level21",
+        "UGC1Level22",
+        "UGC1Level23",
+        "UGC1Level24",
+        "UGC1Level25"
+      ],
+      "first": 21
+    },
+    {
+      "number": 27,
+      "title_prefix": "BIRDDAY 5-",
+      "folder": "/levels/10_Birdday5",
+      "bank": 23,
+      "levels": [
+        "UGC1Level26",
+        "UGC1Level27",
+        "UGC1Level28",
+        "UGC1Level29",
+        "UGC1Level30"
+      ],
+      "first": 26
     }
   ]
 }

@@ -648,5 +648,450 @@
     "width": 71,
     "height": 70,
     "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "ANTIMATTER_BOX_BLUE_01": {
+    "width": 86,
+    "height": 84,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BIRDDAY5_CAKE_CANDLE": {
+    "width": 106,
+    "height": 138,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "BLUE_BOTTLE_NECK_BIG": {
+    "width": 32,
+    "height": 50,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "BLUE_BOTTLE_NECK_SMALL": {
+    "width": 24,
+    "height": 37,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "BLUE_GLASS_BOTTLE_BIG": {
+    "width": 75,
+    "height": 75,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "BP_MEDIUM_ENGINE": {
+    "width": 90,
+    "height": 91,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "CAGE": {
+    "width": 179,
+    "height": 152,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "CLIPBOARD": {
+    "width": 49,
+    "height": 63,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "EMPTY_VIAL_1": {
+    "width": 34,
+    "height": 51,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "EMPTY_VIAL_2": {
+    "width": 54,
+    "height": 67,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "EMPTY_VIAL_3": {
+    "width": 63,
+    "height": 63,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "EMPTY_VIAL_4": {
+    "width": 46,
+    "height": 57,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "EMPTY_VIAL_5": {
+    "width": 44,
+    "height": 40,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "GLASSES_1_BIG": {
+    "width": 97,
+    "height": 48,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "GLASSES_1_MED": {
+    "width": 87,
+    "height": 36,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "GLASSES_2_BIG": {
+    "width": 117,
+    "height": 44,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "GLASSES_2_MED": {
+    "width": 97,
+    "height": 37,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "GREEN_BOTTLE_NECK": {
+    "width": 20,
+    "height": 54,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "HAIR_KING_LEFT": {
+    "width": 55,
+    "height": 65,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "HAIR_KING_RIGHT": {
+    "width": 74,
+    "height": 56,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "HAT_BOOK": {
+    "width": 94,
+    "height": 77,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "HAT_CELEBRITY_1": {
+    "width": 142,
+    "height": 89,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "HAT_CELEBRITY_2": {
+    "width": 187,
+    "height": 126,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "HAT_EXPLORER": {
+    "width": 106,
+    "height": 61,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "HAT_HEADSET_BIG": {
+    "width": 139,
+    "height": 132,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "HAT_HOCKEY": {
+    "width": 95,
+    "height": 91,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "HAT_LION": {
+    "width": 171,
+    "height": 134,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "HAT_MONKEY": {
+    "width": 85,
+    "height": 59,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "HAT_SPACE": {
+    "width": 107,
+    "height": 96,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "HOCKEY_STICK": {
+    "width": 49,
+    "height": 136,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "MAGNIFYING_GLASS": {
+    "width": 74,
+    "height": 43,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "MASK_1_BIG": {
+    "width": 95,
+    "height": 61,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "MASK_2_BIG": {
+    "width": 118,
+    "height": 66,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "MASK_2_MED": {
+    "width": 89,
+    "height": 49,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "MASK_3_BIG_UP": {
+    "width": 87,
+    "height": 44,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "MASK_3_MEDL_UP": {
+    "width": 70,
+    "height": 35,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "MASK_3_MED_DOWN": {
+    "width": 72,
+    "height": 21,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "MISC_FB_CONE_1": {
+    "width": 61,
+    "height": 59,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "MISC_FB_TAPE_1": {
+    "width": 86,
+    "height": 22,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "MUSIC_PLAYER_OLD": {
+    "width": 77,
+    "height": 141,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "NERDY_GLASSES_MED": {
+    "width": 105,
+    "height": 41,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "NOTEPAD": {
+    "width": 46,
+    "height": 56,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "PUCK": {
+    "width": 45,
+    "height": 45,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "SPLASH_BIG": {
+    "width": 180,
+    "height": 187,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "STARWARS_HAT": {
+    "width": 44,
+    "height": 40,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "STARWARS_HELMET": {
+    "width": 95,
+    "height": 87,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "STARWARS_VADER": {
+    "width": 121,
+    "height": 83,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "THEME_UGC_BLUE_SPOT": {
+    "width": 135,
+    "height": 142,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_CALCULATOR": {
+    "width": 189,
+    "height": 258,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_CARDBOARD_DAMAGE_FOLD_01": {
+    "width": 15,
+    "height": 174,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "THEME_UGC_CARDBOARD_DAMAGE_FOLD_02": {
+    "width": 33,
+    "height": 190,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "THEME_UGC_CARDBOARD_DAMAGE_TAPE": {
+    "width": 36,
+    "height": 66,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_CARDBOARD_RIP_DIAMOND_01": {
+    "width": 58,
+    "height": 122,
+    "sheet": "themes_android/THEME_UGC_MIDGROUND_2_1.sheet.json"
+  },
+  "THEME_UGC_CARDBOARD_RIP_DIAMOND_02": {
+    "width": 58,
+    "height": 50,
+    "sheet": "themes_android/THEME_UGC_MIDGROUND_2_1.sheet.json"
+  },
+  "THEME_UGC_CARDBOARD_RIP_DIAMOND_03": {
+    "width": 57,
+    "height": 72,
+    "sheet": "themes_android/THEME_UGC_MIDGROUND_2_1.sheet.json"
+  },
+  "THEME_UGC_CARDBOARD_RIP_DIAMOND_04": {
+    "width": 58,
+    "height": 88,
+    "sheet": "themes_android/THEME_UGC_MIDGROUND_2_1.sheet.json"
+  },
+  "THEME_UGC_CARDBOARD_RIP_LEFT_BIG": {
+    "width": 174,
+    "height": 52,
+    "sheet": "themes_android/THEME_UGC_MIDGROUND_2_1.sheet.json"
+  },
+  "THEME_UGC_CARDBOARD_RIP_LEFT_SMALL": {
+    "width": 113,
+    "height": 77,
+    "sheet": "themes_android/THEME_UGC_MIDGROUND_2_1.sheet.json"
+  },
+  "THEME_UGC_CARDBOARD_RIP_MIDDLE_01": {
+    "width": 173,
+    "height": 91,
+    "sheet": "themes_android/THEME_UGC_MIDGROUND_2_1.sheet.json"
+  },
+  "THEME_UGC_CARDBOARD_RIP_MIDDLE_02": {
+    "width": 171,
+    "height": 89,
+    "sheet": "themes_android/THEME_UGC_MIDGROUND_2_1.sheet.json"
+  },
+  "THEME_UGC_CARDBOARD_RIP_RIGHT_BIG": {
+    "width": 189,
+    "height": 45,
+    "sheet": "themes_android/THEME_UGC_MIDGROUND_2_1.sheet.json"
+  },
+  "THEME_UGC_CARDBOARD_RIP_RIGHT_SMALL": {
+    "width": 104,
+    "height": 44,
+    "sheet": "themes_android/THEME_UGC_MIDGROUND_2_1.sheet.json"
+  },
+  "THEME_UGC_CLIP": {
+    "width": 127,
+    "height": 127,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_CUTTER_KNIVE": {
+    "width": 269,
+    "height": 57,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_FG_COMPASS": {
+    "width": 130,
+    "height": 436,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_FG_ERASER": {
+    "width": 203,
+    "height": 85,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_FG_PAPERCLIP": {
+    "width": 43,
+    "height": 90,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_FG_PAPERCLIP_BIG": {
+    "width": 40,
+    "height": 132,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_FG_PENCIL": {
+    "width": 415,
+    "height": 62,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_FG_PENCIL_BLUE": {
+    "width": 416,
+    "height": 62,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_FG_POSTIT_YELLOW_01": {
+    "width": 237,
+    "height": 183,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_FG_POSTIT_YELLOW_02": {
+    "width": 208,
+    "height": 219,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_FG_POSTIT_RED_01": {
+    "width": 208,
+    "height": 219,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_FG_POSTIT_RED_02": {
+    "width": 208,
+    "height": 219,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_FG_POSTIT_TWITTER1": {
+    "width": 237,
+    "height": 183,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_FG_POSTIT_TWITTER2": {
+    "width": 208,
+    "height": 219,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_FG_PROTRACTOR": {
+    "width": 355,
+    "height": 198,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_FG_RULER_FOLDING": {
+    "width": 576,
+    "height": 108,
+    "sheet": "themes_android/THEME_UGC_MIDGROUND_2_1.sheet.json"
+  },
+  "THEME_UGC_FG_TACK_GREEN": {
+    "width": 59,
+    "height": 100,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_FG_TACK_PURPLE": {
+    "width": 62,
+    "height": 93,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_PIN": {
+    "width": 29,
+    "height": 71,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_RED_SPOT": {
+    "width": 134,
+    "height": 87,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_STAMP_01": {
+    "width": 138,
+    "height": 138,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "THEME_UGC_STAMP_02": {
+    "width": 129,
+    "height": 119,
+    "sheet": "themes_android/THEME_UGC_FOREGROUND_1.sheet.json"
+  },
+  "TV_OLD": {
+    "width": 92,
+    "height": 134,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "UGC_CAMERA": {
+    "width": 67,
+    "height": 116,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "UGC_GLASSES": {
+    "width": 121,
+    "height": 61,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "UGC_RHINO": {
+    "width": 212,
+    "height": 156,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "UGC_SCHOOL_SIGN": {
+    "width": 304,
+    "height": 106,
+    "sheet": "INGAME_BLOCKS_2_1.sheet.json"
   }
 }

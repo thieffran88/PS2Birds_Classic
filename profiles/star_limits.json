@@ -1380,6 +1380,126 @@
     "BD6Level15": {
       "silver": 88000,
       "gold": 95000
+    },
+    "UGC1Level01": {
+      "silver": 94000,
+      "gold": 100000
+    },
+    "UGC1Level02": {
+      "silver": 140000,
+      "gold": 155000
+    },
+    "UGC1Level03": {
+      "silver": 105000,
+      "gold": 110000
+    },
+    "UGC1Level04": {
+      "silver": 96000,
+      "gold": 108000
+    },
+    "UGC1Level05": {
+      "silver": 127000,
+      "gold": 139000
+    },
+    "UGC1Level06": {
+      "silver": 200000,
+      "gold": 215000
+    },
+    "UGC1Level07": {
+      "silver": 97000,
+      "gold": 105000
+    },
+    "UGC1Level08": {
+      "silver": 130000,
+      "gold": 138000
+    },
+    "UGC1Level09": {
+      "silver": 153000,
+      "gold": 160000
+    },
+    "UGC1Level10": {
+      "silver": 120000,
+      "gold": 136000
+    },
+    "UGC1Level11": {
+      "silver": 135000,
+      "gold": 140000
+    },
+    "UGC1Level12": {
+      "silver": 96000,
+      "gold": 105000
+    },
+    "UGC1Level13": {
+      "silver": 190000,
+      "gold": 200000
+    },
+    "UGC1Level14": {
+      "silver": 110000,
+      "gold": 123000
+    },
+    "UGC1Level15": {
+      "silver": 175000,
+      "gold": 183000
+    },
+    "UGC1Level16": {
+      "silver": 128000,
+      "gold": 133000
+    },
+    "UGC1Level17": {
+      "silver": 135000,
+      "gold": 142000
+    },
+    "UGC1Level18": {
+      "silver": 75000,
+      "gold": 83000
+    },
+    "UGC1Level19": {
+      "silver": 211000,
+      "gold": 219000
+    },
+    "UGC1Level20": {
+      "silver": 150000,
+      "gold": 158000
+    },
+    "UGC1Level21": {
+      "silver": 174000,
+      "gold": 180000
+    },
+    "UGC1Level22": {
+      "silver": 113000,
+      "gold": 120000
+    },
+    "UGC1Level23": {
+      "silver": 120000,
+      "gold": 130000
+    },
+    "UGC1Level24": {
+      "silver": 80000,
+      "gold": 95000
+    },
+    "UGC1Level25": {
+      "silver": 143000,
+      "gold": 150000
+    },
+    "UGC1Level26": {
+      "silver": 127000,
+      "gold": 135000
+    },
+    "UGC1Level27": {
+      "silver": 120000,
+      "gold": 129000
+    },
+    "UGC1Level28": {
+      "silver": 133000,
+      "gold": 140000
+    },
+    "UGC1Level29": {
+      "silver": 165000,
+      "gold": 175000
+    },
+    "UGC1Level30": {
+      "silver": 146000,
+      "gold": 154000
     }
   }
 }

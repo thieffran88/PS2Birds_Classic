@@ -331,7 +331,7 @@ for number,name in {15:'episode_mine_and_dine_page1',16:'episode_mine_and_dine_p
     for n in range(1,16):
         d=json.loads((root/f'ps2/data/level_{number}_{n}.json').read_text());assert d['stage_script']==order[n-1] and d['texture_bank']==number-4
 gen=(root/'ps2/src/definition_sprites.h').read_text()
-for name in mine:assert '{"%s",SPR_%s}'%(name,objs['objects'][name]['sprite']) in gen
+for name in mine:assert '{"%s",SPR_%s,1}'%(name,objs['objects'][name]['sprite']) in gen
 timers=[j['destroy_timer'] for j in campaign['joints'] if j['type']==5]
 assert len(timers)>=2 and any(abs(t-2.18)<1e-5 for t in timers) and any(abs(t-4.63)<1e-5 for t in timers)
 src=(root/'ps2/src/game.cpp').read_text();assert 'o.density==0)?b2_staticBody' in src
@@ -416,7 +416,26 @@ assert 'L5_1 = false\nL4_1.collision = L5_1' in blk('StaticNoCollisionBig') and 
 assert 'L5_1 = 1.472\nL4_1.radius' in blk('BP_WOODEN_WHEEL_WEAK') and objs['objects']['BP_WOODEN_WHEEL_WEAK']['size']==[2.944,2.944]
 assert objs['objects']['BIRDDAY5_CAKE']['vertices']==[[0.1,1.0],[0.9,1.0],[0.75,0.2],[0.25,0.2]]
 camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN')
-assert sum(1 for o in camp['objects'] if o['no_collision'])==3
-prism=[j for j in camp['joints'] if j['type']==4];assert len(prism)==9 and all(j['flags']&2 for j in prism)
+assert sum(1 for o in camp['objects'] if o['no_collision'] and o['definition']=='StaticNoCollisionBig')==3
+bd6j=[j for n in range(1,16) for j in json.loads((root/f'ps2/data/level_21_{n}.json').read_text())['joints']]
+prism=[j for j in bd6j if j['type']==4];assert len(prism)==9 and all(j['motor'] and j['limit'] for j in prism)
 motors=[j for j in camp['joints'] if j['type']==3 and j['flags']&2];assert len(motors)>=3
 print("Birdday 6 OK: 15 stages in bank 17; single balloon force/targetVelocity, wheel radius, cake polygon and collision-free scenery from blocks.lua; 9 prismatic joints and the motor hinges carried into CAMPAIGN.BIN.")
+
+# Birdday 5 (pages 22-27, banks 18-23): 30 stages, 90 pieces read from blocks.lua by add_definitions.py.
+b5=(root/'ps2/data/birdday5_definitions_excerpt.lua').read_text()
+order=list(dict.fromkeys(re.findall(r'"(UGC1Level\d+)"',(root/'ps2/data/episode_birdday5_page1.decompiled.lua').read_text()+(root/'ps2/data/episode_birdday5_page2.decompiled.lua').read_text())))
+pages=[pg for pg in episode['additional_pages'] if pg.get('folder')=='/levels/10_Birdday5']
+assert len(order)==30 and sum((pg['levels'] for pg in pages),[])==order and [pg['bank'] for pg in pages]==list(range(18,24))
+assert [pg.get('first',1) for pg in pages]==[1,6,11,16,21,26]
+names=re.findall(r'L3_1 = "(\w+)"\nL4_1 = \{\}',b5);assert len(names)==90
+for name in names:
+    d=_ad.definition(b5,name);spec=objs['objects'][name];mat=_ad.material(b5,d['material'])
+    assert spec['sprite']==d['sprite'] and spec['shape']==d['type'] and spec.get('half_resolution'),name
+    assert spec['kind']==(3 if d['material']=='immovable' else 6),name
+    assert bool(spec.get('no_collision'))==bool(d['props'].get('no_collision')),name
+    if d['type']=='polygon':assert spec['vertices']==d['vertices'],name
+    assert objs['materials']['friction_overrides'][name]==d['props'].get('friction',mat.get('friction',0.7)),name
+d=json.loads((root/'ps2/data/level_27_5.json').read_text());assert d['title']=='BIRDDAY 5-30' and d['texture_bank']==23
+nocol=sum(1 for n in names if objs['objects'][n].get('no_collision'));assert nocol==39
+print(f"Birdday 5 OK: 30 stages in banks 18-23 numbered 5-1 to 5-30; 90 pieces (sprite, shape, polygon, material, {nocol} without collision) match blocks.lua.")

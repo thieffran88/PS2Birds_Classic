@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstdio>
 #include <cstring>
+#include <cstdlib>
 int main(int argc,char **argv){
     Game g;game_init(&g);g.unlocked=game_level_count();
     int first=argc>1?atoi(argv[1]):0,last=argc>2?atoi(argv[2]):game_level_count()-1;
@@ -14,7 +15,7 @@ int main(int argc,char **argv){
         int moved=0,dead=0;float worst=0;const char *worst_def="";
         for(int i=0;i<n;i++){GameObject o;game_get_object(&g,i,&o);if(o.kind==3)continue;if(!o.alive){dead++;continue;}
             float d=hypotf(o.x-x0[i],o.y-y0[i])/g.view_scale;float r=fabsf(o.angle-a0[i]);
-            if(d>0.5f||r>0.2f){moved++;if(d>worst){worst=d;worst_def=o.definition;}}}
+            if(d>0.5f||r>0.2f){moved++;if(d>worst){worst=d;worst_def=o.definition;}if(getenv("SETTLE_LIST")&&d>5)printf("   #%d %s %.1f,%.1f -> %.1f,%.1f\n",i,o.definition,(x0[i]-g.view_x)/g.view_scale,(y0[i]-g.view_y)/g.view_scale,(o.x-g.view_x)/g.view_scale,(o.y-g.view_y)/g.view_scale);}}
         printf("%2d %-20s %-12s moved=%3d dead=%d worst=%.1f %s\n",level,game_level_title(level),game_level_script(level),moved,dead,worst,worst_def);
     }
     game_destroy(&g);

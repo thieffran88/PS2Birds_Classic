@@ -1,7 +1,7 @@
 #ifndef PS2BIRDS_CAMPAIGN_TYPES_H
 #define PS2BIRDS_CAMPAIGN_TYPES_H
-#define MAX_LEVEL_OBJECTS 352
-#define MAX_LEVEL_JOINTS 64
+#define MAX_LEVEL_OBJECTS 640
+#define MAX_LEVEL_JOINTS 512
 #define MAX_CAMPAIGN_LEVELS 512
 /* spawn_of: 0 for pieces present from the start; 1 + parent index for pieces released when
    the parent is destroyed (blocks.lua deathSpawn, e.g. the cream of Spawning_cake). */

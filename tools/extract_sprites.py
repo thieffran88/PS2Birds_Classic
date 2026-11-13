@@ -44,7 +44,17 @@ def halve_mask(rgba,w,h):
             out+=bytes([255,255,255,(total+2)//4])
     return out,ow,oh
 
-HALF_RESOLUTION=('PIG_KING_','BIRD_PUFFER_2')
+# Large single-use sprites kept at half resolution (drawn at SPRITE_MASK_SCALE): the king pig,
+# the puffed GlobeBird and the big paper/office props of the UGC theme (Birdday 5).
+HALF_RESOLUTION=('PIG_KING_','BIRD_PUFFER_2','THEME_UGC_','UGC_')
+def half_resolution_sprites():
+    """Sprites stored at half resolution: the prefixes above plus pieces marked half_resolution
+    in profiles/classic_level.json (the many props of Birdday 5, to fit the texture banks)."""
+    prof=json.loads((ROOT/'profiles/classic_level.json').read_text())
+    return {v['sprite'] for v in prof['objects'].values() if v.get('half_resolution')}
+def is_half(name,_cache=[]):
+    if not _cache:_cache.append(half_resolution_sprites())
+    return name.startswith(HALF_RESOLUTION) or name in _cache[0]
 def halve_rgba(rgba,w,h):
     """Large single-stage sprites: 2x2 box filter with alpha-weighted colour, half resolution."""
     if len(rgba)!=w*h*4:raise ValueError('Invalid sprite buffer')
@@ -64,7 +74,9 @@ def halve_rgba(rgba,w,h):
 def decode_png_frame(data,frame,_cache={}):
     """Crop one frame from a PNG sheet (decoded once per sheet by tools/png_decode.py)."""
     from png_decode import decode
-    if frame['rotated'] or any(frame['extrude']):raise ValueError('Unsupported PNG orientation/extrusion')
+    # Theme sheets pad each frame with a 1-pixel extrusion outside the frame rectangle; the
+    # rectangle itself is the sprite, so the extrusion is simply not copied.
+    if frame['rotated']:raise ValueError('Unsupported PNG orientation')
     key=hash(data)
     if key not in _cache:_cache.clear();_cache[key]=decode(data)
     sw,sh,pixels=_cache[key]
@@ -74,9 +86,18 @@ def decode_png_frame(data,frame,_cache={}):
     for pixel in range(3,len(rgba),4):rgba[pixel]=(rgba[pixel]*128+127)//255
     return rgba
 
+ORDERS=[lambda s:(-s['height'],s['name']),lambda s:(-s['width'],s['name']),lambda s:(-s['width']*s['height'],s['name']),lambda s:(-max(s['width'],s['height']),s['name'])]
 def pack(sprites,base_offset=0):
-    """Deterministic skyline packing with a one-pixel gutter into PAGE_LAYOUT; trailing empty pages dropped."""
-    ordered=sorted(sprites,key=lambda s:(-s['height'],s['name']))
+    """Deterministic skyline packing: tallest first (the layout of every earlier bank); if a bank
+    does not fit, the same packer is retried widest first, largest first and longest side first."""
+    error=None
+    for order in ORDERS:
+        try:return _pack(sprites,base_offset,order)
+        except ValueError as e:error=error or e
+    raise error
+def _pack(sprites,base_offset,order):
+    """Skyline packing with a one-pixel gutter into PAGE_LAYOUT; trailing empty pages dropped."""
+    ordered=sorted(sprites,key=order)
     pages=[{'width':w,'cap':cap,'skyline':[0]*w} for w,cap in PAGE_LAYOUT];placed={}
     for s in ordered:
         span=s['width']+2
@@ -139,6 +160,11 @@ def bank_members(all_names,levels_dir=None):
         for n in sorted(banks[b]):
             target=None
             if n.endswith('_BLINK'):target=n[:-6]
+            # Banks 18+ (Birdday 5) need the room for the big UGC props: every damage state of the
+            # numbered and shaped blocks draws the intact frame.
+            elif b>=18 and re.fullmatch(r'BIRD_\w+?_(?:COLLISION|FLYING|SPECIAL|[123])',n) and re.sub(r'_(?:COLLISION|FLYING|SPECIAL|[123])$','',n) in banks[b]:target=re.sub(r'_(?:COLLISION|FLYING|SPECIAL|[123])$','',n)
+            elif b>=18 and re.fullmatch(r'BLOCK_(?:WOOD|LIGHT|ROCK)_[234]_\d+',n):target=re.sub(r'_[234]_(\d+)$',r'_1_\1',n)
+            elif b>=18 and re.fullmatch(r'BLOCK_(?:WOOD|LIGHT|ROCK)_(?:4X4|10X1|TRIANGLE_L|TRIANGLE_M|CIRCLE|[A-Z][A-Z0-9]*)_[234]',n):target=n[:-1]+'1'
             elif re.fullmatch(r'BLOCK_(?:WOOD|LIGHT|ROCK)_(?:4X4|TRIANGLE_L|TRIANGLE_M)_[23]',n):target=n[:-1]+('1' if n.endswith('2') else '4')
             # Banks 2 and 3 (Mighty Hoax page 5, Danger Above) have the largest piece sets: numbered blocks keep
             # two frames, intact (states 1-2) and heavily damaged (states 3-4).
@@ -161,7 +187,7 @@ def extract(apk,out,sevenzip=None,game="classic",levels_dir=None):
             if spec.get('auto') and spec['sprite'] not in sheets.setdefault(metrics[spec['sprite']]['sheet'].replace('.sheet.json',''),[]):
                 sheets[metrics[spec['sprite']]['sheet'].replace('.sheet.json','')].append(spec['sprite'])
         for sheet,names in sheets.items():
-            base='assets/data/images/base/'+sheet
+            base='assets/data/images/'+sheet if '/' in sheet else 'assets/data/images/base/'+sheet
             encrypted=archive.read(base+'.sheet.json')
             decoded=decode_payload(encrypted,game,sevenzip)
             frames={f['filename']:f for f in json.loads(decoded)['frames']}
@@ -202,15 +228,18 @@ def extract(apk,out,sevenzip=None,game="classic",levels_dir=None):
                 pivot=dict(f['pivot'])
                 if name.startswith('GROUND_BLOCK_'):
                     rgba,fw,fh=halve_mask(rgba,fw,fh);pivot={'x':(pivot['x']+1)//MASK_SCALE,'y':(pivot['y']+1)//MASK_SCALE}
-                elif name.startswith(HALF_RESOLUTION):
+                elif is_half(name):
                     rgba,fw,fh=halve_rgba(rgba,fw,fh);pivot={'x':(pivot['x']+1)//MASK_SCALE,'y':(pivot['y']+1)//MASK_SCALE}
                 sprite={'name':name,'width':fw,'height':fh,'pivot_x':pivot['x'],'pivot_y':pivot['y'],'rgba':rgba}
                 sprites.append(sprite)
-                manifest.append({'sprite':name,'sheet':base,'source_format':'PNG RGBA8' if is_png else 'RGBA4444 little-endian','processing':'alpha mask at half resolution (2x2 box filter), white RGB for runtime tint; drawn at SPRITE_MASK_SCALE' if name.startswith('GROUND_BLOCK_') else 'half resolution (2x2 alpha-weighted box filter); drawn at SPRITE_MASK_SCALE' if name.startswith(HALF_RESOLUTION) else 'crop extrusion and convert to GS RGBA32','rgba_sha256':hashlib.sha256(rgba).hexdigest(),'width':fw,'height':fh,'pivot':pivot})
+                manifest.append({'sprite':name,'sheet':base,'source_format':'PNG RGBA8' if is_png else 'RGBA4444 little-endian','processing':'alpha mask at half resolution (2x2 box filter), white RGB for runtime tint; drawn at SPRITE_MASK_SCALE' if name.startswith('GROUND_BLOCK_') else 'half resolution (2x2 alpha-weighted box filter); drawn at SPRITE_MASK_SCALE' if is_half(name) else 'crop extrusion and convert to GS RGBA32','rgba_sha256':hashlib.sha256(rgba).hexdigest(),'width':fw,'height':fh,'pivot':pivot})
     banks,aliases=bank_members([s['name'] for s in sprites],levels_dir)
     by_name={s['name']:s for s in sprites};pixels=bytearray();bank_specs=[];placement={}
     for bank,members in enumerate(banks):
-        specs,placed=pack([by_name[n] for n in members],len(pixels))
+        try:specs,placed=pack([by_name[n] for n in members],len(pixels))
+        except ValueError as e:
+            area=sum((by_name[n]['width']+2)*(by_name[n]['height']+2)*4 for n in members);big=sorted(members,key=lambda n:-by_name[n]['width']*by_name[n]['height'])[:12]
+            raise ValueError(f'{e} (bank {bank}: {len(members)} sprites, {area} bytes with gutters, budget {VRAM_BUDGET}; largest {[(n,by_name[n]["width"],by_name[n]["height"]) for n in big]})')
         if sum(page['width']*page['height']*4 for page in specs)>VRAM_BUDGET:raise ValueError(f'Texture bank {bank} exceeds the VRAM budget')
         for page in specs:pixels+=bytes(page['width']*page['height']*4)
         for name,(page,x,y) in placed.items():
