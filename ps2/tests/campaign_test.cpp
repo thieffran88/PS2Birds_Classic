@@ -265,7 +265,7 @@ static const Stage stages[]={
  {"LevelP6_12",103,9,77,5,{{20,100,0.8f}},1}, /* MINE AND DINE 15-13 */
  {"LevelP6_26",127,9,79,3,{{50,80,2.6f},{30,100,2.3f},{60,100,-1.0f}},3}, /* MINE AND DINE 15-14 */
  {"LevelP6_20",161,7,103,5,{{20,90,1.4f}},1}, /* MINE AND DINE 15-15 */
- {"LevelP6_4",133,6,75,4,{{0,0,-1.0f}},0}, /* MINE AND DINE 16-1 (sem roteiro vencedor) */
+ {"LevelP6_4",133,6,75,4,{{45,60,1.4f},{35,90,1.2f},{35,90,0.8f}},3}, /* MINE AND DINE 16-1 */
  {"LevelP6_15",150,9,99,3,{{40,90,2.6f},{40,70,-1.0f}},2}, /* MINE AND DINE 16-2 */
  {"Level703",184,14,99,3,{{-10,100,2.6f},{20,80,1.2f}},2}, /* MINE AND DINE 16-3 */
  {"LevelP6_3",126,7,92,3,{{20,90,1.8f},{20,60,-1.0f},{30,100,2.0f}},3}, /* MINE AND DINE 16-4 */
@@ -458,7 +458,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==7);
+    assert(unverified==6);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");

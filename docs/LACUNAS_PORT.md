@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.29.0)
+# Lacunas do port (levantamento atualizado na 0.30.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -86,6 +86,13 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **Junta tipo 5 corrigida:** na 0.28.0 o port removia a peça anexada depois de `destroyTimer` desde o início da fase; em Birdday 2 a junta aparece sem tempo, e isso destruía peças ao carregar. A leitura certa do nome e dos dados: quando a ponta 1 é destruída, a ponta 2 é removida `destroyTimer` segundos depois. Duas fases de Mine and Dine mudaram com isso (16-7 ganhou roteiro novo; 15-12 está na busca).
 - **Birdday 2 entrou primeiro** porque precisa só do GlobeBird; Birdday 3 e 4 também usam a Stella (PinkBird); Birdday 5–7 têm muitas peças próprias.
 
+## Achados da 0.30.0
+
+- **Stella — feita, a partir do Lua.** O `bubbles.lua` traz `triggerPinkBirdSpecialty` e `updateBubble`; os valores vêm do `default_conf.lua` (antigravidade 1,8, 2 s, 10 u/s) e o atraso de 1,5 s depois do contato do `CollisionCallbacks.lua`.
+- **Tamanho declarado:** o `blocks.lua` dá largura/altura ou raio para várias peças; o port usava o sprite. Corrigido; as fases 240–299 foram refeitas.
+- **`deathSpawn` não portado:** o bolo grande de Birdday 3/4 deveria soltar 10 cremes ao ser destruído.
+- **Sem roteiro:** 16-5, 16-6 e Birdday 4-4, além de 3-20, 5-16 e 13-7.
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -94,7 +101,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Stella (PinkBird) para Birdday 3 e 4; roteiros das fases grandes de Mine and Dine.
+1. `deathSpawn` (bolo grande); Birdday 5–7; roteiros de 16-5, 16-6 e Birdday 4-4.
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).

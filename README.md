@@ -1,4 +1,4 @@
-# PS2Birds Classic — protótipo 0.29.0
+# PS2Birds Classic — protótipo 0.30.0
 
 Foco exclusivo no Classic. Inclui a primeira página completa de Poached Eggs
 e a segunda e a terceira páginas completas (63 fases, todo o episódio Poached Eggs) Mighty Hoax, Danger Above, Big Setup, Ham 'Em High, Mine and Dine e Birdday 2 completos (300 fases) na ordem declarada pelo próprio APK, com sprites originais, pássaros
@@ -74,7 +74,7 @@ já estão incluídos. O audsrv é compilado das fontes incluídas. Se o módulo
 inicializar, o jogo continua com SOM INDISPONIVEL. Ainda não há música de fundo.
 
 As ferramentas/perfis de outras séries permanecem no pacote, sem novos ports.
-Consulte docs/MODIFICACOES_0.29.0.md e docs/VALIDACAO_0.29.0.md. Documentos das versões
+Consulte docs/MODIFICACOES_0.30.0.md e docs/VALIDACAO_0.30.0.md. Documentos das versões
 anteriores são históricos. Saves da 0.6.0 à 0.8.0 são aproveitados e regravados no
 formato versão 3 (288 bytes, até 64 fases). A seleção mostra três fases por página
 e muda automaticamente conforme cima/baixo.
@@ -141,6 +141,12 @@ A investigação das fases sem vitória encontrou três erros de importação pr
 - Velocidade de lançamento dependente do zoom. O original usa 46,25 unidades/s com o estilingue esticado ao máximo (`defaultForce = -925`, `physicsScale = 1/20`); o port dividia a força pela escala da câmera, de 23 a 152 unidades/s conforme a fase. A força agora é a porcentagem de esticamento.
 
 Com isso, 82 das 84 fases têm vitória encontrada pela busca automática. Continuam sem roteiro 3-9 e 3-19; nelas a vitória depende de quedas e esmagamentos, cuja fórmula de dano fica no código nativo do jogo e não nos scripts Lua recuperados. Não existe regra de desbloqueio extra: o avanço é o do jogo original.
+
+## Novidades da 0.30.0
+
+- Stella (PinkBird): flutua e solta bolhas que levantam as peças, portada do `bubbles.lua` e do `blocks.lua`.
+- Episódios Birdday 3 e 4 (30 fases); campanha com 330 fases, 324 com vitória encontrada.
+- Peças automáticas usam o tamanho declarado no `blocks.lua` (corrige Mine and Dine e Birdday 2).
 
 ## Novidades da 0.29.0
 

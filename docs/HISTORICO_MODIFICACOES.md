@@ -26,6 +26,39 @@
 - **Drive**
   - Arquivos 0.27.0 removidos (substituídos pelos 0.28.0 que você enviou); documentos 0.28.0 substituídos pelos 0.29.0.
 
+## 0.30.0
+
+- **Stella (PinkBird), novo pássaro**
+  - Corpo do `blocks.lua`: raio 0,85, densidade 6, atrito 0,3, restituição 0,43; dano ×0,5 em blocos (`PinkBirdDamageFactors`).
+  - Algoritmo do `bubbles.lua`, `default_conf.lua`, `mode_MuseumMode.lua` e `CollisionCallbacks.lua` (trechos em `ps2/data/bubbles_excerpt.lua`):
+    - no toque, ou 1,5 s depois do primeiro contato, a Stella para no ar e flutua por 0,5 s;
+    - em seguida solta bolhas num raio de 7: cada peça dinâmica dentro dele flutua por 2 s (antigravidade ×1,8, subida limitada a 10 u/s, empurrão lateral ×1,3 da distância);
+    - juntas quebráveis presas a peças com bolha se soltam;
+    - a Stella some quando a própria bolha acaba.
+  - Sprites originais (normal e "solta"), só nos bancos que usam o pássaro.
+  - Teste `globe_test` ampliado: flutuação, subida máxima e saída em 2,5 s.
+- **Episódios Birdday 3 e 4 (páginas 19 e 20, 30 fases)**
+  - Ordem do `episodes.lua`, limites de estrelas do `starLimits.lua`; bancos de texturas 15 e 16.
+  - A campanha passa de 300 para 330 fases.
+  - Peças novas pela `tools/add_definitions.py`: bolo grande (`Spawning_cake`), creme (`CakeCream`) e chapéus de festa 5, 6 e azul.
+- **Correção: tamanho declarado das peças automáticas**
+  - Peças com largura/altura (caixa) ou raio (círculo) declarados no `blocks.lua` agora usam esses valores; antes, usavam o tamanho do sprite ×0,92.
+  - Afeta peças de Mine and Dine e Birdday 2 (ex.: estalactite 3 × 13,9; balão 2,4). Os roteiros das fases 240–299 foram descartados e refeitos.
+- **Correção: `add_definitions.py` pegava a definição errada**
+  - Quando um nome aparece mais de uma vez no `blocks.lua` (ex.: tabela de deslocamentos de chapéus), agora vale a última atribuição que tem forma (`polygon`, `box`, `circle`).
+- **Busca de roteiros**
+  - 90 fases (240–329) refeitas com a busca em feixe (grade de 10°/10%) e uma segunda passada em grade de 5° nas que sobraram.
+  - Campanha: 324 de 330 fases com roteiro vencedor. Sem roteiro: 3-20, 5-16, 13-7, 16-5, 16-6 e Birdday 4-4.
+- **Testes**
+  - Procedência de Birdday 3/4: ordem, bancos, corpo e bolhas da Stella contra os scripts; peças de festa.
+  - Teste de tamanhos aceita as medidas declaradas no `blocks.lua`.
+  - Sprites: 17 bancos, 273 quadros. Tabela da campanha com 330 fases. Suíte com 47 verificações aprovadas.
+- **Lacuna conhecida**
+  - `deathSpawn` do bolo grande (soltar 10 cremes ao ser destruído) não foi portado; o bolo some sem soltar nada.
+  - Peças com tamanho declarado podem ter o desenho um pouco diferente do corpo físico.
+- **Versão e documentos**
+  - Tela e log em 0.30.0; README, lacunas, validação e histórico atualizados; captura da Birdday 3-1; documentos e captura da 0.29.0 removidos.
+
 ## Modificações completas — 0.28.0
 
 - **Episódio Mine and Dine (15-1 a 17-15)**
