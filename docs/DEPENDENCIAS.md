@@ -58,3 +58,19 @@ BIOS, SDK, emulador e cartões de teste não integram o pacote de fontes.
 - FFmpeg e adpenc do SDK são ferramentas de preparação. As 16 fontes Ogg são do
   APK fornecido; hashes e parâmetros constam em ps2/assets/audio_manifest.json.
 - Nenhuma captura, BIOS, cartão de teste, SDK completo ou emulador integra o ZIP.
+
+## Gerador de ISO 0.31.0
+
+- O jogo não embute mais dados do APK; o gerador (`tools/gerar_iso.py`) os converte no
+  computador do jogador. Leitores próprios em Python puro substituem as ferramentas
+  externas: AES-256-CBC (`tools/aes_cbc.py`, no lugar do OpenSSL), 7z LZMA
+  (`tools/mini7z.py`, no lugar do 7-Zip/py7zr), PNG (`tools/png_decode.py`, no lugar do
+  Pillow), bytecode Lua 5.1 só de dados (`tools/lua51_data.py`, no lugar do unluac/Java) e
+  codificador SPU2 ADPCM (`tools/spu_adpcm.py`, no lugar do adpenc).
+- Conferência: as 330 fases lidas do bytecode são idênticas às lidas dos arquivos
+  decompilados; texturas e `CAMPAIGN.BIN` saem byte a byte iguais aos do processo antigo.
+- Kit para Windows (`tools/make_windows_kit.py`): Python 3.12.10 oficial do NuGet
+  (https://www.nuget.org/packages/python, licença PSF), pycdlib 1.22.0 (LGPL, grava a
+  ISO) e imageio-ffmpeg 0.8.1 (BSD; traz o executável do ffmpeg, LGPL/GPL, para decodificar
+  os sons Ogg). Testado com Wine 9 neste ambiente: mesmos arquivos que no Linux.
+- Pillow, OpenSSL e 7-Zip continuam opcionais só para alguns testes de desenvolvimento.

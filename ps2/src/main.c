@@ -15,6 +15,7 @@
 #include "definition_sprites.h"
 #include "save_mc.h"
 #include "audio.h"
+#include "save_assets.h"
 
 static GSGLOBAL *gs;
 static char pad_buffer[256] __attribute__((aligned(64)));
@@ -173,7 +174,7 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     rect(0,0,640,109,dark);
     text(30,22,3,cream,"PS2BIRDS CLASSIC");
     if(sprites_load_failed())text(31,55,1,gold,"SPRITES.BIN AUSENTE: COPIE-O PARA A PASTA DO ELF");
-    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.30.0 / PLAYSTATION 2");
+    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.31.0 / PLAYSTATION 2");
     text(430,55,1,color(135,192,181),audio_status());
     text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
     text(31,80,2,gold,game_level_title(g->level));
@@ -273,17 +274,23 @@ static int init_pad(void)
     return padPortOpen(0,0,pad_buffer) != 0;
 }
 
-/* SPRITES.BIN sits next to the ELF: on the disc (cdrom0:\\SPRITES.BIN;1) or in the
-   folder the ELF was started from (mass:, host:, hdd...). */
-static void set_sprite_path(int argc,char **argv)
+/* The data files (SPRITES.BIN, SOUNDS.BIN, CAMPAIGN.BIN, made from the player's APK by
+   tools/gerar_iso.py) sit next to the ELF: on the disc (cdrom0:\\NAME;1) or in the folder
+   the ELF was started from (mass:, host:, hdd...). */
+static char data_dir[256];static int data_on_disc;
+static void set_data_dir(int argc,char **argv)
 {
-    static char path[256];const char *self=argc>0 && argv && argv[0]?argv[0]:"";
-    if(!strncmp(self,"cdrom",5)){sprites_set_data_path("cdrom0:\\SPRITES.BIN;1");return;}
+    const char *self=argc>0 && argv && argv[0]?argv[0]:"";
+    if(!strncmp(self,"cdrom",5)){data_on_disc=1;return;}
     size_t cut=0;for(size_t i=0;self[i];i++)if(self[i]=='/'||self[i]=='\\'||self[i]==':')cut=i+1;
-    if(cut==0 || cut>=sizeof(path)-16){sprites_set_data_path("host:SPRITES.BIN");return;}
-    memcpy(path,self,cut);strcpy(path+cut,"SPRITES.BIN");sprites_set_data_path(path);
+    if(cut==0 || cut>=sizeof(data_dir)-16)strcpy(data_dir,"host:");
+    else{memcpy(data_dir,self,cut);data_dir[cut]=0;}
 }
-
+static const char *data_file(const char *name,char *out)
+{
+    if(data_on_disc)sprintf(out,"cdrom0:\\%s;1",name);else sprintf(out,"%s%s",data_dir,name);
+    return out;
+}
 int main(int argc,char **argv)
 {
     SifInitRpc(0);
@@ -304,11 +311,26 @@ int main(int argc,char **argv)
     gsKit_mode_switch(gs,GS_ONESHOT);
     gs->PrimAlphaEnable=GS_SETTING_ON;
     gsKit_set_primalpha(gs,ALPHA_BLEND_NORMAL,0);
-    set_sprite_path(argc,argv);
+    char file[300];set_data_dir(argc,argv);
+    sprites_set_data_path(data_file("SPRITES.BIN",file));
+    audio_set_data_path(data_file("SOUNDS.BIN",file));
     printf("PS2Birds: started as '%s'\n",argc>0 && argv && argv[0]?argv[0]:"");
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.30.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.31.0: GS ready, pad open=%d\n",pad_open);
+    if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
+        /* No data files: they are generated from the APK by tools/gerar_iso.py. */
+        printf("PS2Birds: data files missing (%s)\n",file);
+        for(;;){
+            gsKit_clear(gs,color(16,40,48));
+            text(40,140,2,color(240,200,80),"ARQUIVOS DE DADOS AUSENTES");
+            text(40,190,1,color(220,230,230),"GERE A ISO COM A FERRAMENTA GERAR_ISO");
+            text(40,214,1,color(220,230,230),"E O APK ORIGINAL (VEJA O LEIA-ME).");
+            text(40,250,1,color(160,190,190),"FALTA: CAMPAIGN.BIN, SPRITES.BIN OU SOUNDS.BIN");
+            gsKit_queue_exec(gs);gsKit_sync_flip(gs);
+        }
+    }
+    {extern unsigned char save_icon[];sprites_read_icon(save_icon,SAVE_ICON_BYTES);}
     Game g; game_init(&g); save_mc_init(&g); audio_init();
     u32 old_buttons=0;
     int paused=0, previously_connected=0, analog_requested=0,menu=1,selected=0;

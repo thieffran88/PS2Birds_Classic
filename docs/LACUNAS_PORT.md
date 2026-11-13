@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.30.0)
+# Lacunas do port (levantamento atualizado na 0.31.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -90,8 +90,13 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 - **Stella — feita, a partir do Lua.** O `bubbles.lua` traz `triggerPinkBirdSpecialty` e `updateBubble`; os valores vêm do `default_conf.lua` (antigravidade 1,8, 2 s, 10 u/s) e o atraso de 1,5 s depois do contato do `CollisionCallbacks.lua`.
 - **Tamanho declarado:** o `blocks.lua` dá largura/altura ou raio para várias peças; o port usava o sprite. Corrigido; as fases 240–299 foram refeitas.
-- **`deathSpawn` não portado:** o bolo grande de Birdday 3/4 deveria soltar 10 cremes ao ser destruído.
 - **Sem roteiro:** 16-5, 16-6 e Birdday 4-4, além de 3-20, 5-16 e 13-7.
+
+## Achados da 0.31.0
+
+- **`deathSpawn` — feito, a partir do `gamelogic.lua`.** Ao remover uma peça com `deathSpawn`, o jogo cria `amount` peças do tipo sorteado em `types`, na posição dela, com rotação aleatória e os valores da própria definição (o creme: círculo de raio 1,3, densidade 0,1, resistência 10). O port guarda os 10 cremes de cada bolo grande escondidos e os solta quando o bolo é destruído; a rotação aleatória virou uma sequência fixa.
+- **Separação jogo/dados:** o ELF não embute mais fases, texturas, sons nem o ícone; tudo vem de `CAMPAIGN.BIN`, `SPRITES.BIN` e `SOUNDS.BIN`, gerados do APK do jogador.
+- **Fases sem decompilador:** os arquivos de fase do APK são tabelas puras; um leitor de bytecode Lua 5.1 que só aceita operações de dados dá resultado idêntico ao do unluac nas 330 fases.
 
 ## O que falta no jogo (código nativo não recuperado)
 
@@ -101,7 +106,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. `deathSpawn` (bolo grande); Birdday 5–7; roteiros de 16-5, 16-6 e Birdday 4-4.
+1. Birdday 5–7 (peças próprias); roteiros de 16-5, 16-6 e Birdday 4-4.
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).

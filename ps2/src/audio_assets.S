@@ -8,7 +8,3 @@ audsrv_irx_end:
 .global audsrv_irx_size
 audsrv_irx_size:
 .word audsrv_irx_end-audsrv_irx
-.balign 64
-.global audio_bank
-audio_bank:
-.incbin "assets/sounds.adp"

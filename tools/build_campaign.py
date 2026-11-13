@@ -7,10 +7,59 @@ first page and supported prefix of the second page of Poached Eggs declared by t
 import argparse,json,math,tempfile
 from pathlib import Path
 from import_level import convert,ROOT,DEFAULT_PROFILE
+from game_profiles import decode_payload
 EPISODE=ROOT/'profiles/classic_episode.json'
-STARS=ROOT/'ps2/data/star_limits.json'
+STARS=ROOT/'profiles/star_limits.json'
 
-def build(episode_path=EPISODE):
+def write_binary(levels,profile,polys,forced,stars,path=None):
+    """CAMPAIGN.BIN: the stages read by the game at start-up (format in ps2/src/campaign_types.h)."""
+    import struct
+    r=lambda v:float(f'{v:.8f}')  # same rounding as the former C header
+    strings=bytearray(b'\0');index={}
+    def s(text):
+        if text not in index:index[text]=len(strings);strings.extend(text.encode()+b'\0')
+        return index[text]
+    shapes=['box','circle','triangle_l','triangle_m','polygon'];objs=bytearray();joints=bytearray();lv=bytearray();no=nj=0
+    for d in levels:
+        o0,j0=no,nj
+        for o in d['objects']:
+            objs+=struct.pack('<8f2iI2fi',*[r(o[k]) for k in ['x','y','angle','width','height','density','strength','defence']],o['kind'],shapes.index(o['shape']),s(o['definition']),r(o['friction']),r(o['restitution']),o.get('spawn_of',0));no+=1
+        for j in d.get('joints') or []:
+            joints+=struct.pack('<3i7fif',j['type'],j['a'],j['b'],*[r(j[k]) for k in ['ax','ay','bx','by','frequency','damping','break_force']],int(j['collide']),r(j.get('destroy_timer',0.0)));nj+=1
+        types=[b['type'] for b in d['birds']];types+=[0]*(16-len(types))
+        lv+=struct.pack('<3I16i8f2Ii2I2i',o0,len(d['objects']),len(d['birds']),*types,*map(r,[d['gravity'],d['sling_x'],d['sling_y'],d['ground_y'],d['physics_to_world'],d['view']['x'],d['view']['y'],d['view']['scale']]),s(d['title']),s(d['stage_script']),d.get('texture_bank',0),j0,nj-j0,stars[d['stage_script']]['silver'],stars[d['stage_script']]['gold'])
+    pol=bytearray()
+    for name in polys:
+        v=[c for xy in profile['objects'][name]['vertices'] for c in xy];pol+=struct.pack('<Ii16f',s(name),len(v)//2,*map(r,v+[0.0]*(16-len(v))))
+    frc=bytearray()
+    for name in forced:frc+=struct.pack('<I2f',s(name),*map(r,profile['objects'][name]['force']))
+    while len(strings)%4:strings.append(0)
+    head=struct.pack('<4s7I',b'PBCP',2,len(levels),no,nj,len(polys),len(forced),len(strings))
+    data=head+bytes(lv)+bytes(objs)+bytes(joints)+bytes(pol)+bytes(frc)+bytes(strings)
+    (Path(path) if path else ROOT/'ps2/assets/CAMPAIGN.BIN').write_bytes(data)
+
+def read_binary(path):
+    """Parse CAMPAIGN.BIN back (tests and tools): levels, objects, joints, polygons, forces."""
+    import struct
+    d=Path(path).read_bytes();magic,ver,nl,no,nj,np,nf,ns=struct.unpack_from('<4s7I',d)
+    if magic!=b'PBCP' or ver!=2:raise ValueError('Not a CAMPAIGN.BIN')
+    p=32;strs=d[32+nl*136+no*56+nj*48+np*72+nf*12:]
+    s=lambda o:strs[o:strs.index(b'\0',o)].decode()
+    lv=[struct.unpack_from('<3I16i8f2Ii2I2i',d,p+i*136) for i in range(nl)];p+=nl*136
+    ob=[struct.unpack_from('<8f2iI2fi',d,p+i*56) for i in range(no)];p+=no*56
+    jo=[struct.unpack_from('<3i7fif',d,p+i*48) for i in range(nj)];p+=nj*48
+    po={};fo={}
+    for i in range(np):
+        v=struct.unpack_from('<Ii16f',d,p+i*72);po[s(v[0])]=(v[1],list(v[2:2+2*v[1]]))
+    p+=np*72
+    for i in range(nf):
+        v=struct.unpack_from('<I2f',d,p+i*12);fo[s(v[0])]=(v[1],v[2])
+    return {'levels':[{'title':s(l[27]),'script':s(l[28]),'objects':l[1],'birds':l[2],'bank':l[29],'joints':l[31]} for l in lv],
+            'objects':[{'definition':s(o[10]),'spawn_of':o[13]} for o in ob],
+            'joints':[{'type':j[0],'destroy_timer':j[11]} for j in jo],'polygons':po,'forces':fo}
+
+def build(episode_path=EPISODE,apk=None,workdir=None,output=None,quiet=False):
+    """apk: read the stages straight from the APK (no decompiled files); workdir: where the stage JSON go."""
     episode=json.loads(Path(episode_path).read_text());levels=[];stars=json.loads(STARS.read_text())['limits']
     pages=[{'number':1,'title_prefix':episode['title_prefix'],'levels':episode['levels']}]+episode.get('additional_pages',[])
     entries=[(page,number,name) for page in pages for number,name in enumerate(page['levels'],1)]
@@ -18,10 +67,12 @@ def build(episode_path=EPISODE):
     if len(names)!=len(set(names)) or not 1<=len(names)<=512:raise ValueError('Episode list must be 1..512 unique stages')
     with tempfile.TemporaryDirectory(prefix='ps2birds-campaign-') as folder:
         for page,position,name in entries:
+            apk_name=f'assets/data{page.get("folder",episode["folder"])}/{name}.lua'
             source=ROOT/f'ps2/data/{name}.decompiled.lua'
-            output=ROOT/f'ps2/data/level_{page["number"]}_{position}.json'
-            convert(source,output,Path(folder)/'level_data.h',DEFAULT_PROFILE,f'assets/data{page.get("folder",episode["folder"])}/{name}.lua')
-            d=json.loads(output.read_text());d['title']=f'{page["title_prefix"]}{position}';d['stage_script']=name;d['episode_page']=page['number'];d['stage_number']=position;d['texture_bank']=page.get('bank',0)
+            if apk is not None:source=decode_payload(apk.read(apk_name),'classic')
+            output_json=Path(workdir or ROOT/'ps2/data')/f'level_{page["number"]}_{position}.json'
+            convert(source,output_json,Path(folder)/'level_data.h',DEFAULT_PROFILE,apk_name,quiet)
+            d=json.loads(output_json.read_text());d['title']=f'{page["title_prefix"]}{position}';d['stage_script']=name;d['episode_page']=page['number'];d['stage_number']=position;d['texture_bank']=page.get('bank',0)
             if name!='Level1':
                 left=d['sling_x']-4;right=d['sling_x']+4;top=d['sling_y']-5
                 for o in d['objects']:
@@ -30,7 +81,7 @@ def build(episode_path=EPISODE):
                     left=min(left,o['x']-ex);right=max(right,o['x']+ex);top=min(top,o['y']-ey)
                 scale=min(7,576/(right-left),210/max(1,d['ground_y']-top))
                 d['view']={'scale':scale,'x':32-left*scale,'y':368-d['ground_y']*scale}
-            output.write_text(json.dumps(d,indent=2)+'\n');levels.append(d)
+            output_json.write_text(json.dumps(d,indent=2)+'\n');levels.append(d)
     def f(value):return f'{value:.8f}f'
     lines=['/* Generated by tools/build_campaign.py from recovered Classic data. */','#ifndef PS2BIRDS_CAMPAIGN_DATA_H','#define PS2BIRDS_CAMPAIGN_DATA_H','#include "campaign_types.h"']
     for i,d in enumerate(levels):
@@ -63,10 +114,9 @@ def build(episode_path=EPISODE):
     for i,d in enumerate(levels):
         values=[d['gravity'],d['sling_x'],d['sling_y'],d['ground_y'],d['physics_to_world'],d['view']['x'],d['view']['y'],d['view']['scale']]
         lines.append(' {campaign_objects_'+str(i)+','+str(len(d['objects']))+','+str(len(d['birds']))+',{'+','.join(str(b['type']) for b in d['birds'])+'},'+','.join(f(v) for v in values)+','+json.dumps(d['title'])+','+json.dumps(d['stage_script'])+','+str(d.get('texture_bank',0))+','+(f'campaign_joints_{i},{len(d["joints"])}' if d.get('joints') else '0,0')+','+str(stars[d['stage_script']]['silver'])+','+str(stars[d['stage_script']]['gold'])+'},')
-    lines+=['};','#define CAMPAIGN_COUNT (sizeof(campaign_levels)/sizeof(campaign_levels[0]))','#endif','']
-    (ROOT/'ps2/src/campaign_data.h').write_text('\n'.join(lines))
+    write_binary(levels,profile,polys,forced,stars,output)
     # Sprites of the pieces added by tools/add_definitions.py, drawn by ps2/src/main.c.
     auto=sorted(k for k,v in profile['objects'].items() if v.get('auto'))
-    (ROOT/'ps2/src/definition_sprites.h').write_text('/* Generated by tools/build_campaign.py: sprite of each piece added from blocks.lua. */\n#ifndef PS2BIRDS_DEFINITION_SPRITES_H\n#define PS2BIRDS_DEFINITION_SPRITES_H\ntypedef struct {const char *definition;int sprite;} DefinitionSprite;\nstatic const DefinitionSprite definition_sprites[]={\n'+''.join(' {"%s",SPR_%s},\n'%(k,profile['objects'][k]['sprite']) for k in auto)+' {0,0}};\n#endif\n')
-    print([(d['title'],d['stage_script'],len(d['objects']),len(d['birds'])) for d in levels])
+    if apk is None:(ROOT/'ps2/src/definition_sprites.h').write_text('/* Generated by tools/build_campaign.py: sprite of each piece added from blocks.lua. */\n#ifndef PS2BIRDS_DEFINITION_SPRITES_H\n#define PS2BIRDS_DEFINITION_SPRITES_H\ntypedef struct {const char *definition;int sprite;} DefinitionSprite;\nstatic const DefinitionSprite definition_sprites[]={\n'+''.join(' {"%s",SPR_%s},\n'%(k,profile['objects'][k]['sprite']) for k in auto)+' {0,0}};\n#endif\n')
+    print(f'CAMPAIGN.BIN: {len(levels)} stages')
 if __name__=='__main__':build()

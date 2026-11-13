@@ -12,7 +12,10 @@
 #define NEWLIB_PORT_AWARE
 #include <io_common.h>
 #endif
-extern unsigned char save_icon[],save_icon_sys[];
+extern unsigned char save_icon_sys[];
+/* The icon is drawn from the original RedBird sprite, so it lives in SPRITES.BIN and is
+   copied here at start-up (main.c); without it the save still works with a blank icon. */
+unsigned char save_icon[SAVE_ICON_BYTES] __attribute__((aligned(64)));
 static const char *slots[]={"/PS2BIRDS/progress_a.dat","/PS2BIRDS/progress_b.dat"};
 enum {IDLE,INFO,OPEN_READ,READ,CLOSE_READ,CHECK_CARD,CHECK_DIR,MKDIR,OPEN_WRITE,WRITE,FLUSH,CLOSE_WRITE,OPEN_VERIFY,VERIFY,CLOSE_VERIFY};
 typedef char save_capacity_matches_game[(MAX_CAMPAIGN_LEVELS==SAVE_LEVEL_CAPACITY)?1:-1];

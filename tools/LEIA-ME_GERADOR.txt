@@ -1,0 +1,42 @@
+PS2Birds Classic - Gerador de ISO para Windows
+==============================================
+
+O PS2Birds Classic é um port não oficial para PlayStation 2. Este pacote NÃO contém nada
+do jogo original (fases, texturas, sons): tudo é convertido no seu computador a partir do
+APK original que você possui.
+
+O que você precisa
+------------------
+- Windows 10 ou 11 (64 bits).
+- O APK original: com.rovio.angrybirds.apk, a mesma versão usada no desenvolvimento.
+  A ferramenta confere o SHA-256 do arquivo:
+  8cdea1ef39a2a5c3bad5ac27050b491dbdf68050754241390cf9f0d3d24979b8
+  Outras versões têm fases e texturas diferentes e são recusadas.
+
+Como usar
+---------
+1. Extraia este ZIP numa pasta (por exemplo C:\PS2Birds).
+2. Copie o APK para dentro dessa pasta (ou arraste o APK sobre GERAR_ISO.bat).
+3. Dê dois cliques em GERAR_ISO.bat e aguarde (menos de 1 minuto num PC comum).
+4. Resultado, na mesma pasta:
+   - PS2Birds_Classic.iso          -> para emulador (PCSX2) ou gravação/OPL;
+   - PS2Birds_Classic_USB\         -> PS2BIRDS.ELF + SPRITES.BIN + SOUNDS.BIN +
+                                      CAMPAIGN.BIN, para rodar de USB/HDD (copie a
+                                      pasta inteira; o ELF lê os .BIN ao lado dele).
+
+Nada é instalado no Windows: o Python usado está na pasta "python" deste pacote.
+
+Conteúdo do pacote
+------------------
+- PS2BIRDS.ELF       programa do jogo (motor do port, sem dados do jogo original);
+- tools\, profiles\   conversores e parâmetros do port (código aberto);
+- python\            Python 3.12 oficial para Windows (pacote NuGet "python", licença PSF),
+                     com pycdlib (LGPL) e imageio-ffmpeg (BSD; inclui o ffmpeg, LGPL/GPL)
+                     para gravar a ISO e ler os sons Ogg.
+
+Linha de comando (opcional)
+---------------------------
+  python\python.exe -I tools\gerar_iso.py CAMINHO\DO\APK --saida minha.iso --pasta USB
+
+Nenhum script do jogo é executado: as fases são lidas como dados do bytecode Lua.
+Angry Birds é marca da Rovio Entertainment; este projeto não é afiliado à Rovio.

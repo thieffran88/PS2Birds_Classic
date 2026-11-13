@@ -31,7 +31,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('blocks',type=Path);p.add_argument('frames',type=Path,help='JSON {sprite:[sheet,width,height]}');p.add_argument('names',nargs='+')
     a=p.parse_args();blocks=a.blocks.read_text().replace('\r','');frames=json.loads(a.frames.read_text())
     prof_path=ROOT/'profiles/classic_level.json';prof=json.loads(prof_path.read_text())
-    met_path=ROOT/'ps2/data/sprite_metrics.json';met=json.loads(met_path.read_text())
+    met_path=ROOT/'profiles/sprite_metrics.json';met=json.loads(met_path.read_text())
     for name in a.names:
         d=definition(blocks,name);mat=material(blocks,d['material']);sheet,w,h=frames[d['sprite']]
         spec={'sprite':d['sprite'],'kind':6,'shape':d['type'],'auto':True}

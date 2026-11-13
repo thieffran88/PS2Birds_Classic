@@ -1,3 +1,8 @@
 ps2/build/
 __pycache__/
 *.pyc
+# Nothing of the original game is distributed: these are generated from the player's APK
+# (python tools/gerar_iso.py APK --dev) or kept locally by developers.
+ps2/assets/*
+!ps2/assets/save_icon.sys
+ps2/data/

@@ -47,9 +47,15 @@ def read_assignments(text):
         env[match[1]][key]=resolved
     return env
 
-def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
+def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,quiet=False):
     profile=json.loads(Path(profile_path).read_text());metrics=json.loads((ROOT/profile['metrics']).read_text())
-    text=source.read_text();env=read_assignments(text);world=env.get('world')
+    if isinstance(source,(bytes,bytearray)):
+        # Bytecode straight from the APK, read by the data-only Lua 5.1 reader.
+        from lua51_data import load
+        raw=bytes(source);env=load(raw);source_label=source_name or 'apk'
+    else:
+        raw=source.read_bytes();env=read_assignments(source.read_text());source_label=source_name or source.name
+    world=env.get('world')
     if not isinstance(world,dict):raise ValueError('Missing world table')
     objects=[dict(o) for o in world.values() if isinstance(o,dict) and 'definition' in o and 'name' in o]
     def scalar(key):
@@ -99,6 +105,20 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
         friction=profile['materials']['friction_overrides'].get(o['definition'],material['friction'])
         restitution=profile['materials'].get('restitution_overrides',{}).get(o['definition'],material['restitution'])
         level.append(dict(o,width=w,height=h,kind=kind,shape=collision,friction=friction,restitution=restitution))
+    # gamelogic.lua: when a piece with deathSpawn (blocks.lua) is destroyed, createObject puts
+    # `amount` pieces of the listed types at its position with a random rotation, using the
+    # definition's own density/strength/defence. They are stored after the scene, hidden until
+    # released ("spawn_of" = 1 + index of the parent).
+    for parent,o in enumerate(list(level)):
+        spawn=profile['objects'][o['definition']].get('death_spawn')
+        if not spawn:continue
+        for k in range(int(spawn['amount'])):
+            kind_name=spawn['types'][k%len(spawn['types'])];ts=profile['objects'][kind_name];size=ts['size']
+            material=profile['materials']['by_kind'][str(ts['kind'])]
+            level.append(dict(ts['defaults'],name=f"{o['name']}_generated_{k+1}",definition=kind_name,x=o['x'],y=o['y'],angle=k*2.399963,
+                width=float(size[0]),height=float(size[1]),kind=ts['kind'],shape=ts.get('shape','box'),spawn_of=parent+1,
+                friction=profile['materials']['friction_overrides'].get(kind_name,material['friction']),
+                restitution=profile['materials'].get('restitution_overrides',{}).get(kind_name,material['restitution'])))
     if not 1<=len(level)<=352:raise ValueError('Adapter supports 1..352 scene objects')
     # SlingshotSystem.setPositionByStartObject (Slingshot.lua) places the slingshot on the
     # first bird of the queue: rest point = (x - 0.1, y - (h - pivot_y) * physicsScale +
@@ -127,8 +147,8 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
             'frequency':float(j.get('frequency',0)),'damping':float(j.get('dampingRatio',0)),'break_force':float(j.get('breakForce',0)) if j.get('breakable') else 0.0,'destroy_timer':float(j.get('destroyTimer',0)) if kind==5 else 0.0,
             'collide':bool(j.get('collideConnected',False))})
     if len(joints)>64:raise ValueError('Adapter supports up to 64 joints')
-    doc={'adapter':profile['id'],'joints':joints,'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
-         'source':source_name or source.name,'collision_dimensions':'sprite extents / physicsToWorld x 0.92 for dynamic objects (ObjectCreation.lua sizeFactor); static objects use the full sprite',
+    doc={'adapter':profile['id'],'joints':joints,'source_sha256':hashlib.sha256(raw).hexdigest(),
+         'source':source_label,'collision_dimensions':'sprite extents / physicsToWorld x 0.92 for dynamic objects (ObjectCreation.lua sizeFactor); static objects use the full sprite',
          'gravity':gravity,'physics_to_world':pixels,'ground_y':ground,'ground_object_y':grounds[0]['y'],'view':view,
          'sling_x':sling_x,'sling_y':sling_y,'bird_queue_x':scalar('birdZeroPosX')/pixels,'bird_queue_y':scalar('birdZeroPosY')/pixels,'birds':birds,'objects':level}
     def f(v):return f'{v:.8f}f'
@@ -147,7 +167,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
     # Validate fully before emitting any generated files.
     output.write_text(json.dumps(doc,indent=2)+'\n');header.write_text('\n'.join(lines))
     header.with_name('level_config.h').write_text('\n'.join(config))
-    print(f'Imported {len(level)} scene objects and {len(birds)} birds with adapter {profile["id"]}')
+    if not quiet:print(f'Imported {len(level)} scene objects and {len(birds)} birds with adapter {profile["id"]}')
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('source',type=Path);p.add_argument('output',type=Path);p.add_argument('header',type=Path)
     p.add_argument('--profile',type=Path,default=DEFAULT_PROFILE);p.add_argument('--source-name');a=p.parse_args();convert(a.source,a.output,a.header,a.profile,a.source_name)

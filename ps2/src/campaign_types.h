@@ -3,7 +3,9 @@
 #define MAX_LEVEL_OBJECTS 352
 #define MAX_LEVEL_JOINTS 64
 #define MAX_CAMPAIGN_LEVELS 512
-typedef struct {float x,y,angle,width,height,density,strength,defence;int kind,shape;const char *definition;float friction,restitution;} CampaignObject;
+/* spawn_of: 0 for pieces present from the start; 1 + parent index for pieces released when
+   the parent is destroyed (blocks.lua deathSpawn, e.g. the cream of Spawning_cake). */
+typedef struct {float x,y,angle,width,height,density,strength,defence;int kind,shape;const char *definition;float friction,restitution;int spawn_of;} CampaignObject;
 /* friction/restitution come from the materials table of blocks.lua (wood 4.0/0.2,
    light 0.7/0.2, rock 4.0/0.1, immovable 0.8/0, piglette 0.7/0.05, extras 0.7/0.4). */
 /* CampaignObject.shape: box, circle, right triangle (vertices 0,0 1,1 0,1) and

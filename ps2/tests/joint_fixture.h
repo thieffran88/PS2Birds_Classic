@@ -3,12 +3,12 @@
 #include "campaign_types.h"
 /* Ground at y=5 (surface). */
 static const CampaignObject joint_objects[]={
- {10,-6,0,2,2,1.5f,10000,100,6,SHAPE_CIRCLE,"ExtraTire01",0.7f,0.4f},   /* 0 distance pair, raised so the spring pulls them */
- {16,-6,0,2,2,1.5f,10000,100,6,SHAPE_CIRCLE,"ExtraTire01",0.7f,0.4f},   /* 1 */
- {30,3.5f,0,4,1,1.5f,10000,100,1,SHAPE_BOX,"WoodBlock4",4.0f,0.2f},       /* 2 weld base on the ground */
- {30,0.5f,0,4,1,1.5f,10000,100,1,SHAPE_BOX,"WoodBlock4",4.0f,0.2f},       /* 3 welded 3 units above, nothing under it */
- {50,-10,0,8,1,1.5f,10000,100,1,SHAPE_BOX,"WoodBlock6",4.0f,0.2f},        /* 4 revolute bar hinged to the ground at its left end */
- {80,3.9f,0,2.15f,2.15f,2,10000,100,4,SHAPE_CIRCLE,"SmallPiglette",0.7f,0.05f},
+ {10,-6,0,2,2,1.5f,10000,100,6,SHAPE_CIRCLE,"ExtraTire01",0.7f,0.4f,0},   /* 0 distance pair, raised so the spring pulls them */
+ {16,-6,0,2,2,1.5f,10000,100,6,SHAPE_CIRCLE,"ExtraTire01",0.7f,0.4f,0},   /* 1 */
+ {30,3.5f,0,4,1,1.5f,10000,100,1,SHAPE_BOX,"WoodBlock4",4.0f,0.2f,0},       /* 2 weld base on the ground */
+ {30,0.5f,0,4,1,1.5f,10000,100,1,SHAPE_BOX,"WoodBlock4",4.0f,0.2f,0},       /* 3 welded 3 units above, nothing under it */
+ {50,-10,0,8,1,1.5f,10000,100,1,SHAPE_BOX,"WoodBlock6",4.0f,0.2f,0},        /* 4 revolute bar hinged to the ground at its left end */
+ {80,3.9f,0,2.15f,2.15f,2,10000,100,4,SHAPE_CIRCLE,"SmallPiglette",0.7f,0.05f,0},
 };
 static const CampaignJoint joint_list[]={
  {JOINT_DISTANCE,0,1,10,-6,16,-6,4,0.5f,0,0,0},

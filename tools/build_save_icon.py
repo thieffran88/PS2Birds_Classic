@@ -6,8 +6,9 @@ Uses only the Python standard library and project assets.
 import json,struct
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-def build():
-    assets=ROOT/'ps2/assets';meta=json.loads((assets/'manifest.json').read_text())
+def build(assets=None,write_sys=True):
+    """assets: folder with manifest.json and sprites.rgba; writes save.icn there (and icon.sys if asked)."""
+    assets=Path(assets) if assets else ROOT/'ps2/assets';meta=json.loads((assets/'manifest.json').read_text())
     frame=next(s for s in meta['sprites'] if s['sprite']=='BIRD_RED');raw=(assets/'sprites.rgba').read_bytes()
     place=next(b for b in frame['banks'] if b['bank']==0);frame=dict(frame,page=place['page'],atlas_x=place['atlas_x'],atlas_y=place['atlas_y']);pages=meta['banks'][0]['pages']
     tex=bytearray()
@@ -27,6 +28,7 @@ def build():
             icon+=struct.pack('<4h4h2hI',int(x*4096),int(y*4096),-100 if back else 100,0,0,0,-4096 if back else 4096,0,u*4096,v*4096,0xffffffff)
     icon+=struct.pack('<IIfII',1,31,1.0,0,1)+struct.pack('<IIff',0,1,0.0,1.0)+tex
     (assets/'save.icn').write_bytes(icon)
+    if not write_sys:return
     descriptor=bytearray(964);descriptor[:4]=b'PS2D';struct.pack_into('<HHII',descriptor,4,0,16,0,0x60)
     for i in range(4):struct.pack_into('<4i',descriptor,16+i*16,23,53,58,128)
     for i in range(3):struct.pack_into('<4f',descriptor,80+i*16,0,0,1,0);struct.pack_into('<4f',descriptor,128+i*16,0.5,0.5,0.5,0)

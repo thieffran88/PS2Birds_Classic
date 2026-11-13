@@ -1,2 +1,0 @@
-1bf96ffcdcb4e50643bc3c9d9d2e5bb4b2099b120784c04d56fdbe2982aff67f  PS2Birds_Classic_0.10.0.elf
-87d5adbd2b6b9fecee0e13608cda780d84b21f9de1bb7082c1cc158a8fdcc044  PS2Birds_Classic_0.10.0.iso

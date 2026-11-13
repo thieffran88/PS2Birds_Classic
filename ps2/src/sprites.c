@@ -5,26 +5,61 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
-/* Bank 0 is linked into the ELF; banks 1+ are read from SPRITES.BIN (on the disc or
-   next to the ELF) into one shared buffer when an episode needs them. */
-extern unsigned int sprite_pixels[];
+/* Nothing of the original art is linked into the ELF: SPRITES.BIN (made from the player's
+   APK by tools/gerar_iso.py, on the disc or next to the ELF) holds the frame tables, the
+   pixels of every texture bank and the memory-card icon. The tables are read once; a
+   bank's pages are read into one shared buffer when an episode needs them. */
+typedef struct { int width,height,offset; } SpritePage;
+typedef struct { short x,y,w,h,px,py,page; } SpriteFrame;
+static SpritePage pages[SPRITE_BANK_COUNT][SPRITE_PAGE_COUNT];
+static SpriteFrame (*frames)[SPRITE_COUNT];
+static unsigned pixel_start,icon_offset,icon_size;
 static GSTEXTURE atlases[SPRITE_PAGE_COUNT];
-static int ready,bank=-1,loaded=-1,failed;
+static int ready,bank=-1,loaded=-1,failed,header_ok;
 static unsigned char *bank_buffer;
 static char data_path[256]="SPRITES.BIN";
 void sprites_set_data_path(const char *path){if(path){strncpy(data_path,path,sizeof(data_path)-1);data_path[sizeof(data_path)-1]=0;}}
 int sprites_load_failed(void){return failed;}
-static unsigned bank_start(int b){return (unsigned)sprite_pages[b][0].offset;}
-static unsigned bank_bytes(int b){unsigned n=0;for(int i=0;i<SPRITE_PAGE_COUNT;i++)n+=(unsigned)(sprite_pages[b][i].width*sprite_pages[b][i].height*4);return n;}
+static unsigned rd32(const unsigned char *p){return p[0]|(p[1]<<8)|(p[2]<<16)|((unsigned)p[3]<<24);}
+static unsigned bank_bytes(int b){unsigned n=0;for(int i=0;i<SPRITE_PAGE_COUNT;i++)n+=(unsigned)(pages[b][i].width*pages[b][i].height*4);return n;}
+static int read_header(void)
+{
+    if(header_ok)return 1;
+    FILE *f=fopen(data_path,"rb");if(!f)return 0;
+    unsigned char h[32];int ok=fread(h,1,32,f)==32 && !memcmp(h,"PBSP",4) && rd32(h+4)==2 && rd32(h+8)==SPRITE_BANK_COUNT && rd32(h+12)==SPRITE_PAGE_COUNT && rd32(h+16)==SPRITE_COUNT;
+    if(ok){
+        pixel_start=rd32(h+20);icon_offset=rd32(h+24);icon_size=rd32(h+28);
+        unsigned char *t=(unsigned char*)malloc(SPRITE_BANK_COUNT*SPRITE_PAGE_COUNT*12);
+        frames=(SpriteFrame(*)[SPRITE_COUNT])malloc(sizeof(SpriteFrame)*SPRITE_BANK_COUNT*SPRITE_COUNT);
+        unsigned char *fr=(unsigned char*)malloc(SPRITE_BANK_COUNT*SPRITE_COUNT*14);
+        ok=t && frames && fr && fread(t,1,SPRITE_BANK_COUNT*SPRITE_PAGE_COUNT*12,f)==SPRITE_BANK_COUNT*SPRITE_PAGE_COUNT*12 && fread(fr,1,SPRITE_BANK_COUNT*SPRITE_COUNT*14,f)==SPRITE_BANK_COUNT*SPRITE_COUNT*14;
+        if(ok){
+            for(int b=0;b<SPRITE_BANK_COUNT;b++)for(int i=0;i<SPRITE_PAGE_COUNT;i++){const unsigned char *q=t+(b*SPRITE_PAGE_COUNT+i)*12;pages[b][i].width=(int)rd32(q);pages[b][i].height=(int)rd32(q+4);pages[b][i].offset=(int)rd32(q+8);
+                if(pages[b][i].width*pages[b][i].height*4>sprite_slot_bytes[i])ok=0;}
+            for(int b=0;b<SPRITE_BANK_COUNT;b++)for(int i=0;i<SPRITE_COUNT;i++){const unsigned char *q=fr+(b*SPRITE_COUNT+i)*14;short v[7];for(int k=0;k<7;k++)v[k]=(short)(q[2*k]|(q[2*k+1]<<8));
+                SpriteFrame *s=&frames[b][i];s->x=v[0];s->y=v[1];s->w=v[2];s->h=v[3];s->px=v[4];s->py=v[5];s->page=v[6];if(s->page>=SPRITE_PAGE_COUNT)ok=0;}
+        }
+        free(t);free(fr);
+        if(!ok){free(frames);frames=0;}
+    }
+    fclose(f);header_ok=ok;return ok;
+}
 static unsigned char *bank_pixels(int b)
 {
-    if(b==0)return (unsigned char*)sprite_pixels;
     if(loaded==b)return bank_buffer;
-    if(!bank_buffer){unsigned most=0;for(int i=1;i<SPRITE_BANK_COUNT;i++)if(bank_bytes(i)>most)most=bank_bytes(i);bank_buffer=(unsigned char*)memalign(64,most);if(!bank_buffer)return NULL;}
+    if(!read_header())return NULL;
+    if(!bank_buffer){unsigned most=0;for(int i=0;i<SPRITE_BANK_COUNT;i++)if(bank_bytes(i)>most)most=bank_bytes(i);bank_buffer=(unsigned char*)memalign(64,most);if(!bank_buffer)return NULL;}
     FILE *f=fopen(data_path,"rb");if(!f)return NULL;
-    unsigned want=bank_bytes(b);int ok=fseek(f,(long)(bank_start(b)-bank_bytes(0)),SEEK_SET)==0 && fread(bank_buffer,1,want,f)==want;
+    unsigned want=bank_bytes(b);int ok=fseek(f,(long)(pixel_start+pages[b][0].offset),SEEK_SET)==0 && fread(bank_buffer,1,want,f)==want;
     fclose(f);if(!ok){loaded=-1;return NULL;}
     loaded=b;return bank_buffer;
+}
+int sprites_read_icon(unsigned char *out,unsigned capacity)
+{
+    if(!read_header() || icon_size>capacity)return -1;
+    FILE *f=fopen(data_path,"rb");if(!f)return -1;
+    int ok=fseek(f,(long)icon_offset,SEEK_SET)==0 && fread(out,1,icon_size,f)==icon_size;
+    fclose(f);return ok?(int)icon_size:-1;
 }
 int sprites_init(GSGLOBAL *gs)
 {
@@ -34,7 +69,7 @@ int sprites_init(GSGLOBAL *gs)
         atlases[i].Vram=gsKit_vram_alloc(gs,sprite_slot_bytes[i],GSKIT_ALLOC_USERBUFFER);
         if(atlases[i].Vram==GSKIT_ALLOC_ERROR)return 0;
     }
-    ready=1;return sprites_select_bank(gs,0);
+    ready=1;sprites_select_bank(gs,0);return 1;
 }
 int sprites_select_bank(GSGLOBAL *gs,int next)
 {
@@ -44,11 +79,11 @@ int sprites_select_bank(GSGLOBAL *gs,int next)
     if(!pixels){failed=1;return 0;}
     failed=0;
     for(int i=0;i<SPRITE_PAGE_COUNT;i++){
-        const SpritePage *page=&sprite_pages[next][i];GSTEXTURE *atlas=&atlases[i];
+        const SpritePage *page=&pages[next][i];GSTEXTURE *atlas=&atlases[i];
         if(!page->width)continue;
         atlas->Width=page->width;atlas->Height=page->height;
         atlas->PSM=GS_PSM_CT32;atlas->Filter=GS_FILTER_NEAREST;
-        atlas->Mem=(unsigned int*)(pixels+(page->offset-bank_start(next)));
+        atlas->Mem=(unsigned int*)(pixels+(page->offset-pages[next][0].offset));
         gsKit_texture_upload(gs,atlas);
     }
     bank=next;return 1;
@@ -57,7 +92,7 @@ int sprites_bank(void){return bank;}
 void sprite_draw_tint(GSGLOBAL *gs,int id,float x,float y,float scale,float angle,unsigned int rgba)
 {
     if(!ready || bank<0 || id<0 || id>=SPRITE_COUNT)return;
-    const SpriteFrame *s=&sprite_frames[bank][id];
+    const SpriteFrame *s=&frames[bank][id];
     if(s->page<0)return;
     GSTEXTURE *atlas=&atlases[s->page];
     float cs=cosf(angle),sn=sinf(angle),px[4],py[4];

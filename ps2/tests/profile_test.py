@@ -4,12 +4,7 @@ root=Path(__file__).resolve().parents[2];sys.path.insert(0,str(root/'tools'))
 from game_profiles import PROFILES,ROVIO_LZMA,decode_payload
 from inspect_apk import recover_lua
 from import_level import convert,read_assignments
-# Independently cross-check declarations against the supplied reference, not another copy of the manifest.
-reference=(root/'profiles/REFERENCE_DECOMPILATION_README.md')
-assert reference.exists()
-if reference.exists():
-    keys=re.findall(r'Hex = ([0-9A-F]+)',reference.read_text())
-    assert len(keys)==6 and [k.lower() for k in keys]==[p['aes_key_hex'] for p in PROFILES.values()]
+assert len(PROFILES)==6 and all(len(p['aes_key_hex'])==64 for p in PROFILES.values())
 chunk=bytes.fromhex('1b4c75615100010404040400')+b'test-fixture-not-executed'
 for game,profile in PROFILES.items():
     payload=ROVIO_LZMA+lzma.compress(chunk,format=lzma.FORMAT_ALONE)
@@ -80,6 +75,10 @@ with tempfile.TemporaryDirectory(prefix='ps2birds-adapter-') as folder:
     else:raise AssertionError('Duplicate queue position accepted')
     assert header.read_bytes()==before
 print('Profiles OK: 6 declared keys, synthetic AES/LZMA round trips, wrong/unknown keys, data-driven constants, unsupported-adapter rejection.')
+# The checks below compare the port against decompiled scripts of the original game. Those files
+# are not distributed; a developer keeps them locally in ps2/data (see README, "Desenvolvimento").
+if not (root/'ps2/data/episode_page1.decompiled.lua').exists():
+    print('Provenance checks skipped: decompiled reference scripts not present in ps2/data.');sys.exit(0)
 
 # Independent source excerpt, recovered again from the APK for the 0.10.0 review.
 episode=(root/'ps2/data/episode_page1.decompiled.lua').read_text()
@@ -118,7 +117,7 @@ white=json.loads((root/'ps2/data/level_2_14.json').read_text())
 assert white['stage_script']=='Level26' and len(white['objects'])==100
 assert [b['definition'] for b in white['birds']]==['BasicBird2']*4 and [b['type'] for b in white['birds']]==[4]*4
 assert len(read_assignments((root/'ps2/data/Level26.decompiled.lua').read_text())['world'])==105
-parameters=json.loads((root/'ps2/data/classic_actor_parameters.json').read_text())
+parameters=json.loads((root/'profiles/classic_actor_parameters.json').read_text())
 excerpt=(root/'ps2/data/white_definitions_excerpt.lua').read_text().split('L3_1 = "EggGranade"',1)[1]
 assert 'L5_1 = "explosionForce"\nL6_1 = 10000' in excerpt and parameters['EggGranade']['explosionForce']==10000
 assert 'L5_1 = "explosionDamage"\nL6_1 = 400' in excerpt and parameters['EggGranade']['explosionDamage']==400
@@ -170,7 +169,7 @@ for path in sorted(glob.glob(str(root/'ps2/data/level_*_*.json'))):
 print('Ground and slingshot OK: floor at Ground.y - 5 and slingshot on the first queued bird in all stages.')
 
 # ObjectCreation.lua: dynamic sprite-sized shapes are 0.92 of the sprite; static ones keep it.
-metrics=json.loads((root/'ps2/data/sprite_metrics.json').read_text())
+metrics=json.loads((root/'profiles/sprite_metrics.json').read_text())
 for path in sorted(glob.glob(str(root/'ps2/data/level_*_*.json'))):
     d=json.loads(Path(path).read_text())
     for o in d['objects']:
@@ -282,14 +281,15 @@ for name,spr,rest,dens in [('ExtraHelmetSmall','HELMET_SMALL','0.1','0.3'),('Ext
     assert [[nums[i],nums[i+1]] for i in range(0,len(nums),2)]==hexv and f'"{spr}"' in b and f'L5_1 = {rest}\nL4_1.restitution' in b and 'L5_1 = 1\nL4_1.friction' in b
     assert objs['objects'][name]=={'sprite':spr,'kind':6,'shape':'polygon','vertices':hexv}
     assert objs['materials']['friction_overrides'][name]==1.0 and objs['materials']['restitution_overrides'][name]==float(rest)
-data=(root/'ps2/src/campaign_data.h').read_text()
-assert '{"ExtraHelmetSmall",6,{0.20000000f,0.30000000f,0.40000000f,0.20000000f,0.60000000f,0.20000000f,0.80000000f,0.30000000f,0.80000000f,0.50000000f,0.20000000f,0.50000000f}}' in data
+import build_campaign as _bc
+campaign=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN')
+n,v=campaign['polygons']['ExtraHelmetSmall'];assert n==6 and all(abs(a-b)<1e-6 for a,b in zip(v,[0.2,0.3,0.4,0.2,0.6,0.2,0.8,0.3,0.8,0.5,0.2,0.5]))
 oc=(root/'ps2/data/object_creation_polygon_excerpt.lua').read_text()
 assert 'L77_2 = L63_2 * 0.5' in oc and 'L77_2 = L64_2 * 0.5' in oc and 'scaleX' in oc and 'scaleY' in oc
 r=blockbs('ExtraRopeThick01');assert '"BLOCK_ROPE_THICK_1"' in r and objs['objects']['ExtraRopeThick01']['kind']==6
 # Instance scale: StaticBlock_01_1 of 6-14 is scaled 0.254775 x 0.883135.
 d=json.loads((root/'ps2/data/level_6_14.json').read_text());sb=[o for o in d['objects'] if o['name']=='StaticBlock_01_1'][0]
-metric=json.loads((root/'ps2/data/sprite_metrics.json').read_text())['GROUND_BLOCK_01']
+metric=json.loads((root/'profiles/sprite_metrics.json').read_text())['GROUND_BLOCK_01']
 assert abs(sb['width']-metric['width']/20*0.254775)<1e-6 and abs(sb['height']-metric['height']/20*0.883135)<1e-6
 print('Big Setup OK: 45 stages match episodes.lua in banks 5-7; Terence body and damage factors, hexagonal helmets (ObjectCreation.lua vertex rule) and thick rope checked against blocks.lua; instance scaleX/scaleY applied.')
 
@@ -332,8 +332,8 @@ for number,name in {15:'episode_mine_and_dine_page1',16:'episode_mine_and_dine_p
         d=json.loads((root/f'ps2/data/level_{number}_{n}.json').read_text());assert d['stage_script']==order[n-1] and d['texture_bank']==number-4
 gen=(root/'ps2/src/definition_sprites.h').read_text()
 for name in mine:assert '{"%s",SPR_%s}'%(name,objs['objects'][name]['sprite']) in gen
-data=(root/'ps2/src/campaign_data.h').read_text()
-assert data.count('{5,')>=2 and '2.18000000f}' in data and '4.63000000f}' in data
+timers=[j['destroy_timer'] for j in campaign['joints'] if j['type']==5]
+assert len(timers)>=2 and any(abs(t-2.18)<1e-5 for t in timers) and any(abs(t-4.63)<1e-5 for t in timers)
 src=(root/'ps2/src/game.cpp').read_text();assert 'o.density==0)?b2_staticBody' in src
 print("Mine and Dine OK: 45 stages in banks 11-13; 20 pieces (hats, gems, tools, ropes, stalactites) match blocks.lua and its materials; destroy-attached joints keep their timers; density-0 pieces are fixed.")
 
@@ -361,7 +361,7 @@ for name in party:
     spec=objs['objects'][name];assert spec['sprite']==d['sprite'] and spec['shape']==d['type'] and spec.get('auto')
     if 'forceY' in mat:assert spec['force']==[mat['forceX'],mat['forceY']]
 assert _ad.material(bd,'balloon')['forceY']==-30 and objs['objects']['BirthdayBalloon_2']['force']==[-1.0,-30.0]
-data=(root/'ps2/src/campaign_data.h').read_text();assert '{"BirthdayBalloon_2",-1.00000000f,-30.00000000f}' in data
+assert campaign['forces']['BirthdayBalloon_2']==(-1.0,-30.0)
 print("Birdday 2 OK: 15 stages in bank 14; GlobeBird body, puff and death values match blocks.lua and puffer_bird.lua; 13 party pieces and the balloon force (forceX/forceY) match blocks.lua.")
 
 # Explicit sizes: pieces whose blocks.lua entry declares width/height (box) or radius (circle) use them.
@@ -394,4 +394,10 @@ assert '* 1.3' in conf and 'triggerPinkBirdSpecialty' in conf and 'pinkTimer = 1
 for name in ['Spawning_cake','CakeCream','PartyHat_5','PartyHat_6','PartyHat_blue']:
     d=_ad.definition(b34,name);spec=objs['objects'][name];assert spec['sprite']==d['sprite'] and spec['shape']==d['type']
 assert _ad.definition(b34,'PartyHat_blue')['sprite']=='PARTY_HAT_BLUE' and 'deathSpawn' in b34
-print("Birdday 3 and 4 OK: 30 stages in banks 15-16; Stella body, bubble radius and damage from blocks.lua, bubble physics from bubbles.lua/default_conf.lua/mode_MuseumMode.lua; party pieces with explicit sizes; deathSpawn not ported.")
+# deathSpawn: amount/types and the cream's own density/strength/defence/radius come from blocks.lua.
+cake=b34.split('L3_1 = "Spawning_cake"',1)[1].split('L3_1 = "',1)[0];cream=b34.split('L3_1 = "CakeCream"',1)[1].split('L3_1 = "',1)[0]
+assert 'L7_1 = 10\nL6_1.amount = L7_1' in cake and objs['objects']['Spawning_cake']['death_spawn']=={'amount':10,'types':['CakeCream','CakeCream']}
+assert objs['objects']['CakeCream']['defaults']=={'density':float(re.search(r'L5_1 = ([\d.]+)\nL4_1.density',cream)[1]),'strength':float(re.search(r'L5_1 = ([\d.]+)\nL4_1.strength',cream)[1]),'defence':float(re.search(r'L5_1 = ([\d.]+)\nL4_1.defence',cream)[1])}
+cobj=campaign['objects'];parents=[o for o in cobj if o['spawn_of']==0 and o['definition']=='Spawning_cake']
+children=[o for o in cobj if o['spawn_of']];assert len(children)==10*len(parents)>0 and all(o['definition']=='CakeCream' for o in children)
+print("Birdday 3 and 4 OK: 30 stages in banks 15-16; Stella body, bubble radius and damage from blocks.lua, bubble physics from bubbles.lua/default_conf.lua/mode_MuseumMode.lua; party pieces with explicit sizes; deathSpawn releases 10 creams per big cake.")

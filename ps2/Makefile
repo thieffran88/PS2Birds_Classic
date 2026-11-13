@@ -1,25 +1,28 @@
 EE_BIN = build/PS2Birds_Classic.elf
 BOX2D_SRC = $(shell find vendor/box2d/src -name "*.cpp")
 BOX2D_OBJS = $(patsubst %.cpp,build/%.o,$(BOX2D_SRC))
-EE_OBJS = build/audio.o build/audio_assets.o build/audsrv_rpc.o build/save_codec.o build/save_mc.o build/save_assets.o build/main.o build/game.o build/sprites.o build/sprite_pixels.o $(BOX2D_OBJS)
-EE_INCS = -Iassets -Ivendor/box2d/include -Ivendor/box2d/src -Isrc -I$(GSKIT)/include
+EE_OBJS = build/audio.o build/audio_assets.o build/audsrv_rpc.o build/save_codec.o build/save_mc.o build/save_assets.o build/main.o build/game.o build/sprites.o $(BOX2D_OBJS)
+EE_INCS = -Ivendor/box2d/include -Ivendor/box2d/src -Isrc -I$(GSKIT)/include
 EE_CFLAGS = -std=gnu99 -Wextra
 EE_CXXFLAGS = -std=gnu++11 -Wextra -fno-exceptions -fno-rtti
 EE_LDFLAGS = -L$(GSKIT)/lib
 EE_LIBS = -lgskit -ldmakit -lpad -lmc -lpatches -lm
 
 .PHONY: all clean test iso
-all: $(EE_BIN) build/SPRITES.BIN
+# The ELF holds no original data. The data files are made from the APK (tools/gerar_iso.py);
+# a developer checkout regenerates ps2/assets with that tool and packs them here.
+DATA = build/SPRITES.BIN build/SOUNDS.BIN build/CAMPAIGN.BIN
+all: $(EE_BIN) $(DATA)
 
 build/%.o: src/%.c src/game.h src/level_config.h src/campaign_types.h
 	@mkdir -p build
 	$(EE_CC) $(EE_CFLAGS) $(EE_INCS) -c $< -o $@
 
-build/main.o: src/audio.h assets/audio_data.h
+build/main.o: src/audio.h src/audio_ids.h src/save_assets.h
 
-build/main.o build/sprites.o: assets/sprite_data.h src/sprites.h
+build/main.o build/sprites.o: src/sprite_ids.h src/sprites.h
 
-build/audio.o: src/audio.h assets/audio_data.h
+build/audio.o: src/audio.h src/audio_ids.h
 
 build/audsrv_rpc.o: vendor/audsrv/ee/src/audsrv_rpc.c
 	@mkdir -p build
@@ -28,27 +31,31 @@ build/audsrv_rpc.o: vendor/audsrv/ee/src/audsrv_rpc.c
 build/audsrv.irx: $(wildcard vendor/audsrv/iop/src/*) vendor/audsrv/iop/Makefile
 	$(MAKE) -C vendor/audsrv/iop
 
-build/audio_assets.o: src/audio_assets.S build/audsrv.irx assets/sounds.adp
+build/audio_assets.o: src/audio_assets.S build/audsrv.irx
 	@mkdir -p build
 	$(EE_CC) -G0 -c $< -o $@
 
 build/save_codec.o: src/save_codec.h
 
-build/save_mc.o: src/save_mc.h src/save_codec.h assets/save_assets.h
+build/save_mc.o: src/save_mc.h src/save_codec.h src/save_assets.h
 
-build/save_assets.o: src/save_assets.S assets/save.icn assets/save_icon.sys
+build/save_assets.o: src/save_assets.S assets/save_icon.sys
 	@mkdir -p build
 	$(EE_CC) -G0 -c $< -o $@
 
-build/sprites_bank0.rgba build/SPRITES.BIN: assets/sprites.rgba assets/manifest.json ../tools/split_sprite_banks.py
+build/SPRITES.BIN: assets/manifest.json assets/sprites.rgba assets/save.icn src/sprite_ids.h ../tools/pack_sprites.py
 	@mkdir -p build
-	python3 ../tools/split_sprite_banks.py assets/manifest.json assets/sprites.rgba build/sprites_bank0.rgba build/SPRITES.BIN
+	python3 ../tools/pack_sprites.py assets/manifest.json assets/sprites.rgba assets/save.icn $@
 
-build/sprite_pixels.o: src/sprites.S build/sprites_bank0.rgba
+build/SOUNDS.BIN: assets/SOUNDS.BIN
 	@mkdir -p build
-	$(EE_CC) -G0 -c $< -o $@
+	cp $< $@
 
-build/game.o: src/game.cpp src/game.h src/level_data.h src/level_config.h src/campaign_data.h src/campaign_types.h
+build/CAMPAIGN.BIN: assets/CAMPAIGN.BIN
+	@mkdir -p build
+	cp $< $@
+
+build/game.o: src/game.cpp src/game.h src/level_config.h src/campaign_types.h
 	@mkdir -p build
 	$(EE_CXX) $(EE_CXXFLAGS) $(EE_INCS) -c $< -o $@
 
@@ -62,7 +69,7 @@ build/host/vendor/%.o: vendor/%.cpp
 	@mkdir -p $(@D)
 	$(CXX) -O2 -std=c++11 -Ivendor/box2d/include -Ivendor/box2d/src -c $< -o $@
 
-build/host/game.o: src/game.cpp src/game.h src/level_data.h src/level_config.h src/campaign_data.h src/campaign_types.h
+build/host/game.o: src/game.cpp src/game.h src/level_config.h src/campaign_types.h
 	@mkdir -p $(@D)
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Ivendor/box2d/include -Isrc -c $< -o $@
 
@@ -74,7 +81,7 @@ build/host/campaign_test.o: tests/campaign_test.cpp src/game.h src/campaign_type
 	@mkdir -p $(@D)
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc -c $< -o $@
 
-test: joint-test triangle-test tnt-test white-test black-test audio-test save-test build/host/game.o build/host/game_test.o $(HOST_BOX2D_OBJS) build/host/campaign_test.o
+test: assets/CAMPAIGN.BIN assets/SOUNDS.BIN assets/manifest.json joint-test triangle-test tnt-test white-test black-test audio-test save-test build/host/game.o build/host/game_test.o $(HOST_BOX2D_OBJS) build/host/campaign_test.o
 	$(CXX) build/host/game.o build/host/game_test.o $(HOST_BOX2D_OBJS) -lm -o build/game_test
 	./build/game_test
 	$(CXX) build/host/game.o build/host/campaign_test.o $(HOST_BOX2D_OBJS) -lm -o build/campaign_test
@@ -89,9 +96,10 @@ test: joint-test triangle-test tnt-test white-test black-test audio-test save-te
 	./build/globe_test
 	python3 tests/sprite_test.py
 	python3 tests/profile_test.py
+	python3 tests/tools_test.py
 
-iso: $(EE_BIN) build/SPRITES.BIN
-	python3 ../tools/make_iso.py $(EE_BIN) build/PS2Birds_Classic.iso --extra build/SPRITES.BIN
+iso: $(EE_BIN) $(DATA)
+	python3 ../tools/make_iso.py $(EE_BIN) build/PS2Birds_Classic.iso $(addprefix --extra ,$(DATA))
 
 clean:
 	rm -rf build
@@ -103,7 +111,7 @@ include $(PS2SDK)/samples/Makefile.eeglobal_cpp
 save-test:
 	@mkdir -p build/host
 	$(CC) -std=c99 -Wall -Wextra -Werror -Isrc -c src/save_codec.c -o build/host/save_codec.o
-	$(CC) -std=c99 -Wall -Wextra -Werror -DPS2BIRDS_SAVE_TEST -Isrc -Iassets -Itests -c src/save_mc.c -o build/host/save_mc.o
+	$(CC) -std=c99 -Wall -Wextra -Werror -DPS2BIRDS_SAVE_TEST -Isrc -Itests -c src/save_mc.c -o build/host/save_mc.o
 	$(CC) -c src/save_assets.S -o build/host/save_assets.o
 	$(CXX) -std=c++11 -Wall -Wextra -Werror -Isrc -Itests tests/save_test.cpp build/host/save_codec.o build/host/save_mc.o build/host/save_assets.o -o build/save_test
 	./build/save_test
@@ -111,8 +119,8 @@ save-test:
 .PHONY: audio-test
 audio-test:
 	@mkdir -p build/host
-	$(CC) -std=c99 -Wall -Wextra -Werror -DPS2BIRDS_AUDIO_TEST -Isrc -Iassets -Itests -c src/audio.c -o build/host/audio.o
-	$(CXX) -std=c++11 -Wall -Wextra -Werror -Isrc -Iassets -Itests tests/audio_test.cpp build/host/audio.o -o build/audio_test
+	$(CC) -std=c99 -Wall -Wextra -Werror -DPS2BIRDS_AUDIO_TEST -Isrc -Itests -c src/audio.c -o build/host/audio.o
+	$(CXX) -std=c++11 -Wall -Wextra -Werror -Isrc -Itests tests/audio_test.cpp build/host/audio.o -o build/audio_test
 	./build/audio_test
 	python3 tests/audio_assets_test.py
 
@@ -150,3 +158,6 @@ joint-test: $(HOST_BOX2D_OBJS)
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -DPS2BIRDS_JOINT_TEST -Isrc -Itests -Ivendor/box2d/include -c src/game.cpp -o build/host/game_joint.o
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc tests/joint_test.cpp build/host/game_joint.o $(HOST_BOX2D_OBJS) -lm -o build/joint_test
 	./build/joint_test
+
+assets/CAMPAIGN.BIN assets/SOUNDS.BIN assets/manifest.json assets/sprites.rgba assets/save.icn:
+	@echo "Dados ausentes: gere-os a partir do APK com  python3 ../tools/gerar_iso.py CAMINHO/DO/APK --dev"; exit 1

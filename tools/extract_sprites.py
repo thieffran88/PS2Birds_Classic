@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Convert selected original APK sprites into an embedded PS2 RGBA32 atlas.
-Requires Python 3.9+, OpenSSL and 7-Zip. Never executes game scripts.
+Pure Python 3.9+ (built-in AES, 7z and PNG readers). Never executes game scripts.
 """
 import argparse,hashlib,json,lzma,re,struct,subprocess,tempfile,zipfile,io
 from pathlib import Path
@@ -61,13 +61,16 @@ def halve_rgba(rgba,w,h):
             out+=bytes([(acc[c]+alpha//2)//alpha if alpha else 0 for c in range(3)])+bytes([(alpha+count//2)//count])
     return out,ow,oh
 
-def decode_png_frame(data,frame):
-    from PIL import Image
+def decode_png_frame(data,frame,_cache={}):
+    """Crop one frame from a PNG sheet (decoded once per sheet by tools/png_decode.py)."""
+    from png_decode import decode
     if frame['rotated'] or any(frame['extrude']):raise ValueError('Unsupported PNG orientation/extrusion')
+    key=hash(data)
+    if key not in _cache:_cache.clear();_cache[key]=decode(data)
+    sw,sh,pixels=_cache[key]
     f=frame['frame'];x,y,w,h=(f[k] for k in ['x','y','w','h'])
-    with Image.open(io.BytesIO(data)) as source:
-        if source.format!='PNG' or w<=0 or h<=0 or x<0 or y<0 or x+w>source.width or y+h>source.height:raise ValueError('PNG frame outside sheet')
-        rgba=bytearray(source.convert('RGBA').crop((x,y,x+w,y+h)).tobytes())
+    if w<=0 or h<=0 or x<0 or y<0 or x+w>sw or y+h>sh:raise ValueError('PNG frame outside sheet')
+    rgba=bytearray().join(pixels[((y+r)*sw+x)*4:((y+r)*sw+x+w)*4] for r in range(h))
     for pixel in range(3,len(rgba),4):rgba[pixel]=(rgba[pixel]*128+127)//255
     return rgba
 
@@ -101,7 +104,7 @@ def sprite_family(sprite,available):
     if m:return [f'{m[1]}_{s}' for s in range(1,5)]
     if sprite=='BLOCK_SMILEY_1':return ['BLOCK_SMILEY_1','BLOCK_SMILEY_3']
     return [sprite]
-def bank_members(all_names):
+def bank_members(all_names,levels_dir=None):
     """Bank 0 keeps every sprite of the Poached Eggs build; later banks hold the common
     sprites plus what their stages draw. Banks are swapped when the episode changes."""
     available=set(all_names);profile=json.loads((ROOT/'profiles/classic_level.json').read_text())
@@ -110,7 +113,7 @@ def bank_members(all_names):
     common=[n for n in all_names if n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_')) and not n.startswith(('BIRD_BOOMERANG','BIRD_BIG_BROTHER','BIRD_PUFFER','BIRD_PINK'))]
     bank_of_page={pg['number']:pg.get('bank',0) for pg in episode.get('additional_pages',[])};bank_of_page[1]=0
     banks=[set(common) for _ in range(max(bank_of_page.values())+1)]
-    for path in sorted((ROOT/'ps2/data').glob('level_*_*.json')):
+    for path in sorted(Path(levels_dir or ROOT/'ps2/data').glob('level_*_*.json')):
         d=json.loads(path.read_text());b=bank_of_page.get(d.get('episode_page',1),0)
         for o in d['objects']:
             if o['definition']=='ExtraBlockTNT':banks[b].add('BLOCK_EXTRA_TNT')
@@ -147,12 +150,13 @@ def bank_members(all_names):
         banks[b]-=set(aliases[b])
     return [sorted(b) for b in banks],aliases
 
-def extract(apk,out,sevenzip,game="classic"):
+def extract(apk,out,sevenzip=None,game="classic",levels_dir=None):
+    """levels_dir: the stage JSON made by tools/build_campaign.py (decides which sprites each bank holds)."""
     sprites=[];manifest=[]
     with zipfile.ZipFile(apk) as archive,tempfile.TemporaryDirectory(prefix='ps2birds-sprites-') as folder:
         # Pieces added by tools/add_definitions.py ("auto") bring their sprite and sheet.
         sheets={k:list(v) for k,v in SHEETS.items()}
-        profile=json.loads((ROOT/'profiles/classic_level.json').read_text());metrics=json.loads((ROOT/'ps2/data/sprite_metrics.json').read_text())
+        profile=json.loads((ROOT/'profiles/classic_level.json').read_text());metrics=json.loads((ROOT/'profiles/sprite_metrics.json').read_text())
         for spec in profile['objects'].values():
             if spec.get('auto') and spec['sprite'] not in sheets.setdefault(metrics[spec['sprite']]['sheet'].replace('.sheet.json',''),[]):
                 sheets[metrics[spec['sprite']]['sheet'].replace('.sheet.json','')].append(spec['sprite'])
@@ -164,8 +168,11 @@ def extract(apk,out,sevenzip,game="classic"):
             is_png=base+'.stream.7z' not in archive.namelist()
             if is_png:png=archive.read(base+'.png')
             else:
-                packed=Path(folder)/'sheet.7z';packed.write_bytes(archive.read(base+'.stream.7z'))
-                raw=subprocess.run(archive_command(sevenzip)+['x','-so',str(packed)],capture_output=True,check=True).stdout
+                if sevenzip:
+                    packed=Path(folder)/'sheet.7z';packed.write_bytes(archive.read(base+'.stream.7z'))
+                    raw=subprocess.run(archive_command(sevenzip)+['x','-so',str(packed)],capture_output=True,check=True).stdout
+                else:
+                    from mini7z import extract as _x7;raw=_x7(archive.read(base+'.stream.7z'))
             for name in names:
                 if name not in frames:raise ValueError('Classic sprite adapter missing '+name+'; this game/version needs its own asset adapter')
                 f=frames[name];fw,fh=f['frame']['w'],f['frame']['h']
@@ -200,7 +207,7 @@ def extract(apk,out,sevenzip,game="classic"):
                 sprite={'name':name,'width':fw,'height':fh,'pivot_x':pivot['x'],'pivot_y':pivot['y'],'rgba':rgba}
                 sprites.append(sprite)
                 manifest.append({'sprite':name,'sheet':base,'source_format':'PNG RGBA8' if is_png else 'RGBA4444 little-endian','processing':'alpha mask at half resolution (2x2 box filter), white RGB for runtime tint; drawn at SPRITE_MASK_SCALE' if name.startswith('GROUND_BLOCK_') else 'half resolution (2x2 alpha-weighted box filter); drawn at SPRITE_MASK_SCALE' if name.startswith(HALF_RESOLUTION) else 'crop extrusion and convert to GS RGBA32','rgba_sha256':hashlib.sha256(rgba).hexdigest(),'width':fw,'height':fh,'pivot':pivot})
-    banks,aliases=bank_members([s['name'] for s in sprites])
+    banks,aliases=bank_members([s['name'] for s in sprites],levels_dir)
     by_name={s['name']:s for s in sprites};pixels=bytearray();bank_specs=[];placement={}
     for bank,members in enumerate(banks):
         specs,placed=pack([by_name[n] for n in members],len(pixels))
@@ -236,9 +243,12 @@ def extract(apk,out,sevenzip,game="classic"):
         lines.append(' },')
     lines+=['};','#define SPRITE_COUNT '+str(len(names)),'#endif','']
     (out/'sprite_data.h').write_text('\n'.join(lines))
+    ids=['/* Sprite identifiers and texture-slot sizes for the Classic APK supported by tools/gerar_iso.py.','   Only names and sizes: the frames and pixels are read from SPRITES.BIN at run time.','   Regenerated by tools/extract_sprites.py; tools/pack_sprites.py refuses an APK whose sprite order differs. */','#ifndef PS2BIRDS_SPRITE_IDS_H','#define PS2BIRDS_SPRITE_IDS_H']
+    ids+=[l for l in lines if l.startswith(('#define SPR','static const int sprite_slot_bytes','/* Bytes of VRAM'))]+['#endif','']
+    (out/'sprite_ids.h').write_text('\n'.join(ids))
     for entry in manifest:
         entry['banks']=[{'bank':b,'page':placement[(b,entry['sprite'])][0],'atlas_x':placement[(b,entry['sprite'])][1],'atlas_y':placement[(b,entry['sprite'])][2]} for b in range(len(banks)) if (b,entry['sprite']) in placement]
     (out/'manifest.json').write_text(json.dumps({'game_profile':game,'sprite_adapter':'classic_campaign_sprites','apk':Path(apk).name,'vram_budget':VRAM_BUDGET,'slot_bytes':slots,'banks':[{'bank':b,'pages':bank_specs[b],'sprites':banks[b],'aliases':aliases[b]} for b in range(len(banks))],'bytes':len(pixels),'alpha_range':[0,128],'atlas_sha256':hashlib.sha256(pixels).hexdigest(),'sprites':manifest},indent=2)+'\n')
     print(f'{len(sprites)} original sprites, {len(banks)} texture banks ({", ".join(str(len(b)) for b in banks)} sprites), {len(pixels)} bytes in RAM, {sum(slots)} bytes of VRAM')
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('apk',type=Path);p.add_argument('output',type=Path);p.add_argument('--sevenzip',default='7z');p.add_argument('--game',choices=sorted(PROFILES),default='classic');a=p.parse_args();extract(a.apk,a.output,a.sevenzip,a.game)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('apk',type=Path);p.add_argument('output',type=Path);p.add_argument('--sevenzip',default=None,help='optional 7-Zip; the built-in reader is used by default');p.add_argument('--game',choices=sorted(PROFILES),default='classic');a=p.parse_args();extract(a.apk,a.output,a.sevenzip,a.game)

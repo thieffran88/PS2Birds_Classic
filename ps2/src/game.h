@@ -149,6 +149,9 @@ int game_projectile_count(const Game *game);
 int game_get_projectile(const Game *game,int index,GameBird *bird);
 void game_preview(const Game *game,float time,float *x,float *y);
 int game_object_count(const Game *game);
+/* Reads the stages (CAMPAIGN.BIN); returns the number of stages or -1. */
+int game_campaign_load(const unsigned char *data,unsigned size);
+int game_campaign_load_file(const char *path);
 int game_level_count(void);
 int game_load_level(Game *game,int index);
 int game_next_level(Game *game);

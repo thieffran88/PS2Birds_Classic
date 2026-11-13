@@ -1046,7 +1046,14 @@
       "size": [
         4.0,
         4.0
-      ]
+      ],
+      "death_spawn": {
+        "amount": 10,
+        "types": [
+          "CakeCream",
+          "CakeCream"
+        ]
+      }
     },
     "CakeCream": {
       "sprite": "BLOCK_CAKECREAM",
@@ -1056,7 +1063,12 @@
       "size": [
         2.6,
         2.6
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 1.0
+      }
     },
     "PartyHat_5": {
       "sprite": "PARTY_HAT_5",
@@ -1089,7 +1101,7 @@
       ]
     }
   },
-  "metrics": "ps2/data/sprite_metrics.json",
+  "metrics": "profiles/sprite_metrics.json",
   "view": {
     "x": 210,
     "y": 333,

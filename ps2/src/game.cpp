@@ -10,13 +10,83 @@
 #elif defined(PS2BIRDS_BLAST_TEST)
 #include "blast_fixture.h"
 #else
-#include "campaign_data.h"
+#define PS2BIRDS_RUNTIME_CAMPAIGN 1
 #endif
 #include <box2d/box2d.h>
 #include <math.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <stdio.h>
+#ifdef PS2BIRDS_RUNTIME_CAMPAIGN
+/* The stages are not part of the program: they come from CAMPAIGN.BIN, generated from the
+   player's own APK by tools/gerar_iso.py (layout below and in tools/build_campaign.py). */
+static const CampaignPolygon no_polygons[1]={{0,0,{0}}};
+static const CampaignForce no_forces[1]={{0,0,0}};
+static CampaignLevel *campaign_levels;
+static const CampaignPolygon *campaign_polygons=no_polygons;
+static const CampaignForce *campaign_forces=no_forces;
+static unsigned campaign_count;
+#define CAMPAIGN_COUNT campaign_count
+static uint32_t rd32(const unsigned char *p){return (uint32_t)p[0]|((uint32_t)p[1]<<8)|((uint32_t)p[2]<<16)|((uint32_t)p[3]<<24);}
+static float rdf(const unsigned char *p){uint32_t v=rd32(p);float f;memcpy(&f,&v,4);return f;}
+int game_campaign_load(const unsigned char *data,unsigned size)
+{
+    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=2)return -1;
+    unsigned nl=rd32(data+8),no=rd32(data+12),nj=rd32(data+16),np=rd32(data+20),nf=rd32(data+24),ns=rd32(data+28);
+    const unsigned LV=4*(3+16+8+2+1+2+2),OB=4*14,JO=4*12,PO=4*18,FO=4*3;
+    if(nl==0 || nl>MAX_CAMPAIGN_LEVELS || 32ull+(unsigned long long)nl*LV+(unsigned long long)no*OB+(unsigned long long)nj*JO+np*PO+nf*FO+ns!=size)return -1;
+    const unsigned char *pl=data+32,*po=pl+nl*LV,*pj=po+no*OB,*pp=pj+nj*JO,*pf=pp+np*PO,*pstr=pf+nf*FO;
+    char *strings=(char*)malloc(ns+1);CampaignLevel *levels=(CampaignLevel*)calloc(nl,sizeof(CampaignLevel));
+    CampaignObject *objects=(CampaignObject*)calloc(no?no:1,sizeof(CampaignObject));CampaignJoint *joints=(CampaignJoint*)calloc(nj?nj:1,sizeof(CampaignJoint));
+    CampaignPolygon *polys=(CampaignPolygon*)calloc(np+1,sizeof(CampaignPolygon));CampaignForce *forces=(CampaignForce*)calloc(nf+1,sizeof(CampaignForce));
+    if(!strings||!levels||!objects||!joints||!polys||!forces){free(strings);free(levels);free(objects);free(joints);free(polys);free(forces);return -1;}
+    memcpy(strings,pstr,ns);strings[ns]=0;
+#define STR(o) (rd32(o)<ns?strings+rd32(o):strings)
+    for(unsigned i=0;i<no;i++){
+        const unsigned char *q=po+i*OB;CampaignObject &o=objects[i];
+        o.x=rdf(q);o.y=rdf(q+4);o.angle=rdf(q+8);o.width=rdf(q+12);o.height=rdf(q+16);o.density=rdf(q+20);o.strength=rdf(q+24);o.defence=rdf(q+28);
+        o.kind=(int)rd32(q+32);o.shape=(int)rd32(q+36);o.definition=STR(q+40);o.friction=rdf(q+44);o.restitution=rdf(q+48);o.spawn_of=(int)rd32(q+52);if(o.spawn_of<0||(unsigned)o.spawn_of>no)o.spawn_of=0;
+    }
+    for(unsigned i=0;i<nj;i++){
+        const unsigned char *q=pj+i*JO;CampaignJoint &j=joints[i];
+        j.type=(int)rd32(q);j.a=(int)rd32(q+4);j.b=(int)rd32(q+8);j.ax=rdf(q+12);j.ay=rdf(q+16);j.bx=rdf(q+20);j.by=rdf(q+24);
+        j.frequency=rdf(q+28);j.damping=rdf(q+32);j.break_force=rdf(q+36);j.collide=(int)rd32(q+40);j.destroy_timer=rdf(q+44);
+    }
+    for(unsigned i=0;i<np;i++){const unsigned char *q=pp+i*PO;polys[i].definition=STR(q);polys[i].count=(int)rd32(q+4);for(int k=0;k<16;k++)polys[i].v[k]=rdf(q+8+4*k);}
+    for(unsigned i=0;i<nf;i++){const unsigned char *q=pf+i*FO;forces[i].definition=STR(q);forces[i].fx=rdf(q+4);forces[i].fy=rdf(q+8);}
+    for(unsigned i=0;i<nl;i++){
+        const unsigned char *q=pl+i*LV;CampaignLevel &l=levels[i];
+        unsigned o0=rd32(q),oc=rd32(q+4),j0,jc;
+        if(o0+oc>no||oc>MAX_LEVEL_OBJECTS)goto bad;
+        l.objects=objects+o0;l.count=(int)oc;l.birds=(int)rd32(q+8);if(l.birds<0||l.birds>16)goto bad;
+        for(int k=0;k<16;k++)l.bird_types[k]=(int)rd32(q+12+4*k);
+        q+=76;l.gravity=rdf(q);l.sling_x=rdf(q+4);l.sling_y=rdf(q+8);l.ground_y=rdf(q+12);l.pixels=rdf(q+16);l.view_x=rdf(q+20);l.view_y=rdf(q+24);l.view_scale=rdf(q+28);
+        l.title=STR(q+32);l.script=STR(q+36);l.bank=(int)rd32(q+40);j0=rd32(q+44);jc=rd32(q+48);
+        if(j0+jc>nj||jc>MAX_LEVEL_JOINTS)goto bad;
+        l.joints=jc?joints+j0:0;l.joint_count=(int)jc;l.star_silver=(int)rd32(q+52);l.star_gold=(int)rd32(q+56);
+    }
+#undef STR
+    campaign_levels=levels;campaign_polygons=polys;campaign_forces=forces;campaign_count=nl;return (int)nl;
+bad:free(strings);free(levels);free(objects);free(joints);free(polys);free(forces);return -1;
+}
+int game_campaign_load_file(const char *path)
+{
+    FILE *f=fopen(path,"rb");if(!f)return -1;
+    fseek(f,0,SEEK_END);long n=ftell(f);fseek(f,0,SEEK_SET);
+    unsigned char *buffer=n>0?(unsigned char*)malloc((size_t)n):0;int result=-1;
+    if(buffer && fread(buffer,1,(size_t)n,f)==(size_t)n)result=game_campaign_load(buffer,(unsigned)n);
+    fclose(f);free(buffer);return result;
+}
+#if !defined(_EE)
+/* Host builds (tests and solvers) read the generated file before main(). */
+static struct HostCampaign{HostCampaign(){const char *p=getenv("PS2BIRDS_CAMPAIGN");if(game_campaign_load_file(p?p:"assets/CAMPAIGN.BIN")<0)fprintf(stderr,"CAMPAIGN.BIN missing: generate it from the APK (tools/gerar_iso.py)\n");}} host_campaign;
+#endif
+#else
 static_assert(CAMPAIGN_COUNT<=MAX_CAMPAIGN_LEVELS,"Campaign exceeds progress capacity");
+int game_campaign_load(const unsigned char *,unsigned){return (int)CAMPAIGN_COUNT;}
+int game_campaign_load_file(const char *){return (int)CAMPAIGN_COUNT;}
+#endif
 
 static float clamp(float v,float lo,float hi) { return v<lo?lo:v>hi?hi:v; }
 struct Physics;
@@ -62,10 +132,24 @@ struct Physics: b2ContactListener {
         b2PolygonShape shape;shape.SetAsBox(FLOOR_HALF_WIDTH,1);
         /* staticGround material: friction 0.8, restitution 0. */
         b2FixtureDef ground;ground.shape=&shape;ground.friction=0.8f;ground.restitution=0;floor->CreateFixture(&ground);
-        for (int i=0;i<level->count;i++) {
+        for (int i=0;i<level->count;i++){
+            const CampaignObject &o=level->objects[i];
+            health[i]=o.strength;fragile_hit[i]=false;force_of[i]=NULL;
+            for(const CampaignForce *cf=campaign_forces;cf->definition;cf++)if(!strcmp(cf->definition,o.definition)){force_of[i]=cf;break;}
+            if(o.spawn_of)continue; /* released later by release_spawns() */
+            create_body(i,o.x,o.y,o.angle);
+        }
+        for(int i=0;i<level->joint_count && i<MAX_LEVEL_JOINTS;i++)create_joint(level->joints[i]);
+    }
+    /* deathSpawn (gamelogic.lua): the pieces stored for a destroyed parent appear where it was. */
+    void release_spawns(int parent,b2Vec2 where){
+        for(int j=0;j<level->count;j++)if(level->objects[j].spawn_of==parent+1 && !bodies[j])create_body(j,where.x,where.y,level->objects[j].angle);
+    }
+    void create_body(int i,float x,float y,float angle){
+        {
             const CampaignObject &o=level->objects[i];
             b2BodyDef def;def.type=(o.kind==3||IS_FRAGILE_KIND(o.kind)||o.density==0)?b2_staticBody:b2_dynamicBody; /* density 0 is a fixed piece, as in ObjectCreation.lua */def.awake=!SCENE_STARTS_ASLEEP;
-            def.position.Set(o.x,o.y);def.angle=o.angle;
+            def.position.Set(x,y);def.angle=angle;
             b2Body *body=world.CreateBody(&def);
             body->GetUserData().pointer=i+1;
             b2FixtureDef fixture; fixture.density=o.density;fixture.friction=o.friction;fixture.restitution=o.restitution;
@@ -85,10 +169,8 @@ struct Physics: b2ContactListener {
                 fixture.shape=&box;
             }
             else {box.SetAsBox(o.width/2,o.height/2);fixture.shape=&box;}
-            force_of[i]=NULL;for(const CampaignForce *cf=campaign_forces;cf->definition;cf++)if(!strcmp(cf->definition,o.definition)){force_of[i]=cf;break;}
-            body->CreateFixture(&fixture);bodies[i]=body;health[i]=o.strength;fragile_hit[i]=false;
+            body->CreateFixture(&fixture);bodies[i]=body;
         }
-        for(int i=0;i<level->joint_count && i<MAX_LEVEL_JOINTS;i++)create_joint(level->joints[i]);
     }
     b2Body *joint_body(int index) const {return index>=0 && index<level->count?bodies[index]:floor_body;}
     void create_joint(const CampaignJoint &j){
@@ -450,7 +532,7 @@ static void tick(Game *g) {
         if(t<0 || p->bodies[p->detach_source[k]])continue;
         if(p->detach_time[k]>0){p->detach_time[k]-=dt;continue;}
         if(p->bodies[t]){
-            p->world.DestroyBody(p->bodies[t]);p->bodies[t]=NULL;p->detach_target[k]=-1;
+            {b2Vec2 where=p->bodies[t]->GetPosition();p->world.DestroyBody(p->bodies[t]);p->bodies[t]=NULL;p->detach_target[k]=-1;p->release_spawns(t,where);}
             if(p->level->objects[t].kind==4){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else if(p->level->objects[t].kind!=3){g->block_alive--;g->events|=GAME_EVENT_EXTRA;}
         }
     }p->break_joints(1.0f/dt);
@@ -471,7 +553,7 @@ static void tick(Game *g) {
         if(IS_FRAGILE_KIND(o.kind) && p->fragile_hit[i])p->health[i]=0;
         if(o.kind!=3 && (p->health[i]<=0 || body->GetPosition().y>p->level->ground_y+25)) {
             b2Vec2 where=body->GetPosition();bool exploded=o.kind==OBJECT_KIND_TNT && p->health[i]<=0;
-            p->world.DestroyBody(body);p->bodies[i]=NULL;
+            p->world.DestroyBody(body);p->bodies[i]=NULL;p->release_spawns(i,where);
             /* A destroyed TNT crate blasts its surroundings; crates caught in the blast
                go off in the following ticks, giving chain reactions. */
             if(exploded)radial_blast(g,where,TNT_BLAST_RADIUS,TNT_BLAST_FORCE,TNT_DAMAGE_RADIUS,TNT_BLAST_DAMAGE);

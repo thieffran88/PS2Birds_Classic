@@ -45,5 +45,22 @@ int main(){
   float vy=pb.vy/g.view_scale;if(std::fabs(vy)<0.5f && std::fabs(pb.vx)<0.5f)hover++;if(vy<-1){rise++;assert(vy>-BUBBLE_MAX_VELOCITY-1.5f);}}
  assert(end_frame>0 && rise>(int)(BUBBLE_TIME*120*0.6f) && end_frame<=(int)((PINK_BOOM_TIME+BUBBLE_TIME)*120)+4);
  game_destroy(&g);
+ // deathSpawn (gamelogic.lua): the big cake releases its 10 creams where it is destroyed.
+ int cake_level=-1;
+ for(int i=0;i<game_level_count() && cake_level<0;i++){assert(game_load_level(&g,i));for(int k=0;k<game_object_count(&g);k++){GameObject o;game_get_object(&g,k,&o);if(!strcmp(o.definition,"Spawning_cake")){cake_level=i;break;}}}
+ assert(cake_level>=0);
+ bool released=false;
+ for(int a=-10;a<=60 && !released;a+=5)for(int pw=50;pw<=100 && !released;pw+=10){
+  assert(game_load_level(&g,cake_level));int cakes=0,creams=0,hidden=0;
+  for(int k=0;k<game_object_count(&g);k++){GameObject o;game_get_object(&g,k,&o);if(!strcmp(o.definition,"Spawning_cake"))cakes++;if(!strcmp(o.definition,"CakeCream")){creams++;hidden+=!o.alive;}}
+  assert(cakes>0 && creams==10*cakes && hidden==creams);
+  update(&g,240);g.angle=(float)a;g.power=(float)pw;game_launch(&g);
+  for(int t=0;t<1200 && g.state==FLYING;t++){
+   game_update(&g,1.f/120);
+   int lost=0,out=0;for(int k=0;k<game_object_count(&g);k++){GameObject o;game_get_object(&g,k,&o);if(!strcmp(o.definition,"Spawning_cake")&&!o.alive)lost++;if(!strcmp(o.definition,"CakeCream")&&o.alive)out++;}
+   if(lost){assert(out>0 && out<=10*lost);released=true;break;}
+  }
+ }
+ assert(released);
  printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
 }

@@ -10,12 +10,35 @@
 #include <sbv_patches.h>
 #include <audsrv.h>
 #endif
-extern unsigned char audsrv_irx[],audio_bank[];
+#include <stdio.h>
+#include <stdlib.h>
+#ifdef PS2BIRDS_AUDIO_TEST
+#define memalign(a,n) malloc(n)
+#else
+#include <malloc.h>
+#endif
+extern unsigned char audsrv_irx[];
 extern unsigned int audsrv_irx_size;
 static audsrv_adpcm_t samples[SFX_COUNT];
 static unsigned int frame,last[SFX_CHANNELS];
 static unsigned char loaded[SFX_COUNT];
 static int available,enabled;
+static char data_path[256]="SOUNDS.BIN";
+void audio_set_data_path(const char *path){if(path){strncpy(data_path,path,sizeof(data_path)-1);data_path[sizeof(data_path)-1]=0;}}
+static unsigned rd32(const unsigned char *p){return p[0]|(p[1]<<8)|(p[2]<<16)|((unsigned)p[3]<<24);}
+/* SOUNDS.BIN: "PBSN", version 1, count, data start, then count x (offset,size) from the
+   data start, then the SPU2 ADPCM samples. Read whole (under 1 MiB) and freed after upload. */
+static unsigned char *read_sounds(unsigned *offsets,unsigned *sizes)
+{
+    FILE *f=fopen(data_path,"rb");if(!f)return 0;
+    fseek(f,0,SEEK_END);long n=ftell(f);fseek(f,0,SEEK_SET);
+    unsigned char *data=n>16 && n<=2*1048576?(unsigned char*)memalign(64,(size_t)n):0;
+    int ok=data && fread(data,1,(size_t)n,f)==(size_t)n;fclose(f);
+    if(ok)ok=!memcmp(data,"PBSN",4) && rd32(data+4)==1 && rd32(data+8)==SFX_COUNT && 16+8*SFX_COUNT<=rd32(data+12) && rd32(data+12)<=(unsigned)n;
+    for(int i=0;ok && i<SFX_COUNT;i++){offsets[i]=rd32(data+12)+rd32(data+16+8*i);sizes[i]=rd32(data+20+8*i);ok=offsets[i]+sizes[i]<=(unsigned)n && sizes[i]>16;}
+    if(!ok){free(data);return 0;}
+    return data;
+}
 void audio_init(void){
     available=enabled=0;frame=120;
     memset(last,0,sizeof(last));memset(loaded,0,sizeof(loaded));memset(samples,0,sizeof(samples));
@@ -23,11 +46,16 @@ void audio_init(void){
     SifInitIopHeap();int result=-1;
     if(SifExecModuleBuffer(audsrv_irx,audsrv_irx_size,0,0,&result)<0 || result!=0)return;
     if(audsrv_init()!=0 || audsrv_adpcm_init()!=0)return;
+    unsigned offsets[SFX_COUNT],sizes[SFX_COUNT];unsigned char *bank=read_sounds(offsets,sizes);
+    if(!bank)return;
     FlushCache(0);
     int count=0;
     for(int i=0;i<SFX_COUNT;i++){
-        if(audsrv_load_adpcm(&samples[i],audio_bank+audio_assets[i].offset,audio_assets[i].size)==0){loaded[i]=1;count++;}
+        if(audsrv_load_adpcm(&samples[i],bank+offsets[i],(int)sizes[i])==0){loaded[i]=1;count++;}
     }
+#ifndef PS2BIRDS_AUDIO_TEST
+    free(bank); /* audsrv copied the samples into SPU2 memory */
+#endif
     available=count>0;enabled=available;
 }
 void audio_tick(void){frame++;}

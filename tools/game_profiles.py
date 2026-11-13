@@ -20,12 +20,14 @@ def decode_payload(data,game='classic',sevenzip=None):
         else:
             if isinstance(parsed,dict):return data
     if not data.startswith((ROVIO_LZMA,b'7z\xbc\xaf\x27\x1c')):
-        result=subprocess.run(['openssl','enc','-aes-256-cbc','-d','-K',PROFILES[game]['aes_key_hex'],'-iv','0'*32],input=data,capture_output=True,check=False)
-        if result.returncode:raise ValueError('AES failed: wrong profile, unsupported version or damaged input')
-        data=result.stdout
+        from aes_cbc import decrypt
+        try:data=decrypt(bytes.fromhex(PROFILES[game]['aes_key_hex']),data)
+        except ValueError:raise ValueError('AES failed: wrong profile, unsupported version or damaged input')
     if data.startswith(ROVIO_LZMA):data=lzma.decompress(data[len(ROVIO_LZMA):],format=lzma.FORMAT_ALONE)
     if data.startswith(b'7z\xbc\xaf\x27\x1c'):
-        if not sevenzip:raise ValueError('Standard 7z payload requires --sevenzip')
+        if not sevenzip:
+            from mini7z import extract
+            return extract(data)
         with tempfile.TemporaryDirectory(prefix='ps2birds-payload-') as folder:
             archive=Path(folder)/'payload.7z';archive.write_bytes(data)
             result=subprocess.run(archive_command(sevenzip)+['x','-so',str(archive)],capture_output=True,check=False)

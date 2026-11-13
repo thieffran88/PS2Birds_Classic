@@ -3,7 +3,15 @@
 #include <cassert>
 #include <cstring>
 #include <cstdio>
-extern "C" {unsigned char audsrv_irx[64],audio_bank[1048576];unsigned int audsrv_irx_size=64;}
+extern "C" {unsigned char audsrv_irx[64];unsigned int audsrv_irx_size=64;}
+// A synthetic SOUNDS.BIN: header, table and SFX_COUNT silent 32-byte samples.
+static void write_sounds(const char *path){
+ FILE *f=fopen(path,"wb");unsigned start=16+8*SFX_COUNT;start=(start+63)/64*64;
+ unsigned head[4]={0,1,SFX_COUNT,start};memcpy(head,"PBSN",4);fwrite(head,4,4,f);
+ for(unsigned i=0;i<SFX_COUNT;i++){unsigned e[2]={i*64,32};fwrite(e,4,2,f);}
+ for(long p=ftell(f);p<(long)start;p++)fputc(0,f);
+ unsigned char sample[64]={0};for(int i=0;i<SFX_COUNT;i++)fwrite(sample,1,64,f);
+ fclose(f);}
 static bool module_fail=false,init_fail=false,busy=false;
 static int loads=0,plays=0,tries=0,muted=0,volumes=0,exec_result=0,last_channel=-1,initializations=0;
 extern "C" {
@@ -19,6 +27,8 @@ int audsrv_ch_play_adpcm(int ch,audsrv_adpcm_t*s){assert(ch>=0 && ch<SFX_CHANNEL
 int audsrv_adpcm_set_volume_and_pan(int ch,int volume,int pan){assert(ch>=0 && ch<SFX_CHANNELS && pan==0);assert(volume==0||volume==75);volumes++;if(!volume)muted++;return 0;}
 }
 int main(){
+ remove("build/host/SOUNDS.BIN");audio_set_data_path("build/host/SOUNDS.BIN");audio_init();assert(!strcmp(audio_status(),"SOM INDISPONIVEL")); // missing file: no sound, no crash
+ write_sounds("build/host/SOUNDS.BIN");
  module_fail=true;audio_init();audio_play(SFX_WIN);audio_toggle();assert(!loads && !plays && !strcmp(audio_status(),"SOM INDISPONIVEL"));
  module_fail=false;init_fail=true;audio_init();audio_play(SFX_WIN);assert(!loads && !plays);init_fail=false;
  exec_result=1;int initialized=initializations;audio_init();assert(initializations==initialized && !loads);exec_result=0;

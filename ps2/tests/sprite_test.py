@@ -37,7 +37,7 @@ for frame in meta['sprites']:
         if frame['sprite']=='BIRD_RED':assert sum(content[i]>150 and content[i]>content[i+1]*2 and content[i+3]>0 for i in range(0,len(content),4))>100
 # Aliased frames in the Mighty Hoax bank point at sprites present in that bank.
 for name,target in banks[1]['aliases'].items():assert target in banks[1]['sprites'] and name not in banks[1]['sprites'] and (name.endswith('_BLINK') or name[-1] in '23')
-header=(a/'sprite_data.h').read_text();assert '#define SPRITE_BANK_COUNT 17' in header and '#define SPRITE_COUNT 273' in header
+header=(root/'ps2/src/sprite_ids.h').read_text();assert '#define SPRITE_BANK_COUNT 17' in header and '#define SPRITE_COUNT 273' in header
 print(f'Sprites OK: endian/channels, alpha, crop, {len(meta["sprites"])} frames in {len(banks)} texture banks ({checked} placements), shared slots within {meta["vram_budget"]} bytes, bounds, no overlap, per-frame hashes, aliases.')
 
 # PNG sheets use 8-bit alpha, unlike the existing RGBA4444 streams.
@@ -55,7 +55,7 @@ assert next(s for s in meta['sprites'] if s['sprite']=='DROPPABLE_EGG')['source_
 print('PNG sprites OK: original egg frame, crop bounds and 8-bit-to-GS alpha conversion.')
 
 # Ground masks are stored at half resolution and drawn at SPRITE_MASK_SCALE.
-assert module.MASK_SCALE==2 and '#define SPRITE_MASK_SCALE 2' in (a/'sprite_data.h').read_text()
+assert module.MASK_SCALE==2 and '#define SPRITE_MASK_SCALE 2' in (root/'ps2/src/sprite_ids.h').read_text()
 half,w,h=module.halve_mask(bytes([9,9,9,128, 9,9,9,0, 9,9,9,64,  9,9,9,128, 9,9,9,128, 9,9,9,64]),3,2)
 assert (w,h)==(2,1) and half==bytes([255,255,255,96, 255,255,255,32])
 try:module.halve_mask(b'',3,2)
@@ -108,14 +108,22 @@ for b in range(4):
     for name in ['BLOCK_SUPER_BALL','BLOCK_CARPET','BLOCK_STEEL_BALL']:assert name not in banks[b]['sprites'],(b,name)
 print('Danger Above page 8 bank OK: super ball, carpet and steel ball only in bank 4.')
 
-# SPRITES.BIN: bank 0 stays in the ELF, banks 1+ go to the external file, byte for byte.
-import subprocess as _sp,tempfile as _tf
+# SPRITES.BIN v2: frame tables + every bank + save icon, in the order compiled into the game.
+import subprocess as _sp,tempfile as _tf,re as _re
+_ids=(root/'ps2/src/sprite_ids.h').read_text();_order=[n for n,_ in sorted(_re.findall(r'#define SPR_(\w+) (\d+)',_ids),key=lambda x:int(x[1]))]
 with _tf.TemporaryDirectory() as _d:
-    _b0=Path(_d)/'b0.rgba';_rest=Path(_d)/'SPRITES.BIN'
-    _sp.run([sys.executable,str(root/'tools/split_sprite_banks.py'),str(a/'manifest.json'),str(a/'sprites.rgba'),str(_b0),str(_rest)],check=True,capture_output=True)
-    _bank0=sum(p['width']*p['height']*4 for p in banks[0]['pages'])
-    assert _b0.stat().st_size==_bank0 and _b0.read_bytes()+_rest.read_bytes()==pixels
-    for b in range(1,len(banks)):assert banks[b]['pages'][0]['offset']>=_bank0
+    _out=Path(_d)/'SPRITES.BIN'
+    _sp.run([sys.executable,str(root/'tools/pack_sprites.py'),str(a/'manifest.json'),str(a/'sprites.rgba'),str(a/'save.icn'),str(_out)],check=True,capture_output=True)
+    _f=_out.read_bytes();_m,_v,_nb,_np,_ns,_start,_io,_isz=struct.unpack_from('<4s7I',_f)
+    assert (_m,_v,_nb,_np,_ns)==(b'PBSP',2,len(banks),4,len(_order)) and _start%128==0
+    assert _f[_start:_io]==pixels and _f[_io:_io+_isz]==(a/'save.icn').read_bytes() and len(_f)==_io+_isz
+    _by={x['sprite']:x for x in meta['sprites']}
+    for _b in range(len(banks)):
+        for _i,_n in enumerate(_order):
+            _fr=struct.unpack_from('<7h',_f,32+12*_nb*_np+14*(_b*_ns+_i));_t=banks[_b]['aliases'].get(_n,_n)
+            _pl=next((x for x in _by[_t]['banks'] if x['bank']==_b),None)
+            assert _fr[2:6]==(_by[_t]['width'],_by[_t]['height'],_by[_t]['pivot']['x'],_by[_t]['pivot']['y']) and _fr[6]==(_pl['page'] if _pl else -1)
+_bank0=sum(p['width']*p['height']*4 for p in banks[0]['pages'])
 for b in (5,6,7):
     for name in ['BIRD_BIG_BROTHER','HELMET_SMALL','HELMET_BIG','BIRD_RED']:assert name in banks[b]['sprites'],(b,name)
 for b in range(5):
@@ -135,4 +143,4 @@ print('Mine and Dine banks OK: RGBA8888 cave hats decoded with full alpha; hurt 
 assert 'BIRD_PUFFER_1' in banks[14]['sprites'] and 'BIRD_PUFFER_2' in banks[14]['sprites'] and not any('BIRD_PUFFER_1' in banks[b]['sprites'] for b in range(14))
 puff=[x for x in meta['sprites'] if x['sprite']=='BIRD_PUFFER_2'][0];assert (puff['width'],puff['height'])==(165,148)
 print('Birdday 2 bank OK: GlobeBird sprites only in bank 14; puffed frame at half resolution.')
-print(f'SPRITES.BIN OK: bank 0 ({_bank0} bytes) linked into the ELF, banks 1-{len(banks)-1} ({len(pixels)-_bank0} bytes) read from the disc or the ELF folder.')
+print(f'SPRITES.BIN OK: frame tables in the compiled sprite order, {len(banks)} banks ({len(pixels)} bytes) and the save icon, all read at run time; nothing linked into the ELF.')

@@ -1,2 +1,0 @@
-#define SAVE_ICON_BYTES 33112
-#define SAVE_SYS_BYTES 964
