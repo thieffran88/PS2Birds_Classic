@@ -385,6 +385,21 @@ static const Stage stages[]={
  {"UGC1Level28",171,12,91,4,{{0,90,2.3f},{60,100,2.3f}},2}, /* BIRDDAY 5-28 */
  {"UGC1Level29",241,17,120,4,{{10,70,0.8f}},1}, /* BIRDDAY 5-29 */
  {"UGC1Level30",213,14,110,5,{{50,90,-1.0f},{30,100,2.6f},{30,90,-1.0f}},3}, /* BIRDDAY 5-30 */
+ {"Level263_BirdDay7",294,9,65,4,{{40,70,1.6f},{60,100,1.6f},{80,80,2.6f}},3}, /* BIRDDAY 7-1 */
+ {"Level299_BirdDay7",198,9,106,4,{{40,100,-1.0f},{10,90,2.3f}},2}, /* BIRDDAY 7-2 */
+ {"Level275_BirdDay7",253,8,69,4,{{10,80,0.6f},{30,70,1.6f},{-10,30,1.2f}},3}, /* BIRDDAY 7-3 */
+ {"Level301_BirdDay7",191,10,83,4,{{40,60,1.0f},{60,90,0.8f}},2}, /* BIRDDAY 7-4 */
+ {"Level274_BirdDay7",300,7,60,3,{{10,50,0.6f},{70,100,1.6f},{10,100,-1.0f}},3}, /* BIRDDAY 7-5 */
+ {"Level300_BirdDay7",341,8,102,4,{{60,90,-1.0f},{40,70,2.3f},{50,90,2.6f}},3}, /* BIRDDAY 7-6 */
+ {"Level277_BirdDay7",191,4,66,4,{{0,0,-1.0f}},0}, /* BIRDDAY 7-7 (sem roteiro vencedor) */
+ {"Level276_BirdDay7",345,9,99,5,{{30,100,2.6f},{50,100,2.6f}},2}, /* BIRDDAY 7-8 */
+ {"Level295_BirdDay7",340,11,143,5,{{40,100,-1.0f},{0,60,2.0f},{20,70,1.2f}},3}, /* BIRDDAY 7-9 */
+ {"Level279_BirdDay7",365,7,75,3,{{50,90,1.6f},{60,100,1.8f}},2}, /* BIRDDAY 7-10 */
+ {"Level297_BirdDay7",318,14,114,5,{{20,90,0.6f},{0,100,0.8f}},2}, /* BIRDDAY 7-11 */
+ {"Level298_BirdDay7",265,19,178,4,{{40,80,1.6f}},1}, /* BIRDDAY 7-12 */
+ {"Level296_BirdDay7",227,13,98,4,{{50,70,2.6f},{40,100,2.3f}},2}, /* BIRDDAY 7-13 */
+ {"Level278_BirdDay7",248,3,77,4,{{0,0,-1.0f}},0}, /* BIRDDAY 7-14 (sem roteiro vencedor) */
+ {"Level281_BirdDay7",316,8,144,4,{{30,60,2.3f},{60,80,-1.0f}},2}, /* BIRDDAY 7-15 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -503,7 +518,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==7);
+    assert(unverified==9);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");
