@@ -11,7 +11,7 @@ GROUND_HALF_HEIGHT=5.0
 SIZE_FACTOR=0.92
 SLING_BACK_HEIGHT=199
 SLING_BACK_PIVOT_Y=30
-BIRD_RADIUS={'RedBird':0.75,'SmallBlueBird':0.6,'YellowBird':0.8,'BlackBird':1.0,'BasicBird2':1.3,'BoomerangBird':1.5,'RedBigBird':1.8,'GlobeBird':0.85}
+BIRD_RADIUS={'RedBird':0.75,'SmallBlueBird':0.6,'YellowBird':0.8,'BlackBird':1.0,'BasicBird2':1.3,'BoomerangBird':1.5,'RedBigBird':1.8,'GlobeBird':0.85,'PinkBird':0.85}
 
 def read_assignments(text):
     """Read only the literal/table assignment subset emitted by unluac. No Lua execution."""
@@ -65,7 +65,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
     if not 1<=len(birds)<=16:raise ValueError('Adapter needs 1..16 supported birds')
     for bird in birds:
         bird['type']=profile.get('bird_types',{'RedBird':0}).get(bird['definition'],-1)
-        if bird['type'] not in [0,1,2,3,4,6,7,8]:raise ValueError('Unsupported runtime bird type')
+        if bird['type'] not in [0,1,2,3,4,6,7,8,9]:raise ValueError('Unsupported runtime bird type')
     if len({b['startNumber'] for b in birds})!=len(birds):raise ValueError('Duplicate bird queue position')
     grounds=[o for o in objects if o['definition']=='Ground']
     if len(grounds)!=1:raise ValueError('Adapter requires exactly one Ground object')
@@ -79,7 +79,8 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None):
         if not shape:raise ValueError('Unsupported definition; add a verified adapter: '+o['definition'])
         kind=shape['kind']
         if kind not in [1,2,3,4,5,6,7,8,9]:raise ValueError('Unsupported runtime object kind')
-        if 'sprite' in shape:
+        if 'size' in shape:w,h=float(shape['size'][0]),float(shape['size'][1])
+        elif 'sprite' in shape:
             metric=metrics[shape['sprite']];w,h=metric['width']/pixels,metric['height']/pixels
             # ObjectCreation.lua: sprite-sized shapes are scaled by sizeFactorX/Y (default
             # 0.92) unless the object is static (density 0), which keeps the full sprite.

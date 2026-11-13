@@ -177,12 +177,12 @@ for path in sorted(glob.glob(str(root/'ps2/data/level_*_*.json'))):
         spec=adapter['objects'][o['definition']]
         if 'sprite' in spec:
             factor=1.0 if o['density']==0 else 0.92
-            assert abs(o['width']-metrics[spec['sprite']]['width']/20*factor*(o.get('scaleX') or 1))<1e-9
-            assert abs(o['height']-metrics[spec['sprite']]['height']/20*factor*(o.get('scaleY') or 1))<1e-9
+            w,h=(spec['size'][0],spec['size'][1]) if 'size' in spec else (metrics[spec['sprite']]['width']/20*factor,metrics[spec['sprite']]['height']/20*factor)
+            assert abs(o['width']-w*(o.get('scaleX') or 1))<1e-9 and abs(o['height']-h*(o.get('scaleY') or 1))<1e-9
         m=adapter['materials']['by_kind'][str(o['kind'])]
         assert o['restitution']==adapter['materials'].get('restitution_overrides',{}).get(o['definition'],m['restitution']) and o['friction']==adapter['materials']['friction_overrides'].get(o['definition'],m['friction'])
 assert adapter['materials']['by_kind']['1']['friction']==4.0 and adapter['materials']['by_kind']['5']['restitution']==0.1
-print('Sizes and materials OK: 0.92 size factor on dynamic shapes, full size on static ones, friction/restitution from the materials table.')
+print('Sizes and materials OK: 0.92 size factor on dynamic sprite-sized shapes, full size on static ones, explicit width/height/radius from blocks.lua where declared, friction/restitution from the materials table.')
 
 # Mighty Hoax page 5 (world 5): order, bank and the three new definitions.
 mh2=re.findall(r'^L\d+_1.name = "(LevelP2_\d+)"$',(root/'ps2/data/episode_mighty_hoax_page2.decompiled.lua').read_text(),re.M)
@@ -363,3 +363,35 @@ for name in party:
 assert _ad.material(bd,'balloon')['forceY']==-30 and objs['objects']['BirthdayBalloon_2']['force']==[-1.0,-30.0]
 data=(root/'ps2/src/campaign_data.h').read_text();assert '{"BirthdayBalloon_2",-1.00000000f,-30.00000000f}' in data
 print("Birdday 2 OK: 15 stages in bank 14; GlobeBird body, puff and death values match blocks.lua and puffer_bird.lua; 13 party pieces and the balloon force (forceX/forceY) match blocks.lua.")
+
+# Explicit sizes: pieces whose blocks.lua entry declares width/height (box) or radius (circle) use them.
+allb=Path('/dev/null')
+for exc in ['mine_and_dine_definitions_excerpt.lua','birdday2_definitions_excerpt.lua','birdday34_definitions_excerpt.lua']:
+    txt=(root/'ps2/data'/exc).read_text()
+    for name,spec in objs['objects'].items():
+        if not spec.get('auto') or f'L3_1 = "{name}"' not in txt:continue
+        d=_ad.definition(txt,name)
+        if d['type']=='box' and 'width' in d['props']:assert spec['size']==[d['props']['width'],d['props']['height']],name
+        if d['type']=='circle' and 'radius' in d['props']:assert spec['size']==[2*d['props']['radius']]*2,name
+assert objs['objects']['ExtraStalaktite_1']['size']==[3.0,13.9] and objs['objects']['BirthdayBalloon_2']['size']==[2.4,2.4]
+# Birdday 3 and 4 (pages 19-20): order, banks 15-16, Stella body/bubbles and the new party pieces.
+b34=(root/'ps2/data/birdday34_definitions_excerpt.lua').read_text()
+for number,name,folder in [(19,'episode_birdday3','/levels/8_Birdday3'),(20,'episode_birdday4','/levels/9_Birdday4')]:
+    order=list(dict.fromkeys(re.findall(r'"(Level[\w]+)"',(root/f'ps2/data/{name}.decompiled.lua').read_text())))
+    page=[pg for pg in episode['additional_pages'] if pg['number']==number][0]
+    assert len(order)==15 and page['levels']==order and page['bank']==number-4 and page['folder']==folder
+    for n in range(1,16):
+        d=json.loads((root/f'ps2/data/level_{number}_{n}.json').read_text());assert d['stage_script']==order[n-1] and d['texture_bank']==number-4
+pb=b34.split('L3_1 = "PinkBird"',1)[1].split('L3_1 = "',1)[0]
+for key,macro in [('radius','PINK_RADIUS'),('density','PINK_DENSITY'),('friction','PINK_FRICTION'),('restitution','PINK_RESTITUTION')]:
+    v=re.search(r'L5_1 = (-?[\d.]+)\nL4_1.%s = L5_1'%key,pb)[1];assert re.search(r'#define %s %sf'%(macro,re.escape(str(float(v)))),h),macro
+v=re.search(r'L5_1 = "specialtyRadius"\nL6_1 = (-?[\d.]+)',pb)[1];assert '#define PINK_BUBBLE_RADIUS %sf'%float(v) in h
+assert 'L4_1.wood = 0.5' in b34 and '#define PINK_DAMAGE_FACTOR 0.5f' in h and objs['bird_types']['PinkBird']==9
+conf=(root/'ps2/data/bubbles_excerpt.lua').read_text()
+for macro,key in [('BUBBLE_ANTI_GRAVITY','bubbleAntiGravity'),('BUBBLE_TIME','bubbleAntiGravityTime'),('BUBBLE_MAX_VELOCITY','antiGravityMaxVelocity')]:
+    v=re.search(r'L0_1 = (-?[\d.]+)\n%s = L0_1'%key,conf)[1];assert '#define %s %sf'%(macro,float(v)) in h,macro
+assert '* 1.3' in conf and 'triggerPinkBirdSpecialty' in conf and 'pinkTimer = 1.5' in conf and 'lifeTime = L0_1' in conf
+for name in ['Spawning_cake','CakeCream','PartyHat_5','PartyHat_6','PartyHat_blue']:
+    d=_ad.definition(b34,name);spec=objs['objects'][name];assert spec['sprite']==d['sprite'] and spec['shape']==d['type']
+assert _ad.definition(b34,'PartyHat_blue')['sprite']=='PARTY_HAT_BLUE' and 'deathSpawn' in b34
+print("Birdday 3 and 4 OK: 30 stages in banks 15-16; Stella body, bubble radius and damage from blocks.lua, bubble physics from bubbles.lua/default_conf.lua/mode_MuseumMode.lua; party pieces with explicit sizes; deathSpawn not ported.")

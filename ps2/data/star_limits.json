@@ -1200,6 +1200,126 @@
     "LevelH900": {
       "silver": 117000,
       "gold": 125000
+    },
+    "Level978": {
+      "silver": 74000,
+      "gold": 81000
+    },
+    "Level979": {
+      "silver": 73000,
+      "gold": 80000
+    },
+    "Level925": {
+      "silver": 116000,
+      "gold": 123000
+    },
+    "Level926": {
+      "silver": 82000,
+      "gold": 89000
+    },
+    "Level931": {
+      "silver": 86000,
+      "gold": 93000
+    },
+    "Level932": {
+      "silver": 67000,
+      "gold": 74000
+    },
+    "Level928": {
+      "silver": 107000,
+      "gold": 114000
+    },
+    "Level927": {
+      "silver": 97000,
+      "gold": 105000
+    },
+    "Level1045": {
+      "silver": 106000,
+      "gold": 112000
+    },
+    "Level977": {
+      "silver": 107000,
+      "gold": 115000
+    },
+    "Level1048": {
+      "silver": 103000,
+      "gold": 110000
+    },
+    "Level976": {
+      "silver": 117000,
+      "gold": 124000
+    },
+    "Level930": {
+      "silver": 81000,
+      "gold": 88000
+    },
+    "Level974": {
+      "silver": 123000,
+      "gold": 130000
+    },
+    "Level980": {
+      "silver": 98000,
+      "gold": 105000
+    },
+    "Level1891": {
+      "silver": 98000,
+      "gold": 105000
+    },
+    "Level1892": {
+      "silver": 71000,
+      "gold": 76000
+    },
+    "Level1893": {
+      "silver": 80000,
+      "gold": 86000
+    },
+    "Level1894": {
+      "silver": 115000,
+      "gold": 122000
+    },
+    "Level1895": {
+      "silver": 85000,
+      "gold": 90000
+    },
+    "Level1896": {
+      "silver": 68000,
+      "gold": 75000
+    },
+    "Level1897": {
+      "silver": 115000,
+      "gold": 122000
+    },
+    "Level1898": {
+      "silver": 150000,
+      "gold": 156000
+    },
+    "Level1899": {
+      "silver": 123000,
+      "gold": 130000
+    },
+    "Level1900": {
+      "silver": 102000,
+      "gold": 109000
+    },
+    "Level1901": {
+      "silver": 116000,
+      "gold": 123000
+    },
+    "Level1902": {
+      "silver": 118000,
+      "gold": 125000
+    },
+    "Level1903": {
+      "silver": 115000,
+      "gold": 122000
+    },
+    "Level1904": {
+      "silver": 133000,
+      "gold": 140000
+    },
+    "Level1905": {
+      "silver": 133000,
+      "gold": 140000
     }
   }
 }

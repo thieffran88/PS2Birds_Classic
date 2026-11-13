@@ -9,7 +9,8 @@
     "BasicBird2",
     "BoomerangBird",
     "RedBigBird",
-    "GlobeBird"
+    "GlobeBird",
+    "PinkBird"
   ],
   "objects": {
     "WoodBlock2": {
@@ -683,55 +684,91 @@
       "sprite": "CAVE_HAT_1",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        1.0,
+        0.5
+      ]
     },
     "ExtraCaveHat_2": {
       "sprite": "CAVE_HAT_2",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        2.0,
+        1.6
+      ]
     },
     "ExtraCaveHat_3": {
       "sprite": "CAVE_HAT_3",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        2.0,
+        1.5
+      ]
     },
     "ExtraKingCaveHat_1": {
       "sprite": "KING_CAVE_HAT_1",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        2.2,
+        1.7
+      ]
     },
     "ExtraAmethyst": {
       "sprite": "BLOCK_AMETHYST",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        2.0,
+        1.6
+      ]
     },
     "ExtraAmber": {
       "sprite": "BLOCK_AMBER",
       "kind": 6,
       "shape": "circle",
-      "auto": true
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ]
     },
     "ExtraRuby": {
       "sprite": "BLOCK_RUBY",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        1.3,
+        2.0
+      ]
     },
     "ExtraCaveShovel_1": {
       "sprite": "CAVE_SHOVEL_1",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        1.2,
+        4.7
+      ]
     },
     "ExtraCaveShovel_2": {
       "sprite": "CAVE_SHOVEL_2",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        0.8,
+        2.5
+      ]
     },
     "ExtraCavePickaxe_1": {
       "sprite": "CAVE_PICKAXE_1",
@@ -789,49 +826,81 @@
       "sprite": "BLOCK_STALAKTITE_1",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        3.0,
+        13.9
+      ]
     },
     "ExtraStalaktite_2": {
       "sprite": "BLOCK_STALAKTITE_2",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        1.0,
+        12.5
+      ]
     },
     "ExtraStalaktite_3": {
       "sprite": "BLOCK_STALAKTITE_3",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        1.8,
+        17.1
+      ]
     },
     "ExtraStalaktite_Tip1": {
       "sprite": "BLOCK_STALAKTITE_TIP_1",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        0.6,
+        5.0
+      ]
     },
     "ExtraStalaktite_Tip2": {
       "sprite": "BLOCK_STALAKTITE_TIP_2",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        0.6,
+        4.0
+      ]
     },
     "ExtraStalaktite_Tip3": {
       "sprite": "BLOCK_STALAKTITE_TIP_3",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        0.6,
+        4.0
+      ]
     },
     "ExtraStalaktite_Tip4": {
       "sprite": "BLOCK_STALAKTITE_TIP_4",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        0.6,
+        6.0
+      ]
     },
     "BirthdayBalloon_1": {
       "sprite": "BLOCK_BALLOON_BDAY",
       "kind": 6,
       "shape": "circle",
       "auto": true,
+      "size": [
+        2.4,
+        2.4
+      ],
       "force": [
         -1.0,
         -30.0
@@ -842,6 +911,10 @@
       "kind": 6,
       "shape": "circle",
       "auto": true,
+      "size": [
+        2.4,
+        2.4
+      ],
       "force": [
         -1.0,
         -30.0
@@ -852,6 +925,10 @@
       "kind": 6,
       "shape": "circle",
       "auto": true,
+      "size": [
+        2.4,
+        2.4
+      ],
       "force": [
         -1.0,
         -30.0
@@ -862,6 +939,10 @@
       "kind": 6,
       "shape": "circle",
       "auto": true,
+      "size": [
+        2.4,
+        2.4
+      ],
       "force": [
         -1.0,
         -30.0
@@ -871,55 +952,141 @@
       "sprite": "CHOCO_CAKE_1",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        2.5,
+        2.9
+      ]
     },
     "BirthdayCake_2": {
       "sprite": "PINK_CAKE_1",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        3.0,
+        3.8
+      ]
     },
     "BirthdayCake_3": {
       "sprite": "MINT_CAKE_1",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        4.0,
+        2.2
+      ]
     },
     "BirthdayCandle_1": {
       "sprite": "BDAY_CANDLE_1",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        0.6,
+        2.3
+      ]
     },
     "PartyHat_1": {
       "sprite": "PARTY_HAT_1",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        1.5,
+        1.7
+      ]
     },
     "PartyHat_2": {
       "sprite": "PARTY_HAT_2",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        1.6,
+        1.7
+      ]
     },
     "PartyHat_3": {
       "sprite": "PARTY_HAT_3",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        2.2,
+        1.7
+      ]
     },
     "PartyHat_4": {
       "sprite": "PARTY_HAT_4",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        2.2,
+        1.7
+      ]
     },
     "SPECIAL_CAKE_1": {
       "sprite": "SPECIAL_CAKE_1",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ]
+    },
+    "Spawning_cake": {
+      "sprite": "BLOCK_CAKE",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        4.0,
+        4.0
+      ]
+    },
+    "CakeCream": {
+      "sprite": "BLOCK_CAKECREAM",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.6,
+        2.6
+      ]
+    },
+    "PartyHat_5": {
+      "sprite": "PARTY_HAT_5",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.5,
+        1.7
+      ]
+    },
+    "PartyHat_6": {
+      "sprite": "PARTY_HAT_6",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.5,
+        1.7
+      ]
+    },
+    "PartyHat_blue": {
+      "sprite": "PARTY_HAT_BLUE",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.5,
+        1.7
+      ]
     }
   },
   "metrics": "ps2/data/sprite_metrics.json",
@@ -936,7 +1103,8 @@
     "BasicBird2": 4,
     "BoomerangBird": 6,
     "RedBigBird": 7,
-    "GlobeBird": 8
+    "GlobeBird": 8,
+    "PinkBird": 9
   },
   "materials": {
     "source": "materials table in blocks.lua",
@@ -1034,7 +1202,12 @@
       "PartyHat_2": 1.0,
       "PartyHat_3": 1.0,
       "PartyHat_4": 1.0,
-      "SPECIAL_CAKE_1": 1.0
+      "SPECIAL_CAKE_1": 1.0,
+      "Spawning_cake": 0.5,
+      "CakeCream": 1.0,
+      "PartyHat_5": 1.0,
+      "PartyHat_6": 1.0,
+      "PartyHat_blue": 1.0
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -1080,7 +1253,12 @@
       "PartyHat_2": 0.0,
       "PartyHat_3": 0.0,
       "PartyHat_4": 0.0,
-      "SPECIAL_CAKE_1": 0.0
+      "SPECIAL_CAKE_1": 0.0,
+      "Spawning_cake": 0.0,
+      "CakeCream": 0.0,
+      "PartyHat_5": 0.0,
+      "PartyHat_6": 0.0,
+      "PartyHat_blue": 0.0
     }
   }
 }

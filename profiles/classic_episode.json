@@ -438,6 +438,52 @@
         "LevelH804",
         "LevelH900"
       ]
+    },
+    {
+      "number": 19,
+      "title_prefix": "BIRDDAY 3-",
+      "folder": "/levels/8_Birdday3",
+      "bank": 15,
+      "levels": [
+        "Level978",
+        "Level979",
+        "Level925",
+        "Level926",
+        "Level931",
+        "Level932",
+        "Level928",
+        "Level927",
+        "Level1045",
+        "Level977",
+        "Level1048",
+        "Level976",
+        "Level930",
+        "Level974",
+        "Level980"
+      ]
+    },
+    {
+      "number": 20,
+      "title_prefix": "BIRDDAY 4-",
+      "folder": "/levels/9_Birdday4",
+      "bank": 16,
+      "levels": [
+        "Level1891",
+        "Level1892",
+        "Level1893",
+        "Level1894",
+        "Level1895",
+        "Level1896",
+        "Level1897",
+        "Level1898",
+        "Level1899",
+        "Level1900",
+        "Level1901",
+        "Level1902",
+        "Level1903",
+        "Level1904",
+        "Level1905"
+      ]
     }
   ]
 }

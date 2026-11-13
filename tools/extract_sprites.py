@@ -6,7 +6,7 @@ import argparse,hashlib,json,lzma,re,struct,subprocess,tempfile,zipfile,io
 from pathlib import Path
 from game_profiles import ROOT, PROFILES, decode_payload, archive_command
 SHEETS={
- 'INGAME_BIRDS_1':['BIRD_PUFFER_1','BIRD_PUFFER_2','BIRD_BIG_BROTHER','BIRD_BOOMERANG','BIRD_BOOMERANG_SPECIAL','BIRD_BOOMERANG_COLLISION','BIRD_GREEN','BIRD_GREEN_FLYING','BIRD_GREEN_COLLISION','BIRD_GREY','BIRD_GREY_FLYING','BIRD_GREY_1','BIRD_GREY_2','BIRD_GREY_3','BIRD_BLUE','BIRD_BLUE_COLLISION','BIRD_RED','BIRD_YELLOW','BIRD_YELLOW_COLLISION','SLING_SHOT_01_BACK','SLING_SHOT_01_FRONT'],
+ 'INGAME_BIRDS_1':['BIRD_PINK','BIRD_PINK_RELEASE','BIRD_PUFFER_1','BIRD_PUFFER_2','BIRD_BIG_BROTHER','BIRD_BOOMERANG','BIRD_BOOMERANG_SPECIAL','BIRD_BOOMERANG_COLLISION','BIRD_GREEN','BIRD_GREEN_FLYING','BIRD_GREEN_COLLISION','BIRD_GREY','BIRD_GREY_FLYING','BIRD_GREY_1','BIRD_GREY_2','BIRD_GREY_3','BIRD_BLUE','BIRD_BLUE_COLLISION','BIRD_RED','BIRD_YELLOW','BIRD_YELLOW_COLLISION','SLING_SHOT_01_BACK','SLING_SHOT_01_FRONT'],
  'INGAME_PIGS_NEW_SHEET_1_1':['PIG_BASIC_SMALL_01','PIG_BASIC_SMALL_01_BLINK','PIG_BASIC_SMALL_02','PIG_BASIC_MEDIUM_01','PIG_BASIC_MEDIUM_01_BLINK','PIG_BASIC_MEDIUM_02','PIG_KING_01','PIG_KING_02'],
  'INGAME_PIGS_NEW_SHEET_0_1':['PIG_BASIC_BIG_01','PIG_BASIC_BIG_01_BLINK','PIG_BASIC_BIG_02','PIG_HELMET_01','PIG_HELMET_01_BLINK','PIG_HELMET_02','PIG_MUSTACHE_01','PIG_MUSTACHE_01_BLINK','PIG_MUSTACHE_02'],
  'INGAME_BLOCKS_1_1':['ESTRADE_01','ESTRADE_02','BLOCK_TREASURE_CHEST','BLOCK_SMILEY_1','BLOCK_SMILEY_3','BLOCK_BEACHBALL','BLOCK_RUBBERDUCK','BLOCK_STRAWBERRY','BLOCK_APPLE','BLOCK_BALLOON_1','BLOCK_BALLOON_2','BLOCK_BALLOON_3','BLOCK_PIG_BALLOON_1','BLOCK_PIG_BALLOON_2','BLOCK_TRAMPOLINE_01','BLOCK_SUPER_BALL','BLOCK_ROPE_THICK_1','COWBOY_HAT_SMALL_1','COWBOY_HAT_BIG_1','SHERIFF_HAT_1','SHERIFF_HAT_2','BANDITO_HAT_1','SHORT_THICK_ROPE','B_EGG_SUPER_BOWL','BLOCK_CARPET','BLOCK_STEEL_BALL','BLOCK_TIRE_01','BLOCK_TIRE_03','BLOCK_WATERMELON','BLOCK_EXTRA_TNT','BLOCK_EXTRA_FLAG_01','BLOCK_DIAMOND','BLOCK_HOLYGRAIL','BLOCK_PILLAR','BLOCK_BANANA','ESTRADE_03','ESTRADE_STAIRS','BLOCK_TIRE_02','BLOCK_EXTRA_DICE_6','BLOCK_STOLEN_EGG','BLOCK_DONUT','BLOCK_HAM','BLOCK_GOLDEN_EGG','BLOCK_EXTRA_FLAG_02'],
@@ -107,7 +107,7 @@ def bank_members(all_names):
     available=set(all_names);profile=json.loads((ROOT/'profiles/classic_level.json').read_text())
     episode=json.loads((ROOT/'profiles/classic_episode.json').read_text())
     # The green boomerang bird is only stored in the banks of stages that use it.
-    common=[n for n in all_names if n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_')) and not n.startswith(('BIRD_BOOMERANG','BIRD_BIG_BROTHER','BIRD_PUFFER'))]
+    common=[n for n in all_names if n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_')) and not n.startswith(('BIRD_BOOMERANG','BIRD_BIG_BROTHER','BIRD_PUFFER','BIRD_PINK'))]
     bank_of_page={pg['number']:pg.get('bank',0) for pg in episode.get('additional_pages',[])};bank_of_page[1]=0
     banks=[set(common) for _ in range(max(bank_of_page.values())+1)]
     for path in sorted((ROOT/'ps2/data').glob('level_*_*.json')):
@@ -123,9 +123,10 @@ def bank_members(all_names):
         if any(bird['definition']=='BoomerangBird' for bird in d['birds']):banks[b]|={'BIRD_BOOMERANG','BIRD_BOOMERANG_SPECIAL','BIRD_BOOMERANG_COLLISION'}
         if any(bird['definition']=='RedBigBird' for bird in d['birds']):banks[b].add('BIRD_BIG_BROTHER')
         if any(bird['definition']=='GlobeBird' for bird in d['birds']):banks[b]|={'BIRD_PUFFER_1','BIRD_PUFFER_2'}
+        if any(bird['definition']=='PinkBird' for bird in d['birds']):banks[b]|={'BIRD_PINK','BIRD_PINK_RELEASE'}
     # Bank 0 also keeps everything not claimed by a later bank, matching earlier builds.
     later=set().union(*banks[1:]) if len(banks)>1 else set()
-    banks[0]|={n for n in available if n not in later or n in banks[0]}-{n for n in later if n not in banks[0] and (n.startswith(('BIRD_BOOMERANG','BIRD_BIG_BROTHER','BIRD_PUFFER')) or not n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_')))}
+    banks[0]|={n for n in available if n not in later or n in banks[0]}-{n for n in later if n not in banks[0] and (n.startswith(('BIRD_BOOMERANG','BIRD_BIG_BROTHER','BIRD_PUFFER','BIRD_PINK')) or not n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_')))}
     missing=[n for b in banks for n in b if n not in available]
     if missing:raise ValueError('Unknown sprites in banks: '+', '.join(sorted(missing)))
     # Later banks reuse neighbouring frames for blinks and middle damage states of

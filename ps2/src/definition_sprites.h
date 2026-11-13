@@ -11,6 +11,7 @@ static const DefinitionSprite definition_sprites[]={
  {"BirthdayCake_2",SPR_PINK_CAKE_1},
  {"BirthdayCake_3",SPR_MINT_CAKE_1},
  {"BirthdayCandle_1",SPR_BDAY_CANDLE_1},
+ {"CakeCream",SPR_BLOCK_CAKECREAM},
  {"ExtraAmber",SPR_BLOCK_AMBER},
  {"ExtraAmethyst",SPR_BLOCK_AMETHYST},
  {"ExtraCaveHat_1",SPR_CAVE_HAT_1},
@@ -35,6 +36,10 @@ static const DefinitionSprite definition_sprites[]={
  {"PartyHat_2",SPR_PARTY_HAT_2},
  {"PartyHat_3",SPR_PARTY_HAT_3},
  {"PartyHat_4",SPR_PARTY_HAT_4},
+ {"PartyHat_5",SPR_PARTY_HAT_5},
+ {"PartyHat_6",SPR_PARTY_HAT_6},
+ {"PartyHat_blue",SPR_PARTY_HAT_BLUE},
  {"SPECIAL_CAKE_1",SPR_SPECIAL_CAKE_1},
+ {"Spawning_cake",SPR_BLOCK_CAKE},
  {0,0}};
 #endif

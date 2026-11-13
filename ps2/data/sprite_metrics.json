@@ -598,5 +598,40 @@
     "width": 330,
     "height": 296,
     "sheet": "INGAME_BIRDS_1.sheet.json"
+  },
+  "BLOCK_CAKE": {
+    "width": 118,
+    "height": 93,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "BLOCK_CAKECREAM": {
+    "width": 69,
+    "height": 64,
+    "sheet": "INGAME_BLOCKS_BIRDDAY_1.sheet.json"
+  },
+  "PARTY_HAT_5": {
+    "width": 43,
+    "height": 56,
+    "sheet": "INGAME_BLOCKS_2_1.sheet.json"
+  },
+  "PARTY_HAT_6": {
+    "width": 73,
+    "height": 64,
+    "sheet": "INGAME_BLOCKS_2_1.sheet.json"
+  },
+  "PARTY_HAT_BLUE": {
+    "width": 24,
+    "height": 32,
+    "sheet": "INGAME_BLOCKS_2_1.sheet.json"
+  },
+  "BIRD_PINK": {
+    "width": 58,
+    "height": 44,
+    "sheet": "INGAME_BIRDS_1.sheet.json"
+  },
+  "BIRD_PINK_RELEASE": {
+    "width": 57,
+    "height": 44,
+    "sheet": "INGAME_BIRDS_1.sheet.json"
   }
 }

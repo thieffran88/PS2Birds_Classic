@@ -11,11 +11,17 @@ import argparse,json,re
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 def definition(blocks,name):
-    b=blocks.split(f'L3_1 = "{name}"\n',1)[1].split('\nL3_1 = "',1)[0]
+    # A definition assigned twice keeps the last assignment, as Lua does; entries of other
+    # tables that reuse the name (e.g. bird hat offsets) have no shape type and are skipped.
+    parts=[p.split('\nL3_1 = "',1)[0] for p in blocks.split(f'L3_1 = "{name}"\nL4_1 = {{}}\n')[1:]]
+    parts=[p for p in parts if re.search(r'L4_1.type = (L5_1|"(polygon|box|circle)")',p)]
+    if not parts:raise ValueError('Definition not found: '+name)
+    b=parts[-1]
     t=[x or y for x,y in re.findall(r'(?:L5_1 = "(polygon|box|circle)"\nL4_1.type|L4_1.type = "(polygon|box|circle)")',b)]
     s=re.findall(r'L5_1 = "(\w+)"\nL4_1.sprite',b)+re.findall(r'L4_1.sprite = "(\w+)"',b)+re.findall(r'L9_1 = "(\w+)"\nL8_1.sprite',b)
     nums=re.findall(r'"([xy])"\nL\d+_1 = (-?[\d.]+)',b)
     props={k:float(v) for v,k in re.findall(r'L5_1 = (-?[\d.]+)\nL4_1\.(\w+) = L5_1',b)}
+    props.update({k:float(v) for k,v in re.findall(r'L5_1 = "(width|height)"\nL6_1 = (-?[\d.]+)',b)})
     m=re.findall(r'materialName = "(\w+)"',b)
     return dict(type=t[0],sprite=s[0],material=m[0] if m else 'extras',vertices=[[float(nums[i][1]),float(nums[i+1][1])] for i in range(0,len(nums),2)],props=props)
 def material(blocks,name):
@@ -30,6 +36,9 @@ def main():
         d=definition(blocks,name);mat=material(blocks,d['material']);sheet,w,h=frames[d['sprite']]
         spec={'sprite':d['sprite'],'kind':6,'shape':d['type'],'auto':True}
         if d['type']=='polygon':spec['vertices']=d['vertices']
+        # Boxes with their own width/height (ObjectCreation.lua uses them instead of the sprite bounds).
+        if d['type']=='box' and 'width' in d['props'] and 'height' in d['props']:spec['size']=[d['props']['width'],d['props']['height']]
+        if d['type']=='circle' and 'radius' in d['props']:spec['size']=[2*d['props']['radius'],2*d['props']['radius']]
         # Materials with forceX/forceY (balloon) push the piece every step (setObjectAsForceAdder).
         if 'forceX' in mat or 'forceY' in mat:spec['force']=[mat.get('forceX',0.0),mat.get('forceY',0.0)]
         prof['objects'][name]=spec

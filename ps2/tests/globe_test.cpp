@@ -36,6 +36,14 @@ int main(){
  update(&g,240);
  for(int k=0;k<n;k++){GameObject o;game_get_object(&g,k,&o);if(strncmp(o.definition,"BirthdayBalloon",15))continue;assert(o.alive && std::fabs(o.y-y0[k])<3);checked++;}
  assert(checked>0);
+ // Stella (PinkBird): tap -> hover for PINK_BOOM_TIME, bubble rises (<= BUBBLE_MAX_VELOCITY) for BUBBLE_TIME, then leaves.
+ int pink=first_level_with(BIRD_PINK_TYPE);assert(pink>=0 && game_load_level(&g,pink));update(&g,240);g.angle=35;g.power=85;game_launch(&g);
+ update(&g,40);assert(game_special_available(&g) && game_special(&g) && !game_special_available(&g));
+ GameBird pb;update(&g,2);assert(game_get_projectile(&g,0,&pb) && pb.vx==0 && std::fabs(pb.vy)<1);
+ int hover=0,rise=0,end_frame=-1;
+ for(int f=0;f<900;f++){update(&g,1);if(!game_projectile_count(&g)){end_frame=f;break;}assert(game_get_projectile(&g,0,&pb));
+  float vy=pb.vy/g.view_scale;if(std::fabs(vy)<0.5f && std::fabs(pb.vx)<0.5f)hover++;if(vy<-1){rise++;assert(vy>-BUBBLE_MAX_VELOCITY-1.5f);}}
+ assert(end_frame>0 && rise>(int)(BUBBLE_TIME*120*0.6f) && end_frame<=(int)((PINK_BOOM_TIME+BUBBLE_TIME)*120)+4);
  game_destroy(&g);
- printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked);
+ printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
 }

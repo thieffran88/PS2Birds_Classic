@@ -3,7 +3,7 @@
 #define PS2BIRDS_SPRITE_DATA_H
 #define SPRITE_VRAM_BUDGET 2883584
 #define SPRITE_MASK_SCALE 2
-#define SPRITE_BANK_COUNT 15
+#define SPRITE_BANK_COUNT 17
 #define SPRITE_PAGE_COUNT 4
 /* Bytes of VRAM reserved for each page slot (largest page of any bank). */
 static const int sprite_slot_bytes[SPRITE_PAGE_COUNT] = {1048576,1048576,524288,262144};
@@ -25,6 +25,8 @@ static const SpritePage sprite_pages[SPRITE_BANK_COUNT][SPRITE_PAGE_COUNT] = {
  {{512,512,32440320},{512,512,33488896},{512,256,34537472},{0,0,0}},
  {{512,512,35061760},{512,512,36110336},{512,256,37158912},{512,32,37683200}},
  {{512,512,37748736},{512,512,38797312},{512,256,39845888},{512,32,40370176}},
+ {{512,512,40435712},{512,512,41484288},{512,256,42532864},{512,64,43057152}},
+ {{512,512,43188224},{512,512,44236800},{512,256,45285376},{0,0,0}},
 };
 /* page -1: sprite not present in that bank. */
 typedef struct { int x,y,w,h,px,py,page; } SpriteFrame;
@@ -57,244 +59,251 @@ typedef struct { int x,y,w,h,px,py,page; } SpriteFrame;
 #define SPR_BLOCK_AMETHYST 26
 #define SPR_BIRD_GREEN 27
 #define SPR_BIRD_GREEN_FLYING 28
-#define SPR_CAVE_SHOVEL_2 29
-#define SPR_B_EGG_SUPER_BOWL 30
-#define SPR_CAVE_HAT_3 31
-#define SPR_PIG_HELMET_01 32
-#define SPR_PIG_HELMET_01_BLINK 33
-#define SPR_PIG_HELMET_02 34
-#define SPR_BLOCK_GOLDEN_EGG 35
-#define SPR_BLOCK_STALAKTITE_TIP_2 36
-#define SPR_KING_CAVE_HAT_1 37
-#define SPR_BIRD_GREY_1 38
-#define SPR_BIRD_GREY_2 39
-#define SPR_BIRD_GREY_3 40
-#define SPR_BLOCK_LIGHT_4X4_1 41
-#define SPR_BLOCK_LIGHT_4X4_2 42
-#define SPR_BLOCK_LIGHT_4X4_3 43
-#define SPR_BLOCK_LIGHT_4X4_4 44
-#define SPR_BLOCK_LIGHT_TRIANGLE_M_1 45
-#define SPR_BLOCK_LIGHT_TRIANGLE_M_2 46
-#define SPR_BLOCK_LIGHT_TRIANGLE_M_3 47
-#define SPR_BLOCK_LIGHT_TRIANGLE_M_4 48
-#define SPR_BLOCK_ROCK_4X4_1 49
-#define SPR_BLOCK_ROCK_4X4_2 50
-#define SPR_BLOCK_ROCK_4X4_3 51
-#define SPR_BLOCK_ROCK_4X4_4 52
-#define SPR_BLOCK_ROCK_TRIANGLE_M_1 53
-#define SPR_BLOCK_ROCK_TRIANGLE_M_2 54
-#define SPR_BLOCK_ROCK_TRIANGLE_M_3 55
-#define SPR_BLOCK_ROCK_TRIANGLE_M_4 56
-#define SPR_BLOCK_WOOD_4X4_1 57
-#define SPR_BLOCK_WOOD_4X4_2 58
-#define SPR_BLOCK_WOOD_4X4_3 59
-#define SPR_BLOCK_WOOD_4X4_4 60
-#define SPR_BLOCK_WOOD_TRIANGLE_M_1 61
-#define SPR_BLOCK_WOOD_TRIANGLE_M_2 62
-#define SPR_BLOCK_WOOD_TRIANGLE_M_3 63
-#define SPR_BLOCK_WOOD_TRIANGLE_M_4 64
-#define SPR_PINK_CAKE_1 65
-#define SPR_BIRD_GREY 66
-#define SPR_BLOCK_HOLYGRAIL 67
-#define SPR_BLOCK_LIGHT_TRIANGLE_L_1 68
-#define SPR_BLOCK_LIGHT_TRIANGLE_L_2 69
-#define SPR_BLOCK_LIGHT_TRIANGLE_L_3 70
-#define SPR_BLOCK_LIGHT_TRIANGLE_L_4 71
-#define SPR_BLOCK_ROCK_TRIANGLE_L_1 72
-#define SPR_BLOCK_ROCK_TRIANGLE_L_2 73
-#define SPR_BLOCK_ROCK_TRIANGLE_L_3 74
-#define SPR_BLOCK_ROCK_TRIANGLE_L_4 75
-#define SPR_BLOCK_WOOD_TRIANGLE_L_1 76
-#define SPR_BLOCK_WOOD_TRIANGLE_L_2 77
-#define SPR_BLOCK_WOOD_TRIANGLE_L_3 78
-#define SPR_BLOCK_WOOD_TRIANGLE_L_4 79
-#define SPR_PARTY_HAT_4 80
-#define SPR_BLOCK_TIRE_01 81
-#define SPR_PARTY_HAT_2 82
-#define SPR_BLOCK_RUBY 83
-#define SPR_BLOCK_CARPET 84
-#define SPR_BLOCK_SMILEY_3 85
-#define SPR_PIG_BASIC_MEDIUM_01 86
-#define SPR_PIG_BASIC_MEDIUM_01_BLINK 87
-#define SPR_PIG_BASIC_MEDIUM_02 88
-#define SPR_BLOCK_BEACHBALL 89
-#define SPR_BLOCK_SMILEY_1 90
-#define SPR_BLOCK_WOOD_1_7 91
-#define SPR_BLOCK_WOOD_2_7 92
-#define SPR_BLOCK_WOOD_3_7 93
-#define SPR_BLOCK_WOOD_4_7 94
-#define SPR_BLOCK_LIGHT_1_7 95
-#define SPR_BLOCK_LIGHT_2_7 96
-#define SPR_BLOCK_LIGHT_3_7 97
-#define SPR_BLOCK_LIGHT_4_7 98
-#define SPR_PIG_KING_01 99
-#define SPR_PIG_KING_02 100
-#define SPR_BIRD_GREY_FLYING 101
-#define SPR_BLOCK_ROCK_1_7 102
-#define SPR_BLOCK_ROCK_2_7 103
-#define SPR_BLOCK_ROCK_3_7 104
-#define SPR_BLOCK_ROCK_4_7 105
-#define SPR_BLOCK_RUBBERDUCK 106
-#define SPR_CAVE_HAT_2 107
-#define SPR_BLOCK_BALLOON_1 108
-#define SPR_BLOCK_BALLOON_2 109
-#define SPR_BLOCK_BALLOON_3 110
-#define SPR_BLOCK_BALLOON_BDAY 111
-#define SPR_BIRD_BOOMERANG_COLLISION 112
-#define SPR_BIRD_PUFFER_1 113
-#define SPR_BLOCK_EXTRA_TNT 114
-#define SPR_CAVE_PICKAXE_2 115
-#define SPR_CHOCO_CAKE_1 116
-#define SPR_BIRD_BOOMERANG 117
-#define SPR_ESTRADE_03 118
-#define SPR_BLOCK_ROPE_THIN_2 119
-#define SPR_BLOCK_STALAKTITE_3 120
-#define SPR_BLOCK_TIRE_02 121
-#define SPR_BANDITO_HAT_1 122
-#define SPR_HELMET_BOSS 123
-#define SPR_HELMET_BIG 124
-#define SPR_BLOCK_WATERMELON 125
-#define SPR_SHERIFF_HAT_1 126
-#define SPR_SHERIFF_HAT_2 127
-#define SPR_BLOCK_DONUT 128
-#define SPR_BLOCK_STALAKTITE_2 129
-#define SPR_BLOCK_TREASURE_CHEST 130
-#define SPR_BLOCK_AMBER 131
-#define SPR_BLOCK_STOLEN_EGG 132
-#define SPR_DROPPABLE_EGG 133
-#define SPR_BLOCK_EXTRA_DICE_6 134
-#define SPR_BLOCK_HAM 135
-#define SPR_BLOCK_STRAWBERRY 136
-#define SPR_CAVE_HAT_1 137
-#define SPR_ESTRADE_02 138
-#define SPR_BIRD_YELLOW 139
-#define SPR_BIRD_YELLOW_COLLISION 140
-#define SPR_PARTY_HAT_1 141
-#define SPR_SPECIAL_CAKE_1 142
-#define SPR_COWBOY_HAT_BIG_1 143
-#define SPR_MINT_CAKE_1 144
-#define SPR_BLOCK_TIRE_03 145
-#define SPR_SHORT_THICK_ROPE 146
-#define SPR_BLOCK_APPLE 147
-#define SPR_GROUND_BLOCK_04 148
-#define SPR_PARTY_HAT_3 149
-#define SPR_PIG_BASIC_SMALL_01 150
-#define SPR_PIG_BASIC_SMALL_01_BLINK 151
-#define SPR_PIG_BASIC_SMALL_02 152
-#define SPR_BDAY_CANDLE_1 153
-#define SPR_BIRD_RED 154
-#define SPR_BLOCK_BANANA 155
-#define SPR_ESTRADE_01 156
-#define SPR_BLOCK_LIGHT_1_8 157
-#define SPR_BLOCK_LIGHT_2_8 158
-#define SPR_BLOCK_LIGHT_3_8 159
-#define SPR_BLOCK_LIGHT_4_8 160
-#define SPR_ESTRADE_STAIRS 161
-#define SPR_BLOCK_LIGHT_1_3 162
-#define SPR_BLOCK_LIGHT_1_5 163
-#define SPR_BLOCK_LIGHT_2_3 164
-#define SPR_BLOCK_LIGHT_2_5 165
-#define SPR_BLOCK_LIGHT_3_3 166
-#define SPR_BLOCK_LIGHT_3_5 167
-#define SPR_BLOCK_LIGHT_4_3 168
-#define SPR_BLOCK_LIGHT_4_5 169
-#define SPR_BLOCK_ROCK_1_3 170
-#define SPR_BLOCK_ROCK_1_5 171
-#define SPR_BLOCK_ROCK_2_3 172
-#define SPR_BLOCK_ROCK_2_5 173
-#define SPR_BLOCK_ROCK_3_3 174
-#define SPR_BLOCK_ROCK_3_5 175
-#define SPR_BLOCK_ROCK_4_3 176
-#define SPR_BLOCK_ROCK_4_5 177
-#define SPR_BLOCK_WOOD_1_3 178
-#define SPR_BLOCK_WOOD_1_5 179
-#define SPR_BLOCK_WOOD_2_3 180
-#define SPR_BLOCK_WOOD_2_5 181
-#define SPR_BLOCK_WOOD_3_3 182
-#define SPR_BLOCK_WOOD_3_5 183
-#define SPR_BLOCK_WOOD_4_3 184
-#define SPR_BLOCK_WOOD_4_5 185
-#define SPR_BLOCK_DIAMOND 186
-#define SPR_BLOCK_WOOD_1_8 187
-#define SPR_BLOCK_WOOD_2_8 188
-#define SPR_BLOCK_WOOD_3_8 189
-#define SPR_BLOCK_WOOD_4_8 190
-#define SPR_BLOCK_ROCK_1_8 191
-#define SPR_BLOCK_ROCK_2_8 192
-#define SPR_BLOCK_ROCK_3_8 193
-#define SPR_BLOCK_ROCK_4_8 194
-#define SPR_HELMET_SMALL 195
-#define SPR_BLOCK_STEEL_BALL 196
-#define SPR_BLOCK_SUPER_BALL 197
-#define SPR_COWBOY_HAT_SMALL_1 198
-#define SPR_BLOCK_TRAMPOLINE_01 199
-#define SPR_BIRD_BLUE_COLLISION 200
-#define SPR_BIRD_BLUE 201
-#define SPR_BLOCK_LIGHT_10X1_1 202
-#define SPR_BLOCK_LIGHT_10X1_2 203
-#define SPR_BLOCK_LIGHT_10X1_3 204
-#define SPR_BLOCK_LIGHT_10X1_4 205
-#define SPR_BLOCK_LIGHT_1_1 206
-#define SPR_BLOCK_LIGHT_1_2 207
-#define SPR_BLOCK_LIGHT_1_4 208
-#define SPR_BLOCK_LIGHT_1_6 209
-#define SPR_BLOCK_LIGHT_2_1 210
-#define SPR_BLOCK_LIGHT_2_2 211
-#define SPR_BLOCK_LIGHT_2_4 212
-#define SPR_BLOCK_LIGHT_2_6 213
-#define SPR_BLOCK_LIGHT_3_1 214
-#define SPR_BLOCK_LIGHT_3_2 215
-#define SPR_BLOCK_LIGHT_3_4 216
-#define SPR_BLOCK_LIGHT_3_6 217
-#define SPR_BLOCK_LIGHT_4_1 218
-#define SPR_BLOCK_LIGHT_4_2 219
-#define SPR_BLOCK_LIGHT_4_4 220
-#define SPR_BLOCK_LIGHT_4_6 221
-#define SPR_BLOCK_ROCK_10X1_1 222
-#define SPR_BLOCK_ROCK_10X1_2 223
-#define SPR_BLOCK_ROCK_10X1_3 224
-#define SPR_BLOCK_ROCK_10X1_4 225
-#define SPR_BLOCK_ROCK_1_1 226
-#define SPR_BLOCK_ROCK_1_2 227
-#define SPR_BLOCK_ROCK_1_4 228
-#define SPR_BLOCK_ROCK_1_6 229
-#define SPR_BLOCK_ROCK_2_1 230
-#define SPR_BLOCK_ROCK_2_2 231
-#define SPR_BLOCK_ROCK_2_4 232
-#define SPR_BLOCK_ROCK_2_6 233
-#define SPR_BLOCK_ROCK_3_1 234
-#define SPR_BLOCK_ROCK_3_2 235
-#define SPR_BLOCK_ROCK_3_4 236
-#define SPR_BLOCK_ROCK_3_6 237
-#define SPR_BLOCK_ROCK_4_1 238
-#define SPR_BLOCK_ROCK_4_2 239
-#define SPR_BLOCK_ROCK_4_4 240
-#define SPR_BLOCK_ROCK_4_6 241
-#define SPR_BLOCK_WOOD_10X1_1 242
-#define SPR_BLOCK_WOOD_10X1_2 243
-#define SPR_BLOCK_WOOD_10X1_3 244
-#define SPR_BLOCK_WOOD_10X1_4 245
-#define SPR_BLOCK_WOOD_1_1 246
-#define SPR_BLOCK_WOOD_1_2 247
-#define SPR_BLOCK_WOOD_1_4 248
-#define SPR_BLOCK_WOOD_1_6 249
-#define SPR_BLOCK_WOOD_2_1 250
-#define SPR_BLOCK_WOOD_2_2 251
-#define SPR_BLOCK_WOOD_2_4 252
-#define SPR_BLOCK_WOOD_2_6 253
-#define SPR_BLOCK_WOOD_3_1 254
-#define SPR_BLOCK_WOOD_3_2 255
-#define SPR_BLOCK_WOOD_3_4 256
-#define SPR_BLOCK_WOOD_3_6 257
-#define SPR_BLOCK_WOOD_4_1 258
-#define SPR_BLOCK_WOOD_4_2 259
-#define SPR_BLOCK_WOOD_4_4 260
-#define SPR_BLOCK_WOOD_4_6 261
-#define SPR_GROUND_BLOCK_02 262
-#define SPR_GROUND_BLOCK_03 263
-#define SPR_GROUND_BLOCK_01 264
-#define SPR_GROUND_BLOCK_06 265
-static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
+#define SPR_BLOCK_CAKE 29
+#define SPR_CAVE_SHOVEL_2 30
+#define SPR_B_EGG_SUPER_BOWL 31
+#define SPR_CAVE_HAT_3 32
+#define SPR_PIG_HELMET_01 33
+#define SPR_PIG_HELMET_01_BLINK 34
+#define SPR_PIG_HELMET_02 35
+#define SPR_BLOCK_GOLDEN_EGG 36
+#define SPR_BLOCK_STALAKTITE_TIP_2 37
+#define SPR_KING_CAVE_HAT_1 38
+#define SPR_BIRD_GREY_1 39
+#define SPR_BIRD_GREY_2 40
+#define SPR_BIRD_GREY_3 41
+#define SPR_BLOCK_LIGHT_4X4_1 42
+#define SPR_BLOCK_LIGHT_4X4_2 43
+#define SPR_BLOCK_LIGHT_4X4_3 44
+#define SPR_BLOCK_LIGHT_4X4_4 45
+#define SPR_BLOCK_LIGHT_TRIANGLE_M_1 46
+#define SPR_BLOCK_LIGHT_TRIANGLE_M_2 47
+#define SPR_BLOCK_LIGHT_TRIANGLE_M_3 48
+#define SPR_BLOCK_LIGHT_TRIANGLE_M_4 49
+#define SPR_BLOCK_ROCK_4X4_1 50
+#define SPR_BLOCK_ROCK_4X4_2 51
+#define SPR_BLOCK_ROCK_4X4_3 52
+#define SPR_BLOCK_ROCK_4X4_4 53
+#define SPR_BLOCK_ROCK_TRIANGLE_M_1 54
+#define SPR_BLOCK_ROCK_TRIANGLE_M_2 55
+#define SPR_BLOCK_ROCK_TRIANGLE_M_3 56
+#define SPR_BLOCK_ROCK_TRIANGLE_M_4 57
+#define SPR_BLOCK_WOOD_4X4_1 58
+#define SPR_BLOCK_WOOD_4X4_2 59
+#define SPR_BLOCK_WOOD_4X4_3 60
+#define SPR_BLOCK_WOOD_4X4_4 61
+#define SPR_BLOCK_WOOD_TRIANGLE_M_1 62
+#define SPR_BLOCK_WOOD_TRIANGLE_M_2 63
+#define SPR_BLOCK_WOOD_TRIANGLE_M_3 64
+#define SPR_BLOCK_WOOD_TRIANGLE_M_4 65
+#define SPR_PINK_CAKE_1 66
+#define SPR_BIRD_GREY 67
+#define SPR_BLOCK_HOLYGRAIL 68
+#define SPR_BLOCK_LIGHT_TRIANGLE_L_1 69
+#define SPR_BLOCK_LIGHT_TRIANGLE_L_2 70
+#define SPR_BLOCK_LIGHT_TRIANGLE_L_3 71
+#define SPR_BLOCK_LIGHT_TRIANGLE_L_4 72
+#define SPR_BLOCK_ROCK_TRIANGLE_L_1 73
+#define SPR_BLOCK_ROCK_TRIANGLE_L_2 74
+#define SPR_BLOCK_ROCK_TRIANGLE_L_3 75
+#define SPR_BLOCK_ROCK_TRIANGLE_L_4 76
+#define SPR_BLOCK_WOOD_TRIANGLE_L_1 77
+#define SPR_BLOCK_WOOD_TRIANGLE_L_2 78
+#define SPR_BLOCK_WOOD_TRIANGLE_L_3 79
+#define SPR_BLOCK_WOOD_TRIANGLE_L_4 80
+#define SPR_PARTY_HAT_4 81
+#define SPR_BLOCK_TIRE_01 82
+#define SPR_PARTY_HAT_2 83
+#define SPR_BLOCK_RUBY 84
+#define SPR_BLOCK_CARPET 85
+#define SPR_BLOCK_SMILEY_3 86
+#define SPR_PIG_BASIC_MEDIUM_01 87
+#define SPR_PIG_BASIC_MEDIUM_01_BLINK 88
+#define SPR_PIG_BASIC_MEDIUM_02 89
+#define SPR_BLOCK_BEACHBALL 90
+#define SPR_BLOCK_SMILEY_1 91
+#define SPR_BLOCK_WOOD_1_7 92
+#define SPR_BLOCK_WOOD_2_7 93
+#define SPR_BLOCK_WOOD_3_7 94
+#define SPR_BLOCK_WOOD_4_7 95
+#define SPR_BLOCK_LIGHT_1_7 96
+#define SPR_BLOCK_LIGHT_2_7 97
+#define SPR_BLOCK_LIGHT_3_7 98
+#define SPR_BLOCK_LIGHT_4_7 99
+#define SPR_PIG_KING_01 100
+#define SPR_PIG_KING_02 101
+#define SPR_BIRD_GREY_FLYING 102
+#define SPR_BLOCK_ROCK_1_7 103
+#define SPR_BLOCK_ROCK_2_7 104
+#define SPR_BLOCK_ROCK_3_7 105
+#define SPR_BLOCK_ROCK_4_7 106
+#define SPR_BLOCK_RUBBERDUCK 107
+#define SPR_CAVE_HAT_2 108
+#define SPR_BLOCK_BALLOON_1 109
+#define SPR_BLOCK_BALLOON_2 110
+#define SPR_BLOCK_BALLOON_3 111
+#define SPR_BLOCK_BALLOON_BDAY 112
+#define SPR_BIRD_BOOMERANG_COLLISION 113
+#define SPR_BIRD_PUFFER_1 114
+#define SPR_BLOCK_EXTRA_TNT 115
+#define SPR_CAVE_PICKAXE_2 116
+#define SPR_CHOCO_CAKE_1 117
+#define SPR_BIRD_BOOMERANG 118
+#define SPR_ESTRADE_03 119
+#define SPR_BLOCK_CAKECREAM 120
+#define SPR_BLOCK_ROPE_THIN_2 121
+#define SPR_BLOCK_STALAKTITE_3 122
+#define SPR_BLOCK_TIRE_02 123
+#define SPR_PARTY_HAT_6 124
+#define SPR_BANDITO_HAT_1 125
+#define SPR_HELMET_BOSS 126
+#define SPR_HELMET_BIG 127
+#define SPR_BLOCK_WATERMELON 128
+#define SPR_SHERIFF_HAT_1 129
+#define SPR_SHERIFF_HAT_2 130
+#define SPR_BLOCK_DONUT 131
+#define SPR_BLOCK_STALAKTITE_2 132
+#define SPR_BLOCK_TREASURE_CHEST 133
+#define SPR_BLOCK_AMBER 134
+#define SPR_BLOCK_STOLEN_EGG 135
+#define SPR_DROPPABLE_EGG 136
+#define SPR_BLOCK_EXTRA_DICE_6 137
+#define SPR_BLOCK_HAM 138
+#define SPR_BLOCK_STRAWBERRY 139
+#define SPR_CAVE_HAT_1 140
+#define SPR_ESTRADE_02 141
+#define SPR_PARTY_HAT_5 142
+#define SPR_BIRD_YELLOW 143
+#define SPR_BIRD_YELLOW_COLLISION 144
+#define SPR_PARTY_HAT_1 145
+#define SPR_SPECIAL_CAKE_1 146
+#define SPR_COWBOY_HAT_BIG_1 147
+#define SPR_MINT_CAKE_1 148
+#define SPR_BLOCK_TIRE_03 149
+#define SPR_SHORT_THICK_ROPE 150
+#define SPR_BLOCK_APPLE 151
+#define SPR_GROUND_BLOCK_04 152
+#define SPR_PARTY_HAT_3 153
+#define SPR_PIG_BASIC_SMALL_01 154
+#define SPR_PIG_BASIC_SMALL_01_BLINK 155
+#define SPR_PIG_BASIC_SMALL_02 156
+#define SPR_BDAY_CANDLE_1 157
+#define SPR_BIRD_RED 158
+#define SPR_BIRD_PINK 159
+#define SPR_BIRD_PINK_RELEASE 160
+#define SPR_BLOCK_BANANA 161
+#define SPR_ESTRADE_01 162
+#define SPR_BLOCK_LIGHT_1_8 163
+#define SPR_BLOCK_LIGHT_2_8 164
+#define SPR_BLOCK_LIGHT_3_8 165
+#define SPR_BLOCK_LIGHT_4_8 166
+#define SPR_ESTRADE_STAIRS 167
+#define SPR_BLOCK_LIGHT_1_3 168
+#define SPR_BLOCK_LIGHT_1_5 169
+#define SPR_BLOCK_LIGHT_2_3 170
+#define SPR_BLOCK_LIGHT_2_5 171
+#define SPR_BLOCK_LIGHT_3_3 172
+#define SPR_BLOCK_LIGHT_3_5 173
+#define SPR_BLOCK_LIGHT_4_3 174
+#define SPR_BLOCK_LIGHT_4_5 175
+#define SPR_BLOCK_ROCK_1_3 176
+#define SPR_BLOCK_ROCK_1_5 177
+#define SPR_BLOCK_ROCK_2_3 178
+#define SPR_BLOCK_ROCK_2_5 179
+#define SPR_BLOCK_ROCK_3_3 180
+#define SPR_BLOCK_ROCK_3_5 181
+#define SPR_BLOCK_ROCK_4_3 182
+#define SPR_BLOCK_ROCK_4_5 183
+#define SPR_BLOCK_WOOD_1_3 184
+#define SPR_BLOCK_WOOD_1_5 185
+#define SPR_BLOCK_WOOD_2_3 186
+#define SPR_BLOCK_WOOD_2_5 187
+#define SPR_BLOCK_WOOD_3_3 188
+#define SPR_BLOCK_WOOD_3_5 189
+#define SPR_BLOCK_WOOD_4_3 190
+#define SPR_BLOCK_WOOD_4_5 191
+#define SPR_BLOCK_DIAMOND 192
+#define SPR_BLOCK_WOOD_1_8 193
+#define SPR_BLOCK_WOOD_2_8 194
+#define SPR_BLOCK_WOOD_3_8 195
+#define SPR_BLOCK_WOOD_4_8 196
+#define SPR_BLOCK_ROCK_1_8 197
+#define SPR_BLOCK_ROCK_2_8 198
+#define SPR_BLOCK_ROCK_3_8 199
+#define SPR_BLOCK_ROCK_4_8 200
+#define SPR_HELMET_SMALL 201
+#define SPR_BLOCK_STEEL_BALL 202
+#define SPR_BLOCK_SUPER_BALL 203
+#define SPR_COWBOY_HAT_SMALL_1 204
+#define SPR_BLOCK_TRAMPOLINE_01 205
+#define SPR_PARTY_HAT_BLUE 206
+#define SPR_BIRD_BLUE_COLLISION 207
+#define SPR_BIRD_BLUE 208
+#define SPR_BLOCK_LIGHT_10X1_1 209
+#define SPR_BLOCK_LIGHT_10X1_2 210
+#define SPR_BLOCK_LIGHT_10X1_3 211
+#define SPR_BLOCK_LIGHT_10X1_4 212
+#define SPR_BLOCK_LIGHT_1_1 213
+#define SPR_BLOCK_LIGHT_1_2 214
+#define SPR_BLOCK_LIGHT_1_4 215
+#define SPR_BLOCK_LIGHT_1_6 216
+#define SPR_BLOCK_LIGHT_2_1 217
+#define SPR_BLOCK_LIGHT_2_2 218
+#define SPR_BLOCK_LIGHT_2_4 219
+#define SPR_BLOCK_LIGHT_2_6 220
+#define SPR_BLOCK_LIGHT_3_1 221
+#define SPR_BLOCK_LIGHT_3_2 222
+#define SPR_BLOCK_LIGHT_3_4 223
+#define SPR_BLOCK_LIGHT_3_6 224
+#define SPR_BLOCK_LIGHT_4_1 225
+#define SPR_BLOCK_LIGHT_4_2 226
+#define SPR_BLOCK_LIGHT_4_4 227
+#define SPR_BLOCK_LIGHT_4_6 228
+#define SPR_BLOCK_ROCK_10X1_1 229
+#define SPR_BLOCK_ROCK_10X1_2 230
+#define SPR_BLOCK_ROCK_10X1_3 231
+#define SPR_BLOCK_ROCK_10X1_4 232
+#define SPR_BLOCK_ROCK_1_1 233
+#define SPR_BLOCK_ROCK_1_2 234
+#define SPR_BLOCK_ROCK_1_4 235
+#define SPR_BLOCK_ROCK_1_6 236
+#define SPR_BLOCK_ROCK_2_1 237
+#define SPR_BLOCK_ROCK_2_2 238
+#define SPR_BLOCK_ROCK_2_4 239
+#define SPR_BLOCK_ROCK_2_6 240
+#define SPR_BLOCK_ROCK_3_1 241
+#define SPR_BLOCK_ROCK_3_2 242
+#define SPR_BLOCK_ROCK_3_4 243
+#define SPR_BLOCK_ROCK_3_6 244
+#define SPR_BLOCK_ROCK_4_1 245
+#define SPR_BLOCK_ROCK_4_2 246
+#define SPR_BLOCK_ROCK_4_4 247
+#define SPR_BLOCK_ROCK_4_6 248
+#define SPR_BLOCK_WOOD_10X1_1 249
+#define SPR_BLOCK_WOOD_10X1_2 250
+#define SPR_BLOCK_WOOD_10X1_3 251
+#define SPR_BLOCK_WOOD_10X1_4 252
+#define SPR_BLOCK_WOOD_1_1 253
+#define SPR_BLOCK_WOOD_1_2 254
+#define SPR_BLOCK_WOOD_1_4 255
+#define SPR_BLOCK_WOOD_1_6 256
+#define SPR_BLOCK_WOOD_2_1 257
+#define SPR_BLOCK_WOOD_2_2 258
+#define SPR_BLOCK_WOOD_2_4 259
+#define SPR_BLOCK_WOOD_2_6 260
+#define SPR_BLOCK_WOOD_3_1 261
+#define SPR_BLOCK_WOOD_3_2 262
+#define SPR_BLOCK_WOOD_3_4 263
+#define SPR_BLOCK_WOOD_3_6 264
+#define SPR_BLOCK_WOOD_4_1 265
+#define SPR_BLOCK_WOOD_4_2 266
+#define SPR_BLOCK_WOOD_4_4 267
+#define SPR_BLOCK_WOOD_4_6 268
+#define SPR_GROUND_BLOCK_02 269
+#define SPR_GROUND_BLOCK_03 270
+#define SPR_GROUND_BLOCK_01 271
+#define SPR_GROUND_BLOCK_06 272
+static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][273] = {
  {
   {1,1,38,199,7,30,0},
   {41,1,87,197,43,98,0},
@@ -325,6 +334,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,80,95,40,63,-1},
   {142,221,81,94,49,57,0},
   {1,299,81,94,49,57,0},
+  {0,0,118,93,60,46,-1},
   {0,0,33,93,16,46,-1},
   {0,0,71,92,35,46,-1},
   {0,0,110,91,55,45,-1},
@@ -415,9 +425,11 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,92,66,46,33,-1},
   {0,0,104,65,55,34,-1},
   {1,305,225,65,112,32,1},
+  {0,0,69,64,34,32,-1},
   {0,0,5,64,2,32,-1},
   {0,0,31,64,15,32,-1},
   {431,230,63,64,31,32,1},
+  {0,0,73,64,36,32,-1},
   {0,0,160,63,80,31,-1},
   {0,0,135,63,67,31,-1},
   {0,0,135,62,67,31,-1},
@@ -435,6 +447,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {325,363,54,56,27,31,1},
   {0,0,92,56,19,37,-1},
   {1,372,179,56,89,28,1},
+  {0,0,43,56,21,28,-1},
   {228,367,58,54,31,34,1},
   {381,418,57,54,31,34,1},
   {0,0,39,54,19,27,-1},
@@ -451,6 +464,8 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {231,423,47,46,23,23,1},
   {0,0,13,45,6,22,-1},
   {1,430,46,45,27,27,1},
+  {0,0,58,44,39,22,-1},
+  {0,0,57,44,39,22,-1},
   {49,430,80,44,40,22,1},
   {1,1,149,44,74,22,2},
   {0,0,42,43,21,21,-1},
@@ -496,6 +511,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,36,36,18,18,-1},
   {0,0,99,33,49,16,-1},
   {0,0,151,32,75,16,-1},
+  {0,0,24,32,12,16,-1},
   {432,477,32,31,16,16,0},
   {466,477,31,30,16,16,0},
   {0,0,205,20,102,10,-1},
@@ -593,6 +609,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,80,95,40,63,-1},
   {41,127,81,94,49,57,0},
   {319,200,81,94,49,57,0},
+  {0,0,118,93,60,46,-1},
   {0,0,33,93,16,46,-1},
   {0,0,71,92,35,46,-1},
   {0,0,110,91,55,45,-1},
@@ -683,9 +700,11 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,92,66,46,33,-1},
   {0,0,104,65,55,34,-1},
   {0,0,225,65,112,32,-1},
+  {0,0,69,64,34,32,-1},
   {0,0,5,64,2,32,-1},
   {0,0,31,64,15,32,-1},
   {0,0,63,64,31,32,-1},
+  {0,0,73,64,36,32,-1},
   {0,0,160,63,80,31,-1},
   {0,0,135,63,67,31,-1},
   {0,0,135,62,67,31,-1},
@@ -703,6 +722,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,54,56,27,31,-1},
   {0,0,92,56,19,37,-1},
   {0,0,179,56,89,28,-1},
+  {0,0,43,56,21,28,-1},
   {69,320,58,54,31,34,1},
   {129,320,57,54,31,34,1},
   {0,0,39,54,19,27,-1},
@@ -719,6 +739,8 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {366,460,47,46,23,23,0},
   {0,0,13,45,6,22,-1},
   {232,464,46,45,27,27,0},
+  {0,0,58,44,39,22,-1},
+  {0,0,57,44,39,22,-1},
   {0,0,80,44,40,22,-1},
   {1,376,149,44,74,22,1},
   {0,0,42,43,21,21,-1},
@@ -764,6 +786,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,36,36,18,18,-1},
   {0,0,99,33,49,16,-1},
   {0,0,151,32,75,16,-1},
+  {0,0,24,32,12,16,-1},
   {415,460,32,31,16,16,0},
   {280,464,31,30,16,16,0},
   {265,40,205,20,102,10,2},
@@ -861,6 +884,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,80,95,40,63,-1},
   {369,210,81,94,49,57,0},
   {231,211,81,94,49,57,0},
+  {0,0,118,93,60,46,-1},
   {0,0,33,93,16,46,-1},
   {0,0,71,92,35,46,-1},
   {0,0,110,91,55,45,-1},
@@ -951,9 +975,11 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,92,66,46,33,-1},
   {0,0,104,65,55,34,-1},
   {0,0,225,65,112,32,-1},
+  {0,0,69,64,34,32,-1},
   {0,0,5,64,2,32,-1},
   {0,0,31,64,15,32,-1},
   {0,0,63,64,31,32,-1},
+  {0,0,73,64,36,32,-1},
   {0,0,160,63,80,31,-1},
   {0,0,135,63,67,31,-1},
   {0,0,135,62,67,31,-1},
@@ -971,6 +997,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {457,322,54,56,27,31,1},
   {0,0,92,56,19,37,-1},
   {1,399,179,56,89,28,1},
+  {0,0,43,56,21,28,-1},
   {365,398,58,54,31,34,1},
   {425,398,57,54,31,34,1},
   {0,0,39,54,19,27,-1},
@@ -987,6 +1014,8 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {336,454,47,46,23,23,1},
   {0,0,13,45,6,22,-1},
   {385,454,46,45,27,27,1},
+  {0,0,58,44,39,22,-1},
+  {0,0,57,44,39,22,-1},
   {1,457,80,44,40,22,1},
   {1,1,149,44,74,22,2},
   {468,390,42,43,21,21,0},
@@ -1032,6 +1061,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,36,36,18,18,-1},
   {0,0,99,33,49,16,-1},
   {0,0,151,32,75,16,-1},
+  {0,0,24,32,12,16,-1},
   {83,474,32,31,16,16,0},
   {117,474,31,30,16,16,0},
   {1,87,205,20,102,10,2},
@@ -1129,6 +1159,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,80,95,40,63,-1},
   {417,197,81,94,49,57,0},
   {334,221,81,94,49,57,0},
+  {0,0,118,93,60,46,-1},
   {0,0,33,93,16,46,-1},
   {0,0,71,92,35,46,-1},
   {0,0,110,91,55,45,-1},
@@ -1219,9 +1250,11 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,92,66,46,33,-1},
   {121,322,104,65,55,34,1},
   {0,0,225,65,112,32,-1},
+  {0,0,69,64,34,32,-1},
   {0,0,5,64,2,32,-1},
   {0,0,31,64,15,32,-1},
   {0,0,63,64,31,32,-1},
+  {0,0,73,64,36,32,-1},
   {0,0,160,63,80,31,-1},
   {0,0,135,63,67,31,-1},
   {0,0,135,62,67,31,-1},
@@ -1239,6 +1272,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {102,389,54,56,27,31,1},
   {0,0,92,56,19,37,-1},
   {299,394,179,56,89,28,1},
+  {0,0,43,56,21,28,-1},
   {158,389,58,54,31,34,1},
   {218,443,57,54,31,34,1},
   {0,0,39,54,19,27,-1},
@@ -1255,6 +1289,8 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {56,447,47,46,23,23,1},
   {0,0,13,45,6,22,-1},
   {105,447,46,45,27,27,1},
+  {0,0,58,44,39,22,-1},
+  {0,0,57,44,39,22,-1},
   {277,452,80,44,40,22,1},
   {0,0,149,44,74,22,-1},
   {359,452,42,43,21,21,1},
@@ -1300,6 +1336,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,36,36,18,18,-1},
   {0,0,99,33,49,16,-1},
   {296,44,151,32,75,16,2},
+  {0,0,24,32,12,16,-1},
   {340,475,32,31,16,16,0},
   {449,44,31,30,16,16,2},
   {85,488,205,20,102,10,0},
@@ -1397,6 +1434,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,80,95,40,63,-1},
   {359,210,81,94,49,57,0},
   {132,211,81,94,49,57,0},
+  {0,0,118,93,60,46,-1},
   {0,0,33,93,16,46,-1},
   {0,0,71,92,35,46,-1},
   {0,0,110,91,55,45,-1},
@@ -1487,9 +1525,11 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,92,66,46,33,-1},
   {292,394,104,65,55,34,1},
   {0,0,225,65,112,32,-1},
+  {0,0,69,64,34,32,-1},
   {0,0,5,64,2,32,-1},
   {0,0,31,64,15,32,-1},
   {0,0,63,64,31,32,-1},
+  {0,0,73,64,36,32,-1},
   {0,0,160,63,80,31,-1},
   {0,0,135,63,67,31,-1},
   {0,0,135,62,67,31,-1},
@@ -1507,6 +1547,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {132,392,54,56,27,31,1},
   {0,0,92,56,19,37,-1},
   {1,450,179,56,89,28,1},
+  {0,0,43,56,21,28,-1},
   {188,395,58,54,31,34,1},
   {182,451,57,54,31,34,1},
   {0,0,39,54,19,27,-1},
@@ -1523,6 +1564,8 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {292,461,47,46,23,23,1},
   {0,0,13,45,6,22,-1},
   {341,461,46,45,27,27,1},
+  {0,0,58,44,39,22,-1},
+  {0,0,57,44,39,22,-1},
   {1,1,80,44,40,22,2},
   {0,0,149,44,74,22,-1},
   {0,0,42,43,21,21,-1},
@@ -1568,6 +1611,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {475,44,36,36,18,18,2},
   {0,0,99,33,49,16,-1},
   {149,476,151,32,75,16,0},
+  {0,0,24,32,12,16,-1},
   {302,476,32,31,16,16,0},
   {39,481,31,30,16,16,0},
   {1,87,205,20,102,10,2},
@@ -1665,6 +1709,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,80,95,40,63,-1},
   {132,211,81,94,49,57,0},
   {1,298,81,94,49,57,0},
+  {0,0,118,93,60,46,-1},
   {0,0,33,93,16,46,-1},
   {0,0,71,92,35,46,-1},
   {0,0,110,91,55,45,-1},
@@ -1755,9 +1800,11 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,92,66,46,33,-1},
   {189,149,104,65,55,34,1},
   {0,0,225,65,112,32,-1},
+  {0,0,69,64,34,32,-1},
   {0,0,5,64,2,32,-1},
   {0,0,31,64,15,32,-1},
   {0,0,63,64,31,32,-1},
+  {0,0,73,64,36,32,-1},
   {0,0,160,63,80,31,-1},
   {295,151,135,63,67,31,1},
   {1,152,135,62,67,31,1},
@@ -1775,6 +1822,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,54,56,27,31,-1},
   {0,0,92,56,19,37,-1},
   {1,216,179,56,89,28,1},
+  {0,0,43,56,21,28,-1},
   {432,151,58,54,31,34,1},
   {432,207,57,54,31,34,1},
   {0,0,39,54,19,27,-1},
@@ -1791,6 +1839,8 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {282,216,47,46,23,23,1},
   {0,0,13,45,6,22,-1},
   {331,216,46,45,27,27,1},
+  {0,0,58,44,39,22,-1},
+  {0,0,57,44,39,22,-1},
   {0,0,80,44,40,22,-1},
   {0,0,149,44,74,22,-1},
   {0,0,42,43,21,21,-1},
@@ -1836,6 +1886,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,36,36,18,18,-1},
   {0,0,99,33,49,16,-1},
   {0,0,151,32,75,16,-1},
+  {0,0,24,32,12,16,-1},
   {233,476,32,31,16,16,0},
   {267,476,31,30,16,16,0},
   {0,0,205,20,102,10,-1},
@@ -1933,6 +1984,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,80,95,40,63,-1},
   {132,211,81,94,49,57,0},
   {1,298,81,94,49,57,0},
+  {0,0,118,93,60,46,-1},
   {0,0,33,93,16,46,-1},
   {0,0,71,92,35,46,-1},
   {0,0,110,91,55,45,-1},
@@ -2023,9 +2075,11 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,92,66,46,33,-1},
   {218,322,104,65,55,34,1},
   {0,0,225,65,112,32,-1},
+  {0,0,69,64,34,32,-1},
   {0,0,5,64,2,32,-1},
   {0,0,31,64,15,32,-1},
   {0,0,63,64,31,32,-1},
+  {0,0,73,64,36,32,-1},
   {0,0,160,63,80,31,-1},
   {324,322,135,63,67,31,1},
   {1,324,135,62,67,31,1},
@@ -2043,6 +2097,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,54,56,27,31,-1},
   {0,0,92,56,19,37,-1},
   {1,393,179,56,89,28,1},
+  {0,0,43,56,21,28,-1},
   {218,389,58,54,31,34,1},
   {182,445,57,54,31,34,1},
   {0,0,39,54,19,27,-1},
@@ -2059,6 +2114,8 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {218,463,47,46,23,23,0},
   {0,0,13,45,6,22,-1},
   {421,445,46,45,27,27,1},
+  {0,0,58,44,39,22,-1},
+  {0,0,57,44,39,22,-1},
   {292,449,80,44,40,22,1},
   {0,0,149,44,74,22,-1},
   {469,445,42,43,21,21,1},
@@ -2104,6 +2161,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,36,36,18,18,-1},
   {0,0,99,33,49,16,-1},
   {0,0,151,32,75,16,-1},
+  {0,0,24,32,12,16,-1},
   {267,476,32,31,16,16,0},
   {301,476,31,30,16,16,0},
   {219,44,205,20,102,10,2},
@@ -2201,6 +2259,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,80,95,40,63,-1},
   {1,202,81,94,49,57,0},
   {187,209,81,94,49,57,0},
+  {0,0,118,93,60,46,-1},
   {0,0,33,93,16,46,-1},
   {0,0,71,92,35,46,-1},
   {0,0,110,91,55,45,-1},
@@ -2291,9 +2350,11 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,92,66,46,33,-1},
   {1,399,104,65,55,34,1},
   {0,0,225,65,112,32,-1},
+  {0,0,69,64,34,32,-1},
   {0,0,5,64,2,32,-1},
   {0,0,31,64,15,32,-1},
   {0,0,63,64,31,32,-1},
+  {0,0,73,64,36,32,-1},
   {0,0,160,63,80,31,-1},
   {247,399,135,63,67,31,1},
   {1,1,135,62,67,31,2},
@@ -2311,6 +2372,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {210,1,54,56,27,31,2},
   {0,0,92,56,19,37,-1},
   {266,1,179,56,89,28,2},
+  {0,0,43,56,21,28,-1},
   {447,1,58,54,31,34,2},
   {447,57,57,54,31,34,2},
   {0,0,39,54,19,27,-1},
@@ -2327,6 +2389,8 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {247,464,47,46,23,23,1},
   {0,0,13,45,6,22,-1},
   {192,466,46,45,27,27,0},
+  {0,0,58,44,39,22,-1},
+  {0,0,57,44,39,22,-1},
   {296,464,80,44,40,22,1},
   {0,0,149,44,74,22,-1},
   {240,466,42,43,21,21,0},
@@ -2372,6 +2436,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,36,36,18,18,-1},
   {0,0,99,33,49,16,-1},
   {0,0,151,32,75,16,-1},
+  {0,0,24,32,12,16,-1},
   {284,466,32,31,16,16,0},
   {318,473,31,30,16,16,0},
   {1,145,205,20,102,10,2},
@@ -2469,6 +2534,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,80,95,40,63,-1},
   {1,202,81,94,49,57,0},
   {199,209,81,94,49,57,0},
+  {0,0,118,93,60,46,-1},
   {0,0,33,93,16,46,-1},
   {0,0,71,92,35,46,-1},
   {0,0,110,91,55,45,-1},
@@ -2559,9 +2625,11 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,92,66,46,33,-1},
   {1,244,104,65,55,34,1},
   {233,316,225,65,112,32,1},
+  {0,0,69,64,34,32,-1},
   {0,0,5,64,2,32,-1},
   {0,0,31,64,15,32,-1},
   {1,311,63,64,31,32,1},
+  {0,0,73,64,36,32,-1},
   {66,317,160,63,80,31,1},
   {0,0,135,63,67,31,-1},
   {0,0,135,62,67,31,-1},
@@ -2579,6 +2647,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,54,56,27,31,-1},
   {0,0,92,56,19,37,-1},
   {0,0,179,56,89,28,-1},
+  {0,0,43,56,21,28,-1},
   {285,383,58,54,31,34,1},
   {345,383,57,54,31,34,1},
   {0,0,39,54,19,27,-1},
@@ -2595,6 +2664,8 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {116,444,47,46,23,23,1},
   {0,0,13,45,6,22,-1},
   {169,466,46,45,27,27,0},
+  {0,0,58,44,39,22,-1},
+  {0,0,57,44,39,22,-1},
   {0,0,80,44,40,22,-1},
   {0,0,149,44,74,22,-1},
   {0,0,42,43,21,21,-1},
@@ -2640,6 +2711,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,36,36,18,18,-1},
   {261,473,99,33,49,16,0},
   {0,0,151,32,75,16,-1},
+  {0,0,24,32,12,16,-1},
   {85,473,32,31,16,16,0},
   {119,473,31,30,16,16,0},
   {137,44,205,20,102,10,2},
@@ -2737,6 +2809,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,80,95,40,63,-1},
   {426,200,81,94,49,57,0},
   {235,209,81,94,49,57,0},
+  {0,0,118,93,60,46,-1},
   {0,0,33,93,16,46,-1},
   {126,210,71,92,35,46,0},
   {0,0,110,91,55,45,-1},
@@ -2827,9 +2900,11 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,92,66,46,33,-1},
   {73,158,104,65,55,34,1},
   {179,158,225,65,112,32,1},
+  {0,0,69,64,34,32,-1},
   {0,0,5,64,2,32,-1},
   {0,0,31,64,15,32,-1},
   {0,0,63,64,31,32,-1},
+  {0,0,73,64,36,32,-1},
   {73,225,160,63,80,31,1},
   {0,0,135,63,67,31,-1},
   {235,225,135,62,67,31,1},
@@ -2847,6 +2922,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {116,290,54,56,27,31,1},
   {0,0,92,56,19,37,-1},
   {0,0,179,56,89,28,-1},
+  {0,0,43,56,21,28,-1},
   {172,290,58,54,31,34,1},
   {445,290,57,54,31,34,1},
   {0,0,39,54,19,27,-1},
@@ -2863,6 +2939,8 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {276,352,47,46,23,23,1},
   {0,0,13,45,6,22,-1},
   {1,353,46,45,27,27,1},
+  {0,0,58,44,39,22,-1},
+  {0,0,57,44,39,22,-1},
   {0,0,80,44,40,22,-1},
   {0,0,149,44,74,22,-1},
   {0,0,42,43,21,21,-1},
@@ -2908,6 +2986,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,36,36,18,18,-1},
   {165,473,99,33,49,16,0},
   {0,0,151,32,75,16,-1},
+  {0,0,24,32,12,16,-1},
   {266,472,32,31,16,16,0},
   {475,401,31,30,16,16,1},
   {214,444,205,20,102,10,1},
@@ -3005,6 +3084,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,80,95,40,63,-1},
   {1,202,81,94,49,57,0},
   {187,209,81,94,49,57,0},
+  {0,0,118,93,60,46,-1},
   {0,0,33,93,16,46,-1},
   {0,0,71,92,35,46,-1},
   {0,0,110,91,55,45,-1},
@@ -3095,9 +3175,11 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,92,66,46,33,-1},
   {253,313,104,65,55,34,1},
   {1,317,225,65,112,32,1},
+  {0,0,69,64,34,32,-1},
   {0,0,5,64,2,32,-1},
   {0,0,31,64,15,32,-1},
   {0,0,63,64,31,32,-1},
+  {0,0,73,64,36,32,-1},
   {228,380,160,63,80,31,1},
   {0,0,135,63,67,31,-1},
   {0,0,135,62,67,31,-1},
@@ -3115,6 +3197,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,54,56,27,31,-1},
   {0,0,92,56,19,37,-1},
   {0,0,179,56,89,28,-1},
+  {0,0,43,56,21,28,-1},
   {437,379,58,54,31,34,1},
   {1,384,57,54,31,34,1},
   {0,0,39,54,19,27,-1},
@@ -3131,6 +3214,8 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {109,439,47,46,23,23,1},
   {0,0,13,45,6,22,-1},
   {192,466,46,45,27,27,0},
+  {0,0,58,44,39,22,-1},
+  {0,0,57,44,39,22,-1},
   {0,0,80,44,40,22,-1},
   {0,0,149,44,74,22,-1},
   {240,466,42,43,21,21,0},
@@ -3176,6 +3261,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,36,36,18,18,-1},
   {284,473,99,33,49,16,0},
   {0,0,151,32,75,16,-1},
+  {0,0,24,32,12,16,-1},
   {385,473,32,31,16,16,0},
   {419,473,31,30,16,16,0},
   {1,488,205,20,102,10,1},
@@ -3273,6 +3359,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {102,286,80,95,40,63,0},
   {1,301,81,94,49,57,0},
   {405,327,81,94,49,57,0},
+  {0,0,118,93,60,46,-1},
   {184,286,33,93,16,46,0},
   {0,0,71,92,35,46,-1},
   {219,328,110,91,55,45,0},
@@ -3363,9 +3450,11 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,92,66,46,33,-1},
   {277,316,104,65,55,34,1},
   {0,0,225,65,112,32,-1},
+  {0,0,69,64,34,32,-1},
   {505,1,5,64,2,32,0},
   {479,423,31,64,15,32,0},
   {383,318,63,64,31,32,1},
+  {0,0,73,64,36,32,-1},
   {0,0,160,63,80,31,-1},
   {0,0,135,63,67,31,-1},
   {0,0,135,62,67,31,-1},
@@ -3383,6 +3472,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,54,56,27,31,-1},
   {74,322,92,56,19,37,1},
   {74,380,179,56,89,28,1},
+  {0,0,43,56,21,28,-1},
   {448,379,58,54,31,34,1},
   {1,382,57,54,31,34,1},
   {0,0,39,54,19,27,-1},
@@ -3399,6 +3489,8 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {361,384,47,46,23,23,1},
   {0,0,13,45,6,22,-1},
   {361,432,46,45,27,27,1},
+  {0,0,58,44,39,22,-1},
+  {0,0,57,44,39,22,-1},
   {0,0,80,44,40,22,-1},
   {0,0,149,44,74,22,-1},
   {0,0,42,43,21,21,-1},
@@ -3444,6 +3536,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,36,36,18,18,-1},
   {0,0,99,33,49,16,-1},
   {0,0,151,32,75,16,-1},
+  {0,0,24,32,12,16,-1},
   {65,475,32,31,16,16,0},
   {99,475,31,30,16,16,0},
   {298,479,205,20,102,10,1},
@@ -3541,6 +3634,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {429,223,80,95,40,63,0},
   {1,301,81,94,49,57,0},
   {429,320,81,94,49,57,0},
+  {0,0,118,93,60,46,-1},
   {202,233,33,93,16,46,0},
   {0,0,71,92,35,46,-1},
   {237,326,110,91,55,45,0},
@@ -3631,9 +3725,11 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,92,66,46,33,-1},
   {115,326,104,65,55,34,1},
   {0,0,225,65,112,32,-1},
+  {0,0,69,64,34,32,-1},
   {477,416,5,64,2,32,0},
   {149,422,31,64,15,32,0},
   {295,327,63,64,31,32,1},
+  {0,0,73,64,36,32,-1},
   {0,0,160,63,80,31,-1},
   {0,0,135,63,67,31,-1},
   {0,0,135,62,67,31,-1},
@@ -3651,6 +3747,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,54,56,27,31,-1},
   {352,395,92,56,19,37,1},
   {212,454,179,56,89,28,1},
+  {0,0,43,56,21,28,-1},
   {446,395,58,54,31,34,1},
   {1,401,57,54,31,34,1},
   {0,0,39,54,19,27,-1},
@@ -3667,6 +3764,8 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {393,453,47,46,23,23,1},
   {0,0,13,45,6,22,-1},
   {60,455,46,45,27,27,1},
+  {0,0,58,44,39,22,-1},
+  {0,0,57,44,39,22,-1},
   {0,0,80,44,40,22,-1},
   {0,0,149,44,74,22,-1},
   {0,0,42,43,21,21,-1},
@@ -3712,6 +3811,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,36,36,18,18,-1},
   {0,0,99,33,49,16,-1},
   {0,0,151,32,75,16,-1},
+  {0,0,24,32,12,16,-1},
   {253,44,32,31,16,16,2},
   {1,481,31,30,16,16,0},
   {287,44,205,20,102,10,2},
@@ -3809,6 +3909,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {1,299,80,95,40,63,0},
   {348,321,81,94,49,57,0},
   {242,326,81,94,49,57,0},
+  {0,0,118,93,60,46,-1},
   {458,223,33,93,16,46,0},
   {0,0,71,92,35,46,-1},
   {83,347,110,91,55,45,0},
@@ -3899,9 +4000,11 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,92,66,46,33,-1},
   {209,329,104,65,55,34,1},
   {0,0,225,65,112,32,-1},
+  {0,0,69,64,34,32,-1},
   {496,223,5,64,2,32,0},
   {471,326,31,64,15,32,1},
   {1,330,63,64,31,32,1},
+  {0,0,73,64,36,32,-1},
   {0,0,160,63,80,31,-1},
   {0,0,135,63,67,31,-1},
   {0,0,135,62,67,31,-1},
@@ -3919,6 +4022,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,54,56,27,31,-1},
   {239,396,92,56,19,37,1},
   {239,454,179,56,89,28,1},
+  {0,0,43,56,21,28,-1},
   {420,401,58,54,31,34,1},
   {98,449,57,54,31,34,1},
   {0,0,39,54,19,27,-1},
@@ -3935,6 +4039,8 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {1,458,47,46,23,23,1},
   {0,0,13,45,6,22,-1},
   {50,458,46,45,27,27,1},
+  {0,0,58,44,39,22,-1},
+  {0,0,57,44,39,22,-1},
   {0,0,80,44,40,22,-1},
   {1,1,149,44,74,22,2},
   {0,0,42,43,21,21,-1},
@@ -3980,6 +4086,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,36,36,18,18,-1},
   {0,0,99,33,49,16,-1},
   {0,0,151,32,75,16,-1},
+  {0,0,24,32,12,16,-1},
   {1,480,32,31,16,16,0},
   {86,86,31,30,16,16,2},
   {119,87,205,20,102,10,2},
@@ -4077,6 +4184,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,80,95,40,63,-1},
   {41,200,81,94,49,57,0},
   {406,200,81,94,49,57,0},
+  {0,0,118,93,60,46,-1},
   {0,0,33,93,16,46,-1},
   {0,0,71,92,35,46,-1},
   {0,0,110,91,55,45,-1},
@@ -4167,9 +4275,11 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {56,315,92,66,46,33,1},
   {150,315,104,65,55,34,1},
   {0,0,225,65,112,32,-1},
+  {0,0,69,64,34,32,-1},
   {317,381,5,64,2,32,0},
   {0,0,31,64,15,32,-1},
   {0,0,63,64,31,32,-1},
+  {0,0,73,64,36,32,-1},
   {0,0,160,63,80,31,-1},
   {0,0,135,63,67,31,-1},
   {0,0,135,62,67,31,-1},
@@ -4187,6 +4297,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {353,379,54,56,27,31,1},
   {0,0,92,56,19,37,-1},
   {1,383,179,56,89,28,1},
+  {0,0,43,56,21,28,-1},
   {409,379,58,54,31,34,1},
   {182,382,57,54,31,34,1},
   {469,308,39,54,19,27,1},
@@ -4203,6 +4314,8 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {452,463,47,46,23,23,0},
   {226,465,13,45,6,22,0},
   {241,465,46,45,27,27,0},
+  {0,0,58,44,39,22,-1},
+  {0,0,57,44,39,22,-1},
   {52,441,80,44,40,22,1},
   {0,0,149,44,74,22,-1},
   {469,364,42,43,21,21,1},
@@ -4248,6 +4361,7 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {0,0,36,36,18,18,-1},
   {0,0,99,33,49,16,-1},
   {298,83,151,32,75,16,2},
+  {0,0,24,32,12,16,-1},
   {467,480,32,31,16,16,1},
   {451,44,31,30,16,16,2},
   {1,87,205,20,102,10,2},
@@ -4315,6 +4429,556 @@ static const SpriteFrame sprite_frames[SPRITE_BANK_COUNT][266] = {
   {1,492,49,16,24,8,1},
   {501,463,10,10,5,5,0},
  },
+ {
+  {1,1,38,199,7,30,0},
+  {0,0,87,197,43,98,-1},
+  {0,0,32,183,16,91,-1},
+  {41,1,165,148,88,74,0},
+  {0,0,51,147,25,73,-1},
+  {208,1,10,131,5,65,0},
+  {220,1,5,130,2,65,0},
+  {227,1,43,124,35,37,0},
+  {272,1,46,123,23,61,0},
+  {0,0,45,122,22,61,-1},
+  {0,0,26,122,13,61,-1},
+  {0,0,79,119,40,60,-1},
+  {0,0,79,119,39,60,-1},
+  {0,0,92,117,46,58,-1},
+  {0,0,35,110,17,55,-1},
+  {320,1,119,108,59,54,0},
+  {320,1,119,108,59,54,0},
+  {320,1,119,108,59,54,0},
+  {0,0,96,101,48,50,-1},
+  {320,111,97,98,49,49,0},
+  {208,134,99,97,49,50,0},
+  {208,134,99,97,49,50,0},
+  {208,134,99,97,49,50,0},
+  {419,111,89,96,54,47,0},
+  {41,151,83,96,50,57,0},
+  {0,0,98,95,54,56,-1},
+  {0,0,80,95,40,63,-1},
+  {419,209,81,94,49,57,0},
+  {309,211,81,94,49,57,0},
+  {126,233,118,93,60,46,0},
+  {0,0,33,93,16,46,-1},
+  {0,0,71,92,35,46,-1},
+  {0,0,110,91,55,45,-1},
+  {1,249,105,90,52,44,0},
+  {1,249,105,90,52,44,0},
+  {1,249,105,90,52,44,0},
+  {392,305,68,88,29,44,0},
+  {0,0,25,87,12,43,-1},
+  {0,0,172,86,86,43,-1},
+  {246,307,62,82,32,49,0},
+  {310,307,62,82,32,49,0},
+  {108,328,62,82,33,49,0},
+  {1,341,82,82,41,41,0},
+  {1,341,82,82,41,41,0},
+  {172,391,82,82,41,41,0},
+  {172,391,82,82,41,41,0},
+  {256,391,82,82,41,41,0},
+  {256,391,82,82,41,41,0},
+  {340,395,82,82,41,41,0},
+  {340,395,82,82,41,41,0},
+  {424,395,82,82,41,41,0},
+  {424,395,82,82,41,41,0},
+  {85,412,82,82,41,41,0},
+  {85,412,82,82,41,41,0},
+  {1,425,82,82,41,41,0},
+  {1,425,82,82,41,41,0},
+  {1,1,82,82,41,41,1},
+  {1,1,82,82,41,41,1},
+  {85,1,82,82,41,41,1},
+  {85,1,82,82,41,41,1},
+  {169,1,82,82,41,41,1},
+  {169,1,82,82,41,41,1},
+  {253,1,82,82,41,41,1},
+  {253,1,82,82,41,41,1},
+  {337,1,82,82,41,41,1},
+  {337,1,82,82,41,41,1},
+  {1,85,98,82,49,41,1},
+  {421,1,61,81,32,47,1},
+  {0,0,45,81,22,40,-1},
+  {421,84,80,80,40,40,1},
+  {421,84,80,80,40,40,1},
+  {101,85,80,80,40,40,1},
+  {101,85,80,80,40,40,1},
+  {183,85,80,80,40,40,1},
+  {183,85,80,80,40,40,1},
+  {265,85,80,80,40,40,1},
+  {265,85,80,80,40,40,1},
+  {347,166,80,80,40,40,1},
+  {347,166,80,80,40,40,1},
+  {429,166,80,80,40,40,1},
+  {429,166,80,80,40,40,1},
+  {101,167,99,79,49,39,1},
+  {0,0,78,78,39,39,-1},
+  {202,167,55,78,27,39,1},
+  {0,0,42,77,21,38,-1},
+  {0,0,277,76,138,38,-1},
+  {0,0,72,76,36,38,-1},
+  {259,167,78,76,39,39,1},
+  {259,167,78,76,39,39,1},
+  {259,167,78,76,39,39,1},
+  {0,0,75,75,37,37,-1},
+  {0,0,75,75,37,37,-1},
+  {1,169,75,75,37,37,1},
+  {1,169,75,75,37,37,1},
+  {259,245,75,75,37,37,1},
+  {259,245,75,75,37,37,1},
+  {0,0,73,74,36,37,-1},
+  {0,0,73,74,36,37,-1},
+  {0,0,74,74,37,37,-1},
+  {0,0,74,74,37,37,-1},
+  {0,0,66,74,33,36,-1},
+  {0,0,66,74,33,37,-1},
+  {1,246,64,73,35,40,1},
+  {67,248,76,73,38,36,1},
+  {67,248,76,73,38,36,1},
+  {145,248,76,73,38,36,1},
+  {145,248,76,73,38,36,1},
+  {0,0,66,73,33,36,-1},
+  {0,0,112,73,56,36,-1},
+  {336,248,52,72,25,36,1},
+  {390,248,52,72,25,36,1},
+  {444,248,52,72,25,36,1},
+  {0,0,53,72,26,36,-1},
+  {223,322,104,71,47,40,1},
+  {329,322,65,70,35,48,1},
+  {396,322,70,69,35,34,1},
+  {0,0,54,68,27,34,-1},
+  {1,323,92,66,46,33,1},
+  {95,323,104,65,55,34,1},
+  {1,395,225,65,112,32,1},
+  {0,0,69,64,34,32,-1},
+  {498,248,5,64,2,32,1},
+  {0,0,31,64,15,32,-1},
+  {0,0,63,64,31,32,-1},
+  {0,0,73,64,36,32,-1},
+  {0,0,160,63,80,31,-1},
+  {0,0,135,63,67,31,-1},
+  {0,0,135,62,67,31,-1},
+  {0,0,71,61,35,30,-1},
+  {0,0,113,61,56,30,-1},
+  {0,0,113,61,56,30,-1},
+  {0,0,62,60,31,30,-1},
+  {0,0,27,60,13,30,-1},
+  {0,0,95,60,47,30,-1},
+  {0,0,55,59,27,29,-1},
+  {0,0,45,58,22,29,-1},
+  {396,393,45,58,22,29,1},
+  {0,0,58,57,29,28,-1},
+  {0,0,70,56,41,30,-1},
+  {0,0,54,56,27,31,-1},
+  {0,0,92,56,19,37,-1},
+  {228,453,179,56,89,28,1},
+  {0,0,43,56,21,28,-1},
+  {443,393,58,54,31,34,1},
+  {443,449,57,54,31,34,1},
+  {1,1,39,54,19,27,2},
+  {0,0,56,54,28,27,-1},
+  {0,0,161,53,80,26,-1},
+  {0,0,99,53,49,26,-1},
+  {42,1,53,52,26,26,2},
+  {0,0,12,52,6,26,-1},
+  {0,0,52,50,26,25,-1},
+  {1,462,49,49,24,24,1},
+  {0,0,86,47,43,23,-1},
+  {52,462,47,46,23,23,1},
+  {52,462,47,46,23,23,1},
+  {52,462,47,46,23,23,1},
+  {409,453,13,45,6,22,1},
+  {101,462,46,45,27,27,1},
+  {149,462,58,44,39,22,1},
+  {97,1,57,44,39,22,2},
+  {0,0,80,44,40,22,-1},
+  {156,1,149,44,74,22,2},
+  {0,0,42,43,21,21,-1},
+  {0,0,42,43,21,21,-1},
+  {0,0,43,43,21,21,-1},
+  {0,0,43,43,21,21,-1},
+  {0,0,47,42,23,21,-1},
+  {307,1,42,41,21,20,2},
+  {351,1,83,41,41,20,2},
+  {307,1,42,41,21,20,2},
+  {351,1,83,41,41,20,2},
+  {436,1,41,41,20,20,2},
+  {307,44,83,41,41,20,2},
+  {436,1,41,41,20,20,2},
+  {307,44,83,41,41,20,2},
+  {392,44,41,41,20,20,2},
+  {97,47,83,41,41,20,2},
+  {392,44,41,41,20,20,2},
+  {97,47,83,41,41,20,2},
+  {435,44,41,41,20,20,2},
+  {182,47,83,41,41,20,2},
+  {435,44,41,41,20,20,2},
+  {182,47,83,41,41,20,2},
+  {42,55,41,41,20,20,2},
+  {267,87,83,41,41,20,2},
+  {42,55,41,41,20,20,2},
+  {267,87,83,41,41,20,2},
+  {352,87,41,41,20,20,2},
+  {395,87,83,41,41,20,2},
+  {352,87,41,41,20,20,2},
+  {395,87,83,41,41,20,2},
+  {0,0,49,40,24,20,-1},
+  {0,0,40,40,20,20,-1},
+  {0,0,40,40,20,20,-1},
+  {0,0,40,40,20,20,-1},
+  {0,0,40,40,20,20,-1},
+  {1,57,39,37,19,18,2},
+  {1,57,39,37,19,18,2},
+  {85,90,39,37,19,18,2},
+  {85,90,39,37,19,18,2},
+  {0,0,80,37,40,18,-1},
+  {0,0,36,36,18,18,-1},
+  {0,0,36,36,18,18,-1},
+  {0,0,99,33,49,16,-1},
+  {0,0,151,32,75,16,-1},
+  {0,0,24,32,12,16,-1},
+  {169,475,32,31,16,16,0},
+  {203,475,31,30,16,16,0},
+  {236,479,205,20,102,10,0},
+  {236,479,205,20,102,10,0},
+  {1,129,205,20,102,10,2},
+  {1,129,205,20,102,10,2},
+  {443,479,21,20,10,10,0},
+  {466,479,41,20,20,10,0},
+  {208,130,83,20,41,10,2},
+  {293,130,168,20,84,10,2},
+  {443,479,21,20,10,10,0},
+  {466,479,41,20,20,10,0},
+  {208,130,83,20,41,10,2},
+  {293,130,168,20,84,10,2},
+  {480,1,20,20,10,10,2},
+  {463,130,41,20,20,10,2},
+  {1,151,83,20,41,10,2},
+  {86,152,168,20,84,10,2},
+  {480,1,20,20,10,10,2},
+  {463,130,41,20,20,10,2},
+  {1,151,83,20,41,10,2},
+  {86,152,168,20,84,10,2},
+  {256,152,205,20,102,10,2},
+  {256,152,205,20,102,10,2},
+  {1,174,205,20,102,10,2},
+  {1,174,205,20,102,10,2},
+  {463,152,20,20,10,10,2},
+  {208,174,41,20,20,10,2},
+  {251,174,83,20,41,10,2},
+  {336,174,168,20,84,10,2},
+  {463,152,20,20,10,10,2},
+  {208,174,41,20,20,10,2},
+  {251,174,83,20,41,10,2},
+  {336,174,168,20,84,10,2},
+  {1,196,20,20,10,10,2},
+  {23,196,41,20,20,10,2},
+  {66,196,83,20,41,10,2},
+  {151,196,168,20,84,10,2},
+  {1,196,20,20,10,10,2},
+  {23,196,41,20,20,10,2},
+  {66,196,83,20,41,10,2},
+  {151,196,168,20,84,10,2},
+  {1,218,205,20,102,10,2},
+  {1,218,205,20,102,10,2},
+  {208,218,205,20,102,10,2},
+  {208,218,205,20,102,10,2},
+  {415,196,20,20,10,10,2},
+  {437,196,41,20,20,10,2},
+  {415,218,83,20,41,10,2},
+  {1,1,168,20,84,10,3},
+  {415,196,20,20,10,10,2},
+  {437,196,41,20,20,10,2},
+  {415,218,83,20,41,10,2},
+  {1,1,168,20,84,10,3},
+  {171,1,20,20,10,10,3},
+  {193,1,41,20,20,10,3},
+  {236,1,83,20,41,10,3},
+  {321,1,168,20,84,10,3},
+  {171,1,20,20,10,10,3},
+  {193,1,41,20,20,10,3},
+  {236,1,83,20,41,10,3},
+  {321,1,168,20,84,10,3},
+  {1,23,97,17,49,8,3},
+  {100,23,321,17,161,8,3},
+  {423,23,49,16,24,8,3},
+  {85,496,10,10,5,5,0},
+ },
+ {
+  {1,1,38,199,7,30,0},
+  {0,0,87,197,43,98,-1},
+  {0,0,32,183,16,91,-1},
+  {41,1,165,148,88,74,0},
+  {0,0,51,147,25,73,-1},
+  {208,1,10,131,5,65,0},
+  {220,1,5,130,2,65,0},
+  {227,1,43,124,35,37,0},
+  {0,0,46,123,23,61,-1},
+  {0,0,45,122,22,61,-1},
+  {0,0,26,122,13,61,-1},
+  {0,0,79,119,40,60,-1},
+  {0,0,79,119,39,60,-1},
+  {0,0,92,117,46,58,-1},
+  {0,0,35,110,17,55,-1},
+  {272,1,119,108,59,54,0},
+  {272,1,119,108,59,54,0},
+  {272,1,119,108,59,54,0},
+  {0,0,96,101,48,50,-1},
+  {393,1,97,98,49,49,0},
+  {393,101,99,97,49,50,0},
+  {393,101,99,97,49,50,0},
+  {393,101,99,97,49,50,0},
+  {272,111,89,96,54,47,0},
+  {41,151,83,96,50,57,0},
+  {0,0,98,95,54,56,-1},
+  {0,0,80,95,40,63,-1},
+  {126,151,81,94,49,57,0},
+  {363,200,81,94,49,57,0},
+  {209,209,118,93,60,46,0},
+  {0,0,33,93,16,46,-1},
+  {0,0,71,92,35,46,-1},
+  {0,0,110,91,55,45,-1},
+  {1,249,105,90,52,44,0},
+  {1,249,105,90,52,44,0},
+  {1,249,105,90,52,44,0},
+  {0,0,68,88,29,44,-1},
+  {0,0,25,87,12,43,-1},
+  {0,0,172,86,86,43,-1},
+  {446,200,62,82,32,49,0},
+  {126,247,62,82,32,49,0},
+  {446,284,62,82,33,49,0},
+  {329,296,82,82,41,41,0},
+  {329,296,82,82,41,41,0},
+  {190,304,82,82,41,41,0},
+  {190,304,82,82,41,41,0},
+  {1,341,82,82,41,41,0},
+  {1,341,82,82,41,41,0},
+  {85,341,82,82,41,41,0},
+  {85,341,82,82,41,41,0},
+  {413,368,82,82,41,41,0},
+  {413,368,82,82,41,41,0},
+  {274,380,82,82,41,41,0},
+  {274,380,82,82,41,41,0},
+  {0,0,82,82,41,41,-1},
+  {0,0,82,82,41,41,-1},
+  {0,0,82,82,41,41,-1},
+  {0,0,82,82,41,41,-1},
+  {169,388,82,82,41,41,0},
+  {169,388,82,82,41,41,0},
+  {1,425,82,82,41,41,0},
+  {1,425,82,82,41,41,0},
+  {85,425,82,82,41,41,0},
+  {85,425,82,82,41,41,0},
+  {1,1,82,82,41,41,1},
+  {1,1,82,82,41,41,1},
+  {85,1,98,82,49,41,1},
+  {185,1,61,81,32,47,1},
+  {0,0,45,81,22,40,-1},
+  {248,1,80,80,40,40,1},
+  {248,1,80,80,40,40,1},
+  {330,1,80,80,40,40,1},
+  {330,1,80,80,40,40,1},
+  {412,1,80,80,40,40,1},
+  {412,1,80,80,40,40,1},
+  {248,83,80,80,40,40,1},
+  {248,83,80,80,40,40,1},
+  {330,83,80,80,40,40,1},
+  {330,83,80,80,40,40,1},
+  {412,83,80,80,40,40,1},
+  {412,83,80,80,40,40,1},
+  {1,85,99,79,49,39,1},
+  {102,85,78,78,39,39,1},
+  {185,84,55,78,27,39,1},
+  {0,0,42,77,21,38,-1},
+  {0,0,277,76,138,38,-1},
+  {0,0,72,76,36,38,-1},
+  {102,165,78,76,39,39,1},
+  {102,165,78,76,39,39,1},
+  {102,165,78,76,39,39,1},
+  {0,0,75,75,37,37,-1},
+  {0,0,75,75,37,37,-1},
+  {182,165,75,75,37,37,1},
+  {182,165,75,75,37,37,1},
+  {259,165,75,75,37,37,1},
+  {259,165,75,75,37,37,1},
+  {336,165,73,74,36,37,1},
+  {336,165,73,74,36,37,1},
+  {411,165,74,74,37,37,1},
+  {411,165,74,74,37,37,1},
+  {0,0,66,74,33,36,-1},
+  {0,0,66,74,33,37,-1},
+  {1,166,64,73,35,40,1},
+  {1,241,76,73,38,36,1},
+  {1,241,76,73,38,36,1},
+  {336,241,76,73,38,36,1},
+  {336,241,76,73,38,36,1},
+  {0,0,66,73,33,36,-1},
+  {0,0,112,73,56,36,-1},
+  {358,380,52,72,25,36,0},
+  {414,241,52,72,25,36,1},
+  {182,242,52,72,25,36,1},
+  {0,0,53,72,26,36,-1},
+  {1,316,104,71,47,40,1},
+  {236,242,65,70,35,48,1},
+  {107,243,70,69,35,34,1},
+  {0,0,54,68,27,34,-1},
+  {236,314,92,66,46,33,1},
+  {107,316,104,65,55,34,1},
+  {0,0,225,65,112,32,-1},
+  {414,315,69,64,34,32,1},
+  {497,368,5,64,2,32,0},
+  {0,0,31,64,15,32,-1},
+  {0,0,63,64,31,32,-1},
+  {330,316,73,64,36,32,1},
+  {0,0,160,63,80,31,-1},
+  {0,0,135,63,67,31,-1},
+  {0,0,135,62,67,31,-1},
+  {0,0,71,61,35,30,-1},
+  {0,0,113,61,56,30,-1},
+  {0,0,113,61,56,30,-1},
+  {0,0,62,60,31,30,-1},
+  {0,0,27,60,13,30,-1},
+  {0,0,95,60,47,30,-1},
+  {0,0,55,59,27,29,-1},
+  {0,0,45,58,22,29,-1},
+  {412,452,45,58,22,29,0},
+  {0,0,58,57,29,28,-1},
+  {0,0,70,56,41,30,-1},
+  {0,0,54,56,27,31,-1},
+  {0,0,92,56,19,37,-1},
+  {213,382,179,56,89,28,1},
+  {459,452,43,56,21,28,0},
+  {405,381,58,54,31,34,1},
+  {107,383,57,54,31,34,1},
+  {358,454,39,54,19,27,0},
+  {0,0,56,54,28,27,-1},
+  {0,0,161,53,80,26,-1},
+  {1,389,99,53,49,26,1},
+  {0,0,53,52,26,26,-1},
+  {0,0,12,52,6,26,-1},
+  {0,0,52,50,26,25,-1},
+  {394,437,49,49,24,24,1},
+  {253,464,86,47,43,23,0},
+  {445,437,47,46,23,23,1},
+  {445,437,47,46,23,23,1},
+  {445,437,47,46,23,23,1},
+  {341,464,13,45,6,22,0},
+  {102,439,46,45,27,27,1},
+  {150,439,58,44,39,22,1},
+  {210,440,57,44,39,22,1},
+  {0,0,80,44,40,22,-1},
+  {1,1,149,44,74,22,2},
+  {0,0,42,43,21,21,-1},
+  {0,0,42,43,21,21,-1},
+  {0,0,43,43,21,21,-1},
+  {0,0,43,43,21,21,-1},
+  {0,0,47,42,23,21,-1},
+  {269,440,42,41,21,20,1},
+  {1,444,83,41,41,20,1},
+  {269,440,42,41,21,20,1},
+  {1,444,83,41,41,20,1},
+  {313,440,41,41,20,20,1},
+  {152,1,83,41,41,20,2},
+  {313,440,41,41,20,20,1},
+  {152,1,83,41,41,20,2},
+  {237,1,41,41,20,20,2},
+  {280,1,83,41,41,20,2},
+  {237,1,41,41,20,20,2},
+  {280,1,83,41,41,20,2},
+  {365,1,41,41,20,20,2},
+  {408,1,83,41,41,20,2},
+  {365,1,41,41,20,20,2},
+  {408,1,83,41,41,20,2},
+  {152,44,41,41,20,20,2},
+  {195,44,83,41,41,20,2},
+  {152,44,41,41,20,20,2},
+  {195,44,83,41,41,20,2},
+  {280,44,41,41,20,20,2},
+  {323,44,83,41,41,20,2},
+  {280,44,41,41,20,20,2},
+  {323,44,83,41,41,20,2},
+  {0,0,49,40,24,20,-1},
+  {0,0,40,40,20,20,-1},
+  {0,0,40,40,20,20,-1},
+  {0,0,40,40,20,20,-1},
+  {0,0,40,40,20,20,-1},
+  {169,472,39,37,19,18,0},
+  {169,472,39,37,19,18,0},
+  {210,472,39,37,19,18,0},
+  {210,472,39,37,19,18,0},
+  {0,0,80,37,40,18,-1},
+  {0,0,36,36,18,18,-1},
+  {0,0,36,36,18,18,-1},
+  {0,0,99,33,49,16,-1},
+  {0,0,151,32,75,16,-1},
+  {356,440,24,32,12,16,1},
+  {356,474,32,31,16,16,1},
+  {408,44,31,30,16,16,2},
+  {86,486,205,20,102,10,1},
+  {86,486,205,20,102,10,1},
+  {1,87,205,20,102,10,2},
+  {1,87,205,20,102,10,2},
+  {293,483,21,20,10,10,1},
+  {445,485,41,20,20,10,1},
+  {1,487,83,20,41,10,1},
+  {208,87,168,20,84,10,2},
+  {293,483,21,20,10,10,1},
+  {445,485,41,20,20,10,1},
+  {1,487,83,20,41,10,1},
+  {208,87,168,20,84,10,2},
+  {316,483,20,20,10,10,1},
+  {390,488,41,20,20,10,1},
+  {408,76,83,20,41,10,2},
+  {1,109,168,20,84,10,2},
+  {316,483,20,20,10,10,1},
+  {390,488,41,20,20,10,1},
+  {408,76,83,20,41,10,2},
+  {1,109,168,20,84,10,2},
+  {171,109,205,20,102,10,2},
+  {171,109,205,20,102,10,2},
+  {1,131,205,20,102,10,2},
+  {1,131,205,20,102,10,2},
+  {488,485,20,20,10,10,1},
+  {378,98,41,20,20,10,2},
+  {421,98,83,20,41,10,2},
+  {208,131,168,20,84,10,2},
+  {488,485,20,20,10,10,1},
+  {378,98,41,20,20,10,2},
+  {421,98,83,20,41,10,2},
+  {208,131,168,20,84,10,2},
+  {378,120,20,20,10,10,2},
+  {400,120,41,20,20,10,2},
+  {378,142,83,20,41,10,2},
+  {1,153,168,20,84,10,2},
+  {378,120,20,20,10,10,2},
+  {400,120,41,20,20,10,2},
+  {378,142,83,20,41,10,2},
+  {1,153,168,20,84,10,2},
+  {171,153,205,20,102,10,2},
+  {171,153,205,20,102,10,2},
+  {1,175,205,20,102,10,2},
+  {1,175,205,20,102,10,2},
+  {463,120,20,20,10,10,2},
+  {463,142,41,20,20,10,2},
+  {378,164,83,20,41,10,2},
+  {208,175,168,20,84,10,2},
+  {463,120,20,20,10,10,2},
+  {463,142,41,20,20,10,2},
+  {378,164,83,20,41,10,2},
+  {208,175,168,20,84,10,2},
+  {463,164,20,20,10,10,2},
+  {378,186,41,20,20,10,2},
+  {421,186,83,20,41,10,2},
+  {1,197,168,20,84,10,2},
+  {463,164,20,20,10,10,2},
+  {378,186,41,20,20,10,2},
+  {421,186,83,20,41,10,2},
+  {1,197,168,20,84,10,2},
+  {171,197,97,17,49,8,2},
+  {171,216,321,17,161,8,2},
+  {1,219,49,16,24,8,2},
+  {399,454,10,10,5,5,0},
+ },
 };
-#define SPRITE_COUNT 266
+#define SPRITE_COUNT 273
 #endif

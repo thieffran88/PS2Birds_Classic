@@ -12,7 +12,25 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE, BIRD_WHITE_TYPE, BIRD_EGG_TYPE, BIRD_GREEN_TYPE, BIRD_BIG_TYPE, BIRD_PUFFER_TYPE } BirdType;
+typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE, BIRD_WHITE_TYPE, BIRD_EGG_TYPE, BIRD_GREEN_TYPE, BIRD_BIG_TYPE, BIRD_PUFFER_TYPE, BIRD_PINK_TYPE } BirdType;
+/* Stella (PinkBird, specialty "BUBBLES"): body from blocks.lua, algorithm from mode_MuseumMode.lua,
+   bubbles.lua and default_conf.lua. A tap starts a PINK_BOOM_TIME timer (1.5 s on a first contact
+   without tap); during its last PINK_BOOM_TIME s the bird stops and hovers; then every movable
+   piece within PINK_RADIUS (and the bird) floats in a bubble for BUBBLE_TIME s: force
+   (dx*BUBBLE_FLOAT_FACTOR*mass, -gravity*mass*BUBBLE_ANTI_GRAVITY) while not rising faster than
+   BUBBLE_MAX_VELOCITY; their breakable joints are destroyed; the bird leaves when its bubble pops. */
+#define PINK_RADIUS 0.85f
+#define PINK_DENSITY 6.0f
+#define PINK_FRICTION 0.3f
+#define PINK_RESTITUTION 0.43f
+#define PINK_DAMAGE_FACTOR 0.5f
+#define PINK_BOOM_TIME 0.5f
+#define PINK_CONTACT_DELAY 1.5f
+#define PINK_BUBBLE_RADIUS 7.0f
+#define BUBBLE_TIME 2.0f
+#define BUBBLE_ANTI_GRAVITY 1.8f
+#define BUBBLE_MAX_VELOCITY 10.0f
+#define BUBBLE_FLOAT_FACTOR 1.3f
 /* GlobeBird ("PUFFER"), all values from blocks.lua; algorithm from puffer_bird.lua.
    Tap (also allowed after contact; automatic GLOBE_AUTO_PUFF_DELAY s after the first contact):
    friction/restitution/density switch to the puffed values, the circle grows to
