@@ -1,4 +1,34 @@
-# Modificações completas — PS2Birds Classic 0.32.0
+# Modificações completas — PS2Birds Classic 0.33.0
+
+- **Episódio Birdday 5 (30 fases, todas com roteiro vencedor)**
+  - Ordem do `episodes.lua` (UGC1Level01 a 30) e limites do `starLimits.lua`; numeradas de 5-1 a 5-30.
+  - Dividido em seis páginas de 5 fases (bancos de textura 18 a 23) para caber na memória de vídeo.
+  - A campanha passa de 345 para 375 fases; 368 com roteiro vencedor.
+- **90 peças novas, todas pela `tools/add_definitions.py`**
+  - 39 sem colisão (papelão rasgado, fitas, clipes, carimbos, post-its), 7 fixas com colisão (régua dobrável, lápis, borracha, transferidor, compasso, rinoceronte), chapéus, máscaras, óculos, frascos de vidro, TV, câmera, motor de Bad Piggies e a vela do bolo.
+  - Peças de material `immovable` entram como cenário fixo; o jogo passou a desenhar peças fixas com o sprite colorido próprio (antes só sabia desenhar máscaras de chão).
+- **Texturas**
+  - O extrator lê também as folhas de tema (`themes_android/THEME_UGC_*`), em PNG com borda de 1 pixel.
+  - As 90 peças e os objetos grandes do tema UGC ficam em meia resolução e são desenhados com escala 2 (marca `half_resolution` no perfil).
+  - Nos bancos 18+ os estados de dano dos blocos e os quadros de voo/colisão dos pássaros usam o quadro normal.
+  - O empacotador tenta outras ordens de arrumação quando a primeira não cabe; os bancos 0 a 17 ficam iguais.
+  - 24 bancos, 365 sprites.
+- **Limites maiores por fase**
+  - 640 peças e 512 juntas por fase (antes 352 e 64): cobre todos os episódios do APK, inclusive Dino e Golden Eggs.
+- **Correção encontrada pelos testes**
+  - A primeira versão da regra de quadros de dano trocava blocos de tamanhos diferentes (um bloco intacto de tamanho 2 viraria o de tamanho 1); corrigido antes da versão.
+- **Ferramentas**
+  - Títulos de páginas que continuam a numeração (`first`), para o Birdday 5 numerar 5-1 a 5-30.
+  - `settle_probe` lista as peças que mais se mexem antes do primeiro tiro (`SETTLE_LIST=1`).
+- **Testes**
+  - `profile_test`: Birdday 5 (ordem, seis bancos, numeração, 90 peças contra o `blocks.lua`, 39 sem colisão).
+  - `sprite_test`: 24 bancos, 365 quadros; peças do Birdday 5 só nos bancos 18-23 e em meia resolução; regras de quadros repetidos conferidas.
+  - Suíte com 52 verificações aprovadas.
+- **Versão, documentos e limpeza**
+  - Tela e log em 0.33.0; README com 375 fases; captura da Birdday 5-3; documentos e captura da 0.32.0 substituídos.
+  - Drive: zips da 0.31.0 e documentos da 0.32.0 removidos.
+
+## Modificações completas — 0.32.0
 
 - **Episódio Birdday 6 (página 21, 15 fases)**
   - Ordem do `episodes.lua` e limites de estrelas do `starLimits.lua`; banco de texturas 17.

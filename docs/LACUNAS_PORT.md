@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.32.0)
+# Lacunas do port (levantamento atualizado na 0.33.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -106,6 +106,11 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **Força própria da peça:** o balão `BP_SINGLE_BALLOON` declara `forceY = -80` na própria definição (não no material) e `targetVelocity = 20`; o port deixa de empurrar quando o balão já sobe a essa velocidade.
 - **Birdday 6 (15 fases) entrou.** O Birdday 5 aparece antes no APK, mas precisa de 90 peças novas: 31 de cenário de papelão sem colisão, 7 fixas (régua, lápis, borracha, transferidor, compasso, rinoceronte), 31 extras (chapéus, máscaras, óculos, objetos de escritório), 9 frascos de vidro, um motor de Bad Piggies e a vela do bolo. Todos os pássaros já existem no port.
 
+## Achados da 0.33.0
+
+- **Birdday 5 entrou (30 fases).** As 90 peças saíram da `add_definitions.py`; 35 sprites estão nas folhas de tema (`themes_android`), não nas folhas base.
+- **Memória de vídeo é o limite dos episódios com tema próprio:** cada banco tem 2,75 MB de textura; o Birdday 5 precisou de meia resolução nas peças e de bancos de 5 fases. Os próximos episódios com muitos objetos (Dino, Piggy Farm) vão precisar do mesmo.
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -114,7 +119,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Birdday 5 (90 peças, quase todas automáticas pela `add_definitions.py`) e Birdday 7; roteiros de 16-5, 16-6 e Birdday 4-4.
+1. Birdday 7 e os episódios seguintes (Surf and Turf, Bad Piggies, Mighty Feathers, Short Fuse...); roteiros de 16-5, 16-6, Birdday 4-4 e 6-1.
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).

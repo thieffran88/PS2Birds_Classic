@@ -355,6 +355,36 @@ static const Stage stages[]={
  {"BD6Level13",85,11,59,3,{{30,90,1.0f}},1}, /* BIRDDAY 6-13 */
  {"BD6Level14",155,8,126,3,{{30,90,2.0f}},1}, /* BIRDDAY 6-14 */
  {"BD6Level15",154,8,129,3,{{40,100,-1.0f},{40,100,-1.0f}},2}, /* BIRDDAY 6-15 */
+ {"UGC1Level01",196,5,81,4,{{60,70,0.8f}},1}, /* BIRDDAY 5-1 */
+ {"UGC1Level02",205,8,119,4,{{70,100,2.3f},{40,90,1.4f},{50,100,2.3f}},3}, /* BIRDDAY 5-2 */
+ {"UGC1Level03",204,8,114,4,{{40,80,1.4f},{0,80,1.4f},{20,100,0.6f}},3}, /* BIRDDAY 5-3 */
+ {"UGC1Level04",158,7,69,4,{{40,80,1.2f}},1}, /* BIRDDAY 5-4 */
+ {"UGC1Level05",195,12,124,3,{{50,90,-1.0f},{60,80,-1.0f},{20,100,-1.0f}},3}, /* BIRDDAY 5-5 */
+ {"UGC1Level06",343,11,180,5,{{0,90,2.6f}},1}, /* BIRDDAY 5-6 */
+ {"UGC1Level07",206,9,104,4,{{40,90,0.6f},{20,100,1.0f}},2}, /* BIRDDAY 5-7 */
+ {"UGC1Level08",189,13,80,4,{{30,90,1.0f},{20,60,0.8f},{40,100,-1.0f},{30,100,2.0f}},4}, /* BIRDDAY 5-8 */
+ {"UGC1Level09",227,20,98,4,{{30,80,0.6f},{30,100,0.6f}},2}, /* BIRDDAY 5-9 */
+ {"UGC1Level10",212,10,117,4,{{-10,80,1.0f}},1}, /* BIRDDAY 5-10 */
+ {"UGC1Level11",161,12,76,4,{{30,70,1.2f},{60,90,2.0f}},2}, /* BIRDDAY 5-11 */
+ {"UGC1Level12",164,7,93,4,{{60,90,2.3f},{50,100,1.6f},{50,100,1.4f}},3}, /* BIRDDAY 5-12 */
+ {"UGC1Level13",222,13,130,4,{{40,90,0.6f}},1}, /* BIRDDAY 5-13 */
+ {"UGC1Level14",151,9,82,4,{{60,100,-1.0f},{0,100,1.2f}},2}, /* BIRDDAY 5-14 */
+ {"UGC1Level15",308,12,145,5,{{70,100,2.6f},{30,70,0.6f},{0,80,0.8f}},3}, /* BIRDDAY 5-15 */
+ {"UGC1Level16",180,11,82,3,{{20,100,2.6f},{50,100,0.8f},{30,80,1.2f}},3}, /* BIRDDAY 5-16 */
+ {"UGC1Level17",219,9,114,4,{{30,100,1.6f},{70,100,-1.0f}},2}, /* BIRDDAY 5-17 */
+ {"UGC1Level18",112,7,64,3,{{50,70,2.0f},{40,90,0.8f}},2}, /* BIRDDAY 5-18 */
+ {"UGC1Level19",221,26,106,5,{{20,70,1.6f}},1}, /* BIRDDAY 5-19 */
+ {"UGC1Level20",181,12,88,4,{{50,80,-1.0f},{20,100,-1.0f}},2}, /* BIRDDAY 5-20 */
+ {"UGC1Level21",226,13,112,5,{{60,80,1.0f}},1}, /* BIRDDAY 5-21 */
+ {"UGC1Level22",168,11,92,4,{{60,80,0.6f},{70,80,1.8f}},2}, /* BIRDDAY 5-22 */
+ {"UGC1Level23",251,10,82,4,{{50,90,1.6f},{20,80,2.6f}},2}, /* BIRDDAY 5-23 */
+ {"UGC1Level24",193,7,65,4,{{30,70,1.4f}},1}, /* BIRDDAY 5-24 */
+ {"UGC1Level25",172,12,94,5,{{70,100,1.0f},{30,90,1.2f}},2}, /* BIRDDAY 5-25 */
+ {"UGC1Level26",219,11,83,4,{{30,80,1.2f},{30,80,2.3f}},2}, /* BIRDDAY 5-26 */
+ {"UGC1Level27",219,10,121,4,{{30,90,2.6f},{50,100,1.6f}},2}, /* BIRDDAY 5-27 */
+ {"UGC1Level28",171,12,91,4,{{0,90,2.3f},{60,100,2.3f}},2}, /* BIRDDAY 5-28 */
+ {"UGC1Level29",241,17,120,4,{{10,70,0.8f}},1}, /* BIRDDAY 5-29 */
+ {"UGC1Level30",213,14,110,5,{{50,90,-1.0f},{30,100,2.6f},{30,90,-1.0f}},3}, /* BIRDDAY 5-30 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -375,7 +405,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==345 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==375 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));
