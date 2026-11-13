@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.24.0)
+# Lacunas do port (levantamento atualizado na 0.25.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -49,6 +49,12 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **Memória:** cada banco de texturas embutido custa 2,8 MB de RAM; o ELF chegou a 19,7 MB com 5 bancos. Para os próximos episódios, os bancos devem ser lidos do disco sob demanda em vez de ficarem dentro do ELF.
 - **Bola superelástica:** o `blocks.lua` dá restituição 5,5 à ExtraTrampoline (o Box2D original também usa o maior valor do par), mantido como no dado.
 
+## Achados da 0.25.0
+
+- **Peças "dormindo" — testado.** Com a opção `SCENE_STARTS_ASLEEP` (peças criadas em repouso), nenhuma das 150 fases tem peça se movendo mais de 1 unidade ao carregar (antes, 15 fases passavam de 3 unidades). Mas 109 dos 148 roteiros deixam de vencer e a 1-1 cai de 119 para 68 acertos na grade de teste, porque as construções ficam mais firmes. Há também um contra-indício: no jogo original, porcos às vezes morrem antes do primeiro tiro porque a construção se acomoda, o que só acontece com as peças acordadas. A opção ficou no código, desligada, até haver evidência direta (por exemplo, o código nativo que cria os corpos).
+- **Memória — resolvido.** Os bancos de textura 1+ saem do ELF e vão para o `SPRITES.BIN`; cada novo episódio passa a custar só disco, não RAM. Testado no PCSX2 pela ISO (disco) e pelo ELF com o arquivo ao lado (HostFs).
+- **Big Setup (mundos 9–11, 45 fases):** nenhuma fase importa ainda. Todas usam o Terence (RedBigBird: raio 1,8, densidade 10, restituição 0,45, sem habilidade especial; `RedBigBirdDamageFactors` dá dano ×0,3 e velocidade ×1,8) e capacetes (ExtraHelmetSmall/Big/Boss) definidos como polígonos livres, com vértices relativos ao tamanho do sprite. O port só tem triângulos fixos: falta um importador de polígonos genéricos. Uma fase também usa corda (ExtraRopeThick01).
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -57,9 +63,9 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Peças começando em repouso (sleeping), com novo levantamento de roteiros.
-1b. Bancos de textura lidos do disco sob demanda.
-1c. Terence (RedBigBird) e Stella (PinkBird) e as peças de Ham 'Em High.
+1. Polígonos genéricos (capacetes) e o Terence: liberam Big Setup.
+1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
+1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).
 3. Juntas prismáticas e cordas.
 4. Pan de câmera e música.

@@ -1,0 +1,24 @@
+# Modificações 0.25.0
+
+- **Texturas lidas do disco (`SPRITES.BIN`)**
+  - O banco de texturas 0 (Poached Eggs) continua dentro do ELF; os bancos 1 a 4 foram para o arquivo `SPRITES.BIN` (11,1 MB).
+  - Quando o episódio muda, o banco é lido para um único buffer (2,75 MB) e enviado à VRAM como antes.
+  - O ELF caiu de 19,7 MB para 8,6 MB. Cada episódio novo passa a ocupar disco, não RAM.
+  - Caminho do arquivo: `cdrom0:\SPRITES.BIN;1` quando o jogo roda do disco; a pasta do ELF nos outros casos (`mass:`, `host:` etc.).
+  - Sem o arquivo, o jogo abre normalmente, mostra "SPRITES.BIN AUSENTE: COPIE-O PARA A PASTA DO ELF" e usa as texturas do banco 0.
+  - Novo `tools/split_sprite_banks.py` divide o atlas no build; `make iso` grava o `SPRITES.BIN` na ISO (`tools/make_iso.py --extra`).
+  - O jogo registra no console o caminho com que foi iniciado, para diagnóstico.
+- **Investigação: peças "dormindo"**
+  - Testado criar as peças em repouso: elimina todo movimento ao carregar, mas muda a física de todas as fases (109 roteiros deixam de vencer) e contraria o comportamento conhecido do original, em que construções às vezes se acomodam antes do tiro.
+  - Mantido como opção de compilação `SCENE_STARTS_ASLEEP`, desligada.
+- **Investigação: Big Setup**
+  - O próximo episódio (45 fases) precisa do Terence e de capacetes poligonais; definições lidas e registradas em `docs/LACUNAS_PORT.md`.
+- **Testes**
+  - Novo teste do `SPRITES.BIN`: banco 0 no ELF, bancos 1–4 no arquivo, idênticos byte a byte ao atlas.
+  - Suíte completa com 37 verificações.
+- **Versão e documentos**
+  - Tela e log em 0.25.0. README explica o `SPRITES.BIN`; lacunas, validação e histórico atualizados.
+  - Capturas novas: fase 8-15 com o banco 4 lido do disco e o aviso sem `SPRITES.BIN`; capturas da 0.24.0 removidas.
+- **Distribuição**
+  - O ZIP do ELF agora leva o `SPRITES.BIN` junto. A ISO já o contém.
+  - No Drive, os arquivos 0.24.0 foram substituídos pelos 0.25.0.

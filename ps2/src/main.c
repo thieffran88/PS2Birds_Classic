@@ -168,7 +168,8 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     gsKit_clear(gs,color(120,194,205));
     rect(0,0,640,109,dark);
     text(30,22,3,cream,"PS2BIRDS CLASSIC");
-    text(31,55,1,color(135,192,181),"PROTOTIPO 0.24.0 / PLAYSTATION 2");
+    if(sprites_load_failed())text(31,55,1,gold,"SPRITES.BIN AUSENTE: COPIE-O PARA A PASTA DO ELF");
+    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.25.0 / PLAYSTATION 2");
     text(430,55,1,color(135,192,181),audio_status());
     text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
     text(31,80,2,gold,game_level_title(g->level));
@@ -268,7 +269,18 @@ static int init_pad(void)
     return padPortOpen(0,0,pad_buffer) != 0;
 }
 
-int main(void)
+/* SPRITES.BIN sits next to the ELF: on the disc (cdrom0:\\SPRITES.BIN;1) or in the
+   folder the ELF was started from (mass:, host:, hdd...). */
+static void set_sprite_path(int argc,char **argv)
+{
+    static char path[256];const char *self=argc>0 && argv && argv[0]?argv[0]:"";
+    if(!strncmp(self,"cdrom",5)){sprites_set_data_path("cdrom0:\\SPRITES.BIN;1");return;}
+    size_t cut=0;for(size_t i=0;self[i];i++)if(self[i]=='/'||self[i]=='\\'||self[i]==':')cut=i+1;
+    if(cut==0 || cut>=sizeof(path)-16){sprites_set_data_path("host:SPRITES.BIN");return;}
+    memcpy(path,self,cut);strcpy(path+cut,"SPRITES.BIN");sprites_set_data_path(path);
+}
+
+int main(int argc,char **argv)
 {
     SifInitRpc(0);
     gs = gsKit_init_global();
@@ -288,9 +300,11 @@ int main(void)
     gsKit_mode_switch(gs,GS_ONESHOT);
     gs->PrimAlphaEnable=GS_SETTING_ON;
     gsKit_set_primalpha(gs,ALPHA_BLEND_NORMAL,0);
+    set_sprite_path(argc,argv);
+    printf("PS2Birds: started as '%s'\n",argc>0 && argv && argv[0]?argv[0]:"");
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.24.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.25.0: GS ready, pad open=%d\n",pad_open);
     Game g; game_init(&g); save_mc_init(&g); audio_init();
     u32 old_buttons=0;
     int paused=0, previously_connected=0, analog_requested=0,menu=1,selected=0;

@@ -9,7 +9,7 @@ EE_LDFLAGS = -L$(GSKIT)/lib
 EE_LIBS = -lgskit -ldmakit -lpad -lmc -lpatches -lm
 
 .PHONY: all clean test iso
-all: $(EE_BIN)
+all: $(EE_BIN) build/SPRITES.BIN
 
 build/%.o: src/%.c src/game.h src/level_config.h src/campaign_types.h
 	@mkdir -p build
@@ -40,7 +40,11 @@ build/save_assets.o: src/save_assets.S assets/save.icn assets/save_icon.sys
 	@mkdir -p build
 	$(EE_CC) -G0 -c $< -o $@
 
-build/sprite_pixels.o: src/sprites.S assets/sprites.rgba
+build/sprites_bank0.rgba build/SPRITES.BIN: assets/sprites.rgba assets/manifest.json ../tools/split_sprite_banks.py
+	@mkdir -p build
+	python3 ../tools/split_sprite_banks.py assets/manifest.json assets/sprites.rgba build/sprites_bank0.rgba build/SPRITES.BIN
+
+build/sprite_pixels.o: src/sprites.S build/sprites_bank0.rgba
 	@mkdir -p build
 	$(EE_CC) -G0 -c $< -o $@
 
@@ -84,8 +88,8 @@ test: joint-test triangle-test tnt-test white-test black-test audio-test save-te
 	python3 tests/sprite_test.py
 	python3 tests/profile_test.py
 
-iso: $(EE_BIN)
-	python3 ../tools/make_iso.py $(EE_BIN) build/PS2Birds_Classic.iso
+iso: $(EE_BIN) build/SPRITES.BIN
+	python3 ../tools/make_iso.py $(EE_BIN) build/PS2Birds_Classic.iso --extra build/SPRITES.BIN
 
 clean:
 	rm -rf build

@@ -60,7 +60,7 @@ struct Physics: b2ContactListener {
         b2FixtureDef ground;ground.shape=&shape;ground.friction=0.8f;ground.restitution=0;floor->CreateFixture(&ground);
         for (int i=0;i<level->count;i++) {
             const CampaignObject &o=level->objects[i];
-            b2BodyDef def;def.type=(o.kind==3||IS_FRAGILE_KIND(o.kind))?b2_staticBody:b2_dynamicBody;
+            b2BodyDef def;def.type=(o.kind==3||IS_FRAGILE_KIND(o.kind))?b2_staticBody:b2_dynamicBody;def.awake=!SCENE_STARTS_ASLEEP;
             def.position.Set(o.x,o.y);def.angle=o.angle;
             b2Body *body=world.CreateBody(&def);
             body->GetUserData().pointer=i+1;

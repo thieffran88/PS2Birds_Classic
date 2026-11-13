@@ -107,3 +107,13 @@ for name in ['BLOCK_SUPER_BALL','BLOCK_CARPET','BLOCK_STEEL_BALL','BIRD_BOOMERAN
 for b in range(4):
     for name in ['BLOCK_SUPER_BALL','BLOCK_CARPET','BLOCK_STEEL_BALL']:assert name not in banks[b]['sprites'],(b,name)
 print('Danger Above page 8 bank OK: super ball, carpet and steel ball only in bank 4.')
+
+# SPRITES.BIN: bank 0 stays in the ELF, banks 1+ go to the external file, byte for byte.
+import subprocess as _sp,tempfile as _tf
+with _tf.TemporaryDirectory() as _d:
+    _b0=Path(_d)/'b0.rgba';_rest=Path(_d)/'SPRITES.BIN'
+    _sp.run([sys.executable,str(root/'tools/split_sprite_banks.py'),str(a/'manifest.json'),str(a/'sprites.rgba'),str(_b0),str(_rest)],check=True,capture_output=True)
+    _bank0=sum(p['width']*p['height']*4 for p in banks[0]['pages'])
+    assert _b0.stat().st_size==_bank0 and _b0.read_bytes()+_rest.read_bytes()==pixels
+    for b in range(1,len(banks)):assert banks[b]['pages'][0]['offset']>=_bank0
+print(f'SPRITES.BIN OK: bank 0 ({_bank0} bytes) linked into the ELF, banks 1-{len(banks)-1} ({len(pixels)-_bank0} bytes) read from the disc or the ELF folder.')

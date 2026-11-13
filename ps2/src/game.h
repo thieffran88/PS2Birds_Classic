@@ -56,6 +56,10 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 /* Static fragile pieces (staticFragile group, clouds material), e.g. StaticBalloon03-05;
    destroyedScoreInc 100 from blocks.lua. */
 #define FLOOR_HALF_WIDTH 1000.0f
+/* Experimental: 1 creates scene pieces asleep (native "sleeping" state, see docs/LACUNAS_PORT.md). Off: evidence is indirect. */
+#ifndef SCENE_STARTS_ASLEEP
+#define SCENE_STARTS_ASLEEP 0
+#endif
 #define OBJECT_KIND_FRAGILE 8
 #define FRAGILE_DESTROYED_SCORE 100
 /* StaticFragileBlock06: ground piece of the staticFragile group (immovableFragile material,

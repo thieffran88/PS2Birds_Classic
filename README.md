@@ -1,4 +1,4 @@
-# PS2Birds Classic — protótipo 0.24.0
+# PS2Birds Classic — protótipo 0.25.0
 
 Foco exclusivo no Classic. Inclui a primeira página completa de Poached Eggs
 e a segunda e a terceira páginas completas (63 fases, todo o episódio Poached Eggs) as duas páginas de Mighty Hoax e as três páginas de Danger Above (150 fases) na ordem declarada pelo próprio APK, com sprites originais, pássaros
@@ -8,8 +8,10 @@ sequencial e recordes persistentes no Memory Card 1. Ainda não é o port comple
 
 ## Jogar
 
-Abra o ELF ou ISO no PCSX2 ou teste no carregador homebrew escolhido. O console
-físico ainda não foi validado. Vídeo NTSC 640×448 em 16 bits com dithering, efeitos sonoros originais e salvamento no Memory Card 1.
+Abra a ISO no PCSX2 ou use o ELF num carregador homebrew. O ELF precisa do arquivo
+`SPRITES.BIN` na mesma pasta (no PCSX2, com a opção HostFs ligada); a ISO já traz os dois.
+Sem o `SPRITES.BIN`, o jogo abre e mostra um aviso, e só Poached Eggs tem texturas completas.
+O console físico ainda não foi validado. Vídeo NTSC 640×448 em 16 bits com dithering, efeitos sonoros originais e salvamento no Memory Card 1.
 
 - R3 liga/desliga os efeitos sonoros; a preferência vale para a sessão.
 - Menu: cima/baixo escolhem a fase, esquerda/direita mudam três posições; X inicia se estiver desbloqueada.
@@ -60,8 +62,9 @@ python tools/extract_audio.py /caminho/com.rovio.angrybirds.apk ps2/assets --adp
 
 As 84 fontes Lua decompiladas e métricas estão em ps2/data; o importador não
 executa Lua. A extração de gráficos exige o APK original e OpenSSL; `tools/py7z.py`
-substitui o 7-Zip usando o pacote `py7zr` (um 7z nativo também serve). As três
-páginas de atlas usam 2,5 MiB (limite 2,5 MiB) e ficam incorporadas no ELF; o
+substitui o 7-Zip usando o pacote `py7zr` (um 7z nativo também serve). O banco
+de texturas 0 (Poached Eggs) fica incorporado no ELF; os bancos 1 a 4 ficam no `SPRITES.BIN`
+e são lidos para um único buffer quando o episódio muda; o
 frame buffer passou a 16 bits para abrir espaço na VRAM. As plataformas estáticas
 usam máscaras originais com cor provisória; o preenchimento original ainda está pendente.
 
@@ -71,7 +74,7 @@ já estão incluídos. O audsrv é compilado das fontes incluídas. Se o módulo
 inicializar, o jogo continua com SOM INDISPONIVEL. Ainda não há música de fundo.
 
 As ferramentas/perfis de outras séries permanecem no pacote, sem novos ports.
-Consulte docs/MODIFICACOES_0.24.0.md e docs/VALIDACAO_0.24.0.md. Documentos das versões
+Consulte docs/MODIFICACOES_0.25.0.md e docs/VALIDACAO_0.25.0.md. Documentos das versões
 anteriores são históricos. Saves da 0.6.0 à 0.8.0 são aproveitados e regravados no
 formato versão 3 (288 bytes, até 64 fases). A seleção mostra três fases por página
 e muda automaticamente conforme cima/baixo.
@@ -138,6 +141,12 @@ A investigação das fases sem vitória encontrou três erros de importação pr
 - Velocidade de lançamento dependente do zoom. O original usa 46,25 unidades/s com o estilingue esticado ao máximo (`defaultForce = -925`, `physicsScale = 1/20`); o port dividia a força pela escala da câmera, de 23 a 152 unidades/s conforme a fase. A força agora é a porcentagem de esticamento.
 
 Com isso, 82 das 84 fases têm vitória encontrada pela busca automática. Continuam sem roteiro 3-9 e 3-19; nelas a vitória depende de quedas e esmagamentos, cuja fórmula de dano fica no código nativo do jogo e não nos scripts Lua recuperados. Não existe regra de desbloqueio extra: o avanço é o do jogo original.
+
+## Novidades da 0.25.0
+
+- Texturas fora do ELF: os bancos 1 a 4 foram para o `SPRITES.BIN` (11,1 MB), lido do disco ou da pasta do ELF. O ELF caiu de 19,7 MB para 8,6 MB, liberando memória para os próximos episódios.
+- Investigação da hipótese das peças "dormindo" no início da fase: testada, mantida como opção desligada.
+- Levantamento do episódio Big Setup (próximo da campanha).
 
 ## Novidades da 0.24.0
 
