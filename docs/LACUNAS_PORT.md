@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.31.0)
+# Lacunas do port (levantamento atualizado na 0.32.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -18,7 +18,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
   - blocos: StaticFragileBlock06, LightBlock8, WhiteBlock11, STATIC_WALL_5;
   - extras: cordas (ExtraRope*, BP_ROPE_THICK), barris, capacetes, trampolim, ferramentas e tesouros;
   - decorações: Farm, Dino, Birthday.
-- Juntas: 544 níveis usam juntas. A 0.20.0 suporta distância (1), solda (2) e dobradiça (3). Ainda faltam prismática (4) e "destruir anexo" (5).
+- Juntas: o port suporta todos os tipos usados nas fases: distância (1), solda (2), dobradiça com motor e limites (3), prismática (4) e "destruir anexo" (5).
 - Câmera: os roteiros de pan (castleCameraData e birdCameraData) não são aplicados.
 
 ## Achados da 0.21.0
@@ -98,6 +98,14 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **Separação jogo/dados:** o ELF não embute mais fases, texturas, sons nem o ícone; tudo vem de `CAMPAIGN.BIN`, `SPRITES.BIN` e `SOUNDS.BIN`, gerados do APK do jogador.
 - **Fases sem decompilador:** os arquivos de fase do APK são tabelas puras; um leitor de bytecode Lua 5.1 que só aceita operações de dados dá resultado idêntico ao do unluac nas 330 fases.
 
+## Achados da 0.32.0
+
+- **Junta prismática (tipo 4) — feita.** As fases guardam eixo (`worldAxisX/Y`), limites (`lowerLimit/upperLimit`), motor (`motorSpeed`, `maxTorque`) e `backAndForth`. O `gamelogic.lua` chama a função nativa `checkJointLimits` a cada passo para as juntas com `backAndForth`; o port inverte o motor ao chegar a cada limite.
+- **Motor e limites nas dobradiças (tipo 3) — lacuna antiga corrigida.** Três dobradiças de fases já suportadas tinham motor, e o port as tratava como soltas.
+- **Peças sem colisão:** `collision = false` no `blocks.lua` (cenário desenhado que nada toca) virou sensor do Box2D.
+- **Força própria da peça:** o balão `BP_SINGLE_BALLOON` declara `forceY = -80` na própria definição (não no material) e `targetVelocity = 20`; o port deixa de empurrar quando o balão já sobe a essa velocidade.
+- **Birdday 6 (15 fases) entrou.** O Birdday 5 aparece antes no APK, mas precisa de 90 peças novas: 31 de cenário de papelão sem colisão, 7 fixas (régua, lápis, borracha, transferidor, compasso, rinoceronte), 31 extras (chapéus, máscaras, óculos, objetos de escritório), 9 frascos de vidro, um motor de Bad Piggies e a vela do bolo. Todos os pássaros já existem no port.
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -106,9 +114,9 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Birdday 5–7 (peças próprias); roteiros de 16-5, 16-6 e Birdday 4-4.
+1. Birdday 5 (90 peças, quase todas automáticas pela `add_definitions.py`) e Birdday 7; roteiros de 16-5, 16-6 e Birdday 4-4.
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).
-3. Juntas prismáticas e cordas.
+3. Cordas.
 4. Pan de câmera e música.
