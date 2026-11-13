@@ -3,6 +3,9 @@
 #define PS2BIRDS_DEFINITION_SPRITES_H
 typedef struct {const char *definition;int sprite;} DefinitionSprite;
 static const DefinitionSprite definition_sprites[]={
+ {"BIRDDAY5_CAKE",SPR_BIRDDAY5_CAKE},
+ {"BP_SINGLE_BALLOON",SPR_BP_SINGLE_BALLOON},
+ {"BP_WOODEN_WHEEL_WEAK",SPR_BP_WOODEN_WHEEL},
  {"BirthdayBalloon_1",SPR_BLOCK_BALLOON_BDAY},
  {"BirthdayBalloon_2",SPR_BLOCK_BALLOON_1},
  {"BirthdayBalloon_3",SPR_BLOCK_BALLOON_2},
@@ -41,5 +44,6 @@ static const DefinitionSprite definition_sprites[]={
  {"PartyHat_blue",SPR_PARTY_HAT_BLUE},
  {"SPECIAL_CAKE_1",SPR_SPECIAL_CAKE_1},
  {"Spawning_cake",SPR_BLOCK_CAKE},
+ {"StaticNoCollisionBig",SPR_GROUND_BLOCK_05},
  {0,0}};
 #endif

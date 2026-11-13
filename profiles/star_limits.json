@@ -1320,6 +1320,66 @@
     "Level1905": {
       "silver": 133000,
       "gold": 140000
+    },
+    "BD6Level01": {
+      "silver": 56000,
+      "gold": 64000
+    },
+    "BD6Level02": {
+      "silver": 94000,
+      "gold": 99000
+    },
+    "BD6Level03": {
+      "silver": 79000,
+      "gold": 88000
+    },
+    "BD6Level04": {
+      "silver": 65000,
+      "gold": 70000
+    },
+    "BD6Level05": {
+      "silver": 68000,
+      "gold": 75000
+    },
+    "BD6Level06": {
+      "silver": 54000,
+      "gold": 59000
+    },
+    "BD6Level07": {
+      "silver": 72000,
+      "gold": 79000
+    },
+    "BD6Level08": {
+      "silver": 106000,
+      "gold": 113000
+    },
+    "BD6Level09": {
+      "silver": 57000,
+      "gold": 63000
+    },
+    "BD6Level10": {
+      "silver": 90000,
+      "gold": 102000
+    },
+    "BD6Level11": {
+      "silver": 43000,
+      "gold": 50000
+    },
+    "BD6Level12": {
+      "silver": 165000,
+      "gold": 175000
+    },
+    "BD6Level13": {
+      "silver": 90000,
+      "gold": 97000
+    },
+    "BD6Level14": {
+      "silver": 143000,
+      "gold": 150000
+    },
+    "BD6Level15": {
+      "silver": 88000,
+      "gold": 95000
     }
   }
 }

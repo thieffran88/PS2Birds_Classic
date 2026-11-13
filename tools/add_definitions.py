@@ -21,7 +21,8 @@ def definition(blocks,name):
     s=re.findall(r'L5_1 = "(\w+)"\nL4_1.sprite',b)+re.findall(r'L4_1.sprite = "(\w+)"',b)+re.findall(r'L9_1 = "(\w+)"\nL8_1.sprite',b)
     nums=re.findall(r'"([xy])"\nL\d+_1 = (-?[\d.]+)',b)
     props={k:float(v) for v,k in re.findall(r'L5_1 = (-?[\d.]+)\nL4_1\.(\w+) = L5_1',b)}
-    props.update({k:float(v) for k,v in re.findall(r'L5_1 = "(width|height)"\nL6_1 = (-?[\d.]+)',b)})
+    props.update({k:float(v) for k,v in re.findall(r'L5_1 = "(width|height|targetVelocity)"\nL6_1 = (-?[\d.]+)',b)})
+    if re.search(r'L5_1 = false\nL4_1.collision = L5_1',b):props['no_collision']=True
     m=re.findall(r'materialName = "(\w+)"',b)
     return dict(type=t[0],sprite=s[0],material=m[0] if m else 'extras',vertices=[[float(nums[i][1]),float(nums[i+1][1])] for i in range(0,len(nums),2)],props=props)
 def material(blocks,name):
@@ -40,7 +41,14 @@ def main():
         if d['type']=='box' and 'width' in d['props'] and 'height' in d['props']:spec['size']=[d['props']['width'],d['props']['height']]
         if d['type']=='circle' and 'radius' in d['props']:spec['size']=[2*d['props']['radius'],2*d['props']['radius']]
         # Materials with forceX/forceY (balloon) push the piece every step (setObjectAsForceAdder).
-        if 'forceX' in mat or 'forceY' in mat:spec['force']=[mat.get('forceX',0.0),mat.get('forceY',0.0)]
+        # The definition's own forceX/forceY take precedence (e.g. BP_SINGLE_BALLOON, -80).
+        fx=d['props'].get('forceX',mat.get('forceX'));fy=d['props'].get('forceY',mat.get('forceY'))
+        if fx is not None or fy is not None:spec['force']=[fx or 0.0,fy or 0.0]
+        if 'targetVelocity' in d['props'] and 'force' in spec:spec['force_target']=d['props']['targetVelocity']
+        # collision = false: drawn but not touched (a Box2D sensor in the port).
+        if d['props'].get('no_collision'):spec['no_collision']=True
+        # immovable material: static scenery, drawn like the ground pieces and not counted as a block.
+        if d['material']=='immovable':spec['kind']=3
         prof['objects'][name]=spec
         prof['materials']['friction_overrides'][name]=d['props'].get('friction',mat.get('friction',0.7))
         prof['materials']['restitution_overrides'][name]=d['props'].get('restitution',mat.get('restitution',0.4))

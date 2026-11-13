@@ -401,3 +401,22 @@ assert objs['objects']['CakeCream']['defaults']=={'density':float(re.search(r'L5
 cobj=campaign['objects'];parents=[o for o in cobj if o['spawn_of']==0 and o['definition']=='Spawning_cake']
 children=[o for o in cobj if o['spawn_of']];assert len(children)==10*len(parents)>0 and all(o['definition']=='CakeCream' for o in children)
 print("Birdday 3 and 4 OK: 30 stages in banks 15-16; Stella body, bubble radius and damage from blocks.lua, bubble physics from bubbles.lua/default_conf.lua/mode_MuseumMode.lua; party pieces with explicit sizes; deathSpawn releases 10 creams per big cake.")
+
+# Birdday 6 (page 21): order, bank 17, the four new pieces and the joints they rely on.
+b6=(root/'ps2/data/birdday6_definitions_excerpt.lua').read_text()
+order=list(dict.fromkeys(re.findall(r'"(BD6Level\d+)"',(root/'ps2/data/episode_birdday6.decompiled.lua').read_text())))
+page=[pg for pg in episode['additional_pages'] if pg['number']==21][0]
+assert len(order)==15 and page['levels']==order and page['bank']==17 and page['folder']=='/levels/11_Birdday6'
+for n in range(1,16):
+    d=json.loads((root/f'ps2/data/level_21_{n}.json').read_text());assert d['stage_script']==order[n-1] and d['texture_bank']==17
+blk=lambda name:b6.split(f'L3_1 = "{name}"',1)[1].split('L3_1 = "',1)[0]
+assert 'L4_1.forceY = L5_1' in blk('BP_SINGLE_BALLOON') and re.search(r'L5_1 = -80\nL4_1.forceY',blk('BP_SINGLE_BALLOON')) and '"targetVelocity"\nL6_1 = 20' in blk('BP_SINGLE_BALLOON')
+assert objs['objects']['BP_SINGLE_BALLOON']['force']==[0.0,-80.0] and objs['objects']['BP_SINGLE_BALLOON']['force_target']==20.0
+assert 'L5_1 = false\nL4_1.collision = L5_1' in blk('StaticNoCollisionBig') and objs['objects']['StaticNoCollisionBig']['no_collision'] and objs['objects']['StaticNoCollisionBig']['kind']==3
+assert 'L5_1 = 1.472\nL4_1.radius' in blk('BP_WOODEN_WHEEL_WEAK') and objs['objects']['BP_WOODEN_WHEEL_WEAK']['size']==[2.944,2.944]
+assert objs['objects']['BIRDDAY5_CAKE']['vertices']==[[0.1,1.0],[0.9,1.0],[0.75,0.2],[0.25,0.2]]
+camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN')
+assert sum(1 for o in camp['objects'] if o['no_collision'])==3
+prism=[j for j in camp['joints'] if j['type']==4];assert len(prism)==9 and all(j['flags']&2 for j in prism)
+motors=[j for j in camp['joints'] if j['type']==3 and j['flags']&2];assert len(motors)>=3
+print("Birdday 6 OK: 15 stages in bank 17; single balloon force/targetVelocity, wheel radius, cake polygon and collision-free scenery from blocks.lua; 9 prismatic joints and the motor hinges carried into CAMPAIGN.BIN.")

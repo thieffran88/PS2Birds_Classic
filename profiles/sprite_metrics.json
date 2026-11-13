@@ -633,5 +633,20 @@
     "width": 57,
     "height": 44,
     "sheet": "INGAME_BIRDS_1.sheet.json"
+  },
+  "BIRDDAY5_CAKE": {
+    "width": 110,
+    "height": 83,
+    "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BP_SINGLE_BALLOON": {
+    "width": 92,
+    "height": 100,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BP_WOODEN_WHEEL": {
+    "width": 71,
+    "height": 70,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
   }
 }

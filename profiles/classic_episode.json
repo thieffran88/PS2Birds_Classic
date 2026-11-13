@@ -484,6 +484,29 @@
         "Level1904",
         "Level1905"
       ]
+    },
+    {
+      "number": 21,
+      "title_prefix": "BIRDDAY 6-",
+      "folder": "/levels/11_Birdday6",
+      "bank": 17,
+      "levels": [
+        "BD6Level01",
+        "BD6Level02",
+        "BD6Level03",
+        "BD6Level04",
+        "BD6Level05",
+        "BD6Level06",
+        "BD6Level07",
+        "BD6Level08",
+        "BD6Level09",
+        "BD6Level10",
+        "BD6Level11",
+        "BD6Level12",
+        "BD6Level13",
+        "BD6Level14",
+        "BD6Level15"
+      ]
     }
   ]
 }

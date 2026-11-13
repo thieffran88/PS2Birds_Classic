@@ -24,7 +24,7 @@
 /* The stages are not part of the program: they come from CAMPAIGN.BIN, generated from the
    player's own APK by tools/gerar_iso.py (layout below and in tools/build_campaign.py). */
 static const CampaignPolygon no_polygons[1]={{0,0,{0}}};
-static const CampaignForce no_forces[1]={{0,0,0}};
+static const CampaignForce no_forces[1]={{0,0,0,0}};
 static CampaignLevel *campaign_levels;
 static const CampaignPolygon *campaign_polygons=no_polygons;
 static const CampaignForce *campaign_forces=no_forces;
@@ -34,9 +34,9 @@ static uint32_t rd32(const unsigned char *p){return (uint32_t)p[0]|((uint32_t)p[
 static float rdf(const unsigned char *p){uint32_t v=rd32(p);float f;memcpy(&f,&v,4);return f;}
 int game_campaign_load(const unsigned char *data,unsigned size)
 {
-    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=2)return -1;
+    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=3)return -1;
     unsigned nl=rd32(data+8),no=rd32(data+12),nj=rd32(data+16),np=rd32(data+20),nf=rd32(data+24),ns=rd32(data+28);
-    const unsigned LV=4*(3+16+8+2+1+2+2),OB=4*14,JO=4*12,PO=4*18,FO=4*3;
+    const unsigned LV=4*(3+16+8+2+1+2+2),OB=4*15,JO=4*19,PO=4*18,FO=4*4;
     if(nl==0 || nl>MAX_CAMPAIGN_LEVELS || 32ull+(unsigned long long)nl*LV+(unsigned long long)no*OB+(unsigned long long)nj*JO+np*PO+nf*FO+ns!=size)return -1;
     const unsigned char *pl=data+32,*po=pl+nl*LV,*pj=po+no*OB,*pp=pj+nj*JO,*pf=pp+np*PO,*pstr=pf+nf*FO;
     char *strings=(char*)malloc(ns+1);CampaignLevel *levels=(CampaignLevel*)calloc(nl,sizeof(CampaignLevel));
@@ -48,15 +48,16 @@ int game_campaign_load(const unsigned char *data,unsigned size)
     for(unsigned i=0;i<no;i++){
         const unsigned char *q=po+i*OB;CampaignObject &o=objects[i];
         o.x=rdf(q);o.y=rdf(q+4);o.angle=rdf(q+8);o.width=rdf(q+12);o.height=rdf(q+16);o.density=rdf(q+20);o.strength=rdf(q+24);o.defence=rdf(q+28);
-        o.kind=(int)rd32(q+32);o.shape=(int)rd32(q+36);o.definition=STR(q+40);o.friction=rdf(q+44);o.restitution=rdf(q+48);o.spawn_of=(int)rd32(q+52);if(o.spawn_of<0||(unsigned)o.spawn_of>no)o.spawn_of=0;
+        o.kind=(int)rd32(q+32);o.shape=(int)rd32(q+36);o.definition=STR(q+40);o.friction=rdf(q+44);o.restitution=rdf(q+48);o.spawn_of=(int)rd32(q+52);if(o.spawn_of<0||(unsigned)o.spawn_of>no)o.spawn_of=0;o.flags=(int)rd32(q+56);
     }
     for(unsigned i=0;i<nj;i++){
         const unsigned char *q=pj+i*JO;CampaignJoint &j=joints[i];
         j.type=(int)rd32(q);j.a=(int)rd32(q+4);j.b=(int)rd32(q+8);j.ax=rdf(q+12);j.ay=rdf(q+16);j.bx=rdf(q+20);j.by=rdf(q+24);
         j.frequency=rdf(q+28);j.damping=rdf(q+32);j.break_force=rdf(q+36);j.collide=(int)rd32(q+40);j.destroy_timer=rdf(q+44);
+        j.axis_x=rdf(q+48);j.axis_y=rdf(q+52);j.lower=rdf(q+56);j.upper=rdf(q+60);j.motor_speed=rdf(q+64);j.max_force=rdf(q+68);j.flags=(int)rd32(q+72);
     }
     for(unsigned i=0;i<np;i++){const unsigned char *q=pp+i*PO;polys[i].definition=STR(q);polys[i].count=(int)rd32(q+4);for(int k=0;k<16;k++)polys[i].v[k]=rdf(q+8+4*k);}
-    for(unsigned i=0;i<nf;i++){const unsigned char *q=pf+i*FO;forces[i].definition=STR(q);forces[i].fx=rdf(q+4);forces[i].fy=rdf(q+8);}
+    for(unsigned i=0;i<nf;i++){const unsigned char *q=pf+i*FO;forces[i].definition=STR(q);forces[i].fx=rdf(q+4);forces[i].fy=rdf(q+8);forces[i].target=rdf(q+12);}
     for(unsigned i=0;i<nl;i++){
         const unsigned char *q=pl+i*LV;CampaignLevel &l=levels[i];
         unsigned o0=rd32(q),oc=rd32(q+4),j0,jc;
@@ -121,7 +122,7 @@ struct Physics: b2ContactListener {
     /* Static scenery the launched bird overlapped at spawn; ignored until they separate. */
     b2Body *spawn_ignore[8];int spawn_ignore_count;
     b2Body *floor_body;
-    b2Joint *joints[MAX_LEVEL_JOINTS];float joint_break[MAX_LEVEL_JOINTS];int joint_count;
+    b2Joint *joints[MAX_LEVEL_JOINTS];float joint_break[MAX_LEVEL_JOINTS];bool joint_swing[MAX_LEVEL_JOINTS];int joint_count;
     float detach_time[MAX_LEVEL_JOINTS];int detach_source[MAX_LEVEL_JOINTS],detach_target[MAX_LEVEL_JOINTS];int detach_count;
     const CampaignForce *force_of[MAX_LEVEL_OBJECTS];
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),puffer_state(0),puffer_timer(0),puffer_auto(-1),puffer_direction(0),puffer_seed(12345u),pink_timer(-1),bird_bubble(0),pink_hover(false),bird_type(BIRD_RED_TYPE) {
@@ -173,6 +174,7 @@ struct Physics: b2ContactListener {
                 fixture.shape=&box;
             }
             else {box.SetAsBox(o.width/2,o.height/2);fixture.shape=&box;}
+            fixture.isSensor=(o.flags&OBJECT_NO_COLLISION)!=0; /* blocks.lua collision = false */
             body->CreateFixture(&fixture);bodies[i]=body;
         }
     }
@@ -191,12 +193,21 @@ struct Physics: b2ContactListener {
             made=world.CreateJoint(&def);
         }else if(j.type==JOINT_REVOLUTE){
             b2RevoluteJointDef def;def.Initialize(a,b,pa);def.collideConnected=j.collide!=0;
+            def.enableLimit=(j.flags&JOINT_LIMIT)!=0;def.lowerAngle=j.lower;def.upperAngle=j.upper;
+            def.enableMotor=(j.flags&JOINT_MOTOR)!=0;def.motorSpeed=j.motor_speed;def.maxMotorTorque=j.max_force;
+            made=world.CreateJoint(&def);
+        }else if(j.type==JOINT_PRISMATIC){
+            b2Vec2 axis(j.axis_x,j.axis_y);if(axis.Normalize()<1e-6f)axis.Set(1,0);
+            b2PrismaticJointDef def;def.Initialize(a,b,pa,axis);def.collideConnected=j.collide!=0;
+            def.enableLimit=(j.flags&JOINT_LIMIT)!=0;def.lowerTranslation=j.lower;def.upperTranslation=j.upper;
+            def.enableMotor=(j.flags&JOINT_MOTOR)!=0;def.motorSpeed=j.motor_speed;def.maxMotorForce=j.max_force;
             made=world.CreateJoint(&def);
         }
         if(made){
             /* Port approximation: a breakable joint fails when its reaction force exceeds
                breakForce x (mass of both bodies) x gravity. */
             joint_break[joint_count]=j.break_force>0?j.break_force*(a->GetMass()+b->GetMass())*level->gravity:0;
+            joint_swing[joint_count]=(j.flags&JOINT_BACK_AND_FORTH) && (j.flags&JOINT_MOTOR) && (j.flags&JOINT_LIMIT);
             joints[joint_count++]=made;
             /* Port approximation of the native "Destroy-attached" joint: it holds like a weld;
                when end1 is destroyed, end2 is removed destroy_timer seconds later. */
@@ -529,7 +540,19 @@ static void tick(Game *g) {
         p->bubble_timer[i]-=dt;
     }
     /* Port approximation of the native force adder: force = (forceX, forceY) x mass. */
-    for(int i=0;i<p->level->count;i++)if(p->force_of[i] && p->bodies[i]){b2Body *b=p->bodies[i];float m=b->GetMass();b->ApplyForceToCenter(b2Vec2(p->force_of[i]->fx*m,p->force_of[i]->fy*m),true);}
+    for(int i=0;i<p->level->count;i++)if(p->force_of[i] && p->bodies[i]){
+        b2Body *b=p->bodies[i];const CampaignForce *f=p->force_of[i];float m=b->GetMass();b2Vec2 dir(f->fx,f->fy);float len=dir.Length();
+        if(f->target>0 && len>0 && b2Dot(b->GetLinearVelocity(),dir)/len>=f->target)continue;
+        b->ApplyForceToCenter(b2Vec2(f->fx*m,f->fy*m),true);
+    }
+    /* backAndForth (native checkJointLimits): the motor turns around at each limit. */
+    for(int k=0;k<p->joint_count;k++)if(p->joints[k] && p->joint_swing[k]){
+        b2Joint *jt=p->joints[k];
+        if(jt->GetType()==e_prismaticJoint){b2PrismaticJoint *pj=(b2PrismaticJoint*)jt;float t=pj->GetJointTranslation(),v=pj->GetMotorSpeed();
+            if((t<=pj->GetLowerLimit() && v<0)||(t>=pj->GetUpperLimit() && v>0))pj->SetMotorSpeed(-v);}
+        else if(jt->GetType()==e_revoluteJoint){b2RevoluteJoint *rj=(b2RevoluteJoint*)jt;float t=rj->GetJointAngle(),v=rj->GetMotorSpeed();
+            if((t<=rj->GetLowerLimit() && v<0)||(t>=rj->GetUpperLimit() && v>0))rj->SetMotorSpeed(-v);}
+    }
     p->age+=dt;p->damage_contact_count=0;p->world.Step(dt,8,3);
     for(int k=0;k<p->detach_count;k++){
         int t=p->detach_target[k];

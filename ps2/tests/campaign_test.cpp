@@ -340,6 +340,21 @@ static const Stage stages[]={
  {"Level1903",112,9,72,3,{{40,80,1.0f}},1}, /* BIRDDAY 4-13 */
  {"Level1904",218,7,115,4,{{30,50,2.6f},{40,100,2.6f}},2}, /* BIRDDAY 4-14 */
  {"Level1905",174,8,122,4,{{40,100,1.4f},{50,80,1.2f}},2}, /* BIRDDAY 4-15 */
+ {"BD6Level01",61,7,52,3,{{0,0,-1.0f}},0}, /* BIRDDAY 6-1 (sem roteiro vencedor) */
+ {"BD6Level02",84,9,59,4,{{0,0,-1.0f}},0}, /* BIRDDAY 6-2 (sem roteiro vencedor) */
+ {"BD6Level03",61,9,49,3,{{0,0,-1.0f}},0}, /* BIRDDAY 6-3 (sem roteiro vencedor) */
+ {"BD6Level04",70,3,58,3,{{0,0,-1.0f}},0}, /* BIRDDAY 6-4 (sem roteiro vencedor) */
+ {"BD6Level05",98,6,71,3,{{0,0,-1.0f}},0}, /* BIRDDAY 6-5 (sem roteiro vencedor) */
+ {"BD6Level06",95,6,51,3,{{0,0,-1.0f}},0}, /* BIRDDAY 6-6 (sem roteiro vencedor) */
+ {"BD6Level07",92,3,71,3,{{0,0,-1.0f}},0}, /* BIRDDAY 6-7 (sem roteiro vencedor) */
+ {"BD6Level08",135,9,109,3,{{0,0,-1.0f}},0}, /* BIRDDAY 6-8 (sem roteiro vencedor) */
+ {"BD6Level09",80,3,46,3,{{0,0,-1.0f}},0}, /* BIRDDAY 6-9 (sem roteiro vencedor) */
+ {"BD6Level10",83,11,54,3,{{0,0,-1.0f}},0}, /* BIRDDAY 6-10 (sem roteiro vencedor) */
+ {"BD6Level11",86,5,58,3,{{0,0,-1.0f}},0}, /* BIRDDAY 6-11 (sem roteiro vencedor) */
+ {"BD6Level12",171,13,105,4,{{0,0,-1.0f}},0}, /* BIRDDAY 6-12 (sem roteiro vencedor) */
+ {"BD6Level13",85,11,59,3,{{0,0,-1.0f}},0}, /* BIRDDAY 6-13 (sem roteiro vencedor) */
+ {"BD6Level14",155,8,126,3,{{0,0,-1.0f}},0}, /* BIRDDAY 6-14 (sem roteiro vencedor) */
+ {"BD6Level15",154,8,129,3,{{0,0,-1.0f}},0}, /* BIRDDAY 6-15 (sem roteiro vencedor) */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -360,7 +375,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==330 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==345 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));
@@ -458,7 +473,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==6);
+    assert(unverified==21);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");

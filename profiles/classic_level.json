@@ -1099,6 +1099,58 @@
         1.5,
         1.7
       ]
+    },
+    "BIRDDAY5_CAKE": {
+      "sprite": "BIRDDAY5_CAKE",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.1,
+          1.0
+        ],
+        [
+          0.9,
+          1.0
+        ],
+        [
+          0.75,
+          0.2
+        ],
+        [
+          0.25,
+          0.2
+        ]
+      ]
+    },
+    "BP_SINGLE_BALLOON": {
+      "sprite": "BP_SINGLE_BALLOON",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "force": [
+        0.0,
+        -80.0
+      ],
+      "force_target": 20.0
+    },
+    "BP_WOODEN_WHEEL_WEAK": {
+      "sprite": "BP_WOODEN_WHEEL",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.944,
+        2.944
+      ]
+    },
+    "StaticNoCollisionBig": {
+      "sprite": "GROUND_BLOCK_05",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
     }
   },
   "metrics": "profiles/sprite_metrics.json",
@@ -1219,7 +1271,11 @@
       "CakeCream": 1.0,
       "PartyHat_5": 1.0,
       "PartyHat_6": 1.0,
-      "PartyHat_blue": 1.0
+      "PartyHat_blue": 1.0,
+      "BIRDDAY5_CAKE": 1.0,
+      "BP_SINGLE_BALLOON": 4.0,
+      "BP_WOODEN_WHEEL_WEAK": 4.0,
+      "StaticNoCollisionBig": 0.8
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -1270,7 +1326,11 @@
       "CakeCream": 0.0,
       "PartyHat_5": 0.0,
       "PartyHat_6": 0.0,
-      "PartyHat_blue": 0.0
+      "PartyHat_blue": 0.0,
+      "BIRDDAY5_CAKE": 0.0,
+      "BP_SINGLE_BALLOON": 0.2,
+      "BP_WOODEN_WHEEL_WEAK": 0.2,
+      "StaticNoCollisionBig": 0.0
     }
   }
 }

@@ -44,6 +44,9 @@ def generate(apk_path,out_dir,ffmpeg=None,log=print,dev=False):
         log(f'    ok ({time.time()-t:.0f} s)');t=time.time();log('2/3 Texturas ...')
         extract_sprites.extract(apk_path,assets,None,'classic',levels)
         build_save_icon.build(assets,write_sys=False)
+        if dev:
+            # A developer adding pieces or episodes regenerates the identifiers compiled into the game.
+            shutil.copyfile(assets/'sprite_ids.h',ROOT/'ps2/src/sprite_ids.h');build_campaign.write_definition_sprites()
         pack_sprites.pack(assets/'manifest.json',assets/'sprites.rgba',assets/'save.icn',ROOT/'ps2/src/sprite_ids.h',out_dir/'SPRITES.BIN')
         log(f'    ok ({time.time()-t:.0f} s)');t=time.time();log('3/3 Sons ...')
         extract_audio.extract(apk_path,assets,find_ffmpeg(ffmpeg),None)

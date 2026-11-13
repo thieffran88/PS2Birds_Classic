@@ -18,8 +18,20 @@ int main(){
  // A breakable weld with a tiny threshold gives way under the plank's own weight.
  g.unlocked=2;assert(game_load_level(&g,1));update(&g,600);
  assert((object(&g,2).y-object(&g,3).y)/s<1.5f);
+ // Prismatic joint (type 4) with limits, motor and backAndForth: the block moves along the
+ // vertical axis only, stays within [-3,0] of its start and turns around at the limits.
+ g.unlocked=3;assert(game_load_level(&g,2));s=g.view_scale;
+ float lo=1e9f,hi=-1e9f;int turns=0,dir=0;
+ for(int t=0;t<1200;t++){update(&g,1);GameObject b=object(&g,6);float y=(b.y-g.view_y)/s,x=(b.x-g.view_x)/s;
+  assert(fabsf(x-100)<0.05f && y>-13.2f && y<-9.8f);if(y<lo)lo=y;if(y>hi)hi=y;
+  static float last=-10;int d=y<last-1e-4f?-1:y>last+1e-4f?1:0;if(d && dir && d!=dir)turns++;if(d)dir=d;last=y;}
+ assert(lo<-12.8f && hi>-10.2f && turns>=2);
+ // Revolute motor: the bar keeps turning around its hinge (3 rad/s).
+ float a0=object(&g,7).angle;update(&g,120);assert(fabsf(object(&g,7).angle-a0)>2.0f);
+ // collision = false: the block drops through the scenery piece and rests on the ground.
+ GameObject drop=object(&g,9);assert(fabsf((drop.y-g.view_y)/s-4.5f)<0.1f && object(&g,8).alive);
  // Joints are released with their bodies on reload and world changes.
- for(int i=0;i<30;i++){assert(game_load_level(&g,i%2));update(&g,5);}
+ for(int i=0;i<30;i++){assert(game_load_level(&g,i%3));update(&g,5);}
  game_destroy(&g);assert(!g.physics);
- puts("Joint OK: distance spacing kept, weld holds a plank in the air, revolute hinge to the ground, breakable weld fails, 30 world transitions.");
+ puts("Joint OK: distance spacing kept, weld holds a plank in the air, revolute hinge to the ground, breakable weld fails; prismatic joint with limits/motor/back-and-forth, motor-driven hinge, piece without collision; 30 world transitions.");
 }

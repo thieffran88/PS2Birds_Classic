@@ -104,7 +104,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
         material=profile['materials']['by_kind'][str(kind)]
         friction=profile['materials']['friction_overrides'].get(o['definition'],material['friction'])
         restitution=profile['materials'].get('restitution_overrides',{}).get(o['definition'],material['restitution'])
-        level.append(dict(o,width=w,height=h,kind=kind,shape=collision,friction=friction,restitution=restitution))
+        level.append(dict(o,width=w,height=h,kind=kind,shape=collision,friction=friction,restitution=restitution,**({'no_collision':True} if shape.get('no_collision') else {})))
     # gamelogic.lua: when a piece with deathSpawn (blocks.lua) is destroyed, createObject puts
     # `amount` pieces of the listed types at its position with a random rotation, using the
     # definition's own density/strength/defence. They are stored after the scene, hidden until
@@ -133,7 +133,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
     for j in (env.get('joints') or {}).values():
         if not isinstance(j,dict):continue
         kind=int(j.get('type',0))
-        if kind not in (1,2,3,5):raise ValueError('Unsupported joint type: '+str(kind))
+        if kind not in (1,2,3,4,5):raise ValueError('Unsupported joint type: '+str(kind))
         ends=[]
         for end,xk,yk in [('end1','x1','y1'),('end2','x2','y2')]:
             name=j[end]
@@ -145,7 +145,12 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
             ends.append((i,x,y))
         joints.append({'name':j.get('name',''),'type':kind,'a':ends[0][0],'b':ends[1][0],'ax':ends[0][1],'ay':ends[0][2],'bx':ends[1][1],'by':ends[1][2],
             'frequency':float(j.get('frequency',0)),'damping':float(j.get('dampingRatio',0)),'break_force':float(j.get('breakForce',0)) if j.get('breakable') else 0.0,'destroy_timer':float(j.get('destroyTimer',0)) if kind==5 else 0.0,
-            'collide':bool(j.get('collideConnected',False))})
+            'collide':bool(j.get('collideConnected',False)),
+            # Revolute (3) and prismatic (4): limits, motor and the back-and-forth motion
+            # (gamelogic.lua calls the native checkJointLimits for joints with backAndForth).
+            'axis_x':float(j.get('worldAxisX',1.0)) if kind==4 else 0.0,'axis_y':float(j.get('worldAxisY',0.0)) if kind==4 else 0.0,
+            'lower':float(j.get('lowerLimit',0)),'upper':float(j.get('upperLimit',0)),'motor_speed':float(j.get('motorSpeed',0)),'max_force':float(j.get('maxTorque',0)),
+            'limit':bool(j.get('limit',False)) and kind in (3,4),'motor':bool(j.get('motor',False)) and kind in (3,4),'back_and_forth':bool(j.get('backAndForth',False)) and kind in (3,4)})
     if len(joints)>64:raise ValueError('Adapter supports up to 64 joints')
     doc={'adapter':profile['id'],'joints':joints,'source_sha256':hashlib.sha256(raw).hexdigest(),
          'source':source_label,'collision_dimensions':'sprite extents / physicsToWorld x 0.92 for dynamic objects (ObjectCreation.lua sizeFactor); static objects use the full sprite',

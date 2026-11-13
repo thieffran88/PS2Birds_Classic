@@ -3,17 +3,17 @@
 #include "campaign_types.h"
 /* Crates sit on a static shelf to the right of the sling. Kind 7 is ExtraBlockTNT. */
 static const CampaignObject tnt_objects[]={
- {20,0,0,3.5f,3.45f,1,10,1,7,0,"ExtraBlockTNT",0.7f,0.4f,0},      /* 0: first crate, hit by the bird */
- {24,0,0,3.5f,3.45f,1,10,1,7,0,"ExtraBlockTNT",0.7f,0.4f,0},      /* 1: 4 units away, inside the damage radius: chained */
- {22,-3,0,1,1,2,50,1,1,0,"WoodBlock1",4.0f,0.2f,0},               /* 2: wood between and above them */
- {-12,4.5f,0,1,1,2,200,1,1,0,"WoodBlock1",4.0f,0.2f,0},           /* 3: on the ground behind the sling, outside both blast radii */
- {23,2.5f,0,12,1.5f,0,200,100000,3,0,"StaticBlock_02",0.8f,0.0f,0},/* 4: shelf, static */
- {27.5f,0.6f,0,2.15f,2.15f,2,4,1,4,1,"SmallPiglette",0.7f,0.05f,0},/* 5: pig next to the second crate */
- {60,3,0,2.15f,2.15f,2,10000,100,4,1,"SmallPiglette",0.7f,0.05f,0},/* 6: far pig keeps the stage open */
+ {20,0,0,3.5f,3.45f,1,10,1,7,0,"ExtraBlockTNT",0.7f,0.4f,0,0},      /* 0: first crate, hit by the bird */
+ {24,0,0,3.5f,3.45f,1,10,1,7,0,"ExtraBlockTNT",0.7f,0.4f,0,0},      /* 1: 4 units away, inside the damage radius: chained */
+ {22,-3,0,1,1,2,50,1,1,0,"WoodBlock1",4.0f,0.2f,0,0},               /* 2: wood between and above them */
+ {-12,4.5f,0,1,1,2,200,1,1,0,"WoodBlock1",4.0f,0.2f,0,0},           /* 3: on the ground behind the sling, outside both blast radii */
+ {23,2.5f,0,12,1.5f,0,200,100000,3,0,"StaticBlock_02",0.8f,0.0f,0,0},/* 4: shelf, static */
+ {27.5f,0.6f,0,2.15f,2.15f,2,4,1,4,1,"SmallPiglette",0.7f,0.05f,0,0},/* 5: pig next to the second crate */
+ {60,3,0,2.15f,2.15f,2,10000,100,4,1,"SmallPiglette",0.7f,0.05f,0,0},/* 6: far pig keeps the stage open */
 };
 static const CampaignObject fall_objects[]={
- {20,0,0,3.5f,3.45f,1,10,1,7,0,"ExtraBlockTNT",0.7f,0.4f,0},      /* falls out of the world: no blast */
- {60,3,0,2.15f,2.15f,2,10000,100,4,1,"SmallPiglette",0.7f,0.05f,0},
+ {20,0,0,3.5f,3.45f,1,10,1,7,0,"ExtraBlockTNT",0.7f,0.4f,0,0},      /* falls out of the world: no blast */
+ {60,3,0,2.15f,2.15f,2,10000,100,4,1,"SmallPiglette",0.7f,0.05f,0,0},
 };
 static const CampaignLevel campaign_levels[]={
  {tnt_objects,7,2,{0,0},20,0,0,5,20,100,200,5,"TNT FIXTURE","fixture-tnt",0,0,0,0,0},
