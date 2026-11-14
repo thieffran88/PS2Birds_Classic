@@ -464,3 +464,14 @@ for name in names:
     d=_ad.definition(st,name);spec=objs['objects'][name]
     assert spec['sprite']==d['sprite'] and spec['shape']==d['type'] and spec['kind']=={'wood':1,'light':2,'rock':5}.get(d['material'],6),name
 print("Surf and Turf OK: 45 stages in banks 25-27; 14 beach pieces match blocks.lua (shape, sprite, kind by material).")
+
+# Bad Piggies (pages 32-34, banks 28-30): 45 stages, 6 vehicle pieces.
+bp=(root/'ps2/data/bad_piggies_definitions_excerpt.lua').read_text()
+order=sum((list(dict.fromkeys(re.findall(r'"(Level\d+)"',(root/f'ps2/data/episode_bad_piggies_page{k}.decompiled.lua').read_text()))) for k in (1,2,3)),[])
+pages=[pg for pg in episode['additional_pages'] if pg.get('folder')=='/levels/16_BadPiggies']
+assert len(order)==45 and sum((pg['levels'] for pg in pages),[])==order and [pg['bank'] for pg in pages]==[28,29,30]
+names=re.findall(r'L3_1 = "(\w+)"\nL4_1 = \{\}',bp);assert len(names)==6
+for name in names:
+    d=_ad.definition(bp,name);spec=objs['objects'][name]
+    assert spec['sprite']==d['sprite'] and spec['shape']==d['type'] and spec['kind']=={'wood':1}.get(d['material'],6),name
+print("Bad Piggies OK: 45 stages in banks 28-30; 6 vehicle pieces match blocks.lua.")

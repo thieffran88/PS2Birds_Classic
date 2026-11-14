@@ -1333,5 +1333,35 @@
     "width": 73,
     "height": 46,
     "sheet": "INGAME_BLOCKS_3_1.sheet.json"
+  },
+  "BLOCK_GREEN_BAG": {
+    "width": 59,
+    "height": 81,
+    "sheet": "INGAME_BLOCKS_GREEN_1.sheet.json"
+  },
+  "BLOCK_GREEN_GOGGLES": {
+    "width": 118,
+    "height": 46,
+    "sheet": "INGAME_BLOCKS_GREEN_1.sheet.json"
+  },
+  "BLOCK_GREEN_OILCANISTER": {
+    "width": 128,
+    "height": 101,
+    "sheet": "INGAME_BLOCKS_GREEN_1.sheet.json"
+  },
+  "BLOCK_GREEN_PILOTHELMET": {
+    "width": 119,
+    "height": 56,
+    "sheet": "INGAME_BLOCKS_GREEN_1.sheet.json"
+  },
+  "BLOCK_GREEN_WOODENTIRE": {
+    "width": 89,
+    "height": 88,
+    "sheet": "INGAME_BLOCKS_GREEN_1.sheet.json"
+  },
+  "BLOCK_GREEN_SPANNER_GOLDEN": {
+    "width": 42,
+    "height": 105,
+    "sheet": "INGAME_BLOCKS_GREEN_1.sheet.json"
   }
 }

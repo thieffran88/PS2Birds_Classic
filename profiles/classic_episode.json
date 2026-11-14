@@ -682,6 +682,75 @@
         "LevelS044",
         "LevelS045"
       ]
+    },
+    {
+      "number": 32,
+      "title_prefix": "BAD PIGGIES 1-",
+      "folder": "/levels/16_BadPiggies",
+      "bank": 28,
+      "levels": [
+        "Level743",
+        "Level744",
+        "Level745",
+        "Level746",
+        "Level747",
+        "Level748",
+        "Level749",
+        "Level750",
+        "Level751",
+        "Level764",
+        "Level765",
+        "Level766",
+        "Level767",
+        "Level768",
+        "Level769"
+      ]
+    },
+    {
+      "number": 33,
+      "title_prefix": "BAD PIGGIES 2-",
+      "folder": "/levels/16_BadPiggies",
+      "bank": 29,
+      "levels": [
+        "Level956",
+        "Level951",
+        "Level970",
+        "Level949",
+        "Level952",
+        "Level967",
+        "Level968",
+        "Level969",
+        "Level971",
+        "Level950",
+        "Level972",
+        "Level953",
+        "Level948",
+        "Level955",
+        "Level973"
+      ]
+    },
+    {
+      "number": 34,
+      "title_prefix": "BAD PIGGIES 3-",
+      "folder": "/levels/16_BadPiggies",
+      "bank": 30,
+      "levels": [
+        "Level1245",
+        "Level1080",
+        "Level1082",
+        "Level1241",
+        "Level1079",
+        "Level1240",
+        "Level1242",
+        "Level1244",
+        "Level1246",
+        "Level1247",
+        "Level1081",
+        "Level1083",
+        "Level1243",
+        "Level1085",
+        "Level1084"
+      ]
     }
   ]
 }
