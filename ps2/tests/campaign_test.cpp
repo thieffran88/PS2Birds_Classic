@@ -535,6 +535,27 @@ static const Stage stages[]={
  {"BlackBird_43",140,8,108,4,{{30,100,-1.0f},{40,90,2.0f}},2}, /* SHORT FUSE 3-13 */
  {"BlackBird_44",218,6,132,3,{{30,80,2.6f},{60,100,-1.0f},{60,70,-1.0f}},3}, /* SHORT FUSE 3-14 */
  {"BlackBird_45",251,8,138,3,{{40,70,0.6f},{30,90,-1.0f}},2}, /* SHORT FUSE 3-15 */
+ {"Level264_t_Movie",131,5,85,4,{{50,50,1.2f},{40,80,1.2f},{40,90,1.4f}},3}, /* BIRD ISLAND 1-1 */
+ {"Level232_Movie",259,8,83,4,{{40,90,-1.0f},{60,100,2.6f}},2}, /* BIRD ISLAND 1-2 */
+ {"Level233_Movie",300,11,86,4,{{20,90,0.6f},{30,100,2.6f},{50,100,-1.0f},{50,70,0.6f}},4}, /* BIRD ISLAND 1-3 */
+ {"Level235_Movie",184,8,88,3,{{10,100,1.6f},{10,60,2.6f}},2}, /* BIRD ISLAND 1-4 */
+ {"Level242_Movie",367,14,124,6,{{20,60,1.4f},{30,50,-1.0f},{0,80,1.8f},{60,90,-1.0f},{50,90,2.3f}},5}, /* BIRD ISLAND 1-5 */
+ {"Level255_t_Movie",244,6,132,3,{{70,100,0.8f},{60,90,2.3f},{-10,100,1.4f}},3}, /* BIRD ISLAND 1-6 */
+ {"Level237_Movie",353,7,105,4,{{30,90,1.2f},{30,80,1.8f}},2}, /* BIRD ISLAND 1-7 */
+ {"Level265_t_Movie",258,6,124,3,{{40,70,-1.0f},{60,100,-1.0f}},2}, /* BIRD ISLAND 1-8 */
+ {"Level262_t_Movie",327,7,80,3,{{30,90,2.3f},{30,90,1.0f}},2}, /* BIRD ISLAND 1-9 */
+ {"Level257_t_Movie",149,5,55,5,{{0,0,-1.0f}},0}, /* BIRD ISLAND 1-10 (sem roteiro vencedor) */
+ {"Level254_t_Movie",239,7,77,3,{{60,100,0.8f},{10,100,2.3f},{30,90,1.6f}},3}, /* BIRD ISLAND 1-11 */
+ {"Level239_Movie",282,10,91,4,{{50,70,0.6f},{40,100,2.6f},{70,100,-1.0f}},3}, /* BIRD ISLAND 1-12 */
+ {"Level241_Movie",214,16,102,4,{{10,90,-1.0f},{-10,60,1.4f},{20,90,2.3f}},3}, /* BIRD ISLAND 1-13 */
+ {"Level240_Movie",192,5,87,4,{{20,100,0.6f}},1}, /* BIRD ISLAND 1-14 */
+ {"Level258_t_Movie",133,6,61,4,{{0,0,-1.0f}},0}, /* BIRD ISLAND 1-15 (sem roteiro vencedor) */
+ {"Level259_t_Movie",356,5,71,4,{{50,60,1.0f},{-10,80,2.6f},{-10,100,0.6f}},3}, /* BIRD ISLAND 1-16 */
+ {"Level234_Movie",201,13,74,4,{{30,100,0.8f},{30,100,1.8f}},2}, /* BIRD ISLAND 1-17 */
+ {"Level236_Movie",177,9,73,3,{{40,90,-1.0f},{-10,80,-1.0f}},2}, /* BIRD ISLAND 1-18 */
+ {"Level238_Movie",296,12,128,4,{{30,100,2.0f}},1}, /* BIRD ISLAND 1-19 */
+ {"Level243_Movie",228,8,81,4,{{30,80,0.6f},{30,90,2.0f}},2}, /* BIRD ISLAND 1-20 */
+ {"Level253_t_Movie",386,6,235,4,{{60,100,1.8f},{80,100,0.8f},{70,100,-1.0f}},3}, /* BIRD ISLAND 1-21 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -656,7 +677,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==24);
+    assert(unverified==26);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");
