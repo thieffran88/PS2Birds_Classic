@@ -2796,6 +2796,66 @@
     "Level1263": {
       "silver": 50000,
       "gold": 60000
+    },
+    "Tutorial_red_niko": {
+      "silver": 5000,
+      "gold": 15000
+    },
+    "Tutorial_red2_niko": {
+      "silver": 15000,
+      "gold": 25000
+    },
+    "Tutorial_chuck_niko": {
+      "silver": 30000,
+      "gold": 40000
+    },
+    "Tutorial_bomb_niko": {
+      "silver": 40000,
+      "gold": 50000
+    },
+    "Tutorial_blues_niko": {
+      "silver": 20000,
+      "gold": 30000
+    },
+    "Tutorial_6_niko": {
+      "silver": 25000,
+      "gold": 35000
+    },
+    "Tutorial_terence": {
+      "silver": 160000,
+      "gold": 170000
+    },
+    "Tutorial_bubbles": {
+      "silver": 240000,
+      "gold": 250000
+    },
+    "Tutorial_slingscope": {
+      "silver": 40000,
+      "gold": 50000
+    },
+    "Tutorial_powerpotion": {
+      "silver": 50000,
+      "gold": 60000
+    },
+    "Tutorial_kingsling": {
+      "silver": 70000,
+      "gold": 80000
+    },
+    "Tutorial_birdquake": {
+      "silver": 60000,
+      "gold": 70000
+    },
+    "Tutorial_shockwave": {
+      "silver": 90000,
+      "gold": 100000
+    },
+    "Tutorial_pucombo_niko": {
+      "silver": 110000,
+      "gold": 120000
+    },
+    "Tutorial_mayhem_niko": {
+      "silver": 290000,
+      "gold": 300000
     }
   }
 }

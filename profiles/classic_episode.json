@@ -1210,6 +1210,29 @@
       "levels": [
         "Farm2_goldegg"
       ]
+    },
+    {
+      "number": 64,
+      "title_prefix": "TUTORIAL ",
+      "folder": "/levels/0_Tutorial",
+      "bank": 60,
+      "levels": [
+        "Tutorial_red_niko",
+        "Tutorial_red2_niko",
+        "Tutorial_chuck_niko",
+        "Tutorial_bomb_niko",
+        "Tutorial_blues_niko",
+        "Tutorial_6_niko",
+        "Tutorial_terence",
+        "Tutorial_bubbles",
+        "Tutorial_slingscope",
+        "Tutorial_powerpotion",
+        "Tutorial_kingsling",
+        "Tutorial_birdquake",
+        "Tutorial_shockwave",
+        "Tutorial_pucombo_niko",
+        "Tutorial_mayhem_niko"
+      ]
     }
   ]
 }

@@ -6733,6 +6733,54 @@
       "kind": 9,
       "shape": "box",
       "auto": true
+    },
+    "DecorationFarmDecoRock2": {
+      "sprite": "FARM_DECO_ROCK_2",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "GOLD_CUP": {
+      "sprite": "NBA_CUP",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "TREASURE_CHEST": {
+      "sprite": "B_TREASURE_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        5.0,
+        3.0
+      ],
+      "half_resolution": true
+    },
+    "LAB_VEST_SMALL": {
+      "sprite": "LAB_VEST_SMALL",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        0.2,
+        0.2
+      ],
+      "half_resolution": true
+    },
+    "MONEY_POT": {
+      "sprite": "B_GOLDPOT_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        2.0,
+        3.4
+      ],
+      "half_resolution": true
     }
   },
   "metrics": "profiles/sprite_metrics.json",
@@ -7302,7 +7350,12 @@
       "BP_WOODEN_TRIANGLE_WEAK": 4.0,
       "ExtraBlueBird": 0.3,
       "StaticFragileBlock01": 0.8,
-      "StaticFragileBlock03": 0.8
+      "StaticFragileBlock03": 0.8,
+      "DecorationFarmDecoRock2": 0.8,
+      "GOLD_CUP": 0.7,
+      "TREASURE_CHEST": 0.7,
+      "LAB_VEST_SMALL": 1.0,
+      "MONEY_POT": 0.7
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -7801,7 +7854,12 @@
       "BP_WOODEN_TRIANGLE_WEAK": 0.2,
       "ExtraBlueBird": 0.25,
       "StaticFragileBlock01": 0.0,
-      "StaticFragileBlock03": 0.0
+      "StaticFragileBlock03": 0.0,
+      "DecorationFarmDecoRock2": 0.0,
+      "GOLD_CUP": 0.1,
+      "TREASURE_CHEST": 0.4,
+      "LAB_VEST_SMALL": 0.0,
+      "MONEY_POT": 0.1
     }
   }
 }

@@ -586,3 +586,16 @@ assert objs['objects']['StaticFragileBlock01']['kind']==9 and 'half_resolution' 
 camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN');stars=json.loads((root/'profiles/star_limits.json').read_text())['limits']
 nostar=[n for n in order if n not in stars];assert nostar==["LevelGE_25","LevelGE_30","LevelGE_RED"]
 print(f"Golden Eggs OK: 29 stages in banks 57-59 (upside-down and zero-gravity stages left out); {len(nostar)} stages without star limits give 3 stars on any win.")
+
+# Tutorial (page 64, bank 60): all 15 stages in episodes.lua order. Five of them are shop
+# tutorials of power-ups (shopTutorialPowerup), which the port does not have yet; they are
+# played as ordinary stages.
+tu=(root/'ps2/data/episode_tutorial_page.decompiled.lua').read_text()
+order=list(dict.fromkeys(re.findall(r'"(Tutorial_\w+)"',tu)))
+page=[pg for pg in episode['additional_pages'] if pg['number']==64][0]
+assert len(order)==15 and page['levels']==order and page['bank']==60
+shop=re.findall(r'"shopTutorialPowerup"\nL\d+_1 = "(\w+)"',tu);assert shop==["slingscope","powerpotion","kingsling","birdquake","shockwave"],shop
+tb=(root/'ps2/data/tutorial_definitions_excerpt.lua').read_text()
+for name in re.findall(r'L3_1 = "(\w+)"\nL4_1 = \{\}',tb):
+    d=_ad.definition(tb,name);assert objs['objects'][name]['sprite']==d['sprite'] and objs['objects'][name]['shape']==d['type'],name
+print(f"Tutorial OK: 15 stages in bank 60; 5 pieces match blocks.lua; power-up shop tutorials: {', '.join(shop)}.")

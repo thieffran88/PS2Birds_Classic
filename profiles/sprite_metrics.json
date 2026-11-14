@@ -2808,5 +2808,30 @@
     "width": 31,
     "height": 30,
     "sheet": "INGAME_BIRDS_1.sheet.json"
+  },
+  "FARM_DECO_ROCK_2": {
+    "width": 126,
+    "height": 101,
+    "sheet": "INGAME_FARM_DECOS_1.sheet.json"
+  },
+  "NBA_CUP": {
+    "width": 57,
+    "height": 68,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "B_TREASURE_1": {
+    "width": 113,
+    "height": 80,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "LAB_VEST_SMALL": {
+    "width": 59,
+    "height": 52,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "B_GOLDPOT_1": {
+    "width": 83,
+    "height": 88,
+    "sheet": "INGAME_FARM_1.sheet.json"
   }
 }
