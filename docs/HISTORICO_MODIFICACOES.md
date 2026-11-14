@@ -1,4 +1,34 @@
-# Modificações completas — PS2Birds Classic 0.36.0
+# Modificações completas — PS2Birds Classic 0.37.0
+
+- **Episódio Short Fuse (páginas 35 a 37, 45 fases)**
+  - Ordem do `episodes.lua` (BlackBird_1 a BlackBird_45) e limites do `starLimits.lua`; bancos de texturas 31 a 33.
+  - A campanha passa de 480 para 525 fases; 37 das 45 novas têm roteiro vencedor (faltam 1-7, 1-15, 2-2, 2-4, 2-5, 2-7, 2-13 e 3-3).
+- **Pássaro de choque (`BlackBird_Shockwave`), novo**
+  - Corpo e valores do `blocks.lua`; lógica do `subsystems/blackbird/BlackBirdAbility.lua`.
+  - Dispara no toque ou 1,5 s depois do primeiro contato; carrega por 0,4 s e solta uma onda elétrica que cresce até 15 unidades em 1,9 s.
+  - Cada peça dentro da onda leva dano uma vez (25 a 35% da resistência, menos a defesa) e um empurrão proporcional à distância (força de 470 caindo a 25); juntas quebráveis presas a ela se soltam.
+  - Porcos dentro da onda são eletrocutados e morrem 2 s depois; o turno não termina enquanto a onda ou a eletrocução estão em curso.
+  - Sprites próprios (normal e em voo), só nos bancos do Short Fuse; som de lançamento do pássaro preto.
+- **70 peças de laboratório pela `tools/add_definitions.py --material-kinds`**
+  - Tubos (enferrujados e de metal), funis, frascos e garrafas, cristais, cogumelos, flores, placas de aviso, bico de Bunsen, termômetro, manômetro, ímã, foguete, máscaras, cabelos e óculos.
+- **Save versão 7 (1024 fases)**
+  - O save da 0.36.0 (versão 6, 512 fases) é lido e regravado no novo formato; a campanha passou de 512 fases.
+  - Limite da campanha no jogo e no gerador: 1024 fases.
+- **Investigação**
+  - Mighty Feathers é inteiro o modo "Egg Defender" (defender ovos), com scripts de jogabilidade próprios (`EggDefender_*.scripts.lua`): fica para uma etapa própria.
+  - Os frascos coloridos (`VialEffects.lua`), o foguete (`RocketCanister.lua`), o ímã e o balão explosivo têm efeitos próprios ainda não portados; por enquanto são peças comuns.
+  - Short Fuse 2-13 e 3-3: vidro leve soldado a pedra muito mais pesada deixa o Box2D do port instável e algumas peças quebram ao carregar. Mudar o solver afetaria todas as fases; ficou registrado.
+- **Testes**
+  - `globe_test`: o pássaro de choque carrega, a onda cresce e os porcos são eletrocutados.
+  - `save_test`: migração v6→v7 (480 → 481 fases) e limite de 1024 fases.
+  - `profile_test`: Short Fuse (ordem, bancos, 70 peças e os valores da onda contra o `blocks.lua`).
+  - `sprite_test`: 34 bancos, 491 quadros; `campaign_test` com 525 fases e as duas fases instáveis marcadas.
+  - Suíte com 60 verificações aprovadas.
+- **Versão, documentos e limpeza**
+  - Tela e log em 0.37.0; README com 525 fases e dez pássaros; captura do Short Fuse 1-1; documentos e captura da 0.36.0 substituídos.
+  - Drive: zips da 0.35.0 e documentos da 0.36.0 removidos.
+
+## Modificações completas — 0.36.0
 
 - **Episódio Bad Piggies (páginas 32 a 34, 45 fases)**
   - Ordem do `episodes.lua` (Level743 a Level1247) e limites do `starLimits.lua`; bancos de texturas 28 a 30.

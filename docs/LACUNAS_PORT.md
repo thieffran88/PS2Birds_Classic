@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.36.0)
+# Lacunas do port (levantamento atualizado na 0.37.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -111,6 +111,13 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **Birdday 5 entrou (30 fases).** As 90 peças saíram da `add_definitions.py`; 35 sprites estão nas folhas de tema (`themes_android`), não nas folhas base.
 - **Memória de vídeo é o limite dos episódios com tema próprio:** cada banco tem 2,75 MB de textura; o Birdday 5 precisou de meia resolução nas peças e de bancos de 5 fases. Os próximos episódios com muitos objetos (Dino, Piggy Farm) vão precisar do mesmo.
 
+## Achados da 0.37.0
+
+- **Pássaro de choque (Short Fuse) — feito**, a partir do `BlackBirdAbility.lua` e do `blocks.lua`.
+- **Mighty Feathers = modo Egg Defender:** as 30 fases do episódio vêm com scripts de jogabilidade próprios (`EggDefender_*.scripts.lua`); é um modo novo, não só peças.
+- **Efeitos especiais do Short Fuse ainda não portados:** frascos (`VialEffects.lua`: azul, laranja e rosa mudam os porcos), foguete (`RocketCanister.lua`), ímã e balão explosivo.
+- **Instabilidade em 2-13 e 3-3:** soldas entre vidro leve e pedra pesada; precisa de mais iterações do solver ou outra estratégia de solda, o que mexe em todas as fases.
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -119,7 +126,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Episódios seguintes (Mighty Feathers, Short Fuse, Bird Island, Piggy Farm, Dino); roteiros de 16-5, 16-6, Birdday 4-4, 6-1, 7-7, 7-14 e Surf and Turf 2-15, 3-5, 3-14 e Bad Piggies 2-7, 2-15, 3-5, 3-12.
+1. Episódios seguintes (Bird Island, Piggy Farm, Dino), modo Egg Defender (Mighty Feathers), efeitos dos frascos do Short Fuse; roteiros de 16-5, 16-6, Birdday 4-4, 6-1, 7-7, 7-14 e Surf and Turf 2-15, 3-5, 3-14 e Bad Piggies 2-7, 2-15, 3-5, 3-12 e 8 do Short Fuse.
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).
