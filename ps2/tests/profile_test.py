@@ -475,3 +475,20 @@ for name in names:
     d=_ad.definition(bp,name);spec=objs['objects'][name]
     assert spec['sprite']==d['sprite'] and spec['shape']==d['type'] and spec['kind']=={'wood':1}.get(d['material'],6),name
 print("Bad Piggies OK: 45 stages in banks 28-30; 6 vehicle pieces match blocks.lua.")
+
+# Short Fuse (pages 35-37, banks 31-33): 45 stages, 70 lab pieces and the shockwave black bird.
+sf=(root/'ps2/data/short_fuse_definitions_excerpt.lua').read_text()
+order=sum((list(dict.fromkeys(re.findall(r'"(BlackBird_\d+)"',(root/f'ps2/data/episode_short_fuse_page{k}.decompiled.lua').read_text()))) for k in (1,2,3)),[])
+pages=[pg for pg in episode['additional_pages'] if pg.get('folder')=='/levels/18_ShortFuse']
+assert len(order)==45 and sum((pg['levels'] for pg in pages),[])==order and [pg['bank'] for pg in pages]==[31,32,33]
+names=[n for n in re.findall(r'L3_1 = "(\w+)"\nL4_1 = \{\}',sf) if n!='BlackBird_Shockwave'];assert len(names)==70
+kinds={'wood':1,'light':2,'rock':5,'immovableFragile':9,'immovable':3}
+for name in names:
+    d=_ad.definition(sf,name);spec=objs['objects'][name]
+    assert spec['sprite']==d['sprite'] and spec['shape']==d['type'] and spec['kind']==kinds.get(d['material'],6),name
+bird=sf.split('L3_1 = "BlackBird_Shockwave"',1)[1].split('L3_1 = "',1)[0]
+for key,macro in [('duration','SHOCK_DURATION'),('force','SHOCK_FORCE'),('minimumForce','SHOCK_MIN_FORCE'),('forceDropOffPoint','SHOCK_DROP_OFF'),('damage','SHOCK_DAMAGE'),('minimumDamage','SHOCK_MIN_DAMAGE'),('delay','SHOCK_DELAY')]:
+    v=float(re.search(r'L7_1 = "%s"\nL8_1 = ([\d.]+)'%key,bird)[1]);assert re.search(r'#define %s %sf'%(macro,re.escape(str(v))),h),macro
+assert 'L7_1 = 15\nL6_1.radius = L7_1' in bird and '#define SHOCK_RADIUS 15.0f' in h and 'triggerBlackBirdSpecialtyShockwave' in bird
+assert objs['bird_types']['BlackBird_Shockwave']==10 and 'BlackBird_Shockwave' not in objs['objects']
+print("Short Fuse OK: 45 stages in banks 31-33; 70 lab pieces and the shockwave bird (duration, radius, force, damage, delay) match blocks.lua.")

@@ -74,7 +74,7 @@ static void bird(float x,float y,float radius,int type,float angle,int collided,
 {
     /* GlobeBird: puffed sprite is stored at half resolution; fuse carries the puffed size (0..1). */
     if(type==BIRD_PUFFER_TYPE && fuse>0){sprite_draw(gs,SPR_BIRD_PUFFER_2,x,y,(render_scale/render_pixels)*SPRITE_MASK_SCALE*fuse,angle);return;}
-    int id=type==BIRD_PINK_TYPE?(special_used?SPR_BIRD_PINK_RELEASE:SPR_BIRD_PINK):type==BIRD_PUFFER_TYPE?SPR_BIRD_PUFFER_1:type==BIRD_BIG_TYPE?SPR_BIRD_BIG_BROTHER:type==BIRD_EGG_TYPE?SPR_DROPPABLE_EGG:type==BIRD_WHITE_TYPE?((collided || special_used)?SPR_BIRD_GREEN_COLLISION:fuse==-2?SPR_BIRD_GREEN:SPR_BIRD_GREEN_FLYING):type==BIRD_BLACK_TYPE?(fuse>=0?(fuse<0.33f?SPR_BIRD_GREY_1:fuse<0.66f?SPR_BIRD_GREY_2:SPR_BIRD_GREY_3):fuse==-2?SPR_BIRD_GREY:SPR_BIRD_GREY_FLYING):type==BIRD_GREEN_TYPE?(collided?SPR_BIRD_BOOMERANG_COLLISION:special_used?SPR_BIRD_BOOMERANG_SPECIAL:SPR_BIRD_BOOMERANG):type==BIRD_BLUE_TYPE?(collided?SPR_BIRD_BLUE_COLLISION:SPR_BIRD_BLUE):type==BIRD_YELLOW_TYPE?(collided?SPR_BIRD_YELLOW_COLLISION:SPR_BIRD_YELLOW):SPR_BIRD_RED;
+    int id=type==BIRD_SHOCK_TYPE?(collided?SPR_BIRD_GREY_BLUE_FLYING:SPR_BIRD_GREY_BLUE):type==BIRD_PINK_TYPE?(special_used?SPR_BIRD_PINK_RELEASE:SPR_BIRD_PINK):type==BIRD_PUFFER_TYPE?SPR_BIRD_PUFFER_1:type==BIRD_BIG_TYPE?SPR_BIRD_BIG_BROTHER:type==BIRD_EGG_TYPE?SPR_DROPPABLE_EGG:type==BIRD_WHITE_TYPE?((collided || special_used)?SPR_BIRD_GREEN_COLLISION:fuse==-2?SPR_BIRD_GREEN:SPR_BIRD_GREEN_FLYING):type==BIRD_BLACK_TYPE?(fuse>=0?(fuse<0.33f?SPR_BIRD_GREY_1:fuse<0.66f?SPR_BIRD_GREY_2:SPR_BIRD_GREY_3):fuse==-2?SPR_BIRD_GREY:SPR_BIRD_GREY_FLYING):type==BIRD_GREEN_TYPE?(collided?SPR_BIRD_BOOMERANG_COLLISION:special_used?SPR_BIRD_BOOMERANG_SPECIAL:SPR_BIRD_BOOMERANG):type==BIRD_BLUE_TYPE?(collided?SPR_BIRD_BLUE_COLLISION:SPR_BIRD_BLUE):type==BIRD_YELLOW_TYPE?(collided?SPR_BIRD_YELLOW_COLLISION:SPR_BIRD_YELLOW):SPR_BIRD_RED;
     sprite_draw(gs,id,x,y,(render_scale/render_pixels)*(radius/6.0f),angle);
 }
 static void pig(const GameObject *o)
@@ -241,7 +241,7 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     text(30,400,1,cream,"DIRECIONAL/ANALOGICO: MIRA  X: LANCAR");
     text(30,415,1,color(156,195,178),"TRIANGULO: REINICIO  SELECT: FASES  START: PAUSA");
     GameBird airborne;int airborne_type=game_get_projectile(g,0,&airborne)?airborne.type:-1;
-    text(30,430,1,color(156,195,178),!game_special_available(g)?"SEGURE QUADRADO PARA AJUSTE FINO":airborne_type==BIRD_WHITE_TYPE?"X: SOLTAR OVO  QUADRADO: AJUSTE FINO":airborne_type==BIRD_BLACK_TYPE?"X: EXPLODIR PRETO  QUADRADO: AJUSTE FINO":airborne_type==BIRD_YELLOW_TYPE?"X: ACELERAR AMARELO  QUADRADO: AJUSTE FINO":"X: DIVIDIR AZUL EM TRES  QUADRADO: AJUSTE FINO");
+    text(30,430,1,color(156,195,178),!game_special_available(g)?"SEGURE QUADRADO PARA AJUSTE FINO":airborne_type==BIRD_WHITE_TYPE?"X: SOLTAR OVO  QUADRADO: AJUSTE FINO":(airborne_type==BIRD_BLACK_TYPE||airborne_type==BIRD_SHOCK_TYPE)?"X: EXPLODIR PRETO  QUADRADO: AJUSTE FINO":airborne_type==BIRD_YELLOW_TYPE?"X: ACELERAR AMARELO  QUADRADO: AJUSTE FINO":"X: DIVIDIR AZUL EM TRES  QUADRADO: AJUSTE FINO");
     if (g->state==WON || g->state==LOST || paused) {
         rect(106,185,428,86,dark);
         text(130,204,2,gold,paused?"PAUSADO":g->state==WON?"FASE CONCLUIDA":"TENTE NOVAMENTE");
@@ -395,7 +395,7 @@ int main(int argc,char **argv)
             if(g.state==AIMING && (horizontal!=0 || vertical!=0))audio_play(SFX_STRETCH);
             game_aim(&g,vertical*29.97f*precision*frame_seconds,horizontal*89.91f*precision*frame_seconds);
             if (pressed & PAD_CROSS) {
-                if(g.state==AIMING){int type=game_queue_type(&g,0);game_launch(&g);audio_play(type==BIRD_WHITE_TYPE?SFX_LAUNCH_WHITE:type==BIRD_GREEN_TYPE?SFX_LAUNCH_RED:type==BIRD_BLACK_TYPE?SFX_LAUNCH_BLACK:type==BIRD_BLUE_TYPE?SFX_LAUNCH_BLUE:type==BIRD_YELLOW_TYPE?SFX_LAUNCH_YELLOW:SFX_LAUNCH_RED);}
+                if(g.state==AIMING){int type=game_queue_type(&g,0);game_launch(&g);audio_play(type==BIRD_WHITE_TYPE?SFX_LAUNCH_WHITE:type==BIRD_GREEN_TYPE?SFX_LAUNCH_RED:(type==BIRD_BLACK_TYPE||type==BIRD_SHOCK_TYPE)?SFX_LAUNCH_BLACK:type==BIRD_BLUE_TYPE?SFX_LAUNCH_BLUE:type==BIRD_YELLOW_TYPE?SFX_LAUNCH_YELLOW:SFX_LAUNCH_RED);}
                 else if(game_special(&g)){GameBird active;if(game_get_projectile(&g,0,&active)){if(active.type==BIRD_BLUE_TYPE)audio_play(SFX_SPLIT);else if(active.type==BIRD_YELLOW_TYPE)audio_play(SFX_BOOST);else if(active.type==BIRD_WHITE_TYPE)audio_play(SFX_DROP_EGG);}}
                 printf("PS2Birds: launch state=%d angle=%.1f power=%.1f birds=%d\n",g.state,g.angle,g.power,g.birds);
             }

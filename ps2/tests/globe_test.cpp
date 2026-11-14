@@ -62,5 +62,16 @@ int main(){
   }
  }
  assert(released);
+ // Short Fuse shockwave bird (BlackBirdAbility.lua): a tap starts the wave; after the 0.4 s
+ // charge it grows to 15 units in 1.9 s, pushes pieces and electrocutes pigs, which die 2 s later.
+ int shock_level=first_level_with(BIRD_SHOCK_TYPE);assert(shock_level>=0);
+ assert(game_load_level(&g,shock_level));update(&g,240);
+ g.angle=20;g.power=100;game_launch(&g);update(&g,40);
+ assert(game_special_available(&g) && game_special(&g) && !game_special_available(&g));
+ int pigs_before=g.pig_alive;GameBlast wave;
+ update(&g,24);assert(!game_get_blast(&g,&wave));            /* still charging (0.4 s) */
+ update(&g,60);assert(game_get_blast(&g,&wave) && wave.radius>0 && wave.radius<15*g.view_scale);
+ float r1=wave.radius;update(&g,60);assert(game_get_blast(&g,&wave) && wave.radius>r1);
+ update(&g,600);assert(g.pig_alive<=pigs_before);
  printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
 }

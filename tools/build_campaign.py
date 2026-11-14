@@ -71,7 +71,7 @@ def build(episode_path=EPISODE,apk=None,workdir=None,output=None,quiet=False):
     pages=[{'number':1,'title_prefix':episode['title_prefix'],'levels':episode['levels']}]+episode.get('additional_pages',[])
     entries=[(page,number,name) for page in pages for number,name in enumerate(page['levels'],1)]
     names=[entry[2] for entry in entries]
-    if len(names)!=len(set(names)) or not 1<=len(names)<=512:raise ValueError('Episode list must be 1..512 unique stages')
+    if len(names)!=len(set(names)) or not 1<=len(names)<=1024:raise ValueError('Episode list must be 1..1024 unique stages')
     with tempfile.TemporaryDirectory(prefix='ps2birds-campaign-') as folder:
         for page,position,name in entries:
             apk_name=f'assets/data{page.get("folder",episode["folder"])}/{name}.lua'

@@ -110,7 +110,8 @@ struct Physics: b2ContactListener {
     bool has_launched,special_used,bird_collided;
     bool boomerang_active;float boomerang_x_force,boomerang_y_force,boomerang_spin;
     int puffer_state;float puffer_timer,puffer_auto,puffer_direction;unsigned puffer_seed;
-    float pink_timer,bird_bubble;bool pink_hover;float bubble_timer[MAX_LEVEL_OBJECTS],bubble_float[MAX_LEVEL_OBJECTS];
+    float pink_timer,bird_bubble;bool pink_hover;
+    float shock_time;b2Vec2 shock_center;bool shock_hit[MAX_LEVEL_OBJECTS];float electrocute[MAX_LEVEL_OBJECTS];float bubble_timer[MAX_LEVEL_OBJECTS],bubble_float[MAX_LEVEL_OBJECTS];
     int bird_type;
     b2Body *split[2],*egg;bool egg_collided;
     bool split_collided[2],disturbed[MAX_LEVEL_OBJECTS];
@@ -128,7 +129,7 @@ struct Physics: b2ContactListener {
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),puffer_state(0),puffer_timer(0),puffer_auto(-1),puffer_direction(0),puffer_seed(12345u),pink_timer(-1),bird_bubble(0),pink_hover(false),bird_type(BIRD_RED_TYPE) {
         egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
         damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
-        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(bubble_timer,0,sizeof(bubble_timer));memset(bubble_float,0,sizeof(bubble_float));
+        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(bubble_timer,0,sizeof(bubble_timer));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
         world.SetContactListener(this);destruction.owner=this;world.SetDestructionListener(&destruction);
         /* The Ground object of the stage data spans the whole level; stages place pieces up to
            x=825, so the floor is FLOOR_HALF_WIDTH wide on each side of the origin. */
@@ -224,9 +225,9 @@ struct Physics: b2ContactListener {
         b2BodyDef def;def.type=b2_dynamicBody;def.bullet=true;def.position=position;
         b2Body *body=world.CreateBody(&def);
         /* Radii, densities and restitutions consulted in the recovered blocks.lua. */
-        b2CircleShape circle;circle.m_radius=type==BIRD_PINK_TYPE?PINK_RADIUS:type==BIRD_PUFFER_TYPE?GLOBE_RADIUS:type==BIRD_BIG_TYPE?BIG_RADIUS:type==BIRD_GREEN_TYPE?GREEN_RADIUS:type==BIRD_BLUE_TYPE?0.6f:type==BIRD_YELLOW_TYPE?0.8f:type==BIRD_BLACK_TYPE?1.0f:type==BIRD_WHITE_TYPE?1.3f:type==BIRD_EGG_TYPE?WHITE_EGG_RADIUS:0.75f;
+        b2CircleShape circle;circle.m_radius=type==BIRD_PINK_TYPE?PINK_RADIUS:type==BIRD_PUFFER_TYPE?GLOBE_RADIUS:type==BIRD_BIG_TYPE?BIG_RADIUS:type==BIRD_GREEN_TYPE?GREEN_RADIUS:type==BIRD_BLUE_TYPE?0.6f:type==BIRD_YELLOW_TYPE?0.8f:(type==BIRD_BLACK_TYPE||type==BIRD_SHOCK_TYPE)?1.0f:type==BIRD_WHITE_TYPE?1.3f:type==BIRD_EGG_TYPE?WHITE_EGG_RADIUS:0.75f;
         b2FixtureDef fixture;fixture.shape=&circle;fixture.density=type==BIRD_PINK_TYPE?PINK_DENSITY:type==BIRD_PUFFER_TYPE?GLOBE_DENSITY:type==BIRD_BIG_TYPE?BIG_DENSITY:type==BIRD_GREEN_TYPE?GREEN_DENSITY:(type==BIRD_BLUE_TYPE || type==BIRD_WHITE_TYPE)?4.5f:type==BIRD_EGG_TYPE?3:6;
-        fixture.friction=0.3f;fixture.restitution=type==BIRD_PINK_TYPE?PINK_RESTITUTION:type==BIRD_PUFFER_TYPE?GLOBE_RESTITUTION:type==BIRD_BIG_TYPE?BIG_RESTITUTION:type==BIRD_GREEN_TYPE?GREEN_RESTITUTION:(type==BIRD_YELLOW_TYPE || type==BIRD_WHITE_TYPE || type==BIRD_EGG_TYPE)?0.23f:type==BIRD_BLACK_TYPE?0.03f:0.25f;
+        fixture.friction=0.3f;fixture.restitution=type==BIRD_PINK_TYPE?PINK_RESTITUTION:type==BIRD_PUFFER_TYPE?GLOBE_RESTITUTION:type==BIRD_BIG_TYPE?BIG_RESTITUTION:type==BIRD_GREEN_TYPE?GREEN_RESTITUTION:(type==BIRD_YELLOW_TYPE || type==BIRD_WHITE_TYPE || type==BIRD_EGG_TYPE)?0.23f:(type==BIRD_BLACK_TYPE||type==BIRD_SHOCK_TYPE)?0.03f:0.25f;
         if(type==BIRD_BLUE_TYPE)fixture.filter.groupIndex=-1;
         if(type==BIRD_WHITE_TYPE || type==BIRD_EGG_TYPE)fixture.filter.groupIndex=-2;
         body->CreateFixture(&fixture);body->SetLinearVelocity(velocity);return body;
@@ -312,7 +313,7 @@ struct Physics: b2ContactListener {
                 float factor=1.0f;
                 if(projectile && bird_type==BIRD_BLUE_TYPE && level->objects[i].kind==2)factor=2.9f;
                 if(projectile && bird_type==BIRD_YELLOW_TYPE && level->objects[i].kind==1)factor=2.4f;
-                if(projectile && bird_type==BIRD_BLACK_TYPE && level->objects[i].kind==5)factor=4.0f;
+                if(projectile && (bird_type==BIRD_BLACK_TYPE||bird_type==BIRD_SHOCK_TYPE) && level->objects[i].kind==5)factor=4.0f;
                 /* BoomerangBirdDamageFactors: wood 3, rock 1.5, light 3. */
                 /* RedBigBirdDamageFactors: wood, rock and light 0.3. */
                 if(projectile && bird_type==BIRD_BIG_TYPE && level->objects[i].kind!=4)factor=BIG_DAMAGE_FACTOR;
@@ -382,7 +383,7 @@ int game_queue_type(const Game *g,int offset){
 int game_special_available(const Game *g){
     const Physics *p=static_cast<const Physics*>(g->physics);
     if(g->state!=FLYING || p->special_used || !p->bird)return 0;
-    if(p->bird_type==BIRD_BLACK_TYPE)return 1;
+    if(p->bird_type==BIRD_BLACK_TYPE || p->bird_type==BIRD_SHOCK_TYPE)return 1;
     if(p->bird_type==BIRD_PUFFER_TYPE)return 1; /* specialtyAvailableAfterCollision */
     if(p->bird_type==BIRD_PINK_TYPE)return !p->special_used && p->pink_timer<0;
     return (p->bird_type==BIRD_BLUE_TYPE || p->bird_type==BIRD_YELLOW_TYPE || p->bird_type==BIRD_WHITE_TYPE || p->bird_type==BIRD_GREEN_TYPE) && !p->bird_collided;
@@ -404,7 +405,7 @@ static void puff(Game *g){
 int game_special(Game *g){
     if(!game_special_available(g))return 0;
     Physics *p=static_cast<Physics*>(g->physics);
-    if(p->bird_type==BIRD_BLACK_TYPE){p->bomb_requested=true;p->special_used=true;return 1;}
+    if(p->bird_type==BIRD_BLACK_TYPE || p->bird_type==BIRD_SHOCK_TYPE){p->bomb_requested=true;p->special_used=true;return 1;}
     b2Vec2 velocity=p->bird->GetLinearVelocity();
     if(p->bird_type==BIRD_WHITE_TYPE){
         p->egg=p->make_bird(p->bird->GetPosition()+b2Vec2(0,1.3f+WHITE_EGG_RADIUS+0.1f),b2Vec2(0,WHITE_DROP_SPEED),BIRD_EGG_TYPE);
@@ -567,6 +568,47 @@ static void tick(Game *g) {
         if(p->bird_collided){if(p->bomb_fuse<0)p->bomb_fuse=0;p->bomb_fuse+=dt;}
         if(p->bomb_requested || p->bomb_fuse>=BLACK_FUSE_SECONDS)detonate(g);
     }
+    if(p->bird_type==BIRD_SHOCK_TYPE && p->bird && !p->detonated){
+        if(p->bird_collided){if(p->bomb_fuse<0)p->bomb_fuse=0;p->bomb_fuse+=dt;}
+        if(p->bomb_requested || p->bomb_fuse>=SHOCK_FUSE_SECONDS){
+            p->shock_center=p->bird->GetPosition();p->shock_time=0;memset(p->shock_hit,0,sizeof(p->shock_hit));
+            p->detonated=p->special_used=true;p->bomb_requested=false;
+            p->world.DestroyBody(p->bird);p->bird=NULL;p->spawn_ignore_count=0;
+            g->x=g->view_x+p->shock_center.x*g->view_scale;g->y=g->view_y+p->shock_center.y*g->view_scale;
+            g->vx=g->vy=g->flight_time=0;g->events|=GAME_EVENT_EXPLOSION;g->cooldown=0;
+        }
+    }
+    if(p->shock_time>=0){
+        p->shock_time+=dt;g->cooldown=0;
+        float elapsed=p->shock_time-SHOCK_DELAY;
+        if(elapsed>=SHOCK_DURATION)p->shock_time=-1;
+        else if(elapsed>=0){
+            float left=1-elapsed/SHOCK_DURATION;                 /* time/duration in the Lua */
+            float t=cosf(3.14159265f*0.5f*left),radius=SHOCK_RADIUS*t;
+            float force=(1-left)<SHOCK_DROP_OFF?SHOCK_FORCE:SHOCK_FORCE+(1-left/(1-SHOCK_DROP_OFF))*(SHOCK_MIN_FORCE-SHOCK_FORCE);
+            p->blast_position=p->shock_center;p->blast_radius=radius;p->blast_life=BLACK_VISUAL_SECONDS*0.5f;
+            for(int i=0;i<p->level->count;i++){
+                b2Body *b=p->bodies[i];if(!b || b->GetType()!=b2_dynamicBody)continue;
+                b2Vec2 d=b->GetPosition()-p->shock_center;float d2=d.LengthSquared();
+                const CampaignObject &o=p->level->objects[i];
+                if(o.kind==4 && p->electrocute[i]<=0 && d2<fminf(SHOCK_RADIUS*SHOCK_RADIUS,radius*radius*1.2f))p->electrocute[i]=SHOCK_ELECTROCUTE_SECONDS;
+                if(d2>=radius*radius)continue;
+                p->disturbed[i]=true;
+                /* destroyBreakableJoints(object, 1000) */
+                for(int k=0;k<p->joint_count;k++)if(p->joints[k] && p->joint_break[k]>0 && (p->joints[k]->GetBodyA()==b || p->joints[k]->GetBodyB()==b)){p->world.DestroyJoint(p->joints[k]);p->joints[k]=NULL;}
+                if(!p->shock_hit[i]){
+                    p->shock_hit[i]=true;
+                    float damage=(SHOCK_MIN_DAMAGE+(1-t)*(SHOCK_DAMAGE-SHOCK_MIN_DAMAGE))*o.strength-o.defence;
+                    if(damage>0 && o.kind!=4)p->health[i]-=damage;
+                }
+                if(force>=1)b->ApplyForceToCenter(force*d,true);
+            }
+        }
+    }
+    for(int i=0;i<p->level->count;i++)if(p->electrocute[i]>0){
+        g->cooldown=0;
+        if((p->electrocute[i]-=dt)<=0){p->electrocute[i]=0;if(p->bodies[i])p->health[i]=0;}
+    }
     if(p->egg && p->egg_collided){
         radial_blast(g,p->egg->GetPosition(),EGG_BLAST_RADIUS,EGG_BLAST_FORCE,EGG_DAMAGE_RADIUS,EGG_BLAST_DAMAGE);
         p->world.DestroyBody(p->egg);p->egg=NULL;p->egg_collided=false;g->flight_time=0;
@@ -605,7 +647,7 @@ static void tick(Game *g) {
         if(body->GetLinearVelocity().LengthSquared()>=0.3f && position.x<=fmaxf(65,(660-g->view_x)/g->view_scale) && position.x>=fminf(-40,(-20-g->view_x)/g->view_scale) && position.y<=p->level->ground_y+25)moving=true;
     }
     if(moving)g->cooldown=0;else g->cooldown+=dt;
-    if(g->cooldown>2.5f || (g->flight_time>10 && !(p->bird_type==BIRD_BLACK_TYPE && p->bird_collided && !p->detonated))) {
+    if(g->cooldown>2.5f || (g->flight_time>10 && !((p->bird_type==BIRD_BLACK_TYPE||p->bird_type==BIRD_SHOCK_TYPE) && p->bird_collided && !p->detonated) && p->shock_time<0)) {
         if(p->egg){p->world.DestroyBody(p->egg);p->egg=NULL;p->egg_collided=false;}
         if(g->birds>0){g->state=AIMING;g->x=g->sling_x;g->y=g->sling_y;}
         else g->state=LOST;

@@ -751,6 +751,75 @@
         "Level1085",
         "Level1084"
       ]
+    },
+    {
+      "number": 35,
+      "title_prefix": "SHORT FUSE 1-",
+      "folder": "/levels/18_ShortFuse",
+      "bank": 31,
+      "levels": [
+        "BlackBird_1",
+        "BlackBird_2",
+        "BlackBird_3",
+        "BlackBird_4",
+        "BlackBird_5",
+        "BlackBird_6",
+        "BlackBird_7",
+        "BlackBird_8",
+        "BlackBird_9",
+        "BlackBird_10",
+        "BlackBird_11",
+        "BlackBird_12",
+        "BlackBird_13",
+        "BlackBird_14",
+        "BlackBird_15"
+      ]
+    },
+    {
+      "number": 36,
+      "title_prefix": "SHORT FUSE 2-",
+      "folder": "/levels/18_ShortFuse",
+      "bank": 32,
+      "levels": [
+        "BlackBird_16",
+        "BlackBird_17",
+        "BlackBird_18",
+        "BlackBird_19",
+        "BlackBird_20",
+        "BlackBird_21",
+        "BlackBird_22",
+        "BlackBird_23",
+        "BlackBird_24",
+        "BlackBird_25",
+        "BlackBird_26",
+        "BlackBird_27",
+        "BlackBird_28",
+        "BlackBird_29",
+        "BlackBird_30"
+      ]
+    },
+    {
+      "number": 37,
+      "title_prefix": "SHORT FUSE 3-",
+      "folder": "/levels/18_ShortFuse",
+      "bank": 33,
+      "levels": [
+        "BlackBird_31",
+        "BlackBird_32",
+        "BlackBird_33",
+        "BlackBird_34",
+        "BlackBird_35",
+        "BlackBird_36",
+        "BlackBird_37",
+        "BlackBird_38",
+        "BlackBird_39",
+        "BlackBird_40",
+        "BlackBird_41",
+        "BlackBird_42",
+        "BlackBird_43",
+        "BlackBird_44",
+        "BlackBird_45"
+      ]
     }
   ]
 }

@@ -1363,5 +1363,360 @@
     "width": 42,
     "height": 105,
     "sheet": "INGAME_BLOCKS_GREEN_1.sheet.json"
+  },
+  "ARROW_SIGN_ORANGE": {
+    "width": 98,
+    "height": 88,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "AB_POTION_BLUE": {
+    "width": 44,
+    "height": 69,
+    "sheet": "INGAME_TRANSPARENCY_2_1.sheet.json"
+  },
+  "AB_POTION_ORANGE": {
+    "width": 66,
+    "height": 72,
+    "sheet": "INGAME_TRANSPARENCY_2_1.sheet.json"
+  },
+  "AB_POTION_PINK": {
+    "width": 69,
+    "height": 70,
+    "sheet": "INGAME_TRANSPARENCY_2_1.sheet.json"
+  },
+  "BLUE_CRYSTAL_1": {
+    "width": 92,
+    "height": 74,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BLUE_CRYSTAL_2": {
+    "width": 62,
+    "height": 73,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BLUE_GLASS_BOTTLE_SMALL": {
+    "width": 55,
+    "height": 56,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "BOLT": {
+    "width": 42,
+    "height": 51,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BOW_TIE": {
+    "width": 59,
+    "height": 38,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "SHORT_THICK_CABLE": {
+    "width": 12,
+    "height": 52,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "CLAP": {
+    "width": 25,
+    "height": 44,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BP_ROCKET_HOLDER": {
+    "width": 51,
+    "height": 64,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BUNSEN_BURNER": {
+    "width": 44,
+    "height": 64,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BUNSEN_BURNER_HOLDER": {
+    "width": 81,
+    "height": 95,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BIRD_GREY_BLUE": {
+    "width": 61,
+    "height": 81,
+    "sheet": "INGAME_BIRDS_1.sheet.json"
+  },
+  "CRACK": {
+    "width": 21,
+    "height": 31,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "EXPLOSIVE_BALLOON": {
+    "width": 103,
+    "height": 120,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "FUNNEL": {
+    "width": 96,
+    "height": 79,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "GLASSES_1_SMALL": {
+    "width": 54,
+    "height": 23,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "GLASSES_2_SMALL": {
+    "width": 58,
+    "height": 22,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "GLASS_PIPE_FAT": {
+    "width": 97,
+    "height": 58,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "GLASS_PIPE_LONG": {
+    "width": 225,
+    "height": 43,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "MOLDY_GRASS": {
+    "width": 73,
+    "height": 32,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "GREEN_GLASS_BOTTLE": {
+    "width": 88,
+    "height": 87,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "HAIR_BIG_LEFT": {
+    "width": 58,
+    "height": 46,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "HAIR_BIG_RIGHT": {
+    "width": 50,
+    "height": 49,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "HAIR_MED_LEFT": {
+    "width": 46,
+    "height": 36,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "HAIR_MED_RIGHT": {
+    "width": 39,
+    "height": 39,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "HAIR_SMALL_LEFT": {
+    "width": 21,
+    "height": 21,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "HAIR_SMALL_RIGHT": {
+    "width": 27,
+    "height": 19,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "HAIR_STACHE_LEFT": {
+    "width": 56,
+    "height": 45,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "HAIR_STACHE_RIGHT": {
+    "width": 54,
+    "height": 49,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "KORK": {
+    "width": 30,
+    "height": 23,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "LAB_VEST_MED": {
+    "width": 92,
+    "height": 81,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "LAB_VEST_STACHE": {
+    "width": 160,
+    "height": 142,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "MAGNET": {
+    "width": 71,
+    "height": 65,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "MASK_1_MED": {
+    "width": 72,
+    "height": 47,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "MASK_1_SMALL": {
+    "width": 44,
+    "height": 28,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "MASK_2_SMALL": {
+    "width": 53,
+    "height": 30,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "MASK_3_BIG_DOWN": {
+    "width": 91,
+    "height": 26,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "MASK_3_SMALL_DOWN": {
+    "width": 44,
+    "height": 13,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "MASK_3_SMALL_UP": {
+    "width": 42,
+    "height": 21,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "METAL_TUBE_HOLDER_BLUE": {
+    "width": 30,
+    "height": 68,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "METAL_TUBE_WALL_CONNECTION": {
+    "width": 68,
+    "height": 62,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "METAL_TUBE_WINDOW": {
+    "width": 62,
+    "height": 62,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "NERDY_GLASSES_BIG": {
+    "width": 133,
+    "height": 54,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "ORANGE_MUSHROOM_1": {
+    "width": 56,
+    "height": 64,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "ORANGE_MUSHROOM_2": {
+    "width": 41,
+    "height": 120,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "PINK_FLOWER_1": {
+    "width": 63,
+    "height": 93,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "PINK_FLOWER_2": {
+    "width": 38,
+    "height": 61,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "PRESSURE_METER": {
+    "width": 42,
+    "height": 42,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "PRESSURE_METER_NEEDLE": {
+    "width": 5,
+    "height": 18,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "AIR_TANK_SMALL": {
+    "width": 43,
+    "height": 101,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "RUSTY_FUNNEL_DOWN": {
+    "width": 72,
+    "height": 36,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "RUSTY_FUNNEL_UP": {
+    "width": 65,
+    "height": 45,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "RUSTY_TUBE_CORNER": {
+    "width": 48,
+    "height": 48,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "RUSTY_TUBE_FAT": {
+    "width": 97,
+    "height": 58,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "RUSTY_TUBE_LONG": {
+    "width": 224,
+    "height": 41,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "RUSTY_TUBE_SMALL": {
+    "width": 114,
+    "height": 41,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "RUSTY_TUBE_WALL_CONNECTION": {
+    "width": 67,
+    "height": 62,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "RUSTY_TUBE_WINDOW": {
+    "width": 62,
+    "height": 62,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "SPLASH_SMALL": {
+    "width": 80,
+    "height": 79,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "THERMOMETER": {
+    "width": 21,
+    "height": 61,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "TUBE_CORNER": {
+    "width": 48,
+    "height": 49,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "TUBE_LONG": {
+    "width": 223,
+    "height": 41,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "TUBE_SHORT": {
+    "width": 97,
+    "height": 58,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "VALVE": {
+    "width": 53,
+    "height": 52,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "WARNING_SIGN": {
+    "width": 107,
+    "height": 96,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "WARNING_SIGN_BLUE": {
+    "width": 204,
+    "height": 91,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "WARNING_SIGN_ORANGE": {
+    "width": 205,
+    "height": 91,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "WARNING_SIGN_PINK": {
+    "width": 206,
+    "height": 90,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
   }
 }

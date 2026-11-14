@@ -10,7 +10,8 @@
     "BoomerangBird",
     "RedBigBird",
     "GlobeBird",
-    "PinkBird"
+    "PinkBird",
+    "BlackBird_Shockwave"
   ],
   "objects": {
     "WoodBlock2": {
@@ -2837,6 +2838,705 @@
         1.0,
         4.0
       ]
+    },
+    "ARROW_SIGN_ORANGE": {
+      "sprite": "ARROW_SIGN_ORANGE",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "BLACKBIRD_VIAL_BLUE": {
+      "sprite": "AB_POTION_BLUE",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "BLACKBIRD_VIAL_ORANGE": {
+      "sprite": "AB_POTION_ORANGE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true
+    },
+    "BLACKBIRD_VIAL_PINK": {
+      "sprite": "AB_POTION_PINK",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        3.0,
+        3.0
+      ]
+    },
+    "BLUE_CRYSTAL_1": {
+      "sprite": "BLUE_CRYSTAL_1",
+      "kind": 2,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.62
+        ],
+        [
+          0.63,
+          0.0
+        ],
+        [
+          0.95,
+          0.7
+        ],
+        [
+          0.65,
+          1.0
+        ],
+        [
+          0.2,
+          1.0
+        ]
+      ]
+    },
+    "BLUE_CRYSTAL_2": {
+      "sprite": "BLUE_CRYSTAL_2",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.85,
+          0.2
+        ],
+        [
+          0.8,
+          0.9
+        ],
+        [
+          0.2,
+          0.9
+        ]
+      ]
+    },
+    "BLUE_GLASS_BOTTLE_SMALL": {
+      "sprite": "BLUE_GLASS_BOTTLE_SMALL",
+      "kind": 2,
+      "shape": "circle",
+      "auto": true
+    },
+    "BOLT": {
+      "sprite": "BOLT",
+      "kind": 5,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        2.0,
+        1.8
+      ]
+    },
+    "BOW_TIE": {
+      "sprite": "BOW_TIE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ]
+    },
+    "BP_CABLE": {
+      "sprite": "SHORT_THICK_CABLE",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "BP_CLAMP": {
+      "sprite": "CLAP",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "BP_ROCKET_HOLDER": {
+      "sprite": "BP_ROCKET_HOLDER",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.5,
+          0.0
+        ],
+        [
+          1.2,
+          1.0
+        ],
+        [
+          -0.2,
+          1.0
+        ]
+      ]
+    },
+    "BUNSEN_BURNER": {
+      "sprite": "BUNSEN_BURNER",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "BUNSEN_BURNER_HOLDER": {
+      "sprite": "BUNSEN_BURNER_HOLDER",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.3,
+          0.0
+        ],
+        [
+          0.8,
+          0.0
+        ],
+        [
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "CRACK": {
+      "sprite": "CRACK",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "EXPLOSIVE_BALLOON": {
+      "sprite": "EXPLOSIVE_BALLOON",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "force": [
+        0.0,
+        -45.0
+      ],
+      "force_target": 10.0
+    },
+    "FUNNEL": {
+      "sprite": "FUNNEL",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.6,
+          0.0
+        ],
+        [
+          1.0,
+          1.0
+        ],
+        [
+          0.3,
+          0.7
+        ]
+      ]
+    },
+    "GLASSES_1_SMALL": {
+      "sprite": "GLASSES_1_SMALL",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "GLASSES_2_SMALL": {
+      "sprite": "GLASSES_2_SMALL",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ]
+    },
+    "GLASS_PIPE_FAT": {
+      "sprite": "GLASS_PIPE_FAT",
+      "kind": 2,
+      "shape": "box",
+      "auto": true
+    },
+    "GLASS_PIPE_LONG": {
+      "sprite": "GLASS_PIPE_LONG",
+      "kind": 2,
+      "shape": "box",
+      "auto": true
+    },
+    "GRASS": {
+      "sprite": "MOLDY_GRASS",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "GREEN_GLASS_BOTTLE": {
+      "sprite": "GREEN_GLASS_BOTTLE",
+      "kind": 2,
+      "shape": "circle",
+      "auto": true
+    },
+    "HAIR_BIG_LEFT": {
+      "sprite": "HAIR_BIG_LEFT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "HAIR_BIG_RIGHT": {
+      "sprite": "HAIR_BIG_RIGHT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "HAIR_MED_LEFT": {
+      "sprite": "HAIR_MED_LEFT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "HAIR_MED_RIGHT": {
+      "sprite": "HAIR_MED_RIGHT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "HAIR_SMALL_LEFT": {
+      "sprite": "HAIR_SMALL_LEFT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "HAIR_SMALL_RIGHT": {
+      "sprite": "HAIR_SMALL_RIGHT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "HAIR_STACHE_LEFT": {
+      "sprite": "HAIR_STACHE_LEFT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "HAIR_STACHE_RIGHT": {
+      "sprite": "HAIR_STACHE_RIGHT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "KORK": {
+      "sprite": "KORK",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "LAB_VEST_MED": {
+      "sprite": "LAB_VEST_MED",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        2.5,
+        2.5
+      ]
+    },
+    "LAB_VEST_STACHE": {
+      "sprite": "LAB_VEST_STACHE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ]
+    },
+    "MAGNET": {
+      "sprite": "MAGNET",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true
+    },
+    "MASK_1_MED": {
+      "sprite": "MASK_1_MED",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "no_collision": true
+    },
+    "MASK_1_SMALL": {
+      "sprite": "MASK_1_SMALL",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "no_collision": true
+    },
+    "MASK_2_SMALL": {
+      "sprite": "MASK_2_SMALL",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ]
+    },
+    "MASK_3_BIG_DOWN": {
+      "sprite": "MASK_3_BIG_DOWN",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "MASK_3_SMALL_DOWN": {
+      "sprite": "MASK_3_SMALL_DOWN",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "MASK_3_SMALL_UP": {
+      "sprite": "MASK_3_SMALL_UP",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "METAL_TUBE_HOLDER_BLUE": {
+      "sprite": "METAL_TUBE_HOLDER_BLUE",
+      "kind": 9,
+      "shape": "box",
+      "auto": true
+    },
+    "METAL_TUBE_WALL_CONNECTION": {
+      "sprite": "METAL_TUBE_WALL_CONNECTION",
+      "kind": 3,
+      "shape": "circle",
+      "auto": true
+    },
+    "METAL_TUBE_WINDOW": {
+      "sprite": "METAL_TUBE_WINDOW",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "no_collision": true
+    },
+    "NERDY_GLASSES_BIG": {
+      "sprite": "NERDY_GLASSES_BIG",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "ORANGE_MUSHROOM_1": {
+      "sprite": "ORANGE_MUSHROOM_1",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        1.98,
+        1.98
+      ]
+    },
+    "ORANGE_MUSHROOM_2": {
+      "sprite": "ORANGE_MUSHROOM_2",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.25
+        ],
+        [
+          0.6,
+          0.0
+        ],
+        [
+          1.0,
+          0.25
+        ],
+        [
+          0.6,
+          1.0
+        ],
+        [
+          0.2,
+          1.0
+        ]
+      ]
+    },
+    "PINK_FLOWER_1": {
+      "sprite": "PINK_FLOWER_1",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.5,
+          1.0
+        ]
+      ]
+    },
+    "PINK_FLOWER_2": {
+      "sprite": "PINK_FLOWER_2",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.2,
+          0.0
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.3,
+          1.0
+        ]
+      ]
+    },
+    "PRESSURE_METER": {
+      "sprite": "PRESSURE_METER",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ]
+    },
+    "PRESSURE_METER_NEEDLE": {
+      "sprite": "PRESSURE_METER_NEEDLE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "no_collision": true
+    },
+    "ROCKET_CANISTER": {
+      "sprite": "AIR_TANK_SMALL",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "RUSTY_FUNNEL_DOWN": {
+      "sprite": "RUSTY_FUNNEL_DOWN",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.3,
+          0.0
+        ],
+        [
+          1.0,
+          0.5
+        ],
+        [
+          0.99,
+          1.0
+        ],
+        [
+          0.85,
+          1.0
+        ],
+        [
+          0.1,
+          0.3
+        ]
+      ]
+    },
+    "RUSTY_FUNNEL_UP": {
+      "sprite": "RUSTY_FUNNEL_UP",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.7,
+          1.0
+        ],
+        [
+          0.3,
+          1.0
+        ]
+      ]
+    },
+    "RUSTY_TUBE_CORNER": {
+      "sprite": "RUSTY_TUBE_CORNER",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "RUSTY_TUBE_FAT": {
+      "sprite": "RUSTY_TUBE_FAT",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        4.6,
+        1.7
+      ]
+    },
+    "RUSTY_TUBE_LONG": {
+      "sprite": "RUSTY_TUBE_LONG",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        11.0,
+        1.7
+      ]
+    },
+    "RUSTY_TUBE_SMALL": {
+      "sprite": "RUSTY_TUBE_SMALL",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        5.4,
+        1.7
+      ]
+    },
+    "RUSTY_TUBE_WALL_CONNECTION": {
+      "sprite": "RUSTY_TUBE_WALL_CONNECTION",
+      "kind": 3,
+      "shape": "circle",
+      "auto": true
+    },
+    "RUSTY_TUBE_WINDOW": {
+      "sprite": "RUSTY_TUBE_WINDOW",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "no_collision": true
+    },
+    "SPLASH_SMALL": {
+      "sprite": "SPLASH_SMALL",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "THERMOMETER": {
+      "sprite": "THERMOMETER",
+      "kind": 2,
+      "shape": "box",
+      "auto": true
+    },
+    "TUBE_CORNER": {
+      "sprite": "TUBE_CORNER",
+      "kind": 5,
+      "shape": "box",
+      "auto": true
+    },
+    "TUBE_LONG": {
+      "sprite": "TUBE_LONG",
+      "kind": 5,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        11.0,
+        1.7
+      ]
+    },
+    "TUBE_SHORT": {
+      "sprite": "TUBE_SHORT",
+      "kind": 5,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        4.3,
+        1.7
+      ]
+    },
+    "VALVE": {
+      "sprite": "VALVE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true
+    },
+    "WARNING_SIGN": {
+      "sprite": "WARNING_SIGN",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "WARNING_SIGN_BLUE": {
+      "sprite": "WARNING_SIGN_BLUE",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "WARNING_SIGN_ORANGE": {
+      "sprite": "WARNING_SIGN_ORANGE",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "WARNING_SIGN_PINK": {
+      "sprite": "WARNING_SIGN_PINK",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
     }
   },
   "metrics": "profiles/sprite_metrics.json",
@@ -2854,7 +3554,8 @@
     "BoomerangBird": 6,
     "RedBigBird": 7,
     "GlobeBird": 8,
-    "PinkBird": 9
+    "PinkBird": 9,
+    "BlackBird_Shockwave": 10
   },
   "materials": {
     "source": "materials table in blocks.lua",
@@ -3107,7 +3808,77 @@
       "BLOCK_GREEN_OILCANISTER": 1.0,
       "BLOCK_GREEN_PILOTHELMET": 1.0,
       "BLOCK_GREEN_WOODENTIRE": 4.0,
-      "GoldenSpanner": 1.0
+      "GoldenSpanner": 1.0,
+      "ARROW_SIGN_ORANGE": 1.0,
+      "BLACKBIRD_VIAL_BLUE": 0.1,
+      "BLACKBIRD_VIAL_ORANGE": 0.1,
+      "BLACKBIRD_VIAL_PINK": 0.1,
+      "BLUE_CRYSTAL_1": 1.0,
+      "BLUE_CRYSTAL_2": 1.0,
+      "BLUE_GLASS_BOTTLE_SMALL": 1.0,
+      "BOLT": 4.0,
+      "BOW_TIE": 1.0,
+      "BP_CABLE": 4.0,
+      "BP_CLAMP": 0.7,
+      "BP_ROCKET_HOLDER": 4.0,
+      "BUNSEN_BURNER": 1.0,
+      "BUNSEN_BURNER_HOLDER": 1.0,
+      "CRACK": 1.0,
+      "EXPLOSIVE_BALLOON": 0.7,
+      "FUNNEL": 0.7,
+      "GLASSES_1_SMALL": 1.0,
+      "GLASSES_2_SMALL": 1.0,
+      "GLASS_PIPE_FAT": 0.7,
+      "GLASS_PIPE_LONG": 0.7,
+      "GRASS": 0.8,
+      "GREEN_GLASS_BOTTLE": 0.7,
+      "HAIR_BIG_LEFT": 1.0,
+      "HAIR_BIG_RIGHT": 1.0,
+      "HAIR_MED_LEFT": 1.0,
+      "HAIR_MED_RIGHT": 1.0,
+      "HAIR_SMALL_LEFT": 1.0,
+      "HAIR_SMALL_RIGHT": 1.0,
+      "HAIR_STACHE_LEFT": 1.0,
+      "HAIR_STACHE_RIGHT": 1.0,
+      "KORK": 1.0,
+      "LAB_VEST_MED": 1.0,
+      "LAB_VEST_STACHE": 1.0,
+      "MAGNET": 4.0,
+      "MASK_1_MED": 1.0,
+      "MASK_1_SMALL": 1.0,
+      "MASK_2_SMALL": 1.0,
+      "MASK_3_BIG_DOWN": 1.0,
+      "MASK_3_SMALL_DOWN": 1.0,
+      "MASK_3_SMALL_UP": 1.0,
+      "METAL_TUBE_HOLDER_BLUE": 0.8,
+      "METAL_TUBE_WALL_CONNECTION": 0.8,
+      "METAL_TUBE_WINDOW": 1.0,
+      "NERDY_GLASSES_BIG": 1.0,
+      "ORANGE_MUSHROOM_1": 1.0,
+      "ORANGE_MUSHROOM_2": 1.0,
+      "PINK_FLOWER_1": 1.0,
+      "PINK_FLOWER_2": 1.0,
+      "PRESSURE_METER": 1.0,
+      "PRESSURE_METER_NEEDLE": 1.0,
+      "ROCKET_CANISTER": 0.3,
+      "RUSTY_FUNNEL_DOWN": 1.0,
+      "RUSTY_FUNNEL_UP": 1.0,
+      "RUSTY_TUBE_CORNER": 4.0,
+      "RUSTY_TUBE_FAT": 4.0,
+      "RUSTY_TUBE_LONG": 4.0,
+      "RUSTY_TUBE_SMALL": 4.0,
+      "RUSTY_TUBE_WALL_CONNECTION": 0.8,
+      "RUSTY_TUBE_WINDOW": 1.0,
+      "SPLASH_SMALL": 1.0,
+      "THERMOMETER": 1.0,
+      "TUBE_CORNER": 4.0,
+      "TUBE_LONG": 4.0,
+      "TUBE_SHORT": 4.0,
+      "VALVE": 0.7,
+      "WARNING_SIGN": 1.0,
+      "WARNING_SIGN_BLUE": 1.0,
+      "WARNING_SIGN_ORANGE": 1.0,
+      "WARNING_SIGN_PINK": 1.0
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -3308,7 +4079,77 @@
       "BLOCK_GREEN_OILCANISTER": 0.0,
       "BLOCK_GREEN_PILOTHELMET": 0.0,
       "BLOCK_GREEN_WOODENTIRE": 0.2,
-      "GoldenSpanner": 0.0
+      "GoldenSpanner": 0.0,
+      "ARROW_SIGN_ORANGE": 0.0,
+      "BLACKBIRD_VIAL_BLUE": 0.2,
+      "BLACKBIRD_VIAL_ORANGE": 0.2,
+      "BLACKBIRD_VIAL_PINK": 0.2,
+      "BLUE_CRYSTAL_1": 0.0,
+      "BLUE_CRYSTAL_2": 0.0,
+      "BLUE_GLASS_BOTTLE_SMALL": 0.0,
+      "BOLT": 0.1,
+      "BOW_TIE": 0.0,
+      "BP_CABLE": 0.15,
+      "BP_CLAMP": 0.4,
+      "BP_ROCKET_HOLDER": 0.15,
+      "BUNSEN_BURNER": 0.0,
+      "BUNSEN_BURNER_HOLDER": 0.0,
+      "CRACK": 0.0,
+      "EXPLOSIVE_BALLOON": 0.4,
+      "FUNNEL": 0.4,
+      "GLASSES_1_SMALL": 0.0,
+      "GLASSES_2_SMALL": 0.0,
+      "GLASS_PIPE_FAT": 0.2,
+      "GLASS_PIPE_LONG": 0.2,
+      "GRASS": 0.0,
+      "GREEN_GLASS_BOTTLE": 0.2,
+      "HAIR_BIG_LEFT": 0.0,
+      "HAIR_BIG_RIGHT": 0.0,
+      "HAIR_MED_LEFT": 0.0,
+      "HAIR_MED_RIGHT": 0.0,
+      "HAIR_SMALL_LEFT": 0.0,
+      "HAIR_SMALL_RIGHT": 0.0,
+      "HAIR_STACHE_LEFT": 0.0,
+      "HAIR_STACHE_RIGHT": 0.0,
+      "KORK": 0.0,
+      "LAB_VEST_MED": 0.0,
+      "LAB_VEST_STACHE": 0.0,
+      "MAGNET": 0.15,
+      "MASK_1_MED": 0.0,
+      "MASK_1_SMALL": 0.0,
+      "MASK_2_SMALL": 0.0,
+      "MASK_3_BIG_DOWN": 0.0,
+      "MASK_3_SMALL_DOWN": 0.0,
+      "MASK_3_SMALL_UP": 0.0,
+      "METAL_TUBE_HOLDER_BLUE": 0.0,
+      "METAL_TUBE_WALL_CONNECTION": 0.0,
+      "METAL_TUBE_WINDOW": 0.0,
+      "NERDY_GLASSES_BIG": 0.0,
+      "ORANGE_MUSHROOM_1": 0.0,
+      "ORANGE_MUSHROOM_2": 0.0,
+      "PINK_FLOWER_1": 0.0,
+      "PINK_FLOWER_2": 0.0,
+      "PRESSURE_METER": 0.0,
+      "PRESSURE_METER_NEEDLE": 0.0,
+      "ROCKET_CANISTER": 0.6,
+      "RUSTY_FUNNEL_DOWN": 0.0,
+      "RUSTY_FUNNEL_UP": 0.0,
+      "RUSTY_TUBE_CORNER": 0.2,
+      "RUSTY_TUBE_FAT": 0.2,
+      "RUSTY_TUBE_LONG": 0.2,
+      "RUSTY_TUBE_SMALL": 0.2,
+      "RUSTY_TUBE_WALL_CONNECTION": 0.0,
+      "RUSTY_TUBE_WINDOW": 0.0,
+      "SPLASH_SMALL": 0.0,
+      "THERMOMETER": 0.0,
+      "TUBE_CORNER": 0.1,
+      "TUBE_LONG": 0.1,
+      "TUBE_SHORT": 0.1,
+      "VALVE": 0.4,
+      "WARNING_SIGN": 0.0,
+      "WARNING_SIGN_BLUE": 0.0,
+      "WARNING_SIGN_ORANGE": 0.0,
+      "WARNING_SIGN_PINK": 0.0
     }
   }
 }

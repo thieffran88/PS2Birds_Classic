@@ -52,7 +52,7 @@ int main(){
     assert(save_encode(&r,a) && save_decode(a,SAVE_BYTES,&decoded) && decoded.count==21 && decoded.version==SAVE_VERSION && decoded.scores[0]==28000);
     assert(!save_decode(a,SAVE_BYTES-1,&decoded) && !save_decode(a,SAVE_BYTES_V1,&decoded));
     for(int i=0;i<SAVE_BYTES;i++){memcpy(b,a,SAVE_BYTES);b[i]^=0x55;assert(!save_decode(b,SAVE_BYTES,&decoded));}
-    SaveRecord bad=r;bad.unlocked=22;assert(!save_encode(&bad,b));bad=r;bad.count=513;assert(!save_encode(&bad,b));bad=r;bad.scores[21]=5;assert(!save_encode(&bad,b));
+    SaveRecord bad=r;bad.unlocked=22;assert(!save_encode(&bad,b));bad=r;bad.count=1025;assert(!save_encode(&bad,b));bad=r;bad.scores[21]=5;assert(!save_encode(&bad,b));
     r.sequence=0;r.scores[1]=23000;assert(save_encode(&r,b));assert(save_choose(a,SAVE_BYTES,b,SAVE_BYTES,&decoded)==1 && decoded.scores[1]==23000);
     assert(save_choose(b,SAVE_BYTES,a,SAVE_BYTES,&decoded)==0 && decoded.scores[1]==23000);
     assert(save_choose(a,SAVE_BYTES,b,SAVE_BYTES-5,&decoded)==0 && save_choose(a,1,b,2,&decoded)==-1);
@@ -150,12 +150,12 @@ int main(){
         // 0.16.0 saves: winning 3-21 unlocks 4-1; the migrated v4 copy goes to the other slot.
         files.clear();files["/PS2BIRDS/progress_a.dat"]=v3;init(g);assert(g.unlocked==64 && g.highscores[59]==71500 && g.highscores[62]==1000 && !g.highscores[63]);
         g.unlocked=84;g.highscores[83]=40000;save_mc_request();pump();
-        assert(files["/PS2BIRDS/progress_a.dat"]==v3 && files["/PS2BIRDS/progress_b.dat"].size()==SAVE_BYTES && SAVE_BYTES==2080);
+        assert(files["/PS2BIRDS/progress_a.dat"]==v3 && files["/PS2BIRDS/progress_b.dat"].size()==SAVE_BYTES && SAVE_BYTES==4128);
         assert(save_decode(files["/PS2BIRDS/progress_b.dat"].data(),SAVE_BYTES,&decoded) && decoded.version==SAVE_VERSION && decoded.count==84 && decoded.sequence==31 && decoded.scores[83]==40000 && decoded.scores[0]==27000);
         init(g);assert(g.unlocked==84 && g.highscores[83]==40000);
         put(28+62*4,0);put(284,save_crc32(v3.data(),284));files.clear();files["/PS2BIRDS/progress_a.dat"]=v3;init(g);assert(g.unlocked==63);
         SaveRecord full{};full.count=512;full.unlocked=512;full.scores[511]=5;assert(save_encode(&full,a) && save_decode(a,SAVE_BYTES,&decoded) && decoded.scores[511]==5);
-        full.count=513;assert(!save_encode(&full,a));
+        full.count=1025;assert(!save_encode(&full,a));
     }
     // Version 4 (544 bytes, 128 scores) written by 0.17.0-0.22.0, encoded independently.
     {
@@ -181,7 +181,17 @@ int main(){
         mock_level_count=285;files.clear();files["/PS2BIRDS/progress_a.dat"]=v5;init(g);assert(g.unlocked==241 && g.highscores[239]==52000);
         g.highscores[240]=9000;save_mc_request();pump();
         assert(files["/PS2BIRDS/progress_a.dat"]==v5 && files["/PS2BIRDS/progress_b.dat"].size()==SAVE_BYTES);
-        assert(save_decode(files["/PS2BIRDS/progress_b.dat"].data(),SAVE_BYTES,&decoded) && decoded.version==6 && decoded.sequence==71 && decoded.scores[240]==9000 && decoded.count==285);
+        assert(save_decode(files["/PS2BIRDS/progress_b.dat"].data(),SAVE_BYTES,&decoded) && decoded.version==SAVE_VERSION && decoded.sequence==71 && decoded.scores[240]==9000 && decoded.count==285);
+        // 0.36.0 (v6, 512 scores) completed 480 stages: the v7 game with 525 stages unlocks stage 481.
+        std::vector<unsigned char> v6(2080,0);memcpy(v6.data(),"PS2BIRD1",8);
+        auto put6=[&](size_t at,uint32_t v){for(int i=0;i<4;i++)v6[at+i]=(unsigned char)(v>>(i*8));};
+        put6(8,6);put6(12,0x434c4153u);put6(16,90);put6(20,480);put6(24,480);put6(28,31000);put6(28+479*4,64000);put6(2076,save_crc32(v6.data(),2076));
+        assert(save_decode(v6.data(),2080,&decoded) && decoded.version==6 && decoded.count==480 && decoded.scores[479]==64000);
+        mock_level_count=525;files.clear();files["/PS2BIRDS/progress_a.dat"]=v6;init(g);assert(g.unlocked==481 && g.highscores[479]==64000);
+        g.highscores[480]=7000;save_mc_request();pump();
+        assert(files["/PS2BIRDS/progress_a.dat"]==v6 && files["/PS2BIRDS/progress_b.dat"].size()==SAVE_BYTES);
+        assert(save_decode(files["/PS2BIRDS/progress_b.dat"].data(),SAVE_BYTES,&decoded) && decoded.version==7 && decoded.scores[480]==7000 && decoded.count==525);
+        SaveRecord full7{};full7.count=1024;full7.unlocked=1024;full7.scores[1023]=5;assert(save_encode(&full7,a) && save_decode(a,SAVE_BYTES,&decoded) && decoded.scores[1023]==5);
     }
-    puts("Save OK: CRC, v1/v2/v3 layouts, 64-score boundary, v2 migration/fallback, corruption, slots, full card, invalid saves preserved, legacy order migration, 35-to-42 and 42-to-63 and v3-to-v4 63-to-84 and v4-to-v5 84-to-85 and v5-to-v6 240-to-241 expansion, 512-score boundary, newer saves preserved.");
+    puts("Save OK: CRC, v1/v2/v3 layouts, 64-score boundary, v2 migration/fallback, corruption, slots, full card, invalid saves preserved, legacy order migration, 35-to-42 and 42-to-63 and v3-to-v4 63-to-84 and v4-to-v5 84-to-85 and v5-to-v6 240-to-241 and v6-to-v7 480-to-481 expansion, 1024-score boundary, newer saves preserved.");
 }

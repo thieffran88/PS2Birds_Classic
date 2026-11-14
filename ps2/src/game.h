@@ -12,7 +12,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE, BIRD_WHITE_TYPE, BIRD_EGG_TYPE, BIRD_GREEN_TYPE, BIRD_BIG_TYPE, BIRD_PUFFER_TYPE, BIRD_PINK_TYPE } BirdType;
+typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE, BIRD_WHITE_TYPE, BIRD_EGG_TYPE, BIRD_GREEN_TYPE, BIRD_BIG_TYPE, BIRD_PUFFER_TYPE, BIRD_PINK_TYPE, BIRD_SHOCK_TYPE } BirdType;
 /* Stella (PinkBird, specialty "BUBBLES"): body from blocks.lua, algorithm from mode_MuseumMode.lua,
    bubbles.lua and default_conf.lua. A tap starts a PINK_BOOM_TIME timer (1.5 s on a first contact
    without tap); during its last PINK_BOOM_TIME s the bird stops and hovers; then every movable
@@ -120,6 +120,21 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 #define BLACK_BLAST_DAMAGE 300.0f
 #define BLACK_FUSE_SECONDS 1.0f
 #define BLACK_VISUAL_SECONDS 0.45f
+/* Short Fuse black bird (BlackBird_Shockwave in blocks.lua; BlackBirdAbility.lua): an electric
+   shockwave instead of an explosion. Triggered by a tap, or explosionTimer (1.5 s) after the
+   first contact; after `delay` the wave grows to `radius` over `duration` (cosine ease). Every
+   dynamic piece inside gets damage once and a push d*force each step (force drops from 470 to
+   25 after 10% of the wave); pigs inside are electrocuted and die 2 s later. */
+#define SHOCK_FUSE_SECONDS 1.5f
+#define SHOCK_DELAY 0.4f
+#define SHOCK_DURATION 1.9f
+#define SHOCK_RADIUS 15.0f
+#define SHOCK_FORCE 470.0f
+#define SHOCK_MIN_FORCE 25.0f
+#define SHOCK_DROP_OFF 0.1f
+#define SHOCK_DAMAGE 0.35f
+#define SHOCK_MIN_DAMAGE 0.25f
+#define SHOCK_ELECTROCUTE_SECONDS 2.0f
 typedef struct {float x,y,vx,vy,angle,fuse;int type,collided,special_used;} GameBird;
 typedef struct {float x,y,radius,life;} GameBlast;
 enum {GAME_EVENT_PIG=1, GAME_EVENT_WOOD=2, GAME_EVENT_GLASS=4, GAME_EVENT_STONE=8, GAME_EVENT_EXTRA=16, GAME_EVENT_EXPLOSION=32};

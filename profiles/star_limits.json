@@ -1920,6 +1920,186 @@
     "Level1084": {
       "silver": 113000,
       "gold": 120000
+    },
+    "BlackBird_1": {
+      "silver": 30000,
+      "gold": 40000
+    },
+    "BlackBird_2": {
+      "silver": 85000,
+      "gold": 95000
+    },
+    "BlackBird_3": {
+      "silver": 71000,
+      "gold": 75000
+    },
+    "BlackBird_4": {
+      "silver": 45000,
+      "gold": 50000
+    },
+    "BlackBird_5": {
+      "silver": 45000,
+      "gold": 50000
+    },
+    "BlackBird_6": {
+      "silver": 75000,
+      "gold": 80000
+    },
+    "BlackBird_7": {
+      "silver": 85000,
+      "gold": 90000
+    },
+    "BlackBird_8": {
+      "silver": 95000,
+      "gold": 100000
+    },
+    "BlackBird_9": {
+      "silver": 50000,
+      "gold": 54000
+    },
+    "BlackBird_10": {
+      "silver": 100000,
+      "gold": 110000
+    },
+    "BlackBird_11": {
+      "silver": 110000,
+      "gold": 190000
+    },
+    "BlackBird_12": {
+      "silver": 200000,
+      "gold": 220000
+    },
+    "BlackBird_13": {
+      "silver": 70000,
+      "gold": 80000
+    },
+    "BlackBird_14": {
+      "silver": 100000,
+      "gold": 120000
+    },
+    "BlackBird_15": {
+      "silver": 75000,
+      "gold": 85000
+    },
+    "BlackBird_16": {
+      "silver": 95000,
+      "gold": 100000
+    },
+    "BlackBird_17": {
+      "silver": 85000,
+      "gold": 90000
+    },
+    "BlackBird_18": {
+      "silver": 65000,
+      "gold": 74000
+    },
+    "BlackBird_19": {
+      "silver": 55000,
+      "gold": 60000
+    },
+    "BlackBird_20": {
+      "silver": 95000,
+      "gold": 100000
+    },
+    "BlackBird_21": {
+      "silver": 95000,
+      "gold": 100000
+    },
+    "BlackBird_22": {
+      "silver": 140000,
+      "gold": 160000
+    },
+    "BlackBird_23": {
+      "silver": 75000,
+      "gold": 82000
+    },
+    "BlackBird_24": {
+      "silver": 140000,
+      "gold": 150000
+    },
+    "BlackBird_25": {
+      "silver": 95000,
+      "gold": 100000
+    },
+    "BlackBird_26": {
+      "silver": 140000,
+      "gold": 160000
+    },
+    "BlackBird_27": {
+      "silver": 100000,
+      "gold": 110000
+    },
+    "BlackBird_28": {
+      "silver": 110000,
+      "gold": 120000
+    },
+    "BlackBird_29": {
+      "silver": 165000,
+      "gold": 175000
+    },
+    "BlackBird_30": {
+      "silver": 120000,
+      "gold": 140000
+    },
+    "BlackBird_31": {
+      "silver": 151000,
+      "gold": 161000
+    },
+    "BlackBird_32": {
+      "silver": 83000,
+      "gold": 88000
+    },
+    "BlackBird_33": {
+      "silver": 103000,
+      "gold": 113000
+    },
+    "BlackBird_34": {
+      "silver": 88000,
+      "gold": 94000
+    },
+    "BlackBird_35": {
+      "silver": 135000,
+      "gold": 144000
+    },
+    "BlackBird_36": {
+      "silver": 153000,
+      "gold": 158000
+    },
+    "BlackBird_37": {
+      "silver": 104000,
+      "gold": 114000
+    },
+    "BlackBird_38": {
+      "silver": 130000,
+      "gold": 140000
+    },
+    "BlackBird_39": {
+      "silver": 148000,
+      "gold": 158000
+    },
+    "BlackBird_40": {
+      "silver": 104000,
+      "gold": 114000
+    },
+    "BlackBird_41": {
+      "silver": 101000,
+      "gold": 111000
+    },
+    "BlackBird_42": {
+      "silver": 150000,
+      "gold": 160000
+    },
+    "BlackBird_43": {
+      "silver": 150000,
+      "gold": 160000
+    },
+    "BlackBird_44": {
+      "silver": 110000,
+      "gold": 120000
+    },
+    "BlackBird_45": {
+      "silver": 190000,
+      "gold": 200000
     }
   }
 }
