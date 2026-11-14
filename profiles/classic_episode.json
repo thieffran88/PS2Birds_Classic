@@ -1157,6 +1157,59 @@
         "FlockFavorites29",
         "FlockFavorites30"
       ]
+    },
+    {
+      "folder": "/levels/goldeneggs1",
+      "title_prefix": "GOLDEN EGGS 1-",
+      "number": 61,
+      "bank": 57,
+      "levels": [
+        "LevelGE_4",
+        "LevelGE_3",
+        "LevelGE_2",
+        "LevelGE_14",
+        "LevelGE_15",
+        "LevelGE_1",
+        "LevelGE_5",
+        "LevelGE_6",
+        "LevelGE_7",
+        "LevelGE_8",
+        "LevelGE_9",
+        "LevelGE_10"
+      ]
+    },
+    {
+      "folder": "/levels/goldeneggs1",
+      "title_prefix": "GOLDEN EGGS 2-",
+      "number": 62,
+      "bank": 58,
+      "levels": [
+        "LevelGE_11",
+        "LevelGE_16",
+        "LevelGE_17",
+        "LevelGE_18",
+        "LevelGE_19",
+        "LevelGE_20",
+        "LevelGE_21",
+        "LevelGE_22",
+        "LevelGE_23",
+        "LevelGE_24",
+        "LevelGE_25",
+        "LevelGE_29",
+        "LevelGE_30",
+        "LevelGE_RED",
+        "LevelGE_32",
+        "GE_Level280_BirdDay7"
+      ]
+    },
+    {
+      "folder": "/levels/goldeneggs1",
+      "title_prefix": "GOLDEN EGGS 3-",
+      "number": 63,
+      "bank": 59,
+      "levels": [
+        "Farm2_goldegg"
+      ]
     }
   ]
 }

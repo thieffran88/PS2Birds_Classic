@@ -11,6 +11,10 @@ from game_profiles import decode_payload
 EPISODE=ROOT/'profiles/classic_episode.json'
 STARS=ROOT/'profiles/star_limits.json'
 
+def star_limits(stars,script):
+    """(silver, gold) from starLimits.lua; Golden Eggs stages have none (they give the egg), so any win is 3 stars."""
+    v=stars.get(script);return (v['silver'],v['gold']) if v else (0,0)
+
 def write_binary(levels,profile,polys,forced,stars,path=None):
     """CAMPAIGN.BIN: the stages read by the game at start-up (format in ps2/src/campaign_types.h)."""
     import struct
@@ -27,7 +31,7 @@ def write_binary(levels,profile,polys,forced,stars,path=None):
         for j in d.get('joints') or []:
             joints+=struct.pack('<3i7fif6fi',j['type'],j['a'],j['b'],*[r(j[k]) for k in ['ax','ay','bx','by','frequency','damping','break_force']],int(j['collide']),r(j.get('destroy_timer',0.0)),*[r(j.get(k,0.0)) for k in ['axis_x','axis_y','lower','upper','motor_speed','max_force']],(1 if j.get('limit') else 0)|(2 if j.get('motor') else 0)|(4 if j.get('back_and_forth') else 0));nj+=1
         types=[b['type'] for b in d['birds']];types+=[0]*(16-len(types))
-        lv+=struct.pack('<3I16i8f2Ii2I2i',o0,len(d['objects']),len(d['birds']),*types,*map(r,[d['gravity'],d['sling_x'],d['sling_y'],d['ground_y'],d['physics_to_world'],d['view']['x'],d['view']['y'],d['view']['scale']]),s(d['title']),s(d['stage_script']),d.get('texture_bank',0),j0,nj-j0,stars[d['stage_script']]['silver'],stars[d['stage_script']]['gold'])
+        lv+=struct.pack('<3I16i8f2Ii2I2i',o0,len(d['objects']),len(d['birds']),*types,*map(r,[d['gravity'],d['sling_x'],d['sling_y'],d['ground_y'],d['physics_to_world'],d['view']['x'],d['view']['y'],d['view']['scale']]),s(d['title']),s(d['stage_script']),d.get('texture_bank',0),j0,nj-j0,*star_limits(stars,d['stage_script']))
     pol=bytearray()
     for name in polys:
         v=[c for xy in profile['objects'][name]['vertices'] for c in xy];pol+=struct.pack('<Ii16f',s(name),len(v)//2,*map(r,v+[0.0]*(16-len(v))))
@@ -125,7 +129,7 @@ def build(episode_path=EPISODE,apk=None,workdir=None,output=None,quiet=False):
     lines.append('static const CampaignLevel campaign_levels[] = {')
     for i,d in enumerate(levels):
         values=[d['gravity'],d['sling_x'],d['sling_y'],d['ground_y'],d['physics_to_world'],d['view']['x'],d['view']['y'],d['view']['scale']]
-        lines.append(' {campaign_objects_'+str(i)+','+str(len(d['objects']))+','+str(len(d['birds']))+',{'+','.join(str(b['type']) for b in d['birds'])+'},'+','.join(f(v) for v in values)+','+json.dumps(d['title'])+','+json.dumps(d['stage_script'])+','+str(d.get('texture_bank',0))+','+(f'campaign_joints_{i},{len(d["joints"])}' if d.get('joints') else '0,0')+','+str(stars[d['stage_script']]['silver'])+','+str(stars[d['stage_script']]['gold'])+'},')
+        lines.append(' {campaign_objects_'+str(i)+','+str(len(d['objects']))+','+str(len(d['birds']))+',{'+','.join(str(b['type']) for b in d['birds'])+'},'+','.join(f(v) for v in values)+','+json.dumps(d['title'])+','+json.dumps(d['stage_script'])+','+str(d.get('texture_bank',0))+','+(f'campaign_joints_{i},{len(d["joints"])}' if d.get('joints') else '0,0')+','+','.join(map(str,star_limits(stars,d['stage_script'])))+'},')
     write_binary(levels,profile,polys,forced,stars,output)
     # Sprites of the pieces added by tools/add_definitions.py, drawn by ps2/src/main.c.
     auto=sorted(k for k,v in profile['objects'].items() if v.get('auto'))

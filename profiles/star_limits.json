@@ -2680,6 +2680,122 @@
     "FlockFavorites30": {
       "silver": 163000,
       "gold": 170000
+    },
+    "LevelGE_4": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_3": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_2": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_14": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_15": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_1": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_5": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_6": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_7": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_8": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_9": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_10": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_11": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_16": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_17": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_18": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_19": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_20": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_21": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_22": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_23": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_24": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_29": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "LevelGE_32": {
+      "silver": 30000,
+      "gold": 40000
+    },
+    "GE_Level280_BirdDay7": {
+      "silver": 100000,
+      "gold": 120000
+    },
+    "Farm2_goldegg": {
+      "silver": 1000,
+      "gold": 2000
+    },
+    "Level1261": {
+      "silver": 50000,
+      "gold": 60000
+    },
+    "Level1262": {
+      "silver": 50000,
+      "gold": 60000
+    },
+    "Level1263": {
+      "silver": 50000,
+      "gold": 60000
     }
   }
 }

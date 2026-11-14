@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.40.0)
+# Lacunas do port (levantamento atualizado na 0.41.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -132,6 +132,13 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
   - Mighty Feathers: 46 arquivos, 15 sem cenário (modo Egg Defender), 48 peças.
   - Fora dos episódios: Mighty League (273 fases, 47 peças), siege (9), powerupSchool (5), eagleDemo (3), ugc (15), packTalkweb (15).
 
+## Achados da 0.41.0
+
+- **Peças explosivas:** todo `specialty = "BOMB"` do `blocks.lua` traz raio, força, raio de dano e dano próprios. Antes só o TNT comum explodia; agora explodem também antimatéria, balão explosivo, foguete, fogareiro e os TNT de Bad Piggies, cada um com seus valores. Sete roteiros antigos deixaram de vencer e foram refeitos (o Short Fuse 2-9 ficou sem roteiro).
+- **Fases de formato antigo (Ham 'Em High extra):** sem densidade/resistência/defesa por objeto e sem `birdZeroPos`; o jogo completa com a definição, depois o material (`ObjectCreation.lua`), e põe a fila no estilingue (`Slingshot.lua`). `StaticBlockTheme<tema>_NN` sem definição própria é `StaticBlock_NN` (`dynamicassets.lua`).
+- **Flock Favorites:** `FlockFavoritesMode.lua` roda as fases de tema 26 no modo Egg Defender (`RMFClassic`) e as de tema 27 no modo do pássaro de choque. As fases 12, 14, 25 e 28 (tema 26) esperam o modo Egg Defender; a 1-9 desmonta ao assentar (cordas soldadas).
+- **Golden Eggs:** LevelGE_31 tem gravidade invertida (−20) e LevelGE_UGC1 gravidade zero; o motor do port só aceita gravidade para baixo. Três fases não têm limites de estrela (o original dá o ovo de ouro).
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -140,7 +147,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Flock Favorites, Golden Eggs e as 3 fases restantes do Ham 'Em High (poucas peças novas); modo Egg Defender (Mighty Feathers), efeitos dos frascos do Short Fuse; roteiros de 16-5, 16-6, Birdday 4-4, 6-1, 7-7, 7-14 e Surf and Turf 2-15, 3-5, 3-14 e Bad Piggies 2-7, 2-15, 3-5, 3-12 8 do Short Fuse e Bird Island 1-10, 1-15 e Piggy Farm 1-8.
+1. Modo Egg Defender (Mighty Feathers e 4 fases do Flock Favorites); gravidade invertida/zero (2 fases do Golden Eggs); Tutorial (15 fases) (Mighty Feathers), efeitos dos frascos do Short Fuse; roteiros de 16-5, 16-6, Birdday 4-4, 6-1, 7-7, 7-14 e Surf and Turf 2-15, 3-5, 3-14 e Bad Piggies 2-7, 2-15, 3-5, 3-12 8 do Short Fuse e Bird Island 1-10, 1-15 e Piggy Farm 1-8.
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).

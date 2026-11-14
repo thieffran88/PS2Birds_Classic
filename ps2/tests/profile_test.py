@@ -572,3 +572,17 @@ for name in ['BP_TNT','BP_TNT_SMALL']:
 camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN')
 assert camp['explosions']['Farm_Campstove']==(10.0,30000.0,5.0,150.0) and camp['explosions']['EXPLOSIVE_BALLOON']==(10.0,30000.0,5.0,300.0)
 print(f"Flock Favorites OK: 25 stages in banks 55-56 (4 Egg Defender stages and the unstable 1-9 left out); {len(camp['explosions'])} explosive piece types carry their own blast values.")
+
+# Golden Eggs (pages 61-63, banks 57-59): 29 of the 31 stages, in episodes.lua order. LevelGE_31
+# (gravity -20, upside down) and LevelGE_UGC1 (gravity 0) need gravity the port does not support yet.
+# Stages without starLimits.lua entries give 3 stars on any win (the original gives the golden egg).
+ge=''.join((root/f'ps2/data/episode_golden_eggs_page{k}.decompiled.lua').read_text() for k in (1,2))
+order=[n for n in dict.fromkeys(re.findall(r'"((?:LevelGE_\w+|GE_Level\w+))"',ge)) if n not in ('LevelGE_31','LevelGE_UGC1')]+['Farm2_goldegg']
+pages=[pg for pg in episode['additional_pages'] if pg.get('folder')=='/levels/goldeneggs1']
+assert len(order)==29 and sum((pg['levels'] for pg in pages),[])==order and [pg['bank'] for pg in pages]==[57,58,59]
+gb=(root/'ps2/data/golden_eggs_definitions_excerpt.lua').read_text()
+assert objs['objects']['BP_TNT_WEAK']['explosion']==_ad.definition(gb,'BP_TNT_WEAK')['props']['explosion']==[10.0,30000.0,10.0,350.0]
+assert objs['objects']['StaticFragileBlock01']['kind']==9 and 'half_resolution' not in objs['objects']['ExtraBlueBird']
+camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN');stars=json.loads((root/'profiles/star_limits.json').read_text())['limits']
+nostar=[n for n in order if n not in stars];assert nostar==["LevelGE_25","LevelGE_30","LevelGE_RED"]
+print(f"Golden Eggs OK: 29 stages in banks 57-59 (upside-down and zero-gravity stages left out); {len(nostar)} stages without star limits give 3 stars on any win.")

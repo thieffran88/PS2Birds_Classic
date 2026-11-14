@@ -2793,5 +2793,20 @@
     "width": 107,
     "height": 40,
     "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_FAN_MESH": {
+    "width": 38,
+    "height": 107,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_ROTOR_1": {
+    "width": 86,
+    "height": 252,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BIRD_BLUE": {
+    "width": 31,
+    "height": 30,
+    "sheet": "INGAME_BIRDS_1.sheet.json"
   }
 }

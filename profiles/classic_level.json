@@ -6645,6 +6645,94 @@
         ]
       ],
       "half_resolution": true
+    },
+    "BP_FAN_MESH": {
+      "sprite": "BP_FAN_MESH",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BP_ROTOR": {
+      "sprite": "BP_ROTOR_1",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.4
+        ],
+        [
+          1.0,
+          0.6
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "BP_TNT_WEAK": {
+      "sprite": "BP_TNT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "explosion": [
+        10.0,
+        30000.0,
+        10.0,
+        350.0
+      ],
+      "half_resolution": true
+    },
+    "BP_WOODEN_TRIANGLE_WEAK": {
+      "sprite": "BP_WOODEN_TRIANGLE",
+      "kind": 1,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.5,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "ExtraBlueBird": {
+      "sprite": "BIRD_BLUE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        1.2,
+        1.2
+      ]
+    },
+    "StaticFragileBlock01": {
+      "sprite": "GROUND_BLOCK_01",
+      "kind": 9,
+      "shape": "box",
+      "auto": true
+    },
+    "StaticFragileBlock03": {
+      "sprite": "GROUND_BLOCK_03",
+      "kind": 9,
+      "shape": "box",
+      "auto": true
     }
   },
   "metrics": "profiles/sprite_metrics.json",
@@ -7207,7 +7295,14 @@
       "BP_WOODEN_TRIANGLE": 4.0,
       "BP_WOODEN_WHEEL": 4.0,
       "BP_WOODEN_WING": 4.0,
-      "BP_WOODEN_WING_HOLDER": 4.0
+      "BP_WOODEN_WING_HOLDER": 4.0,
+      "BP_FAN_MESH": 4.0,
+      "BP_ROTOR": 4.0,
+      "BP_TNT_WEAK": 0.7,
+      "BP_WOODEN_TRIANGLE_WEAK": 4.0,
+      "ExtraBlueBird": 0.3,
+      "StaticFragileBlock01": 0.8,
+      "StaticFragileBlock03": 0.8
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -7699,7 +7794,14 @@
       "BP_WOODEN_TRIANGLE": 0.2,
       "BP_WOODEN_WHEEL": 0.2,
       "BP_WOODEN_WING": 0.2,
-      "BP_WOODEN_WING_HOLDER": 0.2
+      "BP_WOODEN_WING_HOLDER": 0.2,
+      "BP_FAN_MESH": 0.15,
+      "BP_ROTOR": 0.8,
+      "BP_TNT_WEAK": 0.4,
+      "BP_WOODEN_TRIANGLE_WEAK": 0.2,
+      "ExtraBlueBird": 0.25,
+      "StaticFragileBlock01": 0.0,
+      "StaticFragileBlock03": 0.0
     }
   }
 }
