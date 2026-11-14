@@ -820,6 +820,35 @@
         "BlackBird_44",
         "BlackBird_45"
       ]
+    },
+    {
+      "number": 38,
+      "title_prefix": "BIRD ISLAND 1-",
+      "folder": "/levels/20_BirdIsland",
+      "bank": 34,
+      "levels": [
+        "Level264_t_Movie",
+        "Level232_Movie",
+        "Level233_Movie",
+        "Level235_Movie",
+        "Level242_Movie",
+        "Level255_t_Movie",
+        "Level237_Movie",
+        "Level265_t_Movie",
+        "Level262_t_Movie",
+        "Level257_t_Movie",
+        "Level254_t_Movie",
+        "Level239_Movie",
+        "Level241_Movie",
+        "Level240_Movie",
+        "Level258_t_Movie",
+        "Level259_t_Movie",
+        "Level234_Movie",
+        "Level236_Movie",
+        "Level238_Movie",
+        "Level243_Movie",
+        "Level253_t_Movie"
+      ]
     }
   ]
 }

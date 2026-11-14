@@ -3537,6 +3537,129 @@
       "shape": "box",
       "auto": true,
       "no_collision": true
+    },
+    "BIRDSTICK_ARM1": {
+      "sprite": "BIRDSTICK_ARM1",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "BIRDSTICK_ARM2": {
+      "sprite": "BIRDSTICK_ARM2",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "BIRDSTICK_HEAD": {
+      "sprite": "BIRDSTICK_HEAD",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "BIRDSTICK_LEGS": {
+      "sprite": "BIRDSTICK_LEGS",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "BIRDSTICK_TORSO": {
+      "sprite": "BIRDSTICK_TORSO",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "BP_SINGLE_SAND_BAG": {
+      "sprite": "BP_SINGLE_SAND_BAG",
+      "kind": 5,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.6,
+        2.6
+      ]
+    },
+    "BP_TWO_SAND_BAGS": {
+      "sprite": "BP_TWO_SAND_BAGS",
+      "kind": 5,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        3.4,
+        3.4
+      ]
+    },
+    "BeardedKingPiglette": {
+      "sprite": "ML_PIG_KING_01",
+      "kind": 4,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        5.65,
+        5.65
+      ]
+    },
+    "FLOWER002": {
+      "sprite": "ML_FLOWER002",
+      "kind": 9,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "GREEN_PAINT001": {
+      "sprite": "ML_GREEN_PAINT001",
+      "kind": 9,
+      "shape": "box",
+      "auto": true
+    },
+    "GREEN_PAINT002": {
+      "sprite": "ML_GREEN_PAINT002",
+      "kind": 9,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "LEAGUETICKET": {
+      "sprite": "ML_TICKET_INGAME",
+      "kind": 9,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.6,
+        2.6
+      ]
+    },
+    "ML_POSTER001": {
+      "sprite": "ML_POSTER001",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "ML_POSTER002": {
+      "sprite": "ML_POSTER002",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "SAND_FIGURE001": {
+      "sprite": "ML_SAND_FIGURE001",
+      "kind": 9,
+      "shape": "box",
+      "auto": true
+    },
+    "SAND_FIGURE002": {
+      "sprite": "ML_SAND_FIGURE002",
+      "kind": 9,
+      "shape": "box",
+      "auto": true
+    },
+    "SAND_PILE002": {
+      "sprite": "ML_SAND_PILE002",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
     }
   },
   "metrics": "profiles/sprite_metrics.json",
@@ -3878,7 +4001,24 @@
       "WARNING_SIGN": 1.0,
       "WARNING_SIGN_BLUE": 1.0,
       "WARNING_SIGN_ORANGE": 1.0,
-      "WARNING_SIGN_PINK": 1.0
+      "WARNING_SIGN_PINK": 1.0,
+      "BIRDSTICK_ARM1": 4.0,
+      "BIRDSTICK_ARM2": 4.0,
+      "BIRDSTICK_HEAD": 4.0,
+      "BIRDSTICK_LEGS": 4.0,
+      "BIRDSTICK_TORSO": 4.0,
+      "BP_SINGLE_SAND_BAG": 4.0,
+      "BP_TWO_SAND_BAGS": 4.0,
+      "BeardedKingPiglette": 0.3,
+      "FLOWER002": 1.0,
+      "GREEN_PAINT001": 0.8,
+      "GREEN_PAINT002": 0.8,
+      "LEAGUETICKET": 0.8,
+      "ML_POSTER001": 0.8,
+      "ML_POSTER002": 0.8,
+      "SAND_FIGURE001": 0.8,
+      "SAND_FIGURE002": 0.8,
+      "SAND_PILE002": 0.8
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -4149,7 +4289,24 @@
       "WARNING_SIGN": 0.0,
       "WARNING_SIGN_BLUE": 0.0,
       "WARNING_SIGN_ORANGE": 0.0,
-      "WARNING_SIGN_PINK": 0.0
+      "WARNING_SIGN_PINK": 0.0,
+      "BIRDSTICK_ARM1": 0.2,
+      "BIRDSTICK_ARM2": 0.2,
+      "BIRDSTICK_HEAD": 0.2,
+      "BIRDSTICK_LEGS": 0.2,
+      "BIRDSTICK_TORSO": 0.2,
+      "BP_SINGLE_SAND_BAG": 0.1,
+      "BP_TWO_SAND_BAGS": 0.1,
+      "BeardedKingPiglette": 0.05,
+      "FLOWER002": 0.1,
+      "GREEN_PAINT001": 0.0,
+      "GREEN_PAINT002": 0.0,
+      "LEAGUETICKET": 0.0,
+      "ML_POSTER001": 0.0,
+      "ML_POSTER002": 0.0,
+      "SAND_FIGURE001": 0.0,
+      "SAND_FIGURE002": 0.0,
+      "SAND_PILE002": 0.0
     }
   }
 }

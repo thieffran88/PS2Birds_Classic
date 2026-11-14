@@ -1718,5 +1718,90 @@
     "width": 206,
     "height": 90,
     "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BIRDSTICK_ARM1": {
+    "width": 80,
+    "height": 96,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "BIRDSTICK_ARM2": {
+    "width": 69,
+    "height": 92,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "BIRDSTICK_HEAD": {
+    "width": 80,
+    "height": 87,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "BIRDSTICK_LEGS": {
+    "width": 121,
+    "height": 77,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "BIRDSTICK_TORSO": {
+    "width": 128,
+    "height": 94,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "BP_SINGLE_SAND_BAG": {
+    "width": 59,
+    "height": 81,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_TWO_SAND_BAGS": {
+    "width": 85,
+    "height": 84,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "ML_PIG_KING_01": {
+    "width": 140,
+    "height": 153,
+    "sheet": "INGAME_PIGS_NEW_SHEET_2_1.sheet.json"
+  },
+  "ML_FLOWER002": {
+    "width": 36,
+    "height": 33,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "ML_GREEN_PAINT001": {
+    "width": 19,
+    "height": 35,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "ML_GREEN_PAINT002": {
+    "width": 40,
+    "height": 30,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "ML_TICKET_INGAME": {
+    "width": 63,
+    "height": 64,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "ML_POSTER001": {
+    "width": 84,
+    "height": 72,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "ML_POSTER002": {
+    "width": 73,
+    "height": 62,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "ML_SAND_FIGURE001": {
+    "width": 82,
+    "height": 126,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "ML_SAND_FIGURE002": {
+    "width": 98,
+    "height": 101,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "ML_SAND_PILE002": {
+    "width": 96,
+    "height": 24,
+    "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
   }
 }

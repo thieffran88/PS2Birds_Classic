@@ -88,6 +88,8 @@ static void pig(const GameObject *o)
      {"KingPiglette",SPR_PIG_KING_01,SPR_PIG_KING_01,SPR_PIG_KING_02},
      {"SmallPiglette",SPR_PIG_BASIC_SMALL_01,SPR_PIG_BASIC_SMALL_01_BLINK,SPR_PIG_BASIC_SMALL_02},
     };
+    /* Pigs added from blocks.lua (e.g. the bearded king of Bird Island) use their own sprite. */
+    for(const DefinitionSprite *d=definition_sprites;d->definition;d++)if(!strcmp(o->definition,d->definition)){sprite_draw(gs,d->sprite,o->x,o->y,(render_scale/render_pixels)*d->scale,o->angle);return;}
     /* Unknown pig definitions fall back to the small pig (last entry). */
     const PigSprites *set=&pig_sprites[sizeof(pig_sprites)/sizeof(pig_sprites[0])-1];
     for(unsigned int i=0;i<sizeof(pig_sprites)/sizeof(pig_sprites[0]);i++)if(!strcmp(o->definition,pig_sprites[i].name)){set=&pig_sprites[i];break;}

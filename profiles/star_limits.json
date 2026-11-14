@@ -2100,6 +2100,90 @@
     "BlackBird_45": {
       "silver": 190000,
       "gold": 200000
+    },
+    "Level264_t_Movie": {
+      "silver": 45000,
+      "gold": 50000
+    },
+    "Level232_Movie": {
+      "silver": 83000,
+      "gold": 90000
+    },
+    "Level233_Movie": {
+      "silver": 102000,
+      "gold": 110000
+    },
+    "Level235_Movie": {
+      "silver": 93000,
+      "gold": 100000
+    },
+    "Level242_Movie": {
+      "silver": 175000,
+      "gold": 185000
+    },
+    "Level255_t_Movie": {
+      "silver": 130000,
+      "gold": 140000
+    },
+    "Level237_Movie": {
+      "silver": 97000,
+      "gold": 103000
+    },
+    "Level265_t_Movie": {
+      "silver": 110000,
+      "gold": 125000
+    },
+    "Level262_t_Movie": {
+      "silver": 60000,
+      "gold": 75000
+    },
+    "Level257_t_Movie": {
+      "silver": 35000,
+      "gold": 40000
+    },
+    "Level254_t_Movie": {
+      "silver": 60000,
+      "gold": 75000
+    },
+    "Level239_Movie": {
+      "silver": 118000,
+      "gold": 125000
+    },
+    "Level241_Movie": {
+      "silver": 155000,
+      "gold": 165000
+    },
+    "Level240_Movie": {
+      "silver": 98000,
+      "gold": 105000
+    },
+    "Level258_t_Movie": {
+      "silver": 50000,
+      "gold": 60000
+    },
+    "Level259_t_Movie": {
+      "silver": 50000,
+      "gold": 60000
+    },
+    "Level234_Movie": {
+      "silver": 130000,
+      "gold": 140000
+    },
+    "Level236_Movie": {
+      "silver": 98000,
+      "gold": 105000
+    },
+    "Level238_Movie": {
+      "silver": 170000,
+      "gold": 180000
+    },
+    "Level243_Movie": {
+      "silver": 100000,
+      "gold": 107000
+    },
+    "Level253_t_Movie": {
+      "silver": 150000,
+      "gold": 160000
     }
   }
 }

@@ -18,7 +18,7 @@ def definition(blocks,name):
     if not parts:raise ValueError('Definition not found: '+name)
     b=parts[-1]
     t=[x or y for x,y in re.findall(r'(?:L5_1 = "(polygon|box|circle)"\nL4_1.type|L4_1.type = "(polygon|box|circle)")',b)]
-    s=re.findall(r'L5_1 = "(\w+)"\nL4_1.sprite',b)+re.findall(r'L4_1.sprite = "(\w+)"',b)+re.findall(r'L9_1 = "(\w+)"\nL8_1.sprite',b)
+    s=re.findall(r'L5_1 = "(\w+)"\nL4_1.sprite = L5_1',b)+re.findall(r'L4_1.sprite = "(\w+)"',b)+re.findall(r'L9_1 = "(\w+)"\nL8_1.sprite = L9_1',b)
     nums=re.findall(r'"([xy])"\nL\d+_1 = (-?[\d.]+)',b)
     props={k:float(v) for v,k in re.findall(r'L5_1 = (-?[\d.]+)\nL4_1\.(\w+) = L5_1',b)}
     props.update({k:float(v) for k,v in re.findall(r'L5_1 = "(width|height|targetVelocity)"\nL6_1 = (-?[\d.]+)',b)})
@@ -51,7 +51,7 @@ def main():
         if d['material']=='immovable':spec['kind']=3
         # Birdday 7 onwards: themed copies of the wood/glass/stone blocks and fragile scenery keep
         # their material's kind (damage factors, sounds, score), as in the original.
-        if a.material_kinds and d['material'] in ('wood','light','rock','immovableFragile'):spec['kind']={'wood':1,'light':2,'rock':5,'immovableFragile':9}[d['material']]
+        if a.material_kinds and d['material'] in ('wood','light','rock','immovableFragile','piglette'):spec['kind']={'wood':1,'light':2,'rock':5,'immovableFragile':9,'piglette':4}[d['material']]
         prof['objects'][name]=spec
         prof['materials']['friction_overrides'][name]=d['props'].get('friction',mat.get('friction',0.7))
         prof['materials']['restitution_overrides'][name]=d['props'].get('restitution',mat.get('restitution',0.4))

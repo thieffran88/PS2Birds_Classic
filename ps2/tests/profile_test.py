@@ -492,3 +492,17 @@ for key,macro in [('duration','SHOCK_DURATION'),('force','SHOCK_FORCE'),('minimu
 assert 'L7_1 = 15\nL6_1.radius = L7_1' in bird and '#define SHOCK_RADIUS 15.0f' in h and 'triggerBlackBirdSpecialtyShockwave' in bird
 assert objs['bird_types']['BlackBird_Shockwave']==10 and 'BlackBird_Shockwave' not in objs['objects']
 print("Short Fuse OK: 45 stages in banks 31-33; 70 lab pieces and the shockwave bird (duration, radius, force, damage, delay) match blocks.lua.")
+
+# Bird Island (page 38, bank 34): 21 stages, 17 pieces including the bearded king pig (a level goal).
+bi=(root/'ps2/data/bird_island_definitions_excerpt.lua').read_text()
+order=list(dict.fromkeys(re.findall(r'"(Level\w+_Movie)"',(root/'ps2/data/episode_bird_island.decompiled.lua').read_text())))
+page=[pg for pg in episode['additional_pages'] if pg['number']==38][0]
+assert len(order)==21 and page['levels']==order and page['bank']==34
+names=re.findall(r'L3_1 = "(\w+)"\nL4_1 = \{\}',bi);assert len(names)==17
+kinds={'wood':1,'light':2,'rock':5,'immovableFragile':9,'immovable':3,'piglette':4}
+for name in names:
+    d=_ad.definition(bi,name);spec=objs['objects'][name]
+    assert spec['sprite']==d['sprite'] and spec['shape']==d['type'] and spec['kind']==kinds.get(d['material'],6),name
+king=bi.split('L3_1 = "BeardedKingPiglette"',1)[1].split('L3_1 = "',1)[0]
+assert '"levelGoal"' in king and 'L5_1 = "ML_PIG_KING_01"\nL4_1.sprite = L5_1' in king and objs['objects']['BeardedKingPiglette']=={**objs['objects']['BeardedKingPiglette'],'kind':4,'sprite':'ML_PIG_KING_01','size':[5.65,5.65]}
+print("Bird Island OK: 21 stages in bank 34; 17 pieces match blocks.lua, the bearded king is a pig (kind 4) with its own sprite, not the score sprite.")
