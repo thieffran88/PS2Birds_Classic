@@ -124,6 +124,14 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **Gaiolas:** as peças `*_Cage` declaram `spawnNewBirdOnDestruction`; quebrar a gaiola põe o pássaro no fim da fila (`spawnBird` em `gamelogic.lua`). O `blocks.lua` usa duas formas de escrever esse campo, e as duas são lidas.
 - **Folha `INGAME_DINOS_DECOS_1`:** os quadros não declaram extrusão, mas a borda existe; a margem vem do cabeçalho do quadro.
 
+- **Levantamento do que ainda não está no port (pastas de fases do APK):**
+  - Ham 'Em High: 3 das 48 fases (usam `StaticBlockTheme16_*`, 4 peças).
+  - Flock Favorites: 30 fases, 24 peças (veículos de Bad Piggies: rodas, molduras, braço telescópico).
+  - Golden Eggs: 31 fases, 15 peças (`BP_BOUNCER`, `BP_SUCKER`, rodas).
+  - Tutorial: 15 fases, 5 peças.
+  - Mighty Feathers: 46 arquivos, 15 sem cenário (modo Egg Defender), 48 peças.
+  - Fora dos episódios: Mighty League (273 fases, 47 peças), siege (9), powerupSchool (5), eagleDemo (3), ugc (15), packTalkweb (15).
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -132,7 +140,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Modo Egg Defender (Mighty Feathers), efeitos dos frascos do Short Fuse; roteiros de 16-5, 16-6, Birdday 4-4, 6-1, 7-7, 7-14 e Surf and Turf 2-15, 3-5, 3-14 e Bad Piggies 2-7, 2-15, 3-5, 3-12 8 do Short Fuse e Bird Island 1-10, 1-15 e Piggy Farm 1-8.
+1. Flock Favorites, Golden Eggs e as 3 fases restantes do Ham 'Em High (poucas peças novas); modo Egg Defender (Mighty Feathers), efeitos dos frascos do Short Fuse; roteiros de 16-5, 16-6, Birdday 4-4, 6-1, 7-7, 7-14 e Surf and Turf 2-15, 3-5, 3-14 e Bad Piggies 2-7, 2-15, 3-5, 3-12 8 do Short Fuse e Bird Island 1-10, 1-15 e Piggy Farm 1-8.
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).
