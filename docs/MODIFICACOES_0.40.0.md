@@ -1,0 +1,29 @@
+# Modificações 0.40.0
+
+- **Episódio Dino (páginas 45 a 57, 46 fases)**
+  - Ordem do `episodes.lua` (Dino1_profcar a Dino3_uphilldino, sem a cena de abertura) e limites do `starLimits.lua`.
+  - O cenário do Dino ocupa muita memória de vídeo: cada página do jogo virou quatro ou cinco (2 a 4 fases por banco), bancos de textura 41 a 53; numeração 1-1 a 3-16.
+  - A campanha passa de 591 para 637 fases; 31 das 46 novas já têm roteiro vencedor. As outras 15 continuam na busca e entram fase por fase nas próximas versões.
+  - Ao carregar, nenhuma peça cai sozinha nas 46 fases.
+- **107 peças novas pela `tools/add_definitions.py --material-kinds`**
+  - Ossos, mandíbulas e crânios de dinossauro, máscaras e roupas tribais, frutas, palmeiras, plantas, ovos de dinossauro, pedras, colares e enfeites.
+  - Todas guardadas em meia resolução e desenhadas com escala 2.
+- **Gaiolas (novo no jogo)**
+  - As peças `*_Cage` declaram `spawnNewBirdOnDestruction`; quebrar a gaiola põe o pássaro preso no fim da fila, como o `spawnBird` do `gamelogic.lua`.
+  - Seis tipos: azul pequeno, amarelo, preto, BasicBird2, Terence e Stella. O `blocks.lua` escreve esse campo de duas formas, e as duas são lidas.
+  - O pássaro liberado é guardado nos bits altos das marcas do objeto no `CAMPAIGN.BIN` (formato 3, sem mudança de tamanho).
+  - Os sprites do pássaro liberado entram no banco da fase mesmo quando ele não está na fila inicial; os sprites das gaiolas só ficam nos bancos que as usam (os 41 bancos anteriores não mudaram).
+- **Correção no extrator de sprites**
+  - A folha `INGAME_DINOS_DECOS_1` não declara a extrusão dos quadros, mas guarda a borda; a margem agora vem do cabeçalho do quadro.
+- **Levantamento do que falta (`docs/LACUNAS_PORT.md`)**
+  - Ham 'Em High: 3 fases (4 peças); Flock Favorites: 30 fases (24 peças); Golden Eggs: 31 fases (15 peças); Tutorial: 15 fases (5 peças); Mighty Feathers: modo Egg Defender (48 peças).
+  - Fora dos episódios: Mighty League (273), siege, powerupSchool, eagleDemo, ugc, packTalkweb.
+- **Testes**
+  - `globe_test`: quebrar uma gaiola acrescenta o pássaro à fila; peças espelhadas procuradas em todas as fases.
+  - `profile_test`: Dino (ordem, 13 bancos, 107 peças, gaiolas e pássaros liberados no `CAMPAIGN.BIN`).
+  - `sprite_test`: 54 bancos, 685 quadros; gaiolas só nos bancos do Dino.
+  - `campaign_test`: 637 fases.
+  - Suíte com 65 verificações aprovadas.
+- **Versão, documentos e limpeza**
+  - Tela e log em 0.40.0; README com 637 fases e as gaiolas; captura do Dino 1-1; documentos e captura da 0.39.0 substituídos.
+  - Drive: zips da 0.38.0 e documentos da 0.39.0 removidos.

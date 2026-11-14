@@ -601,6 +601,52 @@ static const Stage stages[]={
  {"Farm3_scarecrows",425,8,209,5,{{40,100,0.8f},{10,80,1.6f},{0,50,1.6f},{70,90,2.3f}},4}, /* PIGGY FARM 3-13 */
  {"Farm3_pumpkinparty",335,9,143,4,{{10,80,1.2f},{60,100,2.0f}},2}, /* PIGGY FARM 3-14 */
  {"Farm3_tractorpulling",262,15,149,5,{{0,60,2.3f},{70,100,1.8f},{50,90,1.6f}},3}, /* PIGGY FARM 3-15 */
+ {"Dino1_profcar",400,8,198,4,{{20,100,1.0f},{70,100,1.2f},{40,100,2.3f},{50,100,0.6f}},4}, /* DINO 1-1 */
+ {"Dino1_profcamp",298,7,176,5,{{60,100,-1.0f},{30,70,2.6f}},2}, /* DINO 1-2 */
+ {"Dino1_tribalruins",289,9,158,4,{{50,80,-1.0f},{40,80,1.8f},{40,100,0.6f}},3}, /* DINO 1-3 */
+ {"Dino1_ruins",311,8,200,4,{{50,40,2.6f},{20,60,1.0f},{40,70,2.6f}},3}, /* DINO 1-4 */
+ {"Dino1_stonetemple",322,9,212,5,{{30,100,1.6f},{30,60,1.2f},{30,80,1.8f},{50,100,0.8f}},4}, /* DINO 1-5 */
+ {"Dino1_dinoeggs",439,10,309,4,{{60,90,2.6f},{40,100,2.3f},{20,80,0.6f}},3}, /* DINO 1-6 */
+ {"Dino1_canoe",363,11,254,5,{{30,70,0.6f},{20,100,0.6f},{30,100,-1.0f}},3}, /* DINO 1-7 */
+ {"Dino1_treasurehunt",379,8,152,5,{{30,100,0.8f},{30,100,2.6f},{40,100,2.0f}},3}, /* DINO 1-8 */
+ {"Dino1_bodyshop",347,11,225,4,{{50,100,1.2f},{50,80,2.0f},{30,100,1.0f}},3}, /* DINO 1-9 */
+ {"Dino1_tribalvillage",370,9,208,4,{{50,90,1.6f},{0,80,1.8f},{60,40,1.4f}},3}, /* DINO 1-10 */
+ {"Dino1_stonetrap",385,8,210,5,{{20,90,2.6f},{0,80,-1.0f},{40,100,1.2f}},3}, /* DINO 1-11 */
+ {"Dino1_carramp",363,13,197,4,{{0,0,-1.0f}},0}, /* DINO 1-12 (sem roteiro vencedor) */
+ {"Dino1_stoneshop",336,8,245,5,{{40,100,2.3f},{20,60,0.8f}},2}, /* DINO 1-13 */
+ {"Dino1_juhotraps",337,9,181,6,{{20,90,2.0f},{40,60,2.0f},{40,100,2.3f}},3}, /* DINO 1-14 */
+ {"Dino1_bigdino",428,11,234,5,{{20,100,0.8f},{30,80,0.6f}},2}, /* DINO 1-15 */
+ {"Dino2_eggstore",289,5,124,4,{{30,90,0.8f},{40,100,1.6f}},2}, /* DINO 2-1 */
+ {"Dino2_wateringhole",428,9,315,4,{{20,80,1.0f},{40,100,2.0f},{50,50,-1.0f},{30,80,0.6f}},4}, /* DINO 2-2 */
+ {"Dino2_raptortrap",265,5,176,3,{{0,80,0.8f},{60,90,1.0f}},2}, /* DINO 2-3 */
+ {"Dino2_nettrap",248,5,184,4,{{60,100,1.6f}},1}, /* DINO 2-4 */
+ {"Dino2_babydinos",387,7,251,4,{{50,100,1.2f},{50,100,2.0f},{30,100,2.3f},{60,100,1.6f}},4}, /* DINO 2-5 */
+ {"Dino2_stegosaurus",351,7,236,3,{{20,90,1.2f},{50,100,1.4f},{-10,80,0.6f}},3}, /* DINO 2-6 */
+ {"Dino2_dinoriders",332,6,180,4,{{40,80,0.6f},{40,100,-1.0f},{40,80,1.6f}},3}, /* DINO 2-7 */
+ {"Dino2_poopsaurus",301,7,179,4,{{20,90,0.6f}},1}, /* DINO 2-8 */
+ {"Dino2_apatosaurusride",289,8,179,3,{{0,0,-1.0f}},0}, /* DINO 2-9 (sem roteiro vencedor) */
+ {"Dino2_trex",382,11,223,4,{{60,90,1.0f}},1}, /* DINO 2-10 */
+ {"Dino2_tribeswar",280,11,214,5,{{30,70,1.0f},{40,100,2.0f}},2}, /* DINO 2-11 */
+ {"Dino2_pineapple",265,5,179,6,{{30,100,-1.0f},{0,90,0.8f}},2}, /* DINO 2-12 */
+ {"Dino2_monsterflowers",356,6,227,3,{{0,0,-1.0f}},0}, /* DINO 2-13 (sem roteiro vencedor) */
+ {"Dino2_giantmoth",149,1,94,4,{{0,50,2.6f}},1}, /* DINO 2-14 */
+ {"Dino2_dinoskull",307,7,202,3,{{0,0,-1.0f}},0}, /* DINO 2-15 (sem roteiro vencedor) */
+ {"Dino3_tntblues",173,3,73,3,{{30,100,0.6f}},1}, /* DINO 3-1 */
+ {"Dino3_chainstella",197,5,60,4,{{0,0,-1.0f}},0}, /* DINO 3-2 (sem roteiro vencedor) */
+ {"Dino3_tntbomb",212,4,122,3,{{20,100,1.6f}},1}, /* DINO 3-3 */
+ {"Dino3_matildaarches",202,4,106,3,{{0,0,-1.0f}},0}, /* DINO 3-4 (sem roteiro vencedor) */
+ {"Dino3_tntstella",251,6,84,3,{{60,80,-1.0f}},1}, /* DINO 3-5 */
+ {"Dino3_flyingskeletons",223,6,131,3,{{0,0,-1.0f}},0}, /* DINO 3-6 (sem roteiro vencedor) */
+ {"Dino3_eyeseeyou",508,6,202,3,{{0,0,-1.0f}},0}, /* DINO 3-7 (sem roteiro vencedor) */
+ {"Dino3_dragonworms",339,9,194,3,{{0,0,-1.0f}},0}, /* DINO 3-8 (sem roteiro vencedor) */
+ {"Dino3_rollit",367,8,146,4,{{20,70,1.0f},{70,100,1.2f},{30,100,1.0f},{60,100,2.0f}},4}, /* DINO 3-9 */
+ {"Dino3_skullreturns",393,5,199,3,{{0,0,-1.0f}},0}, /* DINO 3-10 (sem roteiro vencedor) */
+ {"Dino3_crabattack",417,6,218,4,{{0,0,-1.0f}},0}, /* DINO 3-11 (sem roteiro vencedor) */
+ {"Dino3_eyescollection",384,8,242,3,{{0,0,-1.0f}},0}, /* DINO 3-12 (sem roteiro vencedor) */
+ {"Dino3_flyingcatch",446,6,155,3,{{60,100,1.6f},{60,100,-1.0f}},2}, /* DINO 3-13 */
+ {"Dino3_nomercy",370,7,169,4,{{0,0,-1.0f}},0}, /* DINO 3-14 (sem roteiro vencedor) */
+ {"Dino3_tongueattack",313,10,151,4,{{0,0,-1.0f}},0}, /* DINO 3-15 (sem roteiro vencedor) */
+ {"Dino3_uphilldino",398,8,246,4,{{0,0,-1.0f}},0}, /* DINO 3-16 (sem roteiro vencedor) */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -621,7 +667,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==591 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==637 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));
@@ -722,7 +768,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==27);
+    assert(unverified==42);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");
