@@ -8,7 +8,7 @@ typedef struct {float angle,power,special;} Shot;
 /* One expected scene per campaign position, in the order declared by the recovered
    episodes.lua. Shot scripts were found by the host solver; the same shot is repeated
    for every bird unless several shots are listed. */
-typedef struct {const char *script;int objects,pigs,blocks,birds;Shot shots[5];int shot_count;} Stage;
+typedef struct {const char *script;int objects,pigs,blocks,birds;Shot shots[8];int shot_count;} Stage;
 static const Stage stages[]={
  {"Level1",19,1,14,3,{{-10,54,-1.0f}},1}, /* POACHED EGGS 1-1 */
  {"Level57",27,4,8,5,{{-5,94,-1.0f}},1}, /* POACHED EGGS 1-2 */
@@ -556,6 +556,51 @@ static const Stage stages[]={
  {"Level238_Movie",296,12,128,4,{{30,100,2.0f}},1}, /* BIRD ISLAND 1-19 */
  {"Level243_Movie",228,8,81,4,{{30,80,0.6f},{30,90,2.0f}},2}, /* BIRD ISLAND 1-20 */
  {"Level253_t_Movie",386,6,235,4,{{60,100,1.8f},{80,100,0.8f},{70,100,-1.0f}},3}, /* BIRD ISLAND 1-21 */
+ {"Farm1_Level107",171,10,65,3,{{30,90,1.8f},{60,100,1.0f}},2}, /* PIGGY FARM 1-1 */
+ {"Farm1_Level109",178,6,64,4,{{20,90,1.4f},{0,60,1.8f}},2}, /* PIGGY FARM 1-2 */
+ {"Farm1_Level106",146,8,55,5,{{30,90,-1.0f},{30,100,0.6f},{20,90,0.6f}},3}, /* PIGGY FARM 1-3 */
+ {"Farm1_Level108",126,8,66,4,{{40,70,-1.0f},{50,100,2.3f}},2}, /* PIGGY FARM 1-4 */
+ {"Farm1_Level112",146,10,79,3,{{60,80,-1.0f},{30,90,1.0f}},2}, /* PIGGY FARM 1-5 */
+ {"Farm1_Level116",155,8,89,4,{{70,90,-1.0f},{30,60,-1.0f},{50,100,2.0f}},3}, /* PIGGY FARM 1-6 */
+ {"Farm1_Level110",224,8,95,3,{{40,100,1.4f},{40,90,2.6f},{40,50,0.6f}},3}, /* PIGGY FARM 1-7 */
+ {"Farm1_Level118",199,10,88,5,{{0,0,-1.0f}},0}, /* PIGGY FARM 1-8 (sem roteiro vencedor) */
+ {"Farm1_Level113",168,7,74,4,{{0,100,0.8f}},1}, /* PIGGY FARM 1-9 */
+ {"Farm1_Level117",182,8,118,3,{{50,70,2.3f}},1}, /* PIGGY FARM 1-10 */
+ {"Farm1_Level119",211,7,79,5,{{20,50,0.8f},{60,100,-1.0f}},2}, /* PIGGY FARM 1-11 */
+ {"Farm1_Level115",273,7,121,4,{{40,100,0.8f},{20,80,1.4f}},2}, /* PIGGY FARM 1-12 */
+ {"Farm1_Level114",139,6,73,5,{{50,90,-1.0f},{60,100,0.6f},{20,100,0.6f}},3}, /* PIGGY FARM 1-13 */
+ {"Farm1_Level111",202,8,107,4,{{70,70,1.6f},{10,70,2.6f},{40,80,2.6f},{20,90,1.2f}},4}, /* PIGGY FARM 1-14 */
+ {"Farm1_Level120",222,8,57,4,{{40,100,1.8f},{40,100,0.8f},{50,90,1.8f}},3}, /* PIGGY FARM 1-15 */
+ {"Farm2_barnyard",243,7,106,4,{{50,80,0.6f}},1}, /* PIGGY FARM 2-1 */
+ {"Farm2_tractorarches",293,8,121,5,{{50,80,-1.0f},{20,90,1.6f},{50,100,1.6f},{0,100,2.3f},{40,90,2.0f}},5}, /* PIGGY FARM 2-2 */
+ {"Farm2_barns",240,6,119,4,{{20,70,1.6f},{70,100,1.8f},{70,80,2.6f}},3}, /* PIGGY FARM 2-3 */
+ {"Farm2_apples",191,7,91,4,{{40,100,1.2f},{70,90,1.4f}},2}, /* PIGGY FARM 2-4 */
+ {"Farm2_scarecrows",332,9,158,5,{{50,100,-1.0f},{80,100,-1.0f}},2}, /* PIGGY FARM 2-5 */
+ {"Farm2_construction",313,10,129,5,{{70,100,2.3f},{60,80,0.8f},{20,90,1.8f}},3}, /* PIGGY FARM 2-6 */
+ {"Farm2_floatingbarn",320,10,149,5,{{60,90,-1.0f},{30,60,1.0f}},2}, /* PIGGY FARM 2-7 */
+ {"Farm2_eastercows",201,12,108,4,{{30,50,0.8f},{0,70,1.0f},{40,90,-1.0f},{40,80,0.6f}},4}, /* PIGGY FARM 2-8 */
+ {"Farm2_towers",288,9,152,5,{{30,80,0.8f},{30,80,1.6f},{50,90,-1.0f},{20,100,-1.0f}},4}, /* PIGGY FARM 2-9 */
+ {"Farm2_pooptube",308,9,119,5,{{40,70,1.4f},{20,70,1.2f},{30,90,1.8f},{30,90,0.6f}},4}, /* PIGGY FARM 2-10 */
+ {"Farm2_repairshop",229,8,79,5,{{70,100,2.0f},{70,90,2.3f}},2}, /* PIGGY FARM 2-11 */
+ {"Farm2_rotors",247,12,107,5,{{40,80,0.6f},{40,100,1.8f},{50,80,2.0f},{-10,100,1.0f},{50,100,2.0f}},5}, /* PIGGY FARM 2-12 */
+ {"Farm2_arches",294,10,105,7,{{20,100,0.6f},{70,100,-1.0f},{50,70,-1.0f},{30,100,-1.0f},{60,100,2.6f},{20,90,1.2f}},6}, /* PIGGY FARM 2-13 */
+ {"Farm2_mirrorworld",274,10,142,5,{{60,90,2.3f},{50,100,-1.0f},{40,100,1.6f},{60,100,1.6f}},4}, /* PIGGY FARM 2-14 */
+ {"Farm2_balloons",299,8,154,5,{{70,70,-1.0f},{70,100,2.3f}},2}, /* PIGGY FARM 2-15 */
+ {"Farm3_harvestbarn",205,7,119,4,{{60,80,-1.0f},{60,90,0.6f},{20,70,1.6f}},3}, /* PIGGY FARM 3-1 */
+ {"Farm3_solarpanels",302,9,220,5,{{50,90,2.6f},{60,80,1.6f},{30,100,2.6f},{30,100,-1.0f}},4}, /* PIGGY FARM 3-2 */
+ {"Farm3_henhouse",310,9,165,4,{{10,80,0.8f}},1}, /* PIGGY FARM 3-3 */
+ {"Farm3_woodhouses",248,9,143,4,{{-10,80,2.3f},{40,100,1.6f}},2}, /* PIGGY FARM 3-4 */
+ {"Farm3_honeycomb",409,10,234,5,{{20,70,0.8f},{50,80,2.0f},{50,100,1.0f}},3}, /* PIGGY FARM 3-5 */
+ {"Farm3_greenhouse",214,6,131,5,{{40,100,0.8f},{70,80,1.8f}},2}, /* PIGGY FARM 3-6 */
+ {"Farm3_lawnmowers",251,7,142,5,{{40,90,1.2f},{40,50,2.6f},{50,100,1.8f}},3}, /* PIGGY FARM 3-7 */
+ {"Farm3_milking",315,8,162,4,{{60,90,2.0f},{40,100,2.6f},{60,60,-1.0f}},3}, /* PIGGY FARM 3-8 */
+ {"Farm3_wheelshop",304,8,202,4,{{30,80,2.3f},{70,100,1.6f}},2}, /* PIGGY FARM 3-9 */
+ {"Farm3_vegetables",370,9,216,5,{{50,60,2.3f},{50,100,1.2f},{50,80,2.0f},{0,100,0.8f}},4}, /* PIGGY FARM 3-10 */
+ {"Farm3_pinetrees",284,8,196,6,{{50,90,2.3f},{40,80,2.6f},{50,100,2.0f},{50,100,-1.0f},{70,90,0.8f},{50,100,-1.0f}},6}, /* PIGGY FARM 3-11 */
+ {"Farm3_poppyfactory",300,10,172,4,{{60,90,1.0f},{30,80,0.8f}},2}, /* PIGGY FARM 3-12 */
+ {"Farm3_scarecrows",425,8,209,5,{{40,100,0.8f},{10,80,1.6f},{0,50,1.6f},{70,90,2.3f}},4}, /* PIGGY FARM 3-13 */
+ {"Farm3_pumpkinparty",335,9,143,4,{{10,80,1.2f},{60,100,2.0f}},2}, /* PIGGY FARM 3-14 */
+ {"Farm3_tractorpulling",262,15,149,5,{{0,60,2.3f},{70,100,1.8f},{50,90,1.6f}},3}, /* PIGGY FARM 3-15 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -677,7 +722,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==26);
+    assert(unverified==27);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");

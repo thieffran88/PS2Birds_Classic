@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.38.0)
+# Lacunas do port (levantamento atualizado na 0.39.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -126,7 +126,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Episódios seguintes (Piggy Farm, Dino), modo Egg Defender (Mighty Feathers), efeitos dos frascos do Short Fuse; roteiros de 16-5, 16-6, Birdday 4-4, 6-1, 7-7, 7-14 e Surf and Turf 2-15, 3-5, 3-14 e Bad Piggies 2-7, 2-15, 3-5, 3-12 8 do Short Fuse e Bird Island 1-10, 1-15.
+1. Episódio Dino (o maior: até 512 peças e 434 juntas por fase), modo Egg Defender (Mighty Feathers), efeitos dos frascos do Short Fuse; roteiros de 16-5, 16-6, Birdday 4-4, 6-1, 7-7, 7-14 e Surf and Turf 2-15, 3-5, 3-14 e Bad Piggies 2-7, 2-15, 3-5, 3-12 8 do Short Fuse e Bird Island 1-10, 1-15 e Piggy Farm 1-8.
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).
