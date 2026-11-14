@@ -445,6 +445,51 @@ static const Stage stages[]={
  {"LevelS043",180,6,122,4,{{40,100,1.6f},{10,80,0.8f},{40,100,2.3f}},3}, /* SURF AND TURF 3-13 */
  {"LevelS044",199,9,116,4,{{0,0,-1.0f}},0}, /* SURF AND TURF 3-14 (sem roteiro vencedor) */
  {"LevelS045",155,9,90,4,{{50,100,0.8f},{50,100,1.4f}},2}, /* SURF AND TURF 3-15 */
+ {"Level743",149,7,88,3,{{40,100,1.4f},{20,90,1.0f}},2}, /* BAD PIGGIES 1-1 */
+ {"Level744",105,6,69,3,{{10,100,1.0f},{0,100,1.8f}},2}, /* BAD PIGGIES 1-2 */
+ {"Level745",294,10,73,4,{{20,80,2.6f},{20,100,1.6f},{20,100,2.3f}},3}, /* BAD PIGGIES 1-3 */
+ {"Level746",109,7,63,4,{{40,70,0.6f},{60,100,-1.0f}},2}, /* BAD PIGGIES 1-4 */
+ {"Level747",160,9,80,4,{{20,70,0.6f},{20,80,1.8f}},2}, /* BAD PIGGIES 1-5 */
+ {"Level748",203,7,76,3,{{50,90,1.6f}},1}, /* BAD PIGGIES 1-6 */
+ {"Level749",191,10,145,4,{{70,80,2.3f},{60,90,2.0f}},2}, /* BAD PIGGIES 1-7 */
+ {"Level750",208,12,61,3,{{10,100,1.6f}},1}, /* BAD PIGGIES 1-8 */
+ {"Level751",181,7,147,4,{{20,80,0.8f},{60,90,1.6f},{40,100,2.6f}},3}, /* BAD PIGGIES 1-9 */
+ {"Level764",110,7,72,4,{{20,100,-1.0f},{20,100,1.6f}},2}, /* BAD PIGGIES 1-10 */
+ {"Level765",152,6,49,4,{{10,90,1.2f},{10,90,2.3f}},2}, /* BAD PIGGIES 1-11 */
+ {"Level766",87,6,52,4,{{20,100,0.8f},{30,100,2.3f}},2}, /* BAD PIGGIES 1-12 */
+ {"Level767",78,8,57,3,{{30,80,0.6f}},1}, /* BAD PIGGIES 1-13 */
+ {"Level768",91,10,68,3,{{40,90,-1.0f},{20,100,1.0f}},2}, /* BAD PIGGIES 1-14 */
+ {"Level769",96,8,73,4,{{40,70,1.2f},{20,100,1.4f}},2}, /* BAD PIGGIES 1-15 */
+ {"Level956",115,6,82,4,{{40,90,2.0f},{30,100,1.0f},{50,100,-1.0f}},3}, /* BAD PIGGIES 2-1 */
+ {"Level951",143,7,83,4,{{40,80,2.6f},{50,40,1.6f}},2}, /* BAD PIGGIES 2-2 */
+ {"Level970",140,11,93,3,{{50,70,-1.0f},{-10,80,1.2f}},2}, /* BAD PIGGIES 2-3 */
+ {"Level949",140,7,62,4,{{20,90,1.0f},{40,90,2.3f}},2}, /* BAD PIGGIES 2-4 */
+ {"Level952",132,6,65,4,{{70,100,2.6f},{60,90,2.0f},{20,100,1.8f}},3}, /* BAD PIGGIES 2-5 */
+ {"Level967",120,5,66,4,{{50,100,1.6f}},1}, /* BAD PIGGIES 2-6 */
+ {"Level968",122,7,75,4,{{0,0,-1.0f}},0}, /* BAD PIGGIES 2-7 (sem roteiro vencedor) */
+ {"Level969",110,9,72,4,{{40,90,1.4f},{50,80,1.8f}},2}, /* BAD PIGGIES 2-8 */
+ {"Level971",125,9,94,3,{{10,100,1.6f},{40,90,2.6f},{20,100,2.3f}},3}, /* BAD PIGGIES 2-9 */
+ {"Level950",132,6,70,4,{{20,100,2.3f},{30,100,2.3f}},2}, /* BAD PIGGIES 2-10 */
+ {"Level972",101,8,59,4,{{40,40,1.6f}},1}, /* BAD PIGGIES 2-11 */
+ {"Level953",122,8,74,4,{{70,100,0.6f},{0,100,-1.0f}},2}, /* BAD PIGGIES 2-12 */
+ {"Level948",133,7,80,4,{{20,100,0.6f},{20,80,1.0f}},2}, /* BAD PIGGIES 2-13 */
+ {"Level955",138,10,93,4,{{20,100,1.0f},{20,100,1.2f}},2}, /* BAD PIGGIES 2-14 */
+ {"Level973",147,11,97,4,{{0,0,-1.0f}},0}, /* BAD PIGGIES 2-15 (sem roteiro vencedor) */
+ {"Level1245",173,9,70,4,{{40,60,2.3f},{20,80,1.4f},{40,100,1.8f}},3}, /* BAD PIGGIES 3-1 */
+ {"Level1080",102,6,61,4,{{30,100,0.6f},{20,100,1.4f}},2}, /* BAD PIGGIES 3-2 */
+ {"Level1082",90,12,51,4,{{40,80,2.3f},{30,100,2.0f},{50,90,-1.0f}},3}, /* BAD PIGGIES 3-3 */
+ {"Level1241",140,7,67,4,{{30,80,0.8f},{60,70,1.4f}},2}, /* BAD PIGGIES 3-4 */
+ {"Level1079",122,8,60,4,{{0,0,-1.0f}},0}, /* BAD PIGGIES 3-5 (sem roteiro vencedor) */
+ {"Level1240",122,8,57,4,{{30,100,-1.0f},{0,100,1.8f}},2}, /* BAD PIGGIES 3-6 */
+ {"Level1242",95,6,49,4,{{60,70,1.2f},{40,50,1.4f}},2}, /* BAD PIGGIES 3-7 */
+ {"Level1244",139,5,57,4,{{50,100,-1.0f},{60,80,-1.0f},{30,100,2.6f}},3}, /* BAD PIGGIES 3-8 */
+ {"Level1246",144,6,58,4,{{60,100,0.6f},{60,90,1.4f}},2}, /* BAD PIGGIES 3-9 */
+ {"Level1247",143,8,49,4,{{30,60,1.6f},{30,90,2.6f}},2}, /* BAD PIGGIES 3-10 */
+ {"Level1081",96,9,49,4,{{30,80,0.6f},{60,80,1.0f}},2}, /* BAD PIGGIES 3-11 */
+ {"Level1083",98,7,70,5,{{0,0,-1.0f}},0}, /* BAD PIGGIES 3-12 (sem roteiro vencedor) */
+ {"Level1243",144,7,61,4,{{40,80,1.8f},{40,90,-1.0f}},2}, /* BAD PIGGIES 3-13 */
+ {"Level1085",93,12,64,4,{{30,100,1.8f},{-10,50,2.3f},{20,100,2.3f}},3}, /* BAD PIGGIES 3-14 */
+ {"Level1084",102,12,79,4,{{40,80,0.6f},{50,100,2.0f}},2}, /* BAD PIGGIES 3-15 */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -563,7 +608,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==12);
+    assert(unverified==16);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");
