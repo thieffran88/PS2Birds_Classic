@@ -73,5 +73,9 @@ int main(){
  update(&g,60);assert(game_get_blast(&g,&wave) && wave.radius>0 && wave.radius<15*g.view_scale);
  float r1=wave.radius;update(&g,60);assert(game_get_blast(&g,&wave) && wave.radius>r1);
  update(&g,600);assert(g.pig_alive<=pigs_before);
+ // Mirrored pieces (negative scaleX/scaleY in the level, Piggy Farm) carry the flip to the renderer.
+ int mirrored=0;
+ for(int lv=game_level_count()-45;lv<game_level_count() && !mirrored;lv++){assert(game_load_level(&g,lv));for(int k=0;k<game_object_count(&g);k++){GameObject o;game_get_object(&g,k,&o);if(o.mirror){assert(o.width>0 && o.height>0);mirrored++;}}}
+ assert(mirrored>0);
  printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
 }

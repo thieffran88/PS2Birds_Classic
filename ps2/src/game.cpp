@@ -164,13 +164,14 @@ struct Physics: b2ContactListener {
             else if(o.shape==SHAPE_TRIANGLE_L || o.shape==SHAPE_TRIANGLE_M){
                 const float apex=o.shape==SHAPE_TRIANGLE_L?0.0f:0.5f;
                 b2Vec2 v[3]={b2Vec2((apex-0.5f)*o.width,-0.5f*o.height),b2Vec2(0.5f*o.width,0.5f*o.height),b2Vec2(-0.5f*o.width,0.5f*o.height)};
+                for(int k=0;k<3;k++){if(o.flags&OBJECT_MIRROR_X)v[k].x=-v[k].x;if(o.flags&OBJECT_MIRROR_Y)v[k].y=-v[k].y;}
                 box.Set(v,3);fixture.shape=&box;
             }
             else if(o.shape==SHAPE_POLYGON){
                 /* ObjectCreation.lua: vertex = (x*width - width/2, y*height - height/2). */
                 const CampaignPolygon *poly=NULL;
                 for(const CampaignPolygon *p=campaign_polygons;p->definition;p++)if(!strcmp(p->definition,o.definition)){poly=p;break;}
-                if(poly){b2Vec2 v[8];for(int k=0;k<poly->count && k<8;k++)v[k].Set(poly->v[2*k]*o.width-o.width/2,poly->v[2*k+1]*o.height-o.height/2);box.Set(v,poly->count);}
+                if(poly){b2Vec2 v[8];for(int k=0;k<poly->count && k<8;k++){v[k].Set(poly->v[2*k]*o.width-o.width/2,poly->v[2*k+1]*o.height-o.height/2);if(o.flags&OBJECT_MIRROR_X)v[k].x=-v[k].x;if(o.flags&OBJECT_MIRROR_Y)v[k].y=-v[k].y;}box.Set(v,poly->count);}
                 else box.SetAsBox(o.width/2,o.height/2);
                 fixture.shape=&box;
             }
@@ -667,7 +668,7 @@ int game_get_object(const Game *g,int index,GameObject *out) {
     const Physics *p=static_cast<const Physics*>(g->physics);
     if(index<0 || index>=p->level->count || !out)return 0;
     const CampaignObject &o=p->level->objects[index];
-    b2Body *body=p->bodies[index];memset(out,0,sizeof(*out));out->alive=body!=NULL;out->kind=o.kind;out->definition=o.definition;
+    b2Body *body=p->bodies[index];memset(out,0,sizeof(*out));out->alive=body!=NULL;out->kind=o.kind;out->definition=o.definition;out->mirror=o.flags&(OBJECT_MIRROR_X|OBJECT_MIRROR_Y);
     out->width=o.width*g->view_scale;out->height=o.height*g->view_scale;out->health=p->health[index]/o.strength;
     if(body){out->x=g->view_x+body->GetPosition().x*g->view_scale;out->y=g->view_y+body->GetPosition().y*g->view_scale;out->angle=body->GetAngle();}
     return 1;

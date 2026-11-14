@@ -177,7 +177,7 @@ for path in sorted(glob.glob(str(root/'ps2/data/level_*_*.json'))):
         if 'sprite' in spec:
             factor=1.0 if o['density']==0 else 0.92
             w,h=(spec['size'][0],spec['size'][1]) if 'size' in spec else (metrics[spec['sprite']]['width']/20*factor,metrics[spec['sprite']]['height']/20*factor)
-            assert abs(o['width']-w*(o.get('scaleX') or 1))<1e-9 and abs(o['height']-h*(o.get('scaleY') or 1))<1e-9
+            assert abs(o['width']-w*abs(o.get('scaleX') or 1))<1e-9 and abs(o['height']-h*abs(o.get('scaleY') or 1))<1e-9
         m=adapter['materials']['by_kind'][str(o['kind'])]
         assert o['restitution']==adapter['materials'].get('restitution_overrides',{}).get(o['definition'],m['restitution']) and o['friction']==adapter['materials']['friction_overrides'].get(o['definition'],m['friction'])
 assert adapter['materials']['by_kind']['1']['friction']==4.0 and adapter['materials']['by_kind']['5']['restitution']==0.1
@@ -506,3 +506,21 @@ for name in names:
 king=bi.split('L3_1 = "BeardedKingPiglette"',1)[1].split('L3_1 = "',1)[0]
 assert '"levelGoal"' in king and 'L5_1 = "ML_PIG_KING_01"\nL4_1.sprite = L5_1' in king and objs['objects']['BeardedKingPiglette']=={**objs['objects']['BeardedKingPiglette'],'kind':4,'sprite':'ML_PIG_KING_01','size':[5.65,5.65]}
 print("Bird Island OK: 21 stages in bank 34; 17 pieces match blocks.lua, the bearded king is a pig (kind 4) with its own sprite, not the score sprite.")
+
+# Piggy Farm (pages 39-44, banks 35-40): 45 stages, 73 pieces; decoration_new pieces have no collider;
+# negative scaleX/scaleY in the levels mirror the piece.
+pf=(root/'ps2/data/piggy_farm_definitions_excerpt.lua').read_text()
+order=sum((list(dict.fromkeys(re.findall(r'"(Farm\d_\w+)"',(root/f'ps2/data/episode_piggy_farm_page{k}.decompiled.lua').read_text()))) for k in (1,2,3)),[])
+order=[n for n in order if 'cutscene' not in n]
+pages=[pg for pg in episode['additional_pages'] if pg.get('folder')=='/levels/21_PiggyFarm']
+assert len(order)==45 and sum((pg['levels'] for pg in pages),[])==order and [pg['bank'] for pg in pages]==list(range(35,41))
+names=re.findall(r'L3_1 = "(\w+)"\nL4_1 = \{\}',pf);assert len(names)==73
+for name in names:
+    d=_ad.definition(pf,name);spec=objs['objects'][name]
+    nocol=_ad.material_has_no_collider(pf,d['material'])
+    assert spec['sprite']==d['sprite'] and spec['shape']==d['type'] and spec.get('half_resolution'),name
+    assert spec['kind']==(3 if nocol else {'wood':1,'light':2,'rock':5}.get(d['material'],6)) and bool(spec.get('no_collision'))==(nocol or bool(d['props'].get('no_collision'))),name
+assert 'L4_1 = L4_1.none\nL3_1.collider = L4_1' in pf and objs['objects']['DecorationFarmDecoHay1']['no_collision']
+camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN');mirrored=[o for o in camp['objects'] if o['mirror']]
+assert len(mirrored)>=70 and all(o['mirror'] in (2,4,6) for o in mirrored)
+print(f"Piggy Farm OK: 45 stages in banks 35-40; 73 pieces match blocks.lua (decoration_new without collider); {len(mirrored)} mirrored pieces.")

@@ -3660,6 +3660,756 @@
       "shape": "box",
       "auto": true,
       "no_collision": true
+    },
+    "BP_BIG_ENGINE": {
+      "sprite": "BP_BIG_ENGINE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        4.0,
+        4.0
+      ],
+      "half_resolution": true
+    },
+    "BP_BIG_LANDING_WHEEL": {
+      "sprite": "BP_BIG_LANDING_WHEEL",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.5,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "BP_CANNON_BALL": {
+      "sprite": "BLOCK_APPLE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BP_GOLDEN_BALLOON": {
+      "sprite": "GOLDEN_BALLON",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        4.8,
+        4.8
+      ],
+      "force": [
+        0.0,
+        -61.0
+      ],
+      "half_resolution": true
+    },
+    "BP_METAL_TAIL": {
+      "sprite": "BP_METAL_TAIL",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.9,
+          0.1
+        ],
+        [
+          0.9,
+          0.8
+        ],
+        [
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.5
+        ]
+      ],
+      "half_resolution": true
+    },
+    "BP_METAL_WING": {
+      "sprite": "BP_METAL_WING",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BP_ROPE": {
+      "sprite": "BP_ROPE",
+      "kind": 5,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BP_ROPE_RUBBER": {
+      "sprite": "RUBBER_ROPE",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BP_SMALL_ENGINE": {
+      "sprite": "BP_SMALL_ENGINE",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BP_THREE_SAND_BAGS": {
+      "sprite": "BP_THREE_SAND_BAGS",
+      "kind": 5,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BP_UMBRELLA_2": {
+      "sprite": "BP_UMBRELLA_2",
+      "kind": 1,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.5,
+          0.0
+        ],
+        [
+          1.0,
+          0.8
+        ],
+        [
+          0.0,
+          0.8
+        ]
+      ],
+      "half_resolution": true
+    },
+    "BP_UMBRELLA_HOLDER": {
+      "sprite": "BP_UMBRELLA_HOLDER",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BP_WOODEN_TAIL": {
+      "sprite": "BP_WOODEN_TAIL",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.9,
+          0.1
+        ],
+        [
+          0.9,
+          0.8
+        ],
+        [
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.5
+        ]
+      ],
+      "half_resolution": true
+    },
+    "CHAIN_INDESTRUCTIBLE": {
+      "sprite": "FARM_CHAIN_PIECE_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "COG_OFF": {
+      "sprite": "COG_OFF",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "DecorationFarmDecoCabbage": {
+      "sprite": "FARM_DECO_CABBAGE",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationFarmDecoCastshadow": {
+      "sprite": "FARM_DECO_CASTSHADOW",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationFarmDecoGrass1": {
+      "sprite": "FARM_DECO_GRASS_1",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationFarmDecoGrass2": {
+      "sprite": "FARM_DECO_GRASS_2",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationFarmDecoGrass3": {
+      "sprite": "FARM_DECO_GRASS_3",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationFarmDecoGrass4": {
+      "sprite": "FARM_DECO_GRASS_4",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationFarmDecoGrass5": {
+      "sprite": "FARM_DECO_GRASS_5",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationFarmDecoGrasspatch": {
+      "sprite": "FARM_DECO_GRASSPATCH",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationFarmDecoHay1": {
+      "sprite": "FARM_DECO_HAY_1",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationFarmDecoHay2": {
+      "sprite": "FARM_DECO_HAY_2",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationFarmDecoWheat": {
+      "sprite": "FARM_DECO_WHEAT",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "EASTER_BUNNYEAR1": {
+      "sprite": "EASTER_BUNNYEAR_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "EASTER_BUNNYEAR2": {
+      "sprite": "EASTER_BUNNYEAR_2",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "EASTER_BUNNYHAT1": {
+      "sprite": "EASTER_BUNNYHAT_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ],
+      "half_resolution": true
+    },
+    "EASTER_BUNNYHAT2": {
+      "sprite": "EASTER_BUNNYHAT_2",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ],
+      "half_resolution": true
+    },
+    "EASTER_BUNNYHAT3": {
+      "sprite": "EASTER_BUNNYHAT_3",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ],
+      "half_resolution": true
+    },
+    "EASTER_BUNNYNOSE1": {
+      "sprite": "EASTER_BUNNYNOSE_1",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "EASTER_BUNNYNOSE2": {
+      "sprite": "EASTER_BUNNYNOSE_2",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "EASTER_EGG1": {
+      "sprite": "EASTER_EGG_1",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "EASTER_EGG2": {
+      "sprite": "EASTER_EGG_2",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "EASTER_EGG3": {
+      "sprite": "EASTER_EGG_3",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "ExtraRubberBall": {
+      "sprite": "BLOCK_BEACHBALL",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "FLOWER1": {
+      "sprite": "B_FLOWER_1",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.6,
+        2.6
+      ],
+      "half_resolution": true
+    },
+    "FLOWER4": {
+      "sprite": "B_FLOWER_4",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.8,
+        2.8
+      ],
+      "half_resolution": true
+    },
+    "FLOWER5": {
+      "sprite": "B_FLOWER_5",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.2,
+        2.2
+      ],
+      "half_resolution": true
+    },
+    "FLOWER7": {
+      "sprite": "B_FLOWER_7",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        3.0,
+        3.0
+      ],
+      "half_resolution": true
+    },
+    "Farm_ArrowBlock": {
+      "sprite": "FARM_ARROWBLOCK",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Farm_CactusArm": {
+      "sprite": "FARM_CACTUS_ARM_2",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Farm_CampStovePipe": {
+      "sprite": "FARM_CAMPSTOVEPIPE",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.1
+        ],
+        [
+          1.0,
+          0.1
+        ],
+        [
+          0.85,
+          0.9
+        ],
+        [
+          0.15,
+          0.9
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Farm_CampStovePipeHat": {
+      "sprite": "FARM_CAMPSTOVEPIPEHAT",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.5,
+          0.05
+        ],
+        [
+          1.0,
+          0.95
+        ],
+        [
+          0.0,
+          0.95
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Farm_Campstove": {
+      "sprite": "FARM_CAMPSTOVE",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Farm_Cartwheel": {
+      "sprite": "FARM_CARTWHEEL",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Farm_CowsuitHead": {
+      "sprite": "FARM_COWSUITHEAD",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Farm_CowsuitTorso": {
+      "sprite": "FARM_COWSUITTORSO",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Farm_FoodBasket": {
+      "sprite": "FARM_FOOD_BASKET_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        4.4,
+        2.0
+      ],
+      "half_resolution": true
+    },
+    "Farm_HayRoll": {
+      "sprite": "FARM_HAYROLL",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        4.8,
+        4.8
+      ],
+      "half_resolution": true
+    },
+    "Farm_PrairieGrass": {
+      "sprite": "FARM_PRAIRIE_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.5,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "Farm_SmoothTire": {
+      "sprite": "FARM_TIRE_1",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Farm_Snout": {
+      "sprite": "FARM_SNOUT",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ],
+      "half_resolution": true
+    },
+    "Farm_TractorTire": {
+      "sprite": "FARM_TIRE_2",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Farm_Treetrunk": {
+      "sprite": "FARM_TREETRUNK",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Farm_Windmill1": {
+      "sprite": "FARM_WINDMILL_1",
+      "kind": 5,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Farm_Windmill3": {
+      "sprite": "FARM_WINDMILL_3",
+      "kind": 5,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Farm_stairs": {
+      "sprite": "FARM_STAIRS",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "FlowerBlue": {
+      "sprite": "FLOWER_BLUE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "FlowerRed": {
+      "sprite": "FLOWER_RED",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "GIANT_CHILI": {
+      "sprite": "NBA_CHILI",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.25
+        ],
+        [
+          0.55,
+          0.0
+        ],
+        [
+          0.75,
+          0.0
+        ],
+        [
+          0.9,
+          0.25
+        ],
+        [
+          0.9,
+          0.5
+        ],
+        [
+          0.6,
+          0.8
+        ],
+        [
+          0.25,
+          1.0
+        ],
+        [
+          0.0,
+          0.45
+        ]
+      ],
+      "half_resolution": true
+    },
+    "GLASSES_1_STACHE": {
+      "sprite": "GLASSES_1_STACHE",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "MASK_2_STACHE": {
+      "sprite": "MASK_2_STACHE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "SCORE_PUMPKIN": {
+      "sprite": "BLOCK_PUMPKIN_1",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "WhiteBlock1": {
+      "sprite": "WHITE_SMALLSQUARE",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "WhiteBlock11": {
+      "sprite": "WHITE_TRIANGLE_L_1",
+      "kind": 1,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "WhiteBlock2": {
+      "sprite": "WHITE_VERYSHORT",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "WhiteBlock3": {
+      "sprite": "WHITE_SQUARE",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "WhiteBlock4": {
+      "sprite": "WHITE_SHORT",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "WhiteBlock5": {
+      "sprite": "WHITE_RECTANGLE",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "WhiteBlock6": {
+      "sprite": "WHITE_WIDE",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "WhiteBlock7": {
+      "sprite": "WHITE_CIRCLE",
+      "kind": 1,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
     }
   },
   "metrics": "profiles/sprite_metrics.json",
@@ -4018,7 +4768,80 @@
       "ML_POSTER002": 0.8,
       "SAND_FIGURE001": 0.8,
       "SAND_FIGURE002": 0.8,
-      "SAND_PILE002": 0.8
+      "SAND_PILE002": 0.8,
+      "BP_BIG_ENGINE": 4.0,
+      "BP_BIG_LANDING_WHEEL": 4.0,
+      "BP_CANNON_BALL": 0.7,
+      "BP_GOLDEN_BALLOON": 4.0,
+      "BP_METAL_TAIL": 4.0,
+      "BP_METAL_WING": 4.0,
+      "BP_ROPE": 4.0,
+      "BP_ROPE_RUBBER": 0.7,
+      "BP_SMALL_ENGINE": 4.0,
+      "BP_THREE_SAND_BAGS": 4.0,
+      "BP_UMBRELLA_2": 4.0,
+      "BP_UMBRELLA_HOLDER": 4.0,
+      "BP_WOODEN_TAIL": 4.0,
+      "CHAIN_INDESTRUCTIBLE": 0.7,
+      "COG_OFF": 0.5,
+      "DecorationFarmDecoCabbage": 0.8,
+      "DecorationFarmDecoCastshadow": 0.8,
+      "DecorationFarmDecoGrass1": 0.8,
+      "DecorationFarmDecoGrass2": 0.8,
+      "DecorationFarmDecoGrass3": 0.8,
+      "DecorationFarmDecoGrass4": 0.8,
+      "DecorationFarmDecoGrass5": 0.8,
+      "DecorationFarmDecoGrasspatch": 0.8,
+      "DecorationFarmDecoHay1": 0.8,
+      "DecorationFarmDecoHay2": 0.8,
+      "DecorationFarmDecoWheat": 0.8,
+      "EASTER_BUNNYEAR1": 1.0,
+      "EASTER_BUNNYEAR2": 1.0,
+      "EASTER_BUNNYHAT1": 1.0,
+      "EASTER_BUNNYHAT2": 1.0,
+      "EASTER_BUNNYHAT3": 1.0,
+      "EASTER_BUNNYNOSE1": 1.0,
+      "EASTER_BUNNYNOSE2": 1.0,
+      "EASTER_EGG1": 0.7,
+      "EASTER_EGG2": 0.7,
+      "EASTER_EGG3": 0.7,
+      "ExtraRubberBall": 0.7,
+      "FLOWER1": 0.7,
+      "FLOWER4": 0.7,
+      "FLOWER5": 0.7,
+      "FLOWER7": 0.7,
+      "Farm_ArrowBlock": 4.0,
+      "Farm_CactusArm": 0.7,
+      "Farm_CampStovePipe": 0.7,
+      "Farm_CampStovePipeHat": 0.7,
+      "Farm_Campstove": 0.7,
+      "Farm_Cartwheel": 0.7,
+      "Farm_CowsuitHead": 0.7,
+      "Farm_CowsuitTorso": 0.7,
+      "Farm_FoodBasket": 0.7,
+      "Farm_HayRoll": 0.7,
+      "Farm_PrairieGrass": 0.7,
+      "Farm_SmoothTire": 0.4,
+      "Farm_Snout": 4.0,
+      "Farm_TractorTire": 0.4,
+      "Farm_Treetrunk": 4.0,
+      "Farm_Windmill1": 4.0,
+      "Farm_Windmill3": 4.0,
+      "Farm_stairs": 0.7,
+      "FlowerBlue": 0.3,
+      "FlowerRed": 0.3,
+      "GIANT_CHILI": 0.7,
+      "GLASSES_1_STACHE": 1.0,
+      "MASK_2_STACHE": 1.0,
+      "SCORE_PUMPKIN": 0.7,
+      "WhiteBlock1": 4.0,
+      "WhiteBlock11": 4.0,
+      "WhiteBlock2": 4.0,
+      "WhiteBlock3": 4.0,
+      "WhiteBlock4": 4.0,
+      "WhiteBlock5": 4.0,
+      "WhiteBlock6": 4.0,
+      "WhiteBlock7": 4.0
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -4306,7 +5129,80 @@
       "ML_POSTER002": 0.0,
       "SAND_FIGURE001": 0.0,
       "SAND_FIGURE002": 0.0,
-      "SAND_PILE002": 0.0
+      "SAND_PILE002": 0.0,
+      "BP_BIG_ENGINE": 0.15,
+      "BP_BIG_LANDING_WHEEL": 0.5,
+      "BP_CANNON_BALL": 0.4,
+      "BP_GOLDEN_BALLOON": 0.2,
+      "BP_METAL_TAIL": 0.15,
+      "BP_METAL_WING": 0.15,
+      "BP_ROPE": 0.1,
+      "BP_ROPE_RUBBER": 0.5,
+      "BP_SMALL_ENGINE": 0.15,
+      "BP_THREE_SAND_BAGS": 0.1,
+      "BP_UMBRELLA_2": 0.2,
+      "BP_UMBRELLA_HOLDER": 0.2,
+      "BP_WOODEN_TAIL": 0.2,
+      "CHAIN_INDESTRUCTIBLE": 0.2,
+      "COG_OFF": 0.0,
+      "DecorationFarmDecoCabbage": 0.0,
+      "DecorationFarmDecoCastshadow": 0.0,
+      "DecorationFarmDecoGrass1": 0.0,
+      "DecorationFarmDecoGrass2": 0.0,
+      "DecorationFarmDecoGrass3": 0.0,
+      "DecorationFarmDecoGrass4": 0.0,
+      "DecorationFarmDecoGrass5": 0.0,
+      "DecorationFarmDecoGrasspatch": 0.0,
+      "DecorationFarmDecoHay1": 0.0,
+      "DecorationFarmDecoHay2": 0.0,
+      "DecorationFarmDecoWheat": 0.0,
+      "EASTER_BUNNYEAR1": 0.0,
+      "EASTER_BUNNYEAR2": 0.0,
+      "EASTER_BUNNYHAT1": 0.0,
+      "EASTER_BUNNYHAT2": 0.0,
+      "EASTER_BUNNYHAT3": 0.0,
+      "EASTER_BUNNYNOSE1": 0.0,
+      "EASTER_BUNNYNOSE2": 0.0,
+      "EASTER_EGG1": 0.1,
+      "EASTER_EGG2": 0.1,
+      "EASTER_EGG3": 0.1,
+      "ExtraRubberBall": 1.1,
+      "FLOWER1": 0.1,
+      "FLOWER4": 0.1,
+      "FLOWER5": 0.1,
+      "FLOWER7": 0.1,
+      "Farm_ArrowBlock": 0.2,
+      "Farm_CactusArm": 0.1,
+      "Farm_CampStovePipe": 0.4,
+      "Farm_CampStovePipeHat": 0.4,
+      "Farm_Campstove": 0.4,
+      "Farm_Cartwheel": 0.4,
+      "Farm_CowsuitHead": 0.1,
+      "Farm_CowsuitTorso": 0.1,
+      "Farm_FoodBasket": 0.1,
+      "Farm_HayRoll": 0.4,
+      "Farm_PrairieGrass": 0.1,
+      "Farm_SmoothTire": 0.8,
+      "Farm_Snout": 0.2,
+      "Farm_TractorTire": 0.8,
+      "Farm_Treetrunk": 0.2,
+      "Farm_Windmill1": 0.0,
+      "Farm_Windmill3": 0.0,
+      "Farm_stairs": 0.1,
+      "FlowerBlue": 0.4,
+      "FlowerRed": 0.4,
+      "GIANT_CHILI": 0.1,
+      "GLASSES_1_STACHE": 0.0,
+      "MASK_2_STACHE": 0.0,
+      "SCORE_PUMPKIN": 0.4,
+      "WhiteBlock1": 0.2,
+      "WhiteBlock11": 0.2,
+      "WhiteBlock2": 0.2,
+      "WhiteBlock3": 0.2,
+      "WhiteBlock4": 0.2,
+      "WhiteBlock5": 0.2,
+      "WhiteBlock6": 0.2,
+      "WhiteBlock7": 0.2
     }
   }
 }

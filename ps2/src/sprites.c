@@ -17,6 +17,8 @@ static SpritePage pages[SPRITE_BANK_COUNT][SPRITE_PAGE_COUNT];
 static SpriteFrame (*frames)[SPRITE_COUNT];
 static unsigned pixel_start,icon_offset,icon_size;
 static GSTEXTURE atlases[SPRITE_PAGE_COUNT];
+static int flip_x=1,flip_y=1;
+void sprites_set_flip(int x,int y){flip_x=x?-1:1;flip_y=y?-1:1;}
 static int ready,bank=-1,loaded=-1,failed,header_ok;
 static unsigned char *bank_buffer;
 static char data_path[256]="SPRITES.BIN";
@@ -102,8 +104,8 @@ void sprite_draw_tint(GSGLOBAL *gs,int id,float x,float y,float scale,float angl
     GSTEXTURE *atlas=&atlases[s->page];
     float cs=cosf(angle),sn=sinf(angle),px[4],py[4];
     for(int i=0;i<4;i++) {
-        float dx=((i==0||i==3)?-s->px:s->w-s->px)*scale;
-        float dy=(i<2?-s->py:s->h-s->py)*scale;
+        float dx=((i==0||i==3)?-s->px:s->w-s->px)*scale*flip_x;
+        float dy=(i<2?-s->py:s->h-s->py)*scale*flip_y;
         px[i]=x+dx*cs-dy*sn;py[i]=y+dx*sn+dy*cs;
     }
     const int order[6]={0,1,2,0,2,3};

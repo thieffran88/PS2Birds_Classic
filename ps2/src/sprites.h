@@ -12,6 +12,8 @@ void sprites_set_data_path(const char *path);
 int sprites_load_failed(void);
 /* Copies the memory-card icon stored in SPRITES.BIN; returns its size or -1. */
 int sprites_read_icon(unsigned char *out,unsigned capacity);
+/* Mirror the following draws (negative scaleX/scaleY of a piece); 0,0 restores. */
+void sprites_set_flip(int x,int y);
 void sprite_draw_tint(GSGLOBAL *gs,int id,float x,float y,float scale,float angle,unsigned int rgba);
 void sprite_draw(GSGLOBAL *gs,int id,float x,float y,float scale,float angle);
 #endif

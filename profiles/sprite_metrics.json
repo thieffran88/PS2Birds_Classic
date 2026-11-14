@@ -1803,5 +1803,360 @@
     "width": 96,
     "height": 24,
     "sheet": "INGAME_BIRD_ISLAND_BLOCKS_1.sheet.json"
+  },
+  "BP_BIG_ENGINE": {
+    "width": 113,
+    "height": 89,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_BIG_LANDING_WHEEL": {
+    "width": 66,
+    "height": 78,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "GOLDEN_BALLON": {
+    "width": 103,
+    "height": 120,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_METAL_TAIL": {
+    "width": 102,
+    "height": 93,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_METAL_WING": {
+    "width": 198,
+    "height": 35,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_ROPE": {
+    "width": 117,
+    "height": 92,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "RUBBER_ROPE": {
+    "width": 8,
+    "height": 53,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_SMALL_ENGINE": {
+    "width": 84,
+    "height": 62,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_THREE_SAND_BAGS": {
+    "width": 85,
+    "height": 96,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_UMBRELLA_2": {
+    "width": 110,
+    "height": 69,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_UMBRELLA_HOLDER": {
+    "width": 30,
+    "height": 75,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_WOODEN_TAIL": {
+    "width": 101,
+    "height": 95,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "FARM_CHAIN_PIECE_1": {
+    "width": 19,
+    "height": 93,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "COG_OFF": {
+    "width": 58,
+    "height": 57,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "FARM_DECO_CABBAGE": {
+    "width": 108,
+    "height": 79,
+    "sheet": "INGAME_FARM_DECOS_1.sheet.json"
+  },
+  "FARM_DECO_CASTSHADOW": {
+    "width": 302,
+    "height": 89,
+    "sheet": "INGAME_FARM_DECOS_1.sheet.json"
+  },
+  "FARM_DECO_GRASS_1": {
+    "width": 60,
+    "height": 135,
+    "sheet": "INGAME_FARM_DECOS_1.sheet.json"
+  },
+  "FARM_DECO_GRASS_2": {
+    "width": 62,
+    "height": 60,
+    "sheet": "INGAME_FARM_DECOS_1.sheet.json"
+  },
+  "FARM_DECO_GRASS_3": {
+    "width": 62,
+    "height": 60,
+    "sheet": "INGAME_FARM_DECOS_1.sheet.json"
+  },
+  "FARM_DECO_GRASS_4": {
+    "width": 60,
+    "height": 140,
+    "sheet": "INGAME_FARM_DECOS_1.sheet.json"
+  },
+  "FARM_DECO_GRASS_5": {
+    "width": 267,
+    "height": 54,
+    "sheet": "INGAME_FARM_DECOS_1.sheet.json"
+  },
+  "FARM_DECO_GRASSPATCH": {
+    "width": 39,
+    "height": 24,
+    "sheet": "INGAME_FARM_DECOS_1.sheet.json"
+  },
+  "FARM_DECO_HAY_1": {
+    "width": 117,
+    "height": 116,
+    "sheet": "INGAME_FARM_DECOS_1.sheet.json"
+  },
+  "FARM_DECO_HAY_2": {
+    "width": 159,
+    "height": 124,
+    "sheet": "INGAME_FARM_DECOS_1.sheet.json"
+  },
+  "FARM_DECO_WHEAT": {
+    "width": 94,
+    "height": 179,
+    "sheet": "INGAME_FARM_DECOS_1.sheet.json"
+  },
+  "EASTER_BUNNYEAR_1": {
+    "width": 45,
+    "height": 61,
+    "sheet": "INGAME_EASTER_1.sheet.json"
+  },
+  "EASTER_BUNNYEAR_2": {
+    "width": 59,
+    "height": 50,
+    "sheet": "INGAME_EASTER_1.sheet.json"
+  },
+  "EASTER_BUNNYHAT_1": {
+    "width": 160,
+    "height": 177,
+    "sheet": "INGAME_EASTER_1.sheet.json"
+  },
+  "EASTER_BUNNYHAT_2": {
+    "width": 70,
+    "height": 69,
+    "sheet": "INGAME_EASTER_1.sheet.json"
+  },
+  "EASTER_BUNNYHAT_3": {
+    "width": 44,
+    "height": 44,
+    "sheet": "INGAME_EASTER_1.sheet.json"
+  },
+  "EASTER_BUNNYNOSE_1": {
+    "width": 47,
+    "height": 45,
+    "sheet": "INGAME_EASTER_1.sheet.json"
+  },
+  "EASTER_BUNNYNOSE_2": {
+    "width": 38,
+    "height": 36,
+    "sheet": "INGAME_EASTER_1.sheet.json"
+  },
+  "EASTER_EGG_1": {
+    "width": 52,
+    "height": 68,
+    "sheet": "INGAME_EASTER_1.sheet.json"
+  },
+  "EASTER_EGG_2": {
+    "width": 53,
+    "height": 68,
+    "sheet": "INGAME_EASTER_1.sheet.json"
+  },
+  "EASTER_EGG_3": {
+    "width": 53,
+    "height": 68,
+    "sheet": "INGAME_EASTER_1.sheet.json"
+  },
+  "B_FLOWER_1": {
+    "width": 83,
+    "height": 82,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "B_FLOWER_4": {
+    "width": 88,
+    "height": 91,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "B_FLOWER_5": {
+    "width": 66,
+    "height": 62,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "B_FLOWER_7": {
+    "width": 97,
+    "height": 92,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_ARROWBLOCK": {
+    "width": 210,
+    "height": 84,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_CACTUS_ARM_2": {
+    "width": 65,
+    "height": 81,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_CAMPSTOVEPIPE": {
+    "width": 23,
+    "height": 39,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_CAMPSTOVEPIPEHAT": {
+    "width": 40,
+    "height": 40,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_CAMPSTOVE": {
+    "width": 94,
+    "height": 87,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_CARTWHEEL": {
+    "width": 94,
+    "height": 94,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_COWSUITHEAD": {
+    "width": 136,
+    "height": 154,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_COWSUITTORSO": {
+    "width": 156,
+    "height": 111,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_FOOD_BASKET_1": {
+    "width": 114,
+    "height": 82,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_HAYROLL": {
+    "width": 123,
+    "height": 122,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_PRAIRIE_1": {
+    "width": 103,
+    "height": 59,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_TIRE_1": {
+    "width": 166,
+    "height": 166,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_SNOUT": {
+    "width": 75,
+    "height": 75,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_TIRE_2": {
+    "width": 162,
+    "height": 165,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_TREETRUNK": {
+    "width": 89,
+    "height": 348,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_WINDMILL_1": {
+    "width": 182,
+    "height": 181,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_WINDMILL_3": {
+    "width": 89,
+    "height": 92,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FARM_STAIRS": {
+    "width": 38,
+    "height": 114,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "FLOWER_BLUE": {
+    "width": 47,
+    "height": 45,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "FLOWER_RED": {
+    "width": 52,
+    "height": 48,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "NBA_CHILI": {
+    "width": 92,
+    "height": 236,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "GLASSES_1_STACHE": {
+    "width": 117,
+    "height": 51,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "MASK_2_STACHE": {
+    "width": 124,
+    "height": 70,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BLOCK_PUMPKIN_1": {
+    "width": 105,
+    "height": 102,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "WHITE_SMALLSQUARE": {
+    "width": 21,
+    "height": 20,
+    "sheet": "INGAME_WHITE_BLOCKS_1.sheet.json"
+  },
+  "WHITE_TRIANGLE_L_1": {
+    "width": 80,
+    "height": 80,
+    "sheet": "INGAME_WHITE_BLOCKS_1.sheet.json"
+  },
+  "WHITE_VERYSHORT": {
+    "width": 41,
+    "height": 20,
+    "sheet": "INGAME_WHITE_BLOCKS_1.sheet.json"
+  },
+  "WHITE_SQUARE": {
+    "width": 42,
+    "height": 41,
+    "sheet": "INGAME_WHITE_BLOCKS_1.sheet.json"
+  },
+  "WHITE_SHORT": {
+    "width": 83,
+    "height": 20,
+    "sheet": "INGAME_WHITE_BLOCKS_1.sheet.json"
+  },
+  "WHITE_RECTANGLE": {
+    "width": 83,
+    "height": 41,
+    "sheet": "INGAME_WHITE_BLOCKS_1.sheet.json"
+  },
+  "WHITE_WIDE": {
+    "width": 168,
+    "height": 20,
+    "sheet": "INGAME_WHITE_BLOCKS_1.sheet.json"
+  },
+  "WHITE_CIRCLE": {
+    "width": 75,
+    "height": 75,
+    "sheet": "INGAME_WHITE_BLOCKS_1.sheet.json"
   }
 }

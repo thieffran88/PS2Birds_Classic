@@ -849,6 +849,102 @@
         "Level243_Movie",
         "Level253_t_Movie"
       ]
+    },
+    {
+      "number": 39,
+      "title_prefix": "PIGGY FARM 1-",
+      "folder": "/levels/21_PiggyFarm",
+      "bank": 35,
+      "levels": [
+        "Farm1_Level107",
+        "Farm1_Level109",
+        "Farm1_Level106",
+        "Farm1_Level108",
+        "Farm1_Level112",
+        "Farm1_Level116",
+        "Farm1_Level110",
+        "Farm1_Level118"
+      ]
+    },
+    {
+      "number": 40,
+      "title_prefix": "PIGGY FARM 1-",
+      "folder": "/levels/21_PiggyFarm",
+      "bank": 36,
+      "levels": [
+        "Farm1_Level113",
+        "Farm1_Level117",
+        "Farm1_Level119",
+        "Farm1_Level115",
+        "Farm1_Level114",
+        "Farm1_Level111",
+        "Farm1_Level120"
+      ],
+      "first": 9
+    },
+    {
+      "number": 41,
+      "title_prefix": "PIGGY FARM 2-",
+      "folder": "/levels/21_PiggyFarm",
+      "bank": 37,
+      "levels": [
+        "Farm2_barnyard",
+        "Farm2_tractorarches",
+        "Farm2_barns",
+        "Farm2_apples",
+        "Farm2_scarecrows",
+        "Farm2_construction",
+        "Farm2_floatingbarn",
+        "Farm2_eastercows"
+      ]
+    },
+    {
+      "number": 42,
+      "title_prefix": "PIGGY FARM 2-",
+      "folder": "/levels/21_PiggyFarm",
+      "bank": 38,
+      "levels": [
+        "Farm2_towers",
+        "Farm2_pooptube",
+        "Farm2_repairshop",
+        "Farm2_rotors",
+        "Farm2_arches",
+        "Farm2_mirrorworld",
+        "Farm2_balloons"
+      ],
+      "first": 9
+    },
+    {
+      "number": 43,
+      "title_prefix": "PIGGY FARM 3-",
+      "folder": "/levels/21_PiggyFarm",
+      "bank": 39,
+      "levels": [
+        "Farm3_harvestbarn",
+        "Farm3_solarpanels",
+        "Farm3_henhouse",
+        "Farm3_woodhouses",
+        "Farm3_honeycomb",
+        "Farm3_greenhouse",
+        "Farm3_lawnmowers",
+        "Farm3_milking"
+      ]
+    },
+    {
+      "number": 44,
+      "title_prefix": "PIGGY FARM 3-",
+      "folder": "/levels/21_PiggyFarm",
+      "bank": 40,
+      "levels": [
+        "Farm3_wheelshop",
+        "Farm3_vegetables",
+        "Farm3_pinetrees",
+        "Farm3_poppyfactory",
+        "Farm3_scarecrows",
+        "Farm3_pumpkinparty",
+        "Farm3_tractorpulling"
+      ],
+      "first": 9
     }
   ]
 }

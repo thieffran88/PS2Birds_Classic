@@ -2184,6 +2184,186 @@
     "Level253_t_Movie": {
       "silver": 150000,
       "gold": 160000
+    },
+    "Farm1_Level107": {
+      "silver": 84000,
+      "gold": 94000
+    },
+    "Farm1_Level109": {
+      "silver": 68000,
+      "gold": 78000
+    },
+    "Farm1_Level106": {
+      "silver": 70000,
+      "gold": 79000
+    },
+    "Farm1_Level108": {
+      "silver": 90000,
+      "gold": 98000
+    },
+    "Farm1_Level112": {
+      "silver": 98000,
+      "gold": 106000
+    },
+    "Farm1_Level116": {
+      "silver": 105000,
+      "gold": 115000
+    },
+    "Farm1_Level110": {
+      "silver": 78000,
+      "gold": 88000
+    },
+    "Farm1_Level118": {
+      "silver": 105000,
+      "gold": 115000
+    },
+    "Farm1_Level113": {
+      "silver": 85000,
+      "gold": 95000
+    },
+    "Farm1_Level117": {
+      "silver": 100000,
+      "gold": 110000
+    },
+    "Farm1_Level119": {
+      "silver": 75000,
+      "gold": 85000
+    },
+    "Farm1_Level115": {
+      "silver": 100000,
+      "gold": 110000
+    },
+    "Farm1_Level114": {
+      "silver": 60000,
+      "gold": 70000
+    },
+    "Farm1_Level111": {
+      "silver": 95000,
+      "gold": 105000
+    },
+    "Farm1_Level120": {
+      "silver": 88000,
+      "gold": 95000
+    },
+    "Farm2_barnyard": {
+      "silver": 100500,
+      "gold": 110500
+    },
+    "Farm2_tractorarches": {
+      "silver": 105000,
+      "gold": 115000
+    },
+    "Farm2_barns": {
+      "silver": 100000,
+      "gold": 110000
+    },
+    "Farm2_apples": {
+      "silver": 72500,
+      "gold": 73500
+    },
+    "Farm2_scarecrows": {
+      "silver": 135000,
+      "gold": 145000
+    },
+    "Farm2_construction": {
+      "silver": 126000,
+      "gold": 136000
+    },
+    "Farm2_floatingbarn": {
+      "silver": 170000,
+      "gold": 180000
+    },
+    "Farm2_eastercows": {
+      "silver": 120000,
+      "gold": 130000
+    },
+    "Farm2_towers": {
+      "silver": 145000,
+      "gold": 155000
+    },
+    "Farm2_pooptube": {
+      "silver": 120000,
+      "gold": 130000
+    },
+    "Farm2_repairshop": {
+      "silver": 120000,
+      "gold": 130000
+    },
+    "Farm2_rotors": {
+      "silver": 120000,
+      "gold": 130000
+    },
+    "Farm2_arches": {
+      "silver": 140000,
+      "gold": 150000
+    },
+    "Farm2_mirrorworld": {
+      "silver": 180000,
+      "gold": 190000
+    },
+    "Farm2_balloons": {
+      "silver": 112000,
+      "gold": 122000
+    },
+    "Farm3_harvestbarn": {
+      "silver": 115000,
+      "gold": 125000
+    },
+    "Farm3_solarpanels": {
+      "silver": 210000,
+      "gold": 220000
+    },
+    "Farm3_henhouse": {
+      "silver": 135000,
+      "gold": 145000
+    },
+    "Farm3_woodhouses": {
+      "silver": 160000,
+      "gold": 170000
+    },
+    "Farm3_honeycomb": {
+      "silver": 210000,
+      "gold": 230000
+    },
+    "Farm3_greenhouse": {
+      "silver": 90000,
+      "gold": 100000
+    },
+    "Farm3_lawnmowers": {
+      "silver": 105000,
+      "gold": 115000
+    },
+    "Farm3_milking": {
+      "silver": 140000,
+      "gold": 150000
+    },
+    "Farm3_wheelshop": {
+      "silver": 140000,
+      "gold": 150000
+    },
+    "Farm3_vegetables": {
+      "silver": 140000,
+      "gold": 150000
+    },
+    "Farm3_pinetrees": {
+      "silver": 225000,
+      "gold": 235000
+    },
+    "Farm3_poppyfactory": {
+      "silver": 155000,
+      "gold": 165000
+    },
+    "Farm3_scarecrows": {
+      "silver": 150000,
+      "gold": 160000
+    },
+    "Farm3_pumpkinparty": {
+      "silver": 135000,
+      "gold": 145000
+    },
+    "Farm3_tractorpulling": {
+      "silver": 152500,
+      "gold": 162500
     }
   }
 }

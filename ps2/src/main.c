@@ -138,7 +138,12 @@ static const BlockSprites block_sprites[]={
  {"StoneBlock6",{SPR_BLOCK_ROCK_1_6,SPR_BLOCK_ROCK_2_6,SPR_BLOCK_ROCK_3_6,SPR_BLOCK_ROCK_4_6}},
  {"ExtraStrongBall",{SPR_BLOCK_STEEL_BALL,SPR_BLOCK_STEEL_BALL,SPR_BLOCK_STEEL_BALL,SPR_BLOCK_STEEL_BALL}},
 };
+static void block_unflipped(const GameObject *o);
 static void block(const GameObject *o)
+{
+    sprites_set_flip(o->mirror&OBJECT_MIRROR_X,o->mirror&OBJECT_MIRROR_Y);block_unflipped(o);sprites_set_flip(0,0);
+}
+static void block_unflipped(const GameObject *o)
 {
     if(o->kind==3 || o->kind==OBJECT_KIND_FRAGILE_GROUND){
         /* Fixed pieces added from blocks.lua with their own colour sprite (rulers, pencils...). */

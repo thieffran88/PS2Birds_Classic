@@ -93,8 +93,11 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
             if o.get('density',0)!=0:w,h=w*SIZE_FACTOR,h*SIZE_FACTOR
         else:w=h=float(shape['diameter'])
         # ObjectCreation.lua multiplies the size by the instance's scaleX/scaleY when they are set and non-zero.
-        if o.get('scaleX'):w*=float(o['scaleX'])
-        if o.get('scaleY'):h*=float(o['scaleY'])
+        # A negative scale mirrors the piece (level editor flip): size uses the magnitude and
+        # the flip is kept for the shape and the sprite.
+        mirror=0
+        if o.get('scaleX'):w*=abs(float(o['scaleX']));mirror|=2 if float(o['scaleX'])<0 else 0
+        if o.get('scaleY'):h*=abs(float(o['scaleY']));mirror|=4 if float(o['scaleY'])<0 else 0
         if w<=0 or h<=0:raise ValueError('Invalid shape dimensions')
         for key in ['x','y','angle','density','strength','defence']:
             if key not in o or type(o[key]) not in (int,float):raise ValueError('Missing or invalid object property '+key)
@@ -104,7 +107,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
         material=profile['materials']['by_kind'][str(kind)]
         friction=profile['materials']['friction_overrides'].get(o['definition'],material['friction'])
         restitution=profile['materials'].get('restitution_overrides',{}).get(o['definition'],material['restitution'])
-        level.append(dict(o,width=w,height=h,kind=kind,shape=collision,friction=friction,restitution=restitution,**({'no_collision':True} if shape.get('no_collision') else {})))
+        level.append(dict(o,width=w,height=h,kind=kind,shape=collision,friction=friction,restitution=restitution,**({'no_collision':True} if shape.get('no_collision') else {}),**({'mirror':mirror} if mirror else {})))
     # gamelogic.lua: when a piece with deathSpawn (blocks.lua) is destroyed, createObject puts
     # `amount` pieces of the listed types at its position with a random rotation, using the
     # definition's own density/strength/defence. They are stored after the scene, hidden until

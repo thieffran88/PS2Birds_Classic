@@ -7,7 +7,8 @@
    the parent is destroyed (blocks.lua deathSpawn, e.g. the cream of Spawning_cake). */
 /* flags: OBJECT_NO_COLLISION for pieces declared with collision = false in blocks.lua
    (drawn, but nothing touches them). */
-enum {OBJECT_NO_COLLISION=1};
+/* OBJECT_MIRROR_X/Y: negative scaleX/scaleY in the level (mirrored piece). */
+enum {OBJECT_NO_COLLISION=1,OBJECT_MIRROR_X=2,OBJECT_MIRROR_Y=4};
 typedef struct {float x,y,angle,width,height,density,strength,defence;int kind,shape;const char *definition;float friction,restitution;int spawn_of,flags;} CampaignObject;
 /* friction/restitution come from the materials table of blocks.lua (wood 4.0/0.2,
    light 0.7/0.2, rock 4.0/0.1, immovable 0.8/0, piglette 0.7/0.05, extras 0.7/0.4). */

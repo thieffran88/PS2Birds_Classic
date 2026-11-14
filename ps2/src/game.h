@@ -148,7 +148,7 @@ typedef struct {
     GameState state;
     void *physics;
 } Game;
-typedef struct { float x,y,width,height,angle,health; int kind,alive; const char *definition; } GameObject;
+typedef struct { float x,y,width,height,angle,health; int kind,alive; const char *definition; int mirror; } GameObject;
 /* Initialize once before reset; destroy releases the Box2D world. */
 void game_init(Game *game);
 void game_destroy(Game *game);

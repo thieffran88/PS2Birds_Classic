@@ -28,6 +28,10 @@ def definition(blocks,name):
 def material(blocks,name):
     n=blocks.index(f'\nL2_1.{name} = L3_1\n');start=blocks.rindex('L3_1 = {}',0,n)
     return {k:float(v) for k,v in re.findall(r'L3_1\.(\w+) = (-?[\d.]+)',blocks[start:n])}
+def material_has_no_collider(blocks,name):
+    """Materials such as decoration_new declare collider = collider_types.none: pure scenery."""
+    n=blocks.index(f'\nL2_1.{name} = L3_1\n');start=blocks.rindex('L3_1 = {}',0,n)
+    return 'L4_1 = L4_1.none\nL3_1.collider = L4_1' in blocks[start:n]
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('blocks',type=Path);p.add_argument('frames',type=Path,help='JSON {sprite:[sheet,width,height]}');p.add_argument('names',nargs='+');p.add_argument('--material-kinds',action='store_true',help='kind from the material (wood 1, light 2, rock 5, immovableFragile 9) instead of extras')
     a=p.parse_args();blocks=a.blocks.read_text().replace('\r','');frames=json.loads(a.frames.read_text())
@@ -46,7 +50,8 @@ def main():
         if fx is not None or fy is not None:spec['force']=[fx or 0.0,fy or 0.0]
         if 'targetVelocity' in d['props'] and 'force' in spec:spec['force_target']=d['props']['targetVelocity']
         # collision = false: drawn but not touched (a Box2D sensor in the port).
-        if d['props'].get('no_collision'):spec['no_collision']=True
+        if d['props'].get('no_collision') or material_has_no_collider(blocks,d['material']):spec['no_collision']=True
+        if material_has_no_collider(blocks,d['material']):spec['kind']=3
         # immovable material: static scenery, drawn like the ground pieces and not counted as a block.
         if d['material']=='immovable':spec['kind']=3
         # Birdday 7 onwards: themed copies of the wood/glass/stone blocks and fragile scenery keep

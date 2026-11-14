@@ -226,7 +226,7 @@ def extract(apk,out,sevenzip=None,game="classic",levels_dir=None):
                         if len(data)!=w*h*2:raise ValueError('Truncated sprite: '+name)
                         rgba=decode_rgba4444(data,w,h)
                         rgba=bytearray().join(rgba[((y+top)*(w-2)+left)*4:((y+top)*(w-2)+left+fw)*4] for y in range(fh))
-                pivot=dict(f['pivot'])
+                pivot={k:int(round(v)) for k,v in f['pivot'].items()}  # some sheets store fractional pivots
                 if name.startswith('GROUND_BLOCK_'):
                     rgba,fw,fh=halve_mask(rgba,fw,fh);pivot={'x':(pivot['x']+1)//MASK_SCALE,'y':(pivot['y']+1)//MASK_SCALE}
                 elif is_half(name):
