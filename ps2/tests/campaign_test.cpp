@@ -367,7 +367,7 @@ static const Stage stages[]={
  {"UGC1Level10",212,10,117,4,{{-10,80,1.0f}},1}, /* BIRDDAY 5-10 */
  {"UGC1Level11",161,12,76,4,{{30,70,1.2f},{60,90,2.0f}},2}, /* BIRDDAY 5-11 */
  {"UGC1Level12",164,7,93,4,{{60,90,2.3f},{50,100,1.6f},{50,100,1.4f}},3}, /* BIRDDAY 5-12 */
- {"UGC1Level13",222,13,130,4,{{40,90,0.6f}},1}, /* BIRDDAY 5-13 */
+ {"UGC1Level13",222,13,130,4,{{40,100,0.8f},{60,70,2.3f}},2}, /* BIRDDAY 5-13 */
  {"UGC1Level14",151,9,82,4,{{60,100,-1.0f},{0,100,1.2f}},2}, /* BIRDDAY 5-14 */
  {"UGC1Level15",308,12,145,5,{{70,100,2.6f},{30,70,0.6f},{0,80,0.8f}},3}, /* BIRDDAY 5-15 */
  {"UGC1Level16",180,11,82,3,{{20,100,2.6f},{50,100,0.8f},{30,80,1.2f}},3}, /* BIRDDAY 5-16 */
@@ -513,7 +513,7 @@ static const Stage stages[]={
  {"BlackBird_21",170,9,111,3,{{60,80,1.2f},{40,60,0.6f}},2}, /* SHORT FUSE 2-6 */
  {"BlackBird_22",136,8,88,4,{{0,0,-1.0f}},0}, /* SHORT FUSE 2-7 (sem roteiro vencedor) */
  {"BlackBird_23",135,7,95,3,{{10,90,1.0f},{70,90,2.0f},{80,100,1.2f}},3}, /* SHORT FUSE 2-8 */
- {"BlackBird_24",212,11,130,3,{{40,100,2.6f},{40,80,-1.0f},{20,100,1.6f}},3}, /* SHORT FUSE 2-9 */
+ {"BlackBird_24",212,11,130,3,{{0,0,-1.0f}},0}, /* SHORT FUSE 2-9 (sem roteiro vencedor) */
  {"BlackBird_25",158,7,112,3,{{20,100,1.4f},{30,100,2.6f}},2}, /* SHORT FUSE 2-10 */
  {"BlackBird_26",163,10,84,4,{{30,100,1.6f},{40,100,2.3f},{40,90,2.6f}},3}, /* SHORT FUSE 2-11 */
  {"BlackBird_27",118,10,80,3,{{40,90,1.2f},{50,90,-1.0f}},2}, /* SHORT FUSE 2-12 */
@@ -572,13 +572,13 @@ static const Stage stages[]={
  {"Farm1_Level111",202,8,107,4,{{70,70,1.6f},{10,70,2.6f},{40,80,2.6f},{20,90,1.2f}},4}, /* PIGGY FARM 1-14 */
  {"Farm1_Level120",222,8,57,4,{{40,100,1.8f},{40,100,0.8f},{50,90,1.8f}},3}, /* PIGGY FARM 1-15 */
  {"Farm2_barnyard",243,7,106,4,{{50,80,0.6f}},1}, /* PIGGY FARM 2-1 */
- {"Farm2_tractorarches",293,8,121,5,{{50,80,-1.0f},{20,90,1.6f},{50,100,1.6f},{0,100,2.3f},{40,90,2.0f}},5}, /* PIGGY FARM 2-2 */
+ {"Farm2_tractorarches",293,8,121,5,{{0,0,-1.0f}},0}, /* PIGGY FARM 2-2 (sem roteiro vencedor) */
  {"Farm2_barns",240,6,119,4,{{20,70,1.6f},{70,100,1.8f},{70,80,2.6f}},3}, /* PIGGY FARM 2-3 */
  {"Farm2_apples",191,7,91,4,{{40,100,1.2f},{70,90,1.4f}},2}, /* PIGGY FARM 2-4 */
  {"Farm2_scarecrows",332,9,158,5,{{50,100,-1.0f},{80,100,-1.0f}},2}, /* PIGGY FARM 2-5 */
  {"Farm2_construction",313,10,129,5,{{70,100,2.3f},{60,80,0.8f},{20,90,1.8f}},3}, /* PIGGY FARM 2-6 */
  {"Farm2_floatingbarn",320,10,149,5,{{60,90,-1.0f},{30,60,1.0f}},2}, /* PIGGY FARM 2-7 */
- {"Farm2_eastercows",201,12,108,4,{{30,50,0.8f},{0,70,1.0f},{40,90,-1.0f},{40,80,0.6f}},4}, /* PIGGY FARM 2-8 */
+ {"Farm2_eastercows",201,12,108,4,{{50,60,1.4f},{30,60,1.8f},{60,100,-1.0f}},3}, /* PIGGY FARM 2-8 */
  {"Farm2_towers",288,9,152,5,{{30,80,0.8f},{30,80,1.6f},{50,90,-1.0f},{20,100,-1.0f}},4}, /* PIGGY FARM 2-9 */
  {"Farm2_pooptube",308,9,119,5,{{40,70,1.4f},{20,70,1.2f},{30,90,1.8f},{30,90,0.6f}},4}, /* PIGGY FARM 2-10 */
  {"Farm2_repairshop",229,8,79,5,{{70,100,2.0f},{70,90,2.3f}},2}, /* PIGGY FARM 2-11 */
@@ -595,9 +595,9 @@ static const Stage stages[]={
  {"Farm3_lawnmowers",251,7,142,5,{{40,90,1.2f},{40,50,2.6f},{50,100,1.8f}},3}, /* PIGGY FARM 3-7 */
  {"Farm3_milking",315,8,162,4,{{60,90,2.0f},{40,100,2.6f},{60,60,-1.0f}},3}, /* PIGGY FARM 3-8 */
  {"Farm3_wheelshop",304,8,202,4,{{30,80,2.3f},{70,100,1.6f}},2}, /* PIGGY FARM 3-9 */
- {"Farm3_vegetables",370,9,216,5,{{50,60,2.3f},{50,100,1.2f},{50,80,2.0f},{0,100,0.8f}},4}, /* PIGGY FARM 3-10 */
- {"Farm3_pinetrees",284,8,196,6,{{50,90,2.3f},{40,80,2.6f},{50,100,2.0f},{50,100,-1.0f},{70,90,0.8f},{50,100,-1.0f}},6}, /* PIGGY FARM 3-11 */
- {"Farm3_poppyfactory",300,10,172,4,{{60,90,1.0f},{30,80,0.8f}},2}, /* PIGGY FARM 3-12 */
+ {"Farm3_vegetables",370,9,216,5,{{0,90,1.2f},{50,100,1.2f},{10,80,2.6f}},3}, /* PIGGY FARM 3-10 */
+ {"Farm3_pinetrees",284,8,196,6,{{0,0,-1.0f}},0}, /* PIGGY FARM 3-11 (sem roteiro vencedor) */
+ {"Farm3_poppyfactory",300,10,172,4,{{40,100,1.0f},{20,100,2.3f}},2}, /* PIGGY FARM 3-12 */
  {"Farm3_scarecrows",425,8,209,5,{{40,100,0.8f},{10,80,1.6f},{0,50,1.6f},{70,90,2.3f}},4}, /* PIGGY FARM 3-13 */
  {"Farm3_pumpkinparty",335,9,143,4,{{10,80,1.2f},{60,100,2.0f}},2}, /* PIGGY FARM 3-14 */
  {"Farm3_tractorpulling",262,15,149,5,{{0,60,2.3f},{70,100,1.8f},{50,90,1.6f}},3}, /* PIGGY FARM 3-15 */
@@ -675,6 +675,35 @@ static const Stage stages[]={
  {"FlockFavorites27",111,6,70,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-11 (sem roteiro vencedor) */
  {"FlockFavorites29",65,5,49,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-12 (sem roteiro vencedor) */
  {"FlockFavorites30",154,12,103,5,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-13 (sem roteiro vencedor) */
+ {"LevelGE_4",117,3,28,2,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 1-1 (sem roteiro vencedor) */
+ {"LevelGE_3",49,7,24,3,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 1-2 (sem roteiro vencedor) */
+ {"LevelGE_2",48,5,21,3,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 1-3 (sem roteiro vencedor) */
+ {"LevelGE_14",103,72,9,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 1-4 (sem roteiro vencedor) */
+ {"LevelGE_15",196,96,37,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 1-5 (sem roteiro vencedor) */
+ {"LevelGE_1",156,4,42,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 1-6 (sem roteiro vencedor) */
+ {"LevelGE_5",48,45,0,2,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 1-7 (sem roteiro vencedor) */
+ {"LevelGE_6",93,1,56,2,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 1-8 (sem roteiro vencedor) */
+ {"LevelGE_7",137,13,99,2,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 1-9 (sem roteiro vencedor) */
+ {"LevelGE_8",64,14,47,4,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 1-10 (sem roteiro vencedor) */
+ {"LevelGE_9",93,6,85,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 1-11 (sem roteiro vencedor) */
+ {"LevelGE_10",76,16,60,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 1-12 (sem roteiro vencedor) */
+ {"LevelGE_11",158,15,118,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-1 (sem roteiro vencedor) */
+ {"LevelGE_16",127,38,83,3,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-2 (sem roteiro vencedor) */
+ {"LevelGE_17",186,21,99,6,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-3 (sem roteiro vencedor) */
+ {"LevelGE_18",121,6,102,4,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-4 (sem roteiro vencedor) */
+ {"LevelGE_19",199,12,168,4,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-5 (sem roteiro vencedor) */
+ {"LevelGE_20",135,5,112,4,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-6 (sem roteiro vencedor) */
+ {"LevelGE_21",149,27,66,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-7 (sem roteiro vencedor) */
+ {"LevelGE_22",290,6,147,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-8 (sem roteiro vencedor) */
+ {"LevelGE_23",382,16,123,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-9 (sem roteiro vencedor) */
+ {"LevelGE_24",139,13,112,3,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-10 (sem roteiro vencedor) */
+ {"LevelGE_25",329,11,291,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-11 (sem roteiro vencedor) */
+ {"LevelGE_29",164,21,77,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-12 (sem roteiro vencedor) */
+ {"LevelGE_30",341,15,232,3,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-13 (sem roteiro vencedor) */
+ {"LevelGE_RED",227,45,154,7,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-14 (sem roteiro vencedor) */
+ {"LevelGE_32",426,8,48,3,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-15 (sem roteiro vencedor) */
+ {"GE_Level280_BirdDay7",594,14,122,5,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-16 (sem roteiro vencedor) */
+ {"Farm2_goldegg",519,11,240,4,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 3-1 (sem roteiro vencedor) */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -695,7 +724,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==665 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==694 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));
@@ -796,7 +825,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==69);
+    assert(unverified==101);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");
