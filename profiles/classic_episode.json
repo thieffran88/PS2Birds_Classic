@@ -945,6 +945,166 @@
         "Farm3_tractorpulling"
       ],
       "first": 9
+    },
+    {
+      "number": 45,
+      "title_prefix": "DINO 1-",
+      "folder": "/levels/22_Dino",
+      "bank": 41,
+      "levels": [
+        "Dino1_profcar",
+        "Dino1_profcamp"
+      ]
+    },
+    {
+      "number": 46,
+      "title_prefix": "DINO 1-",
+      "folder": "/levels/22_Dino",
+      "bank": 42,
+      "levels": [
+        "Dino1_tribalruins",
+        "Dino1_ruins"
+      ],
+      "first": 3
+    },
+    {
+      "number": 47,
+      "title_prefix": "DINO 1-",
+      "folder": "/levels/22_Dino",
+      "bank": 43,
+      "levels": [
+        "Dino1_stonetemple",
+        "Dino1_dinoeggs",
+        "Dino1_canoe",
+        "Dino1_treasurehunt"
+      ],
+      "first": 5
+    },
+    {
+      "number": 48,
+      "title_prefix": "DINO 1-",
+      "folder": "/levels/22_Dino",
+      "bank": 44,
+      "levels": [
+        "Dino1_bodyshop",
+        "Dino1_tribalvillage",
+        "Dino1_stonetrap",
+        "Dino1_carramp"
+      ],
+      "first": 9
+    },
+    {
+      "number": 49,
+      "title_prefix": "DINO 1-",
+      "folder": "/levels/22_Dino",
+      "bank": 45,
+      "levels": [
+        "Dino1_stoneshop",
+        "Dino1_juhotraps",
+        "Dino1_bigdino"
+      ],
+      "first": 13
+    },
+    {
+      "number": 50,
+      "title_prefix": "DINO 2-",
+      "folder": "/levels/22_Dino",
+      "bank": 46,
+      "levels": [
+        "Dino2_eggstore",
+        "Dino2_wateringhole",
+        "Dino2_raptortrap",
+        "Dino2_nettrap"
+      ]
+    },
+    {
+      "number": 51,
+      "title_prefix": "DINO 2-",
+      "folder": "/levels/22_Dino",
+      "bank": 47,
+      "levels": [
+        "Dino2_babydinos",
+        "Dino2_stegosaurus",
+        "Dino2_dinoriders",
+        "Dino2_poopsaurus"
+      ],
+      "first": 5
+    },
+    {
+      "number": 52,
+      "title_prefix": "DINO 2-",
+      "folder": "/levels/22_Dino",
+      "bank": 48,
+      "levels": [
+        "Dino2_apatosaurusride",
+        "Dino2_trex",
+        "Dino2_tribeswar",
+        "Dino2_pineapple"
+      ],
+      "first": 9
+    },
+    {
+      "number": 53,
+      "title_prefix": "DINO 2-",
+      "folder": "/levels/22_Dino",
+      "bank": 49,
+      "levels": [
+        "Dino2_monsterflowers",
+        "Dino2_giantmoth",
+        "Dino2_dinoskull"
+      ],
+      "first": 13
+    },
+    {
+      "number": 54,
+      "title_prefix": "DINO 3-",
+      "folder": "/levels/22_Dino",
+      "bank": 50,
+      "levels": [
+        "Dino3_tntblues",
+        "Dino3_chainstella",
+        "Dino3_tntbomb",
+        "Dino3_matildaarches"
+      ]
+    },
+    {
+      "number": 55,
+      "title_prefix": "DINO 3-",
+      "folder": "/levels/22_Dino",
+      "bank": 51,
+      "levels": [
+        "Dino3_tntstella",
+        "Dino3_flyingskeletons",
+        "Dino3_eyeseeyou",
+        "Dino3_dragonworms"
+      ],
+      "first": 5
+    },
+    {
+      "number": 56,
+      "title_prefix": "DINO 3-",
+      "folder": "/levels/22_Dino",
+      "bank": 52,
+      "levels": [
+        "Dino3_rollit",
+        "Dino3_skullreturns",
+        "Dino3_crabattack",
+        "Dino3_eyescollection"
+      ],
+      "first": 9
+    },
+    {
+      "number": 57,
+      "title_prefix": "DINO 3-",
+      "folder": "/levels/22_Dino",
+      "bank": 53,
+      "levels": [
+        "Dino3_flyingcatch",
+        "Dino3_nomercy",
+        "Dino3_tongueattack",
+        "Dino3_uphilldino"
+      ],
+      "first": 13
     }
   ]
 }

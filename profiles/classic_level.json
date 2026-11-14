@@ -4410,6 +4410,1766 @@
       "shape": "circle",
       "auto": true,
       "half_resolution": true
+    },
+    "Apatosaurus_lower_jaw": {
+      "sprite": "INGAME_DINO_APATOSAURUS_LOWER_JAW",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.9
+        ],
+        [
+          0.4,
+          0.4
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.15
+        ],
+        [
+          0.1,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Apatosaurus_upper_jaw": {
+      "sprite": "INGAME_DINO_APATOSAURUS_UPPER_JAW",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.7
+        ],
+        [
+          0.7,
+          0.0
+        ],
+        [
+          0.8,
+          0.0
+        ],
+        [
+          1.0,
+          0.45
+        ],
+        [
+          0.7,
+          0.75
+        ],
+        [
+          0.1,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "BP_EGG_SIGN": {
+      "sprite": "EGG_DEFENDER_EGG_SIGN",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "BasicBird2_Cage": {
+      "sprite": "BIRD_GREEN_CAGE",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.37
+        ],
+        [
+          0.5,
+          0.1
+        ],
+        [
+          1.0,
+          0.37
+        ],
+        [
+          1.0,
+          0.55
+        ],
+        [
+          0.85,
+          0.98
+        ],
+        [
+          0.15,
+          0.98
+        ],
+        [
+          0.0,
+          0.55
+        ]
+      ],
+      "half_resolution": true,
+      "release_bird": "BasicBird2"
+    },
+    "BlackBird_Cage": {
+      "sprite": "BIRD_GREY_CAGE",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.37
+        ],
+        [
+          0.5,
+          0.1
+        ],
+        [
+          1.0,
+          0.37
+        ],
+        [
+          1.0,
+          0.55
+        ],
+        [
+          0.85,
+          0.98
+        ],
+        [
+          0.15,
+          0.98
+        ],
+        [
+          0.0,
+          0.55
+        ]
+      ],
+      "half_resolution": true,
+      "release_bird": "BlackBird"
+    },
+    "CHAIN_RUSTED": {
+      "sprite": "FARM_CHAIN_PIECE_2",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Caveking_outfit": {
+      "sprite": "INGAME_DINO_CAVEKING_OUTFIT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        2.0
+      ],
+      "half_resolution": true
+    },
+    "Caveman_Pickaxe": {
+      "sprite": "INGAME_DINO_PICKAXE",
+      "kind": 1,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.3
+        ],
+        [
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0
+        ],
+        [
+          0.7,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Caveman_outfit": {
+      "sprite": "INGAME_DINO_CAVEMAN_OUTFIT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        2.0
+      ],
+      "half_resolution": true
+    },
+    "Cavequeen_outfit": {
+      "sprite": "INGAME_DINO_CAVEQUEEN_OUTFIT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        2.0
+      ],
+      "half_resolution": true
+    },
+    "Cavething_outfit": {
+      "sprite": "INGAME_DINO_CAVETHING_OUTFIT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        2.0
+      ],
+      "half_resolution": true
+    },
+    "Cavewoman_outfit": {
+      "sprite": "INGAME_DINO_CAVEWOMAN_OUTFIT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        2.0
+      ],
+      "half_resolution": true
+    },
+    "Claw_club": {
+      "sprite": "INGAME_DINO_CLUB",
+      "kind": 1,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.3
+        ],
+        [
+          0.3,
+          0.0
+        ],
+        [
+          1.0,
+          0.2
+        ],
+        [
+          0.9,
+          0.4
+        ],
+        [
+          0.3,
+          0.95
+        ],
+        [
+          0.05,
+          0.95
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Crested_mask": {
+      "sprite": "INGAME_DINO_CRESTED_MASK",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "DINO_EGG_BLUE": {
+      "sprite": "INGAME_DINO_EGG_BLUE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "DINO_EGG_GREEN": {
+      "sprite": "INGAME_DINO_EGG_GREEN",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "DINO_EGG_ORANGE": {
+      "sprite": "INGAME_DINO_EGG_ORANGE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "DINO_EGG_PINK": {
+      "sprite": "INGAME_DINO_EGG_PINK",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "DINO_SCORE_AMMONITE": {
+      "sprite": "INGAME_DINO_AMMONITE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "DINO_SCORE_CHERRY": {
+      "sprite": "INGAME_DINO_FRUITS_CHERRY",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "DINO_SCORE_FRUIT_BLUE": {
+      "sprite": "INGAME_DINO_FRUITS_ALIEN_BLUE",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.7
+        ],
+        [
+          0.5,
+          0.0
+        ],
+        [
+          0.8,
+          0.0
+        ],
+        [
+          0.9,
+          0.6
+        ],
+        [
+          0.6,
+          1.0
+        ],
+        [
+          0.2,
+          1.0
+        ],
+        [
+          0.0,
+          0.9
+        ]
+      ],
+      "half_resolution": true
+    },
+    "DINO_SCORE_FRUIT_RED": {
+      "sprite": "INGAME_DINO_FRUITS_ALIEN_RED",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        3.0,
+        5.0
+      ],
+      "half_resolution": true
+    },
+    "DINO_SCORE_NECKLACE": {
+      "sprite": "INGAME_DINO_NECKLACE",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.6
+        ],
+        [
+          0.15,
+          0.15
+        ],
+        [
+          0.7,
+          0.1
+        ],
+        [
+          0.95,
+          0.25
+        ],
+        [
+          1.0,
+          0.85
+        ],
+        [
+          0.75,
+          1.0
+        ],
+        [
+          0.3,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "DecorationDinoDecoCastshadow": {
+      "sprite": "DINO_CASTSHADOW",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationDinoDecoGrass1": {
+      "sprite": "DINO_GRASS_1",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationDinoDecoGrassHighlight": {
+      "sprite": "DINO_GRASS_HIGHLIGHT",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationDinoDecoPlant1": {
+      "sprite": "DINO_PLANT_1",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationDinoDecoPlant3": {
+      "sprite": "DINO_PLANT_3",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationDinoDecoPlant5": {
+      "sprite": "DINO_PLANT_5",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationDinoDecoPlant6": {
+      "sprite": "DINO_PLANT_6",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationDinoDecoPlant7": {
+      "sprite": "DINO_PLANT_7",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationDinoDecoPlant8": {
+      "sprite": "DINO_PLANT_8",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationDinoDecoSmoke": {
+      "sprite": "DINO_SMOKE",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationDinoDecoSwine1": {
+      "sprite": "DINO_SWINE_1",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationDinoHalloweenAmmonite": {
+      "sprite": "DINO_AMMONITE_HALLOWEEN",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationDinoHalloweenDecoBone1": {
+      "sprite": "DINO_BONE1_HALLOWEEN",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationDinoHalloweenDecoRock1": {
+      "sprite": "DINO_ROCK1_HALLOWEEN",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationDinoHalloweenDecoRock2": {
+      "sprite": "DINO_ROCK2_HALLOWEEN",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "DecorationDinoHalloweenDecoSkull": {
+      "sprite": "DINO_SKULL_HALLOWEEN",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "Dino_Bananas": {
+      "sprite": "INGAME_DINO_FRUITS_BANANAS",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.3
+        ],
+        [
+          0.9,
+          0.0
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.7
+        ],
+        [
+          0.7,
+          1.0
+        ],
+        [
+          0.3,
+          1.0
+        ],
+        [
+          0.0,
+          0.6
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Dino_Belt_1": {
+      "sprite": "INGAME_DINO_ANIMAL_PELT_01",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.2
+        ],
+        [
+          0.15,
+          0.0
+        ],
+        [
+          0.9,
+          0.0
+        ],
+        [
+          1.0,
+          0.15
+        ],
+        [
+          0.75,
+          0.95
+        ],
+        [
+          0.3,
+          0.95
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Dino_Belt_2": {
+      "sprite": "INGAME_DINO_ANIMAL_PELT_02",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.2
+        ],
+        [
+          0.15,
+          0.0
+        ],
+        [
+          0.9,
+          0.0
+        ],
+        [
+          1.0,
+          0.15
+        ],
+        [
+          0.75,
+          0.95
+        ],
+        [
+          0.3,
+          0.95
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Dino_Belt_3": {
+      "sprite": "INGAME_DINO_ANIMAL_PELT_03",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.2
+        ],
+        [
+          0.15,
+          0.0
+        ],
+        [
+          0.9,
+          0.0
+        ],
+        [
+          1.0,
+          0.15
+        ],
+        [
+          0.75,
+          0.95
+        ],
+        [
+          0.3,
+          0.95
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Dino_Coconut": {
+      "sprite": "INGAME_DINO_FRUITS_COCONUT_FULL",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_Coconut_Open": {
+      "sprite": "INGAME_DINO_FRUITS_COCONUT_HALF",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_Peach": {
+      "sprite": "INGAME_DINO_FRUITS_PEACH",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_Pineapple": {
+      "sprite": "INGAME_DINO_FRUITS_PINEAPPLE",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        2.0,
+        5.5
+      ],
+      "half_resolution": true
+    },
+    "Dino_Rock_Rectangle": {
+      "sprite": "INGAME_DINO_ARTY_STONE_02_1_4",
+      "kind": 5,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_Rock_Sphere": {
+      "sprite": "INGAME_DINO_ARTY_STONE_01_1_4",
+      "kind": 5,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_Rock_Square": {
+      "sprite": "INGAME_DINO_ARTY_STONE_03_1_4",
+      "kind": 5,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_backplate_big": {
+      "sprite": "INGAME_DINO_BACK_PLATE_BIG",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.65
+        ],
+        [
+          0.7,
+          0.0
+        ],
+        [
+          1.0,
+          0.8
+        ],
+        [
+          0.8,
+          0.95
+        ],
+        [
+          0.2,
+          0.95
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Dino_backplate_medium": {
+      "sprite": "INGAME_DINO_BACK_PLATE_MEDIUM",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.65
+        ],
+        [
+          0.6,
+          0.0
+        ],
+        [
+          0.75,
+          0.1
+        ],
+        [
+          1.0,
+          0.8
+        ],
+        [
+          0.8,
+          0.95
+        ],
+        [
+          0.2,
+          0.95
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Dino_backplate_small": {
+      "sprite": "INGAME_DINO_BACK_PLATE_SMALL",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.65
+        ],
+        [
+          0.7,
+          0.1
+        ],
+        [
+          0.85,
+          0.0
+        ],
+        [
+          1.0,
+          0.2
+        ],
+        [
+          0.8,
+          0.95
+        ],
+        [
+          0.2,
+          0.95
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Dino_basic_bone_long": {
+      "sprite": "INGAME_DINO_BASIC_BONE_LONG",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_basic_bone_medium": {
+      "sprite": "INGAME_DINO_BASIC_BONE_MEDIUM",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_basic_bone_small": {
+      "sprite": "INGAME_DINO_BASIC_BONE_SMALL",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_claw_black_01": {
+      "sprite": "INGAME_DINO_CLAW_BLACK_01",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_claw_black_02": {
+      "sprite": "INGAME_DINO_CLAW_BLACK_02",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_claw_white_01": {
+      "sprite": "INGAME_DINO_CLAW_WHITE_01",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_claw_white_02": {
+      "sprite": "INGAME_DINO_CLAW_WHITE_02",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_eye_green": {
+      "sprite": "INGAME_DINO_EYE_GREEN",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_eye_red": {
+      "sprite": "INGAME_DINO_EYE_RED",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_feather_cyan": {
+      "sprite": "INGAME_DINO_CYAN_FEATHER",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_feather_red": {
+      "sprite": "INGAME_DINO_RED_FEATHER",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_random_bone_01": {
+      "sprite": "INGAME_DINO_RANDOM_BONE_01",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_random_bone_02": {
+      "sprite": "INGAME_DINO_RANDOM_BONE_02",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_random_bone_03": {
+      "sprite": "INGAME_DINO_RANDOM_BONE_03",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_spike_01": {
+      "sprite": "INGAME_DINO_SPIKE_01",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_spike_02": {
+      "sprite": "INGAME_DINO_SPIKE_02",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_spike_03": {
+      "sprite": "INGAME_DINO_SPIKE_03",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_thick_bone_big": {
+      "sprite": "INGAME_DINO_THICK_BONE_BIG",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_thick_bone_small": {
+      "sprite": "INGAME_DINO_THICK_BONE_SMALL",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Dino_wing_green": {
+      "sprite": "INGAME_DINO_GREEN_WING",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.8
+        ],
+        [
+          0.3,
+          0.0
+        ],
+        [
+          1.0,
+          0.1
+        ],
+        [
+          0.6,
+          0.7
+        ],
+        [
+          0.15,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Dino_wing_light_green": {
+      "sprite": "INGAME_DINO_LIGHT_GREEN_WING",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.8
+        ],
+        [
+          0.3,
+          0.0
+        ],
+        [
+          1.0,
+          0.1
+        ],
+        [
+          0.6,
+          0.7
+        ],
+        [
+          0.15,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Dino_wing_orange": {
+      "sprite": "INGAME_DINO_ORANGE_WING",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.8
+        ],
+        [
+          0.3,
+          0.0
+        ],
+        [
+          1.0,
+          0.1
+        ],
+        [
+          0.6,
+          0.7
+        ],
+        [
+          0.15,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "ExtraMelon_Open": {
+      "sprite": "INGAME_DINO_FRUITS_WATERMELON",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "GLASSES_2_STACHE": {
+      "sprite": "GLASSES_2_STACHE",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "GOLD_BRACELET": {
+      "sprite": "AZTEC_GOLD3",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "GOLD_SPHERE": {
+      "sprite": "AZTEC_GOLD2",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Hadrosaurus_lower_jaw": {
+      "sprite": "INGAME_DINO_HADROSAURUS_LOWER_JAW",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.6
+        ],
+        [
+          0.8,
+          0.0
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.75
+        ],
+        [
+          0.3,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Hadrosaurus_upper_jaw": {
+      "sprite": "INGAME_DINO_HADROSAURUS_UPPER_JAW",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.85
+        ],
+        [
+          0.4,
+          0.33
+        ],
+        [
+          0.8,
+          0.0
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.25
+        ],
+        [
+          0.55,
+          0.9
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Horned_mask": {
+      "sprite": "INGAME_DINO_HORNED_MASK",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "MISC_THEMED_8X1": {
+      "sprite": "BLOCK_WOOD_1_6",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "PIG_FLAG": {
+      "sprite": "PIGSDAY_FLAG",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Palm_leaf_01": {
+      "sprite": "INGAME_DINO_PALM_LEAF_01",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.8
+        ],
+        [
+          0.45,
+          0.0
+        ],
+        [
+          0.7,
+          0.0
+        ],
+        [
+          1.0,
+          0.5
+        ],
+        [
+          0.75,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Palm_leaf_03": {
+      "sprite": "INGAME_DINO_PALM_LEAF_03",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.5
+        ],
+        [
+          0.4,
+          0.0
+        ],
+        [
+          0.5,
+          0.0
+        ],
+        [
+          1.0,
+          0.5
+        ],
+        [
+          0.55,
+          1.0
+        ],
+        [
+          0.4,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Palm_leaf_05": {
+      "sprite": "INGAME_DINO_PALM_LEAF_05",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.55
+        ],
+        [
+          0.4,
+          0.0
+        ],
+        [
+          0.55,
+          0.0
+        ],
+        [
+          1.0,
+          0.5
+        ],
+        [
+          0.65,
+          1.0
+        ],
+        [
+          0.4,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Palm_trunk_01": {
+      "sprite": "INGAME_DINO_PALM_TRUNK_01",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Palm_trunk_02": {
+      "sprite": "INGAME_DINO_PALM_TRUNK_02",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "Palm_trunk_04": {
+      "sprite": "INGAME_DINO_PALM_TRUNK_04",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "PinkBird_Cage": {
+      "sprite": "BIRD_PINK_CAGE",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.37
+        ],
+        [
+          0.5,
+          0.1
+        ],
+        [
+          1.0,
+          0.37
+        ],
+        [
+          1.0,
+          0.55
+        ],
+        [
+          0.85,
+          0.98
+        ],
+        [
+          0.15,
+          0.98
+        ],
+        [
+          0.0,
+          0.55
+        ]
+      ],
+      "half_resolution": true,
+      "release_bird": "PinkBird"
+    },
+    "Pirate_sail": {
+      "sprite": "PIGS_PIRATE_SAIL",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.26
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.85,
+          0.55
+        ],
+        [
+          0.6,
+          1.0
+        ],
+        [
+          0.38,
+          1.0
+        ],
+        [
+          0.19,
+          0.7
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Raptor_lower_jaw": {
+      "sprite": "INGAME_DINO_RAPTOR_LOWER_JAW",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.9
+        ],
+        [
+          0.5,
+          0.35
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.15
+        ],
+        [
+          0.1,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Raptor_upper_jaw": {
+      "sprite": "INGAME_DINO_RAPTOR_UPPER_JAW",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.7
+        ],
+        [
+          0.65,
+          0.0
+        ],
+        [
+          0.85,
+          0.0
+        ],
+        [
+          1.0,
+          0.45
+        ],
+        [
+          0.75,
+          0.75
+        ],
+        [
+          0.08,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "RedBigBird_Cage": {
+      "sprite": "BIRD_BIG_BROTHER_CAGE",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.37
+        ],
+        [
+          0.5,
+          0.1
+        ],
+        [
+          1.0,
+          0.37
+        ],
+        [
+          1.0,
+          0.55
+        ],
+        [
+          0.85,
+          0.98
+        ],
+        [
+          0.15,
+          0.98
+        ],
+        [
+          0.0,
+          0.55
+        ]
+      ],
+      "half_resolution": true,
+      "release_bird": "RedBigBird"
+    },
+    "SmallBlueBird_Cage": {
+      "sprite": "BIRD_BLUE_CAGE",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.37
+        ],
+        [
+          0.5,
+          0.1
+        ],
+        [
+          1.0,
+          0.37
+        ],
+        [
+          1.0,
+          0.55
+        ],
+        [
+          0.85,
+          0.98
+        ],
+        [
+          0.15,
+          0.98
+        ],
+        [
+          0.0,
+          0.55
+        ]
+      ],
+      "release_bird": "SmallBlueBird",
+      "half_resolution": true
+    },
+    "Trex_lower_jaw": {
+      "sprite": "INGAME_DINO_TREX_LOWER_JAW",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.2
+        ],
+        [
+          0.7,
+          0.0
+        ],
+        [
+          1.0,
+          0.3
+        ],
+        [
+          0.95,
+          1.0
+        ],
+        [
+          0.6,
+          1.0
+        ],
+        [
+          0.0,
+          0.5
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Trex_mask": {
+      "sprite": "INGAME_DINO_TREX_MASK",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "Trex_upper_jaw": {
+      "sprite": "INGAME_DINO_TREX_UPPER_JAW",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.5
+        ],
+        [
+          0.1,
+          0.25
+        ],
+        [
+          0.85,
+          0.0
+        ],
+        [
+          0.9,
+          0.0
+        ],
+        [
+          1.0,
+          0.25
+        ],
+        [
+          1.0,
+          0.5
+        ],
+        [
+          0.85,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Tribal_flower_mask": {
+      "sprite": "INGAME_DINO_TRIBAL_FLOWER_MASK",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "Tribal_horn_mask": {
+      "sprite": "INGAME_DINO_TRIBAL_HORN_MASK",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "Tribal_pig_mask": {
+      "sprite": "INGAME_DINO_TRIBAL_PIG_MASK",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "Triceratops_lower_jaw": {
+      "sprite": "INGAME_DINO_TRICERATOPS_LOWER_JAW",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.5
+        ],
+        [
+          0.75,
+          0.0
+        ],
+        [
+          0.9,
+          0.0
+        ],
+        [
+          1.0,
+          0.2
+        ],
+        [
+          0.9,
+          0.45
+        ],
+        [
+          0.35,
+          1.0
+        ],
+        [
+          0.25,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "Triceratops_mask": {
+      "sprite": "INGAME_DINO_TRICERATOPS_MASK",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        1.0,
+        1.0
+      ],
+      "half_resolution": true
+    },
+    "Triceratops_upper_jaw": {
+      "sprite": "INGAME_DINO_TRICERATOPS_UPPER_JAW",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.55
+        ],
+        [
+          0.17,
+          0.17
+        ],
+        [
+          0.7,
+          0.0
+        ],
+        [
+          0.8,
+          0.05
+        ],
+        [
+          1.0,
+          0.4
+        ],
+        [
+          0.95,
+          0.75
+        ],
+        [
+          0.25,
+          1.0
+        ],
+        [
+          0.15,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "WhiteBlock9": {
+      "sprite": "WHITE_4X4_1",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "YellowBird_Cage": {
+      "sprite": "BIRD_YELLOW_CAGE",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.37
+        ],
+        [
+          0.5,
+          0.1
+        ],
+        [
+          1.0,
+          0.37
+        ],
+        [
+          1.0,
+          0.55
+        ],
+        [
+          0.85,
+          0.98
+        ],
+        [
+          0.15,
+          0.98
+        ],
+        [
+          0.0,
+          0.55
+        ]
+      ],
+      "half_resolution": true,
+      "release_bird": "YellowBird"
     }
   },
   "metrics": "profiles/sprite_metrics.json",
@@ -4841,7 +6601,114 @@
       "WhiteBlock4": 4.0,
       "WhiteBlock5": 4.0,
       "WhiteBlock6": 4.0,
-      "WhiteBlock7": 4.0
+      "WhiteBlock7": 4.0,
+      "Apatosaurus_lower_jaw": 3.0,
+      "Apatosaurus_upper_jaw": 3.0,
+      "BP_EGG_SIGN": 0.8,
+      "BasicBird2_Cage": 4.0,
+      "BlackBird_Cage": 4.0,
+      "CHAIN_RUSTED": 0.7,
+      "Caveking_outfit": 0.7,
+      "Caveman_Pickaxe": 4.0,
+      "Caveman_outfit": 0.7,
+      "Cavequeen_outfit": 0.7,
+      "Cavething_outfit": 0.7,
+      "Cavewoman_outfit": 0.7,
+      "Claw_club": 4.0,
+      "Crested_mask": 0.7,
+      "DINO_EGG_BLUE": 0.7,
+      "DINO_EGG_GREEN": 0.7,
+      "DINO_EGG_ORANGE": 0.7,
+      "DINO_EGG_PINK": 0.7,
+      "DINO_SCORE_AMMONITE": 0.7,
+      "DINO_SCORE_CHERRY": 0.7,
+      "DINO_SCORE_FRUIT_BLUE": 0.7,
+      "DINO_SCORE_FRUIT_RED": 0.7,
+      "DINO_SCORE_NECKLACE": 0.7,
+      "DecorationDinoDecoCastshadow": 0.8,
+      "DecorationDinoDecoGrass1": 0.8,
+      "DecorationDinoDecoGrassHighlight": 0.8,
+      "DecorationDinoDecoPlant1": 0.8,
+      "DecorationDinoDecoPlant3": 0.8,
+      "DecorationDinoDecoPlant5": 0.8,
+      "DecorationDinoDecoPlant6": 0.8,
+      "DecorationDinoDecoPlant7": 0.8,
+      "DecorationDinoDecoPlant8": 0.8,
+      "DecorationDinoDecoSmoke": 0.8,
+      "DecorationDinoDecoSwine1": 0.8,
+      "DecorationDinoHalloweenAmmonite": 0.8,
+      "DecorationDinoHalloweenDecoBone1": 0.8,
+      "DecorationDinoHalloweenDecoRock1": 0.8,
+      "DecorationDinoHalloweenDecoRock2": 0.8,
+      "DecorationDinoHalloweenDecoSkull": 0.8,
+      "Dino_Bananas": 0.7,
+      "Dino_Belt_1": 0.7,
+      "Dino_Belt_2": 0.7,
+      "Dino_Belt_3": 0.7,
+      "Dino_Coconut": 0.7,
+      "Dino_Coconut_Open": 0.7,
+      "Dino_Peach": 0.7,
+      "Dino_Pineapple": 0.7,
+      "Dino_Rock_Rectangle": 4.0,
+      "Dino_Rock_Sphere": 4.0,
+      "Dino_Rock_Square": 4.0,
+      "Dino_backplate_big": 3.0,
+      "Dino_backplate_medium": 3.0,
+      "Dino_backplate_small": 3.0,
+      "Dino_basic_bone_long": 3.0,
+      "Dino_basic_bone_medium": 3.0,
+      "Dino_basic_bone_small": 3.0,
+      "Dino_claw_black_01": 3.0,
+      "Dino_claw_black_02": 3.0,
+      "Dino_claw_white_01": 3.0,
+      "Dino_claw_white_02": 3.0,
+      "Dino_eye_green": 0.7,
+      "Dino_eye_red": 0.7,
+      "Dino_feather_cyan": 0.7,
+      "Dino_feather_red": 0.7,
+      "Dino_random_bone_01": 3.0,
+      "Dino_random_bone_02": 3.0,
+      "Dino_random_bone_03": 3.0,
+      "Dino_spike_01": 3.0,
+      "Dino_spike_02": 3.0,
+      "Dino_spike_03": 3.0,
+      "Dino_thick_bone_big": 3.0,
+      "Dino_thick_bone_small": 3.0,
+      "Dino_wing_green": 0.7,
+      "Dino_wing_light_green": 0.7,
+      "Dino_wing_orange": 0.7,
+      "ExtraMelon_Open": 0.7,
+      "GLASSES_2_STACHE": 1.0,
+      "GOLD_BRACELET": 0.7,
+      "GOLD_SPHERE": 0.7,
+      "Hadrosaurus_lower_jaw": 3.0,
+      "Hadrosaurus_upper_jaw": 3.0,
+      "Horned_mask": 0.7,
+      "MISC_THEMED_8X1": 4.0,
+      "PIG_FLAG": 0.7,
+      "Palm_leaf_01": 0.7,
+      "Palm_leaf_03": 0.7,
+      "Palm_leaf_05": 0.7,
+      "Palm_trunk_01": 4.0,
+      "Palm_trunk_02": 4.0,
+      "Palm_trunk_04": 4.0,
+      "PinkBird_Cage": 4.0,
+      "Pirate_sail": 0.7,
+      "Raptor_lower_jaw": 3.0,
+      "Raptor_upper_jaw": 3.0,
+      "RedBigBird_Cage": 4.0,
+      "SmallBlueBird_Cage": 4.0,
+      "Trex_lower_jaw": 3.0,
+      "Trex_mask": 0.7,
+      "Trex_upper_jaw": 3.0,
+      "Tribal_flower_mask": 0.7,
+      "Tribal_horn_mask": 0.7,
+      "Tribal_pig_mask": 0.7,
+      "Triceratops_lower_jaw": 3.0,
+      "Triceratops_mask": 0.7,
+      "Triceratops_upper_jaw": 3.0,
+      "WhiteBlock9": 4.0,
+      "YellowBird_Cage": 4.0
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -5202,7 +7069,114 @@
       "WhiteBlock4": 0.2,
       "WhiteBlock5": 0.2,
       "WhiteBlock6": 0.2,
-      "WhiteBlock7": 0.2
+      "WhiteBlock7": 0.2,
+      "Apatosaurus_lower_jaw": 0.2,
+      "Apatosaurus_upper_jaw": 0.2,
+      "BP_EGG_SIGN": 0.0,
+      "BasicBird2_Cage": 0.15,
+      "BlackBird_Cage": 0.15,
+      "CHAIN_RUSTED": 0.2,
+      "Caveking_outfit": 0.1,
+      "Caveman_Pickaxe": 0.2,
+      "Caveman_outfit": 0.1,
+      "Cavequeen_outfit": 0.1,
+      "Cavething_outfit": 0.1,
+      "Cavewoman_outfit": 0.1,
+      "Claw_club": 0.2,
+      "Crested_mask": 0.1,
+      "DINO_EGG_BLUE": 0.1,
+      "DINO_EGG_GREEN": 0.1,
+      "DINO_EGG_ORANGE": 0.1,
+      "DINO_EGG_PINK": 0.1,
+      "DINO_SCORE_AMMONITE": 0.4,
+      "DINO_SCORE_CHERRY": 0.4,
+      "DINO_SCORE_FRUIT_BLUE": 0.4,
+      "DINO_SCORE_FRUIT_RED": 0.4,
+      "DINO_SCORE_NECKLACE": 0.4,
+      "DecorationDinoDecoCastshadow": 0.0,
+      "DecorationDinoDecoGrass1": 0.0,
+      "DecorationDinoDecoGrassHighlight": 0.0,
+      "DecorationDinoDecoPlant1": 0.0,
+      "DecorationDinoDecoPlant3": 0.0,
+      "DecorationDinoDecoPlant5": 0.0,
+      "DecorationDinoDecoPlant6": 0.0,
+      "DecorationDinoDecoPlant7": 0.0,
+      "DecorationDinoDecoPlant8": 0.0,
+      "DecorationDinoDecoSmoke": 0.0,
+      "DecorationDinoDecoSwine1": 0.0,
+      "DecorationDinoHalloweenAmmonite": 0.0,
+      "DecorationDinoHalloweenDecoBone1": 0.0,
+      "DecorationDinoHalloweenDecoRock1": 0.0,
+      "DecorationDinoHalloweenDecoRock2": 0.0,
+      "DecorationDinoHalloweenDecoSkull": 0.0,
+      "Dino_Bananas": 0.4,
+      "Dino_Belt_1": 0.4,
+      "Dino_Belt_2": 0.4,
+      "Dino_Belt_3": 0.4,
+      "Dino_Coconut": 0.4,
+      "Dino_Coconut_Open": 0.4,
+      "Dino_Peach": 0.4,
+      "Dino_Pineapple": 0.4,
+      "Dino_Rock_Rectangle": 0.1,
+      "Dino_Rock_Sphere": 0.1,
+      "Dino_Rock_Square": 0.1,
+      "Dino_backplate_big": 0.2,
+      "Dino_backplate_medium": 0.2,
+      "Dino_backplate_small": 0.2,
+      "Dino_basic_bone_long": 0.2,
+      "Dino_basic_bone_medium": 0.2,
+      "Dino_basic_bone_small": 0.2,
+      "Dino_claw_black_01": 0.2,
+      "Dino_claw_black_02": 0.2,
+      "Dino_claw_white_01": 0.2,
+      "Dino_claw_white_02": 0.2,
+      "Dino_eye_green": 0.1,
+      "Dino_eye_red": 0.1,
+      "Dino_feather_cyan": 0.1,
+      "Dino_feather_red": 0.1,
+      "Dino_random_bone_01": 0.2,
+      "Dino_random_bone_02": 0.2,
+      "Dino_random_bone_03": 0.2,
+      "Dino_spike_01": 0.2,
+      "Dino_spike_02": 0.2,
+      "Dino_spike_03": 0.2,
+      "Dino_thick_bone_big": 0.2,
+      "Dino_thick_bone_small": 0.2,
+      "Dino_wing_green": 0.1,
+      "Dino_wing_light_green": 0.1,
+      "Dino_wing_orange": 0.1,
+      "ExtraMelon_Open": 0.4,
+      "GLASSES_2_STACHE": 0.0,
+      "GOLD_BRACELET": 0.1,
+      "GOLD_SPHERE": 0.1,
+      "Hadrosaurus_lower_jaw": 0.2,
+      "Hadrosaurus_upper_jaw": 0.2,
+      "Horned_mask": 0.1,
+      "MISC_THEMED_8X1": 0.2,
+      "PIG_FLAG": 0.1,
+      "Palm_leaf_01": 0.1,
+      "Palm_leaf_03": 0.1,
+      "Palm_leaf_05": 0.1,
+      "Palm_trunk_01": 0.2,
+      "Palm_trunk_02": 0.2,
+      "Palm_trunk_04": 0.2,
+      "PinkBird_Cage": 0.15,
+      "Pirate_sail": 0.1,
+      "Raptor_lower_jaw": 0.2,
+      "Raptor_upper_jaw": 0.2,
+      "RedBigBird_Cage": 0.15,
+      "SmallBlueBird_Cage": 0.15,
+      "Trex_lower_jaw": 0.2,
+      "Trex_mask": 0.1,
+      "Trex_upper_jaw": 0.2,
+      "Tribal_flower_mask": 0.1,
+      "Tribal_horn_mask": 0.1,
+      "Tribal_pig_mask": 0.1,
+      "Triceratops_lower_jaw": 0.2,
+      "Triceratops_mask": 0.1,
+      "Triceratops_upper_jaw": 0.2,
+      "WhiteBlock9": 0.2,
+      "YellowBird_Cage": 0.15
     }
   }
 }

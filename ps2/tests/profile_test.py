@@ -524,3 +524,21 @@ assert 'L4_1 = L4_1.none\nL3_1.collider = L4_1' in pf and objs['objects']['Decor
 camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN');mirrored=[o for o in camp['objects'] if o['mirror']]
 assert len(mirrored)>=70 and all(o['mirror'] in (2,4,6) for o in mirrored)
 print(f"Piggy Farm OK: 45 stages in banks 35-40; 73 pieces match blocks.lua (decoration_new without collider); {len(mirrored)} mirrored pieces.")
+
+# Dino (pages 45-57, banks 41-53): 46 stages, 107 pieces; cages release their bird into the queue.
+dn=(root/'ps2/data/dino_definitions_excerpt.lua').read_text()
+order=sum((list(dict.fromkeys(re.findall(r'"(Dino\d_\w+)"',(root/f'ps2/data/episode_dino_page{k}.decompiled.lua').read_text()))) for k in (1,2,3)),[])
+pages=[pg for pg in episode['additional_pages'] if pg.get('folder')=='/levels/22_Dino']
+assert len(order)==46 and sum((pg['levels'] for pg in pages),[])==order and [pg['bank'] for pg in pages]==list(range(41,54))
+names=list(dict.fromkeys(re.findall(r'L3_1 = "(\w+)"\nL4_1 = \{\}',dn)));assert len(names)==107
+cages=0
+for name in names:
+    d=_ad.definition(dn,name);spec=objs['objects'][name]
+    nocol=_ad.material_has_no_collider(dn,d['material'])
+    assert spec['sprite']==d['sprite'] and spec['shape']==d['type'] and spec.get('half_resolution'),name
+    assert spec['kind']==(3 if nocol else {'wood':1,'light':2,'rock':5,'immovable':3}.get(d['material'],6)) and bool(spec.get('no_collision'))==(nocol or bool(d['props'].get('no_collision'))),name
+    assert spec.get('release_bird')==d['props'].get('release_bird'),name
+    if spec.get('release_bird'):assert spec['release_bird'] in objs['bird_types'];cages+=1
+camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN');released=[o for o in camp['objects'] if o['release_bird']>=0]
+assert cages==6 and released and all(objs['objects'][o['definition']].get('release_bird') for o in released)
+print(f"Dino OK: 46 stages in banks 41-53; 107 pieces match blocks.lua; {cages} cage types, {len(released)} caged birds released into the queue.")

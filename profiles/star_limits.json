@@ -2364,6 +2364,190 @@
     "Farm3_tractorpulling": {
       "silver": 152500,
       "gold": 162500
+    },
+    "Dino1_profcar": {
+      "silver": 125000,
+      "gold": 135000
+    },
+    "Dino1_profcamp": {
+      "silver": 110000,
+      "gold": 120000
+    },
+    "Dino1_tribalruins": {
+      "silver": 150000,
+      "gold": 160000
+    },
+    "Dino1_ruins": {
+      "silver": 180000,
+      "gold": 190000
+    },
+    "Dino1_stonetemple": {
+      "silver": 190000,
+      "gold": 200000
+    },
+    "Dino1_dinoeggs": {
+      "silver": 190000,
+      "gold": 200000
+    },
+    "Dino1_canoe": {
+      "silver": 150000,
+      "gold": 160000
+    },
+    "Dino1_treasurehunt": {
+      "silver": 175000,
+      "gold": 185000
+    },
+    "Dino1_bodyshop": {
+      "silver": 210000,
+      "gold": 220000
+    },
+    "Dino1_tribalvillage": {
+      "silver": 175000,
+      "gold": 190000
+    },
+    "Dino1_stonetrap": {
+      "silver": 190000,
+      "gold": 210000
+    },
+    "Dino1_carramp": {
+      "silver": 300000,
+      "gold": 310000
+    },
+    "Dino1_stoneshop": {
+      "silver": 185000,
+      "gold": 205000
+    },
+    "Dino1_juhotraps": {
+      "silver": 135000,
+      "gold": 145000
+    },
+    "Dino1_bigdino": {
+      "silver": 245000,
+      "gold": 255000
+    },
+    "Dino2_eggstore": {
+      "silver": 125000,
+      "gold": 135000
+    },
+    "Dino2_wateringhole": {
+      "silver": 210000,
+      "gold": 240000
+    },
+    "Dino2_raptortrap": {
+      "silver": 120000,
+      "gold": 135000
+    },
+    "Dino2_nettrap": {
+      "silver": 110000,
+      "gold": 120000
+    },
+    "Dino2_babydinos": {
+      "silver": 190000,
+      "gold": 210000
+    },
+    "Dino2_stegosaurus": {
+      "silver": 130000,
+      "gold": 140000
+    },
+    "Dino2_dinoriders": {
+      "silver": 135000,
+      "gold": 145000
+    },
+    "Dino2_poopsaurus": {
+      "silver": 115000,
+      "gold": 125000
+    },
+    "Dino2_apatosaurusride": {
+      "silver": 170000,
+      "gold": 190000
+    },
+    "Dino2_trex": {
+      "silver": 250000,
+      "gold": 300000
+    },
+    "Dino2_tribeswar": {
+      "silver": 230000,
+      "gold": 240000
+    },
+    "Dino2_pineapple": {
+      "silver": 145000,
+      "gold": 155000
+    },
+    "Dino2_monsterflowers": {
+      "silver": 135000,
+      "gold": 145000
+    },
+    "Dino2_giantmoth": {
+      "silver": 120000,
+      "gold": 130000
+    },
+    "Dino2_dinoskull": {
+      "silver": 170000,
+      "gold": 190000
+    },
+    "Dino3_tntblues": {
+      "silver": 65000,
+      "gold": 75000
+    },
+    "Dino3_chainstella": {
+      "silver": 65000,
+      "gold": 75000
+    },
+    "Dino3_tntbomb": {
+      "silver": 110000,
+      "gold": 120000
+    },
+    "Dino3_matildaarches": {
+      "silver": 70000,
+      "gold": 80000
+    },
+    "Dino3_tntstella": {
+      "silver": 100000,
+      "gold": 110000
+    },
+    "Dino3_flyingskeletons": {
+      "silver": 105000,
+      "gold": 115000
+    },
+    "Dino3_eyeseeyou": {
+      "silver": 135000,
+      "gold": 145000
+    },
+    "Dino3_dragonworms": {
+      "silver": 195000,
+      "gold": 205000
+    },
+    "Dino3_rollit": {
+      "silver": 130000,
+      "gold": 140000
+    },
+    "Dino3_skullreturns": {
+      "silver": 230000,
+      "gold": 240000
+    },
+    "Dino3_crabattack": {
+      "silver": 180000,
+      "gold": 190000
+    },
+    "Dino3_eyescollection": {
+      "silver": 230000,
+      "gold": 240000
+    },
+    "Dino3_flyingcatch": {
+      "silver": 130000,
+      "gold": 140000
+    },
+    "Dino3_nomercy": {
+      "silver": 170000,
+      "gold": 180000
+    },
+    "Dino3_tongueattack": {
+      "silver": 160000,
+      "gold": 170000
+    },
+    "Dino3_uphilldino": {
+      "silver": 160000,
+      "gold": 170000
     }
   }
 }

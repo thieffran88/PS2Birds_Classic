@@ -23,6 +23,8 @@ def definition(blocks,name):
     props={k:float(v) for v,k in re.findall(r'L5_1 = (-?[\d.]+)\nL4_1\.(\w+) = L5_1',b)}
     props.update({k:float(v) for k,v in re.findall(r'L5_1 = "(width|height|targetVelocity)"\nL6_1 = (-?[\d.]+)',b)})
     if re.search(r'L5_1 = false\nL4_1.collision = L5_1',b):props['no_collision']=True
+    rel=re.search(r'L5_1 = "spawnNewBirdOnDestruction"\n(?:L4_1\[L5_1\] = "(\w+)"|L6_1 = "(\w+)"\nL4_1\[L5_1\] = L6_1)',b)
+    if rel:props['release_bird']=rel[1] or rel[2]
     m=re.findall(r'materialName = "(\w+)"',b)
     return dict(type=t[0],sprite=s[0],material=m[0] if m else 'extras',vertices=[[float(nums[i][1]),float(nums[i+1][1])] for i in range(0,len(nums),2)],props=props)
 def material(blocks,name):
@@ -52,6 +54,8 @@ def main():
         # collision = false: drawn but not touched (a Box2D sensor in the port).
         if d['props'].get('no_collision') or material_has_no_collider(blocks,d['material']):spec['no_collision']=True
         if material_has_no_collider(blocks,d['material']):spec['kind']=3
+        # Cages (Dino): spawnNewBirdOnDestruction adds that bird to the queue when the cage breaks.
+        if d['props'].get('release_bird'):spec['release_bird']=d['props']['release_bird']
         # immovable material: static scenery, drawn like the ground pieces and not counted as a block.
         if d['material']=='immovable':spec['kind']=3
         # Birdday 7 onwards: themed copies of the wood/glass/stone blocks and fragile scenery keep

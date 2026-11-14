@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.39.0)
+# Lacunas do port (levantamento atualizado na 0.40.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -9,7 +9,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - Danger Above: completo no port desde a 0.24.0 (páginas 6, 7 e 8, 45 fases)
 - Mighty Feathers: 15/46; Ham 'Em High: 8/48; Golden Eggs: 4/31
 - Surf and Turf 2/45, Bad Piggies 3/45, Flock Favorites 3/30
-- Zero: Tutorial, Big Setup, Mine and Dine, Short Fuse, Bird Island, Piggy Farm, Dino, Birdday 2–7
+- Zero: Tutorial, Big Setup, Mine and Dine, Short Fuse, Bird Island, Piggy Farm, Dino, Birdday 2–7 (levantamento inicial; hoje todos, exceto o Tutorial, estão no port)
 
 ## O que falta na decompilação/importação
 
@@ -118,6 +118,12 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **Efeitos especiais do Short Fuse ainda não portados:** frascos (`VialEffects.lua`: azul, laranja e rosa mudam os porcos), foguete (`RocketCanister.lua`), ímã e balão explosivo.
 - **Instabilidade em 2-13 e 3-3:** soldas entre vidro leve e pedra pesada; precisa de mais iterações do solver ou outra estratégia de solda, o que mexe em todas as fases.
 
+## Achados da 0.40.0
+
+- **Dino entrou (46 fases).** 107 peças novas (ossos, mandíbulas, máscaras tribais, frutas, palmeiras, plantas, ovos de dinossauro). O cenário do Dino ocupa tanta memória de vídeo que cada página do jogo virou quatro ou cinco (2 a 4 fases por banco, bancos 41 a 53).
+- **Gaiolas:** as peças `*_Cage` declaram `spawnNewBirdOnDestruction`; quebrar a gaiola põe o pássaro no fim da fila (`spawnBird` em `gamelogic.lua`). O `blocks.lua` usa duas formas de escrever esse campo, e as duas são lidas.
+- **Folha `INGAME_DINOS_DECOS_1`:** os quadros não declaram extrusão, mas a borda existe; a margem vem do cabeçalho do quadro.
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -126,7 +132,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Episódio Dino (o maior: até 512 peças e 434 juntas por fase), modo Egg Defender (Mighty Feathers), efeitos dos frascos do Short Fuse; roteiros de 16-5, 16-6, Birdday 4-4, 6-1, 7-7, 7-14 e Surf and Turf 2-15, 3-5, 3-14 e Bad Piggies 2-7, 2-15, 3-5, 3-12 8 do Short Fuse e Bird Island 1-10, 1-15 e Piggy Farm 1-8.
+1. Modo Egg Defender (Mighty Feathers), efeitos dos frascos do Short Fuse; roteiros de 16-5, 16-6, Birdday 4-4, 6-1, 7-7, 7-14 e Surf and Turf 2-15, 3-5, 3-14 e Bad Piggies 2-7, 2-15, 3-5, 3-12 8 do Short Fuse e Bird Island 1-10, 1-15 e Piggy Farm 1-8.
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).

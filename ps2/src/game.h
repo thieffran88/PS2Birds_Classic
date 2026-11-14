@@ -159,6 +159,8 @@ void game_update(Game *game,float seconds);
 int game_special(Game *game);
 int game_special_available(const Game *game);
 int game_queue_type(const Game *game,int offset);
+/* Host tests: removes the piece's health; it breaks on the next physics tick. */
+void game_damage_object(Game *game,int index);
 int game_get_blast(const Game *game,GameBlast *blast);
 int game_projectile_count(const Game *game);
 int game_get_projectile(const Game *game,int index,GameBird *bird);

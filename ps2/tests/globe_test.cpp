@@ -75,7 +75,17 @@ int main(){
  update(&g,600);assert(g.pig_alive<=pigs_before);
  // Mirrored pieces (negative scaleX/scaleY in the level, Piggy Farm) carry the flip to the renderer.
  int mirrored=0;
- for(int lv=game_level_count()-45;lv<game_level_count() && !mirrored;lv++){assert(game_load_level(&g,lv));for(int k=0;k<game_object_count(&g);k++){GameObject o;game_get_object(&g,k,&o);if(o.mirror){assert(o.width>0 && o.height>0);mirrored++;}}}
+ for(int lv=0;lv<game_level_count() && !mirrored;lv++){assert(game_load_level(&g,lv));for(int k=0;k<game_object_count(&g);k++){GameObject o;game_get_object(&g,k,&o);if(o.mirror){assert(o.width>0 && o.height>0);mirrored++;}}}
  assert(mirrored>0);
- printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
+ // Dino cages: breaking one adds the caged bird to the end of the queue.
+ int caged=0;
+ for(int lv=0;lv<game_level_count() && !caged;lv++){
+     assert(game_load_level(&g,lv));
+     for(int k=0;k<game_object_count(&g);k++){GameObject o;game_get_object(&g,k,&o);
+         if(o.definition && strstr(o.definition,"_Cage")){
+             int before=g.birds,last=game_queue_type(&g,g.birds-1);game_damage_object(&g,k);game_update(&g,0.05f);
+             assert(g.birds==before+1 && game_queue_type(&g,before-1)==last && game_queue_type(&g,before)>=0);caged++;break;}}
+ }
+ assert(caged>0);
+ printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s; mirrored pieces; a broken cage adds its bird to the queue.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
 }

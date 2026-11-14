@@ -111,6 +111,7 @@ struct Physics: b2ContactListener {
     bool boomerang_active;float boomerang_x_force,boomerang_y_force,boomerang_spin;
     int puffer_state;float puffer_timer,puffer_auto,puffer_direction;unsigned puffer_seed;
     float pink_timer,bird_bubble;bool pink_hover;
+    int extra_types[16],extra_count,pending_birds;
     float shock_time;b2Vec2 shock_center;bool shock_hit[MAX_LEVEL_OBJECTS];float electrocute[MAX_LEVEL_OBJECTS];float bubble_timer[MAX_LEVEL_OBJECTS],bubble_float[MAX_LEVEL_OBJECTS];
     int bird_type;
     b2Body *split[2],*egg;bool egg_collided;
@@ -129,7 +130,7 @@ struct Physics: b2ContactListener {
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),puffer_state(0),puffer_timer(0),puffer_auto(-1),puffer_direction(0),puffer_seed(12345u),pink_timer(-1),bird_bubble(0),pink_hover(false),bird_type(BIRD_RED_TYPE) {
         egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
         damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
-        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(bubble_timer,0,sizeof(bubble_timer));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
+        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(bubble_timer,0,sizeof(bubble_timer));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
         world.SetContactListener(this);destruction.owner=this;world.SetDestructionListener(&destruction);
         /* The Ground object of the stage data spans the whole level; stages place pieces up to
            x=825, so the floor is FLOOR_HALF_WIDTH wide on each side of the origin. */
@@ -149,6 +150,8 @@ struct Physics: b2ContactListener {
     }
     /* deathSpawn (gamelogic.lua): the pieces stored for a destroyed parent appear where it was. */
     void release_spawns(int parent,b2Vec2 where){
+        int caged=OBJECT_RELEASED_BIRD(level->objects[parent].flags);
+        if(caged>=0 && extra_count<16){extra_types[extra_count++]=caged;pending_birds++;}
         for(int j=0;j<level->count;j++)if(level->objects[j].spawn_of==parent+1 && !bodies[j])create_body(j,where.x,where.y,level->objects[j].angle);
     }
     void create_body(int i,float x,float y,float angle){
@@ -379,7 +382,9 @@ void game_launch(Game *g) {
 int game_queue_type(const Game *g,int offset){
     const Physics *p=static_cast<const Physics*>(g->physics);
     if(offset<0 || offset>=g->birds)return -1;
-    return p->level->bird_types[p->level->birds-g->birds+offset];
+    /* Released cage birds join the end of the queue. */
+    int index=p->level->birds+p->extra_count-p->pending_birds-g->birds+offset;
+    return index<p->level->birds?p->level->bird_types[index]:p->extra_types[index-p->level->birds];
 }
 int game_special_available(const Game *g){
     const Physics *p=static_cast<const Physics*>(g->physics);
@@ -485,6 +490,7 @@ void game_preview(const Game *g,float t,float *x,float *y) {
 }
 static void tick(Game *g) {
     Physics *p=static_cast<Physics*>(g->physics); const float dt=1.0f/120;
+    g->birds+=p->pending_birds;p->pending_birds=0;
     if(p->bird_type==BIRD_GREEN_TYPE && p->bird){
         if(p->bird_collided)p->boomerang_active=false;
         b2Vec2 v=p->bird->GetLinearVelocity();float mass=p->bird->GetMass();
@@ -663,6 +669,7 @@ void game_update(Game *g,float seconds) {
         tick(g);g->accumulator-=1.0f/120;
     }
 }
+void game_damage_object(Game *g,int index){Physics *p=static_cast<Physics*>(g->physics);if(index>=0 && index<p->level->count)p->health[index]=0;}
 int game_object_count(const Game *g) {return static_cast<const Physics*>(g->physics)->level->count;}
 int game_get_object(const Game *g,int index,GameObject *out) {
     const Physics *p=static_cast<const Physics*>(g->physics);

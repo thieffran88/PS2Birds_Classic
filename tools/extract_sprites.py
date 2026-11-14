@@ -131,7 +131,7 @@ def bank_members(all_names,levels_dir=None):
     available=set(all_names);profile=json.loads((ROOT/'profiles/classic_level.json').read_text())
     episode=json.loads((ROOT/'profiles/classic_episode.json').read_text())
     # The green boomerang bird is only stored in the banks of stages that use it.
-    common=[n for n in all_names if n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_')) and not n.startswith(('BIRD_BOOMERANG','BIRD_BIG_BROTHER','BIRD_PUFFER','BIRD_PINK','BIRD_GREY_BLUE'))]
+    common=[n for n in all_names if n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_')) and not n.startswith(('BIRD_BOOMERANG','BIRD_BIG_BROTHER','BIRD_PUFFER','BIRD_PINK','BIRD_GREY_BLUE')) and not n.endswith('_CAGE')]
     bank_of_page={pg['number']:pg.get('bank',0) for pg in episode.get('additional_pages',[])};bank_of_page[1]=0
     banks=[set(common) for _ in range(max(bank_of_page.values())+1)]
     for path in sorted(Path(levels_dir or ROOT/'ps2/data').glob('level_*_*.json')):
@@ -144,6 +144,13 @@ def bank_members(all_names,levels_dir=None):
                 continue
             spec=profile['objects'][o['definition']]
             if 'sprite' in spec:banks[b]|=set(sprite_family(spec['sprite'],available))&available
+        # Birds released from cages (Dino) are drawn in the queue like the level's own birds.
+        released={o.get('release_bird') for o in d['objects']}
+        if 6 in released:banks[b]|={'BIRD_BOOMERANG','BIRD_BOOMERANG_SPECIAL','BIRD_BOOMERANG_COLLISION'}
+        if 7 in released:banks[b].add('BIRD_BIG_BROTHER')
+        if 8 in released:banks[b]|={'BIRD_PUFFER_1','BIRD_PUFFER_2'}
+        if 9 in released:banks[b]|={'BIRD_PINK','BIRD_PINK_RELEASE'}
+        if 10 in released:banks[b]|={'BIRD_GREY_BLUE','BIRD_GREY_BLUE_FLYING'}
         if any(bird['definition']=='BoomerangBird' for bird in d['birds']):banks[b]|={'BIRD_BOOMERANG','BIRD_BOOMERANG_SPECIAL','BIRD_BOOMERANG_COLLISION'}
         if any(bird['definition']=='RedBigBird' for bird in d['birds']):banks[b].add('BIRD_BIG_BROTHER')
         if any(bird['definition']=='GlobeBird' for bird in d['birds']):banks[b]|={'BIRD_PUFFER_1','BIRD_PUFFER_2'}
@@ -152,6 +159,8 @@ def bank_members(all_names,levels_dir=None):
     # Bank 0 also keeps everything not claimed by a later bank, matching earlier builds.
     later=set().union(*banks[1:]) if len(banks)>1 else set()
     banks[0]|={n for n in available if n not in later or n in banks[0]}-{n for n in later if n not in banks[0] and (n.startswith(('BIRD_BOOMERANG','BIRD_BIG_BROTHER','BIRD_PUFFER','BIRD_PINK','BIRD_GREY_BLUE')) or not n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_')))}
+    # Dino cages are pieces: only the banks whose stages place them keep their frames.
+    banks[0]-={n for n in later if n.endswith('_CAGE')}
     missing=[n for b in banks for n in b if n not in available]
     if missing:raise ValueError('Unknown sprites in banks: '+', '.join(sorted(missing)))
     # Later banks reuse neighbouring frames for blinks and middle damage states of
@@ -214,7 +223,11 @@ def extract(apk,out,sevenzip=None,game="classic",levels_dir=None):
                         # RGBA8888 sheets (e.g. INGAME_TRANSPARENCY_1_1): no padding border, the
                         # frame sits inside the extrusion margin; alpha scaled to the GS 0..128 range.
                         if struct.unpack('>HH',head[6:10])!=(w,h) or s['length']!=w*h*4:raise ValueError('Bad dimensions: '+name)
-                        if (w,h)!=(fw+left+right,fh+top+bottom):raise ValueError('Bad extrusion: '+name)
+                        if (w,h)!=(fw+left+right,fh+top+bottom):
+                            # Some sheets (INGAME_DINOS_DECOS_1) declare no extrusion but keep a
+                            # padding border, given in the stream header (left, top, right, bottom).
+                            left,top,right,bottom=struct.unpack('>HHHH',head[24:32])
+                            if (w,h)!=(fw+left+right,fh+top+bottom):raise ValueError('Bad extrusion: '+name)
                         data=raw[p+40:p+40+w*h*4]
                         if len(data)!=w*h*4:raise ValueError('Truncated sprite: '+name)
                         rgba=bytearray().join(data[((y+top)*w+left)*4:((y+top)*w+left+fw)*4] for y in range(fh))
