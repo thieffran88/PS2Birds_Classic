@@ -542,3 +542,33 @@ for name in names:
 camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN');released=[o for o in camp['objects'] if o['release_bird']>=0]
 assert cages==6 and released and all(objs['objects'][o['definition']].get('release_bird') for o in released)
 print(f"Dino OK: 46 stages in banks 41-53; 107 pieces match blocks.lua; {cages} cage types, {len(released)} caged birds released into the queue.")
+
+# Ham 'Em High extra page (page 58, bank 54): the three LevelFB stages use the older level
+# format: theme blocks resolve to StaticBlock_NN (dynamicassets.lua) and density, strength and
+# defence come from the piece definition or its material (ObjectCreation.lua).
+fb=(root/'ps2/data/episode_ham_extra_page.decompiled.lua').read_text()
+order=list(dict.fromkeys(re.findall(r'"(LevelFB_\d)"',fb)))
+page=[pg for pg in episode['additional_pages'] if pg['number']==58][0]
+assert order==['LevelFB_1','LevelFB_2','LevelFB_3']==page['levels'] and page['bank']==54
+for k in (1,2,3):
+    d=json.loads((root/f'ps2/data/level_58_{k}.json').read_text())
+    assert d['bird_queue_x']==d['sling_x'] and all(o['definition'] in objs['objects'] for o in d['objects'])
+assert objs['objects']['WoodBlock5']['defaults']=={'density':1.5,'strength':80.0,'defence':2.5}
+assert objs['objects']['StaticBlock_04']['defaults']=={'density':0.0,'strength':30.0,'defence':100000.0}
+print("Ham 'Em High extra OK: 3 LevelFB stages in bank 54; theme blocks as StaticBlock_NN, material defaults and queue at the slingshot.")
+
+# Flock Favorites (pages 59-60, banks 55-56): 25 of the 30 stages. Stages 12, 14, 25 and 28 use
+# theme26, which FlockFavoritesMode.lua runs as the Egg Defender mode (RMFClassic, not ported);
+# stage 9 falls apart while settling (welded ropes, as Short Fuse 2-13/3-3).
+ff=''.join((root/f'ps2/data/episode_flock_favorites_page{k}.decompiled.lua').read_text() for k in (1,2))
+order=list(dict.fromkeys(re.findall(r'"(FlockFavorites\d+)"',ff)));assert order==[f'FlockFavorites{k:02d}' for k in range(1,31)]
+pages=[pg for pg in episode['additional_pages'] if pg.get('folder')=='/levels/19_FlockFavorites']
+left={'FlockFavorites09','FlockFavorites12','FlockFavorites14','FlockFavorites25','FlockFavorites28'}
+assert sum((pg['levels'] for pg in pages),[])==[n for n in order if n not in left] and [pg['bank'] for pg in pages]==[55,56]
+# Explosive pieces: every definition with specialty BOMB carries its blocks.lua blast values.
+bl=(root/'ps2/data/flock_favorites_definitions_excerpt.lua').read_text()
+for name in ['BP_TNT','BP_TNT_SMALL']:
+    d=_ad.definition(bl,name);assert objs['objects'][name]['explosion']==d['props']['explosion']==[20.0,2000.0,15.0,500.0],name
+camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN')
+assert camp['explosions']['Farm_Campstove']==(10.0,30000.0,5.0,150.0) and camp['explosions']['EXPLOSIVE_BALLOON']==(10.0,30000.0,5.0,300.0)
+print(f"Flock Favorites OK: 25 stages in banks 55-56 (4 Egg Defender stages and the unstable 1-9 left out); {len(camp['explosions'])} explosive piece types carry their own blast values.")

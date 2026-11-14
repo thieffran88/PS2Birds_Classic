@@ -22,7 +22,8 @@ typedef struct {const char *definition;int count;float v[16];} CampaignPolygon;
 /* Material forceX/forceY (e.g. balloon): constant push applied every step, scaled by the body mass. */
 /* target: when non-zero (blocks.lua targetVelocity), the push stops while the piece already
    moves at that speed along the force (port reading of the native force adder). */
-typedef struct {const char *definition;float fx,fy,target;} CampaignForce;
+/* Per-definition values from blocks.lua: constant force (balloons) and explosion (specialty BOMB). */
+typedef struct {const char *definition;float fx,fy,target,blast_radius,blast_force,damage_radius,damage;} CampaignForce;
 /* Joints from the stage's joints table (types as in the level editor: 1 distance,
    2 weld, 3 revolute). Anchors are world coordinates; a/b index the objects array,
    -1 meaning the ground. frequency/damping 0 makes the joint rigid. breakForce 0 means

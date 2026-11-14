@@ -1105,6 +1105,58 @@
         "Dino3_uphilldino"
       ],
       "first": 13
+    },
+    {
+      "number": 58,
+      "title_prefix": "HAM EM HIGH EXTRA ",
+      "folder": "/levels/5_HamEmHigh",
+      "bank": 54,
+      "levels": [
+        "LevelFB_1",
+        "LevelFB_2",
+        "LevelFB_3"
+      ]
+    },
+    {
+      "number": 59,
+      "title_prefix": "FLOCK FAVORITES 1-",
+      "folder": "/levels/19_FlockFavorites",
+      "bank": 55,
+      "levels": [
+        "FlockFavorites01",
+        "FlockFavorites02",
+        "FlockFavorites03",
+        "FlockFavorites04",
+        "FlockFavorites05",
+        "FlockFavorites06",
+        "FlockFavorites07",
+        "FlockFavorites08",
+        "FlockFavorites10",
+        "FlockFavorites11",
+        "FlockFavorites13",
+        "FlockFavorites15"
+      ]
+    },
+    {
+      "number": 60,
+      "title_prefix": "FLOCK FAVORITES 2-",
+      "folder": "/levels/19_FlockFavorites",
+      "bank": 56,
+      "levels": [
+        "FlockFavorites16",
+        "FlockFavorites17",
+        "FlockFavorites18",
+        "FlockFavorites19",
+        "FlockFavorites20",
+        "FlockFavorites21",
+        "FlockFavorites22",
+        "FlockFavorites23",
+        "FlockFavorites24",
+        "FlockFavorites26",
+        "FlockFavorites27",
+        "FlockFavorites29",
+        "FlockFavorites30"
+      ]
     }
   ]
 }

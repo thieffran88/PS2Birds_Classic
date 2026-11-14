@@ -16,15 +16,30 @@
   "objects": {
     "WoodBlock2": {
       "sprite": "BLOCK_WOOD_1_2",
-      "kind": 1
+      "kind": 1,
+      "defaults": {
+        "density": 1.5,
+        "strength": 40.0,
+        "defence": 2.5
+      }
     },
     "WoodBlock4": {
       "sprite": "BLOCK_WOOD_1_4",
-      "kind": 1
+      "kind": 1,
+      "defaults": {
+        "density": 1.5,
+        "strength": 50.0,
+        "defence": 2.5
+      }
     },
     "WoodBlock6": {
       "sprite": "BLOCK_WOOD_1_6",
-      "kind": 1
+      "kind": 1,
+      "defaults": {
+        "density": 1.5,
+        "strength": 70.0,
+        "defence": 2.5
+      }
     },
     "LightBlock4": {
       "sprite": "BLOCK_LIGHT_1_4",
@@ -32,19 +47,39 @@
     },
     "Estrade02": {
       "sprite": "ESTRADE_02",
-      "kind": 3
+      "kind": 3,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "SmallPiglette": {
       "diameter": 2.15,
-      "kind": 4
+      "kind": 4,
+      "defaults": {
+        "density": 2.0,
+        "strength": 4.0,
+        "defence": 1.0
+      }
     },
     "WoodBlock3": {
       "sprite": "BLOCK_WOOD_1_3",
-      "kind": 1
+      "kind": 1,
+      "defaults": {
+        "density": 1.5,
+        "strength": 60.0,
+        "defence": 2.5
+      }
     },
     "WoodBlock5": {
       "sprite": "BLOCK_WOOD_1_5",
-      "kind": 1
+      "kind": 1,
+      "defaults": {
+        "density": 1.5,
+        "strength": 80.0,
+        "defence": 2.5
+      }
     },
     "LightBlock5": {
       "sprite": "BLOCK_LIGHT_1_5",
@@ -60,7 +95,12 @@
     },
     "StoneBlock5": {
       "sprite": "BLOCK_ROCK_1_5",
-      "kind": 5
+      "kind": 5,
+      "defaults": {
+        "density": 4.0,
+        "strength": 140.0,
+        "defence": 15.0
+      }
     },
     "StoneBlock6": {
       "sprite": "BLOCK_ROCK_1_6",
@@ -68,11 +108,21 @@
     },
     "StaticBlock_04": {
       "sprite": "GROUND_BLOCK_04",
-      "kind": 3
+      "kind": 3,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "StaticBlock_05": {
       "sprite": "GROUND_BLOCK_05",
-      "kind": 3
+      "kind": 3,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "LightBlock1": {
       "sprite": "BLOCK_LIGHT_1_1",
@@ -97,21 +147,41 @@
     "StoneBlock8": {
       "sprite": "BLOCK_ROCK_1_8",
       "kind": 5,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 4.0,
+        "strength": 300.0,
+        "defence": 15.0
+      }
     },
     "StaticBlock_01": {
       "sprite": "GROUND_BLOCK_01",
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "ExtraTreasureChest": {
       "sprite": "BLOCK_TREASURE_CHEST",
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.75,
+        "strength": 20.0,
+        "defence": 5.0
+      }
     },
     "MediumPiglette": {
       "diameter": 3.7,
-      "kind": 4
+      "kind": 4,
+      "defaults": {
+        "density": 2.0,
+        "strength": 10.0,
+        "defence": 1.0
+      }
     },
     "LightBlock2": {
       "sprite": "BLOCK_LIGHT_1_2",
@@ -121,7 +191,12 @@
     "StaticBlock_02": {
       "sprite": "GROUND_BLOCK_02",
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "StoneBlock1": {
       "sprite": "BLOCK_ROCK_1_1",
@@ -131,7 +206,12 @@
     "StoneBlock2": {
       "sprite": "BLOCK_ROCK_1_2",
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 4.0,
+        "strength": 60.0,
+        "defence": 15.0
+      }
     },
     "WoodBlock7": {
       "sprite": "BLOCK_WOOD_1_7",
@@ -144,7 +224,12 @@
     },
     "HelmetPiglette": {
       "diameter": 3.9,
-      "kind": 4
+      "kind": 4,
+      "defaults": {
+        "density": 2.0,
+        "strength": 15.0,
+        "defence": 8.0
+      }
     },
     "ExtraBlockSmiley": {
       "sprite": "BLOCK_SMILEY_1",
@@ -164,7 +249,12 @@
     "WoodBlock1": {
       "sprite": "BLOCK_WOOD_1_1",
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 1.5,
+        "strength": 20.0,
+        "defence": 2.5
+      }
     },
     "ExtraBeachBall": {
       "sprite": "BLOCK_BEACHBALL",
@@ -179,7 +269,12 @@
     "ExtraStrawberry": {
       "kind": 6,
       "sprite": "BLOCK_STRAWBERRY",
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 30.0,
+        "defence": 5.0
+      }
     },
     "ExtraApple": {
       "kind": 6,
@@ -219,12 +314,22 @@
     "ExtraBlockTNT": {
       "sprite": "BLOCK_EXTRA_TNT",
       "kind": 7,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.75,
+        "strength": 10.0,
+        "defence": 1.0
+      }
     },
     "ExtraDiamond": {
       "sprite": "BLOCK_DIAMOND",
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 25.0,
+        "defence": 5.0
+      }
     },
     "ExtraHolyGrail": {
       "sprite": "BLOCK_HOLYGRAIL",
@@ -234,7 +339,12 @@
     "ExtraPillar": {
       "sprite": "BLOCK_PILLAR",
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 10.0,
+        "strength": 120.0,
+        "defence": 40.0
+      }
     },
     "ExtraBanana": {
       "sprite": "BLOCK_BANANA",
@@ -248,7 +358,12 @@
     },
     "GrandpaPiglette": {
       "diameter": 4.4,
-      "kind": 4
+      "kind": 4,
+      "defaults": {
+        "density": 1.0,
+        "strength": 30.0,
+        "defence": 1.0
+      }
     },
     "ExtraBlockStairs": {
       "sprite": "ESTRADE_STAIRS",
@@ -287,17 +402,32 @@
     "WoodBlock9": {
       "sprite": "BLOCK_WOOD_4X4_1",
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 1.5,
+        "strength": 120.0,
+        "defence": 2.5
+      }
     },
     "WoodBlock10": {
       "sprite": "BLOCK_WOOD_10X1_1",
       "kind": 1,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 1.5,
+        "strength": 100.0,
+        "defence": 2.5
+      }
     },
     "WoodBlock11": {
       "sprite": "BLOCK_WOOD_TRIANGLE_L_1",
       "kind": 1,
-      "shape": "triangle_l"
+      "shape": "triangle_l",
+      "defaults": {
+        "density": 1.5,
+        "strength": 80.0,
+        "defence": 2.5
+      }
     },
     "WoodBlock12": {
       "sprite": "BLOCK_WOOD_TRIANGLE_M_1",
@@ -347,7 +477,12 @@
     "ExtraHam": {
       "sprite": "BLOCK_HAM",
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 60.0,
+        "defence": 5.0
+      }
     },
     "ExtraGoldenEgg": {
       "sprite": "BLOCK_GOLDEN_EGG",
@@ -545,7 +680,12 @@
           0.3,
           0.5
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.3,
+        "strength": 10.0,
+        "defence": 10.0
+      }
     },
     "ExtraCowboyHelmet_1": {
       "sprite": "COWBOY_HAT_BIG_1",
@@ -576,7 +716,12 @@
           0.3,
           0.5
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "ExtraSheriffHat_1": {
       "sprite": "SHERIFF_HAT_1",
@@ -607,7 +752,12 @@
           0.35,
           0.6
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "ExtraSheriffHat_2": {
       "sprite": "SHERIFF_HAT_2",
@@ -1158,7 +1308,13 @@
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "explosion": [
+        16.0,
+        30000.0,
+        5.0,
+        150.0
+      ]
     },
     "BIRDDAY5_CAKE_CANDLE": {
       "sprite": "BIRDDAY5_CAKE_CANDLE",
@@ -3025,7 +3181,13 @@
         0.0,
         -45.0
       ],
-      "force_target": 10.0
+      "force_target": 10.0,
+      "explosion": [
+        10.0,
+        30000.0,
+        5.0,
+        300.0
+      ]
     },
     "FUNNEL": {
       "sprite": "FUNNEL",
@@ -3358,7 +3520,13 @@
       "sprite": "AIR_TANK_SMALL",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "explosion": [
+        10.0,
+        30000.0,
+        5.0,
+        150.0
+      ]
     },
     "RUSTY_FUNNEL_DOWN": {
       "sprite": "RUSTY_FUNNEL_DOWN",
@@ -4144,7 +4312,13 @@
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "explosion": [
+        10.0,
+        30000.0,
+        5.0,
+        150.0
+      ]
     },
     "Farm_Cartwheel": {
       "sprite": "FARM_CARTWHEEL",
@@ -6170,6 +6344,307 @@
       ],
       "half_resolution": true,
       "release_bird": "YellowBird"
+    },
+    "BP_BOUNCER": {
+      "sprite": "SMALL_BOUNCY_MATRESS",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        5.0,
+        0.5
+      ],
+      "half_resolution": true
+    },
+    "BP_BUBBLE_GUN": {
+      "sprite": "BUBBLE_MACHINE_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BP_FAN": {
+      "sprite": "BP_FAN_1",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          1.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.6
+        ],
+        [
+          0.0,
+          0.4
+        ]
+      ],
+      "half_resolution": true
+    },
+    "BP_GRASS": {
+      "sprite": "EGG_DEFENDER_GROUND_2",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "BP_GRASS_2": {
+      "sprite": "EGG_DEFENDER_GROUND_3",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "BP_LANDING_WHEEL_BIG_TIRE": {
+      "sprite": "BP_LANDING_WHEEL_BIG_TIRE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.944,
+        2.944
+      ],
+      "half_resolution": true
+    },
+    "BP_LEADER_PIG_BERET": {
+      "sprite": "LEADER_PIG_BERET",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "BP_LEADER_PIG_SHADES": {
+      "sprite": "LEADER_PIG_SHADES",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "BP_LIGHT_METAL_FRAME": {
+      "sprite": "BP_LIGHT_METAL_FRAME",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BP_METAL_WING_HOLDER": {
+      "sprite": "BP_METAL_WING_HOLDER",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BP_RUBBER_BALLOON": {
+      "sprite": "BP_SINGLE_BALLOON_RUBBER",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "force": [
+        0.0,
+        -80.0
+      ],
+      "force_target": 20.0,
+      "half_resolution": true
+    },
+    "BP_SLINGSHOT_ROCK": {
+      "sprite": "EGG_DEFENDER_ROCK",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "BP_SUCKER": {
+      "sprite": "SUCTION_MACHINE",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        4.0,
+        4.0
+      ],
+      "half_resolution": true
+    },
+    "BP_TELESCOPIC_ARM": {
+      "sprite": "TELESCOPIC_HARM",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BP_TNT": {
+      "sprite": "BP_TNT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "explosion": [
+        20.0,
+        2000.0,
+        15.0,
+        500.0
+      ],
+      "half_resolution": true
+    },
+    "BP_TNT_SMALL": {
+      "sprite": "BP_TNT",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        4.0,
+        4.0
+      ],
+      "explosion": [
+        20.0,
+        2000.0,
+        15.0,
+        500.0
+      ],
+      "half_resolution": true
+    },
+    "BP_TWO_BALLOONS": {
+      "sprite": "BP_TWO_BALLOONS",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "force": [
+        0.0,
+        -80.0
+      ],
+      "force_target": 20.0,
+      "half_resolution": true
+    },
+    "BP_UMBRELLA_1": {
+      "sprite": "BP_UMBRELLA_1",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.7,
+          0.2
+        ],
+        [
+          1.0,
+          0.8
+        ],
+        [
+          0.0,
+          0.8
+        ],
+        [
+          0.3,
+          0.2
+        ]
+      ],
+      "half_resolution": true
+    },
+    "BP_WOODEN_FRAME": {
+      "sprite": "BP_WOODEN_FRAME",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BP_WOODEN_FRAME_WEAK": {
+      "sprite": "BP_WOODEN_FRAME",
+      "kind": 1,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
+    },
+    "BP_WOODEN_TRIANGLE": {
+      "sprite": "BP_WOODEN_TRIANGLE",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.5,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "BP_WOODEN_WHEEL": {
+      "sprite": "BP_WOODEN_WHEEL",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.944,
+        2.944
+      ],
+      "half_resolution": true
+    },
+    "BP_WOODEN_WING": {
+      "sprite": "BP_WOODEN_WING",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.1,
+          0.3
+        ],
+        [
+          0.5,
+          0.15
+        ],
+        [
+          0.95,
+          0.8
+        ],
+        [
+          0.0,
+          0.8
+        ]
+      ],
+      "half_resolution": true
+    },
+    "BP_WOODEN_WING_HOLDER": {
+      "sprite": "BP_WOODEN_WING_HOLDER",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.3,
+          0.0
+        ],
+        [
+          0.8,
+          0.0
+        ],
+        [
+          0.95,
+          0.8
+        ],
+        [
+          0.05,
+          0.8
+        ]
+      ],
+      "half_resolution": true
     }
   },
   "metrics": "profiles/sprite_metrics.json",
@@ -6708,7 +7183,31 @@
       "Triceratops_mask": 0.7,
       "Triceratops_upper_jaw": 3.0,
       "WhiteBlock9": 4.0,
-      "YellowBird_Cage": 4.0
+      "YellowBird_Cage": 4.0,
+      "BP_BOUNCER": 0.1,
+      "BP_BUBBLE_GUN": 4.0,
+      "BP_FAN": 4.0,
+      "BP_GRASS": 0.8,
+      "BP_GRASS_2": 0.8,
+      "BP_LANDING_WHEEL_BIG_TIRE": 0.7,
+      "BP_LEADER_PIG_BERET": 1.0,
+      "BP_LEADER_PIG_SHADES": 1.0,
+      "BP_LIGHT_METAL_FRAME": 4.0,
+      "BP_METAL_WING_HOLDER": 4.0,
+      "BP_RUBBER_BALLOON": 4.0,
+      "BP_SLINGSHOT_ROCK": 0.8,
+      "BP_SUCKER": 4.0,
+      "BP_TELESCOPIC_ARM": 4.0,
+      "BP_TNT": 0.7,
+      "BP_TNT_SMALL": 0.7,
+      "BP_TWO_BALLOONS": 4.0,
+      "BP_UMBRELLA_1": 4.0,
+      "BP_WOODEN_FRAME": 4.0,
+      "BP_WOODEN_FRAME_WEAK": 4.0,
+      "BP_WOODEN_TRIANGLE": 4.0,
+      "BP_WOODEN_WHEEL": 4.0,
+      "BP_WOODEN_WING": 4.0,
+      "BP_WOODEN_WING_HOLDER": 4.0
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -7176,7 +7675,31 @@
       "Triceratops_mask": 0.1,
       "Triceratops_upper_jaw": 0.2,
       "WhiteBlock9": 0.2,
-      "YellowBird_Cage": 0.15
+      "YellowBird_Cage": 0.15,
+      "BP_BOUNCER": 1.5,
+      "BP_BUBBLE_GUN": 0.15,
+      "BP_FAN": 0.8,
+      "BP_GRASS": 0.0,
+      "BP_GRASS_2": 0.0,
+      "BP_LANDING_WHEEL_BIG_TIRE": 0.5,
+      "BP_LEADER_PIG_BERET": 0.0,
+      "BP_LEADER_PIG_SHADES": 0.0,
+      "BP_LIGHT_METAL_FRAME": 0.15,
+      "BP_METAL_WING_HOLDER": 0.15,
+      "BP_RUBBER_BALLOON": 0.9,
+      "BP_SLINGSHOT_ROCK": 0.0,
+      "BP_SUCKER": 0.15,
+      "BP_TELESCOPIC_ARM": 0.15,
+      "BP_TNT": 0.4,
+      "BP_TNT_SMALL": 0.4,
+      "BP_TWO_BALLOONS": 0.2,
+      "BP_UMBRELLA_1": 0.2,
+      "BP_WOODEN_FRAME": 0.2,
+      "BP_WOODEN_FRAME_WEAK": 0.2,
+      "BP_WOODEN_TRIANGLE": 0.2,
+      "BP_WOODEN_WHEEL": 0.2,
+      "BP_WOODEN_WING": 0.2,
+      "BP_WOODEN_WING_HOLDER": 0.2
     }
   }
 }

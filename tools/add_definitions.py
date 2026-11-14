@@ -23,6 +23,9 @@ def definition(blocks,name):
     props={k:float(v) for v,k in re.findall(r'L5_1 = (-?[\d.]+)\nL4_1\.(\w+) = L5_1',b)}
     props.update({k:float(v) for k,v in re.findall(r'L5_1 = "(width|height|targetVelocity)"\nL6_1 = (-?[\d.]+)',b)})
     if re.search(r'L5_1 = false\nL4_1.collision = L5_1',b):props['no_collision']=True
+    # specialty BOMB: explosionRadius, explosionForce, explosionDamageRadius, explosionDamage.
+    blast=[re.search(rf'L5_1 = "{k}"\nL6_1 = (-?[\d.]+)\nL4_1\[L5_1\] = L6_1',b) for k in ('explosionRadius','explosionForce','explosionDamageRadius','explosionDamage')]
+    if all(blast):props['explosion']=[float(m[1]) for m in blast]
     rel=re.search(r'L5_1 = "spawnNewBirdOnDestruction"\n(?:L4_1\[L5_1\] = "(\w+)"|L6_1 = "(\w+)"\nL4_1\[L5_1\] = L6_1)',b)
     if rel:props['release_bird']=rel[1] or rel[2]
     m=re.findall(r'materialName = "(\w+)"',b)
@@ -56,6 +59,7 @@ def main():
         if material_has_no_collider(blocks,d['material']):spec['kind']=3
         # Cages (Dino): spawnNewBirdOnDestruction adds that bird to the queue when the cage breaks.
         if d['props'].get('release_bird'):spec['release_bird']=d['props']['release_bird']
+        if d['props'].get('explosion'):spec['explosion']=d['props']['explosion']
         # immovable material: static scenery, drawn like the ground pieces and not counted as a block.
         if d['material']=='immovable':spec['kind']=3
         # Birdday 7 onwards: themed copies of the wood/glass/stone blocks and fragile scenery keep

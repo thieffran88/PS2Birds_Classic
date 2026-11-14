@@ -632,7 +632,7 @@ static const Stage stages[]={
  {"Dino2_giantmoth",149,1,94,4,{{0,50,2.6f}},1}, /* DINO 2-14 */
  {"Dino2_dinoskull",307,7,202,3,{{0,0,-1.0f}},0}, /* DINO 2-15 (sem roteiro vencedor) */
  {"Dino3_tntblues",173,3,73,3,{{30,100,0.6f}},1}, /* DINO 3-1 */
- {"Dino3_chainstella",197,5,60,4,{{0,0,-1.0f}},0}, /* DINO 3-2 (sem roteiro vencedor) */
+ {"Dino3_chainstella",197,5,60,4,{{50,40,2.6f},{60,90,-1.0f}},2}, /* DINO 3-2 */
  {"Dino3_tntbomb",212,4,122,3,{{20,100,1.6f}},1}, /* DINO 3-3 */
  {"Dino3_matildaarches",202,4,106,3,{{0,0,-1.0f}},0}, /* DINO 3-4 (sem roteiro vencedor) */
  {"Dino3_tntstella",251,6,84,3,{{60,80,-1.0f}},1}, /* DINO 3-5 */
@@ -647,6 +647,34 @@ static const Stage stages[]={
  {"Dino3_nomercy",370,7,169,4,{{0,0,-1.0f}},0}, /* DINO 3-14 (sem roteiro vencedor) */
  {"Dino3_tongueattack",313,10,151,4,{{0,0,-1.0f}},0}, /* DINO 3-15 (sem roteiro vencedor) */
  {"Dino3_uphilldino",398,8,246,4,{{0,0,-1.0f}},0}, /* DINO 3-16 (sem roteiro vencedor) */
+ {"LevelFB_1",145,9,76,4,{{0,0,-1.0f}},0}, /* HAM EM HIGH EXTRA 1 (sem roteiro vencedor) */
+ {"LevelFB_2",109,7,55,4,{{0,0,-1.0f}},0}, /* HAM EM HIGH EXTRA 2 (sem roteiro vencedor) */
+ {"LevelFB_3",68,11,53,5,{{0,0,-1.0f}},0}, /* HAM EM HIGH EXTRA 3 (sem roteiro vencedor) */
+ {"FlockFavorites01",95,7,48,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-1 (sem roteiro vencedor) */
+ {"FlockFavorites02",86,9,61,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-2 (sem roteiro vencedor) */
+ {"FlockFavorites03",77,7,50,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-3 (sem roteiro vencedor) */
+ {"FlockFavorites04",76,9,45,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-4 (sem roteiro vencedor) */
+ {"FlockFavorites05",94,6,74,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-5 (sem roteiro vencedor) */
+ {"FlockFavorites06",112,9,62,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-6 (sem roteiro vencedor) */
+ {"FlockFavorites07",129,11,80,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-7 (sem roteiro vencedor) */
+ {"FlockFavorites08",182,10,87,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-8 (sem roteiro vencedor) */
+ {"FlockFavorites10",174,8,65,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-9 (sem roteiro vencedor) */
+ {"FlockFavorites11",141,19,71,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-10 (sem roteiro vencedor) */
+ {"FlockFavorites13",146,11,89,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-11 (sem roteiro vencedor) */
+ {"FlockFavorites15",158,12,72,5,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-12 (sem roteiro vencedor) */
+ {"FlockFavorites16",135,10,75,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-1 (sem roteiro vencedor) */
+ {"FlockFavorites17",166,4,112,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-2 (sem roteiro vencedor) */
+ {"FlockFavorites18",155,8,101,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-3 (sem roteiro vencedor) */
+ {"FlockFavorites19",191,12,137,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-4 (sem roteiro vencedor) */
+ {"FlockFavorites20",252,7,131,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-5 (sem roteiro vencedor) */
+ {"FlockFavorites21",117,7,60,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-6 (sem roteiro vencedor) */
+ {"FlockFavorites22",127,10,43,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-7 (sem roteiro vencedor) */
+ {"FlockFavorites23",181,11,92,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-8 (sem roteiro vencedor) */
+ {"FlockFavorites24",161,19,73,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-9 (sem roteiro vencedor) */
+ {"FlockFavorites26",162,7,91,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-10 (sem roteiro vencedor) */
+ {"FlockFavorites27",111,6,70,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-11 (sem roteiro vencedor) */
+ {"FlockFavorites29",65,5,49,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-12 (sem roteiro vencedor) */
+ {"FlockFavorites30",154,12,103,5,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-13 (sem roteiro vencedor) */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -667,7 +695,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==637 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==665 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));
@@ -768,7 +796,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==42);
+    assert(unverified==69);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");

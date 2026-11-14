@@ -161,6 +161,11 @@ def bank_members(all_names,levels_dir=None):
     banks[0]|={n for n in available if n not in later or n in banks[0]}-{n for n in later if n not in banks[0] and (n.startswith(('BIRD_BOOMERANG','BIRD_BIG_BROTHER','BIRD_PUFFER','BIRD_PINK','BIRD_GREY_BLUE')) or not n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_')))}
     # Dino cages are pieces: only the banks whose stages place them keep their frames.
     banks[0]-={n for n in later if n.endswith('_CAGE')}
+    # Sprites of pieces no stage of the campaign places (e.g. Flock Favorites pieces seen only in
+    # its Egg Defender stages) stay out of bank 0.
+    used={o['definition'] for path in Path(levels_dir or ROOT/'ps2/data').glob('level_*_*.json') for o in json.loads(path.read_text())['objects']}
+    unused={v['sprite'] for k,v in profile['objects'].items() if v.get('auto') and k not in used}-{v['sprite'] for k,v in profile['objects'].items() if k in used and 'sprite' in v}
+    banks[0]-={n for n in unused if not any(n in b for b in banks[1:])}
     missing=[n for b in banks for n in b if n not in available]
     if missing:raise ValueError('Unknown sprites in banks: '+', '.join(sorted(missing)))
     # Later banks reuse neighbouring frames for blinks and middle damage states of

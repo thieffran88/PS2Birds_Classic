@@ -2688,5 +2688,110 @@
     "width": 115,
     "height": 156,
     "sheet": "INGAME_BIRDS_CAGES_1.sheet.json"
+  },
+  "SMALL_BOUNCY_MATRESS": {
+    "width": 116,
+    "height": 34,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "BUBBLE_MACHINE_1": {
+    "width": 98,
+    "height": 98,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_FAN_1": {
+    "width": 43,
+    "height": 91,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "EGG_DEFENDER_GROUND_2": {
+    "width": 256,
+    "height": 51,
+    "sheet": "themes_android/THEME_20_THEME_20_GROUND_2_1.sheet.json"
+  },
+  "EGG_DEFENDER_GROUND_3": {
+    "width": 94,
+    "height": 51,
+    "sheet": "themes_android/THEME_20_THEME_20_GROUND_2_1.sheet.json"
+  },
+  "BP_LANDING_WHEEL_BIG_TIRE": {
+    "width": 66,
+    "height": 66,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "LEADER_PIG_BERET": {
+    "width": 72,
+    "height": 29,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "LEADER_PIG_SHADES": {
+    "width": 86,
+    "height": 37,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_LIGHT_METAL_FRAME": {
+    "width": 105,
+    "height": 105,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_METAL_WING_HOLDER": {
+    "width": 115,
+    "height": 36,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_SINGLE_BALLOON_RUBBER": {
+    "width": 92,
+    "height": 100,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "EGG_DEFENDER_ROCK": {
+    "width": 247,
+    "height": 182,
+    "sheet": "themes_android/THEME_20_LAUNCHPAD_ROCK_1.sheet.json"
+  },
+  "SUCTION_MACHINE": {
+    "width": 102,
+    "height": 111,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "TELESCOPIC_HARM": {
+    "width": 15,
+    "height": 72,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BP_TNT": {
+    "width": 105,
+    "height": 105,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_TWO_BALLOONS": {
+    "width": 125,
+    "height": 115,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_UMBRELLA_1": {
+    "width": 110,
+    "height": 57,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_WOODEN_FRAME": {
+    "width": 105,
+    "height": 105,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_WOODEN_TRIANGLE": {
+    "width": 105,
+    "height": 79,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_WOODEN_WING": {
+    "width": 196,
+    "height": 33,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_WOODEN_WING_HOLDER": {
+    "width": 107,
+    "height": 40,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
   }
 }

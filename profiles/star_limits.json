@@ -2548,6 +2548,138 @@
     "Dino3_uphilldino": {
       "silver": 160000,
       "gold": 170000
+    },
+    "LevelFB_1": {
+      "silver": 105000,
+      "gold": 112000
+    },
+    "LevelFB_2": {
+      "silver": 55000,
+      "gold": 62000
+    },
+    "LevelFB_3": {
+      "silver": 80000,
+      "gold": 89000
+    },
+    "FlockFavorites01": {
+      "silver": 80000,
+      "gold": 90000
+    },
+    "FlockFavorites02": {
+      "silver": 107000,
+      "gold": 114000
+    },
+    "FlockFavorites03": {
+      "silver": 68000,
+      "gold": 73000
+    },
+    "FlockFavorites04": {
+      "silver": 76000,
+      "gold": 83000
+    },
+    "FlockFavorites05": {
+      "silver": 72000,
+      "gold": 80000
+    },
+    "FlockFavorites06": {
+      "silver": 94000,
+      "gold": 101000
+    },
+    "FlockFavorites07": {
+      "silver": 118000,
+      "gold": 125000
+    },
+    "FlockFavorites08": {
+      "silver": 108000,
+      "gold": 120000
+    },
+    "FlockFavorites09": {
+      "silver": 70000,
+      "gold": 80000
+    },
+    "FlockFavorites10": {
+      "silver": 83000,
+      "gold": 90000
+    },
+    "FlockFavorites11": {
+      "silver": 160000,
+      "gold": 170000
+    },
+    "FlockFavorites12": {
+      "silver": 80000,
+      "gold": 88000
+    },
+    "FlockFavorites13": {
+      "silver": 123000,
+      "gold": 130000
+    },
+    "FlockFavorites14": {
+      "silver": 120000,
+      "gold": 128000
+    },
+    "FlockFavorites15": {
+      "silver": 134000,
+      "gold": 145000
+    },
+    "FlockFavorites16": {
+      "silver": 102000,
+      "gold": 110000
+    },
+    "FlockFavorites17": {
+      "silver": 77000,
+      "gold": 84000
+    },
+    "FlockFavorites18": {
+      "silver": 97000,
+      "gold": 104000
+    },
+    "FlockFavorites19": {
+      "silver": 130000,
+      "gold": 140000
+    },
+    "FlockFavorites20": {
+      "silver": 83000,
+      "gold": 90000
+    },
+    "FlockFavorites21": {
+      "silver": 91000,
+      "gold": 98000
+    },
+    "FlockFavorites22": {
+      "silver": 68000,
+      "gold": 75000
+    },
+    "FlockFavorites23": {
+      "silver": 155000,
+      "gold": 163000
+    },
+    "FlockFavorites24": {
+      "silver": 173000,
+      "gold": 180000
+    },
+    "FlockFavorites25": {
+      "silver": 114000,
+      "gold": 123000
+    },
+    "FlockFavorites26": {
+      "silver": 118000,
+      "gold": 126000
+    },
+    "FlockFavorites27": {
+      "silver": 53000,
+      "gold": 60000
+    },
+    "FlockFavorites28": {
+      "silver": 77000,
+      "gold": 84000
+    },
+    "FlockFavorites29": {
+      "silver": 48000,
+      "gold": 55000
+    },
+    "FlockFavorites30": {
+      "silver": 163000,
+      "gold": 170000
     }
   }
 }

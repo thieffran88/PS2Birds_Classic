@@ -24,7 +24,7 @@
 /* The stages are not part of the program: they come from CAMPAIGN.BIN, generated from the
    player's own APK by tools/gerar_iso.py (layout below and in tools/build_campaign.py). */
 static const CampaignPolygon no_polygons[1]={{0,0,{0}}};
-static const CampaignForce no_forces[1]={{0,0,0,0}};
+static const CampaignForce no_forces[1]={{0,0,0,0,0,0,0,0}};
 static CampaignLevel *campaign_levels;
 static const CampaignPolygon *campaign_polygons=no_polygons;
 static const CampaignForce *campaign_forces=no_forces;
@@ -34,9 +34,9 @@ static uint32_t rd32(const unsigned char *p){return (uint32_t)p[0]|((uint32_t)p[
 static float rdf(const unsigned char *p){uint32_t v=rd32(p);float f;memcpy(&f,&v,4);return f;}
 int game_campaign_load(const unsigned char *data,unsigned size)
 {
-    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=3)return -1;
+    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=4)return -1;
     unsigned nl=rd32(data+8),no=rd32(data+12),nj=rd32(data+16),np=rd32(data+20),nf=rd32(data+24),ns=rd32(data+28);
-    const unsigned LV=4*(3+16+8+2+1+2+2),OB=4*15,JO=4*19,PO=4*18,FO=4*4;
+    const unsigned LV=4*(3+16+8+2+1+2+2),OB=4*15,JO=4*19,PO=4*18,FO=4*8;
     if(nl==0 || nl>MAX_CAMPAIGN_LEVELS || 32ull+(unsigned long long)nl*LV+(unsigned long long)no*OB+(unsigned long long)nj*JO+np*PO+nf*FO+ns!=size)return -1;
     const unsigned char *pl=data+32,*po=pl+nl*LV,*pj=po+no*OB,*pp=pj+nj*JO,*pf=pp+np*PO,*pstr=pf+nf*FO;
     char *strings=(char*)malloc(ns+1);CampaignLevel *levels=(CampaignLevel*)calloc(nl,sizeof(CampaignLevel));
@@ -57,7 +57,7 @@ int game_campaign_load(const unsigned char *data,unsigned size)
         j.axis_x=rdf(q+48);j.axis_y=rdf(q+52);j.lower=rdf(q+56);j.upper=rdf(q+60);j.motor_speed=rdf(q+64);j.max_force=rdf(q+68);j.flags=(int)rd32(q+72);
     }
     for(unsigned i=0;i<np;i++){const unsigned char *q=pp+i*PO;polys[i].definition=STR(q);polys[i].count=(int)rd32(q+4);for(int k=0;k<16;k++)polys[i].v[k]=rdf(q+8+4*k);}
-    for(unsigned i=0;i<nf;i++){const unsigned char *q=pf+i*FO;forces[i].definition=STR(q);forces[i].fx=rdf(q+4);forces[i].fy=rdf(q+8);forces[i].target=rdf(q+12);}
+    for(unsigned i=0;i<nf;i++){const unsigned char *q=pf+i*FO;forces[i].definition=STR(q);forces[i].fx=rdf(q+4);forces[i].fy=rdf(q+8);forces[i].target=rdf(q+12);forces[i].blast_radius=rdf(q+16);forces[i].blast_force=rdf(q+20);forces[i].damage_radius=rdf(q+24);forces[i].damage=rdf(q+28);}
     for(unsigned i=0;i<nl;i++){
         const unsigned char *q=pl+i*LV;CampaignLevel &l=levels[i];
         unsigned o0=rd32(q),oc=rd32(q+4),j0,jc;
@@ -149,6 +149,8 @@ struct Physics: b2ContactListener {
         for(int i=0;i<level->joint_count && i<MAX_LEVEL_JOINTS;i++)create_joint(level->joints[i]);
     }
     /* deathSpawn (gamelogic.lua): the pieces stored for a destroyed parent appear where it was. */
+    /* TNT and every piece whose blocks.lua definition declares an explosion (specialty BOMB). */
+    bool explosive(int i)const{return level->objects[i].kind==OBJECT_KIND_TNT || (force_of[i] && force_of[i]->blast_radius>0);}
     void release_spawns(int parent,b2Vec2 where){
         int caged=OBJECT_RELEASED_BIRD(level->objects[parent].flags);
         if(caged>=0 && extra_count<16){extra_types[extra_count++]=caged;pending_birds++;}
@@ -467,7 +469,7 @@ static void radial_blast(Game *g,const b2Vec2 &position,float radius,float force
         body->ApplyLinearImpulseToCenter(impulse*direction,true);
         if(distance<damage_radius){
             bool alive=p->health[i]>0;p->health[i]-=damage*(1-distance/damage_radius);
-            if(alive && p->health[i]<=0 && p->level->objects[i].kind==OBJECT_KIND_TNT)p->chain_delay[i]=TNT_CHAIN_SECONDS;
+            if(alive && p->health[i]<=0 && p->explosive(i))p->chain_delay[i]=TNT_CHAIN_SECONDS;
         }
     }
     g->events|=GAME_EVENT_EXPLOSION;g->cooldown=0;
@@ -548,7 +550,7 @@ static void tick(Game *g) {
         p->bubble_timer[i]-=dt;
     }
     /* Port approximation of the native force adder: force = (forceX, forceY) x mass. */
-    for(int i=0;i<p->level->count;i++)if(p->force_of[i] && p->bodies[i]){
+    for(int i=0;i<p->level->count;i++)if(p->force_of[i] && p->bodies[i] && (p->force_of[i]->fx!=0 || p->force_of[i]->fy!=0)){
         b2Body *b=p->bodies[i];const CampaignForce *f=p->force_of[i];float m=b->GetMass();b2Vec2 dir(f->fx,f->fy);float len=dir.Length();
         if(f->target>0 && len>0 && b2Dot(b->GetLinearVelocity(),dir)/len>=f->target)continue;
         b->ApplyForceToCenter(b2Vec2(f->fx*m,f->fy*m),true);
@@ -628,11 +630,13 @@ static void tick(Game *g) {
         if(p->chain_delay[i]>0){p->chain_delay[i]-=dt;if(p->chain_delay[i]>0)continue;}
         if(IS_FRAGILE_KIND(o.kind) && p->fragile_hit[i])p->health[i]=0;
         if(o.kind!=3 && (p->health[i]<=0 || body->GetPosition().y>p->level->ground_y+25)) {
-            b2Vec2 where=body->GetPosition();bool exploded=o.kind==OBJECT_KIND_TNT && p->health[i]<=0;
+            b2Vec2 where=body->GetPosition();bool exploded=p->explosive(i) && p->health[i]<=0;
             p->world.DestroyBody(body);p->bodies[i]=NULL;p->release_spawns(i,where);
             /* A destroyed TNT crate blasts its surroundings; crates caught in the blast
                go off in the following ticks, giving chain reactions. */
-            if(exploded)radial_blast(g,where,TNT_BLAST_RADIUS,TNT_BLAST_FORCE,TNT_DAMAGE_RADIUS,TNT_BLAST_DAMAGE);
+            if(exploded){const CampaignForce *f=p->force_of[i];
+                if(f && f->blast_radius>0)radial_blast(g,where,f->blast_radius,f->blast_force,f->damage_radius,f->damage);
+                else radial_blast(g,where,TNT_BLAST_RADIUS,TNT_BLAST_FORCE,TNT_DAMAGE_RADIUS,TNT_BLAST_DAMAGE);}
             if(o.kind==4){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else {g->block_alive--;g->score+=o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
         }
     }
