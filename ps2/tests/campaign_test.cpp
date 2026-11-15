@@ -707,38 +707,38 @@ static const Stage stages[]={
  {"LevelGE_31",234,12,118,4,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-14 (sem roteiro vencedor) */
  {"LevelGE_UGC1",337,14,220,2,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-15 (sem roteiro vencedor) */
  {"LevelGE_RED",227,45,154,7,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-16 (sem roteiro vencedor) */
- {"LevelGE_32",426,8,48,3,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-17 (sem roteiro vencedor) */
+ {"LevelGE_32",426,8,48,3,{{15,90,-1.0f}},1}, /* GOLDEN EGGS 2-17 */
  {"GE_Level280_BirdDay7",594,14,122,5,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-18 (sem roteiro vencedor) */
- {"Farm2_goldegg",519,11,240,4,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 3-1 (sem roteiro vencedor) */
- {"Tutorial_red_niko",60,1,15,4,{{0,0,-1.0f}},0}, /* TUTORIAL 1 (sem roteiro vencedor) */
- {"Tutorial_red2_niko",72,2,18,3,{{0,0,-1.0f}},0}, /* TUTORIAL 2 (sem roteiro vencedor) */
- {"Tutorial_chuck_niko",86,4,26,6,{{0,0,-1.0f}},0}, /* TUTORIAL 3 (sem roteiro vencedor) */
- {"Tutorial_bomb_niko",139,4,64,6,{{0,0,-1.0f}},0}, /* TUTORIAL 4 (sem roteiro vencedor) */
- {"Tutorial_blues_niko",105,3,39,5,{{0,0,-1.0f}},0}, /* TUTORIAL 5 (sem roteiro vencedor) */
- {"Tutorial_6_niko",98,3,35,5,{{0,0,-1.0f}},0}, /* TUTORIAL 6 (sem roteiro vencedor) */
- {"Tutorial_terence",223,12,129,6,{{0,0,-1.0f}},0}, /* TUTORIAL 7 (sem roteiro vencedor) */
- {"Tutorial_bubbles",202,19,82,7,{{0,0,-1.0f}},0}, /* TUTORIAL 8 (sem roteiro vencedor) */
+ {"Farm2_goldegg",519,11,240,4,{{50,90,0.7f}},1}, /* GOLDEN EGGS 3-1 */
+ {"Tutorial_red_niko",60,1,15,4,{{-10,74,-1.0f}},1}, /* TUTORIAL 1 */
+ {"Tutorial_red2_niko",72,2,18,3,{{-10,46,-1.0f}},1}, /* TUTORIAL 2 */
+ {"Tutorial_chuck_niko",86,4,26,6,{{15,90,-1.0f}},1}, /* TUTORIAL 3 */
+ {"Tutorial_bomb_niko",139,4,64,6,{{25,98,-1.0f}},1}, /* TUTORIAL 4 */
+ {"Tutorial_blues_niko",105,3,39,5,{{-10,58,-1.0f}},1}, /* TUTORIAL 5 */
+ {"Tutorial_6_niko",98,3,35,5,{{15,90,-1.0f}},1}, /* TUTORIAL 6 */
+ {"Tutorial_terence",223,12,129,6,{{0,78,-1.0f}},1}, /* TUTORIAL 7 */
+ {"Tutorial_bubbles",202,19,82,7,{{10,98,-1.0f}},1}, /* TUTORIAL 8 */
  {"Tutorial_slingscope",153,7,20,7,{{0,0,-1.0f}},0}, /* TUTORIAL 9 (sem roteiro vencedor) */
- {"Tutorial_powerpotion",100,5,30,4,{{0,0,-1.0f}},0}, /* TUTORIAL 10 (sem roteiro vencedor) */
- {"Tutorial_kingsling",223,5,58,4,{{0,0,-1.0f}},0}, /* TUTORIAL 11 (sem roteiro vencedor) */
+ {"Tutorial_powerpotion",100,5,30,4,{{5,94,-1.0f}},1}, /* TUTORIAL 10 */
+ {"Tutorial_kingsling",223,5,58,4,{{25,90,-1.0f}},1}, /* TUTORIAL 11 */
  {"Tutorial_birdquake",187,6,71,4,{{0,0,-1.0f}},0}, /* TUTORIAL 12 (sem roteiro vencedor) */
  {"Tutorial_shockwave",181,6,85,3,{{0,0,-1.0f}},0}, /* TUTORIAL 13 (sem roteiro vencedor) */
  {"Tutorial_pucombo_niko",274,4,81,5,{{0,0,-1.0f}},0}, /* TUTORIAL 14 (sem roteiro vencedor) */
- {"Tutorial_mayhem_niko",368,13,207,6,{{0,0,-1.0f}},0}, /* TUTORIAL 15 (sem roteiro vencedor) */
+ {"Tutorial_mayhem_niko",368,13,207,6,{{45,86,-1.0f}},1}, /* TUTORIAL 15 */
  {"EggDefender_classic_1",241,4,73,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 1 (sem roteiro vencedor) */
- {"EggDefender_classic_2",187,5,66,5,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 2 (sem roteiro vencedor) */
- {"EggDefender_classic_3",141,9,83,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 3 (sem roteiro vencedor) */
- {"EggDefender_classic_4",139,7,63,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 4 (sem roteiro vencedor) */
- {"EggDefender_classic_5",152,8,55,3,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 5 (sem roteiro vencedor) */
- {"EggDefender_classic_6",176,8,112,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 6 (sem roteiro vencedor) */
+ {"EggDefender_classic_2",187,5,66,5,{{20,90,-1.0f}},1}, /* MIGHTY FEATHERS 2 */
+ {"EggDefender_classic_3",141,9,83,4,{{25,90,-1.0f}},1}, /* MIGHTY FEATHERS 3 */
+ {"EggDefender_classic_4",139,7,63,4,{{10,94,-1.0f}},1}, /* MIGHTY FEATHERS 4 */
+ {"EggDefender_classic_5",152,8,55,3,{{20,90,0.4f}},1}, /* MIGHTY FEATHERS 5 */
+ {"EggDefender_classic_6",176,8,112,4,{{45,98,1.0f}},1}, /* MIGHTY FEATHERS 6 */
  {"EggDefender_classic_7",203,6,98,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 7 (sem roteiro vencedor) */
  {"EggDefender_classic_8",182,7,80,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 8 (sem roteiro vencedor) */
- {"EggDefender_classic_9",146,6,61,3,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 9 (sem roteiro vencedor) */
- {"EggDefender_classic_10",171,6,74,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 10 (sem roteiro vencedor) */
- {"EggDefender_classic_11",207,5,97,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 11 (sem roteiro vencedor) */
- {"EggDefender_classic_12",204,7,77,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 12 (sem roteiro vencedor) */
- {"EggDefender_classic_13",198,11,68,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 13 (sem roteiro vencedor) */
- {"EggDefender_classic_14",201,6,77,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 14 (sem roteiro vencedor) */
+ {"EggDefender_classic_9",146,6,61,3,{{-5,98,-1.0f}},1}, /* MIGHTY FEATHERS 9 */
+ {"EggDefender_classic_10",171,6,74,4,{{40,74,0.7f}},1}, /* MIGHTY FEATHERS 10 */
+ {"EggDefender_classic_11",207,5,97,4,{{55,98,-1.0f}},1}, /* MIGHTY FEATHERS 11 */
+ {"EggDefender_classic_12",204,7,77,4,{{20,82,0.4f}},1}, /* MIGHTY FEATHERS 12 */
+ {"EggDefender_classic_13",198,11,68,4,{{35,98,-1.0f}},1}, /* MIGHTY FEATHERS 13 */
+ {"EggDefender_classic_14",201,6,77,4,{{25,90,-1.0f}},1}, /* MIGHTY FEATHERS 14 */
  {"EggDefender_classic_15",154,6,82,5,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 15 (sem roteiro vencedor) */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
@@ -861,7 +861,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==95);
+    assert(unverified==71);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");
