@@ -97,5 +97,29 @@ int main(){
      float c=y2-2*y1+y0;bends[which]=c>0.01f?1:c<-0.01f?-1:0;
  }
  assert(bends[0]==1 && bends[1]==-1 && bends[2]==0);
- printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s; mirrored pieces; a broken cage adds its bird to the queue; trajectories follow upside-down and zero gravity.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
+ // Short Fuse vials: an orange vial pops the pigs around it; a pink one lifts them in a bubble.
+ int vial_seen[3]={0,0,0};
+ for(int lv=0;lv<game_level_count() && !(vial_seen[1]&&vial_seen[2]);lv++){
+     assert(game_load_level(&g,lv));
+     for(int k=0;k<game_object_count(&g);k++){
+         GameObject v;game_get_object(&g,k,&v);if(!v.definition)continue;
+         int kind=!strcmp(v.definition,"BLACKBIRD_VIAL_ORANGE")?1:!strcmp(v.definition,"BLACKBIRD_VIAL_PINK")?2:0;
+         if(!kind || vial_seen[kind])continue;
+         float radius=(kind==1?6:7)*g.view_scale;int pig=-1;
+         for(int m=0;m<game_object_count(&g);m++){GameObject o;game_get_object(&g,m,&o);if(o.kind==4 && o.alive && (o.x-v.x)*(o.x-v.x)+(o.y-v.y)*(o.y-v.y)<radius*radius*0.5f){pig=m;break;}}
+         if(pig<0)continue;
+         GameObject before;game_get_object(&g,pig,&before);
+         game_damage_object(&g,k);
+         float lowest=before.y;
+         for(int t=0;t<120*2;t++){game_update(&g,1.0f/120);GameObject o;game_get_object(&g,pig,&o);if(o.alive && o.y<lowest)lowest=o.y;}
+         GameObject mid;game_get_object(&g,pig,&mid);
+         for(int t=0;t<120*3;t++)game_update(&g,1.0f/120);
+         GameObject after;game_get_object(&g,pig,&after);
+         if(kind==1){assert(mid.alive && !after.alive);}
+         else {if(!(lowest<before.y-g.view_scale))continue; /* pig held down by the structure: try another */}
+         vial_seen[kind]=1;break;
+     }
+ }
+ assert(vial_seen[1] && vial_seen[2]);
+ printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s; mirrored pieces; a broken cage adds its bird to the queue; trajectories follow upside-down and zero gravity; orange vials pop nearby pigs and pink vials lift them in bubbles.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
 }

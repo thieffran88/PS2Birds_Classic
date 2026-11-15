@@ -604,3 +604,14 @@ tb=(root/'ps2/data/tutorial_definitions_excerpt.lua').read_text()
 for name in re.findall(r'L3_1 = "(\w+)"\nL4_1 = \{\}',tb):
     d=_ad.definition(tb,name);assert objs['objects'][name]['sprite']==d['sprite'] and objs['objects'][name]['shape']==d['type'],name
 print(f"Tutorial OK: 15 stages in bank 61; 5 pieces match blocks.lua; power-up shop tutorials: {', '.join(shop)}.")
+
+# Short Fuse vials (VialEffects.lua): blackBird<Colour>VialRemoved acts on the pigs within
+# vialEffect.radius (orange 6, pink 7, blue 7); the type and radius travel in CAMPAIGN.BIN.
+camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN')
+assert camp['vials']=={'BLACKBIRD_VIAL_ORANGE':(1,6.0),'BLACKBIRD_VIAL_PINK':(2,7.0),'BLACKBIRD_VIAL_BLUE':(3,7.0)},camp['vials']
+sf=(root/'ps2/data/short_fuse_definitions_excerpt.lua')
+if sf.exists():
+    t=sf.read_text()
+    for n,rad in [('BLACKBIRD_VIAL_ORANGE',6),('BLACKBIRD_VIAL_PINK',7),('BLACKBIRD_VIAL_BLUE',7)]:
+        i=t.rindex(f'L3_1 = "{n}"');assert f'L7_1 = {rad}\nL6_1.radius = L7_1' in t[i:i+20000],n
+print("Vials OK: orange, pink and blue vials carry their effect and radius from blocks.lua.")

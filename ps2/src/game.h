@@ -27,6 +27,11 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 #define PINK_BOOM_TIME 0.5f
 #define PINK_CONTACT_DELAY 1.5f
 #define PINK_BUBBLE_RADIUS 7.0f
+/* Short Fuse vials (VialEffects.lua): when a vial breaks, pigs within vialEffect.radius react after
+   VIAL_DELAY s. Orange: the pig puffs like a GlobeBird (puffTime 1.5 + deathTime 1.5) and pops.
+   Pink: the pig is wrapped in a bubble (ignoreAllDamage) and floats like Stella's bubbles. */
+#define VIAL_DELAY 1.3f
+#define VIAL_ORANGE_POP 3.0f
 #define BUBBLE_TIME 2.0f
 #define BUBBLE_ANTI_GRAVITY 1.8f
 #define BUBBLE_MAX_VELOCITY 10.0f

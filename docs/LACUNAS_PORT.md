@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.43.0)
+# Lacunas do port (levantamento atualizado na 0.44.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -149,6 +149,11 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **Gravidade da fase — feito.** O motor já criava o mundo com a gravidade de cada fase; só o importador recusava valores não positivos. LevelGE_31 (gravidade −20: tudo cai para cima) e LevelGE_UGC1 (gravidade zero) entraram. A resistência das soldas usa o módulo da gravidade.
 - Um roteiro achado pela busca (Dino 3-8) não se repete no teste da campanha; a fase continua sem roteiro.
 
+## Achados da 0.44.0
+
+- **Frascos do Short Fuse (`VialEffects.lua`) — laranja e rosa feitos.** Ao quebrar, o frasco age sobre os porcos dentro de `vialEffect.radius` depois de 1,3 s: o laranja (raio 6) os incha como o GlobeBird e eles estouram (`puffTime` 1,5 + `deathTime` 1,5); o rosa (raio 7) os põe numa bolha que flutua e ignora dano (`transformIntoBubble`). 44 fases têm frascos.
+- **Frasco azul — falta.** Ele clona os porcos próximos (`createObject`, escala 0,8) e os faz girar em volta do ponto da quebra; precisa de criação de objetos durante a fase.
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -157,7 +162,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Modo Egg Defender (Mighty Feathers e 4 fases do Flock Favorites); power-ups (scripts em Lua); efeitos dos frascos do Short Fuse; roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
+1. Modo Egg Defender (Mighty Feathers e 4 fases do Flock Favorites); power-ups (scripts em Lua); frasco azul do Short Fuse (clonagem de porcos); roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).

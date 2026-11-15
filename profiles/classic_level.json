@@ -3006,13 +3006,21 @@
       "sprite": "AB_POTION_BLUE",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "vial": [
+        3,
+        7.0
+      ]
     },
     "BLACKBIRD_VIAL_ORANGE": {
       "sprite": "AB_POTION_ORANGE",
       "kind": 6,
       "shape": "circle",
-      "auto": true
+      "auto": true,
+      "vial": [
+        1,
+        6.0
+      ]
     },
     "BLACKBIRD_VIAL_PINK": {
       "sprite": "AB_POTION_PINK",
@@ -3022,6 +3030,10 @@
       "size": [
         3.0,
         3.0
+      ],
+      "vial": [
+        2,
+        7.0
       ]
     },
     "BLUE_CRYSTAL_1": {

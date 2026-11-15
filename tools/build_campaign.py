@@ -37,12 +37,13 @@ def write_binary(levels,profile,polys,forced,stars,path=None):
         v=[c for xy in profile['objects'][name]['vertices'] for c in xy];pol+=struct.pack('<Ii16f',s(name),len(v)//2,*map(r,v+[0.0]*(16-len(v))))
     frc=bytearray()
     # Per-definition record: constant force (forceX/forceY, targetVelocity) and explosion
-    # (explosionRadius, explosionForce, explosionDamageRadius, explosionDamage) from blocks.lua.
+    # (explosionRadius, explosionForce, explosionDamageRadius, explosionDamage) from blocks.lua, and the
+    # Short Fuse vial (1 orange, 2 pink, 3 blue; vialEffect.radius).
     for name in forced:
         spec=profile['objects'][name]
-        frc+=struct.pack('<I7f',s(name),*map(r,spec.get('force',[0.0,0.0])),r(spec.get('force_target',0.0)),*map(r,spec.get('explosion',[0.0,0.0,0.0,0.0])))
+        frc+=struct.pack('<I7fif',s(name),*map(r,spec.get('force',[0.0,0.0])),r(spec.get('force_target',0.0)),*map(r,spec.get('explosion',[0.0,0.0,0.0,0.0])),int(spec.get('vial',[0,0.0])[0]),r(spec.get('vial',[0,0.0])[1]))
     while len(strings)%4:strings.append(0)
-    head=struct.pack('<4s7I',b'PBCP',4,len(levels),no,nj,len(polys),len(forced),len(strings))
+    head=struct.pack('<4s7I',b'PBCP',5,len(levels),no,nj,len(polys),len(forced),len(strings))
     data=head+bytes(lv)+bytes(objs)+bytes(joints)+bytes(pol)+bytes(frc)+bytes(strings)
     (Path(path) if path else ROOT/'ps2/assets/CAMPAIGN.BIN').write_bytes(data)
 
@@ -57,22 +58,23 @@ def read_binary(path):
     """Parse CAMPAIGN.BIN back (tests and tools): levels, objects, joints, polygons, forces."""
     import struct
     d=Path(path).read_bytes();magic,ver,nl,no,nj,np,nf,ns=struct.unpack_from('<4s7I',d)
-    if magic!=b'PBCP' or ver!=4:raise ValueError('Not a CAMPAIGN.BIN')
-    p=32;strs=d[32+nl*136+no*60+nj*76+np*72+nf*32:]
+    if magic!=b'PBCP' or ver!=5:raise ValueError('Not a CAMPAIGN.BIN')
+    p=32;strs=d[32+nl*136+no*60+nj*76+np*72+nf*40:]
     s=lambda o:strs[o:strs.index(b'\0',o)].decode()
     lv=[struct.unpack_from('<3I16i8f2Ii2I2i',d,p+i*136) for i in range(nl)];p+=nl*136
     ob=[struct.unpack_from('<8f2iI2fii',d,p+i*60) for i in range(no)];p+=no*60
     jo=[struct.unpack_from('<3i7fif6fi',d,p+i*76) for i in range(nj)];p+=nj*76
-    po={};fo={};ex={}
+    po={};fo={};ex={};vi={}
     for i in range(np):
         v=struct.unpack_from('<Ii16f',d,p+i*72);po[s(v[0])]=(v[1],list(v[2:2+2*v[1]]))
     p+=np*72
     for i in range(nf):
-        v=struct.unpack_from('<I7f',d,p+i*32);fo[s(v[0])]=(v[1],v[2])
-        if any(v[4:]):ex[s(v[0])]=tuple(v[4:])
+        v=struct.unpack_from('<I7fif',d,p+i*40);fo[s(v[0])]=(v[1],v[2])
+        if any(v[4:8]):ex[s(v[0])]=tuple(v[4:8])
+        if v[8]:vi[s(v[0])]=(v[8],v[9])
     return {'levels':[{'title':s(l[27]),'script':s(l[28]),'objects':l[1],'birds':l[2],'bank':l[29],'joints':l[31]} for l in lv],
             'objects':[{'definition':s(o[10]),'spawn_of':o[13],'no_collision':bool(o[14]&1),'mirror':o[14]&6,'release_bird':(o[14]>>8)-1} for o in ob],
-            'joints':[{'type':j[0],'destroy_timer':j[11],'axis':(j[12],j[13]),'lower':j[14],'upper':j[15],'motor_speed':j[16],'max_force':j[17],'flags':j[18]} for j in jo],'polygons':po,'forces':fo,'explosions':ex}
+            'joints':[{'type':j[0],'destroy_timer':j[11],'axis':(j[12],j[13]),'lower':j[14],'upper':j[15],'motor_speed':j[16],'max_force':j[17],'flags':j[18]} for j in jo],'polygons':po,'forces':fo,'explosions':ex,'vials':vi}
 
 def build(episode_path=EPISODE,apk=None,workdir=None,output=None,quiet=False):
     """apk: read the stages straight from the APK (no decompiled files); workdir: where the stage JSON go."""
@@ -122,7 +124,7 @@ def build(episode_path=EPISODE,apk=None,workdir=None,output=None,quiet=False):
         lines.append(' {'+json.dumps(name)+','+str(len(v))+',{'+','.join(f(c) for xy in v for c in xy)+'}},')
     lines.append(' {0,0,{0}}};')
     # Constant forces of balloon-like materials (forceX/forceY), looked up by definition.
-    forced=sorted({o['definition'] for d in levels for o in d['objects'] if 'force' in profile['objects'][o['definition']] or 'explosion' in profile['objects'][o['definition']]})
+    forced=sorted({o['definition'] for d in levels for o in d['objects'] if 'force' in profile['objects'][o['definition']] or 'explosion' in profile['objects'][o['definition']] or 'vial' in profile['objects'][o['definition']]})
     lines.append('static const CampaignForce campaign_forces[] = {')
     for name in forced:fx,fy=profile['objects'][name].get('force',[0.0,0.0]);lines.append(' {'+json.dumps(name)+','+f(fx)+','+f(fy)+'},')
     lines.append(' {0,0,0}};')

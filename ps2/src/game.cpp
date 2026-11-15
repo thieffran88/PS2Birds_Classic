@@ -24,7 +24,7 @@
 /* The stages are not part of the program: they come from CAMPAIGN.BIN, generated from the
    player's own APK by tools/gerar_iso.py (layout below and in tools/build_campaign.py). */
 static const CampaignPolygon no_polygons[1]={{0,0,{0}}};
-static const CampaignForce no_forces[1]={{0,0,0,0,0,0,0,0}};
+static const CampaignForce no_forces[1]={{0,0,0,0,0,0,0,0,0,0}};
 static CampaignLevel *campaign_levels;
 static const CampaignPolygon *campaign_polygons=no_polygons;
 static const CampaignForce *campaign_forces=no_forces;
@@ -34,9 +34,9 @@ static uint32_t rd32(const unsigned char *p){return (uint32_t)p[0]|((uint32_t)p[
 static float rdf(const unsigned char *p){uint32_t v=rd32(p);float f;memcpy(&f,&v,4);return f;}
 int game_campaign_load(const unsigned char *data,unsigned size)
 {
-    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=4)return -1;
+    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=5)return -1;
     unsigned nl=rd32(data+8),no=rd32(data+12),nj=rd32(data+16),np=rd32(data+20),nf=rd32(data+24),ns=rd32(data+28);
-    const unsigned LV=4*(3+16+8+2+1+2+2),OB=4*15,JO=4*19,PO=4*18,FO=4*8;
+    const unsigned LV=4*(3+16+8+2+1+2+2),OB=4*15,JO=4*19,PO=4*18,FO=4*10;
     if(nl==0 || nl>MAX_CAMPAIGN_LEVELS || 32ull+(unsigned long long)nl*LV+(unsigned long long)no*OB+(unsigned long long)nj*JO+np*PO+nf*FO+ns!=size)return -1;
     const unsigned char *pl=data+32,*po=pl+nl*LV,*pj=po+no*OB,*pp=pj+nj*JO,*pf=pp+np*PO,*pstr=pf+nf*FO;
     char *strings=(char*)malloc(ns+1);CampaignLevel *levels=(CampaignLevel*)calloc(nl,sizeof(CampaignLevel));
@@ -57,7 +57,7 @@ int game_campaign_load(const unsigned char *data,unsigned size)
         j.axis_x=rdf(q+48);j.axis_y=rdf(q+52);j.lower=rdf(q+56);j.upper=rdf(q+60);j.motor_speed=rdf(q+64);j.max_force=rdf(q+68);j.flags=(int)rd32(q+72);
     }
     for(unsigned i=0;i<np;i++){const unsigned char *q=pp+i*PO;polys[i].definition=STR(q);polys[i].count=(int)rd32(q+4);for(int k=0;k<16;k++)polys[i].v[k]=rdf(q+8+4*k);}
-    for(unsigned i=0;i<nf;i++){const unsigned char *q=pf+i*FO;forces[i].definition=STR(q);forces[i].fx=rdf(q+4);forces[i].fy=rdf(q+8);forces[i].target=rdf(q+12);forces[i].blast_radius=rdf(q+16);forces[i].blast_force=rdf(q+20);forces[i].damage_radius=rdf(q+24);forces[i].damage=rdf(q+28);}
+    for(unsigned i=0;i<nf;i++){const unsigned char *q=pf+i*FO;forces[i].definition=STR(q);forces[i].fx=rdf(q+4);forces[i].fy=rdf(q+8);forces[i].target=rdf(q+12);forces[i].blast_radius=rdf(q+16);forces[i].blast_force=rdf(q+20);forces[i].damage_radius=rdf(q+24);forces[i].damage=rdf(q+28);forces[i].vial=(int)rd32(q+32);forces[i].vial_radius=rdf(q+36);}
     for(unsigned i=0;i<nl;i++){
         const unsigned char *q=pl+i*LV;CampaignLevel &l=levels[i];
         unsigned o0=rd32(q),oc=rd32(q+4),j0,jc;
@@ -112,7 +112,7 @@ struct Physics: b2ContactListener {
     int puffer_state;float puffer_timer,puffer_auto,puffer_direction;unsigned puffer_seed;
     float pink_timer,bird_bubble;bool pink_hover;
     int extra_types[16],extra_count,pending_birds;
-    float shock_time;b2Vec2 shock_center;bool shock_hit[MAX_LEVEL_OBJECTS];float electrocute[MAX_LEVEL_OBJECTS];float bubble_timer[MAX_LEVEL_OBJECTS],bubble_float[MAX_LEVEL_OBJECTS];
+    float shock_time;b2Vec2 shock_center;bool shock_hit[MAX_LEVEL_OBJECTS];float electrocute[MAX_LEVEL_OBJECTS];float bubble_timer[MAX_LEVEL_OBJECTS],bubble_float[MAX_LEVEL_OBJECTS];float vial_wait[MAX_LEVEL_OBJECTS],vial_pop[MAX_LEVEL_OBJECTS];int vial_kind[MAX_LEVEL_OBJECTS];bool vial_shield[MAX_LEVEL_OBJECTS];
     int bird_type;
     b2Body *split[2],*egg;bool egg_collided;
     bool split_collided[2],disturbed[MAX_LEVEL_OBJECTS];
@@ -130,7 +130,7 @@ struct Physics: b2ContactListener {
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),puffer_state(0),puffer_timer(0),puffer_auto(-1),puffer_direction(0),puffer_seed(12345u),pink_timer(-1),bird_bubble(0),pink_hover(false),bird_type(BIRD_RED_TYPE) {
         egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
         damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
-        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(bubble_timer,0,sizeof(bubble_timer));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
+        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
         world.SetContactListener(this);destruction.owner=this;world.SetDestructionListener(&destruction);
         /* The Ground object of the stage data spans the whole level; stages place pieces up to
            x=825, so the floor is FLOOR_HALF_WIDTH wide on each side of the origin. */
@@ -152,6 +152,10 @@ struct Physics: b2ContactListener {
     /* TNT and every piece whose blocks.lua definition declares an explosion (specialty BOMB). */
     bool explosive(int i)const{return level->objects[i].kind==OBJECT_KIND_TNT || (force_of[i] && force_of[i]->blast_radius>0);}
     void release_spawns(int parent,b2Vec2 where){
+        /* A broken vial marks the pigs around it (VialEffects.lua blackBird*VialRemoved). */
+        const CampaignForce *vf=force_of[parent];
+        if(vf && (vf->vial==VIAL_ORANGE || vf->vial==VIAL_PINK))
+            for(int j=0;j<level->count;j++)if(bodies[j] && level->objects[j].kind==4 && !vial_kind[j] && (bodies[j]->GetPosition()-where).LengthSquared()<vf->vial_radius*vf->vial_radius){vial_kind[j]=vf->vial;vial_wait[j]=VIAL_DELAY;}
         int caged=OBJECT_RELEASED_BIRD(level->objects[parent].flags);
         if(caged>=0 && extra_count<16){extra_types[extra_count++]=caged;pending_birds++;}
         for(int j=0;j<level->count;j++)if(level->objects[j].spawn_of==parent+1 && !bodies[j])create_body(j,where.x,where.y,level->objects[j].angle);
@@ -625,6 +629,13 @@ static void tick(Game *g) {
     for(int i=0;i<p->level->count;i++) {
         b2Body *body=p->bodies[i];if(!body)continue;
         const CampaignObject &o=p->level->objects[i];
+        if(p->vial_wait[i]>0 && (p->vial_wait[i]-=dt)<=0){
+            if(p->vial_kind[i]==VIAL_ORANGE)p->vial_pop[i]=VIAL_ORANGE_POP;
+            else {p->bubble_timer[i]=BUBBLE_TIME;p->bubble_float[i]=0;p->vial_shield[i]=true;p->disturbed[i]=true;}
+        }
+        if(p->vial_pop[i]>0 && (p->vial_pop[i]-=dt)<=0)p->health[i]=0;
+        if(p->vial_shield[i] && p->bubble_timer[i]<=0)p->vial_shield[i]=false;
+        if(p->vial_shield[i])p->impact[i]=0; /* ignoreAllDamage while in the pink bubble */
         if(o.kind!=3 && p->impact[i]>3) p->health[i]-=(p->impact[i]-3)*12/fmaxf(o.defence,1);
         p->impact[i]=0;
         if(p->chain_delay[i]>0){p->chain_delay[i]-=dt;if(p->chain_delay[i]>0)continue;}

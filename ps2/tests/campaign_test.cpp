@@ -645,7 +645,7 @@ static const Stage stages[]={
  {"Dino3_eyescollection",384,8,242,3,{{60,100,1.6f},{10,80,-1.0f}},2}, /* DINO 3-12 */
  {"Dino3_flyingcatch",446,6,155,3,{{60,100,1.6f},{60,100,-1.0f}},2}, /* DINO 3-13 */
  {"Dino3_nomercy",370,7,169,4,{{0,0,-1.0f}},0}, /* DINO 3-14 (sem roteiro vencedor) */
- {"Dino3_tongueattack",313,10,151,4,{{0,0,-1.0f}},0}, /* DINO 3-15 (sem roteiro vencedor) */
+ {"Dino3_tongueattack",313,10,151,4,{{60,70,1.6f},{50,100,2.0f},{70,100,2.6f}},3}, /* DINO 3-15 */
  {"Dino3_uphilldino",398,8,246,4,{{0,100,0.8f},{70,90,-1.0f}},2}, /* DINO 3-16 */
  {"LevelFB_1",145,9,76,4,{{50,90,2.6f},{50,40,2.6f}},2}, /* HAM EM HIGH EXTRA 1 */
  {"LevelFB_2",109,7,55,4,{{30,90,2.3f},{40,70,1.8f},{70,100,0.6f}},3}, /* HAM EM HIGH EXTRA 2 */
@@ -842,7 +842,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==106);
+    assert(unverified==105);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");
