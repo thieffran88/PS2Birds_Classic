@@ -22,6 +22,10 @@ Callbacks chamados pelo motor (`EggDefenderVehicle.lua`): `init(v)`, `update(v)`
 - **Entrada do veículo (`EggDefenderVehicle.init`):** o ponto (x, y) da onda é o pivô do veículo (`VehiclePivotPoint`: canto inferior esquerdo ou centro esquerdo); com `spawnAtGroundLevel` o veículo é baixado até o chão. `findRightmostBlock` serve para saber quando ele entrou na área de jogo.
 - **Peças que faltam no port:** `BP_EGG`, `BP_NEST`, `BP_EGG_SIGN_POLE`, `BP_ROCKET_RED/BLUE`, `BP_CANNON`, `BP_BALLOON_INFLATER(_VIOLET)`, `BP_COG_OFF`, `BP_BELLOWS`, `SpecialBlockStart`. Maior fase: 309 objetos contando os veículos de todas as ondas (cabe no limite de 640).
 
+- **Pássaros:** `getBirdToSpawn` sempre devolve `"RedBird"`; o jogador tem `birdLimit` pássaros vermelhos (7 a 13), que o modo cria um a um (o cenário não traz pássaros).
+- **Cenário:** o ninho (`BP_NEST`) e o ovo (`BP_EGG`) ficam à esquerda (x ≈ −85 a −93); os veículos entram pela direita (x da onda de 41 a 75), com coordenadas próprias em torno da origem do arquivo do veículo. A fase 1 ainda tem peças `SpecialBlockStart` e `ExtraStolenEgg` da cena de abertura (`removeUnusedLevelStartCinematicBlocks`).
+- **Estilingue:** as fases não têm `birdZeroPos` nem pássaros; a posição do estilingue vem do modo (`EggDefender.onLoadLevel`, linha 750) — próximo ponto a ler.
+
 ## Fases do trabalho
 
 1. **Dados** — importar as 15 fases, as ondas e as 72 montagens de veículo para o `CAMPAIGN.BIN` (peças guardadas escondidas, liberadas na hora da onda); peças novas (`ExtraStolenEgg`, motores, rotores, `SpecialBlockStart`).
