@@ -1,4 +1,38 @@
-# Modificações completas — PS2Birds Classic 0.55.0
+# Modificações completas — PS2Birds Classic 0.56.0
+
+- **Egg Defender — dispositivos dos veículos (`triggerGadgetFunctionality`)**
+  - Sugador do modo Egg Defender (`EggDefenderGadget_Sucker.lua`):
+    - começa desligado e liga com `startSuction`, partindo em 1 s;
+    - puxa só o ovo e o pássaro em voo (fator 25 para o pássaro), dentro do alcance de 35 m e do cone de 55°;
+    - a menos de 4 m prende o ovo, o que conta como ovo coletado pelo veículo;
+    - só prende o pássaro depois de ligado. O sugador das fases clássicas continua igual.
+  - Foguete (`startRocket`): a força sobe até o valor da peça em 3 s, queima mais 2 s e desliga.
+  - Inflador de balão (`inflate`): depois de 0,5 s puxa com `inflatedForceX/Y` (−150 por padrão), ajustável por `updateGadgetProperties`. O balão em si não é criado no port; a força vai no inflador.
+- **Egg Defender — controladores, fases 4 e 5 (10 veículos)**
+  - Fase 4:
+    - avião de ventiladores que mira o ovo pela distância (`getClosestEggX`);
+    - balão com ventilador que paira a cerca de y −25;
+    - planador que solta a cauda e a TNT;
+    - balão de borracha com duas hélices;
+    - voador de rotores balanceados que dobra os braços ao pegar o ovo.
+  - Fase 5:
+    - carroças com sugador, ligadas a x < 90 e a x < 75 ou desde o começo;
+    - fole traseiro que liga com o ovo;
+    - porco que se rende quando perde o sugador.
+  - Total: 23 de 72 controladores traduzidos à mão (fases 1 a 5).
+  - Erros dos scripts originais mantidos como no jogo:
+    - na 4-5, o ventilador esquerdo recebe a força duas vezes e o direito nenhuma;
+    - também na 4-5, a condição de abandono nunca dispara.
+- **Investigação**
+  - Gadgets lidos: `EggDefenderGadget_Sucker` (estados IDLE → STARTING → SUCKING, tempos e fatores), `EggDefenderGadget_Rocket` (3 s + 2 s), `EggDefenderGadget_BalloonInflater` (0,5 s, −150).
+  - Pendente: a sustentação dos voadores da fase 4 no port é menor que no jogo (eles descem cedo); a mira do vermelho (`pigTargeted`).
+- **Versão, documentos e limpeza**
+  - Tela, log e README em 0.56.0.
+  - `docs/EGG_DEFENDER.md` e `docs/LACUNAS_PORT.md` atualizados.
+  - Documentos da 0.55.0 substituídos.
+  - Entregues ISO, ELF (com os .BIN), Gerador para Windows e Código-Fonte; os da 0.55.0 removidos.
+
+## Modificações completas — 0.55.0
 
 - **Egg Defender — fase 2 (motor dos veículos)**
   - Força das peças lida do código nativo (`libAngryBirdsClassic.so`, x86): `forceRelative` empurra no eixo x da própria peça (força = `forceRelative` × (cos ângulo, sen ângulo)); sem ela valem `forceX`/`forceY`.

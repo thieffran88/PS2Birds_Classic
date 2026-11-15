@@ -41,6 +41,8 @@ int ev_egg_collected(EggVehicle *v);                           /* a pig of the v
 void ev_timer(EggVehicle *v,EggTimed fn,float seconds);        /* doWithTimer */
 float ev_closest_egg_x(EggVehicle *v,const char *name);        /* getClosestEggX(name or first pig) */
 void ev_auto_balance(EggVehicle *v,const char *a,const char *b,float force); /* toggleAutoBalance */
+void ev_gadget(EggVehicle *v,const char *name,const char *what); /* triggerGadgetFunctionality: startSuction, stopSuction, startRocket, inflate */
+void ev_gadget_property(EggVehicle *v,const char *name,const char *prop,float value); /* updateGadgetProperties */
 float *ev_vars(EggVehicle *v);                                 /* 16 floats for the script's globals */
 
 #endif

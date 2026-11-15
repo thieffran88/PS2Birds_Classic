@@ -57,6 +57,14 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 #define EGG_PROGRESS_MIN 0.5f        /* ... moving less than 0.5 m means the pig gives up */
 #define EGG_PIG_JUMP_X 5.0f          /* doJumping: an abandoning pig jumps off at (5, -5) m/s */
 #define EGG_PIG_JUMP_Y -5.0f
+#define EGG_SUCKER_START 1.0f       /* EggDefenderGadget_Sucker: STARTING lasts 1 s */
+#define EGG_SUCKER_BIRD_FACTOR 25.0f /* ... pulls birds 25 times harder than the egg ... */
+#define EGG_SUCKER_GRAB 4.0f         /* ... and takes the egg within 4 m */
+#define EGG_ROCKET_START 3.0f        /* EggDefenderGadget_Rocket: 3 s to full thrust, then 2 s burning */
+#define EGG_ROCKET_RUN 2.0f
+#define EGG_INFLATE_TIME 0.5f        /* EggDefenderGadget_BalloonInflater: the balloon fills in 0.5 s ... */
+#define EGG_INFLATED_FORCE_X 0.0f    /* ... and pulls with inflatedForceX/Y (the port pulls the inflater) */
+#define EGG_INFLATED_FORCE_Y -150.0f
 #define EGG_SCREEN 91.3f            /* the Egg Defender screen: 1136 px / 0.622 zoom / 20 px per metre */
 #define EGG_SCREEN_MARGIN 4.0f      /* ... starting 4 m left of the slingshot */
 #define EGG_TELEPORT_GAP 2.5f        /* teleport: 50 px right of the screen */

@@ -151,6 +151,9 @@ struct Physics: b2ContactListener {
     float progress_clock[MAX_LEVEL_OBJECTS],progress_hist[MAX_LEVEL_OBJECTS][EGG_PROGRESS_SAMPLES+1];int progress_n[MAX_LEVEL_OBJECTS];
     int egg_i,nest_i,egg_grabber;float egg_tween,egg_home_angle;b2Vec2 egg_from,egg_home;bool egg_lost;
     float game_right;int escaped_pigs;
+    /* Egg Defender gadgets (EggDefenderGadget_*.lua): sucker state (0 idle, 1 starting, 2 sucking)
+       and timers of rockets and balloon inflaters. */
+    int gadget_state[MAX_LEVEL_OBJECTS];float gadget_time[MAX_LEVEL_OBJECTS],gadget_value[MAX_LEVEL_OBJECTS],gadget_value2[MAX_LEVEL_OBJECTS];
     EggVehicle vehicles[16];
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),puffer_state(0),puffer_timer(0),puffer_auto(-1),puffer_direction(0),puffer_seed(12345u),pink_timer(-1),bird_bubble(0),pink_hover(false),bird_type(BIRD_RED_TYPE) {
         egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
@@ -223,7 +226,9 @@ struct Physics: b2ContactListener {
         if(v.c && v.c->init)v.c->init(&v);
     }
     void egg_setup(){
-        escaped_pigs=0;egg_i=nest_i=egg_grabber=-1;egg_tween=-1;egg_lost=false;egg_home_angle=0;egg_home.SetZero();egg_from.SetZero();
+        escaped_pigs=0;memset(gadget_state,0,sizeof(gadget_state));memset(gadget_time,0,sizeof(gadget_time));
+        for(int i=0;i<MAX_LEVEL_OBJECTS;i++){gadget_value[i]=EGG_INFLATED_FORCE_X;gadget_value2[i]=EGG_INFLATED_FORCE_Y;}
+        egg_i=nest_i=egg_grabber=-1;egg_tween=-1;egg_lost=false;egg_home_angle=0;egg_home.SetZero();egg_from.SetZero();
         game_right=level->sling_x-EGG_SCREEN_MARGIN+EGG_SCREEN;
         memset(abandoned,0,sizeof(abandoned));memset(jump_ready,0,sizeof(jump_ready));memset(progress_clock,0,sizeof(progress_clock));memset(progress_n,0,sizeof(progress_n));
         memset(vehicles,0,sizeof(vehicles));
@@ -248,6 +253,22 @@ struct Physics: b2ContactListener {
         drop_joints(bodies[i],egg_grabber==i && egg_i>=0?bodies[egg_i]:NULL);
         bodies[i]->SetTransform(bodies[i]->GetPosition(),0);bodies[i]->SetAngularVelocity(0);
     }
+    /* EggDefenderGadget_Sucker: once switched on (startSuction, 1 s to start) it pulls the egg and the
+       bird in flight within its range and cone (factor 1 for the egg, 25 for birds), and takes the egg
+       when it is closer than 4 m; that counts as the vehicle collecting the egg. */
+    void egg_sucker(int s){
+        if(gadget_state[s]!=2)return;
+        b2Vec2 c=bodies[s]->GetPosition();float back=bodies[s]->GetAngle()+b2_pi,half=SUCKER_CONE*b2_pi/360.0f;
+        b2Body *targets[2]={egg_i>=0 && egg_grabber<0 && egg_tween<0?bodies[egg_i]:NULL,trapped_by<0?bird:NULL};
+        for(int k=0;k<2;k++){b2Body *b=targets[k];if(!b)continue;
+            b2Vec2 d=b->GetPosition()-c;float dist=d.Length();if(dist>SUCKER_RANGE)continue;
+            float off=atan2f(d.y,d.x)-back;while(off<-b2_pi)off+=2*b2_pi;while(off>b2_pi)off-=2*b2_pi;
+            if(fabsf(off)>=half)continue;
+            float force=SUCKER_FORCE*(SUCKER_RANGE-dist)/SUCKER_RANGE*b->GetMass()*(k?EGG_SUCKER_BIRD_FACTOR:1.0f);
+            if(force>=SUCKER_MIN_FORCE && dist>0)b->ApplyForceToCenter(-force/dist*d,true);
+            if(k==0 && dist<EGG_SUCKER_GRAB){egg_grabber=s;egg_tween=0;egg_from=b->GetPosition();drop_joints(b,NULL);set_mask(b,0);b->SetLinearVelocity(b2Vec2(0,0));}
+        }
+    }
     void update_suckers(){
         /* EggDefenderGadget_Sucker.onBirdCollision: a bird touching a sucker is trapped inside it
            (Terence cannot be, nor a GlobeBird after its puff); it stays there until the sucker goes. */
@@ -255,11 +276,12 @@ struct Physics: b2ContactListener {
             if(!bird || !bodies[trapped_by])trapped_by=-1;
             else {bird->SetTransform(bodies[trapped_by]->GetPosition(),bird->GetAngle());bird->SetLinearVelocity(b2Vec2(0,0));bird->SetAngularVelocity(0);}
         } else if(bird && bird_type!=BIRD_BIG_TYPE && !(bird_type==BIRD_PUFFER_TYPE && special_used)){
-            for(int s=0;s<level->count && trapped_by<0;s++)if(bodies[s] && (level->objects[s].flags&OBJECT_SUCKER))
+            for(int s=0;s<level->count && trapped_by<0;s++)if(bodies[s] && (level->objects[s].flags&OBJECT_SUCKER) && !(egg_mode && OBJECT_WAVE(level->objects[s].flags) && gadget_state[s]!=2))
                 for(b2ContactEdge *e=bodies[s]->GetContactList();e;e=e->next)if(e->other==bird && e->contact->IsTouching()){trapped_by=s;break;}
         }
         for(int s=0;s<level->count;s++){
             if(!bodies[s] || !(level->objects[s].flags&OBJECT_SUCKER))continue;
+            if(egg_mode && OBJECT_WAVE(level->objects[s].flags)){egg_sucker(s);continue;}
             b2Vec2 c=bodies[s]->GetPosition();float back=bodies[s]->GetAngle()+b2_pi,half=SUCKER_CONE*b2_pi/360.0f;
             for(int j=0;j<level->count;j++){
                 b2Body *b=bodies[j];if(j==s || !b || b->GetType()!=b2_dynamicBody)continue;
@@ -689,6 +711,17 @@ static b2Vec2 egg_hold_point(const Physics *p,int pig){
 static void auto_balance(EggVehicle *v);
 static void egg_tick(Game *g,Physics *p,float dt){
     if(!p->egg_mode)return;
+    for(int i=0;i<p->level->count;i++)if(p->bodies[i] && p->gadget_state[i]){
+        float &tm=p->gadget_time[i];tm+=dt;
+        if(p->gadget_state[i]==1 && tm>=EGG_SUCKER_START){p->gadget_state[i]=2;}
+        else if(p->gadget_state[i]==3){  /* rocket: thrust ramps up over 3 s, burns 2 s more, then stops */
+            if(tm<EGG_ROCKET_START)p->thrust[i]=p->gadget_value[i]*tm/EGG_ROCKET_START;
+            else if(tm<EGG_ROCKET_START+EGG_ROCKET_RUN)p->thrust[i]=p->gadget_value[i];
+            else{p->thrust_off[i]=true;p->gadget_state[i]=0;}
+        }else if(p->gadget_state[i]==4 && tm>=EGG_INFLATE_TIME){  /* inflater: the balloon is full and pulls */
+            p->thrust[i]=0;p->wforce_x[i]=p->gadget_value[i];p->wforce_y[i]=p->gadget_value2[i];p->thrust_off[i]=false;p->gadget_state[i]=5;
+        }
+    }
     for(int w=1;w<16;w++){EggVehicle &v=p->vehicles[w];if(!v.active)continue;
         int pig=p->first_pig(w);
         if(pig<0){bool any=false;for(int i=0;i<p->level->count && !any;i++)if(p->bodies[i] && (int)OBJECT_WAVE(p->level->objects[i].flags)==w)any=true;if(!any){v.active=false;continue;}}
@@ -817,6 +850,18 @@ float ev_closest_egg_x(EggVehicle *v,const char *name){
     return from->GetPosition().x-p->bodies[p->egg_i]->GetPosition().x;
 }
 float *ev_vars(EggVehicle *v){return v->vars;}
+void ev_gadget(EggVehicle *v,const char *name,const char *what){
+    Physics *p=v->p;int i=p->piece(v->wave,name);if(i<0 || !p->bodies[i])return;
+    if(!strcmp(what,"startSuction")){if(p->gadget_state[i]==0){p->gadget_state[i]=1;p->gadget_time[i]=0;}}
+    else if(!strcmp(what,"stopSuction"))p->gadget_state[i]=0;
+    else if(!strcmp(what,"startRocket")){if(p->gadget_state[i]!=3){p->gadget_value[i]=p->thrust[i];p->thrust[i]=0;p->thrust_off[i]=false;p->gadget_state[i]=3;p->gadget_time[i]=0;}}
+    else if(!strcmp(what,"inflate")){if(p->gadget_state[i]<4){p->gadget_state[i]=4;p->gadget_time[i]=0;}}
+}
+void ev_gadget_property(EggVehicle *v,const char *name,const char *prop,float value){
+    Physics *p=v->p;int i=p->piece(v->wave,name);if(i<0)return;
+    if(!strcmp(prop,"inflatedForceX")){p->gadget_value[i]=value;if(p->gadget_state[i]==5)p->wforce_x[i]=value;}
+    else if(!strcmp(prop,"inflatedForceY")){p->gadget_value2[i]=value;if(p->gadget_state[i]==5)p->wforce_y[i]=value;}
+}
 void ev_auto_balance(EggVehicle *v,const char *a,const char *b,float force){
     for(int k=0;k<4;k++)if(v->balance_a[k] && !strcmp(v->balance_a[k],a) && !strcmp(v->balance_b[k],b)){if(force>0)v->balance_force[k]=force;else v->balance_a[k]=NULL;return;}
     if(force>0)for(int k=0;k<4;k++)if(!v->balance_a[k]){v->balance_a[k]=a;v->balance_b[k]=b;v->balance_force[k]=force;return;}
