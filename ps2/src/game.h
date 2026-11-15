@@ -65,6 +65,7 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 #define EGG_INFLATE_TIME 0.5f        /* EggDefenderGadget_BalloonInflater: the balloon fills in 0.5 s ... */
 #define EGG_INFLATED_FORCE_X 0.0f    /* ... and pulls with inflatedForceX/Y (the port pulls the inflater) */
 #define EGG_INFLATED_FORCE_Y -150.0f
+#define EGG_AIM_UPDATES 5.0f        /* updateAiming: aimUpdateTreshold (frames between updates) */
 #define EGG_SCREEN 91.3f            /* the Egg Defender screen: 1136 px / 0.622 zoom / 20 px per metre */
 #define EGG_SCREEN_MARGIN 4.0f      /* ... starting 4 m left of the slingshot */
 #define EGG_TELEPORT_GAP 2.5f        /* teleport: 50 px right of the screen */

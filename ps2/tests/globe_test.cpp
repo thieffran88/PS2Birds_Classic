@@ -203,6 +203,11 @@ int main(){
   bool back=false;
   for(float s=0;s<40 && !back && g.state!=LOST;s+=1.0f/120){game_update(&g,1.0f/120);GameObject o;game_get_object(&g,egg,&o);if(o.alive && fabsf(o.x-home.x)<0.2f*g.view_scale && fabsf(o.y-home.y)<0.2f*g.view_scale)back=true;}
   assert(back);}
+ // Egg Defender 5: a sucker cart takes the egg (startSuction) and, left alone, carries it off: lost.
+ {int ed=-1;for(int lv=0;lv<game_level_count();lv++)if(!strcmp(game_level_script(lv),"EggDefender_5"))ed=lv;
+  assert(ed>=0 && game_load_level(&g,ed));
+  for(float t=0;t<90 && g.state==AIMING;t+=1.0f/120)game_update(&g,1.0f/120);
+  assert(g.state==LOST);}
  // Power-ups of the shop tutorials: King Sling launches 1.3 times faster; Bird Quake (once) shakes the scene.
  int king=-1,quake=-1;
  for(int lv=0;lv<game_level_count();lv++){const char *sc=game_level_script(lv);if(!strcmp(sc,"Tutorial_kingsling"))king=lv;if(!strcmp(sc,"Tutorial_birdquake"))quake=lv;}

@@ -43,6 +43,9 @@ float ev_closest_egg_x(EggVehicle *v,const char *name);        /* getClosestEggX
 void ev_auto_balance(EggVehicle *v,const char *a,const char *b,float force); /* toggleAutoBalance */
 void ev_gadget(EggVehicle *v,const char *name,const char *what); /* triggerGadgetFunctionality: startSuction, stopSuction, startRocket, inflate */
 void ev_gadget_property(EggVehicle *v,const char *name,const char *prop,float value); /* updateGadgetProperties */
+void ev_no_grab(EggVehicle *v);                               /* pig:setGrabLogic() with nothing: the pig does not take the egg */
+void ev_set_velocity(EggVehicle *v,float vx,float vy);         /* setVelocity of every piece */
+void ev_start_aim(EggVehicle *v,const char *name,const char *target,float offset_degrees,float speed); /* startAim(name, "egg"|"bird", offset, speed) */
 float *ev_vars(EggVehicle *v);                                 /* 16 floats for the script's globals */
 
 #endif

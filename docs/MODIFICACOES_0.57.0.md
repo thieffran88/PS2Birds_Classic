@@ -1,0 +1,36 @@
+# Modificações 0.57.0
+
+- **Egg Defender — novas operações dos veículos**
+  - Mira (`startAim`, `updateAiming`):
+    - o motor da junta giratória da peça a vira para o ovo, para o pássaro em voo ou, sem pássaro, para o estilingue;
+    - usa a velocidade de mira e desacelera perto do ângulo;
+    - aceita o deslocamento em graus.
+  - `setVelocity`: lança o veículo inteiro (6-5 sai a −5 m/s).
+  - `setGrabLogic()` sem função: o porco não pega o ovo; quem pega é o sugador (7-3).
+- **Correção**
+  - Saída da área de jogo por peça: 5 vezes o tamanho da peça (`isBlockInsideGameArea`), não uma margem fixa de 8 m.
+  - Antes, ventiladores de veículos que ainda estavam entrando eram apagados; nas fases 3 e 5 agora o porco leva o ovo para fora da tela e a fase é perdida, como no jogo.
+- **Egg Defender — controladores das fases 6 e 7 (10 veículos)**
+  - Fase 6:
+    - carroça com sugador e rotor dobrado que decola com o ovo;
+    - carroça de dois sugadores;
+    - voador de rotor com sugador e hélices balanceadas, que foge com rotor −7000;
+    - voador com sugador que mira o ovo;
+    - veículo lançado a −5 m/s.
+  - Fase 7:
+    - carroças de ventilador que invertem com força dobrada;
+    - carroça cuja estrutura solta e sobe no balão;
+    - carroça com sugador que mira o pássaro (270°) sem o porco pegar o ovo;
+    - dois balões com ventilador;
+    - dois balões de borracha com dois sugadores que soltam a TNT sobre o ninho.
+  - Mantido como no original:
+    - o `update` do 6-1 nunca age (testa um campo que o script não define);
+    - o balanceamento com força −50 do 7-5 desliga em vez de ligar.
+  - Total: 33 de 72 controladores.
+- **Testes**
+  - `globe_test`: na Egg Defender 5, sem tiros, o sugador pega o ovo, o veículo foge e a fase é perdida.
+- **Versão, documentos e limpeza**
+  - Tela, log e README em 0.57.0.
+  - `docs/EGG_DEFENDER.md` e `docs/LACUNAS_PORT.md` atualizados.
+  - Documentos da 0.56.0 substituídos.
+  - Entregues ISO, ELF (com os .BIN), Gerador para Windows e Código-Fonte; os da 0.56.0 removidos.

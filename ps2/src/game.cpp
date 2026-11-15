@@ -110,6 +110,8 @@ struct EggVehicle {
     Physics *p;int wave;const EggController *c;float vars[16];
     EggTimed timer_fn[8];float timer_left[8];bool active,ever_inside;float last_x,last_y;
     const char *balance_a[4],*balance_b[4];float balance_force[4];
+    /* startAim: piece, its revolute joint, target (0 egg, 1 bird), angle offset and speed. */
+    int aim_piece[4],aim_joint[4],aim_target[4];float aim_offset[4],aim_speed[4],aim_motor[4];bool no_grab;
 };
 struct JointListener: b2DestructionListener {
     Physics *owner;
@@ -708,7 +710,7 @@ static b2Vec2 egg_hold_point(const Physics *p,int pig){
     const b2Body *b=p->bodies[pig];float a=b->GetAngle()+0.2f,r=p->level->objects[pig].width/3;
     return b->GetPosition()+b2Vec2(r*cosf(a),r*sinf(a));
 }
-static void auto_balance(EggVehicle *v);
+static void auto_balance(EggVehicle *v);static void update_aim(EggVehicle *v);
 static void egg_tick(Game *g,Physics *p,float dt){
     if(!p->egg_mode)return;
     for(int i=0;i<p->level->count;i++)if(p->bodies[i] && p->gadget_state[i]){
@@ -728,7 +730,7 @@ static void egg_tick(Game *g,Physics *p,float dt){
         else{v.last_x=p->bodies[pig]->GetPosition().x-p->level->sling_x;v.last_y=p->bodies[pig]->GetPosition().y;
             if(p->bodies[pig]->GetPosition().x<p->game_right)v.ever_inside=true;}
         for(int k=0;k<8;k++)if(v.timer_fn[k] && (v.timer_left[k]-=dt)<=0){EggTimed fn=v.timer_fn[k];v.timer_fn[k]=NULL;fn(&v);}
-        auto_balance(&v);
+        auto_balance(&v);update_aim(&v);
         if(v.c && v.c->update && pig>=0)v.c->update(&v,dt);
     }
     b2Body *egg=p->egg_i>=0?p->bodies[p->egg_i]:NULL;
@@ -740,7 +742,7 @@ static void egg_tick(Game *g,Physics *p,float dt){
         for(b2ContactEdge *e=b->GetContactList();e;e=e->next)if(e->contact->IsTouching() && e->other->GetType()==b2_staticBody && !e->contact->GetFixtureA()->IsSensor() && !e->contact->GetFixtureB()->IsSensor())on_static=true;
         if(!p->abandoned[i]){
             /* grabEggs: the closest free egg within 5 m across and 10 m up or down. */
-            if(egg && p->egg_grabber<0 && p->egg_tween<0 && fabsf(at.x-egg->GetPosition().x)<EGG_GRAB_DX && fabsf(at.y-egg->GetPosition().y)<EGG_GRAB_DY){
+            if(egg && !p->vehicles[w&15].no_grab && p->egg_grabber<0 && p->egg_tween<0 && fabsf(at.x-egg->GetPosition().x)<EGG_GRAB_DX && fabsf(at.y-egg->GetPosition().y)<EGG_GRAB_DY){
 #ifdef EGG_DEBUG
                 fprintf(stderr,"grab by %d age %.1f\n",i,p->age);
 #endif
@@ -793,7 +795,8 @@ static void egg_tick(Game *g,Physics *p,float dt){
     /* breakBlocks / checkExiting: vehicle pieces that have left the game area are removed. */
     for(int i=0;i<p->level->count;i++)if(p->bodies[i] && OBJECT_WAVE(p->level->objects[i].flags) && p->vehicles[OBJECT_WAVE(p->level->objects[i].flags)].ever_inside){
         b2Vec2 at=p->bodies[i]->GetPosition();
-        if(at.x>p->game_right+EGG_AREA_MARGIN || at.x<p->level->sling_x-EGG_SCREEN_MARGIN-EGG_AREA_MARGIN || at.y>p->level->ground_y+30 || at.y<p->level->sling_y-EGG_SCREEN)remove_silently(g,p,i);
+        const CampaignObject &o=p->level->objects[i];float m=5*fmaxf(o.width,o.height);  /* isBlockInsideGameArea: 5 sprite sizes */
+        if(at.x>p->game_right+m || at.x<p->level->sling_x-EGG_SCREEN_MARGIN-m || at.y>p->level->ground_y+30 || at.y<p->level->sling_y-EGG_SCREEN)remove_silently(g,p,i);
     }
     if(p->egg_lost)g->state=LOST;
 }
@@ -850,6 +853,32 @@ float ev_closest_egg_x(EggVehicle *v,const char *name){
     return from->GetPosition().x-p->bodies[p->egg_i]->GetPosition().x;
 }
 float *ev_vars(EggVehicle *v){return v->vars;}
+void ev_no_grab(EggVehicle *v){v->no_grab=true;}
+void ev_set_velocity(EggVehicle *v,float vx,float vy){Physics *p=v->p;for(int i=0;i<p->level->count;i++)if(p->bodies[i] && (int)OBJECT_WAVE(p->level->objects[i].flags)==v->wave)p->bodies[i]->SetLinearVelocity(b2Vec2(vx,vy));}
+void ev_start_aim(EggVehicle *v,const char *name,const char *target,float offset_degrees,float speed){
+    Physics *p=v->p;int i=p->piece(v->wave,name);if(i<0)return;
+    int joint=-1;for(int k=0;k<p->level->joint_count && k<p->joint_count && joint<0;k++){const CampaignJoint &j=p->level->joints[k];if(j.type==JOINT_REVOLUTE && (j.a==i || j.b==i))joint=k;}
+    if(joint<0)return;
+    for(int k=0;k<4;k++)if(!v->aim_speed[k] || v->aim_piece[k]==i){v->aim_piece[k]=i;v->aim_joint[k]=joint;v->aim_target[k]=strcmp(target,"egg")?1:0;v->aim_offset[k]=offset_degrees*b2_pi/180;v->aim_speed[k]=speed>0?speed:10;v->aim_motor[k]=0;return;}
+}
+/* updateAiming: the aiming piece's revolute motor turns it towards its target (the egg, or the bird:
+   the flying bird, else the slingshot), at aimingSpeed, slowing down within one update of travel. */
+static void update_aim(EggVehicle *v){
+    Physics *p=v->p;
+    for(int k=0;k<4;k++)if(v->aim_speed[k]){
+        int i=v->aim_piece[k];b2Joint *jt=p->joints[v->aim_joint[k]];
+        if(!p->bodies[i] || !jt){v->aim_speed[k]=0;continue;}
+        b2Vec2 to(p->level->sling_x,p->level->sling_y);
+        if(v->aim_target[k]==0){if(p->egg_i>=0 && p->bodies[p->egg_i] && p->egg_grabber<0)to=p->bodies[p->egg_i]->GetPosition();}
+        else if(p->bird)to=p->bird->GetPosition();
+        b2Vec2 at=p->bodies[i]->GetPosition();float target=atan2f(to.y-at.y,to.x-at.x);while(target<0)target+=2*b2_pi;
+        float cur=p->bodies[i]->GetAngle()+b2_pi-v->aim_offset[k];while(cur<0)cur+=2*b2_pi;
+        float diff=target-cur,span=v->aim_speed[k]*EGG_AIM_UPDATES/30.0f,speed=0;
+        if(diff<-0.001f)speed=v->aim_speed[k]*(fabsf(diff)<span?fabsf(diff)/span:1);
+        else if(diff>0.001f)speed=-v->aim_speed[k]*(fabsf(diff)<span?fabsf(diff)/span:1);
+        if(fabsf(v->aim_motor[k]-speed)>0.001f){v->aim_motor[k]=speed;if(jt->GetType()==e_revoluteJoint){((b2RevoluteJoint*)jt)->SetMotorSpeed(speed);((b2RevoluteJoint*)jt)->EnableMotor(true);}}
+    }
+}
 void ev_gadget(EggVehicle *v,const char *name,const char *what){
     Physics *p=v->p;int i=p->piece(v->wave,name);if(i<0 || !p->bodies[i])return;
     if(!strcmp(what,"startSuction")){if(p->gadget_state[i]==0){p->gadget_state[i]=1;p->gadget_time[i]=0;}}

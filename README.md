@@ -1,4 +1,4 @@
-# PS2Birds Classic — protótipo 0.56.0
+# PS2Birds Classic — protótipo 0.57.0
 
 Port não oficial do Angry Birds Classic para PlayStation 2 (homebrew). São 745 fases do
 Tutorial e dos episódios Poached Eggs, Mighty Hoax, Danger Above, Big Setup, Ham 'Em High, Mine and Dine,
