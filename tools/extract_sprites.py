@@ -155,7 +155,8 @@ def bank_members(all_names,levels_dir=None):
         if any(bird['definition']=='RedBigBird' for bird in d['birds']):banks[b].add('BIRD_BIG_BROTHER')
         if any(bird['definition']=='GlobeBird' for bird in d['birds']):banks[b]|={'BIRD_PUFFER_1','BIRD_PUFFER_2'}
         if any(bird['definition']=='PinkBird' for bird in d['birds']):banks[b]|={'BIRD_PINK','BIRD_PINK_RELEASE'}
-        if any(bird['definition']=='BlackBird_Shockwave' for bird in d['birds']):banks[b]|={'BIRD_GREY_BLUE','BIRD_GREY_BLUE_FLYING'}
+        # Powerup_Shockwave.lua puts a shockwave bird on the slingshot (replaceBird).
+        if d.get('powerup')=='shockwave' or any(bird['definition']=='BlackBird_Shockwave' for bird in d['birds']):banks[b]|={'BIRD_GREY_BLUE','BIRD_GREY_BLUE_FLYING'}
     # Bank 0 also keeps everything not claimed by a later bank, matching earlier builds.
     later=set().union(*banks[1:]) if len(banks)>1 else set()
     banks[0]|={n for n in available if n not in later or n in banks[0]}-{n for n in later if n not in banks[0] and (n.startswith(('BIRD_BOOMERANG','BIRD_BIG_BROTHER','BIRD_PUFFER','BIRD_PINK','BIRD_GREY_BLUE')) or not n.startswith(('BIRD_','SLING_','DROPPABLE_EGG','GROUND_BLOCK_')))}

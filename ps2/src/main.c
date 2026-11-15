@@ -187,7 +187,7 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     rect(0,0,640,109,dark);
     text(30,22,3,cream,"PS2BIRDS CLASSIC");
     if(sprites_load_failed())text(31,55,1,gold,"SPRITES.BIN AUSENTE: COPIE-O PARA A PASTA DO ELF");
-    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.47.0 / PLAYSTATION 2");
+    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.48.0 / PLAYSTATION 2");
     text(430,55,1,color(135,192,181),audio_status());
     text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
     text(31,80,2,gold,game_level_title(g->level));
@@ -244,7 +244,7 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     text(30,119,1,dark,line);
     /* Shop tutorials: the stage's power-up (King Sling is always on; Bird Quake on L2, once). */
     if(game_powerup(g)==POWERUP_KING_SLING)text(330,119,1,dark,"ESTILINGUE REAL");
-    else if(game_powerup_available(g))text(330,119,1,dark,game_powerup(g)==POWERUP_POWER_POTION?"L2: POCAO":"L2: TERREMOTO");
+    else if(game_powerup_available(g))text(330,119,1,dark,game_powerup(g)==POWERUP_POWER_POTION?"L2: POCAO":game_powerup(g)==POWERUP_SHOCKWAVE?"L2: ONDA DE CHOQUE":"L2: TERREMOTO");
     rect(30,135,110,4,color(76,137,137));
     rect(30,135,(g->power-POWER_MIN)*110/(POWER_MAX-POWER_MIN),4,gold);
     rect(20,391,600,51,dark);
@@ -333,7 +333,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: started as '%s'\n",argc>0 && argv && argv[0]?argv[0]:"");
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.47.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.48.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);

@@ -157,5 +157,11 @@ int main(){
   int type=game_queue_type(&g,0);static const float factor[]=POWER_POTION_RADIUS;
   assert(game_use_powerup(&g) && !game_powerup_available(&g));
   game_launch(&g);GameBird b;assert(game_get_projectile(&g,0,&b) && fabsf(b.scale-factor[type])<0.001f);}
- printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s; mirrored pieces; a broken cage adds its bird to the queue; trajectories follow upside-down and zero gravity; orange vials pop nearby pigs and pink vials lift them in bubbles; blue vials clone them; King Sling, Bird Quake and Power Potion power-ups.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
+ // Shockwave power-up (Tutorial_shockwave): L2 while aiming swaps the bird on the slingshot for a shockwave bird.
+ {int sw=-1;for(int lv=0;lv<game_level_count();lv++)if(!strcmp(game_level_script(lv),"Tutorial_shockwave"))sw=lv;
+  assert(sw>=0 && game_load_level(&g,sw) && game_powerup(&g)==POWERUP_SHOCKWAVE && game_queue_type(&g,0)!=BIRD_SHOCK_TYPE);
+  int second=game_queue_type(&g,1),birds=g.birds;
+  assert(game_use_powerup(&g) && !game_powerup_available(&g) && game_queue_type(&g,0)==BIRD_SHOCK_TYPE && game_queue_type(&g,1)==second);
+  game_launch(&g);GameBird b;assert(game_get_projectile(&g,0,&b) && b.type==BIRD_SHOCK_TYPE && g.birds==birds-1 && game_queue_type(&g,0)==second);}
+ printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s; mirrored pieces; a broken cage adds its bird to the queue; trajectories follow upside-down and zero gravity; orange vials pop nearby pigs and pink vials lift them in bubbles; blue vials clone them; King Sling, Bird Quake, Power Potion and Shockwave power-ups.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
 }
