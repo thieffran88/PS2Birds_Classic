@@ -1,0 +1,99 @@
+# Egg Defender — plano da tradução manual
+
+O modo Egg Defender (15 fases `EggDefender_N` do Mighty Feathers) é feito de ondas de veículos de porcos que tentam roubar o ovo. Cada fase tem um `.scripts.lua` só com dados (ondas, limite de pássaros); cada um dos **72 veículos** (`assets/data/vehicles/EggDefender_N/EggDefender_N_Wk_V1`) tem a montagem (peças e juntas, só dados) e um `.scripts.lua` **com código**: um pequeno controlador que o motor do modo chama.
+
+Como o gerador do port nunca executa código do jogo, cada controlador é **traduzido à mão para C++** e compilado no ELF. As traduções são código do port (não contêm dados do jogo); a montagem dos veículos continua vindo do APK do jogador.
+
+## O que um controlador faz
+
+Callbacks chamados pelo motor (`EggDefenderVehicle.lua`): `init(v)`, `update(v)` (todo quadro), `eggCollected(v, ...)`, `blockRemoved(v, bloco)`, `abandon`/`flee`/`surrender`/`release`, `pigTargeted`, `customAbandoningLogic`. Operações usadas, com a linha em `EggDefenderVehicle.lua`:
+
+- Peças: `getBlock(nome)` com `forceRelative` (força do ventilador ao longo da peça), `forceX`/`forceY`, `targetVelocity`; `togglePower(nome, ligado)` (2056); `removeBlock` (1564); `removeJoint` (1546); `updateJointDefinition` (2394).
+- Navegação: `v.x`, `v.y`, `getClosestEggX()` (2411), `getClosestSlingshotX()`, `toggleAutoBalance` (1873), `rotorDescend`.
+- Engenhocas: `triggerGadgetFunctionality` (2378), `updateGadgetProperties`, `startAim`.
+- Porcos: `getPig(nome)`, `setAbandoningLogic`, `abandonVehicle()` (1972), `surrender`.
+- Tempo: `doWithTimer(função, segundos)` (1203).
+
+## Fases do trabalho
+
+1. **Dados** — importar as 15 fases, as ondas e as 72 montagens de veículo para o `CAMPAIGN.BIN` (peças guardadas escondidas, liberadas na hora da onda); peças novas (`ExtraStolenEgg`, motores, rotores, `SpecialBlockStart`).
+2. **Motor de veículos** — em `ps2/src`: veículo como grupo de peças e juntas; ventilador/motor/rotor com potência e força relativa; ovo roubável e ninho; abandono e rendição dos porcos; temporizadores; regras de vitória e derrota do modo (`EggDefender.lua`, `EggDefenderObjectives.lua`).
+3. **72 controladores** — um por veículo, em `ps2/src/egg_vehicles.cpp`, traduzidos linha a linha dos scripts descompilados, com referência ao arquivo de origem.
+4. **Testes e roteiros** — cada fase carrega, cada onda entra, e um roteiro vence.
+
+## Os 72 controladores
+
+| Veículo | Linhas | Callbacks | Operações |
+|---|---|---|---|
+| EggDefender_1_W1_V1 | 30 | init | getBlock, getPig |
+| EggDefender_1_W2_V1 | 61 | init, update, noabandon | getBlock, getPig, removeBlock, removeJoint, updateJointDefinition |
+| EggDefender_1_W3_V1 | 75 | init, update, noabandon | getBlock, getPig, removeJoint, togglePower, updateJointDefinition |
+| EggDefender_2_W1_V1 | 43 | init, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock |
+| EggDefender_2_W2_V1 | 79 | init, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock, getPig, removeJoint |
+| EggDefender_2_W3_V1 | 58 | init, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock, getPig |
+| EggDefender_2_W4_V1 | 79 | init, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock, getPig, removeJoint |
+| EggDefender_2_W5_V1 | 78 | init, eggCollected, blockRemoved, abandon, pigTargeted | abandonVehicle, doWithTimer, getBlock, getPig, removeJoint |
+| EggDefender_3_W1_V1 | 64 | init, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock, toggleAutoBalance |
+| EggDefender_3_W2_V1 | 33 | eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock |
+| EggDefender_3_W3_V1 | 33 | eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock |
+| EggDefender_3_W4_V1 | 74 | init, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock |
+| EggDefender_3_W5_V1 | 115 | init, eggCollected | doWithTimer, getBlock, removeBlock, removeJoint, toggleAutoBalance, updateJointDefinition |
+| EggDefender_4_W1_V1 | 99 | init, update, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock, getClosestEggX, togglePower |
+| EggDefender_4_W2_V1 | 110 | init, update, eggCollected, blockRemoved, flee | abandonVehicle, doWithTimer, getBlock, getClosestEggX, rotorDescend |
+| EggDefender_4_W3_V1 | 112 | init, update, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock, removeJoint |
+| EggDefender_4_W4_V1 | 117 | init, update, eggCollected | getBlock, getClosestEggX, rotorDescend, togglePower |
+| EggDefender_4_W5_V1 | 181 | init, update, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock, getClosestEggX, removeJoint, rotorDescend, toggleAutoBalance, togglePower, updateJointDefinition |
+| EggDefender_5_W1_V1 | 83 | init, update, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock, triggerGadgetFunctionality |
+| EggDefender_5_W2_V1 | 56 | init, eggCollected, blockRemoved, flee | abandonVehicle, doWithTimer, getBlock, triggerGadgetFunctionality |
+| EggDefender_5_W3_V1 | 64 | init, eggCollected, blockRemoved, flee | abandonVehicle, doWithTimer, togglePower, triggerGadgetFunctionality |
+| EggDefender_5_W4_V1 | 91 | init, eggCollected, blockRemoved, flee | abandonVehicle, doWithTimer, getBlock, getPig, triggerGadgetFunctionality |
+| EggDefender_5_W5_V1 | 68 | init, update, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock, triggerGadgetFunctionality |
+| EggDefender_6_W1_V1 | 137 | init, update, eggCollected, blockRemoved, abandon, release | abandonVehicle, doWithTimer, getBlock, getClosestEggX, removeJoint, togglePower, triggerGadgetFunctionality, updateJointDefinition |
+| EggDefender_6_W2_V1 | 60 | init, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock, triggerGadgetFunctionality |
+| EggDefender_6_W3_V1 | 179 | init, update, eggCollected, blockRemoved, abandon, flee, pigTargeted | abandonVehicle, doWithTimer, getBlock, getClosestEggX, getPig, removeJoint, setAbandoningLogic, toggleAutoBalance, triggerGadgetFunctionality |
+| EggDefender_6_W4_V1 | 171 | init, update, eggCollected, blockRemoved, abandon, flee | abandonVehicle, doWithTimer, getBlock, getClosestEggX, getPig, startAim, toggleAutoBalance, triggerGadgetFunctionality |
+| EggDefender_6_W5_V1 | 118 | init, update, eggCollected, blockRemoved, abandon, flee | abandonVehicle, doWithTimer, getBlock, getPig, triggerGadgetFunctionality |
+| EggDefender_7_W1_V1 | 39 | eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock |
+| EggDefender_7_W2_V1 | 77 | init, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock, removeJoint |
+| EggDefender_7_W3_V1 | 106 | init, update, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock, getClosestEggX, getPig, startAim, triggerGadgetFunctionality |
+| EggDefender_7_W4_V1 | 155 | init, update, eggCollected, blockRemoved, flee, noabandon | abandonVehicle, doWithTimer, getBlock, getClosestEggX, getPig, rotorDescend |
+| EggDefender_7_W5_V1 | 132 | init, update, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock, getClosestEggX, removeJoint, toggleAutoBalance, triggerGadgetFunctionality |
+| EggDefender_8_W1_V1 | 92 | init, eggCollected | doWithTimer, getBlock, triggerGadgetFunctionality, updateGadgetProperties |
+| EggDefender_8_W2_V1 | 102 | init, eggCollected | getBlock, removeJoint, triggerGadgetFunctionality, updateGadgetProperties |
+| EggDefender_8_W3_V1 | 53 | init, eggCollected | getBlock, triggerGadgetFunctionality, updateGadgetProperties |
+| EggDefender_8_W4_V1 | 108 | init, update, eggCollected, release | doWithTimer, getBlock, getClosestEggX, removeJoint, triggerGadgetFunctionality, updateGadgetProperties, updateJointDefinition |
+| EggDefender_8_W5_V1 | 48 | init, eggCollected, disableTeleporting | doWithTimer, getBlock, triggerGadgetFunctionality |
+| EggDefender_9_W1_V1 | 57 | init, eggCollected, blockRemoved, flee | abandonVehicle, doWithTimer, getBlock, startAim |
+| EggDefender_9_W2_V1 | 66 | init, eggCollected, blockRemoved, flee | abandonVehicle, doWithTimer, getBlock, startAim |
+| EggDefender_9_W3_V1 | 43 | init, eggCollected, blockRemoved, flee | abandonVehicle, doWithTimer, getBlock, startAim |
+| EggDefender_9_W4_V1 | 46 | init, eggCollected, blockRemoved, flee | abandonVehicle, doWithTimer, getBlock, startAim |
+| EggDefender_9_W5_V1 | 179 | init, update, eggCollected, blockRemoved, flee, surrender, noabandon | abandonVehicle, doWithTimer, getBlock, getClosestEggX, getPig, setAbandoningLogic, startAim, surrender, toggleAutoBalance, triggerGadgetFunctionality |
+| EggDefender_10_W1_V1 | 61 | init, eggCollected, blockRemoved, flee | abandonVehicle, doWithTimer, getBlock, removeJoint, startAim |
+| EggDefender_10_W2_V1 | 134 | init, update, eggCollected, blockRemoved, flee | abandonVehicle, doWithTimer, getBlock, getClosestEggX, removeJoint, toggleAutoBalance, triggerGadgetFunctionality |
+| EggDefender_10_W3_V1 | 43 | init, eggCollected, blockRemoved, flee | abandonVehicle, doWithTimer, getBlock, startAim |
+| EggDefender_10_W4_V1 | 120 | init, update, eggCollected, blockRemoved, flee, release | abandonVehicle, doWithTimer, getBlock, removeJoint, toggleAutoBalance, togglePower, triggerGadgetFunctionality, updateJointDefinition |
+| EggDefender_10_W5_V1 | 106 | init, update, eggCollected, blockRemoved, flee, surrender | abandonVehicle, doWithTimer, getBlock, getClosestEggX, getPig, startAim, surrender, triggerGadgetFunctionality |
+| EggDefender_11_W1_V1 | 321 | init, update, eggCollected, blockRemoved, abandon, flee | abandonVehicle, doWithTimer, getBlock, getClosestEggX, getPig, removeBlock, removeJoint, rotorDescend, toggleAutoBalance, togglePower, triggerGadgetFunctionality |
+| EggDefender_11_W2_V1 | 152 | init, update, eggCollected, release | doWithTimer, getBlock, getClosestEggX, getPig, removeJoint, togglePower, triggerGadgetFunctionality, updateJointDefinition |
+| EggDefender_11_W3_V1 | 188 | init, update, eggCollected, blockRemoved, flee, surrender | abandonVehicle, doWithTimer, getBlock, getClosestEggX, getPig, removeJoint, toggleAutoBalance, triggerGadgetFunctionality |
+| EggDefender_11_W4_V1 | 168 | init, update, eggCollected | doWithTimer, getBlock, getClosestEggX, removeJoint, rotorDescend, triggerGadgetFunctionality |
+| EggDefender_11_W5_V1 | 52 | init, eggCollected, blockRemoved, flee | abandonVehicle, doWithTimer, getBlock, triggerGadgetFunctionality |
+| EggDefender_12_W1_V1 | 92 | init, update, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock, removeBlock, removeJoint, updateJointDefinition |
+| EggDefender_12_W2_V1 | 91 | init, update, eggCollected, blockRemoved | abandonVehicle, getBlock, getClosestEggX, triggerGadgetFunctionality, updateJointDefinition |
+| EggDefender_12_W3_V1 | 177 | init, update, eggCollected, blockRemoved, flee | abandonVehicle, doWithTimer, getBlock, getClosestEggX, removeBlock, toggleAutoBalance, togglePower |
+| EggDefender_12_W4_V1 | 134 | init, update, eggCollected, blockRemoved, flee | abandonVehicle, doWithTimer, getBlock, getClosestEggX, rotorDescend, toggleAutoBalance |
+| EggDefender_12_W5_V1 | 166 | init, update, eggCollected, blockRemoved, flee, customAbandoningLogic | abandonVehicle, doWithTimer, getBlock, getClosestEggX, removeJoint, rotorDescend, setAbandoningLogic, startAim, toggleAutoBalance, triggerGadgetFunctionality |
+| EggDefender_13_W1_V1 | 149 | init, eggCollected, blockRemoved, pigTargeted | doWithTimer, getBlock, getPig, removeBlock, removeJoint, triggerGadgetFunctionality |
+| EggDefender_13_W2_V1 | 115 | init, eggCollected, blockRemoved, abandon, release | abandonVehicle, doWithTimer, getBlock, removeBlock, removeJoint, triggerGadgetFunctionality, updateJointDefinition |
+| EggDefender_13_W3_V1 | 74 | init, update, eggCollected | doWithTimer, getBlock, removeJoint, triggerGadgetFunctionality |
+| EggDefender_13_W4_V1 | 101 | init, update, eggCollected, blockRemoved, flee, disableTeleporting | abandonVehicle, doWithTimer, getBlock, removeBlock, removeJoint, triggerGadgetFunctionality |
+| EggDefender_13_W5_V1 | 77 | init, eggCollected, blockRemoved, abandon, pigTargeted | abandonVehicle, doWithTimer, getBlock, getPig, updateJointDefinition |
+| EggDefender_14_W1_V1 | 165 | init, update, eggCollected, pigTargeted | doWithTimer, getBlock, getClosestEggX, getPig, removeBlock, removeJoint, triggerGadgetFunctionality |
+| EggDefender_14_W2_V1 | 66 | init, update, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock, triggerGadgetFunctionality |
+| EggDefender_14_W3_V1 | 164 | init, update, eggCollected, blockRemoved, flee | abandonVehicle, doWithTimer, getBlock, getClosestEggX, removeJoint, rotorDescend, startAim, toggleAutoBalance, triggerGadgetFunctionality |
+| EggDefender_14_W4_V1 | 113 | init, eggCollected, blockRemoved, abandon | abandonVehicle, doWithTimer, getBlock, removeJoint, triggerGadgetFunctionality, updateJointDefinition |
+| EggDefender_14_W5_V1 | 226 | init, eggCollected, blockRemoved | doWithTimer, getBlock, removeJoint, triggerGadgetFunctionality, updateJointDefinition |
+| EggDefender_15_W1_V1 | 236 | init, update, eggCollected, blockRemoved, flee | doWithTimer, getBlock, getClosestEggX, getPig, removeJoint, startAim, toggleAutoBalance, togglePower, triggerGadgetFunctionality, updateJointDefinition |
+| EggDefender_15_W2_V1 | 311 | init, update, eggCollected, blockRemoved, flee, customAbandoningLogic, disableTeleporting | abandonVehicle, doWithTimer, getBlock, getClosestEggX, getPig, removeBlock, removeJoint, startAim, triggerGadgetFunctionality |
+| EggDefender_15_W3_V1 | 276 | init, update, eggCollected, blockRemoved, flee, customAbandoningLogic | abandonVehicle, doWithTimer, getBlock, getClosestEggX, getPig, setAbandoningLogic, startAim, surrender, toggleAutoBalance, togglePower, triggerGadgetFunctionality, updateJointDefinition |
+| EggDefender_15_W4_V1 | 641 | init, update, eggCollected, blockRemoved, customAbandoningLogic | abandonVehicle, doWithTimer, getBlock, getClosestEggX, getClosestSlingshotX, getPig, removeBlock, removeJoint, rotorDescend, setAbandoningLogic, togglePower, triggerGadgetFunctionality |
