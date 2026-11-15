@@ -160,6 +160,21 @@ int main(){
          if(k!=sk && before[k]>0 && (!o.alive || hypotf(o.x-su.x,o.y-su.y)<before[k]-2*g.view_scale))pulled++;}
   }
   assert(pulled>0);}
+ // A bird that hits a sucker is held inside it (EggDefenderGadget_Sucker.onBirdCollision).
+ {int trapped=0;
+  for(int lv=0;lv<game_level_count() && !trapped;lv++){
+     assert(game_load_level(&g,lv));int has=0;
+     for(int k=0;k<game_object_count(&g);k++){GameObject o;game_get_object(&g,k,&o);if(o.definition && !strcmp(o.definition,"BP_SUCKER"))has=1;}
+     if(!has)continue;
+     for(int a=-10;a<=80 && !trapped;a+=5)for(int pw=40;pw<=100 && !trapped;pw+=10){
+         assert(game_load_level(&g,lv));if(game_queue_type(&g,0)==BIRD_BIG_TYPE)break;
+         g.angle=(float)a;g.power=(float)pw;game_launch(&g);
+         for(int t=0;t<600 && g.state==FLYING && !trapped;t++){game_update(&g,1.0f/120);
+             if(game_bird_trapped(&g)){GameBird b1,b2;game_get_projectile(&g,0,&b1);for(int k=0;k<60;k++)game_update(&g,1.0f/120);
+                 assert(game_get_projectile(&g,0,&b2) && game_bird_trapped(&g) && fabsf(b2.x-b1.x)<4*g.view_scale && fabsf(b2.y-b1.y)<4*g.view_scale);trapped=1;}}
+     }
+  }
+  assert(trapped);}
  // Power-ups of the shop tutorials: King Sling launches 1.3 times faster; Bird Quake (once) shakes the scene.
  int king=-1,quake=-1;
  for(int lv=0;lv<game_level_count();lv++){const char *sc=game_level_script(lv);if(!strcmp(sc,"Tutorial_kingsling"))king=lv;if(!strcmp(sc,"Tutorial_birdquake"))quake=lv;}
@@ -187,5 +202,5 @@ int main(){
   int second=game_queue_type(&g,1),birds=g.birds;
   assert(game_use_powerup(&g) && !game_powerup_available(&g) && game_queue_type(&g,0)==BIRD_SHOCK_TYPE && game_queue_type(&g,1)==second);
   game_launch(&g);GameBird b;assert(game_get_projectile(&g,0,&b) && b.type==BIRD_SHOCK_TYPE && g.birds==birds-1 && game_queue_type(&g,0)==second);}
- printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s; mirrored pieces; a broken cage adds its bird to the queue; trajectories follow upside-down and zero gravity; orange vials pop nearby pigs and pink vials lift them in bubbles; blue vials clone them; King Sling, Bird Quake, Power Potion and Shockwave power-ups; vehicle bubble guns and suckers.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
+ printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s; mirrored pieces; a broken cage adds its bird to the queue; trajectories follow upside-down and zero gravity; orange vials pop nearby pigs and pink vials lift them in bubbles; blue vials clone them; King Sling, Bird Quake, Power Potion and Shockwave power-ups; vehicle bubble guns and suckers (which trap birds).\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
 }

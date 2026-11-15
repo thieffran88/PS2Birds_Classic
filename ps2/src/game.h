@@ -193,6 +193,8 @@ void game_update(Game *game,float seconds);
 int game_special(Game *game);
 int game_special_available(const Game *game);
 int game_queue_type(const Game *game,int offset);
+/* 1 while the flying bird is trapped inside a pig vehicle's sucker. */
+int game_bird_trapped(const Game *game);
 /* Power-up of the current stage (POWERUP_*), and whether it can still be used (Bird Quake: once). */
 int game_powerup(const Game *game);
 int game_powerup_available(const Game *game);

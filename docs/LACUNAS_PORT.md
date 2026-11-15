@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.52.0)
+# Lacunas do port (levantamento atualizado na 0.53.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -173,7 +173,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.51.0
 
-- **Sugador (`EggDefenderGadget_Sucker.lua` + `RMFClassic_Sucker.lua`) — levantado, não portado.** Constantes recuperadas: alcance 35, cone de 55° voltado para trás da peça (`angle + π`), força 8 × (35 − distância) / 35 × massa, aplicada só se passar de 10; liga depois de um tempo em `STARTING` e fica em `SUCKING`. No modo clássico, peças sugadas que encostam no sugador são destruídas (`onCollision`) e o pássaro sugado fica preso até a habilidade (com `specialtyDestroysSucker`, a habilidade destrói o sugador). **Feito na 0.52.0:** o fator do modo clássico é 5 (`RMFClassic_Sucker.lua`), e o `RMFClassic.lua` liga os sugadores (`SUCKING`) assim que a física começa. O ângulo de `calculateObjectEffect` é a direção da peça vista do sugador; a força aponta para o sugador. Falta só prender o pássaro sugado (`onBirdTrapped`).
+- **Sugador (`EggDefenderGadget_Sucker.lua` + `RMFClassic_Sucker.lua`) — levantado, não portado.** Constantes recuperadas: alcance 35, cone de 55° voltado para trás da peça (`angle + π`), força 8 × (35 − distância) / 35 × massa, aplicada só se passar de 10; liga depois de um tempo em `STARTING` e fica em `SUCKING`. No modo clássico, peças sugadas que encostam no sugador são destruídas (`onCollision`) e o pássaro sugado fica preso até a habilidade (com `specialtyDestroysSucker`, a habilidade destrói o sugador). **Feito na 0.52.0:** o fator do modo clássico é 5 (`RMFClassic_Sucker.lua`), e o `RMFClassic.lua` liga os sugadores (`SUCKING`) assim que a física começa. O ângulo de `calculateObjectEffect` é a direção da peça vista do sugador; a força aponta para o sugador. Na 0.53.0 o pássaro que encosta no sugador fica preso dentro dele (`onBirdCollision`); o Terence não pode ser preso (`canBeTrappedBySucker = false`), nem o GlobeBird depois de inflar; a habilidade do GlobeBird e do pássaro de choque destrói o sugador (`specialtyDestroysSucker`) e a da Stella fica desativada (`specialtyDisabledInsideSucker`).
 - **Canhão, foguetes, fole e inflador de balão:** existem no `blocks.lua`, mas nenhuma fase do port usa essas peças.
 
 ## O que falta no jogo (código nativo não recuperado)
@@ -184,7 +184,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Pássaro preso pelo sugador (`onBirdTrapped`); modo Egg Defender propriamente dito (15 fases `EggDefender_N`); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); giro dos clones do frasco azul; roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
+1. Modo Egg Defender propriamente dito (15 fases `EggDefender_N`); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); giro dos clones do frasco azul; roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).

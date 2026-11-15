@@ -111,7 +111,7 @@ struct Physics: b2ContactListener {
     bool boomerang_active;float boomerang_x_force,boomerang_y_force,boomerang_spin;
     int puffer_state;float puffer_timer,puffer_auto,puffer_direction;unsigned puffer_seed;
     float pink_timer,bird_bubble;bool pink_hover;
-    int extra_types[16],extra_count,pending_birds,pending_pigs;float quake_time;bool quake_used,potion_armed,potion_used,shock_bonus,shock_used;float potion_scale;
+    int extra_types[16],extra_count,pending_birds,pending_pigs;int trapped_by;float quake_time;bool quake_used,potion_armed,potion_used,shock_bonus,shock_used;float potion_scale;
     float shock_time;b2Vec2 shock_center;bool shock_hit[MAX_LEVEL_OBJECTS];float electrocute[MAX_LEVEL_OBJECTS];float bubble_timer[MAX_LEVEL_OBJECTS],bubble_float[MAX_LEVEL_OBJECTS];float gun_timer[MAX_LEVEL_OBJECTS],gun_bubble_grow[MAX_LEVEL_OBJECTS],gun_bubble_life[MAX_LEVEL_OBJECTS];bool is_gun[MAX_LEVEL_OBJECTS];unsigned gun_seed;float vial_wait[MAX_LEVEL_OBJECTS],vial_pop[MAX_LEVEL_OBJECTS];int vial_kind[MAX_LEVEL_OBJECTS];bool vial_shield[MAX_LEVEL_OBJECTS];
     int bird_type;
     b2Body *split[2],*egg;bool egg_collided;
@@ -130,7 +130,7 @@ struct Physics: b2ContactListener {
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),puffer_state(0),puffer_timer(0),puffer_auto(-1),puffer_direction(0),puffer_seed(12345u),pink_timer(-1),bird_bubble(0),pink_hover(false),bird_type(BIRD_RED_TYPE) {
         egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
         damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
-        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(gun_timer,0,sizeof(gun_timer));memset(gun_bubble_grow,0,sizeof(gun_bubble_grow));memset(gun_bubble_life,0,sizeof(gun_bubble_life));memset(is_gun,0,sizeof(is_gun));gun_seed=12345u;memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;pending_pigs=0;quake_time=0;quake_used=false;potion_armed=false;potion_used=false;shock_bonus=false;shock_used=false;potion_scale=1;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
+        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(gun_timer,0,sizeof(gun_timer));memset(gun_bubble_grow,0,sizeof(gun_bubble_grow));memset(gun_bubble_life,0,sizeof(gun_bubble_life));memset(is_gun,0,sizeof(is_gun));gun_seed=12345u;memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;pending_pigs=0;quake_time=0;quake_used=false;trapped_by=-1;potion_armed=false;potion_used=false;shock_bonus=false;shock_used=false;potion_scale=1;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
         world.SetContactListener(this);destruction.owner=this;world.SetDestructionListener(&destruction);
         /* The Ground object of the stage data spans the whole level; stages place pieces up to
            x=825, so the floor is FLOOR_HALF_WIDTH wide on each side of the origin. */
@@ -156,6 +156,15 @@ struct Physics: b2ContactListener {
         return b->GetPosition()+b2Vec2(fw*cosf(a)-side*sinf(a),fw*sinf(a)+side*cosf(a));
     }
     void update_suckers(){
+        /* EggDefenderGadget_Sucker.onBirdCollision: a bird touching a sucker is trapped inside it
+           (Terence cannot be, nor a GlobeBird after its puff); it stays there until the sucker goes. */
+        if(trapped_by>=0){
+            if(!bird || !bodies[trapped_by])trapped_by=-1;
+            else {bird->SetTransform(bodies[trapped_by]->GetPosition(),bird->GetAngle());bird->SetLinearVelocity(b2Vec2(0,0));bird->SetAngularVelocity(0);}
+        } else if(bird && bird_type!=BIRD_BIG_TYPE && !(bird_type==BIRD_PUFFER_TYPE && special_used)){
+            for(int s=0;s<level->count && trapped_by<0;s++)if(bodies[s] && (level->objects[s].flags&OBJECT_SUCKER))
+                for(b2ContactEdge *e=bodies[s]->GetContactList();e;e=e->next)if(e->other==bird && e->contact->IsTouching()){trapped_by=s;break;}
+        }
         for(int s=0;s<level->count;s++){
             if(!bodies[s] || !(level->objects[s].flags&OBJECT_SUCKER))continue;
             b2Vec2 c=bodies[s]->GetPosition();float back=bodies[s]->GetAngle()+b2_pi,half=SUCKER_CONE*b2_pi/360.0f;
@@ -428,7 +437,7 @@ void game_launch(Game *g) {
     p->egg=NULL;p->egg_collided=false;
     p->spawn_ignore_count=0;
     for(int i=0;i<2;i++){if(p->split[i])p->world.DestroyBody(p->split[i]);p->split[i]=NULL;p->split_collided[i]=false;}
-    p->bird_type=game_queue_type(g,0);p->shock_bonus=false;p->special_used=false;p->bird_collided=false;p->boomerang_active=false;p->boomerang_spin=0;p->puffer_state=0;p->puffer_timer=0;p->puffer_auto=-1;p->puffer_direction=0;p->puffer_seed=12345u;p->pink_timer=-1;p->bird_bubble=0;p->pink_hover=false;
+    p->bird_type=game_queue_type(g,0);p->shock_bonus=false;p->trapped_by=-1;p->special_used=false;p->bird_collided=false;p->boomerang_active=false;p->boomerang_spin=0;p->puffer_state=0;p->puffer_timer=0;p->puffer_auto=-1;p->puffer_direction=0;p->puffer_seed=12345u;p->pink_timer=-1;p->bird_bubble=0;p->pink_hover=false;
     g->angle=clamp(g->angle,ANGLE_MIN,ANGLE_MAX);g->power=clamp(g->power,POWER_MIN,POWER_MAX);
     float a=g->angle*0.01745329252f;
     p->bird=p->make_bird(b2Vec2(p->level->sling_x,p->level->sling_y),b2Vec2(cosf(a)*LAUNCH_SPEED_MAX*sling_power(p)*g->power/100.0f,-sinf(a)*LAUNCH_SPEED_MAX*sling_power(p)*g->power/100.0f),p->bird_type);
@@ -480,6 +489,12 @@ static void puff(Game *g){
 int game_special(Game *g){
     if(!game_special_available(g))return 0;
     Physics *p=static_cast<Physics*>(g->physics);
+    /* RMFClassic_Sucker: inside a sucker Stella's bubbles are disabled; the GlobeBird's puff and the
+       shockwave bird's blast destroy the sucker (specialtyDestroysSucker) and free the bird. */
+    if(p->trapped_by>=0){
+        if(p->bird_type==BIRD_PINK_TYPE)return 0;
+        if(p->bird_type==BIRD_PUFFER_TYPE || p->bird_type==BIRD_SHOCK_TYPE){p->health[p->trapped_by]=0;p->trapped_by=-1;}
+    }
     if(p->bird_type==BIRD_BLACK_TYPE || p->bird_type==BIRD_SHOCK_TYPE){p->bomb_requested=true;p->special_used=true;return 1;}
     b2Vec2 velocity=p->bird->GetLinearVelocity();
     if(p->bird_type==BIRD_WHITE_TYPE){
@@ -758,6 +773,7 @@ void game_update(Game *g,float seconds) {
         tick(g);g->accumulator-=1.0f/120;
     }
 }
+int game_bird_trapped(const Game *g){return static_cast<const Physics*>(g->physics)->trapped_by>=0;}
 int game_powerup(const Game *g){return static_cast<const Physics*>(g->physics)->level->powerup;}
 int game_powerup_available(const Game *g){const Physics *p=static_cast<const Physics*>(g->physics);
     if(p->level->powerup==POWERUP_BIRD_QUAKE)return !p->quake_used && (g->state==AIMING||g->state==FLYING);

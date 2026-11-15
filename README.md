@@ -1,4 +1,4 @@
-# PS2Birds Classic — protótipo 0.52.0
+# PS2Birds Classic — protótipo 0.53.0
 
 Port não oficial do Angry Birds Classic para PlayStation 2 (homebrew). São 730 fases do
 Tutorial e dos episódios Poached Eggs, Mighty Hoax, Danger Above, Big Setup, Ham 'Em High, Mine and Dine,
@@ -40,7 +40,7 @@ arquivos para a mesma pasta. Sem os dados, o jogo mostra uma tela de aviso. Víd
 - Habilidades (X depois do lançamento): azul divide em três; amarelo acelera; preto explode;
   branco solta um ovo; verde (bumerangue) faz a curva; GlobeBird infla; Stella solta bolhas.
 - Dino: quebrar uma gaiola acrescenta o pássaro preso ao fim da fila.
-- Veículos dos porcos (Mighty Feathers): a arma de bolhas atira uma bolha a cada 2,5 s; o sugador puxa as peças à frente e destrói as que encostam nele.
+- Veículos dos porcos (Mighty Feathers): a arma de bolhas atira uma bolha a cada 2,5 s; o sugador puxa as peças à frente, destrói as que encostam nele e prende o pássaro que o acerta (a habilidade do GlobeBird ou do pássaro de choque o destrói).
 - Short Fuse: o frasco laranja infla e estoura os porcos próximos; o rosa os prende em bolhas; o azul os clona.
 - Tutoriais de power-up: o Estilingue Real lança 30% mais rápido; no Terremoto, L2 sacode a fase (uma vez); na Poção, L2 durante a mira aumenta o próximo pássaro; na Onda de Choque, L2 troca o pássaro do estilingue por um pássaro de choque (uma vez cada).
 - L1 salva no Memory Card 1 (a vitória salva sozinha); R3 liga/desliga o som.

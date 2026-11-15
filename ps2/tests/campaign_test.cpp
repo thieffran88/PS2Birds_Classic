@@ -734,9 +734,9 @@ static const Stage stages[]={
  {"EggDefender_classic_7",203,6,98,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 7 (sem roteiro vencedor) */
  {"EggDefender_classic_8",182,7,80,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 8 (sem roteiro vencedor) */
  {"EggDefender_classic_9",146,6,61,3,{{-5,98,-1.0f}},1}, /* MIGHTY FEATHERS 9 */
- {"EggDefender_classic_10",171,6,74,4,{{40,74,0.7f}},1}, /* MIGHTY FEATHERS 10 */
+ {"EggDefender_classic_10",171,6,74,4,{{30,74,0.4f}},1}, /* MIGHTY FEATHERS 10 */
  {"EggDefender_classic_11",207,5,97,4,{{55,98,-1.0f}},1}, /* MIGHTY FEATHERS 11 */
- {"EggDefender_classic_12",204,7,77,4,{{20,82,0.4f}},1}, /* MIGHTY FEATHERS 12 */
+ {"EggDefender_classic_12",204,7,77,4,{{20,78,0.4f}},1}, /* MIGHTY FEATHERS 12 */
  {"EggDefender_classic_13",198,11,68,4,{{35,98,-1.0f}},1}, /* MIGHTY FEATHERS 13 */
  {"EggDefender_classic_14",201,6,77,4,{{25,90,-1.0f}},1}, /* MIGHTY FEATHERS 14 */
  {"EggDefender_classic_15",154,6,82,5,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 15 (sem roteiro vencedor) */
