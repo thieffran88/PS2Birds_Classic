@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.62.0)
+# Lacunas do port (levantamento atualizado na 0.63.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -214,12 +214,16 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.61.0
 
-- **Controladores do Egg Defender: 72 de 72 traduzidos à mão.** Ficam no modo: a habilidade do vermelho (reações `pigTargeted`/`redBirdTriggered`), os tiros dos canhões, a sustentação dos voadores (descem cedo: 4, 11, 15) e o vaivém com o ovo (2, 7). Na sonda, o primeiro veículo da fase 14 para a cerca de 10 m do ovo e o voador da 15-1 cai.
+- **Controladores do Egg Defender: 72 de 72 traduzidos à mão.** Ficam no modo: a habilidade do vermelho (reações `pigTargeted`/`redBirdTriggered`), a sustentação dos voadores (descem cedo: 4, 11, 15) e o vaivém com o ovo (2, 7). Na sonda, o primeiro veículo da fase 14 para a cerca de 10 m do ovo e o voador da 15-1 cai.
 
 ## Achados da 0.62.0
 
 - **Habilidade do vermelho nas fases Mighty Feathers:** feita (alvo automático, pausa de 0,5 s, voo reto a 75 m/s). Dois roteiros clássicos (6 e 10) foram refeitos, porque o vermelho agora tem habilidade. No celular o alvo é o ponto tocado; no port vale o modo de acelerômetro (alvo mais próximo), que é o mesmo do jogo sem toque.
 - Pendências do modo Egg Defender: tiros dos canhões, sustentação dos voadores e vaivém com o ovo.
+
+## Achados da 0.63.0
+
+- **Canhões dos veículos:** feitos (pavio, tiro na trajetória prevista do pássaro, recuo, 10 tiros). Pendências do Egg Defender: sustentação dos voadores (4, 11, 15) e vaivém com o ovo (2, 7).
 
 ## O que falta no jogo (código nativo não recuperado)
 

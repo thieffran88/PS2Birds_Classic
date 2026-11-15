@@ -9,7 +9,8 @@
    (drawn, but nothing touches them). */
 /* OBJECT_MIRROR_X/Y: negative scaleX/scaleY in the level (mirrored piece). */
 /* OBJECT_SUCKER: pig vehicle sucker (EggDefenderGadget_Sucker.lua). OBJECT_GUN_BUBBLE: hidden bubble of the bubble gun it spawns from (spawn_of), shot in turn. */
-enum {OBJECT_NO_COLLISION=1,OBJECT_MIRROR_X=2,OBJECT_MIRROR_Y=4,OBJECT_GUN_BUBBLE=8,OBJECT_SUCKER=16};
+enum {OBJECT_NO_COLLISION=1,OBJECT_MIRROR_X=2,OBJECT_MIRROR_Y=4,OBJECT_GUN_BUBBLE=8,OBJECT_SUCKER=16,OBJECT_CANNON_BALL=32};
+/* OBJECT_CANNON_BALL: hidden ball of the vehicle cannon it spawns from (EggDefenderGadget_Cannon.lua). */
 /* Bits 8-15 of flags: 1 + bird type released when this cage is destroyed (0: none). */
 #define OBJECT_RELEASED_BIRD(flags) ((((flags)>>8)&255)-1)
 /* Bits 16-31: 1 + index of the pig a blue vial clone copies (0: not a clone). */

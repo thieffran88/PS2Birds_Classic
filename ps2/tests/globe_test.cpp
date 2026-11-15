@@ -224,6 +224,12 @@ int main(){
   for(int s=0;s<64;s++)game_update(&g,1.0f/120);
   GameBird b;assert(game_get_projectile(&g,0,&b));
   float speed=sqrtf(g.vx*g.vx+g.vy*g.vy)/g.view_scale;assert(fabsf(speed-RED_SPECIAL_SPEED)<8);(void)b;}
+ // Vehicle cannons (EggDefenderGadget_Cannon.lua): a launched bird that comes near makes the cannon fire a ball.
+ {int ed=-1;for(int lv=0;lv<game_level_count();lv++)if(!strcmp(game_level_script(lv),"EggDefender_9"))ed=lv;
+  assert(ed>=0 && game_load_level(&g,ed));for(int s=0;s<120*14;s++)game_update(&g,1.0f/120);
+  g.angle=10;g.power=90;game_launch(&g);bool fired=false;
+  for(int s=0;s<120 && !fired;s++){game_update(&g,1.0f/120);for(int k=0;k<game_object_count(&g);k++){GameObject o;if(game_get_object(&g,k,&o)&&o.alive&&!strcmp(o.definition,"BP_CANNON_BALL"))fired=true;}}
+  assert(fired);}
  // Power-ups of the shop tutorials: King Sling launches 1.3 times faster; Bird Quake (once) shakes the scene.
  int king=-1,quake=-1;
  for(int lv=0;lv<game_level_count();lv++){const char *sc=game_level_script(lv);if(!strcmp(sc,"Tutorial_kingsling"))king=lv;if(!strcmp(sc,"Tutorial_birdquake"))quake=lv;}

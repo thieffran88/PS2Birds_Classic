@@ -180,6 +180,16 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
             level.append(dict(bs['defaults'],name=f"{o['name']}_bubble_{k+1}",definition='BP_BUBBLE_WITH_COLLISION_DAMAGE',x=o['x'],y=o['y'],angle=0.0,
                 width=float(bs['size'][0]),height=float(bs['size'][1]),kind=bs['kind'],shape='circle',spawn_of=parent+1,gun_bubble=True,
                 friction=profile['materials']['friction_overrides'].get('BP_BUBBLE_WITH_COLLISION_DAMAGE',material['friction']),restitution=profile['materials']['restitution_overrides']['BP_BUBBLE_WITH_COLLISION_DAMAGE']))
+    # EggDefenderGadget_Cannon.lua: a vehicle cannon shoots a BP_CANNON_BALL (created at the muzzle) at
+    # the bird; two hidden balls per cannon are reused in turn.
+    for parent,o in enumerate(list(level)):
+        if o['definition']!='BP_CANNON':continue
+        bs=profile['objects']['BP_CANNON_BALL'];material=profile['materials']['by_kind'][str(bs['kind'])];m=metrics[bs['sprite']]
+        for k in range(2):
+            level.append(dict(bs['defaults'],name=f"{o['name']}_ball_{k+1}",definition='BP_CANNON_BALL',x=o['x'],y=o['y'],angle=0.0,
+                width=m['width']/pixels*0.92,height=m['height']/pixels*0.92,kind=bs['kind'],shape='circle',spawn_of=parent+1,cannon_ball=True,
+                friction=profile['materials']['friction_overrides'].get('BP_CANNON_BALL',material['friction']),
+                restitution=profile['materials'].get('restitution_overrides',{}).get('BP_CANNON_BALL',material['restitution'])))
     if not 1<=len(level)<=640:raise ValueError('Adapter supports 1..640 scene objects')
     # SlingshotSystem.setPositionByStartObject (Slingshot.lua) places the slingshot on the
     # first bird of the queue: rest point = (x - 0.1, y - (h - pivot_y) * physicsScale +

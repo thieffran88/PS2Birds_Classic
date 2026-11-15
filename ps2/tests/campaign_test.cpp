@@ -748,13 +748,13 @@ static const Stage stages[]={
  {"EggDefender_6",218,5,101,11,{{0,0,-1.0f}},0}, /* EGG DEFENDER 6 (sem roteiro vencedor) */
  {"EggDefender_7",226,5,98,12,{{0,0,-1.0f}},0}, /* EGG DEFENDER 7 (sem roteiro vencedor) */
  {"EggDefender_8",192,5,76,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 8 (sem roteiro vencedor) */
- {"EggDefender_9",203,5,87,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 9 (sem roteiro vencedor) */
- {"EggDefender_10",231,5,114,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 10 (sem roteiro vencedor) */
+ {"EggDefender_9",213,5,87,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 9 (sem roteiro vencedor) */
+ {"EggDefender_10",237,5,114,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 10 (sem roteiro vencedor) */
  {"EggDefender_11",275,5,151,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 11 (sem roteiro vencedor) */
- {"EggDefender_12",238,6,122,11,{{0,0,-1.0f}},0}, /* EGG DEFENDER 12 (sem roteiro vencedor) */
+ {"EggDefender_12",240,6,122,11,{{0,0,-1.0f}},0}, /* EGG DEFENDER 12 (sem roteiro vencedor) */
  {"EggDefender_13",226,5,110,9,{{0,0,-1.0f}},0}, /* EGG DEFENDER 13 (sem roteiro vencedor) */
- {"EggDefender_14",251,5,135,13,{{0,0,-1.0f}},0}, /* EGG DEFENDER 14 (sem roteiro vencedor) */
- {"EggDefender_15",243,7,123,12,{{0,0,-1.0f}},0}, /* EGG DEFENDER 15 (sem roteiro vencedor) */
+ {"EggDefender_14",253,5,135,13,{{0,0,-1.0f}},0}, /* EGG DEFENDER 14 (sem roteiro vencedor) */
+ {"EggDefender_15",245,7,123,12,{{0,0,-1.0f}},0}, /* EGG DEFENDER 15 (sem roteiro vencedor) */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}

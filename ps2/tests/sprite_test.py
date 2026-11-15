@@ -21,7 +21,7 @@ assert [(p['width'],p['height']) for p in banks[0]['pages']]==[(512,512),(512,51
 assert sum(meta['slot_bytes'])<=meta['vram_budget']==2883584 and meta['slot_bytes']==[1048576,1048576,524288,262144]
 assert hashlib.sha256(pixels).hexdigest()==meta['atlas_sha256']
 assert max(pixels[3::4])==128 and min(pixels[3::4])==0
-assert len(meta['sprites'])==730 and [len(b['sprites']) for b in banks]==[153,151,127,128,119,97,120,128,120,117,115,116,123,117,129,121,123,120,110,120,104,104,115,110,113,70,72,72,75,74,70,123,135,140,109,95,99,122,108,128,139,105,68,106,114,92,89,81,99,75,62,72,79,85,41,128,115,108,52,94,155,60,96,104,72]
+assert len(meta['sprites'])==730 and [len(b['sprites']) for b in banks]==[153,151,127,128,119,97,120,128,120,117,115,116,123,117,129,121,123,120,110,120,104,104,115,110,113,70,72,72,75,74,70,123,135,140,109,95,99,122,108,128,139,105,68,106,114,92,89,81,99,75,62,72,79,85,41,128,115,108,52,94,155,60,96,104,73]
 # Dino cages are pieces kept only in the banks of the stages that place them.
 assert not any(n.endswith('_CAGE') for b in banks[:41] for n in b['sprites']) and any(n.endswith('_CAGE') for b in banks[41:] for n in b['sprites'])
 assert all('BLOCK_CAKECREAM' in banks[b]['sprites'] for b in (15,16)) # released by the big cake (deathSpawn)

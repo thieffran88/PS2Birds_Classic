@@ -156,6 +156,7 @@ struct Physics: b2ContactListener {
     /* RedBird_Special (redbird_special.lua) in the Mighty Feathers modes (g_red_bird_special_available):
        while the red bird flies the closest pig is its target; on the special the world slows for
        0.5 s, then the bird flies straight at the target at 75 m/s without gravity until it hits. */
+    float cannon_timer[MAX_LEVEL_OBJECTS];int cannon_shots[MAX_LEVEL_OBJECTS];bool cannon_aimed[MAX_LEVEL_OBJECTS];float cannon_clock;
     bool red_mode;int red_target;float red_delay;b2Vec2 red_aim;bool red_fly;
     /* Egg Defender gadgets (EggDefenderGadget_*.lua): sucker state (0 idle, 1 starting, 2 sucking)
        and timers of rockets and balloon inflaters. */
@@ -232,7 +233,7 @@ struct Physics: b2ContactListener {
         if(v.c && v.c->init)v.c->init(&v);
     }
     void egg_setup(){
-        escaped_pigs=0;red_mode=level->script && !strncmp(level->script,"EggDefender_",12);red_target=-1;red_delay=-1;red_fly=false;red_aim.SetZero();memset(gadget_state,0,sizeof(gadget_state));memset(gadget_time,0,sizeof(gadget_time));
+        escaped_pigs=0;for(int i=0;i<MAX_LEVEL_OBJECTS;i++){cannon_timer[i]=-1;cannon_shots[i]=CANNON_SHOTS;cannon_aimed[i]=false;}cannon_clock=0;red_mode=level->script && !strncmp(level->script,"EggDefender_",12);red_target=-1;red_delay=-1;red_fly=false;red_aim.SetZero();memset(gadget_state,0,sizeof(gadget_state));memset(gadget_time,0,sizeof(gadget_time));
         for(int i=0;i<MAX_LEVEL_OBJECTS;i++){gadget_run[i]=EGG_ROCKET_RUN;gadget_value[i]=EGG_INFLATED_FORCE_X;gadget_value2[i]=EGG_INFLATED_FORCE_Y;}
         egg_i=nest_i=egg_grabber=-1;egg_tween=-1;egg_lost=false;egg_home_angle=0;egg_home.SetZero();egg_from.SetZero();
         game_right=level->sling_x-EGG_SCREEN_MARGIN+EGG_SCREEN;
@@ -274,6 +275,56 @@ struct Physics: b2ContactListener {
             float force=SUCKER_FORCE*(SUCKER_RANGE-dist)/SUCKER_RANGE*b->GetMass()*(k?EGG_SUCKER_BIRD_FACTOR:1.0f);
             if(force>=SUCKER_MIN_FORCE && dist>0)b->ApplyForceToCenter(-force/dist*d,true);
             if(k==0 && dist<EGG_SUCKER_GRAB){egg_grabber=s;egg_tween=0;egg_from=b->GetPosition();drop_joints(b,NULL);set_mask(b,0);b->SetLinearVelocity(b2Vec2(0,0));}
+        }
+    }
+    /* EggDefenderGadget_Cannon.prepareToShoot: when a bird is launched, a cannon whose path the bird
+       will cross within 15 m lights its fuse so that the ball (shootingForce / cannon mass speed)
+       meets it there, if that leaves at least 0.4 s. */
+    /* First point of the bird's predicted path within 15 m of the cannon: time to it minus the ball's
+       flight (|shootingForce| / cannon mass), or a large negative value when there is none. */
+    float cannon_lead(int c)const{
+        b2Vec2 p0=bird->GetPosition(),v=bird->GetLinearVelocity(),gv(0,level->gravity),at=bodies[c]->GetPosition();
+        for(float t=0;t<4;t+=1.0f/30){
+            b2Vec2 q=p0+t*v+(0.5f*t*t)*gv;float d=(q-at).Length();
+            if(d<=CANNON_PREDICTION_RADIUS)return t-d/(fabsf(CANNON_FORCE)/bodies[c]->GetMass());
+        }
+        return -1e9f;
+    }
+    bool is_cannon(int c)const{return bodies[c] && !strcmp(level->objects[c].definition,"BP_CANNON") && cannon_shots[c]>0;}
+    void cannons_aim(){  /* prepareToShoot (onBirdShot): the cannon follows this bird; fuse lit if 0.4 s ahead */
+        if(!egg_mode || !bird)return;
+        cannon_clock=0;
+        for(int c=0;c<level->count;c++)if(is_cannon(c) && cannon_timer[c]<0){cannon_aimed[c]=true;float lead=cannon_lead(c);if(lead>CANNON_MIN_LEAD)cannon_timer[c]=lead;}
+    }
+    /* shoot: a ball leaves the muzzle with an impulse of shootingForce along the cannon and the cannon
+       recoils with 0.3 of it; balls leaving the game area are removed (EggDefenderCannonBallManager). */
+    void cannons_update(float dt){
+        if(!egg_mode)return;
+        /* updateAimingPredictionTrajectory: every aim update (5 frames) the path is predicted again from
+           the bird as it is and the countdown reset; an idle cannon lights its fuse. */
+        if(bird && !bird_collided && (cannon_clock+=dt)>=EGG_AIM_UPDATES/30.0f){
+            cannon_clock=0;
+            for(int c=0;c<level->count;c++)if(cannon_aimed[c] && is_cannon(c)){float lead=cannon_lead(c);if(lead>-1e8f)cannon_timer[c]=fmaxf(lead,0);}
+        }
+        for(int c=0;c<level->count;c++){
+            if(cannon_timer[c]<0)continue;
+            if(!bodies[c]){cannon_timer[c]=-1;continue;}
+            if((cannon_timer[c]-=dt)>CANNON_FIRE_AT)continue;
+            cannon_timer[c]=-1;cannon_aimed[c]=false;int ball=-1;
+            for(int j=0;j<level->count && ball<0;j++)if(level->objects[j].spawn_of==c+1 && (level->objects[j].flags&OBJECT_CANNON_BALL) && !bodies[j])ball=j;
+            for(int j=0;j<level->count && ball<0;j++)if(level->objects[j].spawn_of==c+1 && (level->objects[j].flags&OBJECT_CANNON_BALL)){world.DestroyBody(bodies[j]);bodies[j]=NULL;ball=j;}
+            if(ball<0)continue;
+            float a=bodies[c]->GetAngle();b2Vec2 dir(cosf(a),sinf(a)),at=bodies[c]->GetPosition()-(0.5f*level->objects[c].width)*dir;
+            create_body(ball,at.x,at.y,0);if(!bodies[ball])continue;
+            for(b2Fixture *f=bodies[ball]->GetFixtureList();f;f=f->GetNext()){b2Filter fl=f->GetFilterData();fl.groupIndex=(int16)(-1-c);f->SetFilterData(fl);}
+            for(b2Fixture *f=bodies[c]->GetFixtureList();f;f=f->GetNext()){b2Filter fl=f->GetFilterData();fl.groupIndex=(int16)(-1-c);f->SetFilterData(fl);}
+            bodies[ball]->ApplyLinearImpulseToCenter(CANNON_FORCE*dir,true);
+            bodies[c]->ApplyLinearImpulseToCenter((-CANNON_FORCE*CANNON_RECOIL)*dir,true);
+            cannon_shots[c]--;
+        }
+        for(int j=0;j<level->count;j++)if(bodies[j] && (level->objects[j].flags&OBJECT_CANNON_BALL)){
+            b2Vec2 at=bodies[j]->GetPosition();
+            if(at.x>game_right+EGG_AREA_MARGIN || at.x<level->sling_x-EGG_SCREEN_MARGIN-EGG_AREA_MARGIN || at.y>level->ground_y+30){world.DestroyBody(bodies[j]);bodies[j]=NULL;}
         }
     }
     void update_suckers(){
@@ -331,7 +382,7 @@ struct Physics: b2ContactListener {
             for(int j=0;j<level->count;j++)if(bodies[j] && level->objects[j].kind==4 && !vial_kind[j] && (bodies[j]->GetPosition()-where).LengthSquared()<vf->vial_radius*vf->vial_radius){vial_kind[j]=vf->vial;vial_wait[j]=VIAL_DELAY;}
         int caged=OBJECT_RELEASED_BIRD(level->objects[parent].flags);
         if(caged>=0 && extra_count<16){extra_types[extra_count++]=caged;pending_birds++;}
-        for(int j=0;j<level->count;j++)if(level->objects[j].spawn_of==parent+1 && !bodies[j] && !(level->objects[j].flags&OBJECT_GUN_BUBBLE)){
+        for(int j=0;j<level->count;j++)if(level->objects[j].spawn_of==parent+1 && !bodies[j] && !(level->objects[j].flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL))){
             int source=(int)OBJECT_CLONE_OF(level->objects[j].flags);
             if(source<0){create_body(j,where.x,where.y,level->objects[j].angle);continue;}
             /* Blue vial clone: only for a pig still alive within the vial radius, next to it. */
@@ -541,7 +592,7 @@ int game_load_level(Game *g,int index) {
     g->x=g->sling_x;g->y=g->sling_y;g->angle=30;g->power=75;g->birds=l->birds;g->state=AIMING;
     bool waved=false;for(int i=0;i<l->count;i++)if(OBJECT_WAVE(l->objects[i].flags))waved=true;
     /* Egg Defender: only the vehicles' pigs are goals (scene pigs, e.g. the opening scene's king, are not). */
-    for(int i=0;i<l->count;i++){if(l->objects[i].kind==4 && !l->objects[i].spawn_of && (!waved || OBJECT_WAVE(l->objects[i].flags)))g->pig_alive++;if(l->objects[i].kind!=3 && l->objects[i].kind!=4 && !(l->objects[i].flags&OBJECT_GUN_BUBBLE))g->block_alive++;}
+    for(int i=0;i<l->count;i++){if(l->objects[i].kind==4 && !l->objects[i].spawn_of && (!waved || OBJECT_WAVE(l->objects[i].flags)))g->pig_alive++;if(l->objects[i].kind!=3 && l->objects[i].kind!=4 && !(l->objects[i].flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL)))g->block_alive++;}
     return 1;
 }
 void game_reset(Game *g){game_load_level(g,g->level);}
@@ -578,6 +629,7 @@ void game_launch(Game *g) {
     p->record_spawn_overlaps();
     p->bomb_requested=p->detonated=false;p->bomb_fuse=-1;
     p->has_launched=true;g->birds--;g->flight_time=g->cooldown=0;g->state=FLYING;
+    p->cannons_aim();
 }
 int game_queue_type(const Game *g,int offset){
     const Physics *p=static_cast<const Physics*>(g->physics);
@@ -961,6 +1013,7 @@ static void tick(Game *g) {
     p->update_suckers();
     p->update_waves();
     egg_tick(g,p,dt);if(g->state==LOST)return;
+    p->cannons_update(dt);
     if(p->quake_time>0){
         float step=fminf(dt,p->quake_time);p->quake_time-=step;
         for(int i=0;i<p->level->count;i++){b2Body *b=p->bodies[i];
@@ -1083,7 +1136,7 @@ static void tick(Game *g) {
         if(p->detach_time[k]>0){p->detach_time[k]-=dt;continue;}
         if(p->bodies[t]){
             {b2Vec2 where=p->bodies[t]->GetPosition();p->world.DestroyBody(p->bodies[t]);p->bodies[t]=NULL;p->detach_target[k]=-1;p->release_spawns(t,where);}
-            if(p->level->objects[t].kind==4 && p->is_goal(t)){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else if(p->level->objects[t].kind!=3 && !(p->level->objects[t].flags&OBJECT_GUN_BUBBLE)){g->block_alive--;g->events|=GAME_EVENT_EXTRA;}
+            if(p->level->objects[t].kind==4 && p->is_goal(t)){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else if(p->level->objects[t].kind!=3 && !(p->level->objects[t].flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL))){g->block_alive--;g->events|=GAME_EVENT_EXTRA;}
         }
     }p->break_joints(1.0f/dt);
     if(p->bird_type==BIRD_BLACK_TYPE && p->bird && !p->detonated){
@@ -1159,7 +1212,7 @@ static void tick(Game *g) {
             if(exploded){const CampaignForce *f=p->force_of[i];
                 if(f && f->blast_radius>0)radial_blast(g,where,f->blast_radius,f->blast_force,f->damage_radius,f->damage);
                 else radial_blast(g,where,TNT_BLAST_RADIUS,TNT_BLAST_FORCE,TNT_DAMAGE_RADIUS,TNT_BLAST_DAMAGE);}
-            if(o.flags&OBJECT_GUN_BUBBLE){}
+            if(o.flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL)){}
             else if(o.kind==4 && p->is_goal(i)){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else {g->block_alive--;g->score+=o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
         }
     }
