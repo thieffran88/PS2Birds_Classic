@@ -14,6 +14,14 @@ Callbacks chamados pelo motor (`EggDefenderVehicle.lua`): `init(v)`, `update(v)`
 - Porcos: `getPig(nome)`, `setAbandoningLogic`, `abandonVehicle()` (1972), `surrender`.
 - Tempo: `doWithTimer(função, segundos)` (1203).
 
+## Regras do modo (EggDefender.lua)
+
+- **Ondas:** cada fase tem 3 a 5 ondas, cada uma com um veículo (`waves[k][1] = {type, time, x, y}`). `spawnNextVehicle` tira a primeira onda da fila e cria o veículo; a próxima onda entra quando a lista `vehicles` fica vazia (veículo destruído, abandonado ou fugido).
+- **Vitória (`checkLevelComplete`):** sem ondas e sem veículos, com o ovo ainda preso ao ninho (`hasJoints(egg)`).
+- **Derrota (`checkLevelFailed`):** o ovo foi roubado (`onEggStolen`) ou acabaram os pássaros (`birdLimit`, de 7 a 13).
+- **Entrada do veículo (`EggDefenderVehicle.init`):** o ponto (x, y) da onda é o pivô do veículo (`VehiclePivotPoint`: canto inferior esquerdo ou centro esquerdo); com `spawnAtGroundLevel` o veículo é baixado até o chão. `findRightmostBlock` serve para saber quando ele entrou na área de jogo.
+- **Peças que faltam no port:** `BP_EGG`, `BP_NEST`, `BP_EGG_SIGN_POLE`, `BP_ROCKET_RED/BLUE`, `BP_CANNON`, `BP_BALLOON_INFLATER(_VIOLET)`, `BP_COG_OFF`, `BP_BELLOWS`, `SpecialBlockStart`. Maior fase: 309 objetos contando os veículos de todas as ondas (cabe no limite de 640).
+
 ## Fases do trabalho
 
 1. **Dados** — importar as 15 fases, as ondas e as 72 montagens de veículo para o `CAMPAIGN.BIN` (peças guardadas escondidas, liberadas na hora da onda); peças novas (`ExtraStolenEgg`, motores, rotores, `SpecialBlockStart`).
