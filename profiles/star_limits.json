@@ -2916,6 +2916,66 @@
     "EggDefender_classic_15": {
       "silver": 60000,
       "gold": 75000
+    },
+    "EggDefender_1": {
+      "silver": 20000,
+      "gold": 30000
+    },
+    "EggDefender_2": {
+      "silver": 20000,
+      "gold": 40000
+    },
+    "EggDefender_3": {
+      "silver": 20000,
+      "gold": 30000
+    },
+    "EggDefender_4": {
+      "silver": 20000,
+      "gold": 30000
+    },
+    "EggDefender_5": {
+      "silver": 20000,
+      "gold": 30000
+    },
+    "EggDefender_6": {
+      "silver": 20000,
+      "gold": 30000
+    },
+    "EggDefender_7": {
+      "silver": 20000,
+      "gold": 40000
+    },
+    "EggDefender_8": {
+      "silver": 20000,
+      "gold": 30000
+    },
+    "EggDefender_9": {
+      "silver": 20000,
+      "gold": 30000
+    },
+    "EggDefender_10": {
+      "silver": 20000,
+      "gold": 30000
+    },
+    "EggDefender_11": {
+      "silver": 20000,
+      "gold": 30000
+    },
+    "EggDefender_12": {
+      "silver": 20000,
+      "gold": 40000
+    },
+    "EggDefender_13": {
+      "silver": 20000,
+      "gold": 30000
+    },
+    "EggDefender_14": {
+      "silver": 20000,
+      "gold": 30000
+    },
+    "EggDefender_15": {
+      "silver": 20000,
+      "gold": 30000
     }
   }
 }

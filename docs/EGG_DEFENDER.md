@@ -26,6 +26,10 @@ Callbacks chamados pelo motor (`EggDefenderVehicle.lua`): `init(v)`, `update(v)`
 - **Cenário:** o ninho (`BP_NEST`) e o ovo (`BP_EGG`) ficam à esquerda (x ≈ −85 a −93); os veículos entram pela direita (x da onda de 41 a 75), com coordenadas próprias em torno da origem do arquivo do veículo. A fase 1 ainda tem peças `SpecialBlockStart` e `ExtraStolenEgg` da cena de abertura (`removeUnusedLevelStartCinematicBlocks`).
 - **Estilingue:** as fases não têm `birdZeroPos` nem pássaros; a posição do estilingue vem do modo (`EggDefender.onLoadLevel`, linha 750) — próximo ponto a ler.
 
+## Andamento
+
+- **Fase 1 (dados) — feita na 0.54.0.** As 15 fases entram no port (página 68, banco 64). Os veículos das ondas são mesclados ao cenário com o número da onda (bits 26-29 das marcas); o da primeira onda já está na fase, os outros entram quando os porcos da onda atual acabam. Só os porcos dos veículos contam como alvo; a fila é de `birdLimit` pássaros vermelhos. Peças soltas da cena de abertura à direita são removidas, e o veículo desce até a superfície (exceto os 22 com `spawnAtGroundLevel = false`, em `profiles/egg_defender.json`). Os veículos ainda não se movem: os controladores são a fase 3.
+
 ## Fases do trabalho
 
 1. **Dados** — importar as 15 fases, as ondas e as 72 montagens de veículo para o `CAMPAIGN.BIN` (peças guardadas escondidas, liberadas na hora da onda); peças novas (`ExtraStolenEgg`, motores, rotores, `SpecialBlockStart`).

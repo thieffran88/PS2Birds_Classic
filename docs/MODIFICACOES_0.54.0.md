@@ -1,0 +1,28 @@
+# Modificações 0.54.0
+
+- **Modo Egg Defender — fase 1 da tradução (dados e ondas)**
+  - As 15 fases `EggDefender_N` do Mighty Feathers entram no port (página 68, banco de texturas 64); a campanha passa de 730 para 745 fases.
+  - Ondas (`EggDefender_N.scripts.lua`): cada onda traz um veículo (`assets/data/vehicles/...`), montado com peças e juntas e colocado com o canto inferior esquerdo no ponto da onda; o chão do editor do veículo é descartado.
+  - O veículo da primeira onda já está na fase; os das outras ficam guardados e entram quando os porcos da onda atual acabam (`spawnNextVehicle`). A fase é vencida depois da última onda.
+  - Só os porcos dos veículos contam como alvo; a fila é de `birdLimit` pássaros vermelhos (7 a 13), como em `getBirdToSpawn`.
+  - Peças soltas da cena de abertura à direita da tela são removidas (`removeUnusedLevelStartCinematicBlocks`), com as juntas delas.
+  - O veículo desce até a superfície embaixo dele (`spawnAtGroundLevel`), exceto os 22 que desligam isso nos scripts, listados à mão em `profiles/egg_defender.json`.
+  - 11 peças novas: ovo, ninho, placa, foguetes vermelho e azul, canhão, infladores de balão, engrenagem, fole e a peça de largada.
+  - Densidade, resistência e defesa ausentes nos arquivos de veículo vêm da definição ou do material de todas as peças do perfil.
+  - Os veículos ainda não andam: os 72 controladores (fase 3 de `docs/EGG_DEFENDER.md`) vêm a seguir.
+  - `CAMPAIGN.BIN`: onda da peça nos bits 26-29 das marcas (o índice do clone do frasco azul passa a usar só os bits 16-25).
+- **Investigação**
+  - Os 72 scripts de veículo foram descompilados e catalogados em `docs/EGG_DEFENDER.md` (callbacks, operações, regras de ondas, vitória e derrota, pássaros, estilingue).
+  - O giro dos clones do frasco azul é só visual; saiu das pendências.
+- **Roteiros novos**
+  - A busca mais forte (beam) achou roteiros para mais fases novas; 79 fases sem roteiro, contando as 15 do Egg Defender.
+- **Testes**
+  - `globe_test`: derrubar os porcos de cada onda traz o próximo veículo, e a fase 1 é vencida depois das 3 ondas.
+  - `profile_test`: Egg Defender (ordem, banco, ondas até 5, fila de pássaros); comparações exatas de peças ignoram os valores-padrão.
+  - `make_campaign_table.py`: só os porcos dos veículos contam nas fases Egg Defender.
+  - Suíte com 73 verificações aprovadas.
+- **Correções**
+  - O kit para Windows não levava o novo `profiles/egg_defender.json`; incluído.
+- **Versão, documentos e limpeza**
+  - Tela e log em 0.54.0; README com 745 fases; captura do Egg Defender 2; documentos e captura da 0.53.0 substituídos.
+  - Entregues ISO, ELF (com os .BIN), Gerador para Windows e Código-Fonte; os da 0.53.0 removidos da pasta de trabalho.

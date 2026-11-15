@@ -111,7 +111,7 @@ struct Physics: b2ContactListener {
     bool boomerang_active;float boomerang_x_force,boomerang_y_force,boomerang_spin;
     int puffer_state;float puffer_timer,puffer_auto,puffer_direction;unsigned puffer_seed;
     float pink_timer,bird_bubble;bool pink_hover;
-    int extra_types[16],extra_count,pending_birds,pending_pigs;int trapped_by;float quake_time;bool quake_used,potion_armed,potion_used,shock_bonus,shock_used;float potion_scale;
+    int extra_types[16],extra_count,pending_birds,pending_pigs;int trapped_by,current_wave,last_wave;bool egg_mode;float quake_time;bool quake_used,potion_armed,potion_used,shock_bonus,shock_used;float potion_scale;
     float shock_time;b2Vec2 shock_center;bool shock_hit[MAX_LEVEL_OBJECTS];float electrocute[MAX_LEVEL_OBJECTS];float bubble_timer[MAX_LEVEL_OBJECTS],bubble_float[MAX_LEVEL_OBJECTS];float gun_timer[MAX_LEVEL_OBJECTS],gun_bubble_grow[MAX_LEVEL_OBJECTS],gun_bubble_life[MAX_LEVEL_OBJECTS];bool is_gun[MAX_LEVEL_OBJECTS];unsigned gun_seed;float vial_wait[MAX_LEVEL_OBJECTS],vial_pop[MAX_LEVEL_OBJECTS];int vial_kind[MAX_LEVEL_OBJECTS];bool vial_shield[MAX_LEVEL_OBJECTS];
     int bird_type;
     b2Body *split[2],*egg;bool egg_collided;
@@ -130,7 +130,7 @@ struct Physics: b2ContactListener {
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),puffer_state(0),puffer_timer(0),puffer_auto(-1),puffer_direction(0),puffer_seed(12345u),pink_timer(-1),bird_bubble(0),pink_hover(false),bird_type(BIRD_RED_TYPE) {
         egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
         damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
-        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(gun_timer,0,sizeof(gun_timer));memset(gun_bubble_grow,0,sizeof(gun_bubble_grow));memset(gun_bubble_life,0,sizeof(gun_bubble_life));memset(is_gun,0,sizeof(is_gun));gun_seed=12345u;memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;pending_pigs=0;quake_time=0;quake_used=false;trapped_by=-1;potion_armed=false;potion_used=false;shock_bonus=false;shock_used=false;potion_scale=1;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
+        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(gun_timer,0,sizeof(gun_timer));memset(gun_bubble_grow,0,sizeof(gun_bubble_grow));memset(gun_bubble_life,0,sizeof(gun_bubble_life));memset(is_gun,0,sizeof(is_gun));gun_seed=12345u;memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;pending_pigs=0;quake_time=0;quake_used=false;trapped_by=-1;current_wave=1;last_wave=1;egg_mode=false;potion_armed=false;potion_used=false;shock_bonus=false;shock_used=false;potion_scale=1;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
         world.SetContactListener(this);destruction.owner=this;world.SetDestructionListener(&destruction);
         /* The Ground object of the stage data spans the whole level; stages place pieces up to
            x=825, so the floor is FLOOR_HALF_WIDTH wide on each side of the origin. */
@@ -145,6 +145,8 @@ struct Physics: b2ContactListener {
             for(const CampaignForce *cf=campaign_forces;cf->definition;cf++)if(!strcmp(cf->definition,o.definition)){force_of[i]=cf;break;}
             if(o.spawn_of && (o.flags&OBJECT_GUN_BUBBLE))is_gun[o.spawn_of-1]=true;
             if(o.spawn_of)continue; /* released later by release_spawns() */
+            if(OBJECT_WAVE(o.flags))egg_mode=true;
+            if(OBJECT_WAVE(o.flags)>1){if((int)OBJECT_WAVE(o.flags)>last_wave)last_wave=OBJECT_WAVE(o.flags);continue;} /* Egg Defender: arrives with its wave */
             create_body(i,o.x,o.y,o.angle);
         }
         for(int i=0;i<level->joint_count && i<MAX_LEVEL_JOINTS;i++)create_joint(level->joints[i]);
@@ -154,6 +156,22 @@ struct Physics: b2ContactListener {
     b2Vec2 muzzle(int gun,int bubble)const{
         const b2Body *b=bodies[gun];float a=b->GetAngle(),fw=level->objects[gun].width*0.47f+level->objects[bubble].width*0.5f,side=level->objects[gun].height*-0.05f;
         return b->GetPosition()+b2Vec2(fw*cosf(a)-side*sinf(a),fw*sinf(a)+side*cosf(a));
+    }
+    /* EggDefender.lua spawnNextVehicle: the next wave's vehicle comes in when the current wave's
+       pigs are all gone (a vehicle without pigs is abandoned). */
+    bool is_goal(int i)const{if(!egg_mode)return true;return OBJECT_WAVE(level->objects[i].flags)>0;}
+    void update_waves(){
+        if(current_wave>=last_wave)return;
+        for(int i=0;i<level->count;i++){int w=(int)OBJECT_WAVE(level->objects[i].flags);if(w<1)continue;
+            if(w==current_wave && level->objects[i].kind==4 && bodies[i])return;}
+        current_wave++;
+        for(int i=0;i<level->count;i++)if((int)OBJECT_WAVE(level->objects[i].flags)==current_wave && !bodies[i] && !level->objects[i].spawn_of)
+            create_body(i,level->objects[i].x,level->objects[i].y,level->objects[i].angle);
+        for(int k=0;k<level->joint_count && joint_count<MAX_LEVEL_JOINTS;k++){
+            const CampaignJoint &j=level->joints[k];
+            bool fresh=(j.a>=0 && (int)OBJECT_WAVE(level->objects[j.a].flags)==current_wave)||(j.b>=0 && (int)OBJECT_WAVE(level->objects[j.b].flags)==current_wave);
+            if(fresh)create_joint(j);
+        }
     }
     void update_suckers(){
         /* EggDefenderGadget_Sucker.onBirdCollision: a bird touching a sucker is trapped inside it
@@ -417,7 +435,9 @@ int game_load_level(Game *g,int index) {
     g->ground_y=l->view_y+l->ground_y*l->view_scale;g->gravity=l->gravity;
     g->sling_x=l->view_x+l->sling_x*l->view_scale;g->sling_y=l->view_y+l->sling_y*l->view_scale;
     g->x=g->sling_x;g->y=g->sling_y;g->angle=30;g->power=75;g->birds=l->birds;g->state=AIMING;
-    for(int i=0;i<l->count;i++){if(l->objects[i].kind==4 && !l->objects[i].spawn_of)g->pig_alive++;if(l->objects[i].kind!=3 && l->objects[i].kind!=4 && !(l->objects[i].flags&OBJECT_GUN_BUBBLE))g->block_alive++;}
+    bool waved=false;for(int i=0;i<l->count;i++)if(OBJECT_WAVE(l->objects[i].flags))waved=true;
+    /* Egg Defender: only the vehicles' pigs are goals (scene pigs, e.g. the opening scene's king, are not). */
+    for(int i=0;i<l->count;i++){if(l->objects[i].kind==4 && !l->objects[i].spawn_of && (!waved || OBJECT_WAVE(l->objects[i].flags)))g->pig_alive++;if(l->objects[i].kind!=3 && l->objects[i].kind!=4 && !(l->objects[i].flags&OBJECT_GUN_BUBBLE))g->block_alive++;}
     return 1;
 }
 void game_reset(Game *g){game_load_level(g,g->level);}
@@ -577,6 +597,7 @@ static void tick(Game *g) {
     g->birds+=p->pending_birds;p->pending_birds=0;
     p->update_guns(dt);
     p->update_suckers();
+    p->update_waves();
     if(p->quake_time>0){
         float step=fminf(dt,p->quake_time);p->quake_time-=step;
         for(int i=0;i<p->level->count;i++){b2Body *b=p->bodies[i];
@@ -661,7 +682,7 @@ static void tick(Game *g) {
         if(p->detach_time[k]>0){p->detach_time[k]-=dt;continue;}
         if(p->bodies[t]){
             {b2Vec2 where=p->bodies[t]->GetPosition();p->world.DestroyBody(p->bodies[t]);p->bodies[t]=NULL;p->detach_target[k]=-1;p->release_spawns(t,where);}
-            if(p->level->objects[t].kind==4){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else if(p->level->objects[t].kind!=3 && !(p->level->objects[t].flags&OBJECT_GUN_BUBBLE)){g->block_alive--;g->events|=GAME_EVENT_EXTRA;}
+            if(p->level->objects[t].kind==4 && p->is_goal(t)){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else if(p->level->objects[t].kind!=3 && !(p->level->objects[t].flags&OBJECT_GUN_BUBBLE)){g->block_alive--;g->events|=GAME_EVENT_EXTRA;}
         }
     }p->break_joints(1.0f/dt);
     if(p->bird_type==BIRD_BLACK_TYPE && p->bird && !p->detonated){
@@ -736,7 +757,7 @@ static void tick(Game *g) {
                 if(f && f->blast_radius>0)radial_blast(g,where,f->blast_radius,f->blast_force,f->damage_radius,f->damage);
                 else radial_blast(g,where,TNT_BLAST_RADIUS,TNT_BLAST_FORCE,TNT_DAMAGE_RADIUS,TNT_BLAST_DAMAGE);}
             if(o.flags&OBJECT_GUN_BUBBLE){}
-            else if(o.kind==4){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else {g->block_alive--;g->score+=o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
+            else if(o.kind==4 && p->is_goal(i)){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else {g->block_alive--;g->score+=o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
         }
     }
     g->pig_alive+=p->pending_pigs;p->pending_pigs=0;

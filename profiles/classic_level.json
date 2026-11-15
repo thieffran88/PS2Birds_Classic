@@ -43,7 +43,12 @@
     },
     "LightBlock4": {
       "sprite": "BLOCK_LIGHT_1_4",
-      "kind": 2
+      "kind": 2,
+      "defaults": {
+        "density": 0.75,
+        "strength": 33.0,
+        "defence": 2.0
+      }
     },
     "Estrade02": {
       "sprite": "ESTRADE_02",
@@ -83,15 +88,30 @@
     },
     "LightBlock5": {
       "sprite": "BLOCK_LIGHT_1_5",
-      "kind": 2
+      "kind": 2,
+      "defaults": {
+        "density": 0.75,
+        "strength": 53.0,
+        "defence": 2.0
+      }
     },
     "LightBlock6": {
       "sprite": "BLOCK_LIGHT_1_6",
-      "kind": 2
+      "kind": 2,
+      "defaults": {
+        "density": 0.75,
+        "strength": 47.0,
+        "defence": 2.0
+      }
     },
     "StoneBlock4": {
       "sprite": "BLOCK_ROCK_1_4",
-      "kind": 5
+      "kind": 5,
+      "defaults": {
+        "density": 4.0,
+        "strength": 80.0,
+        "defence": 15.0
+      }
     },
     "StoneBlock5": {
       "sprite": "BLOCK_ROCK_1_5",
@@ -104,7 +124,12 @@
     },
     "StoneBlock6": {
       "sprite": "BLOCK_ROCK_1_6",
-      "kind": 5
+      "kind": 5,
+      "defaults": {
+        "density": 4.0,
+        "strength": 120.0,
+        "defence": 15.0
+      }
     },
     "StaticBlock_04": {
       "sprite": "GROUND_BLOCK_04",
@@ -127,22 +152,42 @@
     "LightBlock1": {
       "sprite": "BLOCK_LIGHT_1_1",
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.75,
+        "strength": 13.0,
+        "defence": 2.0
+      }
     },
     "LightBlock3": {
       "sprite": "BLOCK_LIGHT_1_3",
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 2.0
+      }
     },
     "StoneBlock3": {
       "sprite": "BLOCK_ROCK_1_3",
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 4.0,
+        "strength": 100.0,
+        "defence": 15.0
+      }
     },
     "StoneBlock7": {
       "sprite": "BLOCK_ROCK_1_7",
       "kind": 5,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 4.0,
+        "strength": 600.0,
+        "defence": 15.0
+      }
     },
     "StoneBlock8": {
       "sprite": "BLOCK_ROCK_1_8",
@@ -186,7 +231,12 @@
     "LightBlock2": {
       "sprite": "BLOCK_LIGHT_1_2",
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.75,
+        "strength": 26.0,
+        "defence": 2.0
+      }
     },
     "StaticBlock_02": {
       "sprite": "GROUND_BLOCK_02",
@@ -201,7 +251,12 @@
     "StoneBlock1": {
       "sprite": "BLOCK_ROCK_1_1",
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 4.0,
+        "strength": 30.0,
+        "defence": 15.0
+      }
     },
     "StoneBlock2": {
       "sprite": "BLOCK_ROCK_1_2",
@@ -216,11 +271,21 @@
     "WoodBlock7": {
       "sprite": "BLOCK_WOOD_1_7",
       "kind": 1,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 1.5,
+        "strength": 200.0,
+        "defence": 2.5
+      }
     },
     "LargePiglette": {
       "diameter": 4.65,
-      "kind": 4
+      "kind": 4,
+      "defaults": {
+        "density": 1.0,
+        "strength": 20.0,
+        "defence": 1.0
+      }
     },
     "HelmetPiglette": {
       "diameter": 3.9,
@@ -234,17 +299,32 @@
     "ExtraBlockSmiley": {
       "sprite": "BLOCK_SMILEY_1",
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 25.0,
+        "defence": 5.0
+      }
     },
     "StaticBlock_03": {
       "sprite": "GROUND_BLOCK_03",
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "Estrade01": {
       "sprite": "ESTRADE_01",
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "WoodBlock1": {
       "sprite": "BLOCK_WOOD_1_1",
@@ -259,12 +339,22 @@
     "ExtraBeachBall": {
       "sprite": "BLOCK_BEACHBALL",
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 15.0,
+        "defence": 5.0
+      }
     },
     "ExtraRubberDuck": {
       "sprite": "BLOCK_RUBBERDUCK",
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 25.0,
+        "defence": 5.0
+      }
     },
     "ExtraStrawberry": {
       "kind": 6,
@@ -279,37 +369,72 @@
     "ExtraApple": {
       "kind": 6,
       "sprite": "BLOCK_APPLE",
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 30.0,
+        "defence": 5.0
+      }
     },
     "LightBlock7": {
       "sprite": "BLOCK_LIGHT_1_7",
       "kind": 2,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 125.0,
+        "defence": 2.0
+      }
     },
     "LightBlock8": {
       "sprite": "BLOCK_LIGHT_1_8",
       "kind": 2,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 100.0,
+        "defence": 2.0
+      }
     },
     "ExtraTire01": {
       "sprite": "BLOCK_TIRE_01",
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 200.0,
+        "defence": 5.0
+      }
     },
     "ExtraBlockFlag01": {
       "sprite": "BLOCK_EXTRA_FLAG_01",
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "ExtraTire03": {
       "sprite": "BLOCK_TIRE_03",
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 200.0,
+        "defence": 5.0
+      }
     },
     "ExtraMelon": {
       "sprite": "BLOCK_WATERMELON",
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "ExtraBlockTNT": {
       "sprite": "BLOCK_EXTRA_TNT",
@@ -334,7 +459,12 @@
     "ExtraHolyGrail": {
       "sprite": "BLOCK_HOLYGRAIL",
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.75,
+        "strength": 25.0,
+        "defence": 5.0
+      }
     },
     "ExtraPillar": {
       "sprite": "BLOCK_PILLAR",
@@ -349,12 +479,22 @@
     "ExtraBanana": {
       "sprite": "BLOCK_BANANA",
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.75,
+        "strength": 30.0,
+        "defence": 5.0
+      }
     },
     "WoodBlock8": {
       "sprite": "BLOCK_WOOD_1_8",
       "kind": 1,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 1.5,
+        "strength": 150.0,
+        "defence": 2.5
+      }
     },
     "GrandpaPiglette": {
       "diameter": 4.4,
@@ -368,36 +508,71 @@
     "ExtraBlockStairs": {
       "sprite": "ESTRADE_STAIRS",
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "ExtraTire02": {
       "sprite": "BLOCK_TIRE_02",
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 200.0,
+        "defence": 5.0
+      }
     },
     "ExtraBlockDice": {
       "sprite": "BLOCK_EXTRA_DICE_6",
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.75,
+        "strength": 30.0,
+        "defence": 1.0
+      }
     },
     "ExtraStolenEgg": {
       "sprite": "BLOCK_STOLEN_EGG",
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 20.0,
+        "defence": 20000.0
+      }
     },
     "Estrade03": {
       "sprite": "ESTRADE_03",
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "KingPiglette": {
       "diameter": 5.65,
-      "kind": 4
+      "kind": 4,
+      "defaults": {
+        "density": 1.0,
+        "strength": 100.0,
+        "defence": 0.0
+      }
     },
     "ExtraDonut01": {
       "sprite": "BLOCK_DONUT",
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 50.0,
+        "defence": 5.0
+      }
     },
     "WoodBlock9": {
       "sprite": "BLOCK_WOOD_4X4_1",
@@ -432,47 +607,92 @@
     "WoodBlock12": {
       "sprite": "BLOCK_WOOD_TRIANGLE_M_1",
       "kind": 1,
-      "shape": "triangle_m"
+      "shape": "triangle_m",
+      "defaults": {
+        "density": 1.5,
+        "strength": 70.0,
+        "defence": 2.5
+      }
     },
     "LightBlock9": {
       "sprite": "BLOCK_LIGHT_4X4_1",
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.75,
+        "strength": 70.0,
+        "defence": 2.0
+      }
     },
     "LightBlock10": {
       "sprite": "BLOCK_LIGHT_10X1_1",
       "kind": 2,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.75,
+        "strength": 65.0,
+        "defence": 2.0
+      }
     },
     "LightBlock11": {
       "sprite": "BLOCK_LIGHT_TRIANGLE_L_1",
       "kind": 2,
-      "shape": "triangle_l"
+      "shape": "triangle_l",
+      "defaults": {
+        "density": 0.75,
+        "strength": 53.0,
+        "defence": 2.0
+      }
     },
     "LightBlock12": {
       "sprite": "BLOCK_LIGHT_TRIANGLE_M_1",
       "kind": 2,
-      "shape": "triangle_m"
+      "shape": "triangle_m",
+      "defaults": {
+        "density": 0.75,
+        "strength": 48.0,
+        "defence": 2.0
+      }
     },
     "StoneBlock9": {
       "sprite": "BLOCK_ROCK_4X4_1",
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 4.0,
+        "strength": 160.0,
+        "defence": 15.0
+      }
     },
     "StoneBlock10": {
       "sprite": "BLOCK_ROCK_10X1_1",
       "kind": 5,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 4.0,
+        "strength": 140.0,
+        "defence": 15.0
+      }
     },
     "StoneBlock11": {
       "sprite": "BLOCK_ROCK_TRIANGLE_L_1",
       "kind": 5,
-      "shape": "triangle_l"
+      "shape": "triangle_l",
+      "defaults": {
+        "density": 4.0,
+        "strength": 140.0,
+        "defence": 15.0
+      }
     },
     "StoneBlock12": {
       "sprite": "BLOCK_ROCK_TRIANGLE_M_1",
       "kind": 5,
-      "shape": "triangle_m"
+      "shape": "triangle_m",
+      "defaults": {
+        "density": 4.0,
+        "strength": 140.0,
+        "defence": 15.0
+      }
     },
     "ExtraHam": {
       "sprite": "BLOCK_HAM",
@@ -487,71 +707,141 @@
     "ExtraGoldenEgg": {
       "sprite": "BLOCK_GOLDEN_EGG",
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 5.0,
+        "defence": 1.0
+      }
     },
     "ExtraBlockFlag02": {
       "sprite": "BLOCK_EXTRA_FLAG_02",
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "ExtraBoomerangBird": {
       "kind": 6,
       "shape": "circle",
-      "diameter": 2.2
+      "diameter": 2.2,
+      "defaults": {
+        "density": 8.0,
+        "strength": 1000000.0,
+        "defence": 1000000.0
+      }
     },
     "StaticBalloon03": {
       "sprite": "BLOCK_BALLOON_1",
       "kind": 8,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.0,
+        "strength": 0.1,
+        "defence": 1.0
+      }
     },
     "StaticBalloon04": {
       "sprite": "BLOCK_BALLOON_2",
       "kind": 8,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.0,
+        "strength": 0.1,
+        "defence": 1.0
+      }
     },
     "StaticBalloon05": {
       "sprite": "BLOCK_BALLOON_3",
       "kind": 8,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.0,
+        "strength": 0.1,
+        "defence": 1.0
+      }
     },
     "StaticBalloon02": {
       "sprite": "BLOCK_PIG_BALLOON_2",
       "kind": 8,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.0,
+        "strength": 0.1,
+        "defence": 1.0
+      }
     },
     "ExtraTrampoline2": {
       "sprite": "BLOCK_TRAMPOLINE_01",
       "kind": 3,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.0,
+        "strength": 1000.0,
+        "defence": 1000.0
+      }
     },
     "StaticBlock_06": {
       "sprite": "GROUND_BLOCK_06",
-      "kind": 3
+      "kind": 3,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "StaticFragileBlock06": {
       "sprite": "GROUND_BLOCK_06",
       "kind": 9,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.0,
+        "strength": 2.0,
+        "defence": 1.0
+      }
     },
     "StaticBalloon01": {
       "sprite": "BLOCK_PIG_BALLOON_1",
       "kind": 8,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.0,
+        "strength": 0.1,
+        "defence": 1.0
+      }
     },
     "ExtraTrampoline": {
       "sprite": "BLOCK_SUPER_BALL",
       "kind": 6,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.75,
+        "strength": 1000.0,
+        "defence": 1000.0
+      }
     },
     "BlockCarpet": {
       "sprite": "BLOCK_CARPET",
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "ExtraStrongBall": {
       "sprite": "BLOCK_STEEL_BALL",
       "kind": 5,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 4.0,
+        "strength": 500.0,
+        "defence": 2000.0
+      }
     },
     "ExtraHelmetSmall": {
       "sprite": "HELMET_SMALL",
@@ -582,7 +872,12 @@
           0.2,
           0.5
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.3,
+        "strength": 10.0,
+        "defence": 300.0
+      }
     },
     "ExtraHelmetBig": {
       "sprite": "HELMET_BIG",
@@ -613,7 +908,12 @@
           0.2,
           0.5
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 300.0
+      }
     },
     "ExtraHelmetBoss": {
       "sprite": "HELMET_BOSS",
@@ -644,12 +944,22 @@
           0.2,
           0.5
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 300.0
+      }
     },
     "ExtraRopeThick01": {
       "sprite": "BLOCK_ROPE_THICK_1",
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.75,
+        "strength": 5.0,
+        "defence": 1.0
+      }
     },
     "ExtraCowboyHelmetSmall_1": {
       "sprite": "COWBOY_HAT_SMALL_1",
@@ -788,7 +1098,12 @@
           0.35,
           0.6
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "ExtraBanditoHat_1": {
       "sprite": "BANDITO_HAT_1",
@@ -819,17 +1134,32 @@
           0.4,
           0.7
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 30.0
+      }
     },
     "BP_ROPE_THICK": {
       "sprite": "SHORT_THICK_ROPE",
       "kind": 6,
-      "shape": "box"
+      "shape": "box",
+      "defaults": {
+        "density": 0.75,
+        "strength": 5.0,
+        "defence": 1.0
+      }
     },
     "ExtraSuperBowl": {
       "sprite": "B_EGG_SUPER_BOWL",
       "kind": 3,
-      "shape": "circle"
+      "shape": "circle",
+      "defaults": {
+        "density": 0.0,
+        "strength": 5.0,
+        "defence": 1.0
+      }
     },
     "ExtraCaveHat_1": {
       "sprite": "CAVE_HAT_1",
@@ -839,7 +1169,12 @@
       "size": [
         1.0,
         0.5
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "ExtraCaveHat_2": {
       "sprite": "CAVE_HAT_2",
@@ -849,7 +1184,12 @@
       "size": [
         2.0,
         1.6
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "ExtraCaveHat_3": {
       "sprite": "CAVE_HAT_3",
@@ -859,7 +1199,12 @@
       "size": [
         2.0,
         1.5
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "ExtraKingCaveHat_1": {
       "sprite": "KING_CAVE_HAT_1",
@@ -869,7 +1214,12 @@
       "size": [
         2.2,
         1.7
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "ExtraAmethyst": {
       "sprite": "BLOCK_AMETHYST",
@@ -879,7 +1229,12 @@
       "size": [
         2.0,
         1.6
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 2.0
+      }
     },
     "ExtraAmber": {
       "sprite": "BLOCK_AMBER",
@@ -889,7 +1244,12 @@
       "size": [
         2.0,
         2.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 2.0
+      }
     },
     "ExtraRuby": {
       "sprite": "BLOCK_RUBY",
@@ -899,7 +1259,12 @@
       "size": [
         1.3,
         2.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 2.0
+      }
     },
     "ExtraCaveShovel_1": {
       "sprite": "CAVE_SHOVEL_1",
@@ -909,7 +1274,12 @@
       "size": [
         1.2,
         4.7
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "ExtraCaveShovel_2": {
       "sprite": "CAVE_SHOVEL_2",
@@ -919,7 +1289,12 @@
       "size": [
         0.8,
         2.5
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "ExtraCavePickaxe_1": {
       "sprite": "CAVE_PICKAXE_1",
@@ -939,7 +1314,12 @@
           0.5,
           1.0
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "ExtraCavePickaxe_2": {
       "sprite": "CAVE_PICKAXE_2",
@@ -959,19 +1339,34 @@
           0.5,
           1.0
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "ExtraRopeThin01": {
       "sprite": "BLOCK_ROPE_THIN_1",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 5.0,
+        "defence": 1.0
+      }
     },
     "ExtraRopeThin02": {
       "sprite": "BLOCK_ROPE_THIN_2",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 5.0,
+        "defence": 1.0
+      }
     },
     "ExtraStalaktite_1": {
       "sprite": "BLOCK_STALAKTITE_1",
@@ -981,7 +1376,12 @@
       "size": [
         3.0,
         13.9
-      ]
+      ],
+      "defaults": {
+        "density": 0.0,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "ExtraStalaktite_2": {
       "sprite": "BLOCK_STALAKTITE_2",
@@ -991,7 +1391,12 @@
       "size": [
         1.0,
         12.5
-      ]
+      ],
+      "defaults": {
+        "density": 0.0,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "ExtraStalaktite_3": {
       "sprite": "BLOCK_STALAKTITE_3",
@@ -1001,7 +1406,12 @@
       "size": [
         1.8,
         17.1
-      ]
+      ],
+      "defaults": {
+        "density": 0.0,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "ExtraStalaktite_Tip1": {
       "sprite": "BLOCK_STALAKTITE_TIP_1",
@@ -1011,7 +1421,12 @@
       "size": [
         0.6,
         5.0
-      ]
+      ],
+      "defaults": {
+        "density": 60.0,
+        "strength": 400.0,
+        "defence": 50.0
+      }
     },
     "ExtraStalaktite_Tip2": {
       "sprite": "BLOCK_STALAKTITE_TIP_2",
@@ -1021,7 +1436,12 @@
       "size": [
         0.6,
         4.0
-      ]
+      ],
+      "defaults": {
+        "density": 60.0,
+        "strength": 400.0,
+        "defence": 50.0
+      }
     },
     "ExtraStalaktite_Tip3": {
       "sprite": "BLOCK_STALAKTITE_TIP_3",
@@ -1031,7 +1451,12 @@
       "size": [
         0.6,
         4.0
-      ]
+      ],
+      "defaults": {
+        "density": 60.0,
+        "strength": 400.0,
+        "defence": 50.0
+      }
     },
     "ExtraStalaktite_Tip4": {
       "sprite": "BLOCK_STALAKTITE_TIP_4",
@@ -1041,7 +1466,12 @@
       "size": [
         0.6,
         6.0
-      ]
+      ],
+      "defaults": {
+        "density": 60.0,
+        "strength": 400.0,
+        "defence": 50.0
+      }
     },
     "BirthdayBalloon_1": {
       "sprite": "BLOCK_BALLOON_BDAY",
@@ -1055,7 +1485,12 @@
       "force": [
         -1.0,
         -30.0
-      ]
+      ],
+      "defaults": {
+        "density": 1.5,
+        "strength": 10.0,
+        "defence": 1.0
+      }
     },
     "BirthdayBalloon_2": {
       "sprite": "BLOCK_BALLOON_1",
@@ -1069,7 +1504,12 @@
       "force": [
         -1.0,
         -30.0
-      ]
+      ],
+      "defaults": {
+        "density": 1.5,
+        "strength": 10.0,
+        "defence": 1.0
+      }
     },
     "BirthdayBalloon_3": {
       "sprite": "BLOCK_BALLOON_2",
@@ -1083,7 +1523,12 @@
       "force": [
         -1.0,
         -30.0
-      ]
+      ],
+      "defaults": {
+        "density": 1.5,
+        "strength": 10.0,
+        "defence": 1.0
+      }
     },
     "BirthdayBalloon_4": {
       "sprite": "BLOCK_BALLOON_3",
@@ -1097,7 +1542,12 @@
       "force": [
         -1.0,
         -30.0
-      ]
+      ],
+      "defaults": {
+        "density": 1.5,
+        "strength": 10.0,
+        "defence": 1.0
+      }
     },
     "BirthdayCake_1": {
       "sprite": "CHOCO_CAKE_1",
@@ -1107,7 +1557,12 @@
       "size": [
         2.5,
         2.9
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 5.0
+      }
     },
     "BirthdayCake_2": {
       "sprite": "PINK_CAKE_1",
@@ -1117,7 +1572,12 @@
       "size": [
         3.0,
         3.8
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 5.0
+      }
     },
     "BirthdayCake_3": {
       "sprite": "MINT_CAKE_1",
@@ -1127,7 +1587,12 @@
       "size": [
         4.0,
         2.2
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 5.0
+      }
     },
     "BirthdayCandle_1": {
       "sprite": "BDAY_CANDLE_1",
@@ -1137,7 +1602,12 @@
       "size": [
         0.6,
         2.3
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 10.0
+      }
     },
     "PartyHat_1": {
       "sprite": "PARTY_HAT_1",
@@ -1147,7 +1617,12 @@
       "size": [
         1.5,
         1.7
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "PartyHat_2": {
       "sprite": "PARTY_HAT_2",
@@ -1157,7 +1632,12 @@
       "size": [
         1.6,
         1.7
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "PartyHat_3": {
       "sprite": "PARTY_HAT_3",
@@ -1167,7 +1647,12 @@
       "size": [
         2.2,
         1.7
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "PartyHat_4": {
       "sprite": "PARTY_HAT_4",
@@ -1177,7 +1662,12 @@
       "size": [
         2.2,
         1.7
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "SPECIAL_CAKE_1": {
       "sprite": "SPECIAL_CAKE_1",
@@ -1187,7 +1677,12 @@
       "size": [
         2.0,
         2.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 5.0
+      }
     },
     "Spawning_cake": {
       "sprite": "BLOCK_CAKE",
@@ -1204,6 +1699,11 @@
           "CakeCream",
           "CakeCream"
         ]
+      },
+      "defaults": {
+        "density": 1.0,
+        "strength": 10.0,
+        "defence": 1.0
       }
     },
     "CakeCream": {
@@ -1229,7 +1729,12 @@
       "size": [
         1.5,
         1.7
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "PartyHat_6": {
       "sprite": "PARTY_HAT_6",
@@ -1239,7 +1744,12 @@
       "size": [
         1.5,
         1.7
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "PartyHat_blue": {
       "sprite": "PARTY_HAT_BLUE",
@@ -1249,7 +1759,12 @@
       "size": [
         1.5,
         1.7
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "BIRDDAY5_CAKE": {
       "sprite": "BIRDDAY5_CAKE",
@@ -1273,7 +1788,12 @@
           0.25,
           0.2
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 5.0
+      }
     },
     "BP_SINGLE_BALLOON": {
       "sprite": "BP_SINGLE_BALLOON",
@@ -1284,7 +1804,12 @@
         0.0,
         -80.0
       ],
-      "force_target": 20.0
+      "force_target": 20.0,
+      "defaults": {
+        "density": 1.5,
+        "strength": 15.0,
+        "defence": 15.0
+      }
     },
     "BP_WOODEN_WHEEL_WEAK": {
       "sprite": "BP_WOODEN_WHEEL",
@@ -1294,14 +1819,24 @@
       "size": [
         2.944,
         2.944
-      ]
+      ],
+      "defaults": {
+        "density": 1.5,
+        "strength": 60.0,
+        "defence": 2.5
+      }
     },
     "StaticNoCollisionBig": {
       "sprite": "GROUND_BLOCK_05",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "ANTIMATTER_BOX_BLUE": {
       "sprite": "ANTIMATTER_BOX_BLUE_01",
@@ -1314,7 +1849,12 @@
         30000.0,
         5.0,
         150.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "BIRDDAY5_CAKE_CANDLE": {
       "sprite": "BIRDDAY5_CAKE_CANDLE",
@@ -1351,42 +1891,72 @@
           -3.5
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 5.0
+      }
     },
     "BLUE_BOTTLE_NECK_BIG": {
       "sprite": "BLUE_BOTTLE_NECK_BIG",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 2.0
+      }
     },
     "BLUE_BOTTLE_NECK_SMALL": {
       "sprite": "BLUE_BOTTLE_NECK_SMALL",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 2.0
+      }
     },
     "BLUE_GLASS_BOTTLE_BIG": {
       "sprite": "BLUE_GLASS_BOTTLE_BIG",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 2.0
+      }
     },
     "BP_CANNON_FUSE_ROPE": {
       "sprite": "SHORT_THICK_ROPE",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 5.0,
+        "defence": 1.0
+      }
     },
     "BP_MEDIUM_ENGINE": {
       "sprite": "BP_MEDIUM_ENGINE",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 40.0,
+        "defence": 30.0
+      }
     },
     "CAGE": {
       "sprite": "CAGE",
@@ -1411,21 +1981,36 @@
           1.02
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 30.0,
+        "defence": 5.0
+      }
     },
     "CLIPBOARD": {
       "sprite": "CLIPBOARD",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "EMPTY_VIAL_1": {
       "sprite": "EMPTY_VIAL_1",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 2.0
+      }
     },
     "EMPTY_VIAL_2": {
       "sprite": "EMPTY_VIAL_2",
@@ -1450,7 +2035,12 @@
           0.95
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 2.0
+      }
     },
     "EMPTY_VIAL_3": {
       "sprite": "EMPTY_VIAL_3",
@@ -1479,14 +2069,24 @@
           0.7
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 2.0
+      }
     },
     "EMPTY_VIAL_4": {
       "sprite": "EMPTY_VIAL_4",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 2.0
+      }
     },
     "EMPTY_VIAL_5": {
       "sprite": "EMPTY_VIAL_5",
@@ -1511,21 +2111,36 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 2.0
+      }
     },
     "GLASSES_1_BIG": {
       "sprite": "GLASSES_1_BIG",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "GLASSES_1_MED": {
       "sprite": "GLASSES_1_MED",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "GLASSES_2_BIG": {
       "sprite": "GLASSES_2_BIG",
@@ -1536,7 +2151,12 @@
         2.0,
         2.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "GLASSES_2_MED": {
       "sprite": "GLASSES_2_MED",
@@ -1547,14 +2167,24 @@
         2.0,
         2.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "GREEN_BOTTLE_NECK": {
       "sprite": "GREEN_BOTTLE_NECK",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 2.0
+      }
     },
     "HAIR_KING_LEFT": {
       "sprite": "HAIR_KING_LEFT",
@@ -1562,7 +2192,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "HAIR_KING_RIGHT": {
       "sprite": "HAIR_KING_RIGHT",
@@ -1570,7 +2205,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "HAT_BOOK": {
       "sprite": "HAT_BOOK",
@@ -1581,7 +2221,12 @@
         3.4,
         3.4
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 0.0
+      }
     },
     "HAT_CELEBRITY_1": {
       "sprite": "HAT_CELEBRITY_1",
@@ -1592,7 +2237,12 @@
         3.4,
         3.4
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 0.1,
+        "defence": 0.0
+      }
     },
     "HAT_CELEBRITY_2": {
       "sprite": "HAT_CELEBRITY_2",
@@ -1603,7 +2253,12 @@
         3.4,
         3.4
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 0.1,
+        "defence": 0.0
+      }
     },
     "HAT_EXPLORER": {
       "sprite": "HAT_EXPLORER",
@@ -1614,7 +2269,12 @@
         2.8,
         1.8
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 5.0
+      }
     },
     "HAT_HEADSET_BIG": {
       "sprite": "HAT_HEADSET_BIG",
@@ -1625,7 +2285,12 @@
         3.4,
         3.4
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 0.0
+      }
     },
     "HAT_HOCKEY": {
       "sprite": "HAT_HOCKEY",
@@ -1636,7 +2301,12 @@
         3.4,
         3.4
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 0.0
+      }
     },
     "HAT_LION": {
       "sprite": "HAT_LION",
@@ -1647,7 +2317,12 @@
         3.4,
         3.4
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 0.0
+      }
     },
     "HAT_MONKEY": {
       "sprite": "HAT_MONKEY",
@@ -1658,7 +2333,12 @@
         1.4,
         1.4
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 0.0
+      }
     },
     "HAT_SPACE": {
       "sprite": "HAT_SPACE",
@@ -1669,7 +2349,12 @@
         2.6,
         2.6
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 0.0
+      }
     },
     "HOCKEY_STICK": {
       "sprite": "HOCKEY_STICK",
@@ -1694,7 +2379,12 @@
           0.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 5.0
+      }
     },
     "MAGNIFYING_GLASS": {
       "sprite": "MAGNIFYING_GLASS",
@@ -1715,7 +2405,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "MASK_1_BIG": {
       "sprite": "MASK_1_BIG",
@@ -1723,7 +2418,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "MASK_2_BIG": {
       "sprite": "MASK_2_BIG",
@@ -1734,7 +2434,12 @@
         1.0,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "MASK_2_MED": {
       "sprite": "MASK_2_MED",
@@ -1745,7 +2450,12 @@
         1.0,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "MASK_3_BIG_UP": {
       "sprite": "MASK_3_BIG_UP",
@@ -1753,7 +2463,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "MASK_3_MEDL_UP": {
       "sprite": "MASK_3_MEDL_UP",
@@ -1761,7 +2476,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "MASK_3_MED_DOWN": {
       "sprite": "MASK_3_MED_DOWN",
@@ -1769,21 +2489,36 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "MISC_FB_CONE": {
       "sprite": "MISC_FB_CONE_1",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 5.0,
+        "defence": 10.0
+      }
     },
     "MISC_FB_TAPE": {
       "sprite": "MISC_FB_TAPE_1",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 5.0,
+        "defence": 1.0
+      }
     },
     "MUSIC_PLAYER_OLD": {
       "sprite": "MUSIC_PLAYER_OLD",
@@ -1794,7 +2529,12 @@
         2.8,
         6.5
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 5.0
+      }
     },
     "NERDY_GLASSES_MED": {
       "sprite": "NERDY_GLASSES_MED",
@@ -1806,14 +2546,24 @@
         1.0
       ],
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "NOTEPAD": {
       "sprite": "NOTEPAD",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "PUCK": {
       "sprite": "PUCK",
@@ -1824,7 +2574,12 @@
         2.0,
         2.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.6,
+        "strength": 30.0,
+        "defence": 20.0
+      }
     },
     "SPLASH_BIG": {
       "sprite": "SPLASH_BIG",
@@ -1832,7 +2587,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 100.0,
+        "defence": 100.0
+      }
     },
     "STARWARS_HAT": {
       "sprite": "STARWARS_HAT",
@@ -1843,7 +2603,12 @@
         1.4,
         1.4
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 0.0
+      }
     },
     "STARWARS_HELMET": {
       "sprite": "STARWARS_HELMET",
@@ -1854,7 +2619,12 @@
         3.4,
         3.4
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 0.0
+      }
     },
     "STARWARS_VADER": {
       "sprite": "STARWARS_VADER",
@@ -1865,7 +2635,12 @@
         3.4,
         3.4
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 0.0
+      }
     },
     "THEME_UGC_BLUE_SPOT": {
       "sprite": "THEME_UGC_BLUE_SPOT",
@@ -1877,7 +2652,12 @@
         2.0
       ],
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_CALCULATOR": {
       "sprite": "THEME_UGC_CALCULATOR",
@@ -1885,7 +2665,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_CARDBOARD_DAMAGE_FOLD_01": {
       "sprite": "THEME_UGC_CARDBOARD_DAMAGE_FOLD_01",
@@ -1893,7 +2678,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_CARDBOARD_DAMAGE_FOLD_02": {
       "sprite": "THEME_UGC_CARDBOARD_DAMAGE_FOLD_02",
@@ -1901,7 +2691,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_CARDBOARD_DAMAGE_TAPE": {
       "sprite": "THEME_UGC_CARDBOARD_DAMAGE_TAPE",
@@ -1909,7 +2704,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_CARDBOARD_RIP_DIAMOND_01": {
       "sprite": "THEME_UGC_CARDBOARD_RIP_DIAMOND_01",
@@ -1917,7 +2717,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_CARDBOARD_RIP_DIAMOND_02": {
       "sprite": "THEME_UGC_CARDBOARD_RIP_DIAMOND_02",
@@ -1925,7 +2730,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_CARDBOARD_RIP_DIAMOND_03": {
       "sprite": "THEME_UGC_CARDBOARD_RIP_DIAMOND_03",
@@ -1933,7 +2743,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_CARDBOARD_RIP_DIAMOND_04": {
       "sprite": "THEME_UGC_CARDBOARD_RIP_DIAMOND_04",
@@ -1941,7 +2756,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_CARDBOARD_RIP_LEFT_BIG": {
       "sprite": "THEME_UGC_CARDBOARD_RIP_LEFT_BIG",
@@ -1949,7 +2769,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_CARDBOARD_RIP_LEFT_SMALL": {
       "sprite": "THEME_UGC_CARDBOARD_RIP_LEFT_SMALL",
@@ -1957,7 +2782,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_CARDBOARD_RIP_MIDDLE_01": {
       "sprite": "THEME_UGC_CARDBOARD_RIP_MIDDLE_01",
@@ -1965,7 +2795,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_CARDBOARD_RIP_MIDDLE_02": {
       "sprite": "THEME_UGC_CARDBOARD_RIP_MIDDLE_02",
@@ -1973,7 +2808,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_CARDBOARD_RIP_RIGHT_BIG": {
       "sprite": "THEME_UGC_CARDBOARD_RIP_RIGHT_BIG",
@@ -1981,7 +2821,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_CARDBOARD_RIP_RIGHT_SMALL": {
       "sprite": "THEME_UGC_CARDBOARD_RIP_RIGHT_SMALL",
@@ -1989,7 +2834,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_CLIP": {
       "sprite": "THEME_UGC_CLIP",
@@ -1997,7 +2847,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_CUTTER_KNIVE": {
       "sprite": "THEME_UGC_CUTTER_KNIVE",
@@ -2005,7 +2860,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_FG_COMPASS": {
       "sprite": "THEME_UGC_FG_COMPASS",
@@ -2030,7 +2890,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_FG_ERASER": {
       "sprite": "THEME_UGC_FG_ERASER",
@@ -2041,7 +2906,12 @@
         9.5,
         3.8
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_FG_PAPERCLIP": {
       "sprite": "THEME_UGC_FG_PAPERCLIP",
@@ -2049,7 +2919,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_FG_PAPERCLIP_BIG": {
       "sprite": "THEME_UGC_FG_PAPERCLIP_BIG",
@@ -2057,7 +2932,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_FG_PENCIL": {
       "sprite": "THEME_UGC_FG_PENCIL",
@@ -2086,7 +2966,12 @@
           0.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_FG_PENCIL_BLUE": {
       "sprite": "THEME_UGC_FG_PENCIL_BLUE",
@@ -2115,7 +3000,12 @@
           0.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_FG_POSTIT_01": {
       "sprite": "THEME_UGC_FG_POSTIT_YELLOW_01",
@@ -2127,7 +3017,12 @@
         2.0
       ],
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_FG_POSTIT_02": {
       "sprite": "THEME_UGC_FG_POSTIT_YELLOW_02",
@@ -2139,7 +3034,12 @@
         2.0
       ],
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_FG_POSTIT_RED": {
       "sprite": "THEME_UGC_FG_POSTIT_RED_01",
@@ -2151,7 +3051,12 @@
         2.0
       ],
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_FG_POSTIT_RED_02": {
       "sprite": "THEME_UGC_FG_POSTIT_RED_02",
@@ -2163,7 +3068,12 @@
         2.0
       ],
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_FG_POSTIT_TWITTER1": {
       "sprite": "THEME_UGC_FG_POSTIT_TWITTER1",
@@ -2175,7 +3085,12 @@
         2.0
       ],
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_FG_POSTIT_TWITTER2": {
       "sprite": "THEME_UGC_FG_POSTIT_TWITTER2",
@@ -2187,7 +3102,12 @@
         2.0
       ],
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_FG_PROTRACTOR": {
       "sprite": "THEME_UGC_FG_PROTRACTOR",
@@ -2224,7 +3144,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_FG_RULER_FOLDING": {
       "sprite": "THEME_UGC_FG_RULER_FOLDING",
@@ -2235,7 +3160,12 @@
         26.5,
         5.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_FG_TACK_GREEN": {
       "sprite": "THEME_UGC_FG_TACK_GREEN",
@@ -2243,7 +3173,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_FG_TACK_PURPLE": {
       "sprite": "THEME_UGC_FG_TACK_PURPLE",
@@ -2251,7 +3186,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_PIN": {
       "sprite": "THEME_UGC_PIN",
@@ -2259,7 +3199,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_RED_SPOT": {
       "sprite": "THEME_UGC_RED_SPOT",
@@ -2271,7 +3216,12 @@
         2.0
       ],
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_STAMP_01": {
       "sprite": "THEME_UGC_STAMP_01",
@@ -2279,7 +3229,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "THEME_UGC_STAMP_02": {
       "sprite": "THEME_UGC_STAMP_02",
@@ -2287,7 +3242,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "TV_OLD": {
       "sprite": "TV_OLD",
@@ -2316,7 +3276,12 @@
           0.3
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 5.0
+      }
     },
     "UGC_CAMERA": {
       "sprite": "UGC_CAMERA",
@@ -2349,7 +3314,12 @@
           0.65
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 1.0
+      }
     },
     "UGC_GLASSES": {
       "sprite": "UGC_GLASSES",
@@ -2374,7 +3344,12 @@
           0.9
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 5.0,
+        "defence": 2.0
+      }
     },
     "UGC_RHINO": {
       "sprite": "UGC_RHINO",
@@ -2403,7 +3378,12 @@
           0.03
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "UGC_SCHOOL_SIGN": {
       "sprite": "UGC_SCHOOL_SIGN",
@@ -2432,7 +3412,12 @@
           0.95
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 2.0,
+        "strength": 10.0,
+        "defence": 9999.0
+      }
     },
     "BD7_Balloon_Blue": {
       "sprite": "BD7_BALLOON_BLUE",
@@ -2446,7 +3431,12 @@
       "force": [
         -1.0,
         -30.0
-      ]
+      ],
+      "defaults": {
+        "density": 1.5,
+        "strength": 10.0,
+        "defence": 1.0
+      }
     },
     "BD7_Balloon_Red": {
       "sprite": "BD7_BALLOON_RED",
@@ -2460,7 +3450,12 @@
       "force": [
         -1.0,
         -30.0
-      ]
+      ],
+      "defaults": {
+        "density": 1.5,
+        "strength": 10.0,
+        "defence": 1.0
+      }
     },
     "BD7_Balloon_Round_Green": {
       "sprite": "BD7_BALLOON_ROUND_GREEN",
@@ -2474,7 +3469,12 @@
       "force": [
         -1.0,
         -30.0
-      ]
+      ],
+      "defaults": {
+        "density": 1.5,
+        "strength": 10.0,
+        "defence": 1.0
+      }
     },
     "BD7_Balloon_Round_Orange": {
       "sprite": "BD7_BALLOON_ROUND_ORANGE",
@@ -2488,7 +3488,12 @@
       "force": [
         -1.0,
         -30.0
-      ]
+      ],
+      "defaults": {
+        "density": 1.5,
+        "strength": 10.0,
+        "defence": 1.0
+      }
     },
     "BD7_Balloon_Yellow": {
       "sprite": "BD7_BALLOON_YELLOW",
@@ -2502,7 +3507,12 @@
       "force": [
         -1.0,
         -30.0
-      ]
+      ],
+      "defaults": {
+        "density": 1.5,
+        "strength": 10.0,
+        "defence": 1.0
+      }
     },
     "BD7_Cupcake": {
       "sprite": "BD7_CUPCACE",
@@ -2512,35 +3522,60 @@
       "size": [
         1.3,
         1.85
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 5.0
+      }
     },
     "BD7_Flag_Purple": {
       "sprite": "BD7_FLAG_PURPLE",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "BD7_Flag_Red": {
       "sprite": "BD7_FLAG_RED",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "BD7_Flag_Yellow": {
       "sprite": "BD7_FLAG_YELLOW",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "BD7_Sticker": {
       "sprite": "BD7_STICKER",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "BLOCK_GREEN_ENGINE_3": {
       "sprite": "BLOCK_GREEN_ENGINE_3",
@@ -2550,7 +3585,12 @@
       "size": [
         4.0,
         4.0
-      ]
+      ],
+      "defaults": {
+        "density": 4.0,
+        "strength": 20.0,
+        "defence": 30.0
+      }
     },
     "BLOCK_GREEN_SPANNER_2": {
       "sprite": "BLOCK_GREEN_SPANNER_2",
@@ -2560,100 +3600,175 @@
       "size": [
         1.0,
         4.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "FLOWER001": {
       "sprite": "ML_FLOWER001",
       "kind": 9,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "FLOWER003": {
       "sprite": "ML_FLOWER003",
       "kind": 9,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "MISC_FB_BARREL": {
       "sprite": "MISC_FB_BARREL_1",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 80.0,
+        "defence": 2.5
+      }
     },
     "ML_BUSH001": {
       "sprite": "ML_BUSH001",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "ML_BUSH001_PINK": {
       "sprite": "ML_BUSH001_PINK",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "ML_BUSH002": {
       "sprite": "ML_BUSH002",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "ML_BUSH002_PINK": {
       "sprite": "ML_BUSH002_PINK",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "ML_PINK_LEAVES001": {
       "sprite": "ML_PINK_LEAVES001",
       "kind": 9,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "ML_PINK_LEAVES002": {
       "sprite": "ML_PINK_LEAVES002",
       "kind": 9,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "ML_PINK_LEAVES003": {
       "sprite": "ML_PINK_LEAVES003",
       "kind": 9,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "SAND_PILE001": {
       "sprite": "ML_SAND_PILE001",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "STATIC_WALL_4": {
       "sprite": "GROUND_BLOCK_04",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "STATIC_WALL_5": {
       "sprite": "GROUND_BLOCK_05",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "WoodBlock10_BD7": {
       "sprite": "BLOCK_WOOD_10X1_1_BD7",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 100.0,
+        "defence": 2.5
+      }
     },
     "WoodBlock11_BD7": {
       "sprite": "BLOCK_WOOD_TRIANGLE_L_1_BD7",
@@ -2673,67 +3788,122 @@
           0.0,
           1.0
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 1.5,
+        "strength": 80.0,
+        "defence": 2.5
+      }
     },
     "WoodBlock1_BD7": {
       "sprite": "BLOCK_WOOD_1_1_BD7",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 20.0,
+        "defence": 2.5
+      }
     },
     "WoodBlock2_BD7": {
       "sprite": "BLOCK_WOOD_1_2_BD7",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 40.0,
+        "defence": 2.5
+      }
     },
     "WoodBlock3_BD7": {
       "sprite": "BLOCK_WOOD_1_3_BD7",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 60.0,
+        "defence": 2.5
+      }
     },
     "WoodBlock4_BD7": {
       "sprite": "BLOCK_WOOD_1_4_BD7",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 50.0,
+        "defence": 2.5
+      }
     },
     "WoodBlock5_BD7": {
       "sprite": "BLOCK_WOOD_1_5_BD7",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 80.0,
+        "defence": 2.5
+      }
     },
     "WoodBlock6_BD7": {
       "sprite": "BLOCK_WOOD_1_6_BD7",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 70.0,
+        "defence": 2.5
+      }
     },
     "WoodBlock7_BD7": {
       "sprite": "BLOCK_WOOD_1_7_BD7",
       "kind": 1,
       "shape": "circle",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 200.0,
+        "defence": 2.5
+      }
     },
     "WoodBlock8_BD7": {
       "sprite": "BLOCK_WOOD_1_8_BD7",
       "kind": 1,
       "shape": "circle",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 150.0,
+        "defence": 2.5
+      }
     },
     "WoodBlock9_BD7": {
       "sprite": "BLOCK_WOOD_4X4_1_BD7",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 120.0,
+        "defence": 2.5
+      }
     },
     "MISC_FB_BOBBER": {
       "sprite": "MISC_FB_BOBBER_1",
       "kind": 2,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 5.0,
+        "defence": 2.0
+      }
     },
     "MISC_FB_BUCKET": {
       "sprite": "MISC_FB_BUCKET_1",
@@ -2757,13 +3927,23 @@
           0.2,
           0.95
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.75,
+        "strength": 4.0,
+        "defence": 2.0
+      }
     },
     "MISC_FB_CASTLE": {
       "sprite": "MISC_FB_CASTLE_1",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "MISC_FB_GLASSES": {
       "sprite": "MISC_FB_GLASSES_1",
@@ -2795,13 +3975,23 @@
           0.1,
           0.7
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "MISC_FB_HAMMER": {
       "sprite": "MISC_FB_HAMMER_1",
       "kind": 5,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.2,
+        "strength": 20.0,
+        "defence": 30.0
+      }
     },
     "MISC_FB_HAT": {
       "sprite": "MISC_FB_HAT_1",
@@ -2833,25 +4023,45 @@
           0.2,
           0.7
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "MISC_FB_NET": {
       "sprite": "MISC_FB_NET_1",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.01,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "MISC_FB_ROD": {
       "sprite": "MISC_FB_ROD_1",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.001,
+        "strength": 10.0,
+        "defence": 10.0
+      }
     },
     "MISC_FB_SHOVEL": {
       "sprite": "MISC_FB_SHOVEL_1",
       "kind": 2,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 5.0,
+        "defence": 4.0
+      }
     },
     "MISC_FB_SMALL_HAT": {
       "sprite": "MISC_FB_SMALL_HAT_1",
@@ -2883,13 +4093,23 @@
           0.3,
           0.5
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.3,
+        "strength": 10.0,
+        "defence": 10.0
+      }
     },
     "MISC_FB_STICK": {
       "sprite": "MISC_FB_STICK_1",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "MISC_FB_TINYGLASSES": {
       "sprite": "MISC_FB_TINYGLASSES_1",
@@ -2921,19 +4141,34 @@
           0.2,
           0.7
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "MISC_FB_UMBRELLA_BOTTOM": {
       "sprite": "MISC_FB_UMBRELLA_BOTTOM_1",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.01,
+        "strength": 5.0,
+        "defence": 10.0
+      }
     },
     "MISC_FB_UMBRELLA_TOP": {
       "sprite": "MISC_FB_UMBRELLA_TOP_1",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 5.0,
+        "defence": 10.0
+      }
     },
     "BLOCK_GREEN_BAG": {
       "sprite": "BLOCK_GREEN_BAG",
@@ -2943,7 +4178,12 @@
       "size": [
         2.6,
         2.6
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "BLOCK_GREEN_GOGGLES": {
       "sprite": "BLOCK_GREEN_GOGGLES",
@@ -2953,7 +4193,12 @@
       "size": [
         2.0,
         1.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "BLOCK_GREEN_OILCANISTER": {
       "sprite": "BLOCK_GREEN_OILCANISTER",
@@ -2963,7 +4208,12 @@
       "size": [
         1.5,
         2.7
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "BLOCK_GREEN_PILOTHELMET": {
       "sprite": "BLOCK_GREEN_PILOTHELMET",
@@ -2973,7 +4223,12 @@
       "size": [
         2.0,
         1.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 20.0
+      }
     },
     "BLOCK_GREEN_WOODENTIRE": {
       "sprite": "BLOCK_GREEN_WOODENTIRE",
@@ -2983,7 +4238,12 @@
       "size": [
         4.0,
         4.0
-      ]
+      ],
+      "defaults": {
+        "density": 1.5,
+        "strength": 10.0,
+        "defence": 30.0
+      }
     },
     "GoldenSpanner": {
       "sprite": "BLOCK_GREEN_SPANNER_GOLDEN",
@@ -2993,14 +4253,24 @@
       "size": [
         1.0,
         4.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 2.0
+      }
     },
     "ARROW_SIGN_ORANGE": {
       "sprite": "ARROW_SIGN_ORANGE",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 100.0,
+        "defence": 100.0
+      }
     },
     "BLACKBIRD_VIAL_BLUE": {
       "sprite": "AB_POTION_BLUE",
@@ -3010,7 +4280,12 @@
       "vial": [
         3,
         7.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 15.0
+      }
     },
     "BLACKBIRD_VIAL_ORANGE": {
       "sprite": "AB_POTION_ORANGE",
@@ -3020,7 +4295,12 @@
       "vial": [
         1,
         6.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 15.0
+      }
     },
     "BLACKBIRD_VIAL_PINK": {
       "sprite": "AB_POTION_PINK",
@@ -3034,7 +4314,12 @@
       "vial": [
         2,
         7.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 15.0
+      }
     },
     "BLUE_CRYSTAL_1": {
       "sprite": "BLUE_CRYSTAL_1",
@@ -3062,7 +4347,12 @@
           0.2,
           1.0
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 4.0
+      }
     },
     "BLUE_CRYSTAL_2": {
       "sprite": "BLUE_CRYSTAL_2",
@@ -3086,13 +4376,23 @@
           0.2,
           0.9
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 4.0
+      }
     },
     "BLUE_GLASS_BOTTLE_SMALL": {
       "sprite": "BLUE_GLASS_BOTTLE_SMALL",
       "kind": 2,
       "shape": "circle",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 2.0
+      }
     },
     "BOLT": {
       "sprite": "BOLT",
@@ -3102,7 +4402,12 @@
       "size": [
         2.0,
         1.8
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 120.0,
+        "defence": 15.0
+      }
     },
     "BOW_TIE": {
       "sprite": "BOW_TIE",
@@ -3112,20 +4417,35 @@
       "size": [
         1.0,
         1.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "BP_CABLE": {
       "sprite": "SHORT_THICK_CABLE",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 120.0,
+        "defence": 30.0
+      }
     },
     "BP_CLAMP": {
       "sprite": "CLAP",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 15.0,
+        "defence": 5.0
+      }
     },
     "BP_ROCKET_HOLDER": {
       "sprite": "BP_ROCKET_HOLDER",
@@ -3145,13 +4465,23 @@
           -0.2,
           1.0
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 1.5,
+        "strength": 120.0,
+        "defence": 30.0
+      }
     },
     "BUNSEN_BURNER": {
       "sprite": "BUNSEN_BURNER",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "BUNSEN_BURNER_HOLDER": {
       "sprite": "BUNSEN_BURNER_HOLDER",
@@ -3175,14 +4505,24 @@
           0.0,
           1.0
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "CRACK": {
       "sprite": "CRACK",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 2.0,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "EXPLOSIVE_BALLOON": {
       "sprite": "EXPLOSIVE_BALLOON",
@@ -3199,7 +4539,12 @@
         30000.0,
         5.0,
         300.0
-      ]
+      ],
+      "defaults": {
+        "density": 1.0,
+        "strength": 40.0,
+        "defence": 1.0
+      }
     },
     "FUNNEL": {
       "sprite": "FUNNEL",
@@ -3223,13 +4568,23 @@
           0.3,
           0.7
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 2.0,
+        "strength": 120.0,
+        "defence": 30.0
+      }
     },
     "GLASSES_1_SMALL": {
       "sprite": "GLASSES_1_SMALL",
       "kind": 6,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "GLASSES_2_SMALL": {
       "sprite": "GLASSES_2_SMALL",
@@ -3239,94 +4594,164 @@
       "size": [
         1.0,
         1.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "GLASS_PIPE_FAT": {
       "sprite": "GLASS_PIPE_FAT",
       "kind": 2,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 2.0
+      }
     },
     "GLASS_PIPE_LONG": {
       "sprite": "GLASS_PIPE_LONG",
       "kind": 2,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 2.0
+      }
     },
     "GRASS": {
       "sprite": "MOLDY_GRASS",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "GREEN_GLASS_BOTTLE": {
       "sprite": "GREEN_GLASS_BOTTLE",
       "kind": 2,
       "shape": "circle",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 40.0,
+        "defence": 2.0
+      }
     },
     "HAIR_BIG_LEFT": {
       "sprite": "HAIR_BIG_LEFT",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "HAIR_BIG_RIGHT": {
       "sprite": "HAIR_BIG_RIGHT",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "HAIR_MED_LEFT": {
       "sprite": "HAIR_MED_LEFT",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "HAIR_MED_RIGHT": {
       "sprite": "HAIR_MED_RIGHT",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "HAIR_SMALL_LEFT": {
       "sprite": "HAIR_SMALL_LEFT",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "HAIR_SMALL_RIGHT": {
       "sprite": "HAIR_SMALL_RIGHT",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "HAIR_STACHE_LEFT": {
       "sprite": "HAIR_STACHE_LEFT",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "HAIR_STACHE_RIGHT": {
       "sprite": "HAIR_STACHE_RIGHT",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "KORK": {
       "sprite": "KORK",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "LAB_VEST_MED": {
       "sprite": "LAB_VEST_MED",
@@ -3336,7 +4761,12 @@
       "size": [
         2.5,
         2.5
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "LAB_VEST_STACHE": {
       "sprite": "LAB_VEST_STACHE",
@@ -3346,13 +4776,23 @@
       "size": [
         1.0,
         1.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.1,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "MAGNET": {
       "sprite": "MAGNET",
       "kind": 6,
       "shape": "circle",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 2.0,
+        "strength": 120.0,
+        "defence": 30.0
+      }
     },
     "MASK_1_MED": {
       "sprite": "MASK_1_MED",
@@ -3363,7 +4803,12 @@
         1.0,
         1.0
       ],
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "MASK_1_SMALL": {
       "sprite": "MASK_1_SMALL",
@@ -3374,7 +4819,12 @@
         1.0,
         1.0
       ],
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "MASK_2_SMALL": {
       "sprite": "MASK_2_SMALL",
@@ -3384,54 +4834,94 @@
       "size": [
         1.0,
         1.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "MASK_3_BIG_DOWN": {
       "sprite": "MASK_3_BIG_DOWN",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "MASK_3_SMALL_DOWN": {
       "sprite": "MASK_3_SMALL_DOWN",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "MASK_3_SMALL_UP": {
       "sprite": "MASK_3_SMALL_UP",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "METAL_TUBE_HOLDER_BLUE": {
       "sprite": "METAL_TUBE_HOLDER_BLUE",
       "kind": 9,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 10.0,
+        "defence": 10.0
+      }
     },
     "METAL_TUBE_WALL_CONNECTION": {
       "sprite": "METAL_TUBE_WALL_CONNECTION",
       "kind": 3,
       "shape": "circle",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 120.0,
+        "defence": 10.0
+      }
     },
     "METAL_TUBE_WINDOW": {
       "sprite": "METAL_TUBE_WINDOW",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "NERDY_GLASSES_BIG": {
       "sprite": "NERDY_GLASSES_BIG",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "ORANGE_MUSHROOM_1": {
       "sprite": "ORANGE_MUSHROOM_1",
@@ -3441,7 +4931,12 @@
       "size": [
         1.98,
         1.98
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 7.0,
+        "defence": 2.0
+      }
     },
     "ORANGE_MUSHROOM_2": {
       "sprite": "ORANGE_MUSHROOM_2",
@@ -3469,7 +4964,12 @@
           0.2,
           1.0
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 7.0,
+        "defence": 2.0
+      }
     },
     "PINK_FLOWER_1": {
       "sprite": "PINK_FLOWER_1",
@@ -3489,7 +4989,12 @@
           0.5,
           1.0
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 4.0,
+        "defence": 2.0
+      }
     },
     "PINK_FLOWER_2": {
       "sprite": "PINK_FLOWER_2",
@@ -3509,7 +5014,12 @@
           0.3,
           1.0
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 4.0,
+        "defence": 2.0
+      }
     },
     "PRESSURE_METER": {
       "sprite": "PRESSURE_METER",
@@ -3519,14 +5029,24 @@
       "size": [
         2.0,
         2.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "PRESSURE_METER_NEEDLE": {
       "sprite": "PRESSURE_METER_NEEDLE",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "ROCKET_CANISTER": {
       "sprite": "AIR_TANK_SMALL",
@@ -3538,7 +5058,12 @@
         30000.0,
         5.0,
         150.0
-      ]
+      ],
+      "defaults": {
+        "density": 2.0,
+        "strength": 500.0,
+        "defence": 1.0
+      }
     },
     "RUSTY_FUNNEL_DOWN": {
       "sprite": "RUSTY_FUNNEL_DOWN",
@@ -3570,7 +5095,12 @@
           0.1,
           0.3
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "RUSTY_FUNNEL_UP": {
       "sprite": "RUSTY_FUNNEL_UP",
@@ -3594,13 +5124,23 @@
           0.3,
           1.0
         ]
-      ]
+      ],
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "RUSTY_TUBE_CORNER": {
       "sprite": "RUSTY_TUBE_CORNER",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 2.0,
+        "strength": 70.0,
+        "defence": 5.0
+      }
     },
     "RUSTY_TUBE_FAT": {
       "sprite": "RUSTY_TUBE_FAT",
@@ -3610,7 +5150,12 @@
       "size": [
         4.6,
         1.7
-      ]
+      ],
+      "defaults": {
+        "density": 2.0,
+        "strength": 70.0,
+        "defence": 5.0
+      }
     },
     "RUSTY_TUBE_LONG": {
       "sprite": "RUSTY_TUBE_LONG",
@@ -3620,7 +5165,12 @@
       "size": [
         11.0,
         1.7
-      ]
+      ],
+      "defaults": {
+        "density": 2.0,
+        "strength": 70.0,
+        "defence": 5.0
+      }
     },
     "RUSTY_TUBE_SMALL": {
       "sprite": "RUSTY_TUBE_SMALL",
@@ -3630,39 +5180,69 @@
       "size": [
         5.4,
         1.7
-      ]
+      ],
+      "defaults": {
+        "density": 2.0,
+        "strength": 70.0,
+        "defence": 5.0
+      }
     },
     "RUSTY_TUBE_WALL_CONNECTION": {
       "sprite": "RUSTY_TUBE_WALL_CONNECTION",
       "kind": 3,
       "shape": "circle",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 70.0,
+        "defence": 5.0
+      }
     },
     "RUSTY_TUBE_WINDOW": {
       "sprite": "RUSTY_TUBE_WINDOW",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "SPLASH_SMALL": {
       "sprite": "SPLASH_SMALL",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 100.0,
+        "defence": 100.0
+      }
     },
     "THERMOMETER": {
       "sprite": "THERMOMETER",
       "kind": 2,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 2.0
+      }
     },
     "TUBE_CORNER": {
       "sprite": "TUBE_CORNER",
       "kind": 5,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 4.0,
+        "strength": 120.0,
+        "defence": 10.0
+      }
     },
     "TUBE_LONG": {
       "sprite": "TUBE_LONG",
@@ -3672,7 +5252,12 @@
       "size": [
         11.0,
         1.7
-      ]
+      ],
+      "defaults": {
+        "density": 4.0,
+        "strength": 120.0,
+        "defence": 10.0
+      }
     },
     "TUBE_SHORT": {
       "sprite": "TUBE_SHORT",
@@ -3682,71 +5267,126 @@
       "size": [
         4.3,
         1.7
-      ]
+      ],
+      "defaults": {
+        "density": 4.0,
+        "strength": 120.0,
+        "defence": 10.0
+      }
     },
     "VALVE": {
       "sprite": "VALVE",
       "kind": 6,
       "shape": "circle",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 120.0,
+        "defence": 10.0
+      }
     },
     "WARNING_SIGN": {
       "sprite": "WARNING_SIGN",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 100.0,
+        "defence": 100.0
+      }
     },
     "WARNING_SIGN_BLUE": {
       "sprite": "WARNING_SIGN_BLUE",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 100.0,
+        "defence": 100.0
+      }
     },
     "WARNING_SIGN_ORANGE": {
       "sprite": "WARNING_SIGN_ORANGE",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 100.0,
+        "defence": 100.0
+      }
     },
     "WARNING_SIGN_PINK": {
       "sprite": "WARNING_SIGN_PINK",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 100.0,
+        "defence": 100.0
+      }
     },
     "BIRDSTICK_ARM1": {
       "sprite": "BIRDSTICK_ARM1",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 360.0,
+        "defence": 2.5
+      }
     },
     "BIRDSTICK_ARM2": {
       "sprite": "BIRDSTICK_ARM2",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 360.0,
+        "defence": 2.5
+      }
     },
     "BIRDSTICK_HEAD": {
       "sprite": "BIRDSTICK_HEAD",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 360.0,
+        "defence": 2.5
+      }
     },
     "BIRDSTICK_LEGS": {
       "sprite": "BIRDSTICK_LEGS",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 360.0,
+        "defence": 2.5
+      }
     },
     "BIRDSTICK_TORSO": {
       "sprite": "BIRDSTICK_TORSO",
       "kind": 1,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 360.0,
+        "defence": 2.5
+      }
     },
     "BP_SINGLE_SAND_BAG": {
       "sprite": "BP_SINGLE_SAND_BAG",
@@ -3756,7 +5396,12 @@
       "size": [
         2.6,
         2.6
-      ]
+      ],
+      "defaults": {
+        "density": 4.0,
+        "strength": 40.0,
+        "defence": 15.0
+      }
     },
     "BP_TWO_SAND_BAGS": {
       "sprite": "BP_TWO_SAND_BAGS",
@@ -3766,7 +5411,12 @@
       "size": [
         3.4,
         3.4
-      ]
+      ],
+      "defaults": {
+        "density": 6.5,
+        "strength": 40.0,
+        "defence": 15.0
+      }
     },
     "BeardedKingPiglette": {
       "sprite": "ML_PIG_KING_01",
@@ -3776,27 +5426,47 @@
       "size": [
         5.65,
         5.65
-      ]
+      ],
+      "defaults": {
+        "density": 1.0,
+        "strength": 100.0,
+        "defence": 0.0
+      }
     },
     "FLOWER002": {
       "sprite": "ML_FLOWER002",
       "kind": 9,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "GREEN_PAINT001": {
       "sprite": "ML_GREEN_PAINT001",
       "kind": 9,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 5.0,
+        "strength": 2.0,
+        "defence": 1.0
+      }
     },
     "GREEN_PAINT002": {
       "sprite": "ML_GREEN_PAINT002",
       "kind": 9,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 5.0,
+        "strength": 2.0,
+        "defence": 1.0
+      }
     },
     "LEAGUETICKET": {
       "sprite": "ML_TICKET_INGAME",
@@ -3806,40 +5476,70 @@
       "size": [
         2.6,
         2.6
-      ]
+      ],
+      "defaults": {
+        "density": 0.0,
+        "strength": 2.0,
+        "defence": 1.0
+      }
     },
     "ML_POSTER001": {
       "sprite": "ML_POSTER001",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "ML_POSTER002": {
       "sprite": "ML_POSTER002",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "SAND_FIGURE001": {
       "sprite": "ML_SAND_FIGURE001",
       "kind": 9,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 2.0,
+        "defence": 1.0
+      }
     },
     "SAND_FIGURE002": {
       "sprite": "ML_SAND_FIGURE002",
       "kind": 9,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 2.0,
+        "defence": 1.0
+      }
     },
     "SAND_PILE002": {
       "sprite": "ML_SAND_PILE002",
       "kind": 3,
       "shape": "box",
       "auto": true,
-      "no_collision": true
+      "no_collision": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "BP_BIG_ENGINE": {
       "sprite": "BP_BIG_ENGINE",
@@ -3850,7 +5550,12 @@
         4.0,
         4.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 40.0,
+        "defence": 30.0
+      }
     },
     "BP_BIG_LANDING_WHEEL": {
       "sprite": "BP_BIG_LANDING_WHEEL",
@@ -3871,14 +5576,24 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 1000.0,
+        "defence": 1000.0
+      }
     },
     "BP_CANNON_BALL": {
       "sprite": "BLOCK_APPLE",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 50.0,
+        "defence": 5.0
+      }
     },
     "BP_GOLDEN_BALLOON": {
       "sprite": "GOLDEN_BALLON",
@@ -3893,7 +5608,12 @@
         0.0,
         -61.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 30.0,
+        "defence": 2.5
+      }
     },
     "BP_METAL_TAIL": {
       "sprite": "BP_METAL_TAIL",
@@ -3918,42 +5638,72 @@
           0.5
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 120.0,
+        "defence": 30.0
+      }
     },
     "BP_METAL_WING": {
       "sprite": "BP_METAL_WING",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 120.0,
+        "defence": 30.0
+      }
     },
     "BP_ROPE": {
       "sprite": "BP_ROPE",
       "kind": 5,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 4.0,
+        "strength": 40.0,
+        "defence": 15.0
+      }
     },
     "BP_ROPE_RUBBER": {
       "sprite": "RUBBER_ROPE",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 5.0,
+        "defence": 1000.0
+      }
     },
     "BP_SMALL_ENGINE": {
       "sprite": "BP_SMALL_ENGINE",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 40.0,
+        "defence": 30.0
+      }
     },
     "BP_THREE_SAND_BAGS": {
       "sprite": "BP_THREE_SAND_BAGS",
       "kind": 5,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 4.0,
+        "strength": 40.0,
+        "defence": 15.0
+      }
     },
     "BP_UMBRELLA_2": {
       "sprite": "BP_UMBRELLA_2",
@@ -3974,14 +5724,24 @@
           0.8
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 40.0,
+        "defence": 2.5
+      }
     },
     "BP_UMBRELLA_HOLDER": {
       "sprite": "BP_UMBRELLA_HOLDER",
       "kind": 1,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 40.0,
+        "defence": 2.5
+      }
     },
     "BP_WOODEN_TAIL": {
       "sprite": "BP_WOODEN_TAIL",
@@ -4006,21 +5766,36 @@
           0.5
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 90.0,
+        "defence": 10.0
+      }
     },
     "CHAIN_INDESTRUCTIBLE": {
       "sprite": "FARM_CHAIN_PIECE_1",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 5.0,
+        "defence": 1000.0
+      }
     },
     "COG_OFF": {
       "sprite": "COG_OFF",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 4.0,
+        "strength": 20.0,
+        "defence": 30.0
+      }
     },
     "DecorationFarmDecoCabbage": {
       "sprite": "FARM_DECO_CABBAGE",
@@ -4028,7 +5803,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationFarmDecoCastshadow": {
       "sprite": "FARM_DECO_CASTSHADOW",
@@ -4036,7 +5816,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationFarmDecoGrass1": {
       "sprite": "FARM_DECO_GRASS_1",
@@ -4044,7 +5829,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationFarmDecoGrass2": {
       "sprite": "FARM_DECO_GRASS_2",
@@ -4052,7 +5842,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationFarmDecoGrass3": {
       "sprite": "FARM_DECO_GRASS_3",
@@ -4060,7 +5855,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationFarmDecoGrass4": {
       "sprite": "FARM_DECO_GRASS_4",
@@ -4068,7 +5868,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationFarmDecoGrass5": {
       "sprite": "FARM_DECO_GRASS_5",
@@ -4076,7 +5881,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationFarmDecoGrasspatch": {
       "sprite": "FARM_DECO_GRASSPATCH",
@@ -4084,7 +5894,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationFarmDecoHay1": {
       "sprite": "FARM_DECO_HAY_1",
@@ -4092,7 +5907,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationFarmDecoHay2": {
       "sprite": "FARM_DECO_HAY_2",
@@ -4100,7 +5920,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationFarmDecoWheat": {
       "sprite": "FARM_DECO_WHEAT",
@@ -4108,7 +5933,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "EASTER_BUNNYEAR1": {
       "sprite": "EASTER_BUNNYEAR_1",
@@ -4119,7 +5949,12 @@
         1.0,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "EASTER_BUNNYEAR2": {
       "sprite": "EASTER_BUNNYEAR_2",
@@ -4130,7 +5965,12 @@
         1.0,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "EASTER_BUNNYHAT1": {
       "sprite": "EASTER_BUNNYHAT_1",
@@ -4141,7 +5981,12 @@
         2.0,
         2.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "EASTER_BUNNYHAT2": {
       "sprite": "EASTER_BUNNYHAT_2",
@@ -4152,7 +5997,12 @@
         2.0,
         2.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "EASTER_BUNNYHAT3": {
       "sprite": "EASTER_BUNNYHAT_3",
@@ -4163,7 +6013,12 @@
         2.0,
         2.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "EASTER_BUNNYNOSE1": {
       "sprite": "EASTER_BUNNYNOSE_1",
@@ -4174,7 +6029,12 @@
         1.0,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "EASTER_BUNNYNOSE2": {
       "sprite": "EASTER_BUNNYNOSE_2",
@@ -4185,35 +6045,60 @@
         1.0,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "EASTER_EGG1": {
       "sprite": "EASTER_EGG_1",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 1.0
+      }
     },
     "EASTER_EGG2": {
       "sprite": "EASTER_EGG_2",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 1.0
+      }
     },
     "EASTER_EGG3": {
       "sprite": "EASTER_EGG_3",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 1.0
+      }
     },
     "ExtraRubberBall": {
       "sprite": "BLOCK_BEACHBALL",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 100.0,
+        "defence": 500.0
+      }
     },
     "FLOWER1": {
       "sprite": "B_FLOWER_1",
@@ -4224,7 +6109,12 @@
         2.6,
         2.6
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "FLOWER4": {
       "sprite": "B_FLOWER_4",
@@ -4235,7 +6125,12 @@
         2.8,
         2.8
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "FLOWER5": {
       "sprite": "B_FLOWER_5",
@@ -4246,7 +6141,12 @@
         2.2,
         2.2
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "FLOWER7": {
       "sprite": "B_FLOWER_7",
@@ -4257,21 +6157,36 @@
         3.0,
         3.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Farm_ArrowBlock": {
       "sprite": "FARM_ARROWBLOCK",
       "kind": 1,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 60.0,
+        "defence": 2.5
+      }
     },
     "Farm_CactusArm": {
       "sprite": "FARM_CACTUS_ARM_2",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Farm_CampStovePipe": {
       "sprite": "FARM_CAMPSTOVEPIPE",
@@ -4296,7 +6211,12 @@
           0.9
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 2.5,
+        "strength": 10.0,
+        "defence": 3.0
+      }
     },
     "Farm_CampStovePipeHat": {
       "sprite": "FARM_CAMPSTOVEPIPEHAT",
@@ -4317,7 +6237,12 @@
           0.95
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.4,
+        "strength": 10.0,
+        "defence": 3.0
+      }
     },
     "Farm_Campstove": {
       "sprite": "FARM_CAMPSTOVE",
@@ -4330,28 +6255,48 @@
         30000.0,
         5.0,
         150.0
-      ]
+      ],
+      "defaults": {
+        "density": 0.75,
+        "strength": 10.0,
+        "defence": 1.0
+      }
     },
     "Farm_Cartwheel": {
       "sprite": "FARM_CARTWHEEL",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "Farm_CowsuitHead": {
       "sprite": "FARM_COWSUITHEAD",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 7.0,
+        "defence": 1.0
+      }
     },
     "Farm_CowsuitTorso": {
       "sprite": "FARM_COWSUITTORSO",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 7.0,
+        "defence": 1.0
+      }
     },
     "Farm_FoodBasket": {
       "sprite": "FARM_FOOD_BASKET_1",
@@ -4362,7 +6307,12 @@
         4.4,
         2.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Farm_HayRoll": {
       "sprite": "FARM_HAYROLL",
@@ -4373,7 +6323,12 @@
         4.8,
         4.8
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "Farm_PrairieGrass": {
       "sprite": "FARM_PRAIRIE_1",
@@ -4384,14 +6339,24 @@
         1.5,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 30.0,
+        "defence": 1.0
+      }
     },
     "Farm_SmoothTire": {
       "sprite": "FARM_TIRE_1",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 60.0,
+        "defence": 10.0
+      }
     },
     "Farm_Snout": {
       "sprite": "FARM_SNOUT",
@@ -4402,42 +6367,72 @@
         2.0,
         2.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 60.0,
+        "defence": 2.5
+      }
     },
     "Farm_TractorTire": {
       "sprite": "FARM_TIRE_2",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 60.0,
+        "defence": 10.0
+      }
     },
     "Farm_Treetrunk": {
       "sprite": "FARM_TREETRUNK",
       "kind": 1,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 100.0,
+        "defence": 2.5
+      }
     },
     "Farm_Windmill1": {
       "sprite": "FARM_WINDMILL_1",
       "kind": 5,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 35.0
+      }
     },
     "Farm_Windmill3": {
       "sprite": "FARM_WINDMILL_3",
       "kind": 5,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 35.0
+      }
     },
     "Farm_stairs": {
       "sprite": "FARM_STAIRS",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 2.5,
+        "strength": 10.0,
+        "defence": 1.0
+      }
     },
     "FlowerBlue": {
       "sprite": "FLOWER_BLUE",
@@ -4448,7 +6443,12 @@
         1.0,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.2,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "FlowerRed": {
       "sprite": "FLOWER_RED",
@@ -4459,7 +6459,12 @@
         1.0,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.2,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "GIANT_CHILI": {
       "sprite": "NBA_CHILI",
@@ -4500,14 +6505,24 @@
           0.45
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 20.0,
+        "defence": 10.0
+      }
     },
     "GLASSES_1_STACHE": {
       "sprite": "GLASSES_1_STACHE",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "MASK_2_STACHE": {
       "sprite": "MASK_2_STACHE",
@@ -4518,21 +6533,36 @@
         1.0,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "SCORE_PUMPKIN": {
       "sprite": "BLOCK_PUMPKIN_1",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "WhiteBlock1": {
       "sprite": "WHITE_SMALLSQUARE",
       "kind": 1,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 20.0,
+        "defence": 2.5
+      }
     },
     "WhiteBlock11": {
       "sprite": "WHITE_TRIANGLE_L_1",
@@ -4553,49 +6583,84 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 80.0,
+        "defence": 2.5
+      }
     },
     "WhiteBlock2": {
       "sprite": "WHITE_VERYSHORT",
       "kind": 1,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 40.0,
+        "defence": 2.5
+      }
     },
     "WhiteBlock3": {
       "sprite": "WHITE_SQUARE",
       "kind": 1,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 60.0,
+        "defence": 2.5
+      }
     },
     "WhiteBlock4": {
       "sprite": "WHITE_SHORT",
       "kind": 1,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 50.0,
+        "defence": 2.5
+      }
     },
     "WhiteBlock5": {
       "sprite": "WHITE_RECTANGLE",
       "kind": 1,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 80.0,
+        "defence": 2.5
+      }
     },
     "WhiteBlock6": {
       "sprite": "WHITE_WIDE",
       "kind": 1,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 70.0,
+        "defence": 2.5
+      }
     },
     "WhiteBlock7": {
       "sprite": "WHITE_CIRCLE",
       "kind": 1,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 200.0,
+        "defence": 2.5
+      }
     },
     "Apatosaurus_lower_jaw": {
       "sprite": "INGAME_DINO_APATOSAURUS_LOWER_JAW",
@@ -4628,7 +6693,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 70.0,
+        "defence": 2.0
+      }
     },
     "Apatosaurus_upper_jaw": {
       "sprite": "INGAME_DINO_APATOSAURUS_UPPER_JAW",
@@ -4665,7 +6735,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 100.0,
+        "defence": 2.0
+      }
     },
     "BP_EGG_SIGN": {
       "sprite": "EGG_DEFENDER_EGG_SIGN",
@@ -4673,7 +6748,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "BasicBird2_Cage": {
       "sprite": "BIRD_GREEN_CAGE",
@@ -4711,7 +6791,12 @@
         ]
       ],
       "half_resolution": true,
-      "release_bird": "BasicBird2"
+      "release_bird": "BasicBird2",
+      "defaults": {
+        "density": 2.0,
+        "strength": 20.0,
+        "defence": 5.0
+      }
     },
     "BlackBird_Cage": {
       "sprite": "BIRD_GREY_CAGE",
@@ -4749,14 +6834,24 @@
         ]
       ],
       "half_resolution": true,
-      "release_bird": "BlackBird"
+      "release_bird": "BlackBird",
+      "defaults": {
+        "density": 2.0,
+        "strength": 20.0,
+        "defence": 5.0
+      }
     },
     "CHAIN_RUSTED": {
       "sprite": "FARM_CHAIN_PIECE_2",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 10.0,
+        "defence": 10.0
+      }
     },
     "Caveking_outfit": {
       "sprite": "INGAME_DINO_CAVEKING_OUTFIT",
@@ -4767,7 +6862,12 @@
         1.0,
         2.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Caveman_Pickaxe": {
       "sprite": "INGAME_DINO_PICKAXE",
@@ -4796,7 +6896,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 2.0,
+        "strength": 80.0,
+        "defence": 5.0
+      }
     },
     "Caveman_outfit": {
       "sprite": "INGAME_DINO_CAVEMAN_OUTFIT",
@@ -4807,7 +6912,12 @@
         1.0,
         2.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Cavequeen_outfit": {
       "sprite": "INGAME_DINO_CAVEQUEEN_OUTFIT",
@@ -4818,7 +6928,12 @@
         1.0,
         2.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Cavething_outfit": {
       "sprite": "INGAME_DINO_CAVETHING_OUTFIT",
@@ -4829,7 +6944,12 @@
         1.0,
         2.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Cavewoman_outfit": {
       "sprite": "INGAME_DINO_CAVEWOMAN_OUTFIT",
@@ -4840,7 +6960,12 @@
         1.0,
         2.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Claw_club": {
       "sprite": "INGAME_DINO_CLUB",
@@ -4873,7 +6998,12 @@
           0.95
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 3.0,
+        "strength": 100.0,
+        "defence": 5.0
+      }
     },
     "Crested_mask": {
       "sprite": "INGAME_DINO_CRESTED_MASK",
@@ -4884,49 +7014,84 @@
         1.0,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "DINO_EGG_BLUE": {
       "sprite": "INGAME_DINO_EGG_BLUE",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 1.0
+      }
     },
     "DINO_EGG_GREEN": {
       "sprite": "INGAME_DINO_EGG_GREEN",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 1.0
+      }
     },
     "DINO_EGG_ORANGE": {
       "sprite": "INGAME_DINO_EGG_ORANGE",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 1.0
+      }
     },
     "DINO_EGG_PINK": {
       "sprite": "INGAME_DINO_EGG_PINK",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 5.0,
+        "defence": 1.0
+      }
     },
     "DINO_SCORE_AMMONITE": {
       "sprite": "INGAME_DINO_AMMONITE",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "DINO_SCORE_CHERRY": {
       "sprite": "INGAME_DINO_FRUITS_CHERRY",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "DINO_SCORE_FRUIT_BLUE": {
       "sprite": "INGAME_DINO_FRUITS_ALIEN_BLUE",
@@ -4963,7 +7128,12 @@
           0.9
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "DINO_SCORE_FRUIT_RED": {
       "sprite": "INGAME_DINO_FRUITS_ALIEN_RED",
@@ -4974,7 +7144,12 @@
         3.0,
         5.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "DINO_SCORE_NECKLACE": {
       "sprite": "INGAME_DINO_NECKLACE",
@@ -5011,7 +7186,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "DecorationDinoDecoCastshadow": {
       "sprite": "DINO_CASTSHADOW",
@@ -5019,7 +7199,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationDinoDecoGrass1": {
       "sprite": "DINO_GRASS_1",
@@ -5027,7 +7212,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationDinoDecoGrassHighlight": {
       "sprite": "DINO_GRASS_HIGHLIGHT",
@@ -5035,7 +7225,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationDinoDecoPlant1": {
       "sprite": "DINO_PLANT_1",
@@ -5043,7 +7238,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationDinoDecoPlant3": {
       "sprite": "DINO_PLANT_3",
@@ -5051,7 +7251,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationDinoDecoPlant5": {
       "sprite": "DINO_PLANT_5",
@@ -5059,7 +7264,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationDinoDecoPlant6": {
       "sprite": "DINO_PLANT_6",
@@ -5067,7 +7277,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationDinoDecoPlant7": {
       "sprite": "DINO_PLANT_7",
@@ -5075,7 +7290,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationDinoDecoPlant8": {
       "sprite": "DINO_PLANT_8",
@@ -5083,7 +7303,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationDinoDecoSmoke": {
       "sprite": "DINO_SMOKE",
@@ -5091,7 +7316,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationDinoDecoSwine1": {
       "sprite": "DINO_SWINE_1",
@@ -5099,7 +7329,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationDinoHalloweenAmmonite": {
       "sprite": "DINO_AMMONITE_HALLOWEEN",
@@ -5107,7 +7342,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationDinoHalloweenDecoBone1": {
       "sprite": "DINO_BONE1_HALLOWEEN",
@@ -5115,7 +7355,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationDinoHalloweenDecoRock1": {
       "sprite": "DINO_ROCK1_HALLOWEEN",
@@ -5123,7 +7368,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationDinoHalloweenDecoRock2": {
       "sprite": "DINO_ROCK2_HALLOWEEN",
@@ -5131,7 +7381,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "DecorationDinoHalloweenDecoSkull": {
       "sprite": "DINO_SKULL_HALLOWEEN",
@@ -5139,7 +7394,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "Dino_Bananas": {
       "sprite": "INGAME_DINO_FRUITS_BANANAS",
@@ -5176,7 +7436,12 @@
           0.6
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 30.0,
+        "defence": 5.0
+      }
     },
     "Dino_Belt_1": {
       "sprite": "INGAME_DINO_ANIMAL_PELT_01",
@@ -5209,7 +7474,12 @@
           0.95
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "Dino_Belt_2": {
       "sprite": "INGAME_DINO_ANIMAL_PELT_02",
@@ -5242,7 +7512,12 @@
           0.95
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "Dino_Belt_3": {
       "sprite": "INGAME_DINO_ANIMAL_PELT_03",
@@ -5275,28 +7550,48 @@
           0.95
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 40.0,
+        "defence": 5.0
+      }
     },
     "Dino_Coconut": {
       "sprite": "INGAME_DINO_FRUITS_COCONUT_FULL",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 30.0,
+        "defence": 5.0
+      }
     },
     "Dino_Coconut_Open": {
       "sprite": "INGAME_DINO_FRUITS_COCONUT_HALF",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 30.0,
+        "defence": 5.0
+      }
     },
     "Dino_Peach": {
       "sprite": "INGAME_DINO_FRUITS_PEACH",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 30.0,
+        "defence": 5.0
+      }
     },
     "Dino_Pineapple": {
       "sprite": "INGAME_DINO_FRUITS_PINEAPPLE",
@@ -5307,28 +7602,48 @@
         2.0,
         5.5
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 30.0,
+        "defence": 5.0
+      }
     },
     "Dino_Rock_Rectangle": {
       "sprite": "INGAME_DINO_ARTY_STONE_02_1_4",
       "kind": 5,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 4.0,
+        "strength": 300.0,
+        "defence": 15.0
+      }
     },
     "Dino_Rock_Sphere": {
       "sprite": "INGAME_DINO_ARTY_STONE_01_1_4",
       "kind": 5,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 4.0,
+        "strength": 400.0,
+        "defence": 15.0
+      }
     },
     "Dino_Rock_Square": {
       "sprite": "INGAME_DINO_ARTY_STONE_03_1_4",
       "kind": 5,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 4.0,
+        "strength": 200.0,
+        "defence": 15.0
+      }
     },
     "Dino_backplate_big": {
       "sprite": "INGAME_DINO_BACK_PLATE_BIG",
@@ -5357,7 +7672,12 @@
           0.95
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 60.0,
+        "defence": 2.0
+      }
     },
     "Dino_backplate_medium": {
       "sprite": "INGAME_DINO_BACK_PLATE_MEDIUM",
@@ -5390,7 +7710,12 @@
           0.95
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 50.0,
+        "defence": 2.0
+      }
     },
     "Dino_backplate_small": {
       "sprite": "INGAME_DINO_BACK_PLATE_SMALL",
@@ -5423,140 +7748,240 @@
           0.95
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 40.0,
+        "defence": 2.0
+      }
     },
     "Dino_basic_bone_long": {
       "sprite": "INGAME_DINO_BASIC_BONE_LONG",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 80.0,
+        "defence": 2.0
+      }
     },
     "Dino_basic_bone_medium": {
       "sprite": "INGAME_DINO_BASIC_BONE_MEDIUM",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 60.0,
+        "defence": 2.0
+      }
     },
     "Dino_basic_bone_small": {
       "sprite": "INGAME_DINO_BASIC_BONE_SMALL",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 40.0,
+        "defence": 2.0
+      }
     },
     "Dino_claw_black_01": {
       "sprite": "INGAME_DINO_CLAW_BLACK_01",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 10.0,
+        "defence": 2.0
+      }
     },
     "Dino_claw_black_02": {
       "sprite": "INGAME_DINO_CLAW_BLACK_02",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 20.0,
+        "defence": 2.0
+      }
     },
     "Dino_claw_white_01": {
       "sprite": "INGAME_DINO_CLAW_WHITE_01",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 10.0,
+        "defence": 2.0
+      }
     },
     "Dino_claw_white_02": {
       "sprite": "INGAME_DINO_CLAW_WHITE_02",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 20.0,
+        "defence": 2.0
+      }
     },
     "Dino_eye_green": {
       "sprite": "INGAME_DINO_EYE_GREEN",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Dino_eye_red": {
       "sprite": "INGAME_DINO_EYE_RED",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Dino_feather_cyan": {
       "sprite": "INGAME_DINO_CYAN_FEATHER",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Dino_feather_red": {
       "sprite": "INGAME_DINO_RED_FEATHER",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Dino_random_bone_01": {
       "sprite": "INGAME_DINO_RANDOM_BONE_01",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 20.0,
+        "defence": 2.0
+      }
     },
     "Dino_random_bone_02": {
       "sprite": "INGAME_DINO_RANDOM_BONE_02",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 60.0,
+        "defence": 2.0
+      }
     },
     "Dino_random_bone_03": {
       "sprite": "INGAME_DINO_RANDOM_BONE_03",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 80.0,
+        "defence": 2.0
+      }
     },
     "Dino_spike_01": {
       "sprite": "INGAME_DINO_SPIKE_01",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 10.0,
+        "defence": 2.0
+      }
     },
     "Dino_spike_02": {
       "sprite": "INGAME_DINO_SPIKE_02",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 15.0,
+        "defence": 2.0
+      }
     },
     "Dino_spike_03": {
       "sprite": "INGAME_DINO_SPIKE_03",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 15.0,
+        "defence": 2.0
+      }
     },
     "Dino_thick_bone_big": {
       "sprite": "INGAME_DINO_THICK_BONE_BIG",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 60.0,
+        "defence": 2.0
+      }
     },
     "Dino_thick_bone_small": {
       "sprite": "INGAME_DINO_THICK_BONE_SMALL",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 60.0,
+        "defence": 2.0
+      }
     },
     "Dino_wing_green": {
       "sprite": "INGAME_DINO_GREEN_WING",
@@ -5585,7 +8010,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Dino_wing_light_green": {
       "sprite": "INGAME_DINO_LIGHT_GREEN_WING",
@@ -5614,7 +8044,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Dino_wing_orange": {
       "sprite": "INGAME_DINO_ORANGE_WING",
@@ -5643,35 +8078,60 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "ExtraMelon_Open": {
       "sprite": "INGAME_DINO_FRUITS_WATERMELON",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 30.0,
+        "defence": 5.0
+      }
     },
     "GLASSES_2_STACHE": {
       "sprite": "GLASSES_2_STACHE",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "GOLD_BRACELET": {
       "sprite": "AZTEC_GOLD3",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 4.0,
+        "strength": 35.0,
+        "defence": 0.4
+      }
     },
     "GOLD_SPHERE": {
       "sprite": "AZTEC_GOLD2",
       "kind": 6,
       "shape": "circle",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 4.0,
+        "strength": 35.0,
+        "defence": 0.4
+      }
     },
     "Hadrosaurus_lower_jaw": {
       "sprite": "INGAME_DINO_HADROSAURUS_LOWER_JAW",
@@ -5704,7 +8164,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 40.0,
+        "defence": 2.0
+      }
     },
     "Hadrosaurus_upper_jaw": {
       "sprite": "INGAME_DINO_HADROSAURUS_UPPER_JAW",
@@ -5741,7 +8206,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 100.0,
+        "defence": 2.0
+      }
     },
     "Horned_mask": {
       "sprite": "INGAME_DINO_HORNED_MASK",
@@ -5752,21 +8222,36 @@
         1.0,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "MISC_THEMED_8X1": {
       "sprite": "BLOCK_WOOD_1_6",
       "kind": 1,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 70.0,
+        "defence": 2.5
+      }
     },
     "PIG_FLAG": {
       "sprite": "PIGSDAY_FLAG",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.2,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Palm_leaf_01": {
       "sprite": "INGAME_DINO_PALM_LEAF_01",
@@ -5799,7 +8284,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Palm_leaf_03": {
       "sprite": "INGAME_DINO_PALM_LEAF_03",
@@ -5832,7 +8322,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Palm_leaf_05": {
       "sprite": "INGAME_DINO_PALM_LEAF_05",
@@ -5865,28 +8360,48 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Palm_trunk_01": {
       "sprite": "INGAME_DINO_PALM_TRUNK_01",
       "kind": 1,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 60.0,
+        "defence": 2.5
+      }
     },
     "Palm_trunk_02": {
       "sprite": "INGAME_DINO_PALM_TRUNK_02",
       "kind": 1,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 80.0,
+        "defence": 2.5
+      }
     },
     "Palm_trunk_04": {
       "sprite": "INGAME_DINO_PALM_TRUNK_04",
       "kind": 1,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 80.0,
+        "defence": 2.5
+      }
     },
     "PinkBird_Cage": {
       "sprite": "BIRD_PINK_CAGE",
@@ -5924,7 +8439,12 @@
         ]
       ],
       "half_resolution": true,
-      "release_bird": "PinkBird"
+      "release_bird": "PinkBird",
+      "defaults": {
+        "density": 2.0,
+        "strength": 20.0,
+        "defence": 5.0
+      }
     },
     "Pirate_sail": {
       "sprite": "PIGS_PIRATE_SAIL",
@@ -5957,7 +8477,12 @@
           0.7
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Raptor_lower_jaw": {
       "sprite": "INGAME_DINO_RAPTOR_LOWER_JAW",
@@ -5990,7 +8515,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 80.0,
+        "defence": 2.0
+      }
     },
     "Raptor_upper_jaw": {
       "sprite": "INGAME_DINO_RAPTOR_UPPER_JAW",
@@ -6027,7 +8557,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 100.0,
+        "defence": 2.0
+      }
     },
     "RedBigBird_Cage": {
       "sprite": "BIRD_BIG_BROTHER_CAGE",
@@ -6065,7 +8600,12 @@
         ]
       ],
       "half_resolution": true,
-      "release_bird": "RedBigBird"
+      "release_bird": "RedBigBird",
+      "defaults": {
+        "density": 2.0,
+        "strength": 20.0,
+        "defence": 5.0
+      }
     },
     "SmallBlueBird_Cage": {
       "sprite": "BIRD_BLUE_CAGE",
@@ -6103,7 +8643,12 @@
         ]
       ],
       "release_bird": "SmallBlueBird",
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 2.0,
+        "strength": 20.0,
+        "defence": 5.0
+      }
     },
     "Trex_lower_jaw": {
       "sprite": "INGAME_DINO_TREX_LOWER_JAW",
@@ -6136,7 +8681,12 @@
           0.5
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 70.0,
+        "defence": 2.0
+      }
     },
     "Trex_mask": {
       "sprite": "INGAME_DINO_TREX_MASK",
@@ -6147,7 +8697,12 @@
         1.0,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Trex_upper_jaw": {
       "sprite": "INGAME_DINO_TREX_UPPER_JAW",
@@ -6188,7 +8743,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 90.0,
+        "defence": 2.0
+      }
     },
     "Tribal_flower_mask": {
       "sprite": "INGAME_DINO_TRIBAL_FLOWER_MASK",
@@ -6199,7 +8759,12 @@
         1.0,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Tribal_horn_mask": {
       "sprite": "INGAME_DINO_TRIBAL_HORN_MASK",
@@ -6210,7 +8775,12 @@
         1.0,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Tribal_pig_mask": {
       "sprite": "INGAME_DINO_TRIBAL_PIG_MASK",
@@ -6221,7 +8791,12 @@
         1.0,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Triceratops_lower_jaw": {
       "sprite": "INGAME_DINO_TRICERATOPS_LOWER_JAW",
@@ -6258,7 +8833,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 60.0,
+        "defence": 2.0
+      }
     },
     "Triceratops_mask": {
       "sprite": "INGAME_DINO_TRICERATOPS_MASK",
@@ -6269,7 +8849,12 @@
         1.0,
         1.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.3,
+        "strength": 1.0,
+        "defence": 1.0
+      }
     },
     "Triceratops_upper_jaw": {
       "sprite": "INGAME_DINO_TRICERATOPS_UPPER_JAW",
@@ -6310,14 +8895,24 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 160.0,
+        "defence": 2.0
+      }
     },
     "WhiteBlock9": {
       "sprite": "WHITE_4X4_1",
       "kind": 1,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 120.0,
+        "defence": 2.5
+      }
     },
     "YellowBird_Cage": {
       "sprite": "BIRD_YELLOW_CAGE",
@@ -6355,7 +8950,12 @@
         ]
       ],
       "half_resolution": true,
-      "release_bird": "YellowBird"
+      "release_bird": "YellowBird",
+      "defaults": {
+        "density": 2.0,
+        "strength": 20.0,
+        "defence": 5.0
+      }
     },
     "BP_BOUNCER": {
       "sprite": "SMALL_BOUNCY_MATRESS",
@@ -6366,7 +8966,12 @@
         5.0,
         0.5
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 1.0,
+        "defence": 1000.0
+      }
     },
     "BP_BUBBLE_GUN": {
       "sprite": "BUBBLE_MACHINE_1",
@@ -6374,7 +8979,12 @@
       "shape": "box",
       "auto": true,
       "half_resolution": true,
-      "bubble_gun": true
+      "bubble_gun": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 120.0,
+        "defence": 30.0
+      }
     },
     "BP_FAN": {
       "sprite": "BP_FAN_1",
@@ -6399,7 +9009,12 @@
           0.4
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 100.0,
+        "defence": 30.0
+      }
     },
     "BP_GRASS": {
       "sprite": "EGG_DEFENDER_GROUND_2",
@@ -6407,7 +9022,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "BP_GRASS_2": {
       "sprite": "EGG_DEFENDER_GROUND_3",
@@ -6415,7 +9035,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "BP_LANDING_WHEEL_BIG_TIRE": {
       "sprite": "BP_LANDING_WHEEL_BIG_TIRE",
@@ -6426,7 +9051,12 @@
         2.944,
         2.944
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 1000.0,
+        "defence": 1000.0
+      }
     },
     "BP_LEADER_PIG_BERET": {
       "sprite": "LEADER_PIG_BERET",
@@ -6434,7 +9064,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "BP_LEADER_PIG_SHADES": {
       "sprite": "LEADER_PIG_SHADES",
@@ -6442,21 +9077,36 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 10.0,
+        "defence": 4.0
+      }
     },
     "BP_LIGHT_METAL_FRAME": {
       "sprite": "BP_LIGHT_METAL_FRAME",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 110.0,
+        "defence": 30.0
+      }
     },
     "BP_METAL_WING_HOLDER": {
       "sprite": "BP_METAL_WING_HOLDER",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 40.0,
+        "defence": 30.0
+      }
     },
     "BP_RUBBER_BALLOON": {
       "sprite": "BP_SINGLE_BALLOON_RUBBER",
@@ -6468,7 +9118,12 @@
         -80.0
       ],
       "force_target": 20.0,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 10.0,
+        "defence": 1000.0
+      }
     },
     "BP_SLINGSHOT_ROCK": {
       "sprite": "EGG_DEFENDER_ROCK",
@@ -6476,7 +9131,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "BP_SUCKER": {
       "sprite": "SUCTION_MACHINE",
@@ -6488,14 +9148,24 @@
         4.0
       ],
       "half_resolution": true,
-      "sucker": true
+      "sucker": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 120.0,
+        "defence": 30.0
+      }
     },
     "BP_TELESCOPIC_ARM": {
       "sprite": "TELESCOPIC_HARM",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 120.0,
+        "defence": 30.0
+      }
     },
     "BP_TNT": {
       "sprite": "BP_TNT",
@@ -6508,7 +9178,12 @@
         15.0,
         500.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 10.0,
+        "defence": 15.0
+      }
     },
     "BP_TNT_SMALL": {
       "sprite": "BP_TNT",
@@ -6525,7 +9200,12 @@
         15.0,
         500.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 10.0,
+        "defence": 15.0
+      }
     },
     "BP_TWO_BALLOONS": {
       "sprite": "BP_TWO_BALLOONS",
@@ -6537,7 +9217,12 @@
         -80.0
       ],
       "force_target": 20.0,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 15.0,
+        "defence": 15.0
+      }
     },
     "BP_UMBRELLA_1": {
       "sprite": "BP_UMBRELLA_1",
@@ -6562,21 +9247,36 @@
           0.2
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 70.0,
+        "defence": 10.0
+      }
     },
     "BP_WOODEN_FRAME": {
       "sprite": "BP_WOODEN_FRAME",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 90.0,
+        "defence": 10.0
+      }
     },
     "BP_WOODEN_FRAME_WEAK": {
       "sprite": "BP_WOODEN_FRAME",
       "kind": 1,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 60.0,
+        "defence": 2.5
+      }
     },
     "BP_WOODEN_TRIANGLE": {
       "sprite": "BP_WOODEN_TRIANGLE",
@@ -6597,7 +9297,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 90.0,
+        "defence": 10.0
+      }
     },
     "BP_WOODEN_WHEEL": {
       "sprite": "BP_WOODEN_WHEEL",
@@ -6608,7 +9313,12 @@
         2.944,
         2.944
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 90.0,
+        "defence": 10.0
+      }
     },
     "BP_WOODEN_WING": {
       "sprite": "BP_WOODEN_WING",
@@ -6633,7 +9343,12 @@
           0.8
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 90.0,
+        "defence": 10.0
+      }
     },
     "BP_WOODEN_WING_HOLDER": {
       "sprite": "BP_WOODEN_WING_HOLDER",
@@ -6658,14 +9373,24 @@
           0.8
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.8,
+        "strength": 90.0,
+        "defence": 10.0
+      }
     },
     "BP_FAN_MESH": {
       "sprite": "BP_FAN_MESH",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 10.0,
+        "defence": 30.0
+      }
     },
     "BP_ROTOR": {
       "sprite": "BP_ROTOR_1",
@@ -6690,7 +9415,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 120.0,
+        "defence": 30.0
+      }
     },
     "BP_TNT_WEAK": {
       "sprite": "BP_TNT",
@@ -6703,7 +9433,12 @@
         10.0,
         350.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 10.0,
+        "defence": 1.0
+      }
     },
     "BP_WOODEN_TRIANGLE_WEAK": {
       "sprite": "BP_WOODEN_TRIANGLE",
@@ -6724,7 +9459,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 60.0,
+        "defence": 2.5
+      }
     },
     "ExtraBlueBird": {
       "sprite": "BIRD_BLUE",
@@ -6734,19 +9474,34 @@
       "size": [
         1.2,
         1.2
-      ]
+      ],
+      "defaults": {
+        "density": 8.0,
+        "strength": 3000.0,
+        "defence": 2000.0
+      }
     },
     "StaticFragileBlock01": {
       "sprite": "GROUND_BLOCK_01",
       "kind": 9,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 2.0,
+        "defence": 1.0
+      }
     },
     "StaticFragileBlock03": {
       "sprite": "GROUND_BLOCK_03",
       "kind": 9,
       "shape": "box",
-      "auto": true
+      "auto": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 2.0,
+        "defence": 1.0
+      }
     },
     "DecorationFarmDecoRock2": {
       "sprite": "FARM_DECO_ROCK_2",
@@ -6754,14 +9509,24 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
     },
     "GOLD_CUP": {
       "sprite": "NBA_CUP",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 4.0,
+        "strength": 10.0,
+        "defence": 1.0
+      }
     },
     "TREASURE_CHEST": {
       "sprite": "B_TREASURE_1",
@@ -6772,7 +9537,12 @@
         5.0,
         3.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 5.0,
+        "strength": 60.0,
+        "defence": 5.0
+      }
     },
     "LAB_VEST_SMALL": {
       "sprite": "LAB_VEST_SMALL",
@@ -6783,7 +9553,12 @@
         0.2,
         0.2
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 2.0,
+        "defence": 2.0
+      }
     },
     "MONEY_POT": {
       "sprite": "B_GOLDPOT_1",
@@ -6794,7 +9569,12 @@
         2.0,
         3.4
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 35.0,
+        "defence": 0.4
+      }
     },
     "BP_LANDING_WHEEL_SMALL_TIRE": {
       "sprite": "BP_LANDING_WHEEL_SMALL_TIRE",
@@ -6805,7 +9585,12 @@
         2.0,
         2.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 1000.0,
+        "defence": 1000.0
+      }
     },
     "BP_SMALL_LANDING_WHEEL": {
       "sprite": "BP_SMALL_LANDING_WHEEL",
@@ -6826,7 +9611,12 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 1000.0,
+        "defence": 1000.0
+      }
     },
     "BP_HINGE": {
       "sprite": "HINGE",
@@ -6834,7 +9624,12 @@
       "shape": "box",
       "auto": true,
       "no_collision": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 15.0,
+        "defence": 5.0
+      }
     },
     "BP_PROPELLER": {
       "sprite": "BP_PROPELLER_1",
@@ -6855,7 +9650,12 @@
           0.1
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.0,
+        "strength": 120.0,
+        "defence": 30.0
+      }
     },
     "BP_MOTOR_UMBRELLA": {
       "sprite": "BP_MOTOR_UMBRELLA",
@@ -6876,14 +9676,24 @@
           1.0
         ]
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 40.0,
+        "defence": 10.0
+      }
     },
     "BP_TNT_CASING": {
       "sprite": "BP_TNT_METAL",
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 50.0,
+        "defence": 20.0
+      }
     },
     "BP_BUBBLE_WITH_COLLISION_DAMAGE": {
       "sprite": "BP_BUBBLE_PARTICLE_6",
@@ -6904,6 +9714,182 @@
         "defence": 0.0
       },
       "half_resolution": true
+    },
+    "BP_BALLOON_INFLATER": {
+      "sprite": "BALLON_DEFLATED_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "force": [
+        -1.0,
+        -30.0
+      ],
+      "no_collision": true,
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 30.0,
+        "defence": 2.5
+      }
+    },
+    "BP_BALLOON_INFLATER_VIOLET": {
+      "sprite": "BALLON_DEFLATED_VIOLET_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "force": [
+        -1.0,
+        -30.0
+      ],
+      "no_collision": true,
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 30.0,
+        "defence": 2.5
+      }
+    },
+    "BP_BELLOWS": {
+      "sprite": "BP_BELLOWS",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.8
+        ],
+        [
+          0.0,
+          0.2
+        ],
+        [
+          1.0,
+          0.5
+        ]
+      ],
+      "half_resolution": true,
+      "defaults": {
+        "density": 1.5,
+        "strength": 30.0,
+        "defence": 10.0
+      }
+    },
+    "BP_CANNON": {
+      "sprite": "CANNON_1",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        4.8,
+        4.8
+      ],
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.5,
+        "strength": 120.0,
+        "defence": 30.0
+      }
+    },
+    "BP_COG_OFF": {
+      "sprite": "COG_OFF",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 15.0,
+        "defence": 5.0
+      }
+    },
+    "BP_EGG": {
+      "sprite": "EGG",
+      "kind": 1,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.6,
+        2.6
+      ],
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.1,
+        "strength": 60.0,
+        "defence": 1000.0
+      }
+    },
+    "BP_EGG_SIGN_POLE": {
+      "sprite": "EGG_DEFENDER_EGG_SIGN_POLE",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
+    },
+    "BP_NEST": {
+      "sprite": "EMPTY_NEST",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.0,
+        "strength": 30.0,
+        "defence": 100000.0
+      }
+    },
+    "BP_ROCKET_BLUE": {
+      "sprite": "BP_ROCKET_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        3.0,
+        1.9
+      ],
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.2,
+        "strength": 90.0,
+        "defence": 10.0
+      }
+    },
+    "BP_ROCKET_RED": {
+      "sprite": "BP_ROCKET_2",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        3.0,
+        1.9
+      ],
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.2,
+        "strength": 90.0,
+        "defence": 10.0
+      }
+    },
+    "SpecialBlockStart": {
+      "sprite": "SWING_BASKET_01",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true,
+      "defaults": {
+        "density": 0.75,
+        "strength": 10.0,
+        "defence": 1000000.0
+      }
     }
   },
   "metrics": "profiles/sprite_metrics.json",
@@ -7485,7 +10471,18 @@
       "BP_PROPELLER": 4.0,
       "BP_MOTOR_UMBRELLA": 4.0,
       "BP_TNT_CASING": 0.3,
-      "BP_BUBBLE_WITH_COLLISION_DAMAGE": 4.0
+      "BP_BUBBLE_WITH_COLLISION_DAMAGE": 4.0,
+      "BP_BALLOON_INFLATER": 4.0,
+      "BP_BALLOON_INFLATER_VIOLET": 4.0,
+      "BP_BELLOWS": 4.0,
+      "BP_CANNON": 4.0,
+      "BP_COG_OFF": 0.7,
+      "BP_EGG": 4.3,
+      "BP_EGG_SIGN_POLE": 0.8,
+      "BP_NEST": 0.8,
+      "BP_ROCKET_BLUE": 4.0,
+      "BP_ROCKET_RED": 4.0,
+      "SpecialBlockStart": 0.7
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -7996,7 +10993,18 @@
       "BP_PROPELLER": 0.8,
       "BP_MOTOR_UMBRELLA": 0.2,
       "BP_TNT_CASING": 0.15,
-      "BP_BUBBLE_WITH_COLLISION_DAMAGE": 0.95
+      "BP_BUBBLE_WITH_COLLISION_DAMAGE": 0.95,
+      "BP_BALLOON_INFLATER": 0.2,
+      "BP_BALLOON_INFLATER_VIOLET": 0.2,
+      "BP_BELLOWS": 0.2,
+      "BP_CANNON": 0.15,
+      "BP_COG_OFF": 0.4,
+      "BP_EGG": 0.15,
+      "BP_EGG_SIGN_POLE": 0.0,
+      "BP_NEST": 0.0,
+      "BP_ROCKET_BLUE": 0.2,
+      "BP_ROCKET_RED": 0.2,
+      "SpecialBlockStart": 0.4
     }
   }
 }

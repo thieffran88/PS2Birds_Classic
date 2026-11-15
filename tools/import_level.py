@@ -47,7 +47,7 @@ def read_assignments(text):
         env[match[1]][key]=resolved
     return env
 
-def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,quiet=False):
+def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,quiet=False,waves=None):
     profile=json.loads(Path(profile_path).read_text());metrics=json.loads((ROOT/profile['metrics']).read_text())
     if isinstance(source,(bytes,bytearray)):
         # Bytecode straight from the APK, read by the data-only Lua 5.1 reader.
@@ -58,6 +58,26 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
     world=env.get('world')
     if not isinstance(world,dict):raise ValueError('Missing world table')
     objects=[dict(o) for o in world.values() if isinstance(o,dict) and 'definition' in o and 'name' in o]
+    # Egg Defender (EggDefender.lua): each wave is one pig vehicle (assets/data/vehicles/...), placed
+    # with its bottom-left at the wave's (x, y) (VehiclePivotPoint.BottomLeft); the editor floor of the
+    # vehicle file (Ground, StaticBlockTheme*) is dropped. Pieces keep their wave number.
+    if waves:
+        # removeUnusedLevelStartCinematicBlocks: loose scene pieces right of the screen (where the
+        # vehicles come in) belong to the opening scene and are removed when the level starts.
+        limit=min(w[0] for w in waves)-1
+        objects=[o for o in objects if not (o['x']>=limit and o['definition'] in profile['objects'] and profile['objects'][o['definition']]['kind']!=3 and not o['definition'].startswith('StaticBlock'))]
+        env=dict(env);env['joints']=dict(env.get('joints') or {})
+        for number,(wx,wy,vehicle,_snap) in enumerate(waves,1):
+            parts=[dict(o) for o in vehicle['world'].values() if isinstance(o,dict) and 'definition' in o and o['definition']!='Ground' and not o['definition'].startswith('StaticBlockTheme') and o['definition'] not in profile['bird_definitions']]
+            dx=wx-min(o['x'] for o in parts);dy=wy-max(o['y'] for o in parts)
+            for o in parts:o.update(name=f"w{number}_{o['name']}",x=o['x']+dx,y=o['y']+dy,wave=number);objects.append(o)
+            for key,j in (vehicle.get('joints') or {}).items():
+                if not isinstance(j,dict):continue
+                kept={o['name'][len(f'w{number}_'):] for o in parts}
+                if j['end1'] not in kept|{'ground','Ground'} or j['end2'] not in kept|{'ground','Ground'}:continue  # tied to the dropped editor floor
+                j=dict(j,end1=f"w{number}_{j['end1']}" if j['end1'] not in ('ground','Ground') else j['end1'],end2=f"w{number}_{j['end2']}" if j['end2'] not in ('ground','Ground') else j['end2'])
+                if int(j.get('coordType',0))==0:j.update(x1=float(j['x1'])+dx,y1=float(j['y1'])+dy,x2=float(j['x2'])+dx,y2=float(j['y2'])+dy)
+                env['joints'][f"w{number}_{key}"]=j
     # dynamicassets.lua: a StaticBlockTheme<theme>_<NN> without its own definition is StaticBlock_<NN>;
     # the theme only selects the ground texture.
     for o in objects:
@@ -78,7 +98,8 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
     for bird in birds:
         bird['type']=profile.get('bird_types',{'RedBird':0}).get(bird['definition'],-1)
         if bird['type'] not in [0,1,2,3,4,6,7,8,9,10]:raise ValueError('Unsupported runtime bird type')
-    if len({b['startNumber'] for b in birds})!=len(birds):raise ValueError('Duplicate bird queue position')
+    # Egg Defender stages get their queue from the bird limit (build_campaign), not from the scene.
+    if not waves and len({b['startNumber'] for b in birds})!=len(birds):raise ValueError('Duplicate bird queue position')
     grounds=[o for o in objects if o['definition']=='Ground']
     if len(grounds)!=1:raise ValueError('Adapter requires exactly one Ground object')
     # The Ground definition in blocks.lua declares a box with no size of its own; the
@@ -116,7 +137,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
         material=profile['materials']['by_kind'][str(kind)]
         friction=profile['materials']['friction_overrides'].get(o['definition'],material['friction'])
         restitution=profile['materials'].get('restitution_overrides',{}).get(o['definition'],material['restitution'])
-        level.append(dict(o,width=w,height=h,kind=kind,shape=collision,friction=friction,restitution=restitution,**({'no_collision':True} if shape.get('no_collision') else {}),**({'mirror':mirror} if mirror else {}),**({'sucker':True} if shape.get('sucker') else {}),**({'release_bird':profile['bird_types'][shape['release_bird']]} if shape.get('release_bird') else {})))
+        level.append(dict(o,width=w,height=h,kind=kind,shape=collision,friction=friction,restitution=restitution,**({'no_collision':True} if shape.get('no_collision') else {}),**({'mirror':mirror} if mirror else {}),**({'wave':o['wave']} if o.get('wave') else {}),**({'sucker':True} if shape.get('sucker') else {}),**({'release_bird':profile['bird_types'][shape['release_bird']]} if shape.get('release_bird') else {})))
     # gamelogic.lua: when a piece with deathSpawn (blocks.lua) is destroyed, createObject puts
     # `amount` pieces of the listed types at its position with a random rotation, using the
     # definition's own density/strength/defence. They are stored after the scene, hidden until
@@ -163,6 +184,19 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
     if queue_x is None:queue_x,queue_y=sling_x,sling_y
     # Joints: coordType 0 stores world anchors, coordType 2 stores anchors relative to
     # each body (rotated with it). Unsupported types are rejected rather than dropped.
+    # EggDefenderVehicle.teleport: with spawnAtGroundLevel the vehicle is lowered (or raised) until its
+    # bottom rests on the first static surface below its span (a downward raycast in the game).
+    if waves:
+        for number,(_x,_y,_v,snap) in enumerate(waves,1):
+            parts=[o for o in level if o.get('wave')==number]
+            if not snap or not parts:continue
+            left=min(o['x']-o['width']/2 for o in parts);right=max(o['x']+o['width']/2 for o in parts);bottom=max(o['y']+o['height']/2 for o in parts)
+            tops=[o['y']-o['height']/2 for o in level if not o.get('wave') and o['kind']==3 and not o.get('no_collision') and o['x']+o['width']/2>left and o['x']-o['width']/2<right and o['y']+o['height']/2>bottom-30]
+            surface=min(tops+[ground])
+            dy=surface-bottom-0.05
+            for o in parts:o['y']+=dy
+            for key,j in env['joints'].items():
+                if key.startswith(f'w{number}_') and isinstance(j,dict) and int(j.get('coordType',0))==0:j['y1']=float(j['y1'])+dy;j['y2']=float(j['y2'])+dy
     index={o['name']:i for i,o in enumerate(level)};joints=[]
     for j in (env.get('joints') or {}).values():
         if not isinstance(j,dict):continue
@@ -171,12 +205,15 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
         ends=[]
         for end,xk,yk in [('end1','x1','y1'),('end2','x2','y2')]:
             name=j[end]
-            if name not in index and name not in ('ground','Ground'):raise ValueError('Joint end not in scene: '+name)
+            if name not in index and name not in ('ground','Ground'):
+                if waves:break  # joint of a removed opening-scene piece
+                raise ValueError('Joint end not in scene: '+name)
             i=index.get(name,-1);x,y=float(j[xk]),float(j[yk])
             if int(j.get('coordType',0))==2 and i>=0:
                 o=level[i];c,s=math.cos(o['angle']),math.sin(o['angle']);x,y=o['x']+x*c-y*s,o['y']+x*s+y*c
             elif int(j.get('coordType',0)) not in (0,2):raise ValueError('Unsupported joint coordType')
             ends.append((i,x,y))
+        if len(ends)<2:continue
         joints.append({'name':j.get('name',''),'type':kind,'a':ends[0][0],'b':ends[1][0],'ax':ends[0][1],'ay':ends[0][2],'bx':ends[1][1],'by':ends[1][2],
             'frequency':float(j.get('frequency',0)),'damping':float(j.get('dampingRatio',0)),'break_force':float(j.get('breakForce',0)) if j.get('breakable') else 0.0,'destroy_timer':float(j.get('destroyTimer',0)) if kind==5 else 0.0,
             'collide':bool(j.get('collideConnected',False)),

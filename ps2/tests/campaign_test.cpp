@@ -659,25 +659,25 @@ static const Stage stages[]={
  {"FlockFavorites07",129,11,80,3,{{20,94,-1.0f}},1}, /* FLOCK FAVORITES 1-7 */
  {"FlockFavorites08",182,10,87,4,{{20,90,-1.0f}},1}, /* FLOCK FAVORITES 1-8 */
  {"FlockFavorites10",174,8,65,4,{{25,98,0.4f}},1}, /* FLOCK FAVORITES 1-9 */
- {"FlockFavorites11",141,19,71,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-10 (sem roteiro vencedor) */
+ {"FlockFavorites11",141,19,71,4,{{20,80,1.8f},{0,100,1.0f},{50,90,2.0f}},3}, /* FLOCK FAVORITES 1-10 */
  {"FlockFavorites12",167,7,58,4,{{20,90,-1.0f}},1}, /* FLOCK FAVORITES 1-11 */
  {"FlockFavorites13",146,11,89,4,{{40,90,-1.0f}},1}, /* FLOCK FAVORITES 1-12 */
  {"FlockFavorites14",173,13,83,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-13 (sem roteiro vencedor) */
- {"FlockFavorites15",158,12,72,5,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-14 (sem roteiro vencedor) */
+ {"FlockFavorites15",158,12,72,5,{{30,100,2.6f},{60,50,1.4f},{-10,50,2.6f}},3}, /* FLOCK FAVORITES 1-14 */
  {"FlockFavorites16",135,10,75,4,{{20,94,-1.0f}},1}, /* FLOCK FAVORITES 2-1 */
  {"FlockFavorites17",166,4,112,3,{{30,98,0.4f}},1}, /* FLOCK FAVORITES 2-2 */
  {"FlockFavorites18",155,8,101,3,{{20,90,-1.0f}},1}, /* FLOCK FAVORITES 2-3 */
  {"FlockFavorites19",191,12,137,3,{{35,98,-1.0f}},1}, /* FLOCK FAVORITES 2-4 */
- {"FlockFavorites20",252,7,131,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-5 (sem roteiro vencedor) */
+ {"FlockFavorites20",252,7,131,3,{{40,70,1.6f},{40,90,-1.0f}},2}, /* FLOCK FAVORITES 2-5 */
  {"FlockFavorites21",117,7,60,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-6 (sem roteiro vencedor) */
  {"FlockFavorites22",127,10,43,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-7 (sem roteiro vencedor) */
  {"FlockFavorites23",182,11,92,3,{{65,98,-1.0f}},1}, /* FLOCK FAVORITES 2-8 */
  {"FlockFavorites24",164,19,73,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-9 (sem roteiro vencedor) */
- {"FlockFavorites25",192,11,89,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-10 (sem roteiro vencedor) */
+ {"FlockFavorites25",192,11,89,4,{{50,90,2.6f},{-10,100,1.2f}},2}, /* FLOCK FAVORITES 2-10 */
  {"FlockFavorites26",162,7,91,4,{{10,94,-1.0f}},1}, /* FLOCK FAVORITES 2-11 */
  {"FlockFavorites27",111,6,70,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-12 (sem roteiro vencedor) */
  {"FlockFavorites28",126,7,74,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-13 (sem roteiro vencedor) */
- {"FlockFavorites29",65,5,49,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-14 (sem roteiro vencedor) */
+ {"FlockFavorites29",65,5,49,3,{{40,100,1.0f},{60,80,1.4f}},2}, /* FLOCK FAVORITES 2-14 */
  {"FlockFavorites30",154,12,103,5,{{-5,62,0.7f}},1}, /* FLOCK FAVORITES 2-15 */
  {"LevelGE_4",117,3,28,2,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 1-1 (sem roteiro vencedor) */
  {"LevelGE_3",49,7,24,3,{{25,86,1.3f}},1}, /* GOLDEN EGGS 1-2 */
@@ -696,13 +696,13 @@ static const Stage stages[]={
  {"LevelGE_17",186,21,99,6,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-3 (sem roteiro vencedor) */
  {"LevelGE_18",121,6,102,4,{{15,94,-1.0f}},1}, /* GOLDEN EGGS 2-4 */
  {"LevelGE_19",199,12,168,4,{{15,62,-1.0f}},1}, /* GOLDEN EGGS 2-5 */
- {"LevelGE_20",135,5,112,4,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-6 (sem roteiro vencedor) */
+ {"LevelGE_20",135,5,112,4,{{0,70,1.2f},{50,70,-1.0f},{50,90,-1.0f},{10,90,1.6f}},4}, /* GOLDEN EGGS 2-6 */
  {"LevelGE_21",149,27,66,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-7 (sem roteiro vencedor) */
  {"LevelGE_22",290,6,147,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-8 (sem roteiro vencedor) */
  {"LevelGE_23",382,16,123,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-9 (sem roteiro vencedor) */
  {"LevelGE_24",139,13,112,3,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-10 (sem roteiro vencedor) */
  {"LevelGE_25",329,11,291,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-11 (sem roteiro vencedor) */
- {"LevelGE_29",164,21,77,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-12 (sem roteiro vencedor) */
+ {"LevelGE_29",164,21,77,1,{{50,80,0.8f}},1}, /* GOLDEN EGGS 2-12 */
  {"LevelGE_30",341,15,232,3,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-13 (sem roteiro vencedor) */
  {"LevelGE_31",234,12,118,4,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-14 (sem roteiro vencedor) */
  {"LevelGE_UGC1",337,14,220,2,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-15 (sem roteiro vencedor) */
@@ -740,6 +740,21 @@ static const Stage stages[]={
  {"EggDefender_classic_13",198,11,68,4,{{35,98,-1.0f}},1}, /* MIGHTY FEATHERS 13 */
  {"EggDefender_classic_14",201,6,77,4,{{25,90,-1.0f}},1}, /* MIGHTY FEATHERS 14 */
  {"EggDefender_classic_15",154,6,82,5,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 15 (sem roteiro vencedor) */
+ {"EggDefender_1",183,3,51,7,{{0,0,-1.0f}},0}, /* EGG DEFENDER 1 (sem roteiro vencedor) */
+ {"EggDefender_2",211,6,108,11,{{0,0,-1.0f}},0}, /* EGG DEFENDER 2 (sem roteiro vencedor) */
+ {"EggDefender_3",243,6,123,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 3 (sem roteiro vencedor) */
+ {"EggDefender_4",223,6,102,11,{{0,0,-1.0f}},0}, /* EGG DEFENDER 4 (sem roteiro vencedor) */
+ {"EggDefender_5",216,5,96,9,{{0,0,-1.0f}},0}, /* EGG DEFENDER 5 (sem roteiro vencedor) */
+ {"EggDefender_6",248,5,127,11,{{0,0,-1.0f}},0}, /* EGG DEFENDER 6 (sem roteiro vencedor) */
+ {"EggDefender_7",262,5,132,12,{{0,0,-1.0f}},0}, /* EGG DEFENDER 7 (sem roteiro vencedor) */
+ {"EggDefender_8",192,5,76,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 8 (sem roteiro vencedor) */
+ {"EggDefender_9",230,5,112,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 9 (sem roteiro vencedor) */
+ {"EggDefender_10",265,5,145,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 10 (sem roteiro vencedor) */
+ {"EggDefender_11",310,5,179,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 11 (sem roteiro vencedor) */
+ {"EggDefender_12",271,6,153,11,{{0,0,-1.0f}},0}, /* EGG DEFENDER 12 (sem roteiro vencedor) */
+ {"EggDefender_13",226,5,110,9,{{0,0,-1.0f}},0}, /* EGG DEFENDER 13 (sem roteiro vencedor) */
+ {"EggDefender_14",280,5,162,13,{{0,0,-1.0f}},0}, /* EGG DEFENDER 14 (sem roteiro vencedor) */
+ {"EggDefender_15",243,7,123,12,{{0,0,-1.0f}},0}, /* EGG DEFENDER 15 (sem roteiro vencedor) */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -760,7 +775,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==730 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==745 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));
@@ -861,7 +876,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==71);
+    assert(unverified==79);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");

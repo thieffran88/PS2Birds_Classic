@@ -15,7 +15,7 @@ PYTHON='3.12.10'
 WHEELS=['pycdlib==1.22.0','imageio-ffmpeg==0.8.1']
 TOOLS=['gerar_iso.py','build_campaign.py','import_level.py','lua51_data.py','game_profiles.py','aes_cbc.py','mini7z.py',
        'extract_sprites.py','png_decode.py','build_save_icon.py','pack_sprites.py','extract_audio.py','spu_adpcm.py','make_iso.py']
-PROFILES=['games.json','classic_level.json','classic_episode.json','sprite_metrics.json','star_limits.json','supported_apk.json']
+PROFILES=['egg_defender.json','games.json','classic_level.json','classic_episode.json','sprite_metrics.json','star_limits.json','supported_apk.json']
 BAT=r'''@echo off
 chcp 65001 >nul
 title PS2Birds Classic - Gerador de ISO

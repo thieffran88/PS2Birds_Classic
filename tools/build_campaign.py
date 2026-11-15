@@ -30,7 +30,7 @@ def write_binary(levels,profile,polys,forced,stars,path=None):
     for d in levels:
         o0,j0=no,nj
         for o in d['objects']:
-            objs+=struct.pack('<8f2iI2fii',*[r(o[k]) for k in ['x','y','angle','width','height','density','strength','defence']],o['kind'],shapes.index(o['shape']),s(o['definition']),r(o['friction']),r(o['restitution']),o.get('spawn_of',0),(1 if o.get('no_collision') else 0)|o.get('mirror',0)|(8 if o.get('gun_bubble') else 0)|(16 if o.get('sucker') else 0)|((o['release_bird']+1)<<8 if 'release_bird' in o else 0)|((o['clone_of']+1)<<16 if 'clone_of' in o else 0));no+=1
+            objs+=struct.pack('<8f2iI2fii',*[r(o[k]) for k in ['x','y','angle','width','height','density','strength','defence']],o['kind'],shapes.index(o['shape']),s(o['definition']),r(o['friction']),r(o['restitution']),o.get('spawn_of',0),(1 if o.get('no_collision') else 0)|o.get('mirror',0)|(8 if o.get('gun_bubble') else 0)|(16 if o.get('sucker') else 0)|(o.get('wave',0)<<26)|((o['release_bird']+1)<<8 if 'release_bird' in o else 0)|((o['clone_of']+1)<<16 if 'clone_of' in o else 0));no+=1
         for j in d.get('joints') or []:
             joints+=struct.pack('<3i7fif6fi',j['type'],j['a'],j['b'],*[r(j[k]) for k in ['ax','ay','bx','by','frequency','damping','break_force']],int(j['collide']),r(j.get('destroy_timer',0.0)),*[r(j.get(k,0.0)) for k in ['axis_x','axis_y','lower','upper','motor_speed','max_force']],(1 if j.get('limit') else 0)|(2 if j.get('motor') else 0)|(4 if j.get('back_and_forth') else 0));nj+=1
         types=[b['type'] for b in d['birds']];types+=[0]*(16-len(types))
@@ -76,7 +76,7 @@ def read_binary(path):
         if any(v[4:8]):ex[s(v[0])]=tuple(v[4:8])
         if v[8]:vi[s(v[0])]=(v[8],v[9])
     return {'levels':[{'title':s(l[27]),'script':s(l[28]),'objects':l[1],'birds':l[2],'bank':l[29],'joints':l[31],'powerup':l[34]} for l in lv],
-            'objects':[{'definition':s(o[10]),'spawn_of':o[13],'no_collision':bool(o[14]&1),'mirror':o[14]&6,'gun_bubble':bool(o[14]&8),'sucker':bool(o[14]&16),'release_bird':((o[14]>>8)&255)-1,'clone_of':(o[14]>>16)-1} for o in ob],
+            'objects':[{'definition':s(o[10]),'spawn_of':o[13],'no_collision':bool(o[14]&1),'mirror':o[14]&6,'gun_bubble':bool(o[14]&8),'sucker':bool(o[14]&16),'wave':(o[14]>>26)&15,'release_bird':((o[14]>>8)&255)-1,'clone_of':((o[14]>>16)&1023)-1} for o in ob],
             'joints':[{'type':j[0],'destroy_timer':j[11],'axis':(j[12],j[13]),'lower':j[14],'upper':j[15],'motor_speed':j[16],'max_force':j[17],'flags':j[18]} for j in jo],'polygons':po,'forces':fo,'explosions':ex,'vials':vi}
 
 def build(episode_path=EPISODE,apk=None,workdir=None,output=None,quiet=False):
@@ -92,8 +92,18 @@ def build(episode_path=EPISODE,apk=None,workdir=None,output=None,quiet=False):
             source=ROOT/f'ps2/data/{name}.decompiled.lua'
             if apk is not None:source=decode_payload(apk.read(apk_name),'classic')
             output_json=Path(workdir or ROOT/'ps2/data')/f'level_{page["number"]}_{position}.json'
-            convert(source,output_json,Path(folder)/'level_data.h',DEFAULT_PROFILE,apk_name,quiet)
-            d=json.loads(output_json.read_text());d['title']=f'{page["title_prefix"]}{position+page.get("first",1)-1}';d['stage_script']=name;d['episode_page']=page['number'];d['powerup']=episode.get('powerups',{}).get(name,'');d['stage_number']=position;d['texture_bank']=page.get('bank',0)
+            waves=None;bird_limit=None
+            if name.startswith('EggDefender_') and not name.startswith('EggDefender_classic') and apk is not None:
+                # EggDefender_N.scripts.lua: waves of vehicles and the bird limit (data only).
+                from lua51_data import load as _load
+                script=_load(decode_payload(apk.read(apk_name[:-4]+'.scripts.lua'),'classic'));bird_limit=int(script['birdLimit']);waves=[]
+                for _,wave in sorted(script['waves'].items()):
+                    snap=set(json.loads((ROOT/'profiles/egg_defender.json').read_text())['no_ground_snap'])
+                    for _,v in sorted(wave.items()):waves.append((float(v['x']),float(v['y']),_load(decode_payload(apk.read('assets/data/vehicles/'+v['type']+'.lua'),'classic')),v['type'].split('/')[-1] not in snap))
+            convert(source,output_json,Path(folder)/'level_data.h',DEFAULT_PROFILE,apk_name,quiet,waves)
+            d=json.loads(output_json.read_text());
+            if bird_limit:d['birds']=[dict(d['birds'][0],definition='RedBird',type=0) for _ in range(bird_limit)];d['egg_defender']=True
+            d['title']=f'{page["title_prefix"]}{position+page.get("first",1)-1}';d['stage_script']=name;d['episode_page']=page['number'];d['powerup']=episode.get('powerups',{}).get(name,'');d['stage_number']=position;d['texture_bank']=page.get('bank',0)
             if name!='Level1':
                 left=d['sling_x']-4;right=d['sling_x']+4;top=d['sling_y']-5
                 for o in d['objects']:

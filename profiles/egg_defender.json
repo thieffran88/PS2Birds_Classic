@@ -1,0 +1,4 @@
+{
+  "about": "Hand translation of the Egg Defender vehicle scripts (assets/data/vehicles/EggDefender_N/*.scripts.lua). spawnAtGroundLevel defaults to true (EggDefenderVehicle.init: vehicleScripts.spawnAtGroundLevel ~= false); these vehicles set it to false and keep the wave's height.",
+  "no_ground_snap": ["EggDefender_1_W3_V1","EggDefender_4_W1_V1","EggDefender_4_W2_V1","EggDefender_4_W3_V1","EggDefender_4_W4_V1","EggDefender_4_W5_V1","EggDefender_6_W3_V1","EggDefender_6_W4_V1","EggDefender_7_W4_V1","EggDefender_7_W5_V1","EggDefender_8_W5_V1","EggDefender_9_W5_V1","EggDefender_11_W1_V1","EggDefender_11_W3_V1","EggDefender_11_W4_V1","EggDefender_12_W3_V1","EggDefender_12_W4_V1","EggDefender_12_W5_V1","EggDefender_13_W4_V1","EggDefender_14_W3_V1","EggDefender_15_W1_V1","EggDefender_15_W2_V1"]
+}

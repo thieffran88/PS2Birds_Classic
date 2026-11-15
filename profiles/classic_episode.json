@@ -1280,6 +1280,29 @@
         "EggDefender_classic_14",
         "EggDefender_classic_15"
       ]
+    },
+    {
+      "number": 68,
+      "title_prefix": "EGG DEFENDER ",
+      "folder": "/levels/17_MightyFeathers",
+      "bank": 64,
+      "levels": [
+        "EggDefender_1",
+        "EggDefender_2",
+        "EggDefender_3",
+        "EggDefender_4",
+        "EggDefender_5",
+        "EggDefender_6",
+        "EggDefender_7",
+        "EggDefender_8",
+        "EggDefender_9",
+        "EggDefender_10",
+        "EggDefender_11",
+        "EggDefender_12",
+        "EggDefender_13",
+        "EggDefender_14",
+        "EggDefender_15"
+      ]
     }
   ],
   "powerups": {

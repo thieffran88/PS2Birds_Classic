@@ -2868,5 +2868,55 @@
     "width": 109,
     "height": 107,
     "sheet": "PARTICLES_1.sheet.json"
+  },
+  "BALLON_DEFLATED_1": {
+    "width": 59,
+    "height": 29,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BALLON_DEFLATED_VIOLET_1": {
+    "width": 60,
+    "height": 30,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "BP_BELLOWS": {
+    "width": 101,
+    "height": 95,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "CANNON_1": {
+    "width": 124,
+    "height": 97,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "EGG": {
+    "width": 44,
+    "height": 56,
+    "sheet": "INGAME_BIRDS_1.sheet.json"
+  },
+  "EGG_DEFENDER_EGG_SIGN_POLE": {
+    "width": 15,
+    "height": 199,
+    "sheet": "INGAME_EGG_SIGN_1.sheet.json"
+  },
+  "EMPTY_NEST": {
+    "width": 118,
+    "height": 52,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_ROCKET_1": {
+    "width": 88,
+    "height": 58,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_ROCKET_2": {
+    "width": 88,
+    "height": 58,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "SWING_BASKET_01": {
+    "width": 73,
+    "height": 22,
+    "sheet": "INGAME_BLOCKS_1_1.sheet.json"
   }
 }
