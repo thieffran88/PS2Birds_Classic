@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.50.0)
+# Lacunas do port (levantamento atualizado na 0.51.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -170,6 +170,10 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 ## Achados da 0.50.0
 
 - **Arma de bolhas (`EggDefenderGadget_BubbleGun.lua`):** a cada 2,5 s cria uma bolha (`BP_BUBBLE_WITH_COLLISION_DAMAGE` nas fases `RMFClassic`) na boca da arma e a lança com força sorteada entre 35 e 50 na direção da peça; para quando a arma se solta do veículo. Feita na 0.50.0 com 2 bolhas escondidas por arma, reaproveitadas (no máximo duas vivas ao mesmo tempo). Há 10 armas, 15 sugadores e 6 ventiladores nas 19 fases `RMFClassic`.
+
+## Achados da 0.51.0
+
+- **Sugador (`EggDefenderGadget_Sucker.lua` + `RMFClassic_Sucker.lua`) — levantado, não portado.** Constantes recuperadas: alcance 35, cone de 55° voltado para trás da peça (`angle + π`), força 8 × (35 − distância) / 35 × massa, aplicada só se passar de 10; liga depois de um tempo em `STARTING` e fica em `SUCKING`. No modo clássico, peças sugadas que encostam no sugador são destruídas (`onCollision`) e o pássaro sugado fica preso até a habilidade (com `specialtyDestroysSucker`, a habilidade destrói o sugador). Falta saber o fator extra passado a `doSuction` no modo clássico: o decompilador perdeu os registradores dessa chamada, então a força exata ainda não é confiável.
 
 ## O que falta no jogo (código nativo não recuperado)
 
