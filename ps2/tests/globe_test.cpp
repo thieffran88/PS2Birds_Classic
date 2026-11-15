@@ -151,5 +151,11 @@ int main(){
   for(int t=0;t<120;t++)game_update(&g,1.0f/120);
   for(int k=0;k<game_object_count(&g);k++)if(game_get_object(&g,k,&o)&&o.alive&&o.kind!=3)after+=o.x+o.y;
   assert(fabsf(after-before)>1.0f);}
- printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s; mirrored pieces; a broken cage adds its bird to the queue; trajectories follow upside-down and zero gravity; orange vials pop nearby pigs and pink vials lift them in bubbles; blue vials clone them; King Sling and Bird Quake power-ups.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
+ // Power Potion (Tutorial_powerpotion): L2 while aiming enlarges the next bird (radius x1.5 for the red bird).
+ {int potion=-1;for(int lv=0;lv<game_level_count();lv++)if(!strcmp(game_level_script(lv),"Tutorial_powerpotion"))potion=lv;
+  assert(potion>=0 && game_load_level(&g,potion) && game_powerup(&g)==POWERUP_POWER_POTION && game_powerup_available(&g));
+  int type=game_queue_type(&g,0);static const float factor[]=POWER_POTION_RADIUS;
+  assert(game_use_powerup(&g) && !game_powerup_available(&g));
+  game_launch(&g);GameBird b;assert(game_get_projectile(&g,0,&b) && fabsf(b.scale-factor[type])<0.001f);}
+ printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s; mirrored pieces; a broken cage adds its bird to the queue; trajectories follow upside-down and zero gravity; orange vials pop nearby pigs and pink vials lift them in bubbles; blue vials clone them; King Sling, Bird Quake and Power Potion power-ups.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
 }

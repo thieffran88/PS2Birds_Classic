@@ -37,6 +37,10 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 #define BIRD_QUAKE_TIME 2.0f
 #define BIRD_QUAKE_X 7.0f
 #define BIRD_QUAKE_Y 7.5f
+/* Power Potion (Powerup_SuperSeed.lua): the launched bird's radius and density are multiplied by
+   these per-bird factors (indexed by BirdType; the pink bird has no entry and stays as it is). */
+#define POWER_POTION_RADIUS {1.5f,1.5f,1.5f,1.5f,1.5f,1.0f,1.5f,1.4f,1.5f,1.0f,1.5f}
+#define POWER_POTION_DENSITY {2.0f,3.0f,1.5f,2.0f,2.5f,1.0f,1.5f,1.01f,2.0f,1.0f,1.45f}
 #define VIAL_DELAY 1.3f
 #define VIAL_ORANGE_POP 3.0f
 #define BUBBLE_TIME 2.0f
@@ -147,7 +151,7 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 #define SHOCK_DAMAGE 0.35f
 #define SHOCK_MIN_DAMAGE 0.25f
 #define SHOCK_ELECTROCUTE_SECONDS 2.0f
-typedef struct {float x,y,vx,vy,angle,fuse;int type,collided,special_used;} GameBird;
+typedef struct {float x,y,vx,vy,angle,fuse;int type,collided,special_used;float scale;} GameBird;
 typedef struct {float x,y,radius,life;} GameBlast;
 enum {GAME_EVENT_PIG=1, GAME_EVENT_WOOD=2, GAME_EVENT_GLASS=4, GAME_EVENT_STONE=8, GAME_EVENT_EXTRA=16, GAME_EVENT_EXPLOSION=32};
 typedef enum { AIMING, FLYING, WON, LOST } GameState;
@@ -174,7 +178,7 @@ int game_queue_type(const Game *game,int offset);
 /* Power-up of the current stage (POWERUP_*), and whether it can still be used (Bird Quake: once). */
 int game_powerup(const Game *game);
 int game_powerup_available(const Game *game);
-/* Starts the stage's Bird Quake; returns 1 if it started. */
+/* Starts the stage's Bird Quake, or arms the Power Potion for the next launch; 1 if used. */
 int game_use_powerup(Game *game);
 /* Host tests: removes the piece's health; it breaks on the next physics tick. */
 void game_damage_object(Game *game,int index);

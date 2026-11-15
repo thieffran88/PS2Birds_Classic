@@ -621,4 +621,4 @@ print(f"Vials OK: orange, pink and blue vials carry their effect and radius from
 camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN')
 pw={l['script']:l['powerup'] for l in camp['levels'] if l['powerup']}
 assert pw=={'Tutorial_slingscope':2,'Tutorial_powerpotion':4,'Tutorial_kingsling':1,'Tutorial_birdquake':3,'Tutorial_shockwave':5},pw
-print("Power-ups OK: the five shop tutorials carry their power-up (King Sling and Bird Quake are played).")
+print("Power-ups OK: the five shop tutorials carry their power-up (King Sling, Bird Quake and Power Potion are played).")

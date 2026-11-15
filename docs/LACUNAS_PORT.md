@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.46.0)
+# Lacunas do port (levantamento atualizado na 0.47.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -157,7 +157,8 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 ## Achados da 0.46.0
 
 - **Power-ups — King Sling e Bird Quake feitos**, nas fases de tutorial da loja. `Powerup_KingSling.lua` soma 0,3 à força do estilingue (1 → 1,3). `Powerup_BirdQuake.lua` dura 2 s e, a cada passo, empurra toda peça móvel com (dt·cos(t·π)·massa·7, −dt·massa·7,5).
-- **Falta:** Power Potion (`Powerup_SuperSeed.lua`, pássaro aumentado), Shockwave (`Powerup_Shockwave.lua`, 1097 linhas) e os demais power-ups da loja (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers). O Sling Scope não muda nada no port: a prévia da trajetória já é longa.
+- **Power Potion — feita na 0.47.0** (`Powerup_SuperSeed.lua`): o pássaro lançado tem o raio ×1,5 (Terence ×1,4) e a densidade multiplicada por tipo (vermelho 2, azul 3, amarelo 1,5, preto 2, branco 2,5, verde 1,5, Terence 1,01, GlobeBird 2, choque 1,45). O `velocityMultiplierModifier` da poção não é aplicado (o port não tem a passagem por material).
+- **Falta:** Shockwave (`Powerup_Shockwave.lua`, 1097 linhas) e os demais power-ups da loja (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers). O Sling Scope não muda nada no port: a prévia da trajetória já é longa.
 - **Fórmula de dano por colisão em Lua:** `gamefeatures/physics/AdventureModeCollisions.lua` tem o dano de pássaro × bloco (velocidade relativa ÷ 10 × `damageMultiplier` − defesa; ao quebrar, o pássaro segue com a velocidade × min(1, sobra × `velocityMultiplier`)) e de bloco × bloco. Esse arquivo é do modo Aventura, não do Classic; serve de referência para a fórmula nativa, mas não foi aplicado.
 
 ## O que falta no jogo (código nativo não recuperado)
