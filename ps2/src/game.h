@@ -45,6 +45,22 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
    grows at the muzzle for BUBBLE_GUN_GROW s, then gets an impulse of 35-50 along the gun; it pops
    after BUBBLE_GUN_LIFE s (lifeSpan). Muzzle: gun width * 0.47 + bubble width * 0.5 forward,
    gun height * -0.05 sideways. */
+/* Egg Defender (EggDefenderVehicle.lua, EggDefenderPig.lua, EggDefenderEggMovement.lua and the
+   native force adder of libAngryBirdsClassic, which the game updates 30 times a second). */
+#define EGG_THRUST_RATE 30.0f
+#define EGG_GRAB_DX 5.0f             /* grabEggs: |pig - egg| below 5 m across ... */
+#define EGG_GRAB_DY 10.0f            /* ... and 10 m up/down */
+#define EGG_JUMP_TIME 0.75f          /* the egg's jump into the pig's hands or back to the nest */
+#define EGG_RETURN_FORCE 0.25f       /* a loose egg rolls home: force dx x 0.25 / max(1, 0.06 dy) */
+#define EGG_PROGRESS_STEP 0.5f       /* checkProgress: a sample every 0.5 s ... */
+#define EGG_PROGRESS_SAMPLES 10      /* ... over 10 samples ... */
+#define EGG_PROGRESS_MIN 0.5f        /* ... moving less than 0.5 m means the pig gives up */
+#define EGG_PIG_JUMP_X 5.0f          /* doJumping: an abandoning pig jumps off at (5, -5) m/s */
+#define EGG_PIG_JUMP_Y -5.0f
+#define EGG_SCREEN 91.3f            /* the Egg Defender screen: 1136 px / 0.622 zoom / 20 px per metre */
+#define EGG_SCREEN_MARGIN 4.0f      /* ... starting 4 m left of the slingshot */
+#define EGG_TELEPORT_GAP 2.5f        /* teleport: 50 px right of the screen */
+#define EGG_AREA_MARGIN 8.0f         /* isBlockInsideGameArea: 5 sprite widths beyond the screen */
 #define BUBBLE_GUN_INTERVAL 2.5f
 #define BUBBLE_GUN_GROW 0.6f
 #define BUBBLE_GUN_LIFE 3.5f

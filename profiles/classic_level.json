@@ -9014,6 +9014,10 @@
         "density": 0.5,
         "strength": 100.0,
         "defence": 30.0
+      },
+      "thrust": {
+        "force": -400,
+        "target": 4
       }
     },
     "BP_GRASS": {
@@ -9420,6 +9424,9 @@
         "density": 1.5,
         "strength": 120.0,
         "defence": 30.0
+      },
+      "thrust": {
+        "force": -2000
       }
     },
     "BP_TNT_WEAK": {
@@ -9655,6 +9662,10 @@
         "density": 1.0,
         "strength": 120.0,
         "defence": 30.0
+      },
+      "thrust": {
+        "force": -300,
+        "target": 5
       }
     },
     "BP_MOTOR_UMBRELLA": {
@@ -9773,6 +9784,11 @@
         "density": 1.5,
         "strength": 30.0,
         "defence": 10.0
+      },
+      "thrust": {
+        "force": -300,
+        "target": 4,
+        "interval": 1
       }
     },
     "BP_CANNON": {
@@ -9860,6 +9876,10 @@
         "density": 0.2,
         "strength": 90.0,
         "defence": 10.0
+      },
+      "thrust": {
+        "force": -150,
+        "off": true
       }
     },
     "BP_ROCKET_RED": {
@@ -9876,6 +9896,10 @@
         "density": 0.2,
         "strength": 90.0,
         "defence": 10.0
+      },
+      "thrust": {
+        "force": -150,
+        "off": true
       }
     },
     "SpecialBlockStart": {

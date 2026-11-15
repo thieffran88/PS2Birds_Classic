@@ -703,7 +703,7 @@ static const Stage stages[]={
  {"LevelGE_24",139,13,112,3,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-10 (sem roteiro vencedor) */
  {"LevelGE_25",329,11,291,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-11 (sem roteiro vencedor) */
  {"LevelGE_29",164,21,77,1,{{50,80,0.8f}},1}, /* GOLDEN EGGS 2-12 */
- {"LevelGE_30",341,15,232,3,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-13 (sem roteiro vencedor) */
+ {"LevelGE_30",341,15,232,3,{{-10,90,-1.0f},{10,30,2.6f},{10,100,-1.0f}},3}, /* GOLDEN EGGS 2-13 */
  {"LevelGE_31",234,12,118,4,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-14 (sem roteiro vencedor) */
  {"LevelGE_UGC1",337,14,220,2,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-15 (sem roteiro vencedor) */
  {"LevelGE_RED",227,45,154,7,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-16 (sem roteiro vencedor) */
@@ -732,7 +732,7 @@ static const Stage stages[]={
  {"EggDefender_classic_5",152,8,55,3,{{20,90,0.4f}},1}, /* MIGHTY FEATHERS 5 */
  {"EggDefender_classic_6",176,8,112,4,{{45,98,1.0f}},1}, /* MIGHTY FEATHERS 6 */
  {"EggDefender_classic_7",203,6,98,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 7 (sem roteiro vencedor) */
- {"EggDefender_classic_8",182,7,80,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 8 (sem roteiro vencedor) */
+ {"EggDefender_classic_8",182,7,80,4,{{30,70,1.0f},{50,90,2.0f}},2}, /* MIGHTY FEATHERS 8 */
  {"EggDefender_classic_9",146,6,61,3,{{-5,98,-1.0f}},1}, /* MIGHTY FEATHERS 9 */
  {"EggDefender_classic_10",171,6,74,4,{{30,74,0.4f}},1}, /* MIGHTY FEATHERS 10 */
  {"EggDefender_classic_11",207,5,97,4,{{55,98,-1.0f}},1}, /* MIGHTY FEATHERS 11 */
@@ -740,20 +740,20 @@ static const Stage stages[]={
  {"EggDefender_classic_13",198,11,68,4,{{35,98,-1.0f}},1}, /* MIGHTY FEATHERS 13 */
  {"EggDefender_classic_14",201,6,77,4,{{25,90,-1.0f}},1}, /* MIGHTY FEATHERS 14 */
  {"EggDefender_classic_15",154,6,82,5,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 15 (sem roteiro vencedor) */
- {"EggDefender_1",183,3,51,7,{{0,0,-1.0f}},0}, /* EGG DEFENDER 1 (sem roteiro vencedor) */
- {"EggDefender_2",211,6,108,11,{{0,0,-1.0f}},0}, /* EGG DEFENDER 2 (sem roteiro vencedor) */
- {"EggDefender_3",243,6,123,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 3 (sem roteiro vencedor) */
- {"EggDefender_4",223,6,102,11,{{0,0,-1.0f}},0}, /* EGG DEFENDER 4 (sem roteiro vencedor) */
- {"EggDefender_5",216,5,96,9,{{0,0,-1.0f}},0}, /* EGG DEFENDER 5 (sem roteiro vencedor) */
- {"EggDefender_6",248,5,127,11,{{0,0,-1.0f}},0}, /* EGG DEFENDER 6 (sem roteiro vencedor) */
- {"EggDefender_7",262,5,132,12,{{0,0,-1.0f}},0}, /* EGG DEFENDER 7 (sem roteiro vencedor) */
+ {"EggDefender_1",167,3,35,7,{{0,0,-1.0f}},0}, /* EGG DEFENDER 1 (sem roteiro vencedor) */
+ {"EggDefender_2",181,6,79,11,{{0,0,-1.0f}},0}, /* EGG DEFENDER 2 (sem roteiro vencedor) */
+ {"EggDefender_3",210,6,91,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 3 (sem roteiro vencedor) */
+ {"EggDefender_4",191,6,71,11,{{0,0,-1.0f}},0}, /* EGG DEFENDER 4 (sem roteiro vencedor) */
+ {"EggDefender_5",195,5,77,9,{{0,0,-1.0f}},0}, /* EGG DEFENDER 5 (sem roteiro vencedor) */
+ {"EggDefender_6",218,5,101,11,{{0,0,-1.0f}},0}, /* EGG DEFENDER 6 (sem roteiro vencedor) */
+ {"EggDefender_7",226,5,98,12,{{0,0,-1.0f}},0}, /* EGG DEFENDER 7 (sem roteiro vencedor) */
  {"EggDefender_8",192,5,76,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 8 (sem roteiro vencedor) */
- {"EggDefender_9",230,5,112,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 9 (sem roteiro vencedor) */
- {"EggDefender_10",265,5,145,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 10 (sem roteiro vencedor) */
- {"EggDefender_11",310,5,179,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 11 (sem roteiro vencedor) */
- {"EggDefender_12",271,6,153,11,{{0,0,-1.0f}},0}, /* EGG DEFENDER 12 (sem roteiro vencedor) */
+ {"EggDefender_9",203,5,87,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 9 (sem roteiro vencedor) */
+ {"EggDefender_10",231,5,114,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 10 (sem roteiro vencedor) */
+ {"EggDefender_11",275,5,151,10,{{0,0,-1.0f}},0}, /* EGG DEFENDER 11 (sem roteiro vencedor) */
+ {"EggDefender_12",238,6,122,11,{{0,0,-1.0f}},0}, /* EGG DEFENDER 12 (sem roteiro vencedor) */
  {"EggDefender_13",226,5,110,9,{{0,0,-1.0f}},0}, /* EGG DEFENDER 13 (sem roteiro vencedor) */
- {"EggDefender_14",280,5,162,13,{{0,0,-1.0f}},0}, /* EGG DEFENDER 14 (sem roteiro vencedor) */
+ {"EggDefender_14",251,5,135,13,{{0,0,-1.0f}},0}, /* EGG DEFENDER 14 (sem roteiro vencedor) */
  {"EggDefender_15",243,7,123,12,{{0,0,-1.0f}},0}, /* EGG DEFENDER 15 (sem roteiro vencedor) */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
@@ -876,7 +876,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==79);
+    assert(unverified==77);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");

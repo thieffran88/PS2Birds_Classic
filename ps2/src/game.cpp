@@ -1,4 +1,5 @@
 #include "game.h"
+#include "egg_vehicles.h"
 #if defined(PS2BIRDS_JOINT_TEST)
 #include "joint_fixture.h"
 #elif defined(PS2BIRDS_TRIANGLE_TEST)
@@ -24,40 +25,46 @@
 /* The stages are not part of the program: they come from CAMPAIGN.BIN, generated from the
    player's own APK by tools/gerar_iso.py (layout below and in tools/build_campaign.py). */
 static const CampaignPolygon no_polygons[1]={{0,0,{0}}};
-static const CampaignForce no_forces[1]={{0,0,0,0,0,0,0,0,0,0}};
+static const CampaignForce no_forces[1]={{0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 static CampaignLevel *campaign_levels;
 static const CampaignPolygon *campaign_polygons=no_polygons;
 static const CampaignForce *campaign_forces=no_forces;
 static unsigned campaign_count;
+/* Original names of the Egg Defender vehicle pieces and joints (getBlock, removeJoint). */
+static const CampaignObject *object_base;static const char **object_names;
+static const CampaignJoint *joint_base;static const char **joint_names;
+static const char *piece_name(const CampaignObject *o){return object_names && o>=object_base?object_names[o-object_base]:"";}
+static const char *joint_name(const CampaignJoint *j){return joint_names && j>=joint_base?joint_names[j-joint_base]:"";}
 #define CAMPAIGN_COUNT campaign_count
 static uint32_t rd32(const unsigned char *p){return (uint32_t)p[0]|((uint32_t)p[1]<<8)|((uint32_t)p[2]<<16)|((uint32_t)p[3]<<24);}
 static float rdf(const unsigned char *p){uint32_t v=rd32(p);float f;memcpy(&f,&v,4);return f;}
 int game_campaign_load(const unsigned char *data,unsigned size)
 {
-    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=6)return -1;
+    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=7)return -1;
     unsigned nl=rd32(data+8),no=rd32(data+12),nj=rd32(data+16),np=rd32(data+20),nf=rd32(data+24),ns=rd32(data+28);
-    const unsigned LV=4*(3+16+8+2+1+2+2+1),OB=4*15,JO=4*19,PO=4*18,FO=4*10;
+    const unsigned LV=4*(3+16+8+2+1+2+2+1),OB=4*16,JO=4*20,PO=4*18,FO=4*14;
     if(nl==0 || nl>MAX_CAMPAIGN_LEVELS || 32ull+(unsigned long long)nl*LV+(unsigned long long)no*OB+(unsigned long long)nj*JO+np*PO+nf*FO+ns!=size)return -1;
     const unsigned char *pl=data+32,*po=pl+nl*LV,*pj=po+no*OB,*pp=pj+nj*JO,*pf=pp+np*PO,*pstr=pf+nf*FO;
     char *strings=(char*)malloc(ns+1);CampaignLevel *levels=(CampaignLevel*)calloc(nl,sizeof(CampaignLevel));
     CampaignObject *objects=(CampaignObject*)calloc(no?no:1,sizeof(CampaignObject));CampaignJoint *joints=(CampaignJoint*)calloc(nj?nj:1,sizeof(CampaignJoint));
     CampaignPolygon *polys=(CampaignPolygon*)calloc(np+1,sizeof(CampaignPolygon));CampaignForce *forces=(CampaignForce*)calloc(nf+1,sizeof(CampaignForce));
-    if(!strings||!levels||!objects||!joints||!polys||!forces){free(strings);free(levels);free(objects);free(joints);free(polys);free(forces);return -1;}
+    const char **onames=(const char**)calloc(no?no:1,sizeof(char*)),**jnames=(const char**)calloc(nj?nj:1,sizeof(char*));
+    if(!strings||!levels||!objects||!joints||!polys||!forces||!onames||!jnames){free(strings);free(levels);free(objects);free(joints);free(polys);free(forces);free(onames);free(jnames);return -1;}
     memcpy(strings,pstr,ns);strings[ns]=0;
 #define STR(o) (rd32(o)<ns?strings+rd32(o):strings)
     for(unsigned i=0;i<no;i++){
         const unsigned char *q=po+i*OB;CampaignObject &o=objects[i];
         o.x=rdf(q);o.y=rdf(q+4);o.angle=rdf(q+8);o.width=rdf(q+12);o.height=rdf(q+16);o.density=rdf(q+20);o.strength=rdf(q+24);o.defence=rdf(q+28);
-        o.kind=(int)rd32(q+32);o.shape=(int)rd32(q+36);o.definition=STR(q+40);o.friction=rdf(q+44);o.restitution=rdf(q+48);o.spawn_of=(int)rd32(q+52);if(o.spawn_of<0||(unsigned)o.spawn_of>no)o.spawn_of=0;o.flags=(int)rd32(q+56);
+        o.kind=(int)rd32(q+32);o.shape=(int)rd32(q+36);o.definition=STR(q+40);o.friction=rdf(q+44);o.restitution=rdf(q+48);o.spawn_of=(int)rd32(q+52);if(o.spawn_of<0||(unsigned)o.spawn_of>no)o.spawn_of=0;o.flags=(int)rd32(q+56);onames[i]=STR(q+60);
     }
     for(unsigned i=0;i<nj;i++){
         const unsigned char *q=pj+i*JO;CampaignJoint &j=joints[i];
         j.type=(int)rd32(q);j.a=(int)rd32(q+4);j.b=(int)rd32(q+8);j.ax=rdf(q+12);j.ay=rdf(q+16);j.bx=rdf(q+20);j.by=rdf(q+24);
         j.frequency=rdf(q+28);j.damping=rdf(q+32);j.break_force=rdf(q+36);j.collide=(int)rd32(q+40);j.destroy_timer=rdf(q+44);
-        j.axis_x=rdf(q+48);j.axis_y=rdf(q+52);j.lower=rdf(q+56);j.upper=rdf(q+60);j.motor_speed=rdf(q+64);j.max_force=rdf(q+68);j.flags=(int)rd32(q+72);
+        j.axis_x=rdf(q+48);j.axis_y=rdf(q+52);j.lower=rdf(q+56);j.upper=rdf(q+60);j.motor_speed=rdf(q+64);j.max_force=rdf(q+68);j.flags=(int)rd32(q+72);jnames[i]=STR(q+76);
     }
     for(unsigned i=0;i<np;i++){const unsigned char *q=pp+i*PO;polys[i].definition=STR(q);polys[i].count=(int)rd32(q+4);for(int k=0;k<16;k++)polys[i].v[k]=rdf(q+8+4*k);}
-    for(unsigned i=0;i<nf;i++){const unsigned char *q=pf+i*FO;forces[i].definition=STR(q);forces[i].fx=rdf(q+4);forces[i].fy=rdf(q+8);forces[i].target=rdf(q+12);forces[i].blast_radius=rdf(q+16);forces[i].blast_force=rdf(q+20);forces[i].damage_radius=rdf(q+24);forces[i].damage=rdf(q+28);forces[i].vial=(int)rd32(q+32);forces[i].vial_radius=rdf(q+36);}
+    for(unsigned i=0;i<nf;i++){const unsigned char *q=pf+i*FO;forces[i].definition=STR(q);forces[i].fx=rdf(q+4);forces[i].fy=rdf(q+8);forces[i].target=rdf(q+12);forces[i].blast_radius=rdf(q+16);forces[i].blast_force=rdf(q+20);forces[i].damage_radius=rdf(q+24);forces[i].damage=rdf(q+28);forces[i].vial=(int)rd32(q+32);forces[i].vial_radius=rdf(q+36);forces[i].thrust=rdf(q+40);forces[i].thrust_target=rdf(q+44);forces[i].thrust_interval=rdf(q+48);forces[i].thrust_flags=(int)rd32(q+52);}
     for(unsigned i=0;i<nl;i++){
         const unsigned char *q=pl+i*LV;CampaignLevel &l=levels[i];
         unsigned o0=rd32(q),oc=rd32(q+4),j0,jc;
@@ -70,8 +77,9 @@ int game_campaign_load(const unsigned char *data,unsigned size)
         l.joints=jc?joints+j0:0;l.joint_count=(int)jc;l.star_silver=(int)rd32(q+52);l.star_gold=(int)rd32(q+56);l.powerup=(int)rd32(q+60);
     }
 #undef STR
-    campaign_levels=levels;campaign_polygons=polys;campaign_forces=forces;campaign_count=nl;return (int)nl;
-bad:free(strings);free(levels);free(objects);free(joints);free(polys);free(forces);return -1;
+    campaign_levels=levels;campaign_polygons=polys;campaign_forces=forces;campaign_count=nl;
+    object_base=objects;object_names=onames;joint_base=joints;joint_names=jnames;return (int)nl;
+bad:free(strings);free(levels);free(objects);free(joints);free(polys);free(forces);free(onames);free(jnames);return -1;
 }
 int game_campaign_load_file(const char *path)
 {
@@ -91,10 +99,18 @@ static struct HostCampaign{HostCampaign(){const char *p=getenv("PS2BIRDS_CAMPAIG
 static_assert(CAMPAIGN_COUNT<=MAX_CAMPAIGN_LEVELS,"Campaign exceeds progress capacity");
 int game_campaign_load(const unsigned char *,unsigned){return (int)CAMPAIGN_COUNT;}
 int game_campaign_load_file(const char *){return (int)CAMPAIGN_COUNT;}
+static const char *piece_name(const CampaignObject *){return "";}
+static const char *joint_name(const CampaignJoint *){return "";}
 #endif
 
 static float clamp(float v,float lo,float hi) { return v<lo?lo:v>hi?hi:v; }
 struct Physics;
+/* One Egg Defender wave's vehicle and its translated controller (egg_vehicles.cpp). */
+struct EggVehicle {
+    Physics *p;int wave;const EggController *c;float vars[16];
+    EggTimed timer_fn[8];float timer_left[8];bool active,ever_inside;float last_x,last_y;
+    const char *balance_a[4],*balance_b[4];float balance_force[4];
+};
 struct JointListener: b2DestructionListener {
     Physics *owner;
     void SayGoodbye(b2Joint *joint) override;
@@ -127,10 +143,19 @@ struct Physics: b2ContactListener {
     b2Joint *joints[MAX_LEVEL_JOINTS];float joint_break[MAX_LEVEL_JOINTS];bool joint_swing[MAX_LEVEL_JOINTS];int joint_count;
     float detach_time[MAX_LEVEL_JOINTS];int detach_source[MAX_LEVEL_JOINTS],detach_target[MAX_LEVEL_JOINTS];int detach_count;
     const CampaignForce *force_of[MAX_LEVEL_OBJECTS];
+    float thrust[MAX_LEVEL_OBJECTS],thrust_clock[MAX_LEVEL_OBJECTS];bool thrust_off[MAX_LEVEL_OBJECTS];
+    /* Egg Defender: runtime forceX/forceY of the vehicle pieces, the pigs' abandoning state
+       (EggDefenderPig.lua) and the egg (EggDefenderEggMovement.lua). */
+    float wforce_x[MAX_LEVEL_OBJECTS],wforce_y[MAX_LEVEL_OBJECTS],target_v[MAX_LEVEL_OBJECTS];
+    bool abandoned[MAX_LEVEL_OBJECTS],jump_ready[MAX_LEVEL_OBJECTS];
+    float progress_clock[MAX_LEVEL_OBJECTS],progress_hist[MAX_LEVEL_OBJECTS][EGG_PROGRESS_SAMPLES+1];int progress_n[MAX_LEVEL_OBJECTS];
+    int egg_i,nest_i,egg_grabber;float egg_tween,egg_home_angle;b2Vec2 egg_from,egg_home;bool egg_lost;
+    float game_right;int escaped_pigs;
+    EggVehicle vehicles[16];
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),puffer_state(0),puffer_timer(0),puffer_auto(-1),puffer_direction(0),puffer_seed(12345u),pink_timer(-1),bird_bubble(0),pink_hover(false),bird_type(BIRD_RED_TYPE) {
         egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
         damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
-        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(gun_timer,0,sizeof(gun_timer));memset(gun_bubble_grow,0,sizeof(gun_bubble_grow));memset(gun_bubble_life,0,sizeof(gun_bubble_life));memset(is_gun,0,sizeof(is_gun));gun_seed=12345u;memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;pending_pigs=0;quake_time=0;quake_used=false;trapped_by=-1;current_wave=1;last_wave=1;egg_mode=false;potion_armed=false;potion_used=false;shock_bonus=false;shock_used=false;potion_scale=1;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
+        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(thrust,0,sizeof(thrust));memset(thrust_clock,0,sizeof(thrust_clock));memset(thrust_off,0,sizeof(thrust_off));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(gun_timer,0,sizeof(gun_timer));memset(gun_bubble_grow,0,sizeof(gun_bubble_grow));memset(gun_bubble_life,0,sizeof(gun_bubble_life));memset(is_gun,0,sizeof(is_gun));gun_seed=12345u;memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;pending_pigs=0;quake_time=0;quake_used=false;trapped_by=-1;current_wave=1;last_wave=1;egg_mode=false;potion_armed=false;potion_used=false;shock_bonus=false;shock_used=false;potion_scale=1;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
         world.SetContactListener(this);destruction.owner=this;world.SetDestructionListener(&destruction);
         /* The Ground object of the stage data spans the whole level; stages place pieces up to
            x=825, so the floor is FLOOR_HALF_WIDTH wide on each side of the origin. */
@@ -143,6 +168,7 @@ struct Physics: b2ContactListener {
             const CampaignObject &o=level->objects[i];
             health[i]=o.strength;fragile_hit[i]=false;force_of[i]=NULL;
             for(const CampaignForce *cf=campaign_forces;cf->definition;cf++)if(!strcmp(cf->definition,o.definition)){force_of[i]=cf;break;}
+            if(force_of[i]){thrust[i]=force_of[i]->thrust;thrust_off[i]=(force_of[i]->thrust_flags&1)!=0;}
             if(o.spawn_of && (o.flags&OBJECT_GUN_BUBBLE))is_gun[o.spawn_of-1]=true;
             if(o.spawn_of)continue; /* released later by release_spawns() */
             if(OBJECT_WAVE(o.flags))egg_mode=true;
@@ -150,6 +176,7 @@ struct Physics: b2ContactListener {
             create_body(i,o.x,o.y,o.angle);
         }
         for(int i=0;i<level->joint_count && i<MAX_LEVEL_JOINTS;i++)create_joint(level->joints[i]);
+        egg_setup();
     }
     /* deathSpawn (gamelogic.lua): the pieces stored for a destroyed parent appear where it was. */
     /* Bubble guns (EggDefenderGadget_BubbleGun.lua): shoot a hidden bubble in turn every interval. */
@@ -172,6 +199,54 @@ struct Physics: b2ContactListener {
             bool fresh=(j.a>=0 && (int)OBJECT_WAVE(level->objects[j.a].flags)==current_wave)||(j.b>=0 && (int)OBJECT_WAVE(level->objects[j.b].flags)==current_wave);
             if(fresh)create_joint(j);
         }
+        vehicle_start(current_wave);
+    }
+    /* ---- Egg Defender (phase 2): vehicles, pigs and the egg ---- */
+    int piece(int wave,const char *name)const{
+        for(int i=0;i<level->count;i++)if((int)OBJECT_WAVE(level->objects[i].flags)==wave && !strcmp(piece_name(&level->objects[i]),name))return i;
+        return -1;
+    }
+    void drop_joints(b2Body *b,b2Body *keep){
+        for(int k=0;k<joint_count;k++)if(joints[k]){b2Body *a=joints[k]->GetBodyA(),*c=joints[k]->GetBodyB();
+            if((a==b && c!=keep)||(c==b && a!=keep)){world.DestroyJoint(joints[k]);joints[k]=NULL;}}
+    }
+    b2Joint *add_weld(b2Body *a,b2Body *b){
+        if(joint_count>=MAX_LEVEL_JOINTS)return NULL;
+        b2WeldJointDef def;def.Initialize(a,b,a->GetPosition());def.collideConnected=false;b2Joint *j=world.CreateJoint(&def);
+        joint_break[joint_count]=0;joint_swing[joint_count]=false;joints[joint_count++]=j;return j;
+    }
+    void set_mask(b2Body *b,uint16 mask){for(b2Fixture *f=b->GetFixtureList();f;f=f->GetNext()){b2Filter fl=f->GetFilterData();fl.maskBits=mask;f->SetFilterData(fl);}}
+    void vehicle_start(int wave){
+        if(wave<1 || wave>15)return;
+        EggVehicle &v=vehicles[wave];memset(&v,0,sizeof(v));v.p=this;v.wave=wave;v.active=true;
+        char name[96];snprintf(name,sizeof(name),"%s_W%d_V1",level->script?level->script:"",wave);v.c=egg_controller(name);
+        if(v.c && v.c->init)v.c->init(&v);
+    }
+    void egg_setup(){
+        escaped_pigs=0;egg_i=nest_i=egg_grabber=-1;egg_tween=-1;egg_lost=false;egg_home_angle=0;egg_home.SetZero();egg_from.SetZero();
+        game_right=level->sling_x-EGG_SCREEN_MARGIN+EGG_SCREEN;
+        memset(abandoned,0,sizeof(abandoned));memset(jump_ready,0,sizeof(jump_ready));memset(progress_clock,0,sizeof(progress_clock));memset(progress_n,0,sizeof(progress_n));
+        memset(vehicles,0,sizeof(vehicles));
+        for(int i=0;i<level->count;i++){const CampaignForce *f=force_of[i];wforce_x[i]=f?f->fx:0;wforce_y[i]=f?f->fy:0;target_v[i]=f?(f->thrust_target>0?f->thrust_target:f->target):0;}
+        if(!egg_mode)return;
+        for(int i=0;i<level->count;i++)if(!OBJECT_WAVE(level->objects[i].flags) && bodies[i]){
+            if(!strcmp(level->objects[i].definition,"BP_EGG") && egg_i<0){egg_i=i;egg_home=bodies[i]->GetPosition();egg_home_angle=bodies[i]->GetAngle();}
+            else if(!strcmp(level->objects[i].definition,"BP_NEST") && nest_i<0)nest_i=i;
+        }
+        vehicle_start(1);
+    }
+    /* EggDefenderVehicle.getX: the first living pig of the wave, relative to the slingshot. */
+    int first_pig(int wave)const{for(int i=0;i<level->count;i++)if((int)OBJECT_WAVE(level->objects[i].flags)==wave && level->objects[i].kind==4 && bodies[i] && !level->objects[i].spawn_of)return i;return -1;}
+    /* abandonVehicle (EggDefenderPig): the pig lets go of the vehicle (keeping a grabbed egg),
+       straightens up and jumps off once it lands. */
+    void abandon(int i){
+        if(abandoned[i] || !bodies[i])return;
+#ifdef EGG_DEBUG
+        fprintf(stderr,"abandon %d at %.1f,%.1f age %.1f\n",i,bodies[i]->GetPosition().x,bodies[i]->GetPosition().y,age);
+#endif
+        abandoned[i]=true;jump_ready[i]=true;
+        drop_joints(bodies[i],egg_grabber==i && egg_i>=0?bodies[egg_i]:NULL);
+        bodies[i]->SetTransform(bodies[i]->GetPosition(),0);bodies[i]->SetAngularVelocity(0);
     }
     void update_suckers(){
         /* EggDefenderGadget_Sucker.onBirdCollision: a bird touching a sucker is trapped inside it
@@ -592,12 +667,181 @@ void game_preview(const Game *g,float t,float *x,float *y) {
     *x=g->sling_x+cosf(a)*speed*t;
     *y=g->sling_y-sinf(a)*speed*t+0.5f*g->gravity*g->view_scale*t*(t+1.0f/120.0f);
 }
+/* Egg Defender, each step: the vehicles' controllers and timers, the pigs grabbing the egg or
+   giving up (EggDefenderPig.lua), the egg going home (EggDefenderEggMovement.lua), pieces leaving
+   the game area (EggDefenderVehicle.breakBlocks) and the stolen egg (EggDefender.checkLevelFailed). */
+static void remove_silently(Game *g,Physics *p,int i){
+    if(!p->bodies[i])return;
+#ifdef EGG_DEBUG
+    fprintf(stderr,"remove %d %s at %.1f,%.1f\n",i,p->level->objects[i].definition,p->bodies[i]->GetPosition().x,p->bodies[i]->GetPosition().y);
+#endif
+    if(i==p->egg_grabber)p->egg_grabber=-1;
+    p->world.DestroyBody(p->bodies[i]);p->bodies[i]=NULL;
+    const CampaignObject &o=p->level->objects[i];
+    if(o.kind==4 && p->is_goal(i) && !o.spawn_of)p->escaped_pigs++;  /* a pig that got away no longer has to be beaten */
+    (void)g;
+}
+static b2Vec2 egg_hold_point(const Physics *p,int pig){
+    /* EggDefenderPig: the egg sits a third of the pig's size ahead, at the pig's angle + 0.2. */
+    const b2Body *b=p->bodies[pig];float a=b->GetAngle()+0.2f,r=p->level->objects[pig].width/3;
+    return b->GetPosition()+b2Vec2(r*cosf(a),r*sinf(a));
+}
+static void auto_balance(EggVehicle *v);
+static void egg_tick(Game *g,Physics *p,float dt){
+    if(!p->egg_mode)return;
+    for(int w=1;w<16;w++){EggVehicle &v=p->vehicles[w];if(!v.active)continue;
+        int pig=p->first_pig(w);
+        if(pig<0){bool any=false;for(int i=0;i<p->level->count && !any;i++)if(p->bodies[i] && (int)OBJECT_WAVE(p->level->objects[i].flags)==w)any=true;if(!any){v.active=false;continue;}}
+        else{v.last_x=p->bodies[pig]->GetPosition().x-p->level->sling_x;v.last_y=p->bodies[pig]->GetPosition().y;
+            if(p->bodies[pig]->GetPosition().x<p->game_right)v.ever_inside=true;}
+        for(int k=0;k<8;k++)if(v.timer_fn[k] && (v.timer_left[k]-=dt)<=0){EggTimed fn=v.timer_fn[k];v.timer_fn[k]=NULL;fn(&v);}
+        auto_balance(&v);
+        if(v.c && v.c->update && pig>=0)v.c->update(&v,dt);
+    }
+    b2Body *egg=p->egg_i>=0?p->bodies[p->egg_i]:NULL;
+    for(int i=0;i<p->level->count;i++){
+        const CampaignObject &o=p->level->objects[i];int w=(int)OBJECT_WAVE(o.flags);
+        if(!w || o.kind!=4 || o.spawn_of || !p->bodies[i])continue;
+        b2Body *b=p->bodies[i];b2Vec2 at=b->GetPosition();
+        bool on_static=false;
+        for(b2ContactEdge *e=b->GetContactList();e;e=e->next)if(e->contact->IsTouching() && e->other->GetType()==b2_staticBody && !e->contact->GetFixtureA()->IsSensor() && !e->contact->GetFixtureB()->IsSensor())on_static=true;
+        if(!p->abandoned[i]){
+            /* grabEggs: the closest free egg within 5 m across and 10 m up or down. */
+            if(egg && p->egg_grabber<0 && p->egg_tween<0 && fabsf(at.x-egg->GetPosition().x)<EGG_GRAB_DX && fabsf(at.y-egg->GetPosition().y)<EGG_GRAB_DY){
+#ifdef EGG_DEBUG
+                fprintf(stderr,"grab by %d age %.1f\n",i,p->age);
+#endif
+                p->egg_grabber=i;p->egg_tween=0;p->egg_from=egg->GetPosition();p->drop_joints(egg,NULL);p->set_mask(egg,0);
+                egg->SetLinearVelocity(b2Vec2(0,0));egg->SetAngularVelocity(0);
+            }
+            /* onPigCollision: a pig on a vehicle that touches the ground gives up. */
+            EggVehicle &v=p->vehicles[w<16?w:0];
+            if(on_static){p->abandon(i);continue;}
+            if(!(v.c && v.c->never_abandon)){
+                /* checkProgress: a sample of x + y every 0.5 s; no progress over the window: give up. */
+                if((p->progress_clock[i]+=dt)>EGG_PROGRESS_STEP){
+                    p->progress_clock[i]-=EGG_PROGRESS_STEP;float s=at.x+at.y;
+                    if(p->progress_n[i]<=EGG_PROGRESS_SAMPLES)p->progress_hist[i][p->progress_n[i]++]=s;
+                    if(p->progress_n[i]>EGG_PROGRESS_SAMPLES){
+                        float oldest=p->progress_hist[i][0],second=p->progress_hist[i][1];
+                        memmove(p->progress_hist[i],p->progress_hist[i]+1,sizeof(float)*EGG_PROGRESS_SAMPLES);p->progress_n[i]--;
+                        if(fabsf(s-oldest)<EGG_PROGRESS_MIN && fabsf(s-second)<EGG_PROGRESS_MIN)p->abandon(i);
+                    }
+                }
+            }
+        }else if(p->jump_ready[i] && on_static){
+            /* doJumping: once down, the pig hops away and surrenders. */
+            p->jump_ready[i]=false;b->SetLinearVelocity(b2Vec2(EGG_PIG_JUMP_X,EGG_PIG_JUMP_Y));b->SetTransform(at,0);b->SetAngularVelocity(0);
+        }
+    }
+    /* The egg: jumping into a pig's hands, carried, rolling home or jumping back into the nest. */
+    if(egg){
+        if(p->egg_grabber>=0 && !p->bodies[p->egg_grabber]){p->egg_grabber=-1;p->egg_tween=-1;p->set_mask(egg,0xFFFF);}
+        if(p->egg_grabber>=0 && p->egg_tween>=0){
+            b2Vec2 to=egg_hold_point(p,p->egg_grabber);float k=fminf(1,(p->egg_tween+=dt)/EGG_JUMP_TIME);
+            b2Vec2 at=p->egg_from+k*(to-p->egg_from);at.y-=4*k*(1-k)*2;egg->SetTransform(at,egg->GetAngle());egg->SetLinearVelocity(b2Vec2(0,0));
+            if(k>=1){p->egg_tween=-1;p->add_weld(p->bodies[p->egg_grabber],egg);
+                EggVehicle &v=p->vehicles[(int)OBJECT_WAVE(p->level->objects[p->egg_grabber].flags)&15];if(v.c && v.c->egg_collected)v.c->egg_collected(&v);}
+        }else if(p->egg_grabber<0){
+            bool jointed=false;for(int k=0;k<p->joint_count;k++)if(p->joints[k] && (p->joints[k]->GetBodyA()==egg || p->joints[k]->GetBodyB()==egg))jointed=true;
+            if(p->egg_tween>=0){
+                float k=fminf(1,(p->egg_tween+=dt)/EGG_JUMP_TIME);b2Vec2 at=p->egg_from+k*(p->egg_home-p->egg_from);at.y-=4*k*(1-k)*2;
+                egg->SetTransform(at,p->egg_home_angle);egg->SetLinearVelocity(b2Vec2(0,0));egg->SetAngularVelocity(0);
+                if(k>=1){p->egg_tween=-1;if(p->nest_i>=0 && p->bodies[p->nest_i])p->add_weld(p->bodies[p->nest_i],egg);}
+            }else if(!jointed){
+                float dx=p->egg_home.x-egg->GetPosition().x,dy=p->egg_home.y-egg->GetPosition().y,r=p->level->objects[p->egg_i].width/2;
+                if(fabsf(dx)>2*r)egg->ApplyForce(b2Vec2(dx*EGG_RETURN_FORCE/fmaxf(1,0.06f*dy),0),egg->GetPosition()+b2Vec2(0,-1),true);
+                else if(dy<0){p->egg_tween=0;p->egg_from=egg->GetPosition();}
+            }
+        }
+        b2Vec2 e=egg->GetPosition();
+        if(e.x>p->game_right+EGG_AREA_MARGIN || e.y>p->level->ground_y+30){p->world.DestroyBody(egg);p->bodies[p->egg_i]=NULL;p->egg_grabber=-1;p->egg_lost=true;}
+    }else if(p->egg_i>=0)p->egg_lost=true;
+    /* breakBlocks / checkExiting: vehicle pieces that have left the game area are removed. */
+    for(int i=0;i<p->level->count;i++)if(p->bodies[i] && OBJECT_WAVE(p->level->objects[i].flags) && p->vehicles[OBJECT_WAVE(p->level->objects[i].flags)].ever_inside){
+        b2Vec2 at=p->bodies[i]->GetPosition();
+        if(at.x>p->game_right+EGG_AREA_MARGIN || at.x<p->level->sling_x-EGG_SCREEN_MARGIN-EGG_AREA_MARGIN || at.y>p->level->ground_y+30 || at.y<p->level->sling_y-EGG_SCREEN)remove_silently(g,p,i);
+    }
+    if(p->egg_lost)g->state=LOST;
+}
+/* EggDefenderVehicle API for the translated controllers (egg_vehicles.h). */
+static b2Body *ev_body(EggVehicle *v,const char *name,int *index=NULL){
+    int i=v->p->piece(v->wave,name);if(index)*index=i;return i>=0?v->p->bodies[i]:NULL;
+}
+float ev_x(EggVehicle *v){int i=v->p->first_pig(v->wave);return i>=0?v->p->bodies[i]->GetPosition().x-v->p->level->sling_x:v->last_x;}
+float ev_y(EggVehicle *v){int i=v->p->first_pig(v->wave);return i>=0?v->p->bodies[i]->GetPosition().y:v->last_y;}
+float ev_vx(EggVehicle *v){int i=v->p->first_pig(v->wave);return i>=0?v->p->bodies[i]->GetLinearVelocity().x:0;}
+float ev_vy(EggVehicle *v){int i=v->p->first_pig(v->wave);return i>=0?v->p->bodies[i]->GetLinearVelocity().y:0;}
+int ev_has_block(EggVehicle *v,const char *name){return ev_body(v,name)!=NULL;}
+float ev_block_x(EggVehicle *v,const char *name){b2Body *b=ev_body(v,name);return b?b->GetPosition().x:0;}
+float ev_block_y(EggVehicle *v,const char *name){b2Body *b=ev_body(v,name);return b?b->GetPosition().y:0;}
+float ev_thrust(EggVehicle *v,const char *name){int i=v->p->piece(v->wave,name);return i>=0?v->p->thrust[i]:0;}
+void ev_set_thrust(EggVehicle *v,const char *name,float force){int i=v->p->piece(v->wave,name);if(i>=0)v->p->thrust[i]=force;}
+float ev_force_x(EggVehicle *v,const char *name){int i=v->p->piece(v->wave,name);return i>=0?v->p->wforce_x[i]:0;}
+float ev_force_y(EggVehicle *v,const char *name){int i=v->p->piece(v->wave,name);return i>=0?v->p->wforce_y[i]:0;}
+void ev_set_force(EggVehicle *v,const char *name,float fx,float fy){int i=v->p->piece(v->wave,name);if(i>=0){v->p->wforce_x[i]=fx;v->p->wforce_y[i]=fy;}}
+void ev_power(EggVehicle *v,const char *name,int on){int i=v->p->piece(v->wave,name);if(i>=0)v->p->thrust_off[i]=!on;}
+void ev_remove_joint(EggVehicle *v,const char *name){
+    Physics *p=v->p;
+    for(int k=0;k<p->level->joint_count && k<p->joint_count;k++){
+        const CampaignJoint &j=p->level->joints[k];if(!p->joints[k] || strcmp(joint_name(&j),name))continue;
+        int w=j.a>=0?(int)OBJECT_WAVE(p->level->objects[j.a].flags):j.b>=0?(int)OBJECT_WAVE(p->level->objects[j.b].flags):0;
+        if(w==v->wave){p->world.DestroyJoint(p->joints[k]);p->joints[k]=NULL;}
+    }
+}
+void ev_motor_speed(EggVehicle *v,const char *name,float speed){
+    Physics *p=v->p;
+    for(int k=0;k<p->level->joint_count && k<p->joint_count;k++){
+        const CampaignJoint &j=p->level->joints[k];if(!p->joints[k] || strcmp(joint_name(&j),name))continue;
+        int w=j.a>=0?(int)OBJECT_WAVE(p->level->objects[j.a].flags):j.b>=0?(int)OBJECT_WAVE(p->level->objects[j.b].flags):0;
+        if(w!=v->wave)continue;
+        b2Joint *jt=p->joints[k];
+        if(jt->GetType()==e_revoluteJoint)((b2RevoluteJoint*)jt)->SetMotorSpeed(speed);
+        else if(jt->GetType()==e_prismaticJoint)((b2PrismaticJoint*)jt)->SetMotorSpeed(speed);
+        jt->GetBodyA()->SetAwake(true);jt->GetBodyB()->SetAwake(true);
+    }
+}
+static Game *ev_game; /* the game being stepped (set by tick) */
+void ev_remove_block(EggVehicle *v,const char *name){int i=v->p->piece(v->wave,name);if(i>=0 && v->p->bodies[i] && ev_game)remove_silently(ev_game,v->p,i);}
+void ev_abandon(EggVehicle *v){Physics *p=v->p;for(int i=0;i<p->level->count;i++)if((int)OBJECT_WAVE(p->level->objects[i].flags)==v->wave && p->level->objects[i].kind==4 && p->bodies[i])p->abandon(i);}
+void ev_surrender(EggVehicle *v){ev_abandon(v);}
+int ev_egg_collected(EggVehicle *v){Physics *p=v->p;return p->egg_grabber>=0 && (int)OBJECT_WAVE(p->level->objects[p->egg_grabber].flags)==v->wave && p->egg_tween<0;}
+void ev_timer(EggVehicle *v,EggTimed fn,float seconds){
+    for(int k=0;k<8;k++)if(v->timer_fn[k]==fn){v->timer_left[k]=seconds;return;}  /* doWithTimer keys on the function */
+    for(int k=0;k<8;k++)if(!v->timer_fn[k]){v->timer_fn[k]=fn;v->timer_left[k]=seconds;return;}
+}
+float ev_closest_egg_x(EggVehicle *v,const char *name){
+    Physics *p=v->p;b2Body *from=name?ev_body(v,name):NULL;
+    if(!from){int i=p->first_pig(v->wave);from=i>=0?p->bodies[i]:NULL;}
+    if(!from || p->egg_i<0 || !p->bodies[p->egg_i])return 9999999.0f;
+    return from->GetPosition().x-p->bodies[p->egg_i]->GetPosition().x;
+}
+float *ev_vars(EggVehicle *v){return v->vars;}
+void ev_auto_balance(EggVehicle *v,const char *a,const char *b,float force){
+    for(int k=0;k<4;k++)if(v->balance_a[k] && !strcmp(v->balance_a[k],a) && !strcmp(v->balance_b[k],b)){if(force>0)v->balance_force[k]=force;else v->balance_a[k]=NULL;return;}
+    if(force>0)for(int k=0;k<4;k++)if(!v->balance_a[k]){v->balance_a[k]=a;v->balance_b[k]=b;v->balance_force[k]=force;return;}
+}
+/* doAutoBalance: of two thrusters, the upper one gets the larger forceRelative; when both are
+   equal they are split into max x (1 + force) and min x -force. */
+static void auto_balance(EggVehicle *v){
+    for(int k=0;k<4;k++)if(v->balance_a[k]){
+        int a=v->p->piece(v->wave,v->balance_a[k]),b=v->p->piece(v->wave,v->balance_b[k]);
+        if(a<0 || b<0 || !v->p->bodies[a] || !v->p->bodies[b]){v->balance_a[k]=NULL;continue;}
+        int up=v->p->bodies[a]->GetPosition().y<v->p->bodies[b]->GetPosition().y?a:b,down=up==a?b:a;
+        float lo=fminf(v->p->thrust[a],v->p->thrust[b]),hi=fmaxf(v->p->thrust[a],v->p->thrust[b]);
+        if(lo==hi){hi*=1+v->balance_force[k];lo*=-v->balance_force[k];}
+        v->p->thrust[up]=hi;v->p->thrust[down]=lo;
+    }
+}
+float ev_target(EggVehicle *v,const char *name){int i=v->p->piece(v->wave,name);return i>=0?v->p->target_v[i]:0;}
+void ev_set_target(EggVehicle *v,const char *name,float speed){int i=v->p->piece(v->wave,name);if(i>=0)v->p->target_v[i]=speed;}
 static void tick(Game *g) {
-    Physics *p=static_cast<Physics*>(g->physics); const float dt=1.0f/120;
+    Physics *p=static_cast<Physics*>(g->physics); const float dt=1.0f/120;ev_game=g;
     g->birds+=p->pending_birds;p->pending_birds=0;
     p->update_guns(dt);
     p->update_suckers();
     p->update_waves();
+    egg_tick(g,p,dt);if(g->state==LOST)return;
     if(p->quake_time>0){
         float step=fminf(dt,p->quake_time);p->quake_time-=step;
         for(int i=0;i<p->level->count;i++){b2Body *b=p->bodies[i];
@@ -662,10 +906,29 @@ static void tick(Game *g) {
         p->bubble_timer[i]-=dt;
     }
     /* Port approximation of the native force adder: force = (forceX, forceY) x mass. */
-    for(int i=0;i<p->level->count;i++)if(p->force_of[i] && p->bodies[i] && (p->force_of[i]->fx!=0 || p->force_of[i]->fy!=0)){
+    for(int i=0;i<p->level->count;i++)if(p->force_of[i] && p->bodies[i] && !OBJECT_WAVE(p->level->objects[i].flags) && (p->force_of[i]->fx!=0 || p->force_of[i]->fy!=0)){
         b2Body *b=p->bodies[i];const CampaignForce *f=p->force_of[i];float m=b->GetMass();b2Vec2 dir(f->fx,f->fy);float len=dir.Length();
         if(f->target>0 && len>0 && b2Dot(b->GetLinearVelocity(),dir)/len>=f->target)continue;
         b->ApplyForceToCenter(b2Vec2(f->fx*m,f->fy*m),true);
+    }
+    /* Egg Defender force adder (native, libAngryBirdsClassic): a piece with a non-zero
+       forceRelative is pushed by F = forceRelative x (cos angle, sin angle), along its own x axis;
+       otherwise by its forceX/forceY. Forces are in newtons, as the scripts' numbers show (a cart's
+       balloon holds at -90, climbs at -180 and sinks at -50). With targetVelocity, each component is
+       dropped while the speed on that axis is at least the target and in the same direction. With
+       applyForceInterval (bellows) F is a puff: one 1/30 s impulse per interval. disableForce
+       (togglePower) switches the piece off. */
+    if(p->egg_mode)for(int i=0;i<p->level->count;i++)if(p->bodies[i] && OBJECT_WAVE(p->level->objects[i].flags) && !p->thrust_off[i] && (p->thrust[i]!=0 || p->wforce_x[i]!=0 || p->wforce_y[i]!=0)){
+        b2Body *b=p->bodies[i];const CampaignForce *f=p->force_of[i];float a=b->GetAngle();
+        b2Vec2 force=p->thrust[i]!=0?b2Vec2(p->thrust[i]*cosf(a),p->thrust[i]*sinf(a)):b2Vec2(p->wforce_x[i],p->wforce_y[i]),v=b->GetLinearVelocity();
+        float target=p->target_v[i];
+        if(target>0){
+            if(fabsf(v.x)>=target && v.x*force.x>0)force.x=0;
+            if(fabsf(v.y)>=target && v.y*force.y>0)force.y=0;
+        }
+        if(f && f->thrust_interval>0){
+            if((p->thrust_clock[i]+=dt)>=f->thrust_interval){p->thrust_clock[i]-=f->thrust_interval;b->ApplyLinearImpulseToCenter((1.0f/EGG_THRUST_RATE)*force,true);}
+        }else b->ApplyForceToCenter(force,true);
     }
     /* backAndForth (native checkJointLimits): the motor turns around at each limit. */
     for(int k=0;k<p->joint_count;k++)if(p->joints[k] && p->joint_swing[k]){
@@ -751,6 +1014,8 @@ static void tick(Game *g) {
         if(o.kind!=3 && (p->health[i]<=0 || body->GetPosition().y>p->level->ground_y+25)) {
             b2Vec2 where=body->GetPosition();bool exploded=p->explosive(i) && p->health[i]<=0;
             p->world.DestroyBody(body);p->bodies[i]=NULL;p->release_spawns(i,where);
+            if(p->egg_mode && OBJECT_WAVE(o.flags)){EggVehicle &v=p->vehicles[OBJECT_WAVE(o.flags)];if(v.active && v.c && v.c->block_removed)v.c->block_removed(&v,piece_name(&o));}
+            if(i==p->egg_grabber){p->egg_grabber=-1;p->egg_tween=-1;}
             /* A destroyed TNT crate blasts its surroundings; crates caught in the blast
                go off in the following ticks, giving chain reactions. */
             if(exploded){const CampaignForce *f=p->force_of[i];
@@ -761,7 +1026,13 @@ static void tick(Game *g) {
         }
     }
     g->pig_alive+=p->pending_pigs;p->pending_pigs=0;
-    if(g->pig_alive==0) {
+    /* checkLevelComplete: in Egg Defender the egg must also be back in its nest. */
+    bool egg_home=true;
+    if(p->egg_mode && p->egg_i>=0 && p->bodies[p->egg_i]){egg_home=false;b2Body *e=p->bodies[p->egg_i];
+        b2Body *n=p->nest_i>=0?p->bodies[p->nest_i]:NULL;
+        for(int k=0;k<p->joint_count;k++)if(p->joints[k] && ((p->joints[k]->GetBodyA()==e && p->joints[k]->GetBodyB()==n)||(p->joints[k]->GetBodyB()==e && p->joints[k]->GetBodyA()==n)))egg_home=true;
+        if(!n && p->egg_grabber<0 && p->egg_tween<0)egg_home=true;}
+    if(g->pig_alive-p->escaped_pigs<=0 && egg_home) {
         g->score+=g->birds*10000;g->state=WON;
         g->highscores[g->level]=g->score>g->highscores[g->level]?g->score:g->highscores[g->level];
         int unlocked=g->level+2;if(unlocked>game_level_count())unlocked=game_level_count();
@@ -819,3 +1090,6 @@ int game_get_object(const Game *g,int index,GameObject *out) {
     if(body){out->x=g->view_x+body->GetPosition().x*g->view_scale;out->y=g->view_y+body->GetPosition().y*g->view_scale;out->angle=body->GetAngle();}
     return 1;
 }
+
+/* The vehicle controllers are compiled with the game (one translation unit for every build). */
+#include "egg_vehicles.cpp"

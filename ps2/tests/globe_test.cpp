@@ -187,6 +187,22 @@ int main(){
      if(g.state!=WON){assert(after>alive-pigs);waves++;}
   }
   assert(g.state==WON && waves==2);}
+ // Egg Defender phase 2: the vehicles drive in (fans, motors and the translated controllers), a pig
+ // takes the egg and makes off with it; a downed carrier drops it and the egg rolls home.
+ {int ed=-1;for(int lv=0;lv<game_level_count();lv++)if(!strcmp(game_level_script(lv),"EggDefender_3"))ed=lv;
+  assert(ed>=0 && game_load_level(&g,ed));
+  int egg=-1;for(int k=0;k<game_object_count(&g);k++){GameObject o;game_get_object(&g,k,&o);if(!strcmp(o.definition,"BP_EGG"))egg=k;}
+  assert(egg>=0);GameObject home;game_get_object(&g,egg,&home);
+  float pig0=1e9f;for(int k=0;k<game_object_count(&g);k++){GameObject o;game_get_object(&g,k,&o);if(o.alive && o.kind==4 && o.x<pig0)pig0=o.x;}
+  bool taken=false;float t=0;
+  for(;t<30 && !taken;t+=1.0f/120){game_update(&g,1.0f/120);GameObject o;game_get_object(&g,egg,&o);if(fabsf(o.x-home.x)>3*g.view_scale)taken=true;}
+  assert(taken && g.state==AIMING);
+  float pig1=1e9f;for(int k=0;k<game_object_count(&g);k++){GameObject o;game_get_object(&g,k,&o);if(o.alive && o.kind==4 && o.x<pig1)pig1=o.x;}
+  assert(pig0-pig1>40*g.view_scale);  /* the vehicle crossed most of the screen */
+  for(int round=0;round<40;round++){for(int k=0;k<game_object_count(&g);k++){GameObject o;game_get_object(&g,k,&o);if(o.alive && o.kind==4)game_damage_object(&g,k);}for(int s=0;s<12;s++)game_update(&g,1.0f/120);}
+  bool back=false;
+  for(float s=0;s<40 && !back && g.state!=LOST;s+=1.0f/120){game_update(&g,1.0f/120);GameObject o;game_get_object(&g,egg,&o);if(o.alive && fabsf(o.x-home.x)<0.2f*g.view_scale && fabsf(o.y-home.y)<0.2f*g.view_scale)back=true;}
+  assert(back);}
  // Power-ups of the shop tutorials: King Sling launches 1.3 times faster; Bird Quake (once) shakes the scene.
  int king=-1,quake=-1;
  for(int lv=0;lv<game_level_count();lv++){const char *sc=game_level_script(lv);if(!strcmp(sc,"Tutorial_kingsling"))king=lv;if(!strcmp(sc,"Tutorial_birdquake"))quake=lv;}

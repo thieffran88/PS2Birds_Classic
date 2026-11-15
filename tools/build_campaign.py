@@ -31,8 +31,10 @@ def write_binary(levels,profile,polys,forced,stars,path=None):
         o0,j0=no,nj
         for o in d['objects']:
             objs+=struct.pack('<8f2iI2fii',*[r(o[k]) for k in ['x','y','angle','width','height','density','strength','defence']],o['kind'],shapes.index(o['shape']),s(o['definition']),r(o['friction']),r(o['restitution']),o.get('spawn_of',0),(1 if o.get('no_collision') else 0)|o.get('mirror',0)|(8 if o.get('gun_bubble') else 0)|(16 if o.get('sucker') else 0)|(o.get('wave',0)<<26)|((o['release_bird']+1)<<8 if 'release_bird' in o else 0)|((o['clone_of']+1)<<16 if 'clone_of' in o else 0));no+=1
+            objs+=struct.pack('<I',s(o['name'].split('_',1)[1] if o.get('wave') else ''))  # vehicle pieces: original name (getBlock)
         for j in d.get('joints') or []:
             joints+=struct.pack('<3i7fif6fi',j['type'],j['a'],j['b'],*[r(j[k]) for k in ['ax','ay','bx','by','frequency','damping','break_force']],int(j['collide']),r(j.get('destroy_timer',0.0)),*[r(j.get(k,0.0)) for k in ['axis_x','axis_y','lower','upper','motor_speed','max_force']],(1 if j.get('limit') else 0)|(2 if j.get('motor') else 0)|(4 if j.get('back_and_forth') else 0));nj+=1
+            joints+=struct.pack('<I',s(j['name'] if j.get('vehicle') else ''))  # vehicle joints: original name (removeJoint)
         types=[b['type'] for b in d['birds']];types+=[0]*(16-len(types))
         lv+=struct.pack('<3I16i8f2Ii2I2ii',o0,len(d['objects']),len(d['birds']),*types,*map(r,[d['gravity'],d['sling_x'],d['sling_y'],d['ground_y'],d['physics_to_world'],d['view']['x'],d['view']['y'],d['view']['scale']]),s(d['title']),s(d['stage_script']),d.get('texture_bank',0),j0,nj-j0,*star_limits(stars,d['stage_script']),POWERUPS.get(d.get('powerup',''),0))
     pol=bytearray()
@@ -41,12 +43,14 @@ def write_binary(levels,profile,polys,forced,stars,path=None):
     frc=bytearray()
     # Per-definition record: constant force (forceX/forceY, targetVelocity) and explosion
     # (explosionRadius, explosionForce, explosionDamageRadius, explosionDamage) from blocks.lua, and the
-    # Short Fuse vial (1 orange, 2 pink, 3 blue; vialEffect.radius).
+    # Short Fuse vial (1 orange, 2 pink, 3 blue; vialEffect.radius), and the Egg Defender thrust
+    # (forceRelative, targetVelocity, applyForceInterval; flag 1 = starts powered off, disableForce).
     for name in forced:
-        spec=profile['objects'][name]
-        frc+=struct.pack('<I7fif',s(name),*map(r,spec.get('force',[0.0,0.0])),r(spec.get('force_target',0.0)),*map(r,spec.get('explosion',[0.0,0.0,0.0,0.0])),int(spec.get('vial',[0,0.0])[0]),r(spec.get('vial',[0,0.0])[1]))
+        spec=profile['objects'][name];th=spec.get('thrust',{})
+        frc+=struct.pack('<I7fif3fi',s(name),*map(r,spec.get('force',[0.0,0.0])),r(spec.get('force_target',0.0)),*map(r,spec.get('explosion',[0.0,0.0,0.0,0.0])),int(spec.get('vial',[0,0.0])[0]),r(spec.get('vial',[0,0.0])[1]),
+                         r(th.get('force',0.0)),r(th.get('target',0.0)),r(th.get('interval',0.0)),1 if th.get('off') else 0)
     while len(strings)%4:strings.append(0)
-    head=struct.pack('<4s7I',b'PBCP',6,len(levels),no,nj,len(polys),len(forced),len(strings))
+    head=struct.pack('<4s7I',b'PBCP',7,len(levels),no,nj,len(polys),len(forced),len(strings))
     data=head+bytes(lv)+bytes(objs)+bytes(joints)+bytes(pol)+bytes(frc)+bytes(strings)
     (Path(path) if path else ROOT/'ps2/assets/CAMPAIGN.BIN').write_bytes(data)
 
@@ -61,23 +65,24 @@ def read_binary(path):
     """Parse CAMPAIGN.BIN back (tests and tools): levels, objects, joints, polygons, forces."""
     import struct
     d=Path(path).read_bytes();magic,ver,nl,no,nj,np,nf,ns=struct.unpack_from('<4s7I',d)
-    if magic!=b'PBCP' or ver!=6:raise ValueError('Not a CAMPAIGN.BIN')
-    p=32;strs=d[32+nl*140+no*60+nj*76+np*72+nf*40:]
+    if magic!=b'PBCP' or ver!=7:raise ValueError('Not a CAMPAIGN.BIN')
+    p=32;strs=d[32+nl*140+no*64+nj*80+np*72+nf*56:]
     s=lambda o:strs[o:strs.index(b'\0',o)].decode()
     lv=[struct.unpack_from('<3I16i8f2Ii2I2ii',d,p+i*140) for i in range(nl)];p+=nl*140
-    ob=[struct.unpack_from('<8f2iI2fii',d,p+i*60) for i in range(no)];p+=no*60
-    jo=[struct.unpack_from('<3i7fif6fi',d,p+i*76) for i in range(nj)];p+=nj*76
-    po={};fo={};ex={};vi={}
+    ob=[struct.unpack_from('<8f2iI2fiiI',d,p+i*64) for i in range(no)];p+=no*64
+    jo=[struct.unpack_from('<3i7fif6fiI',d,p+i*80) for i in range(nj)];p+=nj*80
+    po={};fo={};ex={};vi={};th={}
     for i in range(np):
         v=struct.unpack_from('<Ii16f',d,p+i*72);po[s(v[0])]=(v[1],list(v[2:2+2*v[1]]))
     p+=np*72
     for i in range(nf):
-        v=struct.unpack_from('<I7fif',d,p+i*40);fo[s(v[0])]=(v[1],v[2])
+        v=struct.unpack_from('<I7fif3fi',d,p+i*56);fo[s(v[0])]=(v[1],v[2])
+        if v[10] or v[13]:th[s(v[0])]=(v[10],v[11],v[12],v[13])
         if any(v[4:8]):ex[s(v[0])]=tuple(v[4:8])
         if v[8]:vi[s(v[0])]=(v[8],v[9])
     return {'levels':[{'title':s(l[27]),'script':s(l[28]),'objects':l[1],'birds':l[2],'bank':l[29],'joints':l[31],'powerup':l[34]} for l in lv],
-            'objects':[{'definition':s(o[10]),'spawn_of':o[13],'no_collision':bool(o[14]&1),'mirror':o[14]&6,'gun_bubble':bool(o[14]&8),'sucker':bool(o[14]&16),'wave':(o[14]>>26)&15,'release_bird':((o[14]>>8)&255)-1,'clone_of':((o[14]>>16)&1023)-1} for o in ob],
-            'joints':[{'type':j[0],'destroy_timer':j[11],'axis':(j[12],j[13]),'lower':j[14],'upper':j[15],'motor_speed':j[16],'max_force':j[17],'flags':j[18]} for j in jo],'polygons':po,'forces':fo,'explosions':ex,'vials':vi}
+            'objects':[{'definition':s(o[10]),'spawn_of':o[13],'no_collision':bool(o[14]&1),'mirror':o[14]&6,'gun_bubble':bool(o[14]&8),'sucker':bool(o[14]&16),'wave':(o[14]>>26)&15,'release_bird':((o[14]>>8)&255)-1,'clone_of':((o[14]>>16)&1023)-1,'name':s(o[15])} for o in ob],
+            'joints':[{'type':j[0],'destroy_timer':j[11],'axis':(j[12],j[13]),'lower':j[14],'upper':j[15],'motor_speed':j[16],'max_force':j[17],'flags':j[18],'name':s(j[19])} for j in jo],'polygons':po,'forces':fo,'explosions':ex,'vials':vi,'thrust':th}
 
 def build(episode_path=EPISODE,apk=None,workdir=None,output=None,quiet=False):
     """apk: read the stages straight from the APK (no decompiled files); workdir: where the stage JSON go."""
@@ -110,6 +115,9 @@ def build(episode_path=EPISODE,apk=None,workdir=None,output=None,quiet=False):
                     cs=abs(math.cos(o['angle']));sn=abs(math.sin(o['angle']))
                     ex=(o['width']*cs+o['height']*sn)/2;ey=(o['width']*sn+o['height']*cs)/2
                     left=min(left,o['x']-ex);right=max(right,o['x']+ex);top=min(top,o['y']-ey)
+                if d.get('egg_defender'):  # the original camera: one screen from the slingshot (EGG_SCREEN)
+                    from import_level import EGG_SCREEN,EGG_MARGIN
+                    left=d['sling_x']-EGG_MARGIN;right=left+EGG_SCREEN
                 scale=min(7,576/(right-left),210/max(1,d['ground_y']-top))
                 d['view']={'scale':scale,'x':32-left*scale,'y':368-d['ground_y']*scale}
             output_json.write_text(json.dumps(d,indent=2)+'\n');levels.append(d)
@@ -137,7 +145,7 @@ def build(episode_path=EPISODE,apk=None,workdir=None,output=None,quiet=False):
         lines.append(' {'+json.dumps(name)+','+str(len(v))+',{'+','.join(f(c) for xy in v for c in xy)+'}},')
     lines.append(' {0,0,{0}}};')
     # Constant forces of balloon-like materials (forceX/forceY), looked up by definition.
-    forced=sorted({o['definition'] for d in levels for o in d['objects'] if 'force' in profile['objects'][o['definition']] or 'explosion' in profile['objects'][o['definition']] or 'vial' in profile['objects'][o['definition']]})
+    forced=sorted({o['definition'] for d in levels for o in d['objects'] if 'force' in profile['objects'][o['definition']] or 'explosion' in profile['objects'][o['definition']] or 'vial' in profile['objects'][o['definition']] or 'thrust' in profile['objects'][o['definition']]})
     lines.append('static const CampaignForce campaign_forces[] = {')
     for name in forced:fx,fy=profile['objects'][name].get('force',[0.0,0.0]);lines.append(' {'+json.dumps(name)+','+f(fx)+','+f(fy)+'},')
     lines.append(' {0,0,0}};')

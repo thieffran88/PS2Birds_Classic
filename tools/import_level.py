@@ -47,6 +47,9 @@ def read_assignments(text):
         env[match[1]][key]=resolved
     return env
 
+# Egg Defender screen: width in metres (1136 px / 0.622 zoom / 20 px per metre) and the margin left of the slingshot.
+EGG_SCREEN=91.3
+EGG_MARGIN=4.0
 def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,quiet=False,waves=None):
     profile=json.loads(Path(profile_path).read_text());metrics=json.loads((ROOT/profile['metrics']).read_text())
     if isinstance(source,(bytes,bytearray)):
@@ -64,12 +67,19 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
     if waves:
         # removeUnusedLevelStartCinematicBlocks: loose scene pieces right of the screen (where the
         # vehicles come in) belong to the opening scene and are removed when the level starts.
-        limit=min(w[0] for w in waves)-1
+        # EggDefender.spawnNextVehicle passes the slingshot base x: the first wave's vehicle is placed at
+        # (wave x + slingshot x); later waves are teleported (EggDefenderVehicle.teleport) so their
+        # leftmost piece is 50 px (2.5 m) right of the screen. The Egg Defender screen spans
+        # EGG_SCREEN metres from the slingshot (castleCameraData: 1136 px at zoom 0.622, 20 px/m), and
+        # rightLimit (CameraSystem) lies 20 % of a screen further right.
+        base=max(o['x'] for o in objects if o['definition'] in profile['bird_definitions'])
+        screen_right=base-EGG_MARGIN+EGG_SCREEN
+        limit=screen_right+0.2*EGG_SCREEN
         objects=[o for o in objects if not (o['x']>=limit and o['definition'] in profile['objects'] and profile['objects'][o['definition']]['kind']!=3 and not o['definition'].startswith('StaticBlock'))]
         env=dict(env);env['joints']=dict(env.get('joints') or {})
         for number,(wx,wy,vehicle,_snap) in enumerate(waves,1):
             parts=[dict(o) for o in vehicle['world'].values() if isinstance(o,dict) and 'definition' in o and o['definition']!='Ground' and not o['definition'].startswith('StaticBlockTheme') and o['definition'] not in profile['bird_definitions']]
-            dx=wx-min(o['x'] for o in parts);dy=wy-max(o['y'] for o in parts)
+            dx=(wx+base if number==1 else screen_right+2.5)-min(o['x'] for o in parts);dy=wy-max(o['y'] for o in parts)
             for o in parts:o.update(name=f"w{number}_{o['name']}",x=o['x']+dx,y=o['y']+dy,wave=number);objects.append(o)
             for key,j in (vehicle.get('joints') or {}).items():
                 if not isinstance(j,dict):continue
@@ -214,7 +224,8 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
             elif int(j.get('coordType',0)) not in (0,2):raise ValueError('Unsupported joint coordType')
             ends.append((i,x,y))
         if len(ends)<2:continue
-        joints.append({'name':j.get('name',''),'type':kind,'a':ends[0][0],'b':ends[1][0],'ax':ends[0][1],'ay':ends[0][2],'bx':ends[1][1],'by':ends[1][2],
+        vehicle=any(e>=0 and level[e].get('wave') for e,_x,_y in ends)
+        joints.append({'name':j.get('name',''),'vehicle':vehicle,'type':kind,'a':ends[0][0],'b':ends[1][0],'ax':ends[0][1],'ay':ends[0][2],'bx':ends[1][1],'by':ends[1][2],
             'frequency':float(j.get('frequency',0)),'damping':float(j.get('dampingRatio',0)),'break_force':float(j.get('breakForce',0)) if j.get('breakable') else 0.0,'destroy_timer':float(j.get('destroyTimer',0)) if kind==5 else 0.0,
             'collide':bool(j.get('collideConnected',False)),
             # Revolute (3) and prismatic (4): limits, motor and the back-and-forth motion

@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.54.0)
+# Lacunas do port (levantamento atualizado na 0.55.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -181,6 +181,12 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **Giro dos clones do frasco azul:** `VialEffects.lua` só define a velocidade de rotação e a órbita dos clones em volta do ponto da quebra (`blueVialSpin*`, aceleração 8/s); é efeito visual, sem mudar o resultado. Fica fora de propósito.
 - **Modo Egg Defender — escopo levantado.** Cada fase `EggDefender_N` tem um `.scripts.lua` com ondas (`waves`): em cada onda um veículo pré-montado (`EggDefender_N/EggDefender_N_Wk_V1`, arquivo próprio) entra num ponto e anda até o ninho para roubar o ovo (`ExtraStolenEgg`), com limite de pássaros (`birdLimit`) e a habilidade do vermelho (`useRedBirdSpeciality`). Exige carregar veículos durante a fase, motores, rodas, o ovo e o placar próprio (`EggDefender.lua` 1899 linhas, `EggDefenderVehicle.lua` 2907, `EggDefenderPig.lua` 1308): é um modo novo inteiro. Além disso, cada veículo tem seu próprio `.scripts.lua` com funções (lógica de direção e de disparo), não só dados: o gerador do port lê os scripts do jogo apenas como dados e nunca executa código, então portar o modo exigiria um interpretador Lua no gerador ou a tradução manual da lógica de cada veículo (72 veículos em 15 fases).
 
+## Achados da 0.55.0
+
+- **Força das peças (código nativo):** a função do `libAngryBirdsClassic.so` (x86) que lê `disableForce`, `applyForceInterval`, `forceRelative`, `forceX`, `forceY` e `targetVelocity` foi localizada pelas strings e lida: força no eixo x da peça para `forceRelative`, corte por eixo com `targetVelocity`, impulso só com `applyForceInterval`. Aplicada às peças dos veículos do Egg Defender; os balões das fases antigas mantêm a aproximação anterior (força × massa) para não mudar os roteiros já vencedores.
+- **Egg Defender, fase 2:** motor de veículos, ovo, ninho, abandono e derrota feitos (ver `docs/EGG_DEFENDER.md`). Fase 3: 13 de 72 controladores traduzidos.
+- **Posição dos veículos:** o `EggDefender.spawnNextVehicle` soma o x do estilingue ao x da onda; as ondas seguintes são teleportadas para a borda direita da tela. A 0.54.0 punha os veículos 100 m à direita.
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -189,7 +195,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Modo Egg Defender propriamente dito (15 fases `EggDefender_N`); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
+1. Egg Defender: os 59 controladores de veículo restantes (fases 4 a 15) e a mira do vermelho (`pigTargeted`); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).

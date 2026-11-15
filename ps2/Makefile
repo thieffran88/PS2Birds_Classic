@@ -55,7 +55,7 @@ build/CAMPAIGN.BIN: assets/CAMPAIGN.BIN
 	@mkdir -p build
 	cp $< $@
 
-build/game.o: src/game.cpp src/game.h src/level_config.h src/campaign_types.h
+build/game.o: src/game.cpp src/egg_vehicles.cpp src/egg_vehicles.h src/game.h src/level_config.h src/campaign_types.h
 	@mkdir -p build
 	$(EE_CXX) $(EE_CXXFLAGS) $(EE_INCS) -c $< -o $@
 
@@ -69,7 +69,7 @@ build/host/vendor/%.o: vendor/%.cpp
 	@mkdir -p $(@D)
 	$(CXX) -O2 -std=c++11 -Ivendor/box2d/include -Ivendor/box2d/src -c $< -o $@
 
-build/host/game.o: src/game.cpp src/game.h src/level_config.h src/campaign_types.h
+build/host/game.o: src/game.cpp src/egg_vehicles.cpp src/egg_vehicles.h src/game.h src/level_config.h src/campaign_types.h
 	@mkdir -p $(@D)
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Ivendor/box2d/include -Isrc -c $< -o $@
 
