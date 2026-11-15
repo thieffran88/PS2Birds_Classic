@@ -148,7 +148,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
         for k in range(2):
             level.append(dict(bs['defaults'],name=f"{o['name']}_bubble_{k+1}",definition='BP_BUBBLE_WITH_COLLISION_DAMAGE',x=o['x'],y=o['y'],angle=0.0,
                 width=float(bs['size'][0]),height=float(bs['size'][1]),kind=bs['kind'],shape='circle',spawn_of=parent+1,gun_bubble=True,
-                friction=material['friction'],restitution=profile['materials']['restitution_overrides']['BP_BUBBLE_WITH_COLLISION_DAMAGE']))
+                friction=profile['materials']['friction_overrides'].get('BP_BUBBLE_WITH_COLLISION_DAMAGE',material['friction']),restitution=profile['materials']['restitution_overrides']['BP_BUBBLE_WITH_COLLISION_DAMAGE']))
     if not 1<=len(level)<=640:raise ValueError('Adapter supports 1..640 scene objects')
     # SlingshotSystem.setPositionByStartObject (Slingshot.lua) places the slingshot on the
     # first bird of the queue: rest point = (x - 0.1, y - (h - pivot_y) * physicsScale +

@@ -399,7 +399,7 @@ cake=b34.split('L3_1 = "Spawning_cake"',1)[1].split('L3_1 = "',1)[0];cream=b34.s
 assert 'L7_1 = 10\nL6_1.amount = L7_1' in cake and objs['objects']['Spawning_cake']['death_spawn']=={'amount':10,'types':['CakeCream','CakeCream']}
 assert objs['objects']['CakeCream']['defaults']=={'density':float(re.search(r'L5_1 = ([\d.]+)\nL4_1.density',cream)[1]),'strength':float(re.search(r'L5_1 = ([\d.]+)\nL4_1.strength',cream)[1]),'defence':float(re.search(r'L5_1 = ([\d.]+)\nL4_1.defence',cream)[1])}
 cobj=campaign['objects'];parents=[o for o in cobj if o['spawn_of']==0 and o['definition']=='Spawning_cake']
-children=[o for o in cobj if o['spawn_of'] and o['clone_of']<0];assert len(children)==10*len(parents)>0 and all(o['definition']=='CakeCream' for o in children)
+children=[o for o in cobj if o['spawn_of'] and o['clone_of']<0 and not o['gun_bubble']];assert len(children)==10*len(parents)>0 and all(o['definition']=='CakeCream' for o in children)
 print("Birdday 3 and 4 OK: 30 stages in banks 15-16; Stella body, bubble radius and damage from blocks.lua, bubble physics from bubbles.lua/default_conf.lua/mode_MuseumMode.lua; party pieces with explicit sizes; deathSpawn releases 10 creams per big cake.")
 
 # Birdday 6 (page 21): order, bank 17, the four new pieces and the joints they rely on.
@@ -631,4 +631,7 @@ mf=(root/'ps2/data/episode_mighty_feathers_page1.decompiled.lua').read_text()
 order=list(dict.fromkeys(re.findall(r'"(EggDefender_classic_\d+)"',mf)))
 page=[pg for pg in episode['additional_pages'] if pg['number']==67][0]
 assert order==[f'EggDefender_classic_{k}' for k in range(1,16)]==page['levels'] and page['bank']==63 and '"RMFClassic"' in mf
-print("Mighty Feathers OK: 15 classic stages in bank 63 (class RMFClassic; vehicle gadgets inert).")
+camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN');bub=[o for o in camp['objects'] if o['gun_bubble']]
+guns=[i for i,o in enumerate(camp['objects']) if o['definition']=='BP_BUBBLE_GUN']
+assert len(bub)==2*len(guns)>0 and all(o['definition']=='BP_BUBBLE_WITH_COLLISION_DAMAGE' and o['spawn_of']>0 for o in bub)
+print(f"Mighty Feathers OK: 15 classic stages in bank 63 (class RMFClassic); {len(guns)} bubble guns with 2 bubbles each (cannon and sucker inert).")

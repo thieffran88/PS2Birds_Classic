@@ -169,7 +169,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.50.0
 
-- **Arma de bolhas (`EggDefenderGadget_BubbleGun.lua`):** a cada 2,5 s cria uma bolha (`BP_BUBBLE_WITH_COLLISION_DAMAGE` nas fases `RMFClassic`) na boca da arma e a lança com força sorteada entre 35 e 50 na direção da peça; para quando a arma se solta do veículo. Exige criar objetos durante a fase (o port só libera peças preparadas pelo importador), por isso ainda não foi portada. Há 10 armas, 15 sugadores e 6 ventiladores nas 19 fases `RMFClassic`.
+- **Arma de bolhas (`EggDefenderGadget_BubbleGun.lua`):** a cada 2,5 s cria uma bolha (`BP_BUBBLE_WITH_COLLISION_DAMAGE` nas fases `RMFClassic`) na boca da arma e a lança com força sorteada entre 35 e 50 na direção da peça; para quando a arma se solta do veículo. Feita na 0.50.0 com 2 bolhas escondidas por arma, reaproveitadas (no máximo duas vivas ao mesmo tempo). Há 10 armas, 15 sugadores e 6 ventiladores nas 19 fases `RMFClassic`.
 
 ## O que falta no jogo (código nativo não recuperado)
 
@@ -179,7 +179,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Engenhocas dos veículos (canhão, sugador, arma de bolhas: `RMFClassic_*.lua`); modo Egg Defender propriamente dito (15 fases `EggDefender_N`); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); giro dos clones do frasco azul; roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
+1. Engenhocas dos veículos que faltam (canhão e sugador: `EggDefenderGadget_Cannon.lua`, `RMFClassic_Sucker.lua`); modo Egg Defender propriamente dito (15 fases `EggDefender_N`); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); giro dos clones do frasco azul; roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).
