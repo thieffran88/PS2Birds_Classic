@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.58.0)
+# Lacunas do port (levantamento atualizado na 0.59.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -203,6 +203,10 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **`disableTeleporting`:** três veículos ficam onde a onda manda (perto do ninho); feito.
 - **Controladores:** 43 de 72 (fases 1 a 9).
 
+## Achados da 0.59.0
+
+- **Controladores:** 53 de 72 (fases 1 a 11). O voador de balões e foles da 11-1 não sobe no port (mesma falta de sustentação dos voadores da fase 4); a primeira carroça da fase 10 para antes do ovo.
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -211,7 +215,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Egg Defender: os 29 controladores de veículo restantes (fases 10 a 15), os tiros dos canhões, a calibragem dos voadores e a mira do vermelho (`pigTargeted`); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
+1. Egg Defender: os 19 controladores de veículo restantes (fases 12 a 15), os tiros dos canhões, a calibragem dos voadores e a mira do vermelho (`pigTargeted`); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).

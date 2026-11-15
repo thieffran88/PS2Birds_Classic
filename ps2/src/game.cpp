@@ -148,7 +148,7 @@ struct Physics: b2ContactListener {
     float thrust[MAX_LEVEL_OBJECTS],thrust_clock[MAX_LEVEL_OBJECTS];bool thrust_off[MAX_LEVEL_OBJECTS];
     /* Egg Defender: runtime forceX/forceY of the vehicle pieces, the pigs' abandoning state
        (EggDefenderPig.lua) and the egg (EggDefenderEggMovement.lua). */
-    float wforce_x[MAX_LEVEL_OBJECTS],wforce_y[MAX_LEVEL_OBJECTS],target_v[MAX_LEVEL_OBJECTS];
+    float wforce_x[MAX_LEVEL_OBJECTS],wforce_y[MAX_LEVEL_OBJECTS],target_v[MAX_LEVEL_OBJECTS],interval_v[MAX_LEVEL_OBJECTS];
     bool abandoned[MAX_LEVEL_OBJECTS],jump_ready[MAX_LEVEL_OBJECTS];
     float progress_clock[MAX_LEVEL_OBJECTS],progress_hist[MAX_LEVEL_OBJECTS][EGG_PROGRESS_SAMPLES+1];int progress_n[MAX_LEVEL_OBJECTS];
     int egg_i,nest_i,egg_grabber;float egg_tween,egg_home_angle;b2Vec2 egg_from,egg_home;bool egg_lost;
@@ -234,7 +234,8 @@ struct Physics: b2ContactListener {
         game_right=level->sling_x-EGG_SCREEN_MARGIN+EGG_SCREEN;
         memset(abandoned,0,sizeof(abandoned));memset(jump_ready,0,sizeof(jump_ready));memset(progress_clock,0,sizeof(progress_clock));memset(progress_n,0,sizeof(progress_n));
         memset(vehicles,0,sizeof(vehicles));
-        for(int i=0;i<level->count;i++){const CampaignForce *f=force_of[i];wforce_x[i]=f?f->fx:0;wforce_y[i]=f?f->fy:0;target_v[i]=f?(f->thrust_target>0?f->thrust_target:f->target):0;}
+        for(int i=0;i<level->count;i++){const CampaignForce *f=force_of[i];wforce_x[i]=f?f->fx:0;wforce_y[i]=f?f->fy:0;target_v[i]=f?(f->thrust_target>0?f->thrust_target:f->target):0;interval_v[i]=f?f->thrust_interval:0;
+            if(!strncmp(level->objects[i].definition,"BP_BALLOON_INFLATER",19))thrust_off[i]=true;}  /* EggDefenderGadget_BalloonInflater.init: disableForce */
         if(!egg_mode)return;
         for(int i=0;i<level->count;i++)if(!OBJECT_WAVE(level->objects[i].flags) && bodies[i]){
             if(!strcmp(level->objects[i].definition,"BP_EGG") && egg_i<0){egg_i=i;egg_home=bodies[i]->GetPosition();egg_home_angle=bodies[i]->GetAngle();}
@@ -854,6 +855,12 @@ float ev_closest_egg_x(EggVehicle *v,const char *name){
 }
 float *ev_vars(EggVehicle *v){return v->vars;}
 void ev_no_grab(EggVehicle *v){v->no_grab=true;}
+void ev_set_interval(EggVehicle *v,const char *name,float seconds){int i=v->p->piece(v->wave,name);if(i>=0)v->p->interval_v[i]=seconds;}
+float ev_closest_egg_distance(EggVehicle *v){
+    Physics *p=v->p;int i=p->first_pig(v->wave);
+    if(i<0 || p->egg_i<0 || !p->bodies[p->egg_i])return 9999999.0f;
+    return (p->bodies[i]->GetPosition()-p->bodies[p->egg_i]->GetPosition()).Length();
+}
 void ev_stop_aim(EggVehicle *v,const char *name){
     Physics *p=v->p;int i=p->piece(v->wave,name);
     for(int k=0;k<4;k++)if(v->aim_speed[k] && v->aim_piece[k]==i){b2Joint *jt=p->joints[v->aim_joint[k]];if(jt && jt->GetType()==e_revoluteJoint)((b2RevoluteJoint*)jt)->SetMotorSpeed(0);v->aim_speed[k]=0;}
@@ -998,15 +1005,15 @@ static void tick(Game *g) {
        applyForceInterval (bellows) F is a puff: one 1/30 s impulse per interval. disableForce
        (togglePower) switches the piece off. */
     if(p->egg_mode)for(int i=0;i<p->level->count;i++)if(p->bodies[i] && OBJECT_WAVE(p->level->objects[i].flags) && !p->thrust_off[i] && (p->thrust[i]!=0 || p->wforce_x[i]!=0 || p->wforce_y[i]!=0)){
-        b2Body *b=p->bodies[i];const CampaignForce *f=p->force_of[i];float a=b->GetAngle();
+        b2Body *b=p->bodies[i];float a=b->GetAngle();
         b2Vec2 force=p->thrust[i]!=0?b2Vec2(p->thrust[i]*cosf(a),p->thrust[i]*sinf(a)):b2Vec2(p->wforce_x[i],p->wforce_y[i]),v=b->GetLinearVelocity();
         float target=p->target_v[i];
         if(target>0){
             if(fabsf(v.x)>=target && v.x*force.x>0)force.x=0;
             if(fabsf(v.y)>=target && v.y*force.y>0)force.y=0;
         }
-        if(f && f->thrust_interval>0){
-            if((p->thrust_clock[i]+=dt)>=f->thrust_interval){p->thrust_clock[i]-=f->thrust_interval;b->ApplyLinearImpulseToCenter((1.0f/EGG_THRUST_RATE)*force,true);}
+        if(p->interval_v[i]>0){
+            if((p->thrust_clock[i]+=dt)>=p->interval_v[i]){p->thrust_clock[i]=0;b->ApplyLinearImpulseToCenter((1.0f/EGG_THRUST_RATE)*force,true);}
         }else b->ApplyForceToCenter(force,true);
     }
     /* backAndForth (native checkJointLimits): the motor turns around at each limit. */
