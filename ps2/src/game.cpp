@@ -155,6 +155,22 @@ struct Physics: b2ContactListener {
         const b2Body *b=bodies[gun];float a=b->GetAngle(),fw=level->objects[gun].width*0.47f+level->objects[bubble].width*0.5f,side=level->objects[gun].height*-0.05f;
         return b->GetPosition()+b2Vec2(fw*cosf(a)-side*sinf(a),fw*sinf(a)+side*cosf(a));
     }
+    void update_suckers(){
+        for(int s=0;s<level->count;s++){
+            if(!bodies[s] || !(level->objects[s].flags&OBJECT_SUCKER))continue;
+            b2Vec2 c=bodies[s]->GetPosition();float back=bodies[s]->GetAngle()+b2_pi,half=SUCKER_CONE*b2_pi/360.0f;
+            for(int j=0;j<level->count;j++){
+                b2Body *b=bodies[j];if(j==s || !b || b->GetType()!=b2_dynamicBody)continue;
+                b2Vec2 d=b->GetPosition()-c;float dist=d.Length();if(dist>SUCKER_RANGE)continue;
+                float off=atan2f(d.y,d.x)-back;while(off<-b2_pi)off+=2*b2_pi;while(off>b2_pi)off-=2*b2_pi;
+                if(fabsf(off)>=half)continue;
+                float force=SUCKER_FORCE*(SUCKER_RANGE-dist)/SUCKER_RANGE*b->GetMass()*SUCKER_CLASSIC_FACTOR;
+                if(force>=SUCKER_MIN_FORCE && dist>0)b->ApplyForceToCenter(-force/dist*d,true);
+                /* RMFClassic_Sucker.onCollision: a pulled piece touching the sucker is destroyed. */
+                for(b2ContactEdge *e=bodies[s]->GetContactList();e;e=e->next)if(e->other==b && e->contact->IsTouching()){health[j]=0;break;}
+            }
+        }
+    }
     void update_guns(float dt){
         for(int j=0;j<level->count;j++){
             if(!(level->objects[j].flags&OBJECT_GUN_BUBBLE) || !bodies[j])continue;
@@ -545,6 +561,7 @@ static void tick(Game *g) {
     Physics *p=static_cast<Physics*>(g->physics); const float dt=1.0f/120;
     g->birds+=p->pending_birds;p->pending_birds=0;
     p->update_guns(dt);
+    p->update_suckers();
     if(p->quake_time>0){
         float step=fminf(dt,p->quake_time);p->quake_time-=step;
         for(int i=0;i<p->level->count;i++){b2Body *b=p->bodies[i];

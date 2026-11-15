@@ -6487,7 +6487,8 @@
         4.0,
         4.0
       ],
-      "half_resolution": true
+      "half_resolution": true,
+      "sucker": true
     },
     "BP_TELESCOPIC_ARM": {
       "sprite": "TELESCOPIC_HARM",

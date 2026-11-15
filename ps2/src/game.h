@@ -50,6 +50,15 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 #define BUBBLE_GUN_LIFE 3.5f
 #define BUBBLE_GUN_FORCE_MIN 35.0f
 #define BUBBLE_GUN_FORCE_MAX 50.0f
+/* Pig vehicles' sucker (EggDefenderGadget_Sucker.lua, RMFClassic_Sucker.lua): from the level start
+   it pulls every dynamic piece within SUCKER_RANGE and within half of SUCKER_CONE degrees of its
+   back (angle + pi) with SUCKER_FORCE * (range - d) / range * mass * SUCKER_CLASSIC_FACTOR,
+   applied when at least SUCKER_MIN_FORCE; a pulled piece that touches the sucker is destroyed. */
+#define SUCKER_RANGE 35.0f
+#define SUCKER_CONE 55.0f
+#define SUCKER_FORCE 8.0f
+#define SUCKER_CLASSIC_FACTOR 5.0f
+#define SUCKER_MIN_FORCE 10.0f
 #define VIAL_DELAY 1.3f
 #define VIAL_ORANGE_POP 3.0f
 #define BUBBLE_TIME 2.0f

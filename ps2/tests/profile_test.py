@@ -634,4 +634,5 @@ assert order==[f'EggDefender_classic_{k}' for k in range(1,16)]==page['levels'] 
 camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN');bub=[o for o in camp['objects'] if o['gun_bubble']]
 guns=[i for i,o in enumerate(camp['objects']) if o['definition']=='BP_BUBBLE_GUN']
 assert len(bub)==2*len(guns)>0 and all(o['definition']=='BP_BUBBLE_WITH_COLLISION_DAMAGE' and o['spawn_of']>0 for o in bub)
-print(f"Mighty Feathers OK: 15 classic stages in bank 63 (class RMFClassic); {len(guns)} bubble guns with 2 bubbles each (cannon and sucker inert).")
+suckers=[o for o in camp['objects'] if o['sucker']];assert len(suckers)==21 and all(o['definition']=='BP_SUCKER' for o in suckers)
+print(f"Mighty Feathers OK: 15 classic stages in bank 63 (class RMFClassic); {len(guns)} bubble guns with 2 bubbles each; {len(suckers)} suckers.")

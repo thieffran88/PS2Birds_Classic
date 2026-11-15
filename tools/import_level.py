@@ -116,7 +116,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
         material=profile['materials']['by_kind'][str(kind)]
         friction=profile['materials']['friction_overrides'].get(o['definition'],material['friction'])
         restitution=profile['materials'].get('restitution_overrides',{}).get(o['definition'],material['restitution'])
-        level.append(dict(o,width=w,height=h,kind=kind,shape=collision,friction=friction,restitution=restitution,**({'no_collision':True} if shape.get('no_collision') else {}),**({'mirror':mirror} if mirror else {}),**({'release_bird':profile['bird_types'][shape['release_bird']]} if shape.get('release_bird') else {})))
+        level.append(dict(o,width=w,height=h,kind=kind,shape=collision,friction=friction,restitution=restitution,**({'no_collision':True} if shape.get('no_collision') else {}),**({'mirror':mirror} if mirror else {}),**({'sucker':True} if shape.get('sucker') else {}),**({'release_bird':profile['bird_types'][shape['release_bird']]} if shape.get('release_bird') else {})))
     # gamelogic.lua: when a piece with deathSpawn (blocks.lua) is destroyed, createObject puts
     # `amount` pieces of the listed types at its position with a random rotation, using the
     # definition's own density/strength/defence. They are stored after the scene, hidden until
