@@ -131,6 +131,15 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
                 width=float(size[0]),height=float(size[1]),kind=ts['kind'],shape=ts.get('shape','box'),spawn_of=parent+1,
                 friction=profile['materials']['friction_overrides'].get(kind_name,material['friction']),
                 restitution=profile['materials'].get('restitution_overrides',{}).get(kind_name,material['restitution'])))
+    # VialEffects.lua (blackBirdBlueVialRemoved): a broken blue vial clones every pig within
+    # vialEffect.radius at cloneScale 0.8. The clones are stored hidden after the scene and are
+    # released next to their pig if it is still alive and in range ("clone_of" = its index).
+    for parent,o in enumerate(list(level)):
+        vial=profile['objects'][o['definition']].get('vial')
+        if not vial or vial[0]!=3:continue
+        for pig,q in enumerate(list(level)):
+            if q['kind']!=4 or q.get('spawn_of') or (q['x']-o['x'])**2+(q['y']-o['y'])**2>=vial[1]**2:continue
+            level.append(dict(q,name=q['name']+'_clone',width=q['width']*0.8,height=q['height']*0.8,spawn_of=parent+1,clone_of=pig))
     if not 1<=len(level)<=640:raise ValueError('Adapter supports 1..640 scene objects')
     # SlingshotSystem.setPositionByStartObject (Slingshot.lua) places the slingshot on the
     # first bird of the queue: rest point = (x - 0.1, y - (h - pivot_y) * physicsScale +

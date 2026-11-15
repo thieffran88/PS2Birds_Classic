@@ -121,5 +121,20 @@ int main(){
      }
  }
  assert(vial_seen[1] && vial_seen[2]);
- printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s; mirrored pieces; a broken cage adds its bird to the queue; trajectories follow upside-down and zero gravity; orange vials pop nearby pigs and pink vials lift them in bubbles.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
+ // Blue vial: the pigs around it get a 0.8-scale clone, which joins the pigs to destroy.
+ int cloned=0;
+ for(int lv=0;lv<game_level_count() && !cloned;lv++){
+     assert(game_load_level(&g,lv));
+     for(int k=0;k<game_object_count(&g) && !cloned;k++){
+         GameObject v;game_get_object(&g,k,&v);
+         if(!v.definition || strcmp(v.definition,"BLACKBIRD_VIAL_BLUE") || !v.alive)continue;
+         int before=g.pig_alive,hidden=0;
+         for(int m=0;m<game_object_count(&g);m++){GameObject o;game_get_object(&g,m,&o);if(o.kind==4 && !o.alive)hidden++;}
+         if(!hidden)continue;
+         game_damage_object(&g,k);game_update(&g,1.0f/120);game_update(&g,1.0f/120);
+         if(g.pig_alive>before)cloned=g.pig_alive-before;
+     }
+ }
+ assert(cloned>0);
+ printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s; mirrored pieces; a broken cage adds its bird to the queue; trajectories follow upside-down and zero gravity; orange vials pop nearby pigs and pink vials lift them in bubbles; blue vials clone them.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
 }

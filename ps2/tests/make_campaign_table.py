@@ -20,7 +20,7 @@ rows=[];index=0;missing=[]
 for page,levels in pages:
     for n in range(1,len(levels)+1):
         d=json.loads((ROOT/f'ps2/data/level_{page}_{n}.json').read_text())
-        pigs=sum(o['kind']==4 for o in d['objects']);blocks=sum(o['kind'] not in (3,4) for o in d['objects'])
+        pigs=sum(o['kind']==4 and not o.get('spawn_of') for o in d['objects']);blocks=sum(o['kind'] not in (3,4) for o in d['objects'])
         if index in shots:sh='{'+','.join('{%s,%s,%.1ff}'%s for s in shots[index])+'}';c=len(shots[index])
         else:sh,c='{{0,0,-1.0f}}',0;missing.append(d['title'])
         rows.append(f' {{"{d["stage_script"]}",{len(d["objects"])},{pigs},{blocks},{len(d["birds"])},{sh},{c}}}, /* {d["title"]}{" (sem roteiro vencedor)" if not c else ""} */')

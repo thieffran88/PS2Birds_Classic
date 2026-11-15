@@ -498,27 +498,27 @@ static const Stage stages[]={
  {"BlackBird_6",134,5,74,4,{{50,80,2.0f},{20,100,2.0f},{30,90,1.4f}},3}, /* SHORT FUSE 1-6 */
  {"BlackBird_7",153,8,96,4,{{0,0,-1.0f}},0}, /* SHORT FUSE 1-7 (sem roteiro vencedor) */
  {"BlackBird_8",127,6,98,4,{{40,100,1.4f},{70,80,1.8f},{50,100,2.6f}},3}, /* SHORT FUSE 1-8 */
- {"BlackBird_9",91,3,53,3,{{30,80,1.0f}},1}, /* SHORT FUSE 1-9 */
+ {"BlackBird_9",92,3,53,3,{{30,80,1.0f}},1}, /* SHORT FUSE 1-9 */
  {"BlackBird_10",70,4,50,3,{{10,100,0.8f},{-10,80,1.8f}},2}, /* SHORT FUSE 1-10 */
  {"BlackBird_11",120,4,66,3,{{60,90,2.6f},{20,90,-1.0f}},2}, /* SHORT FUSE 1-11 */
- {"BlackBird_12",179,7,138,3,{{70,90,0.8f},{30,90,-1.0f},{30,100,2.0f}},3}, /* SHORT FUSE 1-12 */
+ {"BlackBird_12",182,7,138,3,{{70,90,0.8f},{30,90,-1.0f},{30,100,2.0f}},3}, /* SHORT FUSE 1-12 */
  {"BlackBird_13",88,6,70,4,{{40,90,1.2f},{-10,30,0.6f}},2}, /* SHORT FUSE 1-13 */
- {"BlackBird_14",147,9,88,4,{{10,90,2.6f},{70,100,2.3f},{70,80,0.8f},{80,100,1.6f}},4}, /* SHORT FUSE 1-14 */
+ {"BlackBird_14",150,9,88,4,{{10,90,2.6f},{70,100,2.3f},{70,80,0.8f},{80,100,1.6f}},4}, /* SHORT FUSE 1-14 */
  {"BlackBird_15",136,5,82,4,{{0,0,-1.0f}},0}, /* SHORT FUSE 1-15 (sem roteiro vencedor) */
- {"BlackBird_16",122,7,88,4,{{40,80,1.6f},{40,80,2.3f}},2}, /* SHORT FUSE 2-1 */
+ {"BlackBird_16",123,7,88,4,{{40,80,1.6f},{40,80,2.3f}},2}, /* SHORT FUSE 2-1 */
  {"BlackBird_17",166,5,122,3,{{0,0,-1.0f}},0}, /* SHORT FUSE 2-2 (sem roteiro vencedor) */
  {"BlackBird_18",145,8,91,4,{{20,100,0.8f},{20,100,1.8f}},2}, /* SHORT FUSE 2-3 */
  {"BlackBird_19",106,5,75,2,{{0,0,-1.0f}},0}, /* SHORT FUSE 2-4 (sem roteiro vencedor) */
- {"BlackBird_20",151,6,83,4,{{0,0,-1.0f}},0}, /* SHORT FUSE 2-5 (sem roteiro vencedor) */
+ {"BlackBird_20",152,6,83,4,{{0,0,-1.0f}},0}, /* SHORT FUSE 2-5 (sem roteiro vencedor) */
  {"BlackBird_21",170,9,111,3,{{60,80,1.2f},{40,60,0.6f}},2}, /* SHORT FUSE 2-6 */
- {"BlackBird_22",136,8,88,4,{{0,0,-1.0f}},0}, /* SHORT FUSE 2-7 (sem roteiro vencedor) */
+ {"BlackBird_22",142,8,88,4,{{0,0,-1.0f}},0}, /* SHORT FUSE 2-7 (sem roteiro vencedor) */
  {"BlackBird_23",135,7,95,3,{{10,90,1.0f},{70,90,2.0f},{80,100,1.2f}},3}, /* SHORT FUSE 2-8 */
  {"BlackBird_24",212,11,130,3,{{0,0,-1.0f}},0}, /* SHORT FUSE 2-9 (sem roteiro vencedor) */
  {"BlackBird_25",158,7,112,3,{{20,100,1.4f},{30,100,2.6f}},2}, /* SHORT FUSE 2-10 */
  {"BlackBird_26",163,10,84,4,{{30,100,1.6f},{40,100,2.3f},{40,90,2.6f}},3}, /* SHORT FUSE 2-11 */
- {"BlackBird_27",118,10,80,3,{{40,90,1.2f},{50,90,-1.0f}},2}, /* SHORT FUSE 2-12 */
- {"BlackBird_28",165,7,107,3,{{0,0,-1.0f}},0}, /* SHORT FUSE 2-13 (sem roteiro vencedor) */
- {"BlackBird_29",145,9,97,4,{{70,100,2.0f},{30,100,2.0f}},2}, /* SHORT FUSE 2-14 */
+ {"BlackBird_27",119,10,80,3,{{40,90,1.2f},{50,90,-1.0f}},2}, /* SHORT FUSE 2-12 */
+ {"BlackBird_28",166,7,107,3,{{0,0,-1.0f}},0}, /* SHORT FUSE 2-13 (sem roteiro vencedor) */
+ {"BlackBird_29",148,9,97,4,{{70,100,2.0f},{30,100,2.0f}},2}, /* SHORT FUSE 2-14 */
  {"BlackBird_30",187,13,100,5,{{70,100,-1.0f},{60,100,-1.0f},{30,100,0.8f},{60,100,1.8f}},4}, /* SHORT FUSE 2-15 */
  {"BlackBird_31",180,9,126,3,{{40,100,-1.0f},{10,90,1.2f}},2}, /* SHORT FUSE 3-1 */
  {"BlackBird_32",157,5,81,3,{{40,90,1.4f},{20,90,1.8f}},2}, /* SHORT FUSE 3-2 */
@@ -529,12 +529,12 @@ static const Stage stages[]={
  {"BlackBird_37",217,8,78,4,{{20,100,1.2f}},1}, /* SHORT FUSE 3-7 */
  {"BlackBird_38",142,9,107,4,{{30,100,1.4f},{70,100,0.8f}},2}, /* SHORT FUSE 3-8 */
  {"BlackBird_39",157,11,90,4,{{20,80,2.3f}},1}, /* SHORT FUSE 3-9 */
- {"BlackBird_40",107,8,74,3,{{60,80,1.2f},{20,70,-1.0f}},2}, /* SHORT FUSE 3-10 */
+ {"BlackBird_40",108,8,74,3,{{60,80,1.2f},{20,70,-1.0f}},2}, /* SHORT FUSE 3-10 */
  {"BlackBird_41",138,6,83,4,{{50,100,2.6f},{50,90,0.6f}},2}, /* SHORT FUSE 3-11 */
  {"BlackBird_42",308,7,147,4,{{70,90,1.4f},{10,70,0.6f},{30,80,1.8f},{30,100,2.6f}},4}, /* SHORT FUSE 3-12 */
- {"BlackBird_43",140,8,108,4,{{30,100,-1.0f},{40,90,2.0f}},2}, /* SHORT FUSE 3-13 */
+ {"BlackBird_43",141,8,108,4,{{30,100,-1.0f},{40,90,2.0f}},2}, /* SHORT FUSE 3-13 */
  {"BlackBird_44",218,6,132,3,{{30,80,2.6f},{60,100,-1.0f},{60,70,-1.0f}},3}, /* SHORT FUSE 3-14 */
- {"BlackBird_45",251,8,138,3,{{40,70,0.6f},{30,90,-1.0f}},2}, /* SHORT FUSE 3-15 */
+ {"BlackBird_45",253,8,138,3,{{40,70,0.6f},{30,90,-1.0f}},2}, /* SHORT FUSE 3-15 */
  {"Level264_t_Movie",131,5,85,4,{{50,50,1.2f},{40,80,1.2f},{40,90,1.4f}},3}, /* BIRD ISLAND 1-1 */
  {"Level232_Movie",259,8,83,4,{{40,90,-1.0f},{60,100,2.6f}},2}, /* BIRD ISLAND 1-2 */
  {"Level233_Movie",300,11,86,4,{{20,90,0.6f},{30,100,2.6f},{50,100,-1.0f},{50,70,0.6f}},4}, /* BIRD ISLAND 1-3 */
@@ -597,7 +597,7 @@ static const Stage stages[]={
  {"Farm3_wheelshop",304,8,202,4,{{30,80,2.3f},{70,100,1.6f}},2}, /* PIGGY FARM 3-9 */
  {"Farm3_vegetables",370,9,216,5,{{0,90,1.2f},{50,100,1.2f},{10,80,2.6f}},3}, /* PIGGY FARM 3-10 */
  {"Farm3_pinetrees",284,8,196,6,{{0,0,-1.0f}},0}, /* PIGGY FARM 3-11 (sem roteiro vencedor) */
- {"Farm3_poppyfactory",300,10,172,4,{{40,100,1.0f},{20,100,2.3f}},2}, /* PIGGY FARM 3-12 */
+ {"Farm3_poppyfactory",301,10,172,4,{{40,100,1.0f},{20,100,2.3f}},2}, /* PIGGY FARM 3-12 */
  {"Farm3_scarecrows",425,8,209,5,{{40,100,0.8f},{10,80,1.6f},{0,50,1.6f},{70,90,2.3f}},4}, /* PIGGY FARM 3-13 */
  {"Farm3_pumpkinparty",335,9,143,4,{{10,80,1.2f},{60,100,2.0f}},2}, /* PIGGY FARM 3-14 */
  {"Farm3_tractorpulling",262,15,149,5,{{0,60,2.3f},{70,100,1.8f},{50,90,1.6f}},3}, /* PIGGY FARM 3-15 */
@@ -669,8 +669,8 @@ static const Stage stages[]={
  {"FlockFavorites20",252,7,131,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-5 (sem roteiro vencedor) */
  {"FlockFavorites21",117,7,60,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-6 (sem roteiro vencedor) */
  {"FlockFavorites22",127,10,43,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-7 (sem roteiro vencedor) */
- {"FlockFavorites23",181,11,92,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-8 (sem roteiro vencedor) */
- {"FlockFavorites24",161,19,73,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-9 (sem roteiro vencedor) */
+ {"FlockFavorites23",182,11,92,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-8 (sem roteiro vencedor) */
+ {"FlockFavorites24",164,19,73,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-9 (sem roteiro vencedor) */
  {"FlockFavorites26",162,7,91,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-10 (sem roteiro vencedor) */
  {"FlockFavorites27",111,6,70,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-11 (sem roteiro vencedor) */
  {"FlockFavorites29",65,5,49,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-12 (sem roteiro vencedor) */

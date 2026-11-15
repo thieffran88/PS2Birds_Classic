@@ -399,7 +399,7 @@ cake=b34.split('L3_1 = "Spawning_cake"',1)[1].split('L3_1 = "',1)[0];cream=b34.s
 assert 'L7_1 = 10\nL6_1.amount = L7_1' in cake and objs['objects']['Spawning_cake']['death_spawn']=={'amount':10,'types':['CakeCream','CakeCream']}
 assert objs['objects']['CakeCream']['defaults']=={'density':float(re.search(r'L5_1 = ([\d.]+)\nL4_1.density',cream)[1]),'strength':float(re.search(r'L5_1 = ([\d.]+)\nL4_1.strength',cream)[1]),'defence':float(re.search(r'L5_1 = ([\d.]+)\nL4_1.defence',cream)[1])}
 cobj=campaign['objects'];parents=[o for o in cobj if o['spawn_of']==0 and o['definition']=='Spawning_cake']
-children=[o for o in cobj if o['spawn_of']];assert len(children)==10*len(parents)>0 and all(o['definition']=='CakeCream' for o in children)
+children=[o for o in cobj if o['spawn_of'] and o['clone_of']<0];assert len(children)==10*len(parents)>0 and all(o['definition']=='CakeCream' for o in children)
 print("Birdday 3 and 4 OK: 30 stages in banks 15-16; Stella body, bubble radius and damage from blocks.lua, bubble physics from bubbles.lua/default_conf.lua/mode_MuseumMode.lua; party pieces with explicit sizes; deathSpawn releases 10 creams per big cake.")
 
 # Birdday 6 (page 21): order, bank 17, the four new pieces and the joints they rely on.
@@ -614,4 +614,5 @@ if sf.exists():
     t=sf.read_text()
     for n,rad in [('BLACKBIRD_VIAL_ORANGE',6),('BLACKBIRD_VIAL_PINK',7),('BLACKBIRD_VIAL_BLUE',7)]:
         i=t.rindex(f'L3_1 = "{n}"');assert f'L7_1 = {rad}\nL6_1.radius = L7_1' in t[i:i+20000],n
-print("Vials OK: orange, pink and blue vials carry their effect and radius from blocks.lua.")
+clones=[o for o in camp['objects'] if o['clone_of']>=0];assert clones and all(o['spawn_of']>0 for o in clones)
+print(f"Vials OK: orange, pink and blue vials carry their effect and radius from blocks.lua; {len(clones)} hidden pig clones wait for blue vials.")

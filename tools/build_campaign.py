@@ -27,7 +27,7 @@ def write_binary(levels,profile,polys,forced,stars,path=None):
     for d in levels:
         o0,j0=no,nj
         for o in d['objects']:
-            objs+=struct.pack('<8f2iI2fii',*[r(o[k]) for k in ['x','y','angle','width','height','density','strength','defence']],o['kind'],shapes.index(o['shape']),s(o['definition']),r(o['friction']),r(o['restitution']),o.get('spawn_of',0),(1 if o.get('no_collision') else 0)|o.get('mirror',0)|((o['release_bird']+1)<<8 if 'release_bird' in o else 0));no+=1
+            objs+=struct.pack('<8f2iI2fii',*[r(o[k]) for k in ['x','y','angle','width','height','density','strength','defence']],o['kind'],shapes.index(o['shape']),s(o['definition']),r(o['friction']),r(o['restitution']),o.get('spawn_of',0),(1 if o.get('no_collision') else 0)|o.get('mirror',0)|((o['release_bird']+1)<<8 if 'release_bird' in o else 0)|((o['clone_of']+1)<<16 if 'clone_of' in o else 0));no+=1
         for j in d.get('joints') or []:
             joints+=struct.pack('<3i7fif6fi',j['type'],j['a'],j['b'],*[r(j[k]) for k in ['ax','ay','bx','by','frequency','damping','break_force']],int(j['collide']),r(j.get('destroy_timer',0.0)),*[r(j.get(k,0.0)) for k in ['axis_x','axis_y','lower','upper','motor_speed','max_force']],(1 if j.get('limit') else 0)|(2 if j.get('motor') else 0)|(4 if j.get('back_and_forth') else 0));nj+=1
         types=[b['type'] for b in d['birds']];types+=[0]*(16-len(types))
@@ -73,7 +73,7 @@ def read_binary(path):
         if any(v[4:8]):ex[s(v[0])]=tuple(v[4:8])
         if v[8]:vi[s(v[0])]=(v[8],v[9])
     return {'levels':[{'title':s(l[27]),'script':s(l[28]),'objects':l[1],'birds':l[2],'bank':l[29],'joints':l[31]} for l in lv],
-            'objects':[{'definition':s(o[10]),'spawn_of':o[13],'no_collision':bool(o[14]&1),'mirror':o[14]&6,'release_bird':(o[14]>>8)-1} for o in ob],
+            'objects':[{'definition':s(o[10]),'spawn_of':o[13],'no_collision':bool(o[14]&1),'mirror':o[14]&6,'release_bird':((o[14]>>8)&255)-1,'clone_of':(o[14]>>16)-1} for o in ob],
             'joints':[{'type':j[0],'destroy_timer':j[11],'axis':(j[12],j[13]),'lower':j[14],'upper':j[15],'motor_speed':j[16],'max_force':j[17],'flags':j[18]} for j in jo],'polygons':po,'forces':fo,'explosions':ex,'vials':vi}
 
 def build(episode_path=EPISODE,apk=None,workdir=None,output=None,quiet=False):

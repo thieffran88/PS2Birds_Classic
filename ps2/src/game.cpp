@@ -111,7 +111,7 @@ struct Physics: b2ContactListener {
     bool boomerang_active;float boomerang_x_force,boomerang_y_force,boomerang_spin;
     int puffer_state;float puffer_timer,puffer_auto,puffer_direction;unsigned puffer_seed;
     float pink_timer,bird_bubble;bool pink_hover;
-    int extra_types[16],extra_count,pending_birds;
+    int extra_types[16],extra_count,pending_birds,pending_pigs;
     float shock_time;b2Vec2 shock_center;bool shock_hit[MAX_LEVEL_OBJECTS];float electrocute[MAX_LEVEL_OBJECTS];float bubble_timer[MAX_LEVEL_OBJECTS],bubble_float[MAX_LEVEL_OBJECTS];float vial_wait[MAX_LEVEL_OBJECTS],vial_pop[MAX_LEVEL_OBJECTS];int vial_kind[MAX_LEVEL_OBJECTS];bool vial_shield[MAX_LEVEL_OBJECTS];
     int bird_type;
     b2Body *split[2],*egg;bool egg_collided;
@@ -130,7 +130,7 @@ struct Physics: b2ContactListener {
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),puffer_state(0),puffer_timer(0),puffer_auto(-1),puffer_direction(0),puffer_seed(12345u),pink_timer(-1),bird_bubble(0),pink_hover(false),bird_type(BIRD_RED_TYPE) {
         egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
         damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
-        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
+        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;pending_pigs=0;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
         world.SetContactListener(this);destruction.owner=this;world.SetDestructionListener(&destruction);
         /* The Ground object of the stage data spans the whole level; stages place pieces up to
            x=825, so the floor is FLOOR_HALF_WIDTH wide on each side of the origin. */
@@ -158,7 +158,14 @@ struct Physics: b2ContactListener {
             for(int j=0;j<level->count;j++)if(bodies[j] && level->objects[j].kind==4 && !vial_kind[j] && (bodies[j]->GetPosition()-where).LengthSquared()<vf->vial_radius*vf->vial_radius){vial_kind[j]=vf->vial;vial_wait[j]=VIAL_DELAY;}
         int caged=OBJECT_RELEASED_BIRD(level->objects[parent].flags);
         if(caged>=0 && extra_count<16){extra_types[extra_count++]=caged;pending_birds++;}
-        for(int j=0;j<level->count;j++)if(level->objects[j].spawn_of==parent+1 && !bodies[j])create_body(j,where.x,where.y,level->objects[j].angle);
+        for(int j=0;j<level->count;j++)if(level->objects[j].spawn_of==parent+1 && !bodies[j]){
+            int source=(int)OBJECT_CLONE_OF(level->objects[j].flags);
+            if(source<0){create_body(j,where.x,where.y,level->objects[j].angle);continue;}
+            /* Blue vial clone: only for a pig still alive within the vial radius, next to it. */
+            if(source>=level->count || !bodies[source] || !vf || vf->vial!=VIAL_BLUE || (bodies[source]->GetPosition()-where).LengthSquared()>=vf->vial_radius*vf->vial_radius)continue;
+            b2Vec2 at=bodies[source]->GetPosition();float side=at.x>=where.x?1.0f:-1.0f;
+            create_body(j,at.x+side*level->objects[j].width,at.y,0);pending_pigs++;
+        }
     }
     void create_body(int i,float x,float y,float angle){
         {
@@ -359,7 +366,7 @@ int game_load_level(Game *g,int index) {
     g->ground_y=l->view_y+l->ground_y*l->view_scale;g->gravity=l->gravity;
     g->sling_x=l->view_x+l->sling_x*l->view_scale;g->sling_y=l->view_y+l->sling_y*l->view_scale;
     g->x=g->sling_x;g->y=g->sling_y;g->angle=30;g->power=75;g->birds=l->birds;g->state=AIMING;
-    for(int i=0;i<l->count;i++){if(l->objects[i].kind==4)g->pig_alive++;if(l->objects[i].kind!=3 && l->objects[i].kind!=4)g->block_alive++;}
+    for(int i=0;i<l->count;i++){if(l->objects[i].kind==4 && !l->objects[i].spawn_of)g->pig_alive++;if(l->objects[i].kind!=3 && l->objects[i].kind!=4)g->block_alive++;}
     return 1;
 }
 void game_reset(Game *g){game_load_level(g,g->level);}
@@ -651,6 +658,7 @@ static void tick(Game *g) {
             if(o.kind==4){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else {g->block_alive--;g->score+=o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
         }
     }
+    g->pig_alive+=p->pending_pigs;p->pending_pigs=0;
     if(g->pig_alive==0) {
         g->score+=g->birds*10000;g->state=WON;
         g->highscores[g->level]=g->score>g->highscores[g->level]?g->score:g->highscores[g->level];
