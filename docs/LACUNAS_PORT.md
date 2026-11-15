@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.49.0)
+# Lacunas do port (levantamento atualizado na 0.50.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -166,6 +166,10 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 - **Mighty Feathers tem dois tipos de fase.** As 15 `EggDefender_classic_N` (classe `RMFClassic` no `episodes.lua`) são fases comuns de estilingue com porcos em veículos: entraram no port. As 15 `EggDefender_N` (com `.scripts.lua`) são o modo Egg Defender de verdade (o jogador defende o ovo; `EggDefender.lua`, 1899 linhas, mais veículo, porco e HUD próprios): continuam fora.
 - **Engenhocas dos veículos — faltam.** `RMFClassic_Cannon.lua`, `RMFClassic_Sucker.lua` e `RMFClassic_BubbleGun.lua` (com `EggDefenderGadget_*.lua`) fazem o canhão atirar, o sugador puxar e a arma soltar bolhas. No port essas peças existem, mas ficam paradas; vale para as 15 fases do Mighty Feathers e para as 4 do Flock Favorites de tema 26 (12, 14, 25 e 28), que também entraram.
+
+## Achados da 0.50.0
+
+- **Arma de bolhas (`EggDefenderGadget_BubbleGun.lua`):** a cada 2,5 s cria uma bolha (`BP_BUBBLE_WITH_COLLISION_DAMAGE` nas fases `RMFClassic`) na boca da arma e a lança com força sorteada entre 35 e 50 na direção da peça; para quando a arma se solta do veículo. Exige criar objetos durante a fase (o port só libera peças preparadas pelo importador), por isso ainda não foi portada. Há 10 armas, 15 sugadores e 6 ventiladores nas 19 fases `RMFClassic`.
 
 ## O que falta no jogo (código nativo não recuperado)
 
