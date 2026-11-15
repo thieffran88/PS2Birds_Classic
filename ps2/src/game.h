@@ -48,6 +48,8 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 /* Egg Defender (EggDefenderVehicle.lua, EggDefenderPig.lua, EggDefenderEggMovement.lua and the
    native force adder of libAngryBirdsClassic, which the game updates 30 times a second). */
 #define EGG_THRUST_RATE 30.0f
+#define RED_SPECIAL_DELAY 0.5f      /* redbird_special.lua: 0.5 s aiming pause ... */
+#define RED_SPECIAL_SPEED 75.0f      /* ... then straight at the target at 75 m/s */
 #define EGG_GRAB_DX 5.0f             /* grabEggs: |pig - egg| below 5 m across ... */
 #define EGG_GRAB_DY 10.0f            /* ... and 10 m up/down */
 #define EGG_JUMP_TIME 0.75f          /* the egg's jump into the pig's hands or back to the nest */

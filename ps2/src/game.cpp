@@ -153,6 +153,10 @@ struct Physics: b2ContactListener {
     float progress_clock[MAX_LEVEL_OBJECTS],progress_hist[MAX_LEVEL_OBJECTS][EGG_PROGRESS_SAMPLES+1];int progress_n[MAX_LEVEL_OBJECTS];
     int egg_i,nest_i,egg_grabber;float egg_tween,egg_home_angle;b2Vec2 egg_from,egg_home;bool egg_lost;
     float game_right;int escaped_pigs;
+    /* RedBird_Special (redbird_special.lua) in the Mighty Feathers modes (g_red_bird_special_available):
+       while the red bird flies the closest pig is its target; on the special the world slows for
+       0.5 s, then the bird flies straight at the target at 75 m/s without gravity until it hits. */
+    bool red_mode;int red_target;float red_delay;b2Vec2 red_aim;bool red_fly;
     /* Egg Defender gadgets (EggDefenderGadget_*.lua): sucker state (0 idle, 1 starting, 2 sucking)
        and timers of rockets and balloon inflaters. */
     int gadget_state[MAX_LEVEL_OBJECTS];float gadget_run[MAX_LEVEL_OBJECTS],gadget_time[MAX_LEVEL_OBJECTS],gadget_value[MAX_LEVEL_OBJECTS],gadget_value2[MAX_LEVEL_OBJECTS];
@@ -228,7 +232,7 @@ struct Physics: b2ContactListener {
         if(v.c && v.c->init)v.c->init(&v);
     }
     void egg_setup(){
-        escaped_pigs=0;memset(gadget_state,0,sizeof(gadget_state));memset(gadget_time,0,sizeof(gadget_time));
+        escaped_pigs=0;red_mode=level->script && !strncmp(level->script,"EggDefender_",12);red_target=-1;red_delay=-1;red_fly=false;red_aim.SetZero();memset(gadget_state,0,sizeof(gadget_state));memset(gadget_time,0,sizeof(gadget_time));
         for(int i=0;i<MAX_LEVEL_OBJECTS;i++){gadget_run[i]=EGG_ROCKET_RUN;gadget_value[i]=EGG_INFLATED_FORCE_X;gadget_value2[i]=EGG_INFLATED_FORCE_Y;}
         egg_i=nest_i=egg_grabber=-1;egg_tween=-1;egg_lost=false;egg_home_angle=0;egg_home.SetZero();egg_from.SetZero();
         game_right=level->sling_x-EGG_SCREEN_MARGIN+EGG_SCREEN;
@@ -557,7 +561,7 @@ void game_launch(Game *g) {
     p->egg=NULL;p->egg_collided=false;
     p->spawn_ignore_count=0;
     for(int i=0;i<2;i++){if(p->split[i])p->world.DestroyBody(p->split[i]);p->split[i]=NULL;p->split_collided[i]=false;}
-    p->bird_type=game_queue_type(g,0);p->shock_bonus=false;p->trapped_by=-1;p->special_used=false;p->bird_collided=false;p->boomerang_active=false;p->boomerang_spin=0;p->puffer_state=0;p->puffer_timer=0;p->puffer_auto=-1;p->puffer_direction=0;p->puffer_seed=12345u;p->pink_timer=-1;p->bird_bubble=0;p->pink_hover=false;
+    p->bird_type=game_queue_type(g,0);p->red_delay=-1;p->red_fly=false;p->red_target=-1;p->shock_bonus=false;p->trapped_by=-1;p->special_used=false;p->bird_collided=false;p->boomerang_active=false;p->boomerang_spin=0;p->puffer_state=0;p->puffer_timer=0;p->puffer_auto=-1;p->puffer_direction=0;p->puffer_seed=12345u;p->pink_timer=-1;p->bird_bubble=0;p->pink_hover=false;
     g->angle=clamp(g->angle,ANGLE_MIN,ANGLE_MAX);g->power=clamp(g->power,POWER_MIN,POWER_MAX);
     float a=g->angle*0.01745329252f;
     p->bird=p->make_bird(b2Vec2(p->level->sling_x,p->level->sling_y),b2Vec2(cosf(a)*LAUNCH_SPEED_MAX*sling_power(p)*g->power/100.0f,-sinf(a)*LAUNCH_SPEED_MAX*sling_power(p)*g->power/100.0f),p->bird_type);
@@ -590,6 +594,7 @@ int game_special_available(const Game *g){
     if(p->bird_type==BIRD_BLACK_TYPE || p->bird_type==BIRD_SHOCK_TYPE)return 1;
     if(p->bird_type==BIRD_PUFFER_TYPE)return 1; /* specialtyAvailableAfterCollision */
     if(p->bird_type==BIRD_PINK_TYPE)return !p->special_used && p->pink_timer<0;
+    if(p->bird_type==BIRD_RED_TYPE && p->red_mode)return !p->bird_collided;
     return (p->bird_type==BIRD_BLUE_TYPE || p->bird_type==BIRD_YELLOW_TYPE || p->bird_type==BIRD_WHITE_TYPE || p->bird_type==BIRD_GREEN_TYPE) && !p->bird_collided;
 }
 static void radial_blast(Game *g,const b2Vec2 &position,float radius,float force,float damage_radius,float damage);
@@ -614,6 +619,12 @@ int game_special(Game *g){
     if(p->trapped_by>=0){
         if(p->bird_type==BIRD_PINK_TYPE)return 0;
         if(p->bird_type==BIRD_PUFFER_TYPE || p->bird_type==BIRD_SHOCK_TYPE){p->health[p->trapped_by]=0;p->trapped_by=-1;}
+    }
+    if(p->bird_type==BIRD_RED_TYPE && p->red_mode){
+        p->special_used=true;p->red_delay=RED_SPECIAL_DELAY;
+        if(p->red_target>=0 && p->bodies[p->red_target])p->red_aim=p->bodies[p->red_target]->GetPosition();
+        else{b2Vec2 v=p->bird->GetLinearVelocity();if(v.Normalize()<0.01f)v.Set(1,0);p->red_aim=p->bird->GetPosition()+10*v;}
+        return 1;
     }
     if(p->bird_type==BIRD_BLACK_TYPE || p->bird_type==BIRD_SHOCK_TYPE){p->bomb_requested=true;p->special_used=true;return 1;}
     b2Vec2 velocity=p->bird->GetLinearVelocity();
@@ -712,6 +723,13 @@ static b2Vec2 egg_hold_point(const Physics *p,int pig){
     return b->GetPosition()+b2Vec2(r*cosf(a),r*sinf(a));
 }
 static void auto_balance(EggVehicle *v);static void update_aim(EggVehicle *v);
+/* onRedBirdTarget / onRedBirdTriggered: the vehicle owning the pig reacts (pigTargeted, redBirdTriggered). */
+static void red_notify(Physics *p,int pig,bool triggered){
+    int w=(int)OBJECT_WAVE(p->level->objects[pig].flags);if(!p->egg_mode || w<1 || w>15 || !p->vehicles[w].active)return;
+    EggVehicle &v=p->vehicles[w];const EggReaction *r=egg_reaction(v.c?v.c->name:"");if(!r)return;
+    if(triggered){if(r->red_triggered)r->red_triggered(&v);}
+    else if(r->pig_targeted)r->pig_targeted(&v,piece_name(&p->level->objects[pig]));
+}
 static void egg_tick(Game *g,Physics *p,float dt){
     if(!p->egg_mode)return;
     for(int i=0;i<p->level->count;i++)if(p->bodies[i] && p->gadget_state[i]){
@@ -1039,7 +1057,26 @@ static void tick(Game *g) {
         else if(jt->GetType()==e_revoluteJoint){b2RevoluteJoint *rj=(b2RevoluteJoint*)jt;float t=rj->GetJointAngle(),v=rj->GetMotorSpeed();
             if((t<=rj->GetLowerLimit() && v<0)||(t>=rj->GetUpperLimit() && v>0))rj->SetMotorSpeed(-v);}
     }
-    p->age+=dt;p->damage_contact_count=0;p->world.Step(dt,8,3);
+    float step=dt;
+    if(p->red_mode && p->bird && p->bird_type==BIRD_RED_TYPE){
+        if(!p->special_used && !p->bird_collided){
+            /* redBirdNormalUpdate: the closest living pig; a new target tells its vehicle (pigTargeted). */
+            int best=-1;float bd=1e9f;b2Vec2 at=p->bird->GetPosition();
+            for(int i=0;i<p->level->count;i++)if(p->bodies[i] && p->level->objects[i].kind==4 && !p->level->objects[i].spawn_of){float d=(p->bodies[i]->GetPosition()-at).Length();if(d<bd){bd=d;best=i;}}
+            if(best!=p->red_target){p->red_target=best;if(best>=0)red_notify(p,best,false);}
+        }
+        if(p->red_delay>0){
+            /* redBirdSpecialDelayUpdate: physicsSpeedFactor eases from 1 to 0 over the 0.5 s. */
+            float k=1-p->red_delay/RED_SPECIAL_DELAY;step=dt*fmaxf(0.02f,1-k*(2-k));
+            if((p->red_delay-=dt)<=0){
+                b2Vec2 d=p->red_aim-p->bird->GetPosition();if(d.Normalize()<0.01f)d.Set(1,0);
+                p->bird->SetLinearVelocity(RED_SPECIAL_SPEED*d);p->red_fly=true;
+                if(p->red_target>=0 && p->bodies[p->red_target])red_notify(p,p->red_target,true);
+            }
+        }
+        if(p->red_fly){if(p->bird_collided)p->red_fly=false;else p->bird->ApplyForceToCenter(b2Vec2(0,-p->level->gravity*p->bird->GetMass()),true);}
+    }
+    p->age+=dt;p->damage_contact_count=0;p->world.Step(step,8,3);
     for(int k=0;k<p->detach_count;k++){
         int t=p->detach_target[k];
         if(t<0 || p->bodies[p->detach_source[k]])continue;

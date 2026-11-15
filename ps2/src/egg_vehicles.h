@@ -15,6 +15,10 @@ typedef struct {
     int never_abandon;                                  /* setAbandoningLogic(function() return false end) */
 } EggController;
 const EggController *egg_controller(const char *name);
+/* Reactions to the Red Bird's special (RedBird_Special listeners): pigTargeted(vehicle, pig) when one
+   of the vehicle's pigs becomes the target, redBirdTriggered(vehicle) when the bird is fired at it. */
+typedef struct {const char *name;void (*pig_targeted)(EggVehicle *v,const char *pig);void (*red_triggered)(EggVehicle *v);} EggReaction;
+const EggReaction *egg_reaction(const char *name);
 
 /* EggDefenderVehicle API used by the scripts (names are the vehicle file's original names). */
 float ev_x(EggVehicle *v);                  /* getX: first pig x minus the slingshot x */

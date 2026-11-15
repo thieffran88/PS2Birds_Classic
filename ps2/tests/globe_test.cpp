@@ -215,6 +215,15 @@ int main(){
   assert(found==72);
   for(int n=1;n<=15;n++){snprintf(name,sizeof(name),"EggDefender_%d",n);int ed=-1;for(int lv=0;lv<game_level_count();lv++)if(!strcmp(game_level_script(lv),name))ed=lv;
      assert(ed>=0 && game_load_level(&g,ed));for(int s=0;s<20*120 && g.state==AIMING;s++)game_update(&g,1.0f/120);assert(g.state==AIMING || g.state==LOST);}}
+ // Red Bird special in the Mighty Feathers modes (redbird_special.lua): after a 0.5 s pause the bird
+ // flies straight at the closest pig at 75 m/s.
+ {int ed=-1;for(int lv=0;lv<game_level_count();lv++)if(!strcmp(game_level_script(lv),"EggDefender_3"))ed=lv;
+  assert(ed>=0 && game_load_level(&g,ed));g.angle=20;g.power=100;game_launch(&g);
+  for(int s=0;s<36;s++)game_update(&g,1.0f/120);
+  assert(game_special_available(&g) && game_special(&g) && !game_special_available(&g));
+  for(int s=0;s<64;s++)game_update(&g,1.0f/120);
+  GameBird b;assert(game_get_projectile(&g,0,&b));
+  float speed=sqrtf(g.vx*g.vx+g.vy*g.vy)/g.view_scale;assert(fabsf(speed-RED_SPECIAL_SPEED)<8);(void)b;}
  // Power-ups of the shop tutorials: King Sling launches 1.3 times faster; Bird Quake (once) shakes the scene.
  int king=-1,quake=-1;
  for(int lv=0;lv<game_level_count();lv++){const char *sc=game_level_script(lv);if(!strcmp(sc,"Tutorial_kingsling"))king=lv;if(!strcmp(sc,"Tutorial_birdquake"))quake=lv;}

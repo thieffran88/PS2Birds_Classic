@@ -650,7 +650,7 @@ static void ed12_w5_removed(EggVehicle *v,const char *name){if(!strcmp(name,"BP_
 static void ed13_w1_init(EggVehicle *v){
     const char *b[3]={"BP_BALLOON_INFLATER_1","BP_BALLOON_INFLATER_2","BP_BALLOON_INFLATER_3"};
     for(int k=0;k<3;k++){ev_set_thrust(v,b[k],0);set_fy(v,b[k],-200);}
-    ev_set_thrust(v,"BP_FAN_1",0);set_fx(v,"BP_FAN_1",-500);ev_gadget(v,"BP_SUCKER_1","startSuction");ev_vars(v)[0]=0;
+    ev_set_thrust(v,"BP_FAN_1",0);set_fx(v,"BP_FAN_1",-500);ev_gadget(v,"BP_SUCKER_1","startSuction");ev_vars(v)[0]=0;ev_vars(v)[1]=1;ev_vars(v)[2]=0;
 }
 static void ed13_w1_egg(EggVehicle *v){
     ev_remove_block(v,"BP_SUCKER_1");ev_gadget(v,"BP_BALLOON_INFLATER_3","inflate");ev_remove_joint(v,"BP_WOODEN_FRAME_2BP_WOODEN_FRAME_1");
@@ -924,6 +924,53 @@ static void ed15_w4_removed(EggVehicle *v,const char *name){
     if(!strcmp(name,"BP_LIGHT_METAL_FRAME_2") || !strcmp(name,"BP_GrandpaPiglette_1"))ev_abandon(v);
 }
 
+/* ---- Reactions to the Red Bird's special ---- */
+/* 2-5 pigTargeted: the balloon pulls up (-200) and the frame lets go. */
+static void ed2_w5_targeted(EggVehicle *v,const char *){set_fy(v,"BP_SINGLE_BALLOON_3",-200);ev_remove_joint(v,"BP_WOODEN_FRAME_3BP_WOODEN_FRAME_1");}
+/* 6-3 pigTargeted: while escaping, it drops its TNT. */
+static void ed6_w3_targeted(EggVehicle *v,const char *){
+    if(ev_vars(v)[0]==0)return;
+    ev_remove_joint(v,"BP_LIGHT_METAL_FRAME_17BP_LIGHT_METAL_FRAME_19");ev_remove_joint(v,"BP_TNT_CASING_1BP_LIGHT_METAL_FRAME_17");ev_remove_joint(v,"BP_TNT_SMALL_1BP_LIGHT_METAL_FRAME_17");
+}
+/* 13-1 pigTargeted: the first time a balloon inflates and the bottom frame drops (stage two 2 s later);
+   the second time the next balloon and frame. vars: 0 done, 1 stageone, 2 stagetwo. */
+static void ed13_w1_statechange(EggVehicle *v){ev_vars(v)[2]=1;}
+static void ed13_w1_targeted(EggVehicle *v,const char *){
+    float *s=ev_vars(v);
+    if(s[1]!=0){ev_gadget(v,"BP_BALLOON_INFLATER_1","inflate");ev_remove_joint(v,"BP_WOODEN_FRAME_4BP_WOODEN_FRAME_3");s[1]=0;ev_timer(v,ed13_w1_statechange,2);}
+    if(s[2]!=0){ev_gadget(v,"BP_BALLOON_INFLATER_2","inflate");ev_remove_joint(v,"BP_WOODEN_FRAME_3BP_WOODEN_FRAME_2");s[0]=1;}
+}
+static void ed13_w1_removed(EggVehicle *v,const char *name){
+    if(!strcmp(name,"BP_BALLOON_INFLATER_1"))ev_vars(v)[1]=0;
+    if(!strcmp(name,"BP_BALLOON_INFLATER_2"))ev_vars(v)[2]=0;
+    if(!strcmp(name,"BP_BALLOON_INFLATER_3"))ev_vars(v)[0]=0;
+}
+/* 13-5 pigTargeted: the bouncer kicks (motor 8) and comes back after 1.5 s. vars: 0 moving. */
+static void ed13_w5_movereset(EggVehicle *v){ev_motor_speed(v,"BP_LIGHT_METAL_FRAME_1BP_BOUNCER_1",-8);ev_vars(v)[0]=0;}
+static void ed13_w5_targeted(EggVehicle *v,const char *){if(ev_vars(v)[0]==0){ev_motor_speed(v,"BP_LIGHT_METAL_FRAME_1BP_BOUNCER_1",8);ev_timer(v,ed13_w5_movereset,1.5f);ev_vars(v)[0]=1;}}
+/* 14-1 pigTargeted: one balloon inflates and the cart lifts; after 3 s it is dropped and the second
+   one inflates, gone 2 s later. vars: 5 stageone (set while unused). */
+static void ed14_w1_done(EggVehicle *v){ev_remove_block(v,"BP_BALLOON_INFLATER_6");}
+static void ed14_w1_endtwo(EggVehicle *v){ev_timer(v,ed14_w1_done,2);ev_gadget(v,"BP_BALLOON_INFLATER_6","inflate");}
+static void ed14_w1_endone(EggVehicle *v){ev_remove_block(v,"BP_BALLOON_INFLATER_7");ev_timer(v,ed14_w1_endtwo,0.1f);}
+static void ed14_w1_targeted(EggVehicle *v,const char *){if(ev_vars(v)[5]==0){ev_gadget(v,"BP_BALLOON_INFLATER_7","inflate");ev_timer(v,ed14_w1_endone,3);ev_vars(v)[5]=1;}}
+/* 14-4 redBirdTriggered: the bouncer jumps (motor -100) and resets after 2 s (10). */
+static void ed14_w4_reset(EggVehicle *v){ev_motor_speed(v,"BP_LIGHT_METAL_FRAME_4BP_BOUNCER_3",10);}
+static void ed14_w4_triggered(EggVehicle *v){ev_motor_speed(v,"BP_LIGHT_METAL_FRAME_4BP_BOUNCER_3",-100);ev_timer(v,ed14_w4_reset,2);}
+
+static const EggReaction reactions[]={
+    {"EggDefender_2_W5_V1",ed2_w5_targeted,0},
+    {"EggDefender_6_W3_V1",ed6_w3_targeted,0},
+    {"EggDefender_13_W1_V1",ed13_w1_targeted,0},
+    {"EggDefender_13_W5_V1",ed13_w5_targeted,0},
+    {"EggDefender_14_W1_V1",ed14_w1_targeted,0},
+    {"EggDefender_14_W4_V1",0,ed14_w4_triggered},
+};
+const EggReaction *egg_reaction(const char *name){
+    for(unsigned i=0;i<sizeof(reactions)/sizeof(reactions[0]);i++)if(!strcmp(reactions[i].name,name))return &reactions[i];
+    return 0;
+}
+
 static const EggController controllers[]={
     {"EggDefender_1_W1_V1",ed1_w1_init,0,0,0,1},
     {"EggDefender_1_W2_V1",ed1_w2_init,ed1_w2_update,0,0,1},
@@ -983,7 +1030,7 @@ static const EggController controllers[]={
     {"EggDefender_12_W3_V1",ed12_w3_init,ed12_w3_update,ed12_w3_egg,ed12_w3_removed,0},
     {"EggDefender_12_W4_V1",ed12_w4_init,ed12_w4_update,ed12_w4_egg,ed12_w4_removed,0},
     {"EggDefender_12_W5_V1",ed12_w5_init,ed12_w5_update,ed12_w5_egg,ed12_w5_removed,1},
-    {"EggDefender_13_W1_V1",ed13_w1_init,0,ed13_w1_egg,0,0},
+    {"EggDefender_13_W1_V1",ed13_w1_init,0,ed13_w1_egg,ed13_w1_removed,0},
     {"EggDefender_13_W2_V1",ed13_w2_init,0,ed13_w2_egg,ed12_holder_lost,0},
     {"EggDefender_13_W3_V1",ed13_w3_init,ed13_w3_update,ed13_w3_egg,0,0},
     {"EggDefender_13_W4_V1",ed13_w4_init,0,ed13_w4_egg,ed13_w4_removed,0},

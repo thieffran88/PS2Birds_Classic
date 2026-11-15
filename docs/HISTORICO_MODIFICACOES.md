@@ -1,4 +1,30 @@
-# Modificações completas — PS2Birds Classic 0.61.0
+# Modificações completas — PS2Birds Classic 0.62.0
+
+- **Habilidade do pássaro vermelho nas fases Mighty Feathers** (`redbird_special.lua`, `g_red_bird_special_available`)
+  - Vale nas 15 fases Egg Defender e nas 15 Mighty Feathers clássicas.
+  - Enquanto o vermelho voa, o alvo é o porco mais próximo. É o modo sem toque do jogo (acelerômetro), o que serve ao controle do PS2.
+  - Com o botão da habilidade: a física desacelera por 0,5 s e o pássaro sai em linha reta para o alvo a 75 m/s, sem gravidade, até bater.
+- **Egg Defender — reações dos veículos ao vermelho**
+  - Quando um porco do veículo vira alvo (`pigTargeted`):
+    - 2-5: o balão puxa (−200) e a estrutura se solta;
+    - 6-3: em fuga, solta a TNT;
+    - 13-1: os balões inflam em etapas e as estruturas caem;
+    - 13-5: a mola chuta e volta em 1,5 s;
+    - 14-1: o balão infla, a carroça sobe e, 3 s depois, troca de balão.
+  - Quando o vermelho é disparado contra ele (`redBirdTriggered`): 14-4, a mola salta (−100) e volta em 2 s.
+- **Roteiros**
+  - Mighty Feathers 6 e 10 refeitos pelo solver (o vermelho agora tem habilidade): novos ângulos 25/94 e −5/66.
+- **Testes**
+  - `globe_test`: na Egg Defender 3 o vermelho tem habilidade em voo e, depois da pausa, voa a cerca de 75 m/s.
+  - Suíte com 73 verificações aprovadas.
+- **Versão, documentos e limpeza**
+  - Tela, log e README em 0.62.0.
+  - `docs/EGG_DEFENDER.md` e `docs/LACUNAS_PORT.md` atualizados.
+  - Documentos da 0.61.0 substituídos.
+  - Arquivos de comparação temporários apagados da pasta de trabalho.
+  - Entregues ISO, ELF (com os .BIN), Gerador para Windows e Código-Fonte; os da 0.61.0 removidos.
+
+## Modificações completas — 0.61.0
 
 - **Egg Defender — os 72 controladores de veículo traduzidos à mão (fase 3 concluída)**
   - Fase 14:
