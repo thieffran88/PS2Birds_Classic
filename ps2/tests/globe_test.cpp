@@ -87,5 +87,15 @@ int main(){
              assert(g.birds==before+1 && game_queue_type(&g,before-1)==last && game_queue_type(&g,before)>=0);caged++;break;}}
  }
  assert(caged>0);
- printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s; mirrored pieces; a broken cage adds its bird to the queue.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
+ // Golden Eggs: the trajectory bends with the stage's gravity (upside down in LevelGE_31, straight in LevelGE_UGC1).
+ int bends[3]={0,0,0};
+ for(int lv=0;lv<game_level_count();lv++){
+     const char *sc=game_level_script(lv);int which=!strcmp(sc,"LevelGE_31")?1:!strcmp(sc,"LevelGE_UGC1")?2:!strcmp(sc,"LevelGE_4")?0:-1;
+     if(which<0)continue;
+     assert(game_load_level(&g,lv));
+     float x,y0,y1,y2;game_preview(&g,0,&x,&y0);game_preview(&g,0.5f,&x,&y1);game_preview(&g,1,&x,&y2);
+     float c=y2-2*y1+y0;bends[which]=c>0.01f?1:c<-0.01f?-1:0;
+ }
+ assert(bends[0]==1 && bends[1]==-1 && bends[2]==0);
+ printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s; mirrored pieces; a broken cage adds its bird to the queue; trajectories follow upside-down and zero gravity.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
 }

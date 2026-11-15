@@ -213,7 +213,7 @@ struct Physics: b2ContactListener {
         if(made){
             /* Port approximation: a breakable joint fails when its reaction force exceeds
                breakForce x (mass of both bodies) x gravity. */
-            joint_break[joint_count]=j.break_force>0?j.break_force*(a->GetMass()+b->GetMass())*level->gravity:0;
+            joint_break[joint_count]=j.break_force>0?j.break_force*(a->GetMass()+b->GetMass())*fabsf(level->gravity):0;
             joint_swing[joint_count]=(j.flags&JOINT_BACK_AND_FORTH) && (j.flags&JOINT_MOTOR) && (j.flags&JOINT_LIMIT);
             joints[joint_count++]=made;
             /* Port approximation of the native "Destroy-attached" joint: it holds like a weld;

@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.42.0)
+# Lacunas do port (levantamento atualizado na 0.43.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -144,6 +144,11 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **Tutorial entrou (15 fases).** Cinco são tutoriais da loja de power-ups (`shopTutorialPowerup`: slingscope, powerpotion, kingsling, birdquake, shockwave) e são jogadas como fases comuns.
 - **Power-ups estão inteiros em Lua:** `powerups_Powerup_*.lua` (KingSling, SlingScope, BirdQuake, Shockwave, PowerPotion, SuperSeed, BoomBox, ChronoBird, DoubleScore, ExtraBird, HomingHat, RedsMightyFeathers), com `PowerupManager.lua` e `PowerupDefines.lua`. Portáveis sem código nativo; é o próximo recurso de jogo depois do Egg Defender.
 
+## Achados da 0.43.0
+
+- **Gravidade da fase — feito.** O motor já criava o mundo com a gravidade de cada fase; só o importador recusava valores não positivos. LevelGE_31 (gravidade −20: tudo cai para cima) e LevelGE_UGC1 (gravidade zero) entraram. A resistência das soldas usa o módulo da gravidade.
+- Um roteiro achado pela busca (Dino 3-8) não se repete no teste da campanha; a fase continua sem roteiro.
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -152,7 +157,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Modo Egg Defender (Mighty Feathers e 4 fases do Flock Favorites); gravidade invertida/zero (2 fases do Golden Eggs); power-ups (scripts em Lua) (Mighty Feathers), efeitos dos frascos do Short Fuse; roteiros de 16-5, 16-6, Birdday 4-4, 6-1, 7-7, 7-14 e Surf and Turf 2-15, 3-5, 3-14 e Bad Piggies 2-7, 2-15, 3-5, 3-12 8 do Short Fuse e Bird Island 1-10, 1-15 e Piggy Farm 1-8.
+1. Modo Egg Defender (Mighty Feathers e 4 fases do Flock Favorites); power-ups (scripts em Lua); efeitos dos frascos do Short Fuse; roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).

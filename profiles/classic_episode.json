@@ -1192,30 +1192,41 @@
         "LevelGE_20",
         "LevelGE_21",
         "LevelGE_22",
-        "LevelGE_23",
-        "LevelGE_24",
-        "LevelGE_25",
-        "LevelGE_29",
-        "LevelGE_30",
-        "LevelGE_RED",
-        "LevelGE_32",
-        "GE_Level280_BirdDay7"
+        "LevelGE_23"
       ]
     },
     {
       "folder": "/levels/goldeneggs1",
-      "title_prefix": "GOLDEN EGGS 3-",
+      "title_prefix": "GOLDEN EGGS 2-",
       "number": 63,
       "bank": 59,
+      "levels": [
+        "LevelGE_24",
+        "LevelGE_25",
+        "LevelGE_29",
+        "LevelGE_30",
+        "LevelGE_31",
+        "LevelGE_UGC1",
+        "LevelGE_RED",
+        "LevelGE_32",
+        "GE_Level280_BirdDay7"
+      ],
+      "first": 10
+    },
+    {
+      "folder": "/levels/goldeneggs1",
+      "title_prefix": "GOLDEN EGGS 3-",
+      "number": 64,
+      "bank": 60,
       "levels": [
         "Farm2_goldegg"
       ]
     },
     {
-      "number": 64,
+      "number": 65,
       "title_prefix": "TUTORIAL ",
       "folder": "/levels/0_Tutorial",
-      "bank": 60,
+      "bank": 61,
       "levels": [
         "Tutorial_red_niko",
         "Tutorial_red2_niko",

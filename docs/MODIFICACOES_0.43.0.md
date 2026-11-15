@@ -1,0 +1,21 @@
+# Modificações 0.43.0
+
+- **Gravidade da fase (novo no jogo)**
+  - O importador aceita qualquer gravidade vertical: o mundo do Box2D, a prévia da trajetória e as bolhas já usavam a gravidade de cada fase.
+  - Golden Eggs LevelGE_31 (gravidade −20, tudo cai para cima) e LevelGE_UGC1 (gravidade zero) entraram; o Golden Eggs fica completo (31 fases).
+  - A resistência das soldas usa o módulo da gravidade (antes ficaria negativa).
+  - A campanha passa de 709 para 711 fases.
+- **Bancos de textura**
+  - A página 2 do Golden Eggs ficou grande demais para um banco e virou duas (2-1 a 2-9 e 2-10 a 2-18), bancos 58 e 59; a página 3 passa ao banco 60 e o Tutorial ao 61.
+- **Roteiros novos (fase por fase)**
+  - Dino 2-13, 3-6, 3-7, 3-11, 3-12 e 3-16 passam a ter roteiro vencedor.
+  - O roteiro achado para a Dino 3-8 não se repete no teste da campanha e foi descartado; a fase segue sem roteiro.
+- **Testes**
+  - `globe_test`: a trajetória curva para baixo com gravidade normal, para cima na LevelGE_31 e segue reta na LevelGE_UGC1.
+  - `profile_test`: Golden Eggs com 31 fases, gravidade −20 e 0 lidas do APK, 5 fases sem limite de estrelas.
+  - `sprite_test`: 62 bancos, 713 quadros.
+  - `campaign_test`: 711 fases.
+  - Suíte com 69 verificações aprovadas.
+- **Versão, documentos e limpeza**
+  - Tela e log em 0.43.0; README com 711 fases; captura do Golden Eggs 2-14 (gravidade invertida); documentos e captura da 0.42.0 substituídos; prioridades de `LACUNAS_PORT.md` reorganizadas.
+  - Entregues ISO, ELF (com os .BIN), Gerador para Windows e Código-Fonte; os da 0.42.0 removidos da pasta de trabalho.

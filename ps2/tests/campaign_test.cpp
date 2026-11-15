@@ -628,7 +628,7 @@ static const Stage stages[]={
  {"Dino2_trex",382,11,223,4,{{60,90,1.0f}},1}, /* DINO 2-10 */
  {"Dino2_tribeswar",280,11,214,5,{{30,70,1.0f},{40,100,2.0f}},2}, /* DINO 2-11 */
  {"Dino2_pineapple",265,5,179,6,{{30,100,-1.0f},{0,90,0.8f}},2}, /* DINO 2-12 */
- {"Dino2_monsterflowers",356,6,227,3,{{0,0,-1.0f}},0}, /* DINO 2-13 (sem roteiro vencedor) */
+ {"Dino2_monsterflowers",356,6,227,3,{{40,100,0.6f},{10,30,0.8f},{20,70,1.6f}},3}, /* DINO 2-13 */
  {"Dino2_giantmoth",149,1,94,4,{{0,50,2.6f}},1}, /* DINO 2-14 */
  {"Dino2_dinoskull",307,7,202,3,{{50,100,2.6f},{50,90,2.6f}},2}, /* DINO 2-15 */
  {"Dino3_tntblues",173,3,73,3,{{30,100,0.6f}},1}, /* DINO 3-1 */
@@ -636,17 +636,17 @@ static const Stage stages[]={
  {"Dino3_tntbomb",212,4,122,3,{{20,100,1.6f}},1}, /* DINO 3-3 */
  {"Dino3_matildaarches",202,4,106,3,{{60,100,1.4f},{70,80,1.2f}},2}, /* DINO 3-4 */
  {"Dino3_tntstella",251,6,84,3,{{60,80,-1.0f}},1}, /* DINO 3-5 */
- {"Dino3_flyingskeletons",223,6,131,3,{{0,0,-1.0f}},0}, /* DINO 3-6 (sem roteiro vencedor) */
- {"Dino3_eyeseeyou",508,6,202,3,{{0,0,-1.0f}},0}, /* DINO 3-7 (sem roteiro vencedor) */
+ {"Dino3_flyingskeletons",223,6,131,3,{{50,100,1.8f}},1}, /* DINO 3-6 */
+ {"Dino3_eyeseeyou",508,6,202,3,{{40,90,0.6f},{30,90,1.8f}},2}, /* DINO 3-7 */
  {"Dino3_dragonworms",339,9,194,3,{{0,0,-1.0f}},0}, /* DINO 3-8 (sem roteiro vencedor) */
  {"Dino3_rollit",367,8,146,4,{{20,70,1.0f},{70,100,1.2f},{30,100,1.0f},{60,100,2.0f}},4}, /* DINO 3-9 */
  {"Dino3_skullreturns",393,5,199,3,{{-10,100,0.8f},{20,100,1.6f}},2}, /* DINO 3-10 */
- {"Dino3_crabattack",417,6,218,4,{{0,0,-1.0f}},0}, /* DINO 3-11 (sem roteiro vencedor) */
- {"Dino3_eyescollection",384,8,242,3,{{0,0,-1.0f}},0}, /* DINO 3-12 (sem roteiro vencedor) */
+ {"Dino3_crabattack",417,6,218,4,{{50,90,1.8f},{30,70,1.4f}},2}, /* DINO 3-11 */
+ {"Dino3_eyescollection",384,8,242,3,{{60,100,1.6f},{10,80,-1.0f}},2}, /* DINO 3-12 */
  {"Dino3_flyingcatch",446,6,155,3,{{60,100,1.6f},{60,100,-1.0f}},2}, /* DINO 3-13 */
  {"Dino3_nomercy",370,7,169,4,{{0,0,-1.0f}},0}, /* DINO 3-14 (sem roteiro vencedor) */
  {"Dino3_tongueattack",313,10,151,4,{{0,0,-1.0f}},0}, /* DINO 3-15 (sem roteiro vencedor) */
- {"Dino3_uphilldino",398,8,246,4,{{0,0,-1.0f}},0}, /* DINO 3-16 (sem roteiro vencedor) */
+ {"Dino3_uphilldino",398,8,246,4,{{0,100,0.8f},{70,90,-1.0f}},2}, /* DINO 3-16 */
  {"LevelFB_1",145,9,76,4,{{50,90,2.6f},{50,40,2.6f}},2}, /* HAM EM HIGH EXTRA 1 */
  {"LevelFB_2",109,7,55,4,{{30,90,2.3f},{40,70,1.8f},{70,100,0.6f}},3}, /* HAM EM HIGH EXTRA 2 */
  {"LevelFB_3",68,11,53,5,{{30,90,0.6f},{10,100,1.4f}},2}, /* HAM EM HIGH EXTRA 3 */
@@ -700,9 +700,11 @@ static const Stage stages[]={
  {"LevelGE_25",329,11,291,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-11 (sem roteiro vencedor) */
  {"LevelGE_29",164,21,77,1,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-12 (sem roteiro vencedor) */
  {"LevelGE_30",341,15,232,3,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-13 (sem roteiro vencedor) */
- {"LevelGE_RED",227,45,154,7,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-14 (sem roteiro vencedor) */
- {"LevelGE_32",426,8,48,3,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-15 (sem roteiro vencedor) */
- {"GE_Level280_BirdDay7",594,14,122,5,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-16 (sem roteiro vencedor) */
+ {"LevelGE_31",234,12,118,4,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-14 (sem roteiro vencedor) */
+ {"LevelGE_UGC1",337,14,220,2,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-15 (sem roteiro vencedor) */
+ {"LevelGE_RED",227,45,154,7,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-16 (sem roteiro vencedor) */
+ {"LevelGE_32",426,8,48,3,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-17 (sem roteiro vencedor) */
+ {"GE_Level280_BirdDay7",594,14,122,5,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 2-18 (sem roteiro vencedor) */
  {"Farm2_goldegg",519,11,240,4,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 3-1 (sem roteiro vencedor) */
  {"Tutorial_red_niko",60,1,15,4,{{0,0,-1.0f}},0}, /* TUTORIAL 1 (sem roteiro vencedor) */
  {"Tutorial_red2_niko",72,2,18,3,{{0,0,-1.0f}},0}, /* TUTORIAL 2 (sem roteiro vencedor) */
@@ -739,7 +741,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==709 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==711 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));
@@ -840,7 +842,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==110);
+    assert(unverified==106);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");

@@ -70,7 +70,9 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
     if any(not isinstance(view.get(k),(int,float)) or not math.isfinite(view[k]) for k in ['x','y','scale']) or view['scale']<=0:
         raise ValueError('Invalid view configuration')
     pixels=scalar('physicsToWorld');gravity=scalar('worldGravity')
-    if pixels<=0 or gravity<=0:raise ValueError('Adapter supports positive scale and uniform downward gravity only')
+    # Golden Eggs LevelGE_31 turns gravity upside down (-20) and LevelGE_UGC1 switches it off (0);
+    # the world simply uses the stage's vertical gravity.
+    if pixels<=0:raise ValueError('Adapter supports a positive physics scale only')
     birds=sorted((o for o in objects if o['definition'] in profile['bird_definitions']),key=lambda o:o['startNumber'])
     if not 1<=len(birds)<=16:raise ValueError('Adapter needs 1..16 supported birds')
     for bird in birds:

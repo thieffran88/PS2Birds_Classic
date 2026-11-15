@@ -573,29 +573,34 @@ camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN')
 assert camp['explosions']['Farm_Campstove']==(10.0,30000.0,5.0,150.0) and camp['explosions']['EXPLOSIVE_BALLOON']==(10.0,30000.0,5.0,300.0)
 print(f"Flock Favorites OK: 25 stages in banks 55-56 (4 Egg Defender stages and the unstable 1-9 left out); {len(camp['explosions'])} explosive piece types carry their own blast values.")
 
-# Golden Eggs (pages 61-63, banks 57-59): 29 of the 31 stages, in episodes.lua order. LevelGE_31
-# (gravity -20, upside down) and LevelGE_UGC1 (gravity 0) need gravity the port does not support yet.
+# Golden Eggs (pages 61-64, banks 57-60): all 31 stages, in episodes.lua order. LevelGE_31 turns
+# gravity upside down (-20) and LevelGE_UGC1 switches it off (0); the world uses the stage's gravity.
 # Stages without starLimits.lua entries give 3 stars on any win (the original gives the golden egg).
 ge=''.join((root/f'ps2/data/episode_golden_eggs_page{k}.decompiled.lua').read_text() for k in (1,2))
-order=[n for n in dict.fromkeys(re.findall(r'"((?:LevelGE_\w+|GE_Level\w+))"',ge)) if n not in ('LevelGE_31','LevelGE_UGC1')]+['Farm2_goldegg']
+order=list(dict.fromkeys(re.findall(r'"((?:LevelGE_\w+|GE_Level\w+))"',ge)))+['Farm2_goldegg']
 pages=[pg for pg in episode['additional_pages'] if pg.get('folder')=='/levels/goldeneggs1']
-assert len(order)==29 and sum((pg['levels'] for pg in pages),[])==order and [pg['bank'] for pg in pages]==[57,58,59]
+assert len(order)==31 and sum((pg['levels'] for pg in pages),[])==order and [pg['bank'] for pg in pages]==[57,58,59,60]
+gravity={}
+for pg in pages:
+    for k,n in enumerate(pg['levels'],pg.get('first',1)):
+        d=json.loads((root/f"ps2/data/level_{pg['number']}_{k-pg.get('first',1)+1}.json").read_text());gravity[n]=d['gravity']
+assert gravity['LevelGE_31']==-20 and gravity['LevelGE_UGC1']==0 and gravity['LevelGE_4']==20
 gb=(root/'ps2/data/golden_eggs_definitions_excerpt.lua').read_text()
 assert objs['objects']['BP_TNT_WEAK']['explosion']==_ad.definition(gb,'BP_TNT_WEAK')['props']['explosion']==[10.0,30000.0,10.0,350.0]
 assert objs['objects']['StaticFragileBlock01']['kind']==9 and 'half_resolution' not in objs['objects']['ExtraBlueBird']
-camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN');stars=json.loads((root/'profiles/star_limits.json').read_text())['limits']
-nostar=[n for n in order if n not in stars];assert nostar==["LevelGE_25","LevelGE_30","LevelGE_RED"]
-print(f"Golden Eggs OK: 29 stages in banks 57-59 (upside-down and zero-gravity stages left out); {len(nostar)} stages without star limits give 3 stars on any win.")
+stars=json.loads((root/'profiles/star_limits.json').read_text())['limits']
+nostar=[n for n in order if n not in stars];assert nostar==["LevelGE_25","LevelGE_30","LevelGE_31","LevelGE_UGC1","LevelGE_RED"],nostar
+print(f"Golden Eggs OK: 31 stages in banks 57-60, including upside-down (-20) and zero gravity; {len(nostar)} stages without star limits give 3 stars on any win.")
 
-# Tutorial (page 64, bank 60): all 15 stages in episodes.lua order. Five of them are shop
+# Tutorial (page 65, bank 61): all 15 stages in episodes.lua order. Five of them are shop
 # tutorials of power-ups (shopTutorialPowerup), which the port does not have yet; they are
 # played as ordinary stages.
 tu=(root/'ps2/data/episode_tutorial_page.decompiled.lua').read_text()
 order=list(dict.fromkeys(re.findall(r'"(Tutorial_\w+)"',tu)))
-page=[pg for pg in episode['additional_pages'] if pg['number']==64][0]
-assert len(order)==15 and page['levels']==order and page['bank']==60
+page=[pg for pg in episode['additional_pages'] if pg['number']==65][0]
+assert len(order)==15 and page['levels']==order and page['bank']==61
 shop=re.findall(r'"shopTutorialPowerup"\nL\d+_1 = "(\w+)"',tu);assert shop==["slingscope","powerpotion","kingsling","birdquake","shockwave"],shop
 tb=(root/'ps2/data/tutorial_definitions_excerpt.lua').read_text()
 for name in re.findall(r'L3_1 = "(\w+)"\nL4_1 = \{\}',tb):
     d=_ad.definition(tb,name);assert objs['objects'][name]['sprite']==d['sprite'] and objs['objects'][name]['shape']==d['type'],name
-print(f"Tutorial OK: 15 stages in bank 60; 5 pieces match blocks.lua; power-up shop tutorials: {', '.join(shop)}.")
+print(f"Tutorial OK: 15 stages in bank 61; 5 pieces match blocks.lua; power-up shop tutorials: {', '.join(shop)}.")
