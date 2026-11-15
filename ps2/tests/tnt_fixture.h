@@ -16,9 +16,8 @@ static const CampaignObject fall_objects[]={
  {60,3,0,2.15f,2.15f,2,10000,100,4,1,"SmallPiglette",0.7f,0.05f,0,0},
 };
 static const CampaignLevel campaign_levels[]={
- {tnt_objects,7,2,{0,0},20,0,0,5,20,100,200,5,"TNT FIXTURE","fixture-tnt",0,0,0,0,0},
- {fall_objects,2,1,{0},20,0,0,-40,20,100,200,5,"TNT FALL FIXTURE","fixture-tnt-fall",0,0,0,0,0},
-};
+ {tnt_objects,7,2,{0,0},20,0,0,5,20,100,200,5,"TNT FIXTURE","fixture-tnt",0,0,0,0,0,0},
+ {fall_objects,2,1,{0},20,0,0,-40,20,100,200,5,"TNT FALL FIXTURE","fixture-tnt-fall",0,0,0,0,0,0},};
 #define CAMPAIGN_COUNT (sizeof(campaign_levels)/sizeof(campaign_levels[0]))
 static const CampaignPolygon campaign_polygons[]={{0,0,{0}}};
 static const CampaignForce campaign_forces[]={{0,0,0,0,0,0,0,0,0,0}};

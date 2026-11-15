@@ -616,3 +616,9 @@ if sf.exists():
         i=t.rindex(f'L3_1 = "{n}"');assert f'L7_1 = {rad}\nL6_1.radius = L7_1' in t[i:i+20000],n
 clones=[o for o in camp['objects'] if o['clone_of']>=0];assert clones and all(o['spawn_of']>0 for o in clones)
 print(f"Vials OK: orange, pink and blue vials carry their effect and radius from blocks.lua; {len(clones)} hidden pig clones wait for blue vials.")
+
+# Power-ups of the shop tutorials (shopTutorialPowerup) travel per stage in CAMPAIGN.BIN.
+camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN')
+pw={l['script']:l['powerup'] for l in camp['levels'] if l['powerup']}
+assert pw=={'Tutorial_slingscope':2,'Tutorial_powerpotion':4,'Tutorial_kingsling':1,'Tutorial_birdquake':3,'Tutorial_shockwave':5},pw
+print("Power-ups OK: the five shop tutorials carry their power-up (King Sling and Bird Quake are played).")

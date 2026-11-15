@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.45.0)
+# Lacunas do port (levantamento atualizado na 0.46.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -154,6 +154,12 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **Frascos do Short Fuse (`VialEffects.lua`) — laranja e rosa feitos.** Ao quebrar, o frasco age sobre os porcos dentro de `vialEffect.radius` depois de 1,3 s: o laranja (raio 6) os incha como o GlobeBird e eles estouram (`puffTime` 1,5 + `deathTime` 1,5); o rosa (raio 7) os põe numa bolha que flutua e ignora dano (`transformIntoBubble`). 44 fases têm frascos.
 - **Frasco azul — feito na 0.45.0.** Ele clona os porcos dentro do raio 7 (`createObject`, escala 0,8). O importador guarda um clone escondido por porco próximo; ao quebrar o frasco, o clone aparece ao lado do porco se ele ainda estiver vivo e no raio, e passa a contar como alvo. O giro dos clones em volta do frasco (`blueVialSpin*`) não foi portado.
 
+## Achados da 0.46.0
+
+- **Power-ups — King Sling e Bird Quake feitos**, nas fases de tutorial da loja. `Powerup_KingSling.lua` soma 0,3 à força do estilingue (1 → 1,3). `Powerup_BirdQuake.lua` dura 2 s e, a cada passo, empurra toda peça móvel com (dt·cos(t·π)·massa·7, −dt·massa·7,5).
+- **Falta:** Power Potion (`Powerup_SuperSeed.lua`, pássaro aumentado), Shockwave (`Powerup_Shockwave.lua`, 1097 linhas) e os demais power-ups da loja (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers). O Sling Scope não muda nada no port: a prévia da trajetória já é longa.
+- **Fórmula de dano por colisão em Lua:** `gamefeatures/physics/AdventureModeCollisions.lua` tem o dano de pássaro × bloco (velocidade relativa ÷ 10 × `damageMultiplier` − defesa; ao quebrar, o pássaro segue com a velocidade × min(1, sobra × `velocityMultiplier`)) e de bloco × bloco. Esse arquivo é do modo Aventura, não do Classic; serve de referência para a fórmula nativa, mas não foi aplicado.
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -162,7 +168,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Modo Egg Defender (Mighty Feathers e 4 fases do Flock Favorites); power-ups (scripts em Lua); giro dos clones do frasco azul; roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
+1. Modo Egg Defender (Mighty Feathers e 4 fases do Flock Favorites); power-ups restantes (Power Potion, Shockwave e os da loja); giro dos clones do frasco azul; roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).

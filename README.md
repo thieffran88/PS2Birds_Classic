@@ -1,4 +1,4 @@
-# PS2Birds Classic — protótipo 0.45.0
+# PS2Birds Classic — protótipo 0.46.0
 
 Port não oficial do Angry Birds Classic para PlayStation 2 (homebrew). São 711 fases do
 Tutorial e dos episódios Poached Eggs, Mighty Hoax, Danger Above, Big Setup, Ham 'Em High, Mine and Dine,
@@ -41,6 +41,7 @@ arquivos para a mesma pasta. Sem os dados, o jogo mostra uma tela de aviso. Víd
   branco solta um ovo; verde (bumerangue) faz a curva; GlobeBird infla; Stella solta bolhas.
 - Dino: quebrar uma gaiola acrescenta o pássaro preso ao fim da fila.
 - Short Fuse: o frasco laranja infla e estoura os porcos próximos; o rosa os prende em bolhas; o azul os clona.
+- Tutoriais de power-up: o Estilingue Real lança 30% mais rápido; no Terremoto, L2 sacode a fase (uma vez).
 - L1 salva no Memory Card 1 (a vitória salva sozinha); R3 liga/desliga o som.
 
 ## Compilar (desenvolvimento)

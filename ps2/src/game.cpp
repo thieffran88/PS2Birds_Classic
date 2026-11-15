@@ -34,9 +34,9 @@ static uint32_t rd32(const unsigned char *p){return (uint32_t)p[0]|((uint32_t)p[
 static float rdf(const unsigned char *p){uint32_t v=rd32(p);float f;memcpy(&f,&v,4);return f;}
 int game_campaign_load(const unsigned char *data,unsigned size)
 {
-    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=5)return -1;
+    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=6)return -1;
     unsigned nl=rd32(data+8),no=rd32(data+12),nj=rd32(data+16),np=rd32(data+20),nf=rd32(data+24),ns=rd32(data+28);
-    const unsigned LV=4*(3+16+8+2+1+2+2),OB=4*15,JO=4*19,PO=4*18,FO=4*10;
+    const unsigned LV=4*(3+16+8+2+1+2+2+1),OB=4*15,JO=4*19,PO=4*18,FO=4*10;
     if(nl==0 || nl>MAX_CAMPAIGN_LEVELS || 32ull+(unsigned long long)nl*LV+(unsigned long long)no*OB+(unsigned long long)nj*JO+np*PO+nf*FO+ns!=size)return -1;
     const unsigned char *pl=data+32,*po=pl+nl*LV,*pj=po+no*OB,*pp=pj+nj*JO,*pf=pp+np*PO,*pstr=pf+nf*FO;
     char *strings=(char*)malloc(ns+1);CampaignLevel *levels=(CampaignLevel*)calloc(nl,sizeof(CampaignLevel));
@@ -67,7 +67,7 @@ int game_campaign_load(const unsigned char *data,unsigned size)
         q+=76;l.gravity=rdf(q);l.sling_x=rdf(q+4);l.sling_y=rdf(q+8);l.ground_y=rdf(q+12);l.pixels=rdf(q+16);l.view_x=rdf(q+20);l.view_y=rdf(q+24);l.view_scale=rdf(q+28);
         l.title=STR(q+32);l.script=STR(q+36);l.bank=(int)rd32(q+40);j0=rd32(q+44);jc=rd32(q+48);
         if(j0+jc>nj||jc>MAX_LEVEL_JOINTS)goto bad;
-        l.joints=jc?joints+j0:0;l.joint_count=(int)jc;l.star_silver=(int)rd32(q+52);l.star_gold=(int)rd32(q+56);
+        l.joints=jc?joints+j0:0;l.joint_count=(int)jc;l.star_silver=(int)rd32(q+52);l.star_gold=(int)rd32(q+56);l.powerup=(int)rd32(q+60);
     }
 #undef STR
     campaign_levels=levels;campaign_polygons=polys;campaign_forces=forces;campaign_count=nl;return (int)nl;
@@ -111,7 +111,7 @@ struct Physics: b2ContactListener {
     bool boomerang_active;float boomerang_x_force,boomerang_y_force,boomerang_spin;
     int puffer_state;float puffer_timer,puffer_auto,puffer_direction;unsigned puffer_seed;
     float pink_timer,bird_bubble;bool pink_hover;
-    int extra_types[16],extra_count,pending_birds,pending_pigs;
+    int extra_types[16],extra_count,pending_birds,pending_pigs;float quake_time;bool quake_used;
     float shock_time;b2Vec2 shock_center;bool shock_hit[MAX_LEVEL_OBJECTS];float electrocute[MAX_LEVEL_OBJECTS];float bubble_timer[MAX_LEVEL_OBJECTS],bubble_float[MAX_LEVEL_OBJECTS];float vial_wait[MAX_LEVEL_OBJECTS],vial_pop[MAX_LEVEL_OBJECTS];int vial_kind[MAX_LEVEL_OBJECTS];bool vial_shield[MAX_LEVEL_OBJECTS];
     int bird_type;
     b2Body *split[2],*egg;bool egg_collided;
@@ -130,7 +130,7 @@ struct Physics: b2ContactListener {
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),puffer_state(0),puffer_timer(0),puffer_auto(-1),puffer_direction(0),puffer_seed(12345u),pink_timer(-1),bird_bubble(0),pink_hover(false),bird_type(BIRD_RED_TYPE) {
         egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
         damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
-        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;pending_pigs=0;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
+        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;pending_pigs=0;quake_time=0;quake_used=false;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
         world.SetContactListener(this);destruction.owner=this;world.SetDestructionListener(&destruction);
         /* The Ground object of the stage data spans the whole level; stages place pieces up to
            x=825, so the floor is FLOOR_HALF_WIDTH wide on each side of the origin. */
@@ -376,6 +376,8 @@ void game_aim(Game *g,float a,float p) {
     /* Callers pass deltas sized for the earlier 260-wide power scale; keep the same feel. */
     g->angle=clamp(g->angle+a,ANGLE_MIN,ANGLE_MAX);g->power=clamp(g->power+p*(POWER_MAX-POWER_MIN)/260.0f,POWER_MIN,POWER_MAX);
 }
+/* Powerup_KingSling.lua: the slingshot's power goes from 1 to 1.3. */
+static float sling_power(const Physics *p){return p->level->powerup==POWERUP_KING_SLING?KING_SLING_POWER:1.0f;}
 void game_launch(Game *g) {
     if(g->state!=AIMING || g->birds<=0)return;
     Physics *p=static_cast<Physics*>(g->physics);
@@ -387,7 +389,7 @@ void game_launch(Game *g) {
     p->bird_type=game_queue_type(g,0);p->special_used=false;p->bird_collided=false;p->boomerang_active=false;p->boomerang_spin=0;p->puffer_state=0;p->puffer_timer=0;p->puffer_auto=-1;p->puffer_direction=0;p->puffer_seed=12345u;p->pink_timer=-1;p->bird_bubble=0;p->pink_hover=false;
     g->angle=clamp(g->angle,ANGLE_MIN,ANGLE_MAX);g->power=clamp(g->power,POWER_MIN,POWER_MAX);
     float a=g->angle*0.01745329252f;
-    p->bird=p->make_bird(b2Vec2(p->level->sling_x,p->level->sling_y),b2Vec2(cosf(a)*LAUNCH_SPEED_MAX*g->power/100.0f,-sinf(a)*LAUNCH_SPEED_MAX*g->power/100.0f),p->bird_type);
+    p->bird=p->make_bird(b2Vec2(p->level->sling_x,p->level->sling_y),b2Vec2(cosf(a)*LAUNCH_SPEED_MAX*sling_power(p)*g->power/100.0f,-sinf(a)*LAUNCH_SPEED_MAX*sling_power(p)*g->power/100.0f),p->bird_type);
     p->record_spawn_overlaps();
     p->bomb_requested=p->detonated=false;p->bomb_fuse=-1;
     p->has_launched=true;g->birds--;g->flight_time=g->cooldown=0;g->state=FLYING;
@@ -497,13 +499,20 @@ static void detonate(Game *g){
 void game_preview(const Game *g,float t,float *x,float *y) {
     float a=g->angle*0.01745329252f;
     /* Match Box2D's semi-implicit integration at fixed 120 Hz in free flight. */
-    float speed=LAUNCH_SPEED_MAX*g->power/100.0f*g->view_scale;
+    float speed=LAUNCH_SPEED_MAX*sling_power(static_cast<const Physics*>(g->physics))*g->power/100.0f*g->view_scale;
     *x=g->sling_x+cosf(a)*speed*t;
     *y=g->sling_y-sinf(a)*speed*t+0.5f*g->gravity*g->view_scale*t*(t+1.0f/120.0f);
 }
 static void tick(Game *g) {
     Physics *p=static_cast<Physics*>(g->physics); const float dt=1.0f/120;
     g->birds+=p->pending_birds;p->pending_birds=0;
+    if(p->quake_time>0){
+        float step=fminf(dt,p->quake_time);p->quake_time-=step;
+        for(int i=0;i<p->level->count;i++){b2Body *b=p->bodies[i];
+            if(!b || b->GetType()!=b2_dynamicBody)continue;
+            float m=b->GetMass();b->ApplyLinearImpulseToCenter(b2Vec2(step*cosf(p->quake_time*b2_pi)*m*BIRD_QUAKE_X,-step*m*BIRD_QUAKE_Y),true);}
+        g->cooldown=0;
+    }
     if(p->bird_type==BIRD_GREEN_TYPE && p->bird){
         if(p->bird_collided)p->boomerang_active=false;
         b2Vec2 v=p->bird->GetLinearVelocity();float mass=p->bird->GetMass();
@@ -691,6 +700,12 @@ void game_update(Game *g,float seconds) {
     while(g->accumulator+0.000001f>=1.0f/120 && g->state!=WON && g->state!=LOST) {
         tick(g);g->accumulator-=1.0f/120;
     }
+}
+int game_powerup(const Game *g){return static_cast<const Physics*>(g->physics)->level->powerup;}
+int game_powerup_available(const Game *g){const Physics *p=static_cast<const Physics*>(g->physics);return p->level->powerup==POWERUP_BIRD_QUAKE && !p->quake_used && (g->state==AIMING||g->state==FLYING);}
+int game_use_powerup(Game *g){
+    if(!game_powerup_available(g))return 0;
+    Physics *p=static_cast<Physics*>(g->physics);p->quake_used=true;p->quake_time=BIRD_QUAKE_TIME;return 1;
 }
 void game_damage_object(Game *g,int index){Physics *p=static_cast<Physics*>(g->physics);if(index>=0 && index<p->level->count)p->health[index]=0;}
 int game_object_count(const Game *g) {return static_cast<const Physics*>(g->physics)->level->count;}

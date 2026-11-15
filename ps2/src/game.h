@@ -30,6 +30,13 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 /* Short Fuse vials (VialEffects.lua): when a vial breaks, pigs within vialEffect.radius react after
    VIAL_DELAY s. Orange: the pig puffs like a GlobeBird (puffTime 1.5 + deathTime 1.5) and pops.
    Pink: the pig is wrapped in a bubble (ignoreAllDamage) and floats like Stella's bubbles. */
+/* Power-ups (powerups/Powerup_*.lua). King Sling: Slingshot power 1 + 0.3. Bird Quake: for
+   BIRD_QUAKE_TIME s every dynamic piece but the flying bird gets, per step dt, the impulse
+   (dt*cos(t*pi)*mass*BIRD_QUAKE_X, -dt*mass*BIRD_QUAKE_Y), t the time left. */
+#define KING_SLING_POWER 1.3f
+#define BIRD_QUAKE_TIME 2.0f
+#define BIRD_QUAKE_X 7.0f
+#define BIRD_QUAKE_Y 7.5f
 #define VIAL_DELAY 1.3f
 #define VIAL_ORANGE_POP 3.0f
 #define BUBBLE_TIME 2.0f
@@ -164,6 +171,11 @@ void game_update(Game *game,float seconds);
 int game_special(Game *game);
 int game_special_available(const Game *game);
 int game_queue_type(const Game *game,int offset);
+/* Power-up of the current stage (POWERUP_*), and whether it can still be used (Bird Quake: once). */
+int game_powerup(const Game *game);
+int game_powerup_available(const Game *game);
+/* Starts the stage's Bird Quake; returns 1 if it started. */
+int game_use_powerup(Game *game);
 /* Host tests: removes the piece's health; it breaks on the next physics tick. */
 void game_damage_object(Game *game,int index);
 int game_get_blast(const Game *game,GameBlast *blast);

@@ -25,6 +25,7 @@ typedef struct {const char *definition;int count;float v[16];} CampaignPolygon;
 /* target: when non-zero (blocks.lua targetVelocity), the push stops while the piece already
    moves at that speed along the force (port reading of the native force adder). */
 /* Per-definition values from blocks.lua: constant force (balloons) and explosion (specialty BOMB). */
+enum {POWERUP_NONE=0,POWERUP_KING_SLING=1,POWERUP_SLING_SCOPE=2,POWERUP_BIRD_QUAKE=3,POWERUP_POWER_POTION=4,POWERUP_SHOCKWAVE=5};
 enum {VIAL_ORANGE=1,VIAL_PINK=2,VIAL_BLUE=3};
 typedef struct {const char *definition;float fx,fy,target,blast_radius,blast_force,damage_radius,damage;int vial;float vial_radius;} CampaignForce;
 /* Joints from the stage's joints table (types as in the level editor: 1 distance,
@@ -39,5 +40,7 @@ enum {JOINT_LIMIT=1,JOINT_MOTOR=2,JOINT_BACK_AND_FORTH=4};
 typedef struct {int type,a,b;float ax,ay,bx,by,frequency,damping,break_force;int collide;float destroy_timer;float axis_x,axis_y,lower,upper,motor_speed,max_force;int flags;} CampaignJoint;
 typedef struct {const CampaignObject *objects;int count,birds;int bird_types[16];float gravity,sling_x,sling_y,ground_y,pixels,view_x,view_y,view_scale;const char *title,*script;int bank;const CampaignJoint *joints;int joint_count;
     /* Star thresholds from starLimits.lua: a win is 1 star, silverScore 2, goldScore 3. */
-    int star_silver,star_gold;} CampaignLevel;
+    int star_silver,star_gold;
+    /* Power-up of the stage (shop tutorials, episodes.lua shopTutorialPowerup): POWERUP_*. */
+    int powerup;} CampaignLevel;
 #endif

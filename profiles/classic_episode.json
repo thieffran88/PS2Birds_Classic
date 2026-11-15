@@ -1245,5 +1245,12 @@
         "Tutorial_mayhem_niko"
       ]
     }
-  ]
+  ],
+  "powerups": {
+    "Tutorial_slingscope": "slingscope",
+    "Tutorial_powerpotion": "powerpotion",
+    "Tutorial_kingsling": "kingsling",
+    "Tutorial_birdquake": "birdquake",
+    "Tutorial_shockwave": "shockwave"
+  }
 }

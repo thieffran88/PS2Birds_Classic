@@ -187,7 +187,7 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     rect(0,0,640,109,dark);
     text(30,22,3,cream,"PS2BIRDS CLASSIC");
     if(sprites_load_failed())text(31,55,1,gold,"SPRITES.BIN AUSENTE: COPIE-O PARA A PASTA DO ELF");
-    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.45.0 / PLAYSTATION 2");
+    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.46.0 / PLAYSTATION 2");
     text(430,55,1,color(135,192,181),audio_status());
     text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
     text(31,80,2,gold,game_level_title(g->level));
@@ -242,6 +242,9 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     for (int i=0; i<waiting; i++) bird(49+i*24,render_ground-15,7,game_queue_type(g,i+(g->state==AIMING?1:0)),0,0,-2,0);
     snprintf(line,sizeof(line),"ANGULO %05.1f  FORCA %05.1f",g->angle,g->power);
     text(30,119,1,dark,line);
+    /* Shop tutorials: the stage's power-up (King Sling is always on; Bird Quake on L2, once). */
+    if(game_powerup(g)==POWERUP_KING_SLING)text(330,119,1,dark,"ESTILINGUE REAL");
+    else if(game_powerup_available(g))text(330,119,1,dark,"L2: TERREMOTO");
     rect(30,135,110,4,color(76,137,137));
     rect(30,135,(g->power-POWER_MIN)*110/(POWER_MAX-POWER_MIN),4,gold);
     rect(20,391,600,51,dark);
@@ -330,7 +333,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: started as '%s'\n",argc>0 && argv && argv[0]?argv[0]:"");
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.45.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.46.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
@@ -371,6 +374,7 @@ int main(int argc,char **argv)
         if ((state==PAD_STATE_DISCONN || state==PAD_STATE_ERROR) && previously_connected) paused=1;
         if(pressed & PAD_R3)audio_toggle();
         if(pressed & PAD_L1)save_mc_request();
+        if(!menu && !paused && (pressed & PAD_L2) && game_use_powerup(&g))audio_play(SFX_EXPLOSION);
         if(pressed & PAD_SELECT){menu=!menu;selected=g.level;audio_play(menu?SFX_MENU_MOVE:SFX_MENU_BACK);}
         if(menu){
             if(pressed&PAD_UP){selected=(selected+game_level_count()-1)%game_level_count();audio_play(SFX_MENU_MOVE);}

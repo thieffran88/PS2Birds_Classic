@@ -11,6 +11,9 @@ from game_profiles import decode_payload
 EPISODE=ROOT/'profiles/classic_episode.json'
 STARS=ROOT/'profiles/star_limits.json'
 
+# Power-ups of the shop tutorials (episodes.lua shopTutorialPowerup); codes shared with campaign_types.h.
+POWERUPS={'kingsling':1,'slingscope':2,'birdquake':3,'powerpotion':4,'shockwave':5}
+
 def star_limits(stars,script):
     """(silver, gold) from starLimits.lua; Golden Eggs stages have none (they give the egg), so any win is 3 stars."""
     v=stars.get(script);return (v['silver'],v['gold']) if v else (0,0)
@@ -31,7 +34,7 @@ def write_binary(levels,profile,polys,forced,stars,path=None):
         for j in d.get('joints') or []:
             joints+=struct.pack('<3i7fif6fi',j['type'],j['a'],j['b'],*[r(j[k]) for k in ['ax','ay','bx','by','frequency','damping','break_force']],int(j['collide']),r(j.get('destroy_timer',0.0)),*[r(j.get(k,0.0)) for k in ['axis_x','axis_y','lower','upper','motor_speed','max_force']],(1 if j.get('limit') else 0)|(2 if j.get('motor') else 0)|(4 if j.get('back_and_forth') else 0));nj+=1
         types=[b['type'] for b in d['birds']];types+=[0]*(16-len(types))
-        lv+=struct.pack('<3I16i8f2Ii2I2i',o0,len(d['objects']),len(d['birds']),*types,*map(r,[d['gravity'],d['sling_x'],d['sling_y'],d['ground_y'],d['physics_to_world'],d['view']['x'],d['view']['y'],d['view']['scale']]),s(d['title']),s(d['stage_script']),d.get('texture_bank',0),j0,nj-j0,*star_limits(stars,d['stage_script']))
+        lv+=struct.pack('<3I16i8f2Ii2I2ii',o0,len(d['objects']),len(d['birds']),*types,*map(r,[d['gravity'],d['sling_x'],d['sling_y'],d['ground_y'],d['physics_to_world'],d['view']['x'],d['view']['y'],d['view']['scale']]),s(d['title']),s(d['stage_script']),d.get('texture_bank',0),j0,nj-j0,*star_limits(stars,d['stage_script']),POWERUPS.get(d.get('powerup',''),0))
     pol=bytearray()
     for name in polys:
         v=[c for xy in profile['objects'][name]['vertices'] for c in xy];pol+=struct.pack('<Ii16f',s(name),len(v)//2,*map(r,v+[0.0]*(16-len(v))))
@@ -43,7 +46,7 @@ def write_binary(levels,profile,polys,forced,stars,path=None):
         spec=profile['objects'][name]
         frc+=struct.pack('<I7fif',s(name),*map(r,spec.get('force',[0.0,0.0])),r(spec.get('force_target',0.0)),*map(r,spec.get('explosion',[0.0,0.0,0.0,0.0])),int(spec.get('vial',[0,0.0])[0]),r(spec.get('vial',[0,0.0])[1]))
     while len(strings)%4:strings.append(0)
-    head=struct.pack('<4s7I',b'PBCP',5,len(levels),no,nj,len(polys),len(forced),len(strings))
+    head=struct.pack('<4s7I',b'PBCP',6,len(levels),no,nj,len(polys),len(forced),len(strings))
     data=head+bytes(lv)+bytes(objs)+bytes(joints)+bytes(pol)+bytes(frc)+bytes(strings)
     (Path(path) if path else ROOT/'ps2/assets/CAMPAIGN.BIN').write_bytes(data)
 
@@ -58,10 +61,10 @@ def read_binary(path):
     """Parse CAMPAIGN.BIN back (tests and tools): levels, objects, joints, polygons, forces."""
     import struct
     d=Path(path).read_bytes();magic,ver,nl,no,nj,np,nf,ns=struct.unpack_from('<4s7I',d)
-    if magic!=b'PBCP' or ver!=5:raise ValueError('Not a CAMPAIGN.BIN')
-    p=32;strs=d[32+nl*136+no*60+nj*76+np*72+nf*40:]
+    if magic!=b'PBCP' or ver!=6:raise ValueError('Not a CAMPAIGN.BIN')
+    p=32;strs=d[32+nl*140+no*60+nj*76+np*72+nf*40:]
     s=lambda o:strs[o:strs.index(b'\0',o)].decode()
-    lv=[struct.unpack_from('<3I16i8f2Ii2I2i',d,p+i*136) for i in range(nl)];p+=nl*136
+    lv=[struct.unpack_from('<3I16i8f2Ii2I2ii',d,p+i*140) for i in range(nl)];p+=nl*140
     ob=[struct.unpack_from('<8f2iI2fii',d,p+i*60) for i in range(no)];p+=no*60
     jo=[struct.unpack_from('<3i7fif6fi',d,p+i*76) for i in range(nj)];p+=nj*76
     po={};fo={};ex={};vi={}
@@ -72,7 +75,7 @@ def read_binary(path):
         v=struct.unpack_from('<I7fif',d,p+i*40);fo[s(v[0])]=(v[1],v[2])
         if any(v[4:8]):ex[s(v[0])]=tuple(v[4:8])
         if v[8]:vi[s(v[0])]=(v[8],v[9])
-    return {'levels':[{'title':s(l[27]),'script':s(l[28]),'objects':l[1],'birds':l[2],'bank':l[29],'joints':l[31]} for l in lv],
+    return {'levels':[{'title':s(l[27]),'script':s(l[28]),'objects':l[1],'birds':l[2],'bank':l[29],'joints':l[31],'powerup':l[34]} for l in lv],
             'objects':[{'definition':s(o[10]),'spawn_of':o[13],'no_collision':bool(o[14]&1),'mirror':o[14]&6,'release_bird':((o[14]>>8)&255)-1,'clone_of':(o[14]>>16)-1} for o in ob],
             'joints':[{'type':j[0],'destroy_timer':j[11],'axis':(j[12],j[13]),'lower':j[14],'upper':j[15],'motor_speed':j[16],'max_force':j[17],'flags':j[18]} for j in jo],'polygons':po,'forces':fo,'explosions':ex,'vials':vi}
 
@@ -90,7 +93,7 @@ def build(episode_path=EPISODE,apk=None,workdir=None,output=None,quiet=False):
             if apk is not None:source=decode_payload(apk.read(apk_name),'classic')
             output_json=Path(workdir or ROOT/'ps2/data')/f'level_{page["number"]}_{position}.json'
             convert(source,output_json,Path(folder)/'level_data.h',DEFAULT_PROFILE,apk_name,quiet)
-            d=json.loads(output_json.read_text());d['title']=f'{page["title_prefix"]}{position+page.get("first",1)-1}';d['stage_script']=name;d['episode_page']=page['number'];d['stage_number']=position;d['texture_bank']=page.get('bank',0)
+            d=json.loads(output_json.read_text());d['title']=f'{page["title_prefix"]}{position+page.get("first",1)-1}';d['stage_script']=name;d['episode_page']=page['number'];d['powerup']=episode.get('powerups',{}).get(name,'');d['stage_number']=position;d['texture_bank']=page.get('bank',0)
             if name!='Level1':
                 left=d['sling_x']-4;right=d['sling_x']+4;top=d['sling_y']-5
                 for o in d['objects']:

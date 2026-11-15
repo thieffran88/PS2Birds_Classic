@@ -136,5 +136,20 @@ int main(){
      }
  }
  assert(cloned>0);
- printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s; mirrored pieces; a broken cage adds its bird to the queue; trajectories follow upside-down and zero gravity; orange vials pop nearby pigs and pink vials lift them in bubbles; blue vials clone them.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
+ // Power-ups of the shop tutorials: King Sling launches 1.3 times faster; Bird Quake (once) shakes the scene.
+ int king=-1,quake=-1;
+ for(int lv=0;lv<game_level_count();lv++){const char *sc=game_level_script(lv);if(!strcmp(sc,"Tutorial_kingsling"))king=lv;if(!strcmp(sc,"Tutorial_birdquake"))quake=lv;}
+ assert(king>=0 && quake>=0);
+ assert(game_load_level(&g,king) && game_powerup(&g)==POWERUP_KING_SLING && !game_powerup_available(&g));
+ {float x0,y0,x1,y1;game_preview(&g,0,&x0,&y0);game_preview(&g,0.1f,&x1,&y1);float fast=(x1-x0)/g.view_scale;
+  assert(game_load_level(&g,quake));game_preview(&g,0,&x0,&y0);game_preview(&g,0.1f,&x1,&y1);
+  assert(fabsf(fast/((x1-x0)/g.view_scale)-KING_SLING_POWER)<0.01f);}
+ assert(game_powerup(&g)==POWERUP_BIRD_QUAKE && game_powerup_available(&g));
+ {float before=0,after=0;GameObject o;
+  for(int k=0;k<game_object_count(&g);k++)if(game_get_object(&g,k,&o)&&o.alive&&o.kind!=3)before+=o.x+o.y;
+  assert(game_use_powerup(&g) && !game_use_powerup(&g) && !game_powerup_available(&g));
+  for(int t=0;t<120;t++)game_update(&g,1.0f/120);
+  for(int k=0;k<game_object_count(&g);k++)if(game_get_object(&g,k,&o)&&o.alive&&o.kind!=3)after+=o.x+o.y;
+  assert(fabsf(after-before)>1.0f);}
+ printf("Globe OK: level %d, puff on tap (radius %.1f), %.1f s puffed, shrinks over %.1f s and disappears, available after contact with automatic puff after %.1f s; %d balloons hold their ropes; Stella hovers, bubbles and leaves after %.1f s; mirrored pieces; a broken cage adds its bird to the queue; trajectories follow upside-down and zero gravity; orange vials pop nearby pigs and pink vials lift them in bubbles; blue vials clone them; King Sling and Bird Quake power-ups.\n",level,GLOBE_PUFFED_RADIUS,GLOBE_PUFF_TIME,GLOBE_DEATH_TIME,GLOBE_AUTO_PUFF_DELAY,checked,PINK_BOOM_TIME+BUBBLE_TIME);
 }
