@@ -8,7 +8,7 @@
   - 44 fases têm frascos; todos os roteiros continuam vencendo.
   - `CAMPAIGN.BIN` versão 5: a tabela por definição ganhou o tipo e o raio do frasco (40 bytes por registro).
 - **Roteiro novo**
-  - Dino 3-15 (`Dino3_tntbomb`) passa a ter roteiro vencedor.
+  - Dino 3-15 (`Dino3_tongueattack`) passa a ter roteiro vencedor.
 - **Testes**
   - `globe_test`: quebrar um frasco laranja estoura o porco ao lado; quebrar um rosa faz o porco subir.
   - `profile_test`: tipo e raio dos três frascos no `CAMPAIGN.BIN` conferidos com o `blocks.lua`.
