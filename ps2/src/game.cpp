@@ -842,6 +842,7 @@ static Game *ev_game; /* the game being stepped (set by tick) */
 void ev_remove_block(EggVehicle *v,const char *name){int i=v->p->piece(v->wave,name);if(i>=0 && v->p->bodies[i] && ev_game)remove_silently(ev_game,v->p,i);}
 void ev_abandon(EggVehicle *v){Physics *p=v->p;for(int i=0;i<p->level->count;i++)if((int)OBJECT_WAVE(p->level->objects[i].flags)==v->wave && p->level->objects[i].kind==4 && p->bodies[i])p->abandon(i);}
 void ev_surrender(EggVehicle *v){ev_abandon(v);}
+void ev_abandon_pig(EggVehicle *v,const char *pig){int i=v->p->piece(v->wave,pig);if(i>=0 && v->p->bodies[i])v->p->abandon(i);}
 int ev_egg_collected(EggVehicle *v){Physics *p=v->p;return p->egg_grabber>=0 && (int)OBJECT_WAVE(p->level->objects[p->egg_grabber].flags)==v->wave && p->egg_tween<0;}
 void ev_timer(EggVehicle *v,EggTimed fn,float seconds){
     for(int k=0;k<8;k++)if(v->timer_fn[k]==fn){v->timer_left[k]=seconds;return;}  /* doWithTimer keys on the function */

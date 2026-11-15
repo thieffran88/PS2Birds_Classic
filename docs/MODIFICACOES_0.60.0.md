@@ -1,0 +1,28 @@
+# Modificações 0.60.0
+
+- **Egg Defender — motor**
+  - `abandonVehicle` com o nome de um porco: só aquele porco abandona (usado na 12-3, que tem dois porcos).
+- **Egg Defender — controladores das fases 12 e 13 (10 veículos)**
+  - Fase 12:
+    - balão com hélice que solta a TNT e gira os porta-foguetes a x < 45;
+    - carroça de dois sugadores com braço de TNT;
+    - dois balões levando um carrinho com ventilador, que corta a corda sobre o ovo; cada porco abandona por um motivo;
+    - rotor com dois ventiladores que desce perto do ovo;
+    - voador com canhão e foguete que solta a TNT sobre o ninho.
+  - Fase 13:
+    - carroça empilhada com três infladores de balão e sugador;
+    - hélice com força e alvo dobrados que infla balão e solta a TNT;
+    - ventilador com inflador violeta;
+    - veículo junto ao ninho (sem teleporte) com dois foguetes azuis e guarda-chuva;
+    - carroça de ventilador com bouncer.
+  - Mantido como no original: na 12-4, o script erra o nome do campo da segunda hélice (`forceReX`), que então não muda.
+  - Total: 63 de 72 controladores.
+- **Investigação**
+  - `pigTargeted` (2-5, 6-3, 13-1, 13-5) depende da habilidade do pássaro vermelho (marcar um porco como alvo), que o port ainda não tem; essas reações não acontecem.
+  - Sonda no PC: o balão da 12-1 volta para a direita e a carroça da 13-1 para a cerca de 10 m do ovo.
+- **Versão, documentos e limpeza**
+  - Tela, log e README em 0.60.0.
+  - `docs/EGG_DEFENDER.md` e `docs/LACUNAS_PORT.md` atualizados.
+  - Documentos da 0.59.0 substituídos.
+  - Testes: 73 verificações aprovadas.
+  - Entregues ISO, ELF (com os .BIN), Gerador para Windows e Código-Fonte; os da 0.59.0 removidos.

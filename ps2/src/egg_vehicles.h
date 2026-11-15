@@ -49,6 +49,7 @@ void ev_start_aim(EggVehicle *v,const char *name,const char *target,float offset
 void ev_stop_aim(EggVehicle *v,const char *name);              /* stopAim: motor stops */
 void ev_set_interval(EggVehicle *v,const char *name,float seconds); /* getBlock(name).applyForceInterval */
 float ev_closest_egg_distance(EggVehicle *v);                  /* getClosestEggDistance */
+void ev_abandon_pig(EggVehicle *v,const char *pig);            /* abandonVehicle(pig name): only that pig */
 float *ev_vars(EggVehicle *v);                                 /* 16 floats for the script's globals */
 
 #endif

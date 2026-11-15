@@ -569,6 +569,121 @@ static void ed11_w5_init(EggVehicle *v){ev_gadget(v,"BP_SUCKER_1","startSuction"
 static void ed11_w5_egg(EggVehicle *v){ev_set_thrust(v,"BP_FAN_1",-ev_thrust(v,"BP_FAN_1")*2);}
 static void ed11_w5_removed(EggVehicle *v,const char *name){if(!strcmp(name,"BP_FAN_1"))ev_timer(v,abandon,1);}
 
+/* ---- EggDefender_12 ---- */
+/* W1: a balloon (-50) with a propeller reversed with the egg; at x < 45 it drops its TNT and turns
+   its rocket holders (motors ∓4); losing BP_LIGHT_METAL_FRAME_4 takes the holder and wheel with it. */
+static void ed12_holder_lost(EggVehicle *v,const char *name){
+    if(!strcmp(name,"BP_PROPELLER_1"))ev_timer(v,abandon,1);
+    if(!strcmp(name,"BP_LIGHT_METAL_FRAME_4")){ev_remove_block(v,"BP_ROCKET_HOLDER_2");ev_remove_block(v,"BP_TELESCOPIC_ARM_3");ev_remove_block(v,"BP_LANDING_WHEEL_SMALL_TIRE_4");ev_remove_block(v,"BP_SMALL_LANDING_WHEEL_4");}
+}
+static void ed12_drop_tnt(EggVehicle *v){
+    ev_remove_joint(v,"BP_TNT_1BP_TELESCOPIC_ARM_2");ev_remove_joint(v,"BP_TNT_1BP_TELESCOPIC_ARM_3");
+    ev_motor_speed(v,"BP_TELESCOPIC_ARM_3BP_ROCKET_HOLDER_2",-4);ev_motor_speed(v,"BP_TELESCOPIC_ARM_2BP_ROCKET_HOLDER_1",4);
+}
+static void ed12_w1_init(EggVehicle *v){set_fy(v,"BP_SINGLE_BALLOON_1",-50);}
+static void ed12_w1_update(EggVehicle *v,float){if(ev_x(v)<45)ed12_drop_tnt(v);}
+static void ed12_w1_egg(EggVehicle *v){flip_thrust(v,"BP_PROPELLER_1");}
+/* W2: two suckers; the propeller (forceX -100, forceY 100) pushes -1000 while the egg is more than
+   10 m ahead and 300 once past it; with the egg it pushes 400 and the TNT arm turns (2). Losing the
+   TNT casing early turns the arm too; losing the propeller with the egg: abandon. vars: 0 eggCollected. */
+static void ed12_w2_init(EggVehicle *v){ev_set_thrust(v,"BP_PROPELLER_1",0);ev_set_force(v,"BP_PROPELLER_1",-100,100);ev_vars(v)[0]=0;ev_gadget(v,"BP_SUCKER_1","startSuction");ev_gadget(v,"BP_SUCKER_2","startSuction");}
+static void ed12_w2_update(EggVehicle *v,float){if(ev_vars(v)[0]==0){float ex=ev_closest_egg_x(v,0);if(10<ex)set_fx(v,"BP_PROPELLER_1",-1000);if(ex<-1)set_fx(v,"BP_PROPELLER_1",300);}}
+static void ed12_w2_egg(EggVehicle *v){set_fx(v,"BP_PROPELLER_1",400);ev_motor_speed(v,"BP_LIGHT_METAL_FRAME_2BP_TNT_SMALL_1",2);ev_vars(v)[0]=1;}
+static void ed12_w2_removed(EggVehicle *v,const char *name){
+    if(!strcmp(name,"BP_TNT_CASING_1") && ev_vars(v)[0]==0)ev_motor_speed(v,"BP_LIGHT_METAL_FRAME_2BP_TNT_SMALL_1",2);
+    if(!strcmp(name,"BP_PROPELLER_1") && ev_vars(v)[0]!=0)ev_abandon(v);
+}
+/* W3: two balloons (-200; -150 above y -35) lifting a car with an engine fan (off): the propeller
+   (∓1000) steers; over the egg the rope is cut, the car's fan switches on (forceX 800 with the egg).
+   Losing a balloon, the medium pig gives up after 3 s; losing the car's parts, the helmet pig after 1 s.
+   (The balance call with -1000 switches balancing off.) vars: 0 eggIsCollected (never set). */
+static void ed12_w3_balloons(EggVehicle *v,float fy){set_fy(v,"BP_SINGLE_BALLOON_2",fy);set_fy(v,"BP_RUBBER_BALLOON_1",fy);}
+static void ed12_w3_init(EggVehicle *v){ev_power(v,"BP_FAN_1",0);ev_set_thrust(v,"BP_PROPELLER_1",-1000);ed12_w3_balloons(v,-200);ev_vars(v)[0]=0;ev_set_thrust(v,"BP_FAN_1",0);}
+static void ed12_w3_update(EggVehicle *v,float){
+    if(ev_vars(v)[0]==0){if(-35<ev_y(v))ed12_w3_balloons(v,-200);if(ev_y(v)<-35)ed12_w3_balloons(v,-150);}
+    float ex=ev_closest_egg_x(v,0);
+    if(5<ex)ev_set_thrust(v,"BP_PROPELLER_1",-1000);
+    if(ex<-5)ev_set_thrust(v,"BP_PROPELLER_1",1000);
+    if(-6<ex && ex<8 && ev_vars(v)[0]==0){ev_remove_block(v,"BP_ROPE_RUBBER_1");ev_power(v,"BP_FAN_1",1);if(-18<ev_y(v) && 20<ev_x(v))ed12_w3_balloons(v,-200);}
+}
+static void ed12_w3_egg(EggVehicle *v){set_fx(v,"BP_FAN_1",800);}
+static void ed12_w3_flee2(EggVehicle *v){ev_abandon_pig(v,"MediumPiglette_1");}
+static void ed12_w3_flee(EggVehicle *v){ev_abandon_pig(v,"HelmetPiglette_1");}
+static void ed12_w3_removed(EggVehicle *v,const char *name){
+    static const char *const pop[]={"BP_SINGLE_BALLOON_2","BP_SINGLE_BALLOON_3",0},*const car[]={"BP_FAN_1","BP_WOODEN_WHEEL_1","BP_WOODEN_TRIANGLE_2","BP_WOODEN_WHEEL_2","BP_WOODEN_TRIANGLE_1",0};
+    if(named(name,pop))ev_timer(v,ed12_w3_flee2,3);
+    if(named(name,car))ev_timer(v,ed12_w3_flee,1);
+}
+/* W4: a rotor (-100; -80 above y -40, -70 below) with two fans (forceX ∓100); within 12 m it
+   sinks (-70); with the egg rotor -90 and the first fan 200 (the script misspells the second's field). */
+static void ed12_w4_init(EggVehicle *v){ev_set_thrust(v,"BP_FAN_1",0);ev_set_thrust(v,"BP_FAN_2",0);ev_set_thrust(v,"BP_ROTOR_1",0);set_fy(v,"BP_ROTOR_1",-100);ev_vars(v)[0]=0;ev_vars(v)[1]=0;}
+static void ed12_w4_update(EggVehicle *v,float){
+    float *s=ev_vars(v);
+    if(s[0]==0 && s[1]==0){if(-40<ev_y(v))set_fy(v,"BP_ROTOR_1",-80);if(ev_y(v)<-40)set_fy(v,"BP_ROTOR_1",-70);}
+    float ex=ev_closest_egg_x(v,0);
+    if(5<ex){set_fx(v,"BP_FAN_1",-100);set_fx(v,"BP_FAN_2",-100);s[0]=0;}
+    if(ex<-5){set_fx(v,"BP_FAN_1",100);set_fx(v,"BP_FAN_2",100);s[0]=0;}
+    if(-6<ex && ex<12 && s[1]==0){set_fy(v,"BP_ROTOR_1",-70);s[0]=1;}
+}
+static void ed12_w4_egg(EggVehicle *v){set_fy(v,"BP_ROTOR_1",-90);set_fx(v,"BP_FAN_1",200);ev_vars(v)[1]=1;}
+static void ed12_w4_removed(EggVehicle *v,const char *name){static const char *const stop[]={"BP_ROTOR_1","BP_FAN_1","BP_FAN_2",0};abandon_on(v,name,stop);}
+/* W5: a rotor flyer with a cannon and a rocket (-2500): rotor -200 above y -40, -150 below; fan ∓2000
+   beyond 5 m; within 12 m it sinks (-150) and, low over the nest, drops its TNT; with the egg the
+   rocket fires. The pig never abandons. vars: 0 rotorDescend, 1 eggIsCollected (never set). */
+static void ed12_w5_init(EggVehicle *v){ev_set_thrust(v,"BP_ROCKET_RED_1",-2500);ev_set_thrust(v,"BP_ROTOR_1",0);set_fy(v,"BP_ROTOR_1",-400);ev_vars(v)[0]=0;ev_vars(v)[1]=0;ev_start_aim(v,"BP_CANNON_1","bird",0,0);}
+static void ed12_w5_update(EggVehicle *v,float){
+    float *s=ev_vars(v);
+    if(s[0]==0 && s[1]==0){if(-40<ev_y(v))set_fy(v,"BP_ROTOR_1",-200);if(ev_y(v)<-40)set_fy(v,"BP_ROTOR_1",-150);}
+    float ex=ev_closest_egg_x(v,0);
+    if(5<ex){ev_set_thrust(v,"BP_FAN_1",-2000);s[0]=0;}
+    if(ex<-5){ev_set_thrust(v,"BP_FAN_1",2000);s[0]=0;}
+    if(-6<ex && ex<12 && s[1]==0){set_fy(v,"BP_ROTOR_1",-150);s[0]=1;
+        if(-18<ev_y(v)){set_fy(v,"BP_ROTOR_1",-200);ev_remove_joint(v,"BP_TNT_CASING_1BP_WOODEN_FRAME_1");ev_remove_joint(v,"BP_TNT_CASING_1BP_LIGHT_METAL_FRAME_7");
+            ev_remove_joint(v,"BP_LIGHT_METAL_FRAME_7BP_TNT_SMALL_2");ev_remove_joint(v,"BP_WOODEN_FRAME_1BP_TNT_SMALL_2");}}
+}
+static void ed12_w5_egg(EggVehicle *v){rocket(v,"BP_ROCKET_RED_1");}
+static void ed12_w5_removed(EggVehicle *v,const char *name){if(!strcmp(name,"BP_ROCKET_RED_1") || (!strcmp(name,"BP_ROTOR_1") && ev_vars(v)[1]==0))ev_timer(v,abandon,1);}
+
+/* ---- EggDefender_13 (balloon inflaters; pigTargeted reactions need the Red Bird's aiming) ---- */
+/* W1: three inflaters on a stacked cart with a sucker, fan forceX -500. With the egg the sucker is
+   dropped, the last balloon inflates and the frames let go; the fan pushes 500. vars: 0 done. */
+static void ed13_w1_init(EggVehicle *v){
+    const char *b[3]={"BP_BALLOON_INFLATER_1","BP_BALLOON_INFLATER_2","BP_BALLOON_INFLATER_3"};
+    for(int k=0;k<3;k++){ev_set_thrust(v,b[k],0);set_fy(v,b[k],-200);}
+    ev_set_thrust(v,"BP_FAN_1",0);set_fx(v,"BP_FAN_1",-500);ev_gadget(v,"BP_SUCKER_1","startSuction");ev_vars(v)[0]=0;
+}
+static void ed13_w1_egg(EggVehicle *v){
+    ev_remove_block(v,"BP_SUCKER_1");ev_gadget(v,"BP_BALLOON_INFLATER_3","inflate");ev_remove_joint(v,"BP_WOODEN_FRAME_2BP_WOODEN_FRAME_1");
+    if(ev_vars(v)[0]==0)ev_remove_joint(v,"BP_WOODEN_FRAME_3BP_WOODEN_FRAME_2");
+    set_fx(v,"BP_FAN_1",500);
+}
+/* W2: propeller at double force and target; with the egg the balloon inflates, the propeller
+   reverses and 2 s later the TNT drops and the holders turn. */
+static void ed13_w2_release(EggVehicle *v){if(ev_vars(v)[0]==0){ed12_drop_tnt(v);ev_vars(v)[0]=1;}}
+static void ed13_w2_init(EggVehicle *v){ev_set_thrust(v,"BP_PROPELLER_1",ev_thrust(v,"BP_PROPELLER_1")*2);ev_set_target(v,"BP_PROPELLER_1",ev_target(v,"BP_PROPELLER_1")*2);set_fy(v,"BP_BALLOON_INFLATER_1",-80);ev_vars(v)[0]=0;}
+static void ed13_w2_egg(EggVehicle *v){ev_gadget(v,"BP_BALLOON_INFLATER_1","inflate");flip_thrust(v,"BP_PROPELLER_1");ev_timer(v,ed13_w2_release,2);}
+/* W3: fan forceX -200; above y -40 it drops a TNT; with the egg the fan pushes 500 and 5 s later the
+   violet balloon inflates, and 1 s after that the other TNT drops. */
+static void ed13_w3_go(EggVehicle *v){ev_remove_joint(v,"BP_TNT_SMALL_1BP_LIGHT_METAL_FRAME_1");ev_remove_joint(v,"BP_TNT_SMALL_1BP_LIGHT_METAL_FRAME_2");}
+static void ed13_w3_set(EggVehicle *v){ev_gadget(v,"BP_BALLOON_INFLATER_VIOLET_1","inflate");ev_timer(v,ed13_w3_go,1);}
+static void ed13_w3_init(EggVehicle *v){ev_set_thrust(v,"BP_FAN_1",0);set_fx(v,"BP_FAN_1",-200);ev_set_thrust(v,"BP_BALLOON_INFLATER_VIOLET_1",0);set_fy(v,"BP_BALLOON_INFLATER_VIOLET_1",-200);}
+static void ed13_w3_update(EggVehicle *v,float){if(ev_y(v)<-40)ev_remove_joint(v,"BP_LIGHT_METAL_FRAME_3BP_TNT_SMALL_1");}
+static void ed13_w3_egg(EggVehicle *v){set_fx(v,"BP_FAN_1",500);ev_timer(v,ed13_w3_set,5);}
+/* W4: placed by the nest (disableTeleporting): with the egg two blue rockets (-1600/-1500) fire, the
+   umbrella goes, the bouncer lets the TNT go after 0.5 s and the TNT detaches after 3 s. */
+static void ed13_w4_detach(EggVehicle *v){ev_remove_joint(v,"BP_TNT_SMALL_9BP_LIGHT_METAL_FRAME_1");}
+static void ed13_w4_gotime(EggVehicle *v){ev_remove_joint(v,"BP_BOUNCER_27BP_TNT_SMALL_9");}
+static void ed13_w4_init(EggVehicle *v){ev_set_thrust(v,"BP_ROCKET_BLUE_1",-1600);ev_set_thrust(v,"BP_ROCKET_BLUE_3",-1500);}
+static void ed13_w4_egg(EggVehicle *v){
+    rocket(v,"BP_ROCKET_BLUE_1");rocket(v,"BP_ROCKET_BLUE_3");ev_timer(v,ed13_w4_gotime,0.5f);ev_timer(v,ed13_w4_detach,3);
+    ev_remove_block(v,"BP_UMBRELLA_HOLDER_14");ev_remove_block(v,"BP_UMBRELLA_1_14");
+}
+static void ed13_w4_removed(EggVehicle *v,const char *name){static const char *const stop[]={"BP_ROCKET_BLUE_3","BP_ROCKET_BLUE_1",0};abandon_on(v,name,stop);}
+/* W5: fan forceX -200, 500 with the egg (its bouncer only jumps when the Red Bird aims at the pig). */
+static void ed13_w5_init(EggVehicle *v){ev_set_thrust(v,"BP_FAN_1",0);set_fx(v,"BP_FAN_1",-200);}
+static void ed13_w5_egg(EggVehicle *v){set_fx(v,"BP_FAN_1",500);}
+static void ed13_w5_removed(EggVehicle *v,const char *name){if(!strcmp(name,"BP_FAN_1"))ev_timer(v,abandon,1);}
+
 static const EggController controllers[]={
     {"EggDefender_1_W1_V1",ed1_w1_init,0,0,0,1},
     {"EggDefender_1_W2_V1",ed1_w2_init,ed1_w2_update,0,0,1},
@@ -623,6 +738,16 @@ static const EggController controllers[]={
     {"EggDefender_11_W3_V1",ed11_w3_init,ed11_w3_update,ed11_w3_egg,ed11_w3_removed,0},
     {"EggDefender_11_W4_V1",ed11_w4_init,ed11_w4_update,ed11_w4_egg,0,0},
     {"EggDefender_11_W5_V1",ed11_w5_init,0,ed11_w5_egg,ed11_w5_removed,0},
+    {"EggDefender_12_W1_V1",ed12_w1_init,ed12_w1_update,ed12_w1_egg,ed12_holder_lost,0},
+    {"EggDefender_12_W2_V1",ed12_w2_init,ed12_w2_update,ed12_w2_egg,ed12_w2_removed,0},
+    {"EggDefender_12_W3_V1",ed12_w3_init,ed12_w3_update,ed12_w3_egg,ed12_w3_removed,0},
+    {"EggDefender_12_W4_V1",ed12_w4_init,ed12_w4_update,ed12_w4_egg,ed12_w4_removed,0},
+    {"EggDefender_12_W5_V1",ed12_w5_init,ed12_w5_update,ed12_w5_egg,ed12_w5_removed,1},
+    {"EggDefender_13_W1_V1",ed13_w1_init,0,ed13_w1_egg,0,0},
+    {"EggDefender_13_W2_V1",ed13_w2_init,0,ed13_w2_egg,ed12_holder_lost,0},
+    {"EggDefender_13_W3_V1",ed13_w3_init,ed13_w3_update,ed13_w3_egg,0,0},
+    {"EggDefender_13_W4_V1",ed13_w4_init,0,ed13_w4_egg,ed13_w4_removed,0},
+    {"EggDefender_13_W5_V1",ed13_w5_init,0,ed13_w5_egg,ed13_w5_removed,0},
 };
 const EggController *egg_controller(const char *name){
     for(unsigned i=0;i<sizeof(controllers)/sizeof(controllers[0]);i++)if(!strcmp(controllers[i].name,name))return &controllers[i];
