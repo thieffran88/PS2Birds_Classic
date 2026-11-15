@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.48.0)
+# Lacunas do port (levantamento atualizado na 0.49.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -162,6 +162,11 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **Falta:** os demais power-ups da loja (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers). O Sling Scope não muda nada no port: a prévia da trajetória já é longa.
 - **Fórmula de dano por colisão em Lua:** `gamefeatures/physics/AdventureModeCollisions.lua` tem o dano de pássaro × bloco (velocidade relativa ÷ 10 × `damageMultiplier` − defesa; ao quebrar, o pássaro segue com a velocidade × min(1, sobra × `velocityMultiplier`)) e de bloco × bloco. Esse arquivo é do modo Aventura, não do Classic; serve de referência para a fórmula nativa, mas não foi aplicado.
 
+## Achados da 0.49.0
+
+- **Mighty Feathers tem dois tipos de fase.** As 15 `EggDefender_classic_N` (classe `RMFClassic` no `episodes.lua`) são fases comuns de estilingue com porcos em veículos: entraram no port. As 15 `EggDefender_N` (com `.scripts.lua`) são o modo Egg Defender de verdade (o jogador defende o ovo; `EggDefender.lua`, 1899 linhas, mais veículo, porco e HUD próprios): continuam fora.
+- **Engenhocas dos veículos — faltam.** `RMFClassic_Cannon.lua`, `RMFClassic_Sucker.lua` e `RMFClassic_BubbleGun.lua` (com `EggDefenderGadget_*.lua`) fazem o canhão atirar, o sugador puxar e a arma soltar bolhas. No port essas peças existem, mas ficam paradas; vale para as 15 fases do Mighty Feathers e para as 4 do Flock Favorites de tema 26 (12, 14, 25 e 28), que também entraram.
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -170,7 +175,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Modo Egg Defender (Mighty Feathers e 4 fases do Flock Favorites); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); giro dos clones do frasco azul; roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
+1. Engenhocas dos veículos (canhão, sugador, arma de bolhas: `RMFClassic_*.lua`); modo Egg Defender propriamente dito (15 fases `EggDefender_N`); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); giro dos clones do frasco azul; roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).

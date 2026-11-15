@@ -660,8 +660,10 @@ static const Stage stages[]={
  {"FlockFavorites08",182,10,87,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-8 (sem roteiro vencedor) */
  {"FlockFavorites10",174,8,65,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-9 (sem roteiro vencedor) */
  {"FlockFavorites11",141,19,71,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-10 (sem roteiro vencedor) */
- {"FlockFavorites13",146,11,89,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-11 (sem roteiro vencedor) */
- {"FlockFavorites15",158,12,72,5,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-12 (sem roteiro vencedor) */
+ {"FlockFavorites12",167,7,58,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-11 (sem roteiro vencedor) */
+ {"FlockFavorites13",146,11,89,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-12 (sem roteiro vencedor) */
+ {"FlockFavorites14",173,13,83,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-13 (sem roteiro vencedor) */
+ {"FlockFavorites15",158,12,72,5,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 1-14 (sem roteiro vencedor) */
  {"FlockFavorites16",135,10,75,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-1 (sem roteiro vencedor) */
  {"FlockFavorites17",166,4,112,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-2 (sem roteiro vencedor) */
  {"FlockFavorites18",155,8,101,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-3 (sem roteiro vencedor) */
@@ -671,10 +673,12 @@ static const Stage stages[]={
  {"FlockFavorites22",127,10,43,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-7 (sem roteiro vencedor) */
  {"FlockFavorites23",182,11,92,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-8 (sem roteiro vencedor) */
  {"FlockFavorites24",164,19,73,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-9 (sem roteiro vencedor) */
- {"FlockFavorites26",162,7,91,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-10 (sem roteiro vencedor) */
- {"FlockFavorites27",111,6,70,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-11 (sem roteiro vencedor) */
- {"FlockFavorites29",65,5,49,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-12 (sem roteiro vencedor) */
- {"FlockFavorites30",154,12,103,5,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-13 (sem roteiro vencedor) */
+ {"FlockFavorites25",188,11,89,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-10 (sem roteiro vencedor) */
+ {"FlockFavorites26",162,7,91,4,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-11 (sem roteiro vencedor) */
+ {"FlockFavorites27",111,6,70,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-12 (sem roteiro vencedor) */
+ {"FlockFavorites28",126,7,74,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-13 (sem roteiro vencedor) */
+ {"FlockFavorites29",65,5,49,3,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-14 (sem roteiro vencedor) */
+ {"FlockFavorites30",154,12,103,5,{{0,0,-1.0f}},0}, /* FLOCK FAVORITES 2-15 (sem roteiro vencedor) */
  {"LevelGE_4",117,3,28,2,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 1-1 (sem roteiro vencedor) */
  {"LevelGE_3",49,7,24,3,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 1-2 (sem roteiro vencedor) */
  {"LevelGE_2",48,5,21,3,{{0,0,-1.0f}},0}, /* GOLDEN EGGS 1-3 (sem roteiro vencedor) */
@@ -721,6 +725,21 @@ static const Stage stages[]={
  {"Tutorial_shockwave",181,6,85,3,{{0,0,-1.0f}},0}, /* TUTORIAL 13 (sem roteiro vencedor) */
  {"Tutorial_pucombo_niko",274,4,81,5,{{0,0,-1.0f}},0}, /* TUTORIAL 14 (sem roteiro vencedor) */
  {"Tutorial_mayhem_niko",368,13,207,6,{{0,0,-1.0f}},0}, /* TUTORIAL 15 (sem roteiro vencedor) */
+ {"EggDefender_classic_1",241,4,73,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 1 (sem roteiro vencedor) */
+ {"EggDefender_classic_2",181,5,66,5,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 2 (sem roteiro vencedor) */
+ {"EggDefender_classic_3",141,9,83,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 3 (sem roteiro vencedor) */
+ {"EggDefender_classic_4",139,7,63,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 4 (sem roteiro vencedor) */
+ {"EggDefender_classic_5",150,8,55,3,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 5 (sem roteiro vencedor) */
+ {"EggDefender_classic_6",176,8,112,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 6 (sem roteiro vencedor) */
+ {"EggDefender_classic_7",203,6,98,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 7 (sem roteiro vencedor) */
+ {"EggDefender_classic_8",182,7,80,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 8 (sem roteiro vencedor) */
+ {"EggDefender_classic_9",146,6,61,3,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 9 (sem roteiro vencedor) */
+ {"EggDefender_classic_10",169,6,74,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 10 (sem roteiro vencedor) */
+ {"EggDefender_classic_11",203,5,97,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 11 (sem roteiro vencedor) */
+ {"EggDefender_classic_12",204,7,77,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 12 (sem roteiro vencedor) */
+ {"EggDefender_classic_13",198,11,68,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 13 (sem roteiro vencedor) */
+ {"EggDefender_classic_14",201,6,77,4,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 14 (sem roteiro vencedor) */
+ {"EggDefender_classic_15",152,6,82,5,{{0,0,-1.0f}},0}, /* MIGHTY FEATHERS 15 (sem roteiro vencedor) */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -741,7 +760,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==711 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==730 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));
@@ -842,7 +861,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==105);
+    assert(unverified==124);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");

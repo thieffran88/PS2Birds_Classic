@@ -557,29 +557,29 @@ assert objs['objects']['WoodBlock5']['defaults']=={'density':1.5,'strength':80.0
 assert objs['objects']['StaticBlock_04']['defaults']=={'density':0.0,'strength':30.0,'defence':100000.0}
 print("Ham 'Em High extra OK: 3 LevelFB stages in bank 54; theme blocks as StaticBlock_NN, material defaults and queue at the slingshot.")
 
-# Flock Favorites (pages 59-60, banks 55-56): 25 of the 30 stages. Stages 12, 14, 25 and 28 use
+# Flock Favorites (pages 59-61, banks 55-57): 29 of the 30 stages. Stages 12, 14, 25 and 28 use
 # theme26, which FlockFavoritesMode.lua runs as the Egg Defender mode (RMFClassic, not ported);
 # stage 9 falls apart while settling (welded ropes, as Short Fuse 2-13/3-3).
 ff=''.join((root/f'ps2/data/episode_flock_favorites_page{k}.decompiled.lua').read_text() for k in (1,2))
 order=list(dict.fromkeys(re.findall(r'"(FlockFavorites\d+)"',ff)));assert order==[f'FlockFavorites{k:02d}' for k in range(1,31)]
 pages=[pg for pg in episode['additional_pages'] if pg.get('folder')=='/levels/19_FlockFavorites']
-left={'FlockFavorites09','FlockFavorites12','FlockFavorites14','FlockFavorites25','FlockFavorites28'}
-assert sum((pg['levels'] for pg in pages),[])==[n for n in order if n not in left] and [pg['bank'] for pg in pages]==[55,56]
+left={'FlockFavorites09'}  # theme26 stages are played with their vehicle gadgets inert
+assert sum((pg['levels'] for pg in pages),[])==[n for n in order if n not in left] and [pg['bank'] for pg in pages]==[55,56,57]
 # Explosive pieces: every definition with specialty BOMB carries its blocks.lua blast values.
 bl=(root/'ps2/data/flock_favorites_definitions_excerpt.lua').read_text()
 for name in ['BP_TNT','BP_TNT_SMALL']:
     d=_ad.definition(bl,name);assert objs['objects'][name]['explosion']==d['props']['explosion']==[20.0,2000.0,15.0,500.0],name
 camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN')
 assert camp['explosions']['Farm_Campstove']==(10.0,30000.0,5.0,150.0) and camp['explosions']['EXPLOSIVE_BALLOON']==(10.0,30000.0,5.0,300.0)
-print(f"Flock Favorites OK: 25 stages in banks 55-56 (4 Egg Defender stages and the unstable 1-9 left out); {len(camp['explosions'])} explosive piece types carry their own blast values.")
+print(f"Flock Favorites OK: 29 stages in banks 55-57 (only the unstable 1-9 left out); {len(camp['explosions'])} explosive piece types carry their own blast values.")
 
-# Golden Eggs (pages 61-64, banks 57-60): all 31 stages, in episodes.lua order. LevelGE_31 turns
+# Golden Eggs (pages 62-65, banks 58-61): all 31 stages, in episodes.lua order. LevelGE_31 turns
 # gravity upside down (-20) and LevelGE_UGC1 switches it off (0); the world uses the stage's gravity.
 # Stages without starLimits.lua entries give 3 stars on any win (the original gives the golden egg).
 ge=''.join((root/f'ps2/data/episode_golden_eggs_page{k}.decompiled.lua').read_text() for k in (1,2))
 order=list(dict.fromkeys(re.findall(r'"((?:LevelGE_\w+|GE_Level\w+))"',ge)))+['Farm2_goldegg']
 pages=[pg for pg in episode['additional_pages'] if pg.get('folder')=='/levels/goldeneggs1']
-assert len(order)==31 and sum((pg['levels'] for pg in pages),[])==order and [pg['bank'] for pg in pages]==[57,58,59,60]
+assert len(order)==31 and sum((pg['levels'] for pg in pages),[])==order and [pg['bank'] for pg in pages]==[58,59,60,61]
 gravity={}
 for pg in pages:
     for k,n in enumerate(pg['levels'],pg.get('first',1)):
@@ -590,20 +590,20 @@ assert objs['objects']['BP_TNT_WEAK']['explosion']==_ad.definition(gb,'BP_TNT_WE
 assert objs['objects']['StaticFragileBlock01']['kind']==9 and 'half_resolution' not in objs['objects']['ExtraBlueBird']
 stars=json.loads((root/'profiles/star_limits.json').read_text())['limits']
 nostar=[n for n in order if n not in stars];assert nostar==["LevelGE_25","LevelGE_30","LevelGE_31","LevelGE_UGC1","LevelGE_RED"],nostar
-print(f"Golden Eggs OK: 31 stages in banks 57-60, including upside-down (-20) and zero gravity; {len(nostar)} stages without star limits give 3 stars on any win.")
+print(f"Golden Eggs OK: 31 stages in banks 58-61, including upside-down (-20) and zero gravity; {len(nostar)} stages without star limits give 3 stars on any win.")
 
-# Tutorial (page 65, bank 61): all 15 stages in episodes.lua order. Five of them are shop
+# Tutorial (page 66, bank 62): all 15 stages in episodes.lua order. Five of them are shop
 # tutorials of power-ups (shopTutorialPowerup), which the port does not have yet; they are
 # played as ordinary stages.
 tu=(root/'ps2/data/episode_tutorial_page.decompiled.lua').read_text()
 order=list(dict.fromkeys(re.findall(r'"(Tutorial_\w+)"',tu)))
-page=[pg for pg in episode['additional_pages'] if pg['number']==65][0]
-assert len(order)==15 and page['levels']==order and page['bank']==61
+page=[pg for pg in episode['additional_pages'] if pg['number']==66][0]
+assert len(order)==15 and page['levels']==order and page['bank']==62
 shop=re.findall(r'"shopTutorialPowerup"\nL\d+_1 = "(\w+)"',tu);assert shop==["slingscope","powerpotion","kingsling","birdquake","shockwave"],shop
 tb=(root/'ps2/data/tutorial_definitions_excerpt.lua').read_text()
 for name in re.findall(r'L3_1 = "(\w+)"\nL4_1 = \{\}',tb):
     d=_ad.definition(tb,name);assert objs['objects'][name]['sprite']==d['sprite'] and objs['objects'][name]['shape']==d['type'],name
-print(f"Tutorial OK: 15 stages in bank 61; 5 pieces match blocks.lua; power-up shop tutorials: {', '.join(shop)}.")
+print(f"Tutorial OK: 15 stages in bank 62; 5 pieces match blocks.lua; power-up shop tutorials: {', '.join(shop)}.")
 
 # Short Fuse vials (VialEffects.lua): blackBird<Colour>VialRemoved acts on the pigs within
 # vialEffect.radius (orange 6, pink 7, blue 7); the type and radius travel in CAMPAIGN.BIN.
@@ -622,3 +622,13 @@ camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN')
 pw={l['script']:l['powerup'] for l in camp['levels'] if l['powerup']}
 assert pw=={'Tutorial_slingscope':2,'Tutorial_powerpotion':4,'Tutorial_kingsling':1,'Tutorial_birdquake':3,'Tutorial_shockwave':5},pw
 print("Power-ups OK: the five shop tutorials carry their power-up (King Sling, Bird Quake, Power Potion and Shockwave are played).")
+
+# Mighty Feathers (page 67, bank 63): the 15 "classic" stages of the episode (class RMFClassic in
+# episodes.lua), ordinary slingshot stages on pig vehicles. Their gadgets (cannon, sucker, bubble
+# gun: RMFClassic_*.lua) are not ported and stay inert. The 15 Egg Defender stages proper
+# (EggDefender_N with .scripts.lua) are a different game mode and are not in the campaign.
+mf=(root/'ps2/data/episode_mighty_feathers_page1.decompiled.lua').read_text()
+order=list(dict.fromkeys(re.findall(r'"(EggDefender_classic_\d+)"',mf)))
+page=[pg for pg in episode['additional_pages'] if pg['number']==67][0]
+assert order==[f'EggDefender_classic_{k}' for k in range(1,16)]==page['levels'] and page['bank']==63 and '"RMFClassic"' in mf
+print("Mighty Feathers OK: 15 classic stages in bank 63 (class RMFClassic; vehicle gadgets inert).")

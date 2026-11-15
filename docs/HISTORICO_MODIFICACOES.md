@@ -1,4 +1,27 @@
-# Modificações completas — PS2Birds Classic 0.48.0
+# Modificações completas — PS2Birds Classic 0.49.0
+
+- **Mighty Feathers — fases clássicas (página 67, 15 fases)**
+  - O episódio tem dois tipos de fase. As 15 `EggDefender_classic_N` (classe `RMFClassic` no `episodes.lua`) são fases comuns de estilingue com porcos em veículos e entraram; banco de texturas 63.
+  - 6 peças novas de Bad Piggies: duas rodas de pouso, dobradiça, hélice, guarda-chuva motorizado e invólucro de TNT.
+  - Ao carregar, nenhuma das 15 fases perde porco.
+  - As 15 fases `EggDefender_N` (modo Egg Defender de verdade, com scripts próprios) continuam fora.
+- **Flock Favorites — mais 4 fases (12, 14, 25 e 28)**
+  - São de tema 26, que o jogo roda com a mesma classe `RMFClassic`; entram pelo mesmo critério. O Flock Favorites fica com 29 das 30 fases (só a 1-9, instável, de fora).
+  - A segunda página do episódio foi dividida em dois bancos (55 a 57 no total); os bancos e páginas do Golden Eggs, do Tutorial e do Mighty Feathers avançaram uma posição.
+- **Limitação registrada**
+  - As engenhocas dos veículos (canhão, sugador e arma de bolhas: `RMFClassic_Cannon/Sucker/BubbleGun.lua`) não foram portadas: as peças aparecem, mas ficam paradas, nas 19 fases acima.
+- **Campanha**
+  - De 711 para 730 fases. A posição das fases depois do Flock Favorites 1-11 mudou (4 fases entraram no meio, na ordem do original); recordes salvos dessas fases podem aparecer em outra.
+- **Testes**
+  - `profile_test`: Mighty Feathers (ordem, banco, classe `RMFClassic`); Flock Favorites com 29 fases em 3 bancos; bancos novos do Golden Eggs e do Tutorial.
+  - `sprite_test`: 64 bancos, 719 quadros.
+  - `campaign_test`: 730 fases.
+  - Suíte com 72 verificações aprovadas.
+- **Versão, documentos e limpeza**
+  - Tela e log em 0.49.0; README com 730 fases e o Mighty Feathers; captura do Mighty Feathers 1; documentos e captura da 0.48.0 substituídos; `LACUNAS_PORT.md` com os achados.
+  - Entregues ISO, ELF (com os .BIN), Gerador para Windows e Código-Fonte; os da 0.48.0 removidos da pasta de trabalho.
+
+## Modificações completas — 0.48.0
 
 - **Onda de Choque (Shockwave, novo no jogo, `Powerup_Shockwave.lua`)**
   - Fora a animação de introdução, o power-up troca o pássaro do estilingue por um pássaro de choque (`replaceBird("BlackBird_Shockwave")`).

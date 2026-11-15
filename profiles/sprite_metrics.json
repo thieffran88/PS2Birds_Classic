@@ -2833,5 +2833,35 @@
     "width": 83,
     "height": 88,
     "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "BP_LANDING_WHEEL_SMALL_TIRE": {
+    "width": 35,
+    "height": 36,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_SMALL_LANDING_WHEEL": {
+    "width": 39,
+    "height": 41,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "HINGE": {
+    "width": 46,
+    "height": 45,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_PROPELLER_1": {
+    "width": 35,
+    "height": 107,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_MOTOR_UMBRELLA": {
+    "width": 35,
+    "height": 74,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_TNT_METAL": {
+    "width": 109,
+    "height": 110,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
   }
 }

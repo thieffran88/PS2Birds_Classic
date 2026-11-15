@@ -1118,9 +1118,9 @@
       ]
     },
     {
-      "number": 59,
-      "title_prefix": "FLOCK FAVORITES 1-",
       "folder": "/levels/19_FlockFavorites",
+      "title_prefix": "FLOCK FAVORITES 1-",
+      "number": 59,
       "bank": 55,
       "levels": [
         "FlockFavorites01",
@@ -1133,14 +1133,16 @@
         "FlockFavorites08",
         "FlockFavorites10",
         "FlockFavorites11",
+        "FlockFavorites12",
         "FlockFavorites13",
+        "FlockFavorites14",
         "FlockFavorites15"
       ]
     },
     {
-      "number": 60,
-      "title_prefix": "FLOCK FAVORITES 2-",
       "folder": "/levels/19_FlockFavorites",
+      "title_prefix": "FLOCK FAVORITES 2-",
+      "number": 60,
       "bank": 56,
       "levels": [
         "FlockFavorites16",
@@ -1150,10 +1152,21 @@
         "FlockFavorites20",
         "FlockFavorites21",
         "FlockFavorites22",
-        "FlockFavorites23",
+        "FlockFavorites23"
+      ]
+    },
+    {
+      "folder": "/levels/19_FlockFavorites",
+      "title_prefix": "FLOCK FAVORITES 2-",
+      "number": 61,
+      "bank": 57,
+      "first": 9,
+      "levels": [
         "FlockFavorites24",
+        "FlockFavorites25",
         "FlockFavorites26",
         "FlockFavorites27",
+        "FlockFavorites28",
         "FlockFavorites29",
         "FlockFavorites30"
       ]
@@ -1161,8 +1174,8 @@
     {
       "folder": "/levels/goldeneggs1",
       "title_prefix": "GOLDEN EGGS 1-",
-      "number": 61,
-      "bank": 57,
+      "number": 62,
+      "bank": 58,
       "levels": [
         "LevelGE_4",
         "LevelGE_3",
@@ -1181,8 +1194,8 @@
     {
       "folder": "/levels/goldeneggs1",
       "title_prefix": "GOLDEN EGGS 2-",
-      "number": 62,
-      "bank": 58,
+      "number": 63,
+      "bank": 59,
       "levels": [
         "LevelGE_11",
         "LevelGE_16",
@@ -1198,8 +1211,8 @@
     {
       "folder": "/levels/goldeneggs1",
       "title_prefix": "GOLDEN EGGS 2-",
-      "number": 63,
-      "bank": 59,
+      "number": 64,
+      "bank": 60,
       "levels": [
         "LevelGE_24",
         "LevelGE_25",
@@ -1216,17 +1229,17 @@
     {
       "folder": "/levels/goldeneggs1",
       "title_prefix": "GOLDEN EGGS 3-",
-      "number": 64,
-      "bank": 60,
+      "number": 65,
+      "bank": 61,
       "levels": [
         "Farm2_goldegg"
       ]
     },
     {
-      "number": 65,
+      "number": 66,
       "title_prefix": "TUTORIAL ",
       "folder": "/levels/0_Tutorial",
-      "bank": 61,
+      "bank": 62,
       "levels": [
         "Tutorial_red_niko",
         "Tutorial_red2_niko",
@@ -1243,6 +1256,29 @@
         "Tutorial_shockwave",
         "Tutorial_pucombo_niko",
         "Tutorial_mayhem_niko"
+      ]
+    },
+    {
+      "number": 67,
+      "title_prefix": "MIGHTY FEATHERS ",
+      "folder": "/levels/17_MightyFeathers",
+      "bank": 63,
+      "levels": [
+        "EggDefender_classic_1",
+        "EggDefender_classic_2",
+        "EggDefender_classic_3",
+        "EggDefender_classic_4",
+        "EggDefender_classic_5",
+        "EggDefender_classic_6",
+        "EggDefender_classic_7",
+        "EggDefender_classic_8",
+        "EggDefender_classic_9",
+        "EggDefender_classic_10",
+        "EggDefender_classic_11",
+        "EggDefender_classic_12",
+        "EggDefender_classic_13",
+        "EggDefender_classic_14",
+        "EggDefender_classic_15"
       ]
     }
   ],

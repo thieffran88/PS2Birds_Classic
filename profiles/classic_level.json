@@ -6793,6 +6793,95 @@
         3.4
       ],
       "half_resolution": true
+    },
+    "BP_LANDING_WHEEL_SMALL_TIRE": {
+      "sprite": "BP_LANDING_WHEEL_SMALL_TIRE",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.0,
+        2.0
+      ],
+      "half_resolution": true
+    },
+    "BP_SMALL_LANDING_WHEEL": {
+      "sprite": "BP_SMALL_LANDING_WHEEL",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0
+        ],
+        [
+          0.5,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "BP_HINGE": {
+      "sprite": "HINGE",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true,
+      "half_resolution": true
+    },
+    "BP_PROPELLER": {
+      "sprite": "BP_PROPELLER_1",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          1.0,
+          0.9
+        ],
+        [
+          0.0,
+          0.5
+        ],
+        [
+          1.0,
+          0.1
+        ]
+      ],
+      "half_resolution": true
+    },
+    "BP_MOTOR_UMBRELLA": {
+      "sprite": "BP_MOTOR_UMBRELLA",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.2,
+          1.0
+        ],
+        [
+          0.5,
+          0.0
+        ],
+        [
+          0.8,
+          1.0
+        ]
+      ],
+      "half_resolution": true
+    },
+    "BP_TNT_CASING": {
+      "sprite": "BP_TNT_METAL",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "half_resolution": true
     }
   },
   "metrics": "profiles/sprite_metrics.json",
@@ -7367,7 +7456,13 @@
       "GOLD_CUP": 0.7,
       "TREASURE_CHEST": 0.7,
       "LAB_VEST_SMALL": 1.0,
-      "MONEY_POT": 0.7
+      "MONEY_POT": 0.7,
+      "BP_LANDING_WHEEL_SMALL_TIRE": 0.7,
+      "BP_SMALL_LANDING_WHEEL": 4.0,
+      "BP_HINGE": 0.7,
+      "BP_PROPELLER": 4.0,
+      "BP_MOTOR_UMBRELLA": 4.0,
+      "BP_TNT_CASING": 0.3
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -7871,7 +7966,13 @@
       "GOLD_CUP": 0.1,
       "TREASURE_CHEST": 0.4,
       "LAB_VEST_SMALL": 0.0,
-      "MONEY_POT": 0.1
+      "MONEY_POT": 0.1,
+      "BP_LANDING_WHEEL_SMALL_TIRE": 0.5,
+      "BP_SMALL_LANDING_WHEEL": 0.5,
+      "BP_HINGE": 0.4,
+      "BP_PROPELLER": 0.8,
+      "BP_MOTOR_UMBRELLA": 0.2,
+      "BP_TNT_CASING": 0.15
     }
   }
 }
