@@ -50,6 +50,10 @@ void ev_stop_aim(EggVehicle *v,const char *name);              /* stopAim: motor
 void ev_set_interval(EggVehicle *v,const char *name,float seconds); /* getBlock(name).applyForceInterval */
 float ev_closest_egg_distance(EggVehicle *v);                  /* getClosestEggDistance */
 void ev_abandon_pig(EggVehicle *v,const char *pig);            /* abandonVehicle(pig name): only that pig */
+void ev_pig_no_grab(EggVehicle *v,const char *pig);            /* pig:setGrabLogic(nil): that pig does not take the egg */
+float ev_slingshot_x(EggVehicle *v,const char *name);          /* getClosestSlingshotX(name): x from the slingshot */
+void ev_create_joint(EggVehicle *v,const char *joint);         /* createJoint: a removed joint comes back */
+float ev_random(EggVehicle *v);                                /* math.random, 0..1 */
 float *ev_vars(EggVehicle *v);                                 /* 16 floats for the script's globals */
 
 #endif

@@ -1,4 +1,39 @@
-# Modificações completas — PS2Birds Classic 0.60.0
+# Modificações completas — PS2Birds Classic 0.61.0
+
+- **Egg Defender — os 72 controladores de veículo traduzidos à mão (fase 3 concluída)**
+  - Fase 14:
+    - carroça com três infladores que, com o ovo, solta a TNT e infla o balão violeta;
+    - carroça com sugador que avança e recua conforme a posição;
+    - voador com canhão e três foguetes;
+    - dois infladores violeta e dois ventiladores (5400 de força na fuga);
+    - braço que abre para a esquerda ou para a direita, sorteado, e volta, recriando a junta.
+  - Fase 15:
+    - voador de rotor com sugador que mira o ovo e se desmancha ao pegá-lo;
+    - veículo junto ao ninho que sobe com dois balões violeta em duas etapas e foge com foguete;
+    - dois balões de borracha com três sugadores e canhão, cujos porcos se rendem sem os sugadores;
+    - a última onda: porta-veículos que solta dois veículos menores e, por fim, vai buscar o ovo com o porco-avô de bigode.
+- **Egg Defender — motor**
+  - `createJoint`: uma junta removida volta entre as duas peças, ancorada na primeira.
+  - `getClosestSlingshotX`: distância de uma peça ao estilingue.
+  - `math.random`: sorteio com gerador próprio de cada veículo.
+  - Porcos que não pegam o ovo (`setGrabLogic` com função inexistente): na 15-4 só o avô pega.
+- **Testes**
+  - `globe_test`: os 72 controladores existem e as 15 fases Egg Defender rodam 20 s das suas ondas sem erro.
+  - Suíte com 73 verificações aprovadas.
+- **Investigação (o que falta no modo)**
+  - Habilidade do vermelho (`pigTargeted`, `redBirdTriggered`).
+  - Tiros dos canhões.
+  - Sustentação dos voadores (fases 4, 11 e 15 descem cedo).
+  - Vaivém com o ovo (fases 2 e 7).
+  - Na sonda, o primeiro veículo da fase 14 para a cerca de 10 m do ovo.
+- **Versão, documentos e limpeza**
+  - Tela, log e README em 0.61.0.
+  - `docs/EGG_DEFENDER.md` (fase 3 concluída) e `docs/LACUNAS_PORT.md` atualizados.
+  - Documentos da 0.60.0 substituídos.
+  - Logs de teste antigos e builds da 0.60.0 apagados da pasta de trabalho.
+  - Entregues ISO, ELF (com os .BIN), Gerador para Windows e Código-Fonte; os da 0.60.0 removidos.
+
+## Modificações completas — 0.60.0
 
 - **Egg Defender — motor**
   - `abandonVehicle` com o nome de um porco: só aquele porco abandona (usado na 12-3, que tem dois porcos).

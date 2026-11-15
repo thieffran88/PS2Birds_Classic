@@ -111,7 +111,7 @@ struct EggVehicle {
     EggTimed timer_fn[8];float timer_left[8];bool active,ever_inside;float last_x,last_y;
     const char *balance_a[4],*balance_b[4];float balance_force[4];
     /* startAim: piece, its revolute joint, target (0 egg, 1 bird), angle offset and speed. */
-    int aim_piece[4],aim_joint[4],aim_target[4];float aim_offset[4],aim_speed[4],aim_motor[4];bool no_grab;
+    int aim_piece[4],aim_joint[4],aim_target[4];float aim_offset[4],aim_speed[4],aim_motor[4];bool no_grab;unsigned seed;
 };
 struct JointListener: b2DestructionListener {
     Physics *owner;
@@ -149,7 +149,7 @@ struct Physics: b2ContactListener {
     /* Egg Defender: runtime forceX/forceY of the vehicle pieces, the pigs' abandoning state
        (EggDefenderPig.lua) and the egg (EggDefenderEggMovement.lua). */
     float wforce_x[MAX_LEVEL_OBJECTS],wforce_y[MAX_LEVEL_OBJECTS],target_v[MAX_LEVEL_OBJECTS],interval_v[MAX_LEVEL_OBJECTS];
-    bool abandoned[MAX_LEVEL_OBJECTS],jump_ready[MAX_LEVEL_OBJECTS];
+    bool abandoned[MAX_LEVEL_OBJECTS],jump_ready[MAX_LEVEL_OBJECTS],pig_no_grab[MAX_LEVEL_OBJECTS];
     float progress_clock[MAX_LEVEL_OBJECTS],progress_hist[MAX_LEVEL_OBJECTS][EGG_PROGRESS_SAMPLES+1];int progress_n[MAX_LEVEL_OBJECTS];
     int egg_i,nest_i,egg_grabber;float egg_tween,egg_home_angle;b2Vec2 egg_from,egg_home;bool egg_lost;
     float game_right;int escaped_pigs;
@@ -232,7 +232,7 @@ struct Physics: b2ContactListener {
         for(int i=0;i<MAX_LEVEL_OBJECTS;i++){gadget_run[i]=EGG_ROCKET_RUN;gadget_value[i]=EGG_INFLATED_FORCE_X;gadget_value2[i]=EGG_INFLATED_FORCE_Y;}
         egg_i=nest_i=egg_grabber=-1;egg_tween=-1;egg_lost=false;egg_home_angle=0;egg_home.SetZero();egg_from.SetZero();
         game_right=level->sling_x-EGG_SCREEN_MARGIN+EGG_SCREEN;
-        memset(abandoned,0,sizeof(abandoned));memset(jump_ready,0,sizeof(jump_ready));memset(progress_clock,0,sizeof(progress_clock));memset(progress_n,0,sizeof(progress_n));
+        memset(abandoned,0,sizeof(abandoned));memset(pig_no_grab,0,sizeof(pig_no_grab));memset(jump_ready,0,sizeof(jump_ready));memset(progress_clock,0,sizeof(progress_clock));memset(progress_n,0,sizeof(progress_n));
         memset(vehicles,0,sizeof(vehicles));
         for(int i=0;i<level->count;i++){const CampaignForce *f=force_of[i];wforce_x[i]=f?f->fx:0;wforce_y[i]=f?f->fy:0;target_v[i]=f?(f->thrust_target>0?f->thrust_target:f->target):0;interval_v[i]=f?f->thrust_interval:0;
             if(!strncmp(level->objects[i].definition,"BP_BALLOON_INFLATER",19))thrust_off[i]=true;}  /* EggDefenderGadget_BalloonInflater.init: disableForce */
@@ -743,7 +743,7 @@ static void egg_tick(Game *g,Physics *p,float dt){
         for(b2ContactEdge *e=b->GetContactList();e;e=e->next)if(e->contact->IsTouching() && e->other->GetType()==b2_staticBody && !e->contact->GetFixtureA()->IsSensor() && !e->contact->GetFixtureB()->IsSensor())on_static=true;
         if(!p->abandoned[i]){
             /* grabEggs: the closest free egg within 5 m across and 10 m up or down. */
-            if(egg && !p->vehicles[w&15].no_grab && p->egg_grabber<0 && p->egg_tween<0 && fabsf(at.x-egg->GetPosition().x)<EGG_GRAB_DX && fabsf(at.y-egg->GetPosition().y)<EGG_GRAB_DY){
+            if(egg && !p->vehicles[w&15].no_grab && !p->pig_no_grab[i] && p->egg_grabber<0 && p->egg_tween<0 && fabsf(at.x-egg->GetPosition().x)<EGG_GRAB_DX && fabsf(at.y-egg->GetPosition().y)<EGG_GRAB_DY){
 #ifdef EGG_DEBUG
                 fprintf(stderr,"grab by %d age %.1f\n",i,p->age);
 #endif
@@ -856,6 +856,20 @@ float ev_closest_egg_x(EggVehicle *v,const char *name){
 }
 float *ev_vars(EggVehicle *v){return v->vars;}
 void ev_no_grab(EggVehicle *v){v->no_grab=true;}
+void ev_pig_no_grab(EggVehicle *v,const char *pig){int i=v->p->piece(v->wave,pig);if(i>=0)v->p->pig_no_grab[i]=true;}
+float ev_slingshot_x(EggVehicle *v,const char *name){b2Body *b=ev_body(v,name);if(!b){int i=v->p->first_pig(v->wave);b=i>=0?v->p->bodies[i]:NULL;}return b?b->GetPosition().x-v->p->level->sling_x:0;}
+void ev_create_joint(EggVehicle *v,const char *name){
+    /* createJoint: the joint comes back between the two pieces as they are now (port: anchored on end1). */
+    Physics *p=v->p;
+    for(int k=0;k<p->level->joint_count && k<p->joint_count;k++){
+        const CampaignJoint &j=p->level->joints[k];if(p->joints[k] || strcmp(joint_name(&j),name))continue;
+        b2Body *a=p->joint_body(j.a),*b=p->joint_body(j.b);if(!a || !b || a==b)return;
+        CampaignJoint c=j;c.ax=a->GetPosition().x;c.ay=a->GetPosition().y;c.bx=b->GetPosition().x;c.by=b->GetPosition().y;
+        int n=p->joint_count;p->joint_count=k;p->create_joint(c);if(p->joint_count==k)p->joint_count=n;else p->joint_count=n;  /* refill slot k */
+        return;
+    }
+}
+float ev_random(EggVehicle *v){v->seed=v->seed*1103515245u+12345u+(unsigned)v->wave;return ((v->seed>>16)&32767)/32768.0f;}
 void ev_set_interval(EggVehicle *v,const char *name,float seconds){int i=v->p->piece(v->wave,name);if(i>=0)v->p->interval_v[i]=seconds;}
 float ev_closest_egg_distance(EggVehicle *v){
     Physics *p=v->p;int i=p->first_pig(v->wave);

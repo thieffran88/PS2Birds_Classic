@@ -1,4 +1,5 @@
 #include "game.h"
+#include "egg_vehicles.h"
 #include "campaign_types.h"
 #include <cassert>
 #include <cmath>
@@ -208,6 +209,12 @@ int main(){
   assert(ed>=0 && game_load_level(&g,ed));
   for(float t=0;t<90 && g.state==AIMING;t+=1.0f/120)game_update(&g,1.0f/120);
   assert(g.state==LOST);}
+ // All 72 vehicle controllers are translated, and every Egg Defender stage runs 20 s of its waves.
+ {int found=0;char name[48];
+  for(int n=1;n<=15;n++)for(int w=1;w<=5;w++){snprintf(name,sizeof(name),"EggDefender_%d_W%d_V1",n,w);if(egg_controller(name))found++;}
+  assert(found==72);
+  for(int n=1;n<=15;n++){snprintf(name,sizeof(name),"EggDefender_%d",n);int ed=-1;for(int lv=0;lv<game_level_count();lv++)if(!strcmp(game_level_script(lv),name))ed=lv;
+     assert(ed>=0 && game_load_level(&g,ed));for(int s=0;s<20*120 && g.state==AIMING;s++)game_update(&g,1.0f/120);assert(g.state==AIMING || g.state==LOST);}}
  // Power-ups of the shop tutorials: King Sling launches 1.3 times faster; Bird Quake (once) shakes the scene.
  int king=-1,quake=-1;
  for(int lv=0;lv<game_level_count();lv++){const char *sc=game_level_script(lv);if(!strcmp(sc,"Tutorial_kingsling"))king=lv;if(!strcmp(sc,"Tutorial_birdquake"))quake=lv;}
