@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.57.0)
+# Lacunas do port (levantamento atualizado na 0.58.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -197,6 +197,12 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - **Mira dos veículos (`startAim`/`updateAiming`):** portada. `scriptTargetY` (6-3) não tem efeito no port.
 - **Controladores:** 33 de 72 (fases 1 a 7). Fases 3 e 5: o porco leva o ovo para fora e a fase é perdida, como no jogo. Fases 2 e 7: o veículo com o ovo vai e volta perto do ninho em vez de fugir (a força das rodas ainda vence a do ventilador invertido).
 
+## Achados da 0.58.0
+
+- **Canhões dos veículos (`EggDefenderGadget_Cannon.lua`):** miram o pássaro (portado), mas o tiro cria balas durante a fase (`EggDefenderCannonBallManager.lua`); falta portar com balas escondidas, como as bolhas das armas.
+- **`disableTeleporting`:** três veículos ficam onde a onda manda (perto do ninho); feito.
+- **Controladores:** 43 de 72 (fases 1 a 9).
+
 ## O que falta no jogo (código nativo não recuperado)
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
@@ -205,7 +211,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Egg Defender: os 39 controladores de veículo restantes (fases 8 a 15), a calibragem dos voadores e a mira do vermelho (`pigTargeted`); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
+1. Egg Defender: os 29 controladores de veículo restantes (fases 10 a 15), os tiros dos canhões, a calibragem dos voadores e a mira do vermelho (`pigTargeted`); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado).

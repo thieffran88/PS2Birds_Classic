@@ -1,8 +1,8 @@
-# Validação 0.57.0
+# Validação 0.58.0
 
-- Build com ps2dev: ELF 5,0 MB (sem dados do jogo), `SPRITES.BIN` 144,3 MB, `CAMPAIGN.BIN` 9,3 MB, `SOUNDS.BIN` 0,4 MB, ISO 159,0 MB.
+- Build com ps2dev: ELF sem dados do jogo; `CAMPAIGN.BIN`, `SPRITES.BIN` e `SOUNDS.BIN` gerados do APK.
 - Kit para Windows sob Wine: ELF e os três arquivos de dados idênticos aos do build.
-- Testes no PC: 73 verificações aprovadas, com a nova derrota da Egg Defender 5 (ovo levado pelo sugador).
-- Sonda no PC: fases 3 e 5 perdidas por roubo do ovo quando ninguém atira; fase 6 com o voador parado perto do ninho; fases 2 e 7 com o veículo indo e voltando com o ovo.
+- Testes no PC: 73 verificações aprovadas.
+- Sonda no PC: fase 8 perdida por roubo do ovo (foguetes) sem tiros; fase 9 com o primeiro veículo parado perto do ninho.
 - Fases sem roteiro vencedor (77): POACHED EGGS 3-20, MIGHTY HOAX 5-16, HAM EM HIGH 13-7, MINE AND DINE 16-5, MINE AND DINE 16-6, BIRDDAY 4-4, BIRDDAY 6-1, BIRDDAY 7-7, BIRDDAY 7-14, SURF AND TURF 2-15, SURF AND TURF 3-5, SURF AND TURF 3-14, BAD PIGGIES 2-7, BAD PIGGIES 2-15, BAD PIGGIES 3-5, BAD PIGGIES 3-12, SHORT FUSE 1-7, SHORT FUSE 1-15, SHORT FUSE 2-2, SHORT FUSE 2-4, SHORT FUSE 2-5, SHORT FUSE 2-7, SHORT FUSE 2-9, SHORT FUSE 2-13, SHORT FUSE 3-3, BIRD ISLAND 1-10, BIRD ISLAND 1-15, PIGGY FARM 1-8, PIGGY FARM 2-2, PIGGY FARM 3-11, DINO 1-12, DINO 2-9, DINO 3-8, DINO 3-14, FLOCK FAVORITES 1-4, FLOCK FAVORITES 1-13, FLOCK FAVORITES 2-6, FLOCK FAVORITES 2-7, FLOCK FAVORITES 2-9, FLOCK FAVORITES 2-12, FLOCK FAVORITES 2-13, GOLDEN EGGS 1-1, GOLDEN EGGS 1-4, GOLDEN EGGS 1-5, GOLDEN EGGS 1-6, GOLDEN EGGS 2-3, GOLDEN EGGS 2-7, GOLDEN EGGS 2-8, GOLDEN EGGS 2-9, GOLDEN EGGS 2-10, GOLDEN EGGS 2-11, GOLDEN EGGS 2-14, GOLDEN EGGS 2-15, GOLDEN EGGS 2-16, GOLDEN EGGS 2-18, TUTORIAL 9, TUTORIAL 12, TUTORIAL 13, TUTORIAL 14, MIGHTY FEATHERS 1, MIGHTY FEATHERS 7, MIGHTY FEATHERS 15, EGG DEFENDER 1, EGG DEFENDER 2, EGG DEFENDER 3, EGG DEFENDER 4, EGG DEFENDER 5, EGG DEFENDER 6, EGG DEFENDER 7, EGG DEFENDER 8, EGG DEFENDER 9, EGG DEFENDER 10, EGG DEFENDER 11, EGG DEFENDER 12, EGG DEFENDER 13, EGG DEFENDER 14, EGG DEFENDER 15.
-- Captura do PCSX2 mantida da 0.55.0 (`pcsx2_0.55.0_egg_defender_3_veiculo.png`).
+- Captura do PCSX2 mantida da 0.55.0.

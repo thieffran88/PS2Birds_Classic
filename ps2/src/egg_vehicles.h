@@ -46,6 +46,7 @@ void ev_gadget_property(EggVehicle *v,const char *name,const char *prop,float va
 void ev_no_grab(EggVehicle *v);                               /* pig:setGrabLogic() with nothing: the pig does not take the egg */
 void ev_set_velocity(EggVehicle *v,float vx,float vy);         /* setVelocity of every piece */
 void ev_start_aim(EggVehicle *v,const char *name,const char *target,float offset_degrees,float speed); /* startAim(name, "egg"|"bird", offset, speed) */
+void ev_stop_aim(EggVehicle *v,const char *name);              /* stopAim: motor stops */
 float *ev_vars(EggVehicle *v);                                 /* 16 floats for the script's globals */
 
 #endif

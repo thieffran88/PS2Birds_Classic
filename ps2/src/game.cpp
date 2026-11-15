@@ -155,7 +155,7 @@ struct Physics: b2ContactListener {
     float game_right;int escaped_pigs;
     /* Egg Defender gadgets (EggDefenderGadget_*.lua): sucker state (0 idle, 1 starting, 2 sucking)
        and timers of rockets and balloon inflaters. */
-    int gadget_state[MAX_LEVEL_OBJECTS];float gadget_time[MAX_LEVEL_OBJECTS],gadget_value[MAX_LEVEL_OBJECTS],gadget_value2[MAX_LEVEL_OBJECTS];
+    int gadget_state[MAX_LEVEL_OBJECTS];float gadget_run[MAX_LEVEL_OBJECTS],gadget_time[MAX_LEVEL_OBJECTS],gadget_value[MAX_LEVEL_OBJECTS],gadget_value2[MAX_LEVEL_OBJECTS];
     EggVehicle vehicles[16];
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),puffer_state(0),puffer_timer(0),puffer_auto(-1),puffer_direction(0),puffer_seed(12345u),pink_timer(-1),bird_bubble(0),pink_hover(false),bird_type(BIRD_RED_TYPE) {
         egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
@@ -229,7 +229,7 @@ struct Physics: b2ContactListener {
     }
     void egg_setup(){
         escaped_pigs=0;memset(gadget_state,0,sizeof(gadget_state));memset(gadget_time,0,sizeof(gadget_time));
-        for(int i=0;i<MAX_LEVEL_OBJECTS;i++){gadget_value[i]=EGG_INFLATED_FORCE_X;gadget_value2[i]=EGG_INFLATED_FORCE_Y;}
+        for(int i=0;i<MAX_LEVEL_OBJECTS;i++){gadget_run[i]=EGG_ROCKET_RUN;gadget_value[i]=EGG_INFLATED_FORCE_X;gadget_value2[i]=EGG_INFLATED_FORCE_Y;}
         egg_i=nest_i=egg_grabber=-1;egg_tween=-1;egg_lost=false;egg_home_angle=0;egg_home.SetZero();egg_from.SetZero();
         game_right=level->sling_x-EGG_SCREEN_MARGIN+EGG_SCREEN;
         memset(abandoned,0,sizeof(abandoned));memset(jump_ready,0,sizeof(jump_ready));memset(progress_clock,0,sizeof(progress_clock));memset(progress_n,0,sizeof(progress_n));
@@ -718,7 +718,7 @@ static void egg_tick(Game *g,Physics *p,float dt){
         if(p->gadget_state[i]==1 && tm>=EGG_SUCKER_START){p->gadget_state[i]=2;}
         else if(p->gadget_state[i]==3){  /* rocket: thrust ramps up over 3 s, burns 2 s more, then stops */
             if(tm<EGG_ROCKET_START)p->thrust[i]=p->gadget_value[i]*tm/EGG_ROCKET_START;
-            else if(tm<EGG_ROCKET_START+EGG_ROCKET_RUN)p->thrust[i]=p->gadget_value[i];
+            else if(tm<EGG_ROCKET_START+p->gadget_run[i])p->thrust[i]=p->gadget_value[i];
             else{p->thrust_off[i]=true;p->gadget_state[i]=0;}
         }else if(p->gadget_state[i]==4 && tm>=EGG_INFLATE_TIME){  /* inflater: the balloon is full and pulls */
             p->thrust[i]=0;p->wforce_x[i]=p->gadget_value[i];p->wforce_y[i]=p->gadget_value2[i];p->thrust_off[i]=false;p->gadget_state[i]=5;
@@ -854,6 +854,10 @@ float ev_closest_egg_x(EggVehicle *v,const char *name){
 }
 float *ev_vars(EggVehicle *v){return v->vars;}
 void ev_no_grab(EggVehicle *v){v->no_grab=true;}
+void ev_stop_aim(EggVehicle *v,const char *name){
+    Physics *p=v->p;int i=p->piece(v->wave,name);
+    for(int k=0;k<4;k++)if(v->aim_speed[k] && v->aim_piece[k]==i){b2Joint *jt=p->joints[v->aim_joint[k]];if(jt && jt->GetType()==e_revoluteJoint)((b2RevoluteJoint*)jt)->SetMotorSpeed(0);v->aim_speed[k]=0;}
+}
 void ev_set_velocity(EggVehicle *v,float vx,float vy){Physics *p=v->p;for(int i=0;i<p->level->count;i++)if(p->bodies[i] && (int)OBJECT_WAVE(p->level->objects[i].flags)==v->wave)p->bodies[i]->SetLinearVelocity(b2Vec2(vx,vy));}
 void ev_start_aim(EggVehicle *v,const char *name,const char *target,float offset_degrees,float speed){
     Physics *p=v->p;int i=p->piece(v->wave,name);if(i<0)return;
@@ -888,7 +892,8 @@ void ev_gadget(EggVehicle *v,const char *name,const char *what){
 }
 void ev_gadget_property(EggVehicle *v,const char *name,const char *prop,float value){
     Physics *p=v->p;int i=p->piece(v->wave,name);if(i<0)return;
-    if(!strcmp(prop,"inflatedForceX")){p->gadget_value[i]=value;if(p->gadget_state[i]==5)p->wforce_x[i]=value;}
+    if(!strcmp(prop,"runDuration"))p->gadget_run[i]=value;
+    else if(!strcmp(prop,"inflatedForceX")){p->gadget_value[i]=value;if(p->gadget_state[i]==5)p->wforce_x[i]=value;}
     else if(!strcmp(prop,"inflatedForceY")){p->gadget_value2[i]=value;if(p->gadget_state[i]==5)p->wforce_y[i]=value;}
 }
 void ev_auto_balance(EggVehicle *v,const char *a,const char *b,float force){

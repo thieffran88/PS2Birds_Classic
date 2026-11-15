@@ -77,9 +77,9 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
         limit=screen_right+0.2*EGG_SCREEN
         objects=[o for o in objects if not (o['x']>=limit and o['definition'] in profile['objects'] and profile['objects'][o['definition']]['kind']!=3 and not o['definition'].startswith('StaticBlock'))]
         env=dict(env);env['joints']=dict(env.get('joints') or {})
-        for number,(wx,wy,vehicle,_snap) in enumerate(waves,1):
+        for number,(wx,wy,vehicle,_snap,*rest) in enumerate(waves,1):
             parts=[dict(o) for o in vehicle['world'].values() if isinstance(o,dict) and 'definition' in o and o['definition']!='Ground' and not o['definition'].startswith('StaticBlockTheme') and o['definition'] not in profile['bird_definitions']]
-            dx=(wx+base if number==1 else screen_right+2.5)-min(o['x'] for o in parts);dy=wy-max(o['y'] for o in parts)
+            dx=(wx+base if number==1 or (rest and rest[0]) else screen_right+2.5)-min(o['x'] for o in parts);dy=wy-max(o['y'] for o in parts)
             for o in parts:o.update(name=f"w{number}_{o['name']}",x=o['x']+dx,y=o['y']+dy,wave=number);objects.append(o)
             for key,j in (vehicle.get('joints') or {}).items():
                 if not isinstance(j,dict):continue
@@ -197,7 +197,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
     # EggDefenderVehicle.teleport: with spawnAtGroundLevel the vehicle is lowered (or raised) until its
     # bottom rests on the first static surface below its span (a downward raycast in the game).
     if waves:
-        for number,(_x,_y,_v,snap) in enumerate(waves,1):
+        for number,(_x,_y,_v,snap,*_rest) in enumerate(waves,1):
             parts=[o for o in level if o.get('wave')==number]
             if not snap or not parts:continue
             left=min(o['x']-o['width']/2 for o in parts);right=max(o['x']+o['width']/2 for o in parts);bottom=max(o['y']+o['height']/2 for o in parts)

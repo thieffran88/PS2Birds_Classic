@@ -103,8 +103,8 @@ def build(episode_path=EPISODE,apk=None,workdir=None,output=None,quiet=False):
                 from lua51_data import load as _load
                 script=_load(decode_payload(apk.read(apk_name[:-4]+'.scripts.lua'),'classic'));bird_limit=int(script['birdLimit']);waves=[]
                 for _,wave in sorted(script['waves'].items()):
-                    snap=set(json.loads((ROOT/'profiles/egg_defender.json').read_text())['no_ground_snap'])
-                    for _,v in sorted(wave.items()):waves.append((float(v['x']),float(v['y']),_load(decode_payload(apk.read('assets/data/vehicles/'+v['type']+'.lua'),'classic')),v['type'].split('/')[-1] not in snap))
+                    egg=json.loads((ROOT/'profiles/egg_defender.json').read_text());snap=set(egg['no_ground_snap']);stay=set(egg['no_teleport'])
+                    for _,v in sorted(wave.items()):waves.append((float(v['x']),float(v['y']),_load(decode_payload(apk.read('assets/data/vehicles/'+v['type']+'.lua'),'classic')),v['type'].split('/')[-1] not in snap,v['type'].split('/')[-1] in stay))
             convert(source,output_json,Path(folder)/'level_data.h',DEFAULT_PROFILE,apk_name,quiet,waves)
             d=json.loads(output_json.read_text());
             if bird_limit:d['birds']=[dict(d['birds'][0],definition='RedBird',type=0) for _ in range(bird_limit)];d['egg_defender']=True
