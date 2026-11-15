@@ -2863,5 +2863,10 @@
     "width": 109,
     "height": 110,
     "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BP_BUBBLE_PARTICLE_6": {
+    "width": 109,
+    "height": 107,
+    "sheet": "PARTICLES_1.sheet.json"
   }
 }

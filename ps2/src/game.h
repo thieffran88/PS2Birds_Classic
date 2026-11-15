@@ -41,6 +41,15 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
    these per-bird factors (indexed by BirdType; the pink bird has no entry and stays as it is). */
 #define POWER_POTION_RADIUS {1.5f,1.5f,1.5f,1.5f,1.5f,1.0f,1.5f,1.4f,1.5f,1.0f,1.5f}
 #define POWER_POTION_DENSITY {2.0f,3.0f,1.5f,2.0f,2.5f,1.0f,1.5f,1.01f,2.0f,1.0f,1.45f}
+/* Pig vehicles' bubble gun (EggDefenderGadget_BubbleGun.lua): every BUBBLE_GUN_INTERVAL s a bubble
+   grows at the muzzle for BUBBLE_GUN_GROW s, then gets an impulse of 35-50 along the gun; it pops
+   after BUBBLE_GUN_LIFE s (lifeSpan). Muzzle: gun width * 0.47 + bubble width * 0.5 forward,
+   gun height * -0.05 sideways. */
+#define BUBBLE_GUN_INTERVAL 2.5f
+#define BUBBLE_GUN_GROW 0.6f
+#define BUBBLE_GUN_LIFE 3.5f
+#define BUBBLE_GUN_FORCE_MIN 35.0f
+#define BUBBLE_GUN_FORCE_MAX 50.0f
 #define VIAL_DELAY 1.3f
 #define VIAL_ORANGE_POP 3.0f
 #define BUBBLE_TIME 2.0f

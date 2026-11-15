@@ -140,6 +140,15 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
         for pig,q in enumerate(list(level)):
             if q['kind']!=4 or q.get('spawn_of') or (q['x']-o['x'])**2+(q['y']-o['y'])**2>=vial[1]**2:continue
             level.append(dict(q,name=q['name']+'_clone',width=q['width']*0.8,height=q['height']*0.8,spawn_of=parent+1,clone_of=pig))
+    # EggDefenderGadget_BubbleGun.lua (RMFClassic_BubbleGun: BP_BUBBLE_WITH_COLLISION_DAMAGE): every
+    # 2.5 s a gun shoots a bubble that lives 3.5 s, so two hidden bubbles per gun are reused in turn.
+    for parent,o in enumerate(list(level)):
+        if not profile['objects'][o['definition']].get('bubble_gun'):continue
+        bs=profile['objects']['BP_BUBBLE_WITH_COLLISION_DAMAGE'];material=profile['materials']['by_kind'][str(bs['kind'])]
+        for k in range(2):
+            level.append(dict(bs['defaults'],name=f"{o['name']}_bubble_{k+1}",definition='BP_BUBBLE_WITH_COLLISION_DAMAGE',x=o['x'],y=o['y'],angle=0.0,
+                width=float(bs['size'][0]),height=float(bs['size'][1]),kind=bs['kind'],shape='circle',spawn_of=parent+1,gun_bubble=True,
+                friction=material['friction'],restitution=profile['materials']['restitution_overrides']['BP_BUBBLE_WITH_COLLISION_DAMAGE']))
     if not 1<=len(level)<=640:raise ValueError('Adapter supports 1..640 scene objects')
     # SlingshotSystem.setPositionByStartObject (Slingshot.lua) places the slingshot on the
     # first bird of the queue: rest point = (x - 0.1, y - (h - pivot_y) * physicsScale +

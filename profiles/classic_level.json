@@ -6373,7 +6373,8 @@
       "kind": 6,
       "shape": "box",
       "auto": true,
-      "half_resolution": true
+      "half_resolution": true,
+      "bubble_gun": true
     },
     "BP_FAN": {
       "sprite": "BP_FAN_1",
@@ -6881,6 +6882,26 @@
       "kind": 6,
       "shape": "box",
       "auto": true,
+      "half_resolution": true
+    },
+    "BP_BUBBLE_WITH_COLLISION_DAMAGE": {
+      "sprite": "BP_BUBBLE_PARTICLE_6",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        4.0,
+        4.0
+      ],
+      "force": [
+        -1.0,
+        -21.0
+      ],
+      "defaults": {
+        "density": 0.3,
+        "strength": 1.0,
+        "defence": 0.0
+      },
       "half_resolution": true
     }
   },
@@ -7462,7 +7483,8 @@
       "BP_HINGE": 0.7,
       "BP_PROPELLER": 4.0,
       "BP_MOTOR_UMBRELLA": 4.0,
-      "BP_TNT_CASING": 0.3
+      "BP_TNT_CASING": 0.3,
+      "BP_BUBBLE_WITH_COLLISION_DAMAGE": 4.0
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -7972,7 +7994,8 @@
       "BP_HINGE": 0.4,
       "BP_PROPELLER": 0.8,
       "BP_MOTOR_UMBRELLA": 0.2,
-      "BP_TNT_CASING": 0.15
+      "BP_TNT_CASING": 0.15,
+      "BP_BUBBLE_WITH_COLLISION_DAMAGE": 0.95
     }
   }
 }
