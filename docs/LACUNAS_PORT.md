@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.70.0)
+# Lacunas do port (levantamento atualizado na 0.71.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -255,6 +255,10 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 ## Achados da 0.70.0
 
 - **Ambiência dos temas:** 11 faixas, 699 fases. A `dino_ambience` (episódio Dino) é um recurso baixado à parte no original e não está no APK; as 46 fases Dino ficam sem música.
+
+## Achados da 0.71.0
+
+- **Gráficos do fim de fase:** feitos com uma página de interface de 128 KB que fica fixa na memória de vídeo. Restam cerca de 32 KB livres; mais telas com gráficos (menu de fases, menu principal) precisam trocar essa página por tela ou reduzir as texturas das fases. Faltam as partículas das estrelas.
 
 ## O que falta no jogo (código nativo não recuperado)
 

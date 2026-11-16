@@ -14,6 +14,7 @@
 #include "menu.h"
 #include "level_end.h"
 #include "music.h"
+#include "ui.h"
 #include "sprites.h"
 #include "definition_sprites.h"
 #include "save_mc.h"
@@ -192,7 +193,7 @@ static void render(const Game *g, int connected, int paused,int menu)
     rect(0,0,640,109,dark);
     text(30,22,3,cream,"PS2BIRDS CLASSIC");
     if(sprites_load_failed())text(31,55,1,gold,"SPRITES.BIN AUSENTE: COPIE-O PARA A PASTA DO ELF");
-    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.70.0 / PLAYSTATION 2");
+    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.71.0 / PLAYSTATION 2");
     text(430,55,1,color(135,192,181),audio_status());
     text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
     text(31,80,2,gold,game_level_title(g->level));
@@ -258,7 +259,27 @@ static void render(const Game *g, int connected, int paused,int menu)
     GameBird airborne;int airborne_type=game_get_projectile(g,0,&airborne)?airborne.type:-1;
     text(30,430,1,color(156,195,178),!game_special_available(g)?"SEGURE QUADRADO PARA AJUSTE FINO":airborne_type==BIRD_WHITE_TYPE?"X: SOLTAR OVO  QUADRADO: AJUSTE FINO":(airborne_type==BIRD_BLACK_TYPE||airborne_type==BIRD_SHOCK_TYPE)?"X: EXPLODIR PRETO  QUADRADO: AJUSTE FINO":airborne_type==BIRD_YELLOW_TYPE?"X: ACELERAR AMARELO  QUADRADO: AJUSTE FINO":"X: DIVIDIR AZUL EM TRES  QUADRADO: AJUSTE FINO");
     if (g->state==WON || g->state==LOST || paused) {
-        if(!paused && g->state==WON){
+        if(!paused && g->state==WON && ui_ready()){
+            /* level_end.lua LevelComplete with the original sprites: stars at 0.4 of the height,
+               spaced 1/8 of the width, the score below, the badge to its right, buttons at 0.8. */
+            char line[48];
+            rect(90,128,460,262,dark);
+            text(222,138,2,gold,"FASE CONCLUIDA");
+            int shown=level_end_shown_stars(&level_end);
+            for(int i=0;i<3;i++)ui_draw(gs,UI_STAR_1+i,220+i*100,i==1?192:200,i==1?0.95f:0.8f,i<shown?0x80808080:0x80202020);
+            snprintf(line,sizeof(line),"%d",level_end_shown_score(&level_end));text(320-(int)strlen(line)*12,262,2,cream,line);
+            if(level_end_new_highscore(&level_end))ui_draw(gs,UI_NEW_HIGHSCORE,470,270,1.0f,0x80808080);
+            else if(!level_end_counting(&level_end)){snprintf(line,sizeof(line),"RECORDE %d",g->highscores[g->level]);text(320-(int)strlen(line)*6,292,1,cream,line);}
+            ui_draw(gs,UI_MENU,230,338,1.0f,0x80808080);ui_draw(gs,UI_RESTART,320,338,1.0f,0x80808080);ui_draw(gs,UI_NEXT,410,338,1.0f,0x80808080);
+            text(226,366,1,cream,"O");text(312,366,1,cream,"TRI");text(406,366,1,cream,"X");
+        } else if(!paused && g->state==LOST && ui_ready()){
+            /* level_end.lua LevelFailed: LEVEL_FAILED_PIG, menu and restart buttons. */
+            rect(150,150,340,230,dark);
+            text(222,160,2,gold,"FASE PERDIDA");
+            ui_draw(gs,UI_FAILED_PIG,320,250,1.0f,0x80808080);
+            ui_draw(gs,UI_MENU,270,330,1.0f,0x80808080);ui_draw(gs,UI_RESTART,370,330,1.0f,0x80808080);
+            text(266,358,1,cream,"O");text(362,358,1,cream,"TRI");
+        } else if(!paused && g->state==WON){
             /* level_end.lua LevelComplete: stars, score counting up, new-highscore badge, buttons. */
             static const char *stars[4]={"","*","* *","* * *"};char line[48];
             rect(106,165,428,126,dark);
@@ -370,10 +391,12 @@ int main(int argc,char **argv)
     sprites_set_data_path(data_file("SPRITES.BIN",file));
     audio_set_data_path(data_file("SOUNDS.BIN",file));
     music_set_data_path(data_file("MUSIC.BIN",file));
+    ui_set_data_path(data_file("UI.BIN",file));
     printf("PS2Birds: started as '%s'\n",argc>0 && argv && argv[0]?argv[0]:"");
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
+    printf("PS2Birds: interface sprites %s\n",ui_init(gs)?"loaded":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.70.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.71.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);

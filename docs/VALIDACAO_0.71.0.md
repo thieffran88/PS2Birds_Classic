@@ -1,9 +1,10 @@
-# Validação 0.70.0
+# Validação 0.71.0
 
-- Build com ps2dev: ELF sem dados do jogo; `CAMPAIGN.BIN`, `SPRITES.BIN`, `SOUNDS.BIN` e `MUSIC.BIN` gerados do APK.
-- Kit para Windows sob Wine: ELF e os quatro arquivos de dados idênticos aos do build.
-- Testes no PC: 76 verificações aprovadas.
-- Fim de fase: contagem dos pontos, estrelas e selo de novo recorde com os tempos do `level_end.lua` (teste no PC e captura no PCSX2: `docs/pcsx2_0.68.0_fim_de_fase.png`).
+- Build com ps2dev: ELF sem dados do jogo; `CAMPAIGN.BIN`, `SPRITES.BIN`, `SOUNDS.BIN`, `MUSIC.BIN` e `UI.BIN` gerados do APK.
+- Kit para Windows sob Wine: ELF e os cinco arquivos de dados idênticos aos do build.
+- Testes no PC: 77 verificações aprovadas.
+- Fim de fase: contagem dos pontos, estrelas e selo de novo recorde com os tempos do `level_end.lua` (teste no PC e captura no PCSX2: `docs/pcsx2_0.71.0_fim_de_fase.png`).
+- Interface: estrelas, selo, botões e porco da derrota originais (`ui_assets_test.py`; no PCSX2, vitória na 1-1 e 1-2 e derrota na 1-1).
 - Sons: 25 efeitos originais em `SOUNDS.BIN`, incluindo estrelas, contagem e novo recorde (teste `audio_assets_test.py`).
 - Música: `title_theme` nos menus, `level_complete` na vitória e a ambiência do tema em 699 fases (teste `music_test.cpp`; no PCSX2, "music loaded" e "ambience 2 playing" no console).
 - Menu: 19 episódios, grade 5 × 3, páginas e cadeados (teste no PC e captura no PCSX2).
