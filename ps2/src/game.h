@@ -208,6 +208,12 @@ typedef struct {float x,y,vx,vy,angle,fuse;int type,collided,special_used;float 
 typedef struct {float x,y,radius,life;} GameBlast;
 enum {GAME_EVENT_PIG=1, GAME_EVENT_WOOD=2, GAME_EVENT_GLASS=4, GAME_EVENT_STONE=8, GAME_EVENT_EXTRA=16, GAME_EVENT_EXPLOSION=32};
 typedef enum { AIMING, FLYING, WON, LOST } GameState;
+/* gamelogic.lua addFloatingScore: a score shown where it was earned. kind 0: piece (text,
+   0.6 s, scale 0.25 + score/3000); 1: pig and 2: bird left at the end (score sprite, 0.9 s,
+   scale 1). Screen coordinates; time grows until life. */
+enum {POPUP_PIECE=0,POPUP_PIG=1,POPUP_BIRD=2};
+#define GAME_POPUPS 24
+typedef struct {float x,y,time,life,scale;int score,kind;} GamePopup;
 typedef struct {
     float x,y,vx,vy,angle,power,flight_time,cooldown,accumulator;
     int birds,score,pig_alive,block_alive;
@@ -215,6 +221,7 @@ typedef struct {
     int level,unlocked,highscores[MAX_CAMPAIGN_LEVELS];
     float view_x,view_y,view_scale,pixels,ground_y,gravity,sling_x,sling_y;
     GameState state;
+    GamePopup popups[GAME_POPUPS];int popup_next;
     void *physics;
 } Game;
 typedef struct { float x,y,width,height,angle,health; int kind,alive; const char *definition; int mirror; } GameObject;
@@ -256,7 +263,10 @@ int game_level_bank(int index);
 int game_level_stars(int index,int score);
 int game_level_silver(int index);
 int game_level_music(int index);
-int game_level_theme(int index);    /* THEMES.BIN picture of the stage's theme, -1: none */    /* MUSIC.BIN track of the stage's theme ambience, -1: none */   /* silver threshold (starTable silverScore) */
+int game_level_theme(int index);
+void game_add_popup(Game *g,float x,float y,int score,int kind);
+/* updateFloatingScores: grows in the first 0.25 s, holds, shrinks in the last 0.25 s; 0 when gone. */
+float game_popup_scale(const GamePopup *p);    /* THEMES.BIN picture of the stage's theme, -1: none */    /* MUSIC.BIN track of the stage's theme ambience, -1: none */   /* silver threshold (starTable silverScore) */
 float game_level_gravity(int index);
 int game_get_object(const Game *game,int index,GameObject *object);
 #ifdef __cplusplus

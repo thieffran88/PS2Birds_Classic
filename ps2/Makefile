@@ -117,6 +117,8 @@ test: assets/CAMPAIGN.BIN assets/SOUNDS.BIN assets/manifest.json joint-test tria
 	$(CC) -O2 -std=gnu99 -Wall -Wextra -Werror -Isrc -c src/menu.c -o build/host/menu.o
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc tests/menu_test.cpp build/host/menu.o build/host/game.o $(HOST_BOX2D_OBJS) -lm -o build/menu_test
 	./build/menu_test
+	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc tests/popup_test.cpp build/host/game.o $(HOST_BOX2D_OBJS) -lm -o build/popup_test
+	./build/popup_test
 	$(CC) -O2 -std=gnu99 -Wall -Wextra -Werror -Isrc -c src/level_end.c -o build/host/level_end.o
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc tests/level_end_test.cpp build/host/level_end.o -lm -o build/level_end_test
 	./build/level_end_test

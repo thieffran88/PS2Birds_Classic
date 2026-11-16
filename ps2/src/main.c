@@ -190,6 +190,9 @@ static void block_unflipped(const GameObject *o)
 
 static Menu menu_state;
 static LevelEnd level_end;
+/* gamelogic.lua: each bird left gives 10000 shown over it, 0.5 s apart (birdBuffTimer), then
+   the level-complete screen opens; won_wait counts down that pause. */
+static float won_wait;
 
 /* Level button of each episode's first page (episodes.lua level_button, translated by hand). */
 static const unsigned char episode_button[]={1,4,6,1,1,1,6,5,6,6,7,1,1,1,1,1,1,1,1};
@@ -346,6 +349,13 @@ static void render(const Game *g, int connected, int paused,int menu)
             if(y1>=109 && y1<391 && y2>=109 && y2<391)gsKit_prim_line(gs,blast.x+cosf(a)*r,y1,blast.x+cosf(b)*r,y2,3,GS_SETREG_RGBAQ(255,188,65,(int)(128*(1-t)),0));
         }
     }
+    /* gamelogic.lua floating scores in FONT_SCORE: pieces in the font's own colours, pigs in
+       green and the birds left at the end in red (the original uses coloured score sprites). */
+    for(int k=0;k<GAME_POPUPS && font_ready();k++){
+        const GamePopup *pp=&g->popups[k];float sc=game_popup_scale(pp);if(sc<=0)continue;
+        char num[16];snprintf(num,sizeof(num),"%d",pp->score);
+        font_draw(gs,FONT_SCORE,pp->x,pp->y-font_line(FONT_SCORE,1.8f*sc)/2,1.8f*sc,FONT_CENTER,pp->kind==POPUP_PIG?0x80208030u:pp->kind==POPUP_BIRD?0x80303080u:0x80808080u,num);
+    }
     if(g->state==AIMING)bird(g->x,g->y,6,game_queue_type(g,0),0,0,-2,0);
     sprite_draw(gs,SPR_SLING_SHOT_01_FRONT,render_sling_x,render_sling_y,render_scale/render_pixels,0);
     int waiting=g->birds-(g->state==AIMING?1:0);
@@ -366,7 +376,7 @@ static void render(const Game *g, int connected, int paused,int menu)
     /* Shop tutorials: the stage's power-up (King Sling is always on; Bird Quake on L2, once). */
     if(game_powerup(g)==POWERUP_KING_SLING)text(16,58,1,cream,"ESTILINGUE REAL");
     else if(game_powerup_available(g))text(16,58,1,cream,game_powerup(g)==POWERUP_POWER_POTION?"L2: POÇÃO":game_powerup(g)==POWERUP_SHOCKWAVE?"L2: ONDA DE CHOQUE":"L2: TERREMOTO");
-    if (g->state==WON || g->state==LOST || paused) {
+    if ((g->state==WON && won_wait<=0) || g->state==LOST || paused) {
         if(!paused && g->state==WON && ui_ready()){
             /* level_end.lua LevelComplete with the original sprites: stars at 0.4 of the height,
                spaced 1/8 of the width, the score below, the badge to its right, buttons at 0.8. */
@@ -406,7 +416,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
             text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
             text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.74.0 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.75.0 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             text(90,318,1,color(135,192,181),save_mc_status());
         } else {
@@ -522,7 +532,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s\n",font_init(gs)?"loaded":"unavailable");
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.74.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.75.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
@@ -581,7 +591,8 @@ int main(int argc,char **argv)
             else if(result==MENU_PLAY && game_load_level(&g,menu_episode_first(menu_state.episode)+menu_state.level)){menu=0;paused=0;audio_play(SFX_MENU_CONFIRM);audio_play(SFX_START);}
             old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
         }
-        if(g.state==WON){
+        if(g.state==WON && won_wait>0)won_wait-=frame_seconds;
+        else if(g.state==WON){
             /* level_end.lua: star_N as each star appears, score_count while counting, new_highscore with the badge. */
             int stars=level_end_shown_stars(&level_end),badge=level_end_new_highscore(&level_end),counting=level_end_counting(&level_end);
             level_end_update(&level_end,frame_seconds);
@@ -624,7 +635,8 @@ int main(int argc,char **argv)
             if(g.events&GAME_EVENT_GLASS)audio_play(SFX_GLASS);
             else if(g.events&GAME_EVENT_STONE)audio_play(SFX_STONE);
             else if(g.events&(GAME_EVENT_WOOD|GAME_EVENT_EXTRA))audio_play(SFX_WOOD);
-            if(before!=g.state && g.state==WON){music_play(MUSIC_LEVEL_COMPLETE);level_end_start(&level_end,g.score,old_record,game_level_stars(g.level,g.score),game_level_silver(g.level));save_mc_request();audio_play(SFX_WIN);}
+            if(before!=g.state && g.state==WON){music_play(MUSIC_LEVEL_COMPLETE);for(int b=0;b<g.birds;b++){game_add_popup(&g,49+b*24,g.ground_y-15,10000,POPUP_BIRD);g.popups[(g.popup_next+GAME_POPUPS-1)%GAME_POPUPS].time=-0.5f*b;}
+                won_wait=1.0f+0.5f*g.birds;level_end_start(&level_end,g.score,old_record,game_level_stars(g.level,g.score),game_level_silver(g.level));save_mc_request();audio_play(SFX_WIN);}
             if(before!=g.state && g.state==LOST)audio_play(SFX_LOSE);
             if (before!=g.state) printf("PS2Birds: state=%d score=%d\n",g.state,g.score);
         }

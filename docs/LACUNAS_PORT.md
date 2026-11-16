@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.74.0)
+# Lacunas do port (levantamento atualizado na 0.75.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -271,6 +271,10 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 ## Achados da 0.74.0
 
 - **Fundos das fases:** os 37 temas do `themes.lua` montados no PC e copiados para o buffer de desenho a cada quadro. A câmera fixa dispensa a paralaxe; se o port ganhar movimento de câmera (pan/zoom), os fundos precisarão ser montados por camada no PS2. A textura do chão (`texture`, ex. `GROUNDS_THEME_GROUND_1_1`) sob as peças do terreno ainda não é usada.
+
+## Achados da 0.75.0
+
+- **Pontos flutuantes:** feitos com a `FONT_SCORE`. Os sprites coloridos de pontos do original (`spriteScore` de porcos, pássaros e peças especiais) ficam para quando houver memória de vídeo para eles; o port pinta a fonte.
 
 ## O que falta no jogo (código nativo não recuperado)
 

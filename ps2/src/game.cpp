@@ -104,6 +104,7 @@ static const char *joint_name(const CampaignJoint *){return "";}
 #endif
 
 static float clamp(float v,float lo,float hi) { return v<lo?lo:v>hi?hi:v; }
+static void popup_at(Game *g,b2Vec2 where,int score,int kind);
 struct Physics;
 /* One Egg Defender wave's vehicle and its translated controller (egg_vehicles.cpp). */
 struct EggVehicle {
@@ -1144,8 +1145,8 @@ static void tick(Game *g) {
         if(t<0 || p->bodies[p->detach_source[k]])continue;
         if(p->detach_time[k]>0){p->detach_time[k]-=dt;continue;}
         if(p->bodies[t]){
-            {b2Vec2 where=p->bodies[t]->GetPosition();p->world.DestroyBody(p->bodies[t]);p->bodies[t]=NULL;p->detach_target[k]=-1;p->release_spawns(t,where);}
-            if(p->level->objects[t].kind==4 && p->is_goal(t)){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else if(p->level->objects[t].kind!=3 && !(p->level->objects[t].flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL))){g->block_alive--;g->events|=GAME_EVENT_EXTRA;}
+            b2Vec2 where=p->bodies[t]->GetPosition();p->world.DestroyBody(p->bodies[t]);p->bodies[t]=NULL;p->detach_target[k]=-1;p->release_spawns(t,where);
+            if(p->level->objects[t].kind==4 && p->is_goal(t)){g->pig_alive--;g->score+=5000;popup_at(g,where,5000,POPUP_PIG);g->events|=GAME_EVENT_PIG;}else if(p->level->objects[t].kind!=3 && !(p->level->objects[t].flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL))){g->block_alive--;g->events|=GAME_EVENT_EXTRA;}
         }
     }p->break_joints(1.0f/dt);
     if(p->bird_type==BIRD_BLACK_TYPE && p->bird && !p->detonated){
@@ -1222,7 +1223,7 @@ static void tick(Game *g) {
                 if(f && f->blast_radius>0)radial_blast(g,where,f->blast_radius,f->blast_force,f->damage_radius,f->damage);
                 else radial_blast(g,where,TNT_BLAST_RADIUS,TNT_BLAST_FORCE,TNT_DAMAGE_RADIUS,TNT_BLAST_DAMAGE);}
             if(o.flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL)){}
-            else if(o.kind==4 && p->is_goal(i)){g->pig_alive--;g->score+=5000;g->events|=GAME_EVENT_PIG;}else {g->block_alive--;g->score+=o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
+            else if(o.kind==4 && p->is_goal(i)){g->pig_alive--;g->score+=5000;popup_at(g,where,5000,POPUP_PIG);g->events|=GAME_EVENT_PIG;}else {g->block_alive--;int earned=o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;g->score+=earned;popup_at(g,where,earned,POPUP_PIECE);g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
         }
     }
     g->pig_alive+=p->pending_pigs;p->pending_pigs=0;
@@ -1260,6 +1261,8 @@ static void tick(Game *g) {
 void game_update(Game *g,float seconds) {
     g->events=0;
     Physics *p=static_cast<Physics*>(g->physics);p->blast_life=fmaxf(0,p->blast_life-clamp(seconds,0,0.1f));
+    /* Floating scores keep running after the end (the birds-left bonus appears then). */
+    for(int k=0;k<GAME_POPUPS;k++)if(g->popups[k].time<g->popups[k].life)g->popups[k].time+=clamp(seconds,0,0.1f);
     if(g->state==WON || g->state==LOST)return;
     g->accumulator+=clamp(seconds,0,0.1f);
     while(g->accumulator+0.000001f>=1.0f/120 && g->state!=WON && g->state!=LOST) {
@@ -1282,6 +1285,20 @@ int game_use_powerup(Game *g){
 }
 void game_damage_object(Game *g,int index){Physics *p=static_cast<Physics*>(g->physics);if(index>=0 && index<p->level->count)p->health[index]=0;}
 int game_object_count(const Game *g) {return static_cast<const Physics*>(g->physics)->level->count;}
+
+void game_add_popup(Game *g,float x,float y,int score,int kind){
+    if(score<=0)return;
+    GamePopup *p=&g->popups[g->popup_next];g->popup_next=(g->popup_next+1)%GAME_POPUPS;
+    p->x=x;p->y=y;p->score=score;p->kind=kind;p->time=0;
+    p->life=kind==POPUP_PIECE?0.6f:0.9f;p->scale=kind==POPUP_PIECE?0.25f+score/3000.0f:1.0f;
+}
+float game_popup_scale(const GamePopup *p){
+    if(p->life<=0 || p->time<0 || p->time>=p->life)return 0;   /* negative time: waiting its turn */
+    if(p->time<0.25f)return p->scale*p->time/0.25f;
+    if(p->time<p->life-0.25f)return p->scale;
+    return p->scale*(p->life-p->time)/0.25f;
+}
+static void popup_at(Game *g,b2Vec2 where,int score,int kind){game_add_popup(g,g->view_x+where.x*g->view_scale,g->view_y+where.y*g->view_scale,score,kind);}
 int game_get_object(const Game *g,int index,GameObject *out) {
     const Physics *p=static_cast<const Physics*>(g->physics);
     if(index<0 || index>=p->level->count || !out)return 0;
