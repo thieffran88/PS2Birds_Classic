@@ -746,6 +746,7 @@ static void radial_blast(Game *g,const b2Vec2 &position,float radius,float force
         }
     }
     g->events|=GAME_EVENT_EXPLOSION;g->cooldown=0;
+    g->explosion_x=g->view_x+position.x*g->view_scale;g->explosion_y=g->view_y+position.y*g->view_scale;
 }
 static void detonate(Game *g){
     Physics *p=static_cast<Physics*>(g->physics);
@@ -1160,7 +1161,7 @@ static void tick(Game *g) {
             p->detonated=p->special_used=true;p->bomb_requested=false;
             p->world.DestroyBody(p->bird);p->bird=NULL;p->spawn_ignore_count=0;
             g->x=g->view_x+p->shock_center.x*g->view_scale;g->y=g->view_y+p->shock_center.y*g->view_scale;
-            g->vx=g->vy=g->flight_time=0;g->events|=GAME_EVENT_EXPLOSION;g->cooldown=0;
+            g->vx=g->vy=g->flight_time=0;g->events|=GAME_EVENT_EXPLOSION;g->cooldown=0;g->explosion_x=g->x;g->explosion_y=g->y;
         }
     }
     if(p->shock_time>=0){

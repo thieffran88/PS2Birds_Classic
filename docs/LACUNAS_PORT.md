@@ -242,7 +242,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.67.0
 
-- **Tela de fim de fase:** tempos da contagem, das estrelas e do novo recorde vindos do `level_end.lua`. Sprites originais incluídos; faltam as partículas das estrelas.
+- **Tela de fim de fase:** tempos da contagem, das estrelas e do novo recorde vindos do `level_end.lua`. Sprites originais e estrelinhas incluídos.
 
 ## Achados da 0.68.0
 
@@ -258,7 +258,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.71.0
 
-- **Gráficos da interface:** página PSMT8 de 128 KB (128×1024, paleta de 256 cores) fixa na memória de vídeo com fim de fase, pausa, partículas e pontuações. Faltam as partículas das estrelas do fim de fase.
+- **Gráficos da interface:** página PSMT8 de 128 KB (128×1024, paleta de 256 cores) fixa na memória de vídeo com fim de fase, pausa, partículas e pontuações. Inclui as estrelinhas do fim de fase e as nuvens de explosão.
 
 ## Achados da 0.72.0
 
@@ -297,7 +297,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
 - Pontuação: as estrelas usam os limites originais, mas a pontuação do port é aproximada. A contagem de estrelas é, portanto, indicativa.
-- Feito: música de fundo, terreno e partículas de impacto (madeira, vidro, pedra, penas, fumaça). Faltam as partículas das estrelas e de explosões de TNT.
+- Feito: música de fundo, terreno e partículas de impacto (madeira, vidro, pedra, penas, fumaça). Feito também: estrelinhas do fim de fase e nuvens de explosão do TNT.
 
 ## Prioridade sugerida
 

@@ -304,7 +304,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.80.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.81.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -475,13 +475,15 @@ static void render(const Game *g, int connected, int paused,int menu)
             prev_hit[i]=b.collided;
         }
         for(int i=game_projectile_count(g);i<16;i++)prev_hit[i]=0;
+        /* explosionBuff: clouds EXPLOSION_CLOUD_1-6 spread from the blast, growing as they fade. */
+        if((g->events&GAME_EVENT_EXPLOSION) && g->explosion_x>-200 && g->explosion_x<840 && g->explosion_y>-200 && g->explosion_y<650)for(int i=0;i<8;i++)SPAWN(UI_CLOUD+rand()%6,g->explosion_x,g->explosion_y,70,2.2f,0.8f);
         #undef SPAWN
         const float dt=1.0f/60;
         for(int i=0;i<PARTICLES;i++){
             if(part[i].life<=0)continue;
             if(!paused && !menu){part[i].life-=dt;part[i].vy+=300*dt;part[i].x+=part[i].vx*dt;part[i].y+=part[i].vy*dt;part[i].angle+=part[i].spin*dt;}
             float t=part[i].life/part[i].max;unsigned a=(unsigned)(0x80*(t<0.3f?t/0.3f:1));
-            ui_draw_rotated(gs,part[i].sprite,part[i].x,part[i].y,part[i].scale*(part[i].sprite>=UI_SMOKE && part[i].sprite<UI_SMOKE+3?1.6f-0.6f*t:1),part[i].angle,0x00808080u|(a<<24));
+            ui_draw_rotated(gs,part[i].sprite,part[i].x,part[i].y,part[i].scale*((part[i].sprite>=UI_SMOKE && part[i].sprite<UI_SMOKE+3)||part[i].sprite>=UI_CLOUD?1.6f-0.6f*t:1),part[i].angle,0x00808080u|(a<<24));
         }
     }
     /* gamelogic.lua floating scores: pieces in FONT_SCORE; pigs (5K_GREEN) and the birds left
@@ -525,6 +527,22 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(172,138,2,gold,"NÍVEL CONCLUÍDO!");
             int shown=level_end_shown_stars(&level_end);
             for(int i=0;i<3;i++)ui_draw(gs,UI_STAR_1+i,220+i*100,i==1?192:200,i==1?0.95f:0.8f,i<shown?0x80808080:0x80202020);
+            /* levelCompleteStars1-3: a burst of P_STAR_1-5 as each star appears (circle emitter,
+               fast start, gravity pulling them down, spinning, fading out). */
+            {
+                enum {STARS=60};static struct {float x,y,vx,vy,a,spin,life;int s;} sp[STARS];static int sn,last;
+                if(shown<last)last=0;
+                for(;last<shown;last++)for(int k=0;k<20;k++){
+                    int i=sn;sn=(sn+1)%STARS;float an=(rand()%628)/100.0f,v=120+rand()%260;
+                    sp[i].x=220+last*100;sp[i].y=last==1?192:200;sp[i].vx=cosf(an)*v;sp[i].vy=sinf(an)*v-80;
+                    sp[i].a=an;sp[i].spin=((rand()%200)-100)/15.0f;sp[i].life=0.9f+(rand()%40)/100.0f;sp[i].s=UI_PSTAR+rand()%5;
+                }
+                for(int i=0;i<STARS;i++)if(sp[i].life>0){
+                    float dt=1.0f/60;sp[i].vy+=400*dt;sp[i].x+=sp[i].vx*dt;sp[i].y+=sp[i].vy*dt;sp[i].a+=sp[i].spin*dt;sp[i].life-=dt;
+                    float al=sp[i].life<0.4f?sp[i].life/0.4f:1;
+                    if(sp[i].y>110 && sp[i].y<440)ui_draw_rotated(gs,sp[i].s,sp[i].x,sp[i].y,0.8f,sp[i].a,((unsigned)(0x80*al)<<24)|0x808080);
+                }
+            }
             snprintf(line,sizeof(line),"%d",level_end_shown_score(&level_end));text(320-(int)strlen(line)*12,262,2,cream,line);
             if(level_end_new_highscore(&level_end))ui_draw(gs,UI_NEW_HIGHSCORE,470,270,1.0f,0x80808080);
             else if(!level_end_counting(&level_end)){snprintf(line,sizeof(line),"Recorde: %d",g->highscores[g->level]);text(320-(int)strlen(line)*6,292,1,cream,line);}
@@ -570,7 +588,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(200,250,1,cream,"DIRECIONAL/ANALÓGICO: MIRA   X: LANÇAR");
             text(200,270,1,cream,"QUADRADO (SEGURAR): AJUSTE FINO");
             text(200,290,1,cream,"X NO AR: HABILIDADE DO PÁSSARO   SELECT: FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.80.0 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.81.0 / PLAYSTATION 2");
             text(200,350,1,color(135,192,181),save_mc_status());
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -581,7 +599,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
             text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
             text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.80.0 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.81.0 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             text(90,318,1,color(135,192,181),save_mc_status());
         } else {
@@ -697,7 +715,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.80.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.81.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);

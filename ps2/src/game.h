@@ -219,6 +219,7 @@ typedef struct {
     float x,y,vx,vy,angle,power,flight_time,cooldown,accumulator;
     int birds,score,pig_alive,block_alive;
     unsigned int events;
+    float explosion_x,explosion_y; /* screen position of the last GAME_EVENT_EXPLOSION */
     int level,unlocked,highscores[MAX_CAMPAIGN_LEVELS];
     float view_x,view_y,view_scale,pixels,ground_y,gravity,sling_x,sling_y;
     GameState state;

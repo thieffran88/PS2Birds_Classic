@@ -5,7 +5,8 @@ palette (PSMT8 + CT32 CLUT), kept in VRAM next to the stage texture banks:
     LEVEL_FAILED_PIG; pause (PausePage.lua): BUTTON_RESUME, BUTTON_SFX, BUTTON_OFF;
     scaled to 40 % of the 1024 x 768 originals;
   - particles (PARTICLES_1): wood, glass and rock fragments, the feathers of each bird, smoke
-    puffs and the coloured score sprites (5K_GREEN for pigs, 10K_<bird> for birds left).
+    puffs and the coloured score sprites (5K_GREEN for pigs, 10K_<bird> for birds left);
+  - P_STAR_1-5 (levelCompleteStars1-3) and EXPLOSION_CLOUD_1-6 (explosionBuff).
 The page takes the same 128 KiB as the former 256 x 256 RGBA5551 one; the palette is reduced by
 The page is one PSMT8 GS page wide (128 texels), so each 64-row block is one 8 KiB page in a row.
 median cut in plain Python (the Windows kit has no image library). Never executes game scripts."""
@@ -24,7 +25,10 @@ UI=[('STAR_1','MENU_GRADIENTS_1','BIG_STAR_1'),('STAR_2','MENU_GRADIENTS_1','BIG
 FEATHERS=['RED','BLUE','YELLOW','BLACK','GREEN','BIGBROTHER','BOOMERANG']
 PARTICLES=[f'WOOD_PARTICLE_{i}' for i in (1,2,3)]+[f'LIGHT_PARTICLE_{i}' for i in (1,2,3,4,5)]+[f'ROCK_PARTICLE_{i}' for i in (1,2,3)]+\
     [f'{c}_FEATHER_{i}' for c in FEATHERS for i in (1,2,3)]+[f'SMOKE_BUFF_{i}' for i in (1,2,3)]+\
-    ['5K_GREEN','10K_RED','10K_BLUE','10K_YELLOW','10K_BLACK','10K_WHITE','10K_BOOMERANG']
+    ['5K_GREEN','10K_RED','10K_BLUE','10K_YELLOW','10K_BLACK','10K_WHITE','10K_BOOMERANG']+\
+    [f'P_STAR_{i}' for i in (1,2,3,4,5)]+[f'EXPLOSION_CLOUD_{i}' for i in (1,2,3,4,5,6)]
+# Explosion clouds are large; they are stored smaller and drawn scaled up.
+CLOUD_SCALE=0.35
 def scale(rgba,w,h,f):
     """Area-average resample (alpha-weighted colour) to round(w*f) x round(h*f)."""
     W,H=max(1,round(w*f)),max(1,round(h*f));out=bytearray(W*H*4)
@@ -103,7 +107,7 @@ def extract(apk,out):
             rgba,w,h=scale(rgba,f['frame']['w'],f['frame']['h'],SCALE);sprites.append((ident,w,h,rgba))
         for name in PARTICLES:
             rgba,w,h,_=sheet_sprite(z,'PARTICLES_1',name)
-            rgba,w,h=scale(rgba,w,h,PARTICLE_SCALE);sprites.append((name,w,h,rgba))
+            rgba,w,h=scale(rgba,w,h,CLOUD_SCALE if name.startswith('EXPLOSION') else PARTICLE_SCALE);sprites.append((name,w,h,rgba))
     # Shelf packing, tallest first, 1-pixel gutter.
     page=bytearray(PAGE*PAGE_H*4);place={};x=y=shelf=0
     for ident,w,h,rgba in sorted(sprites,key=lambda s:-s[2]):

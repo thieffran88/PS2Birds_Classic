@@ -8,7 +8,9 @@ enum {UI_STAR_1,UI_STAR_2,UI_STAR_3,UI_NEW_HIGHSCORE,UI_MENU,UI_RESTART,UI_NEXT,
          black, green, big brother, boomerang), 3 smoke puffs, score sprites. */
       UI_WOOD=11,UI_LIGHT=14,UI_ROCK=19,UI_FEATHER=22,UI_SMOKE=43,UI_SCORE_5K=46,
       UI_SCORE_10K=47,   /* red, blue, yellow, black, white, boomerang */
-      UI_COUNT=53};
+      UI_PSTAR=53,       /* P_STAR_1-5 (levelCompleteStars) */
+      UI_CLOUD=58,       /* EXPLOSION_CLOUD_1-6 (explosionBuff), stored at 0.35 */
+      UI_COUNT=64};
 void ui_set_data_path(const char *path);
 int ui_init(GSGLOBAL *gs);   /* 0 without UI.BIN or VRAM: the screens fall back to text */
 int ui_ready(void);
