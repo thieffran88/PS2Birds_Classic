@@ -31,9 +31,9 @@ def check_apk(path):
                          "Use o APK da versão indicada; outras versões têm fases e texturas diferentes. (--ignorar-versao força a tentativa.)")
 
 def generate(apk_path,out_dir,ffmpeg=None,log=print,dev=False):
-    """Writes CAMPAIGN.BIN, SPRITES.BIN, SOUNDS.BIN, MUSIC.BIN and UI.BIN into out_dir. dev=True keeps the
+    """Writes CAMPAIGN.BIN, SPRITES.BIN, SOUNDS.BIN, MUSIC.BIN, UI.BIN and FONT.BIN into out_dir. dev=True keeps the
     intermediate files where the developer build and tests expect them (ps2/assets, ps2/data)."""
-    import build_campaign,extract_sprites,build_save_icon,pack_sprites,extract_audio,extract_ui
+    import build_campaign,extract_sprites,build_save_icon,pack_sprites,extract_audio,extract_ui,extract_font
     out_dir=Path(out_dir);out_dir.mkdir(parents=True,exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='ps2birds-') as work:
         work=Path(work)
@@ -50,8 +50,8 @@ def generate(apk_path,out_dir,ffmpeg=None,log=print,dev=False):
         pack_sprites.pack(assets/'manifest.json',assets/'sprites.rgba',assets/'save.icn',ROOT/'ps2/src/sprite_ids.h',out_dir/'SPRITES.BIN')
         log(f'    ok ({time.time()-t:.0f} s)');t=time.time();log('3/3 Sons ...')
         extract_audio.extract(apk_path,assets,find_ffmpeg(ffmpeg),None)
-        extract_ui.extract(apk_path,assets/'UI.BIN')
-        for name in ['SOUNDS.BIN','MUSIC.BIN','UI.BIN']:
+        extract_ui.extract(apk_path,assets/'UI.BIN');extract_font.extract(apk_path,assets/'FONT.BIN')
+        for name in ['SOUNDS.BIN','MUSIC.BIN','UI.BIN','FONT.BIN']:
             if Path(assets/name).resolve()!=Path(out_dir/name).resolve():shutil.copyfile(assets/name,out_dir/name)
         log(f'    ok ({time.time()-t:.0f} s)')
 
@@ -73,7 +73,7 @@ def main():
     if not a.ignorar_versao:check_apk(a.apk)
     with tempfile.TemporaryDirectory(prefix='ps2birds-data-') as data:
         data=Path(data);generate(a.apk,data,a.ffmpeg)
-        files=[data/'SPRITES.BIN',data/'SOUNDS.BIN',data/'MUSIC.BIN',data/'UI.BIN',data/'CAMPAIGN.BIN']
+        files=[data/'SPRITES.BIN',data/'SOUNDS.BIN',data/'MUSIC.BIN',data/'UI.BIN',data/'FONT.BIN',data/'CAMPAIGN.BIN']
         import make_iso
         a.saida.parent.mkdir(parents=True,exist_ok=True)
         make_iso.write_with_pycdlib(Path(elf).read_bytes(),a.saida.resolve(),files)

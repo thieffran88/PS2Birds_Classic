@@ -20,7 +20,7 @@ Como usar
 3. Dê dois cliques em GERAR_ISO.bat e aguarde (menos de 1 minuto num PC comum).
 4. Resultado, na mesma pasta:
    - PS2Birds_Classic.iso          -> para emulador (PCSX2) ou gravação/OPL;
-   - PS2Birds_Classic_USB\         -> PS2BIRDS.ELF + SPRITES.BIN + SOUNDS.BIN + UI.BIN +
+   - PS2Birds_Classic_USB\         -> PS2BIRDS.ELF + SPRITES.BIN + SOUNDS.BIN + UI.BIN + FONT.BIN +
                                       MUSIC.BIN + CAMPAIGN.BIN, para rodar de USB/HDD (copie a
                                       pasta inteira; o ELF lê os .BIN ao lado dele).
 

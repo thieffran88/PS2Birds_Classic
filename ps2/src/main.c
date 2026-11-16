@@ -15,6 +15,7 @@
 #include "level_end.h"
 #include "music.h"
 #include "ui.h"
+#include "font.h"
 #include "sprites.h"
 #include "definition_sprites.h"
 #include "save_mc.h"
@@ -51,6 +52,12 @@ static void rect(float x, float y, float w, float h, u64 c)
 
 static void text(float x, float y, int scale, u64 c, const char *s)
 {
+    if(font_ready()){
+        /* Original FONT_BASIC (white fill, black outline) tinted with the colour. */
+        unsigned r=(unsigned)(c&255),gr=(unsigned)((c>>8)&255),b=(unsigned)((c>>16)&255);
+        font_draw(gs,FONT_BASIC,x,y-2*scale,0.23f+0.48f*scale,FONT_LEFT,(r/2)|((gr/2)<<8)|((b/2)<<16)|(0x80u<<24),s);
+        return;
+    }
     for (; *s; s++, x += scale * 6) {
         const char *at = strchr(alphabet, *s);
         if (!at || *s == ' ') continue;
@@ -190,18 +197,7 @@ static void render(const Game *g, int connected, int paused,int menu)
     if(!paused && !menu)visual_frame++;
     u64 cream=color(248,240,210), dark=color(23,53,58), gold=color(246,191,65);
     gsKit_clear(gs,color(120,194,205));
-    rect(0,0,640,109,dark);
-    text(30,22,3,cream,"PS2BIRDS CLASSIC");
-    if(sprites_load_failed())text(31,55,1,gold,"SPRITES.BIN AUSENTE: COPIE-O PARA A PASTA DO ELF");
-    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.71.0 / PLAYSTATION 2");
-    text(430,55,1,color(135,192,181),audio_status());
-    text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
-    text(31,80,2,gold,game_level_title(g->level));
     char line[64];
-    snprintf(line,sizeof(line),"PONTOS %05d",g->score);
-    text(430,82,1,cream,line);
-    snprintf(line,sizeof(line),"PORCOS %d BLOCOS %d",g->pig_alive,g->block_alive);
-    text(430,96,1,color(156,195,178),line);
     disk(555,158,24,color(255,221,121));
     disk(75,156,16,color(219,238,219)); disk(96,148,21,color(219,238,219));
     disk(120,157,15,color(219,238,219));
@@ -246,36 +242,40 @@ static void render(const Game *g, int connected, int paused,int menu)
     sprite_draw(gs,SPR_SLING_SHOT_01_FRONT,render_sling_x,render_sling_y,render_scale/render_pixels,0);
     int waiting=g->birds-(g->state==AIMING?1:0);
     for (int i=0; i<waiting; i++) bird(49+i*24,render_ground-15,7,game_queue_type(g,i+(g->state==AIMING?1:0)),0,0,-2,0);
-    snprintf(line,sizeof(line),"ANGULO %05.1f  FORCA %05.1f",g->angle,g->power);
-    text(30,119,1,dark,line);
+    /* GameHud.lua: score at the top right ("Pontuação", then the number), the highscore below at
+       70 %; the stage name at the top left. Texts are the original pt_BR TEXTS_BASIC entries. */
+    if(font_ready()){
+        font_draw(gs,FONT_BASIC,624,8,0.85f,FONT_RIGHT,0x80808080,"Pontuação");
+        snprintf(line,sizeof(line),"%d",g->score);font_draw(gs,FONT_BASIC,624,26,1.5f,FONT_RIGHT,0x80808080,line);
+        snprintf(line,sizeof(line),"Recorde: %d",g->highscores[g->level]);font_draw(gs,FONT_BASIC,624,60,0.8f,FONT_RIGHT,0x80808080,line);
+        font_draw(gs,FONT_BASIC,16,8,1.0f,FONT_LEFT,0x80808080,game_level_title(g->level));
+    }else{
+        text(31,20,2,gold,game_level_title(g->level));
+        snprintf(line,sizeof(line),"PONTOS %05d",g->score);text(430,22,1,cream,line);
+    }
+    if(sprites_load_failed())text(16,40,1,gold,"SPRITES.BIN AUSENTE: COPIE-O PARA A PASTA DO ELF");
+    if(save_mc_busy())text(16,40,1,gold,save_mc_status());
     /* Shop tutorials: the stage's power-up (King Sling is always on; Bird Quake on L2, once). */
-    if(game_powerup(g)==POWERUP_KING_SLING)text(330,119,1,dark,"ESTILINGUE REAL");
-    else if(game_powerup_available(g))text(330,119,1,dark,game_powerup(g)==POWERUP_POWER_POTION?"L2: POCAO":game_powerup(g)==POWERUP_SHOCKWAVE?"L2: ONDA DE CHOQUE":"L2: TERREMOTO");
-    rect(30,135,110,4,color(76,137,137));
-    rect(30,135,(g->power-POWER_MIN)*110/(POWER_MAX-POWER_MIN),4,gold);
-    rect(20,391,600,51,dark);
-    text(30,400,1,cream,"DIRECIONAL/ANALOGICO: MIRA  X: LANCAR");
-    text(30,415,1,color(156,195,178),"TRIANGULO: REINICIO  SELECT: FASES  START: PAUSA");
-    GameBird airborne;int airborne_type=game_get_projectile(g,0,&airborne)?airborne.type:-1;
-    text(30,430,1,color(156,195,178),!game_special_available(g)?"SEGURE QUADRADO PARA AJUSTE FINO":airborne_type==BIRD_WHITE_TYPE?"X: SOLTAR OVO  QUADRADO: AJUSTE FINO":(airborne_type==BIRD_BLACK_TYPE||airborne_type==BIRD_SHOCK_TYPE)?"X: EXPLODIR PRETO  QUADRADO: AJUSTE FINO":airborne_type==BIRD_YELLOW_TYPE?"X: ACELERAR AMARELO  QUADRADO: AJUSTE FINO":"X: DIVIDIR AZUL EM TRES  QUADRADO: AJUSTE FINO");
+    if(game_powerup(g)==POWERUP_KING_SLING)text(16,58,1,cream,"ESTILINGUE REAL");
+    else if(game_powerup_available(g))text(16,58,1,cream,game_powerup(g)==POWERUP_POWER_POTION?"L2: POÇÃO":game_powerup(g)==POWERUP_SHOCKWAVE?"L2: ONDA DE CHOQUE":"L2: TERREMOTO");
     if (g->state==WON || g->state==LOST || paused) {
         if(!paused && g->state==WON && ui_ready()){
             /* level_end.lua LevelComplete with the original sprites: stars at 0.4 of the height,
                spaced 1/8 of the width, the score below, the badge to its right, buttons at 0.8. */
             char line[48];
             rect(90,128,460,262,dark);
-            text(222,138,2,gold,"FASE CONCLUIDA");
+            text(172,138,2,gold,"NÍVEL CONCLUÍDO!");
             int shown=level_end_shown_stars(&level_end);
             for(int i=0;i<3;i++)ui_draw(gs,UI_STAR_1+i,220+i*100,i==1?192:200,i==1?0.95f:0.8f,i<shown?0x80808080:0x80202020);
             snprintf(line,sizeof(line),"%d",level_end_shown_score(&level_end));text(320-(int)strlen(line)*12,262,2,cream,line);
             if(level_end_new_highscore(&level_end))ui_draw(gs,UI_NEW_HIGHSCORE,470,270,1.0f,0x80808080);
-            else if(!level_end_counting(&level_end)){snprintf(line,sizeof(line),"RECORDE %d",g->highscores[g->level]);text(320-(int)strlen(line)*6,292,1,cream,line);}
+            else if(!level_end_counting(&level_end)){snprintf(line,sizeof(line),"Recorde: %d",g->highscores[g->level]);text(320-(int)strlen(line)*6,292,1,cream,line);}
             ui_draw(gs,UI_MENU,230,338,1.0f,0x80808080);ui_draw(gs,UI_RESTART,320,338,1.0f,0x80808080);ui_draw(gs,UI_NEXT,410,338,1.0f,0x80808080);
-            text(226,366,1,cream,"O");text(312,366,1,cream,"TRI");text(406,366,1,cream,"X");
+            text(226,366,1,cream,"O");text(306,366,1,cream,"TRI");text(406,366,1,cream,"X");
         } else if(!paused && g->state==LOST && ui_ready()){
             /* level_end.lua LevelFailed: LEVEL_FAILED_PIG, menu and restart buttons. */
             rect(150,150,340,230,dark);
-            text(222,160,2,gold,"FASE PERDIDA");
+            text(178,160,2,gold,"NÍVEL NÃO CONCLUÍDO!");
             ui_draw(gs,UI_FAILED_PIG,320,250,1.0f,0x80808080);
             ui_draw(gs,UI_MENU,270,330,1.0f,0x80808080);ui_draw(gs,UI_RESTART,370,330,1.0f,0x80808080);
             text(266,358,1,cream,"O");text(362,358,1,cream,"TRI");
@@ -283,16 +283,28 @@ static void render(const Game *g, int connected, int paused,int menu)
             /* level_end.lua LevelComplete: stars, score counting up, new-highscore badge, buttons. */
             static const char *stars[4]={"","*","* *","* * *"};char line[48];
             rect(106,165,428,126,dark);
-            text(130,178,2,gold,"FASE CONCLUIDA");
+            text(130,178,2,gold,"NÍVEL CONCLUÍDO!");
             text(400,174,3,gold,stars[level_end_shown_stars(&level_end)]);
             snprintf(line,sizeof(line),"%d",level_end_shown_score(&level_end));text(130,212,2,cream,line);
-            if(level_end_new_highscore(&level_end))text(300,214,1,gold,"NOVO RECORDE!");
+            if(level_end_new_highscore(&level_end))text(300,214,1,gold,"Novo recorde!");
             else if(!level_end_counting(&level_end)){snprintf(line,sizeof(line),"RECORDE %d",g->highscores[g->level]);text(300,214,1,cream,line);}
             text(130,262,1,cream,g->level+1<game_level_count()?"X: PROXIMA  TRIANGULO: REINICIAR  O: MENU":"X: SELECAO  TRIANGULO: REINICIAR  O: MENU");
+        } else if(paused){
+            /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
+            rect(70,110,500,250,dark);
+            text(250,122,2,gold,"PAUSA");
+            text(90,160,1,cream,"DIRECIONAL/ANALÓGICO: MIRA   X: LANÇAR");
+            text(90,180,1,cream,"QUADRADO (SEGURAR): AJUSTE FINO");
+            text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
+            text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
+            text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.72.0 / PLAYSTATION 2");
+            text(90,298,1,color(135,192,181),audio_status());
+            text(90,318,1,color(135,192,181),save_mc_status());
         } else {
             rect(106,185,428,86,dark);
-            text(130,204,2,gold,paused?"PAUSADO":"FASE PERDIDA");
-            text(130,241,1,cream,paused?"START PARA CONTINUAR":"TRIANGULO: REINICIAR  O: MENU");
+            text(130,204,2,gold,"NÍVEL NÃO CONCLUÍDO!");
+            text(130,241,1,cream,"TRIÂNGULO: REINICIAR  O: MENU");
         }
     }
     if (!connected) text(300,119,1,color(128,48,41),"CONECTE O CONTROLE 1");
@@ -392,11 +404,13 @@ int main(int argc,char **argv)
     audio_set_data_path(data_file("SOUNDS.BIN",file));
     music_set_data_path(data_file("MUSIC.BIN",file));
     ui_set_data_path(data_file("UI.BIN",file));
+    font_set_data_path(data_file("FONT.BIN",file));
     printf("PS2Birds: started as '%s'\n",argc>0 && argv && argv[0]?argv[0]:"");
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     printf("PS2Birds: interface sprites %s\n",ui_init(gs)?"loaded":"unavailable");
+    printf("PS2Birds: fonts %s\n",font_init(gs)?"loaded":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.71.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.72.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);

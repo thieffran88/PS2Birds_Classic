@@ -1,4 +1,4 @@
-# PS2Birds Classic — protótipo 0.71.0
+# PS2Birds Classic — protótipo 0.72.0
 
 Port não oficial do Angry Birds Classic para PlayStation 2 (homebrew). São 745 fases do
 Tutorial e dos episódios Poached Eggs, Mighty Hoax, Danger Above, Big Setup, Ham 'Em High, Mine and Dine,
@@ -29,8 +29,8 @@ python3 tools/gerar_iso.py com.rovio.angrybirds.apk --saida PS2Birds_Classic.iso
 
 ## Jogar
 
-A ISO tem `PS2BIRDS.ELF` e cinco arquivos de dados: `CAMPAIGN.BIN` (fases), `SPRITES.BIN`
-(texturas e ícone), `SOUNDS.BIN` (efeitos), `MUSIC.BIN` (músicas) e `UI.BIN` (interface). Para rodar o ELF de USB/HDD, copie os seis
+A ISO tem `PS2BIRDS.ELF` e seis arquivos de dados: `CAMPAIGN.BIN` (fases), `SPRITES.BIN`
+(texturas e ícone), `SOUNDS.BIN` (efeitos), `MUSIC.BIN` (músicas), `UI.BIN` (interface) e `FONT.BIN` (fontes). Para rodar o ELF de USB/HDD, copie os sete
 arquivos para a mesma pasta. Sem os dados, o jogo mostra uma tela de aviso. Vídeo NTSC
 640×448; o console físico ainda não foi validado.
 

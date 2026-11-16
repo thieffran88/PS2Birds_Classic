@@ -1,7 +1,7 @@
 EE_BIN = build/PS2Birds_Classic.elf
 BOX2D_SRC = $(shell find vendor/box2d/src -name "*.cpp")
 BOX2D_OBJS = $(patsubst %.cpp,build/%.o,$(BOX2D_SRC))
-EE_OBJS = build/audio.o build/audio_assets.o build/audsrv_rpc.o build/save_codec.o build/save_mc.o build/save_assets.o build/main.o build/menu.o build/level_end.o build/music.o build/ui.o build/game.o build/sprites.o $(BOX2D_OBJS)
+EE_OBJS = build/audio.o build/audio_assets.o build/audsrv_rpc.o build/save_codec.o build/save_mc.o build/save_assets.o build/main.o build/menu.o build/level_end.o build/music.o build/ui.o build/font.o build/game.o build/sprites.o $(BOX2D_OBJS)
 EE_INCS = -Ivendor/box2d/include -Ivendor/box2d/src -Isrc -I$(GSKIT)/include
 EE_CFLAGS = -std=gnu99 -Wextra
 EE_CXXFLAGS = -std=gnu++11 -Wextra -fno-exceptions -fno-rtti
@@ -11,7 +11,7 @@ EE_LIBS = -lgskit -ldmakit -lpad -lmc -lpatches -lm
 .PHONY: all clean test iso
 # The ELF holds no original data. The data files are made from the APK (tools/gerar_iso.py);
 # a developer checkout regenerates ps2/assets with that tool and packs them here.
-DATA = build/SPRITES.BIN build/SOUNDS.BIN build/MUSIC.BIN build/UI.BIN build/CAMPAIGN.BIN
+DATA = build/SPRITES.BIN build/SOUNDS.BIN build/MUSIC.BIN build/UI.BIN build/FONT.BIN build/CAMPAIGN.BIN
 all: $(EE_BIN) $(DATA)
 
 build/%.o: src/%.c src/game.h src/level_config.h src/campaign_types.h
@@ -48,6 +48,10 @@ build/SPRITES.BIN: assets/manifest.json assets/sprites.rgba assets/save.icn src/
 	python3 ../tools/pack_sprites.py assets/manifest.json assets/sprites.rgba assets/save.icn $@
 
 build/SOUNDS.BIN: assets/SOUNDS.BIN
+	@mkdir -p build
+	cp $< $@
+
+build/FONT.BIN: assets/FONT.BIN
 	@mkdir -p build
 	cp $< $@
 
@@ -113,6 +117,7 @@ test: assets/CAMPAIGN.BIN assets/SOUNDS.BIN assets/manifest.json joint-test tria
 	./build/music_test
 	python3 tests/sprite_test.py
 	python3 tests/ui_assets_test.py
+	python3 tests/font_assets_test.py
 	python3 tests/profile_test.py
 	python3 tests/tools_test.py
 
@@ -177,5 +182,5 @@ joint-test: $(HOST_BOX2D_OBJS)
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc tests/joint_test.cpp build/host/game_joint.o $(HOST_BOX2D_OBJS) -lm -o build/joint_test
 	./build/joint_test
 
-assets/CAMPAIGN.BIN assets/SOUNDS.BIN assets/MUSIC.BIN assets/UI.BIN assets/manifest.json assets/sprites.rgba assets/save.icn:
+assets/CAMPAIGN.BIN assets/SOUNDS.BIN assets/MUSIC.BIN assets/UI.BIN assets/FONT.BIN assets/manifest.json assets/sprites.rgba assets/save.icn:
 	@echo "Dados ausentes: gere-os a partir do APK com  python3 ../tools/gerar_iso.py CAMINHO/DO/APK --dev"; exit 1

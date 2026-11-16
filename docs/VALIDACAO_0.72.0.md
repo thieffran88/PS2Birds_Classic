@@ -1,11 +1,12 @@
-# Validação 0.71.0
+# Validação 0.72.0
 
-- Build com ps2dev: ELF sem dados do jogo; `CAMPAIGN.BIN`, `SPRITES.BIN`, `SOUNDS.BIN`, `MUSIC.BIN` e `UI.BIN` gerados do APK.
-- Kit para Windows sob Wine: ELF e os cinco arquivos de dados idênticos aos do build.
-- Testes no PC: 77 verificações aprovadas.
+- Build com ps2dev: ELF sem dados do jogo; `CAMPAIGN.BIN`, `SPRITES.BIN`, `SOUNDS.BIN`, `MUSIC.BIN`, `UI.BIN` e `FONT.BIN` gerados do APK.
+- Kit para Windows sob Wine: ELF e os seis arquivos de dados idênticos aos do build.
+- Testes no PC: 78 verificações aprovadas.
 - Fim de fase: contagem dos pontos, estrelas e selo de novo recorde com os tempos do `level_end.lua` (teste no PC e captura no PCSX2: `docs/pcsx2_0.71.0_fim_de_fase.png`).
 - Interface: estrelas, selo, botões e porco da derrota originais (`ui_assets_test.py`; no PCSX2, vitória na 1-1 e 1-2 e derrota na 1-1).
+- Fontes e HUD: `FONT_BASIC` e `FONT_SCORE` originais em `FONT.BIN` (`font_assets_test.py`); no PCSX2, "fonts loaded", HUD com Pontuação/Recorde, fim de fase e pausa (`docs/pcsx2_0.72.0_hud_fontes.png`).
 - Sons: 25 efeitos originais em `SOUNDS.BIN`, incluindo estrelas, contagem e novo recorde (teste `audio_assets_test.py`).
 - Música: `title_theme` nos menus, `level_complete` na vitória e a ambiência do tema em 699 fases (teste `music_test.cpp`; no PCSX2, "music loaded" e "ambience 2 playing" no console).
-- Menu: 19 episódios, grade 5 × 3, páginas e cadeados (teste no PC e captura no PCSX2).
+- Menu: 19 episódios, grade 5 × 3, páginas e cadeados (teste no PC; no PCSX2, menu de episódios com a fonte original).
 - Fases sem roteiro vencedor (71): POACHED EGGS 3-20, MIGHTY HOAX 5-16, HAM EM HIGH 13-7, MINE AND DINE 16-5, MINE AND DINE 16-6, BIRDDAY 4-4, BIRDDAY 6-1, BIRDDAY 7-7, BIRDDAY 7-14, SURF AND TURF 2-15, SURF AND TURF 3-5, SURF AND TURF 3-14, BAD PIGGIES 2-7, BAD PIGGIES 2-15, BAD PIGGIES 3-5, BAD PIGGIES 3-12, SHORT FUSE 1-7, SHORT FUSE 1-15, SHORT FUSE 2-2, SHORT FUSE 2-4, SHORT FUSE 2-5, SHORT FUSE 2-7, SHORT FUSE 2-9, SHORT FUSE 2-13, SHORT FUSE 3-3, BIRD ISLAND 1-10, BIRD ISLAND 1-15, PIGGY FARM 1-8, PIGGY FARM 2-2, PIGGY FARM 3-11, DINO 1-12, DINO 2-9, DINO 3-8, DINO 3-14, FLOCK FAVORITES 1-4, FLOCK FAVORITES 1-13, FLOCK FAVORITES 2-6, FLOCK FAVORITES 2-7, FLOCK FAVORITES 2-9, FLOCK FAVORITES 2-12, FLOCK FAVORITES 2-13, GOLDEN EGGS 1-1, GOLDEN EGGS 1-4, GOLDEN EGGS 1-5, GOLDEN EGGS 1-6, GOLDEN EGGS 2-3, GOLDEN EGGS 2-7, GOLDEN EGGS 2-8, GOLDEN EGGS 2-9, GOLDEN EGGS 2-10, GOLDEN EGGS 2-11, GOLDEN EGGS 2-14, GOLDEN EGGS 2-15, GOLDEN EGGS 2-16, GOLDEN EGGS 2-18, TUTORIAL 9, TUTORIAL 12, TUTORIAL 13, TUTORIAL 14, MIGHTY FEATHERS 1, MIGHTY FEATHERS 7, MIGHTY FEATHERS 15, EGG DEFENDER 1, EGG DEFENDER 2, EGG DEFENDER 3, EGG DEFENDER 4, EGG DEFENDER 5, EGG DEFENDER 7, EGG DEFENDER 11, EGG DEFENDER 13, EGG DEFENDER 15.
