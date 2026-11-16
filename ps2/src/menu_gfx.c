@@ -11,12 +11,14 @@
 typedef struct {int page,x,y,w,h,dx,dy;} MenuSprite;
 static char path[256]="MENU.BIN";
 static MenuSprite sprites[MG_MAX];static int count;
-static int failed;   /* no retry every frame after a failure; cleared when the menu closes */
+static int failed;
+static char about[1024];   /* no retry every frame after a failure; cleared when the menu closes */
 static unsigned rd32(const unsigned char *p){return p[0]|(p[1]<<8)|(p[2]<<16)|((unsigned)p[3]<<24);}
 static int rd16(const unsigned char *p){return p[0]|(p[1]<<8);}
 void menu_gfx_set_data_path(const char *p){if(p){strncpy(path,p,sizeof(path)-1);path[sizeof(path)-1]=0;}}
 int menu_gfx_active(void){return count>0 && sprites_bank()==SPRITES_MENU_BANK;}
 int menu_gfx_count(void){return count;}
+const char *menu_gfx_about(void){return about;}
 void menu_gfx_release(void){failed=0;}
 int menu_gfx_show(GSGLOBAL *gs){
     if(menu_gfx_active())return 1;
@@ -28,14 +30,14 @@ int menu_gfx_show(GSGLOBAL *gs){
     int fd=open(path,O_RDONLY);if(fd<0){failed=1;return 0;}
     long n=(long)lseek(fd,0,SEEK_END);lseek(fd,0,SEEK_SET);
     unsigned char head[16+8*4+16*MG_MAX+64];
-    int ok=n>64 && read(fd,head,32)==32 && !memcmp(head,"PBMN",4) && rd32(head+4)==1 && rd32(head+12)==4;
+    int ok=n>64 && read(fd,head,32)==32 && !memcmp(head,"PBMN",4) && rd32(head+4)==2 && rd32(head+12)==4;
     unsigned c=ok?rd32(head+8):0,w[4],h[4],biggest=0;
     ok=ok && c>0 && c<=MG_MAX;
     unsigned headsize=ok?(16+8*4+16*c+63)/64*64:0;
     ok=ok && headsize<=sizeof(head) && read(fd,head+32,headsize-32)==(int)(headsize-32);
     unsigned long total=headsize;
     for(unsigned i=0;ok && i<4;i++){w[i]=rd32(head+16+8*i);h[i]=rd32(head+20+8*i);total+=w[i]*h[i]*4;if(w[i]*h[i]*4>biggest)biggest=w[i]*h[i]*4;}
-    ok=ok && total==(unsigned long)n;
+    ok=ok && total+4<=(unsigned long)n;
     for(unsigned i=0;ok && i<c;i++){
         const unsigned char *q=head+16+8*4+16*i;MenuSprite *s=&sprites[i];
         s->page=rd16(q);s->x=rd16(q+2);s->y=rd16(q+4);s->w=rd16(q+6);s->h=rd16(q+8);s->dx=(short)rd16(q+10);s->dy=(short)rd16(q+12);
@@ -47,6 +49,9 @@ int menu_gfx_show(GSGLOBAL *gs){
         while(done<bytes){int r=(int)read(fd,buffer+done,bytes-done);if(r<=0)break;done+=(unsigned)r;}
         ok=done==bytes && sprites_upload_page(gs,(int)i,buffer,w[i],h[i]);
     }
+    /* Version 2 tail: length and the about text. */
+    unsigned char len[4];about[0]=0;
+    if(ok && read(fd,len,4)==4){unsigned l=rd32(len);if(l<sizeof(about) && (unsigned long)n==total+4+l && read(fd,about,l)==(int)l)about[l]=0;else about[0]=0;}
     close(fd);
     if(!ok){printf("PS2Birds: MENU.BIN rejected\n");count=0;failed=1;return 0;}
     count=(int)c;return 1;

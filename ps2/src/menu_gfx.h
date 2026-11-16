@@ -6,7 +6,8 @@
 #include <gsKit.h>
 enum {MG_LOGO,MG_PLAY_LEFT,MG_PLAY_MIDDLE,MG_PLAY_RIGHT,MG_SCOREBOX,MG_SCOREBOX_TEXT,MG_STARBOX,
       MG_ARROW_LEFT,MG_ARROW_RIGHT,MG_BACK,MG_LEVEL_CLOSED,MG_LEVEL_LOCK,MG_LEVEL_OPEN_1,
-      MG_STARS_1=MG_LEVEL_OPEN_1+7,MG_DOT_WHITE=MG_STARS_1+3,MG_DOT_BLACK,MG_CARDS};
+      MG_STARS_1=MG_LEVEL_OPEN_1+7,MG_DOT_WHITE=MG_STARS_1+3,MG_DOT_BLACK,
+      MG_OPTIONS,MG_SOUNDS,MG_ABOUT,MG_OFF,MG_ABOUT_BIRDS,MG_CARDS};
 #define MG_CARD(e) (MG_CARDS+2*(e))
 #define MG_TITLE(e) (MG_CARDS+2*(e)+1)
 #define MG_MAX 96
@@ -15,6 +16,8 @@ int menu_gfx_show(GSGLOBAL *gs);    /* uploads the menu pages if needed; 0 witho
 int menu_gfx_active(void);
 void menu_gfx_release(void);         /* frees the RAM copy once a stage bank is back */
 int menu_gfx_count(void);
+/* credits.lua TEXT_ABOUT (pt_BR, UTF-8) read with the pages; "" without it. */
+const char *menu_gfx_about(void);
 /* Centred at (x,y) plus the composition offset of the sprite; scale 1 = extracted size. */
 void menu_gfx_draw(GSGLOBAL *gs,int id,float x,float y,float scale,unsigned int rgba);
 /* Stretched between x0 and x1 (the PLAY button middle). */

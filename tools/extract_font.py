@@ -8,7 +8,7 @@ import argparse,struct,zipfile
 from pathlib import Path
 from extract_ui import decode_pvr_frame,scale
 PAGE_W=256
-CHARSET=''.join(chr(c) for c in range(32,127))+'ÀÁÂÃÇÉÊÍÓÔÕÚàáâãçéêíóôõú'
+CHARSET=''.join(chr(c) for c in range(32,127))+'ÀÁÂÃÇÉÊÍÓÔÕÚàáâãçéêíóôõú©'
 # (name in the APK, scale from the 1024 x 768 originals, characters kept)
 FONTS=[('FONT_BASIC',0.44,CHARSET),('FONT_SCORE',0.32,None)]
 def glyph_table(dat):

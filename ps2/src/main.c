@@ -211,6 +211,8 @@ static LevelEnd level_end;
 static float won_wait;
 /* Pause panel cursor: 0 resume, 1 restart, 2 menu, 3 sound. */
 static int pause_choice;
+/* main_menu.lua: 0 PLAY, 1 the options gear; with the gear open also 2 sound and 3 about. */
+static int main_choice,options_open;
 
 /* Level button of each episode's first page (episodes.lua level_button, translated by hand). */
 static const unsigned char episode_button[]={1,4,6,1,1,1,6,5,6,6,7,1,1,1,1,1,1,1,1};
@@ -249,12 +251,51 @@ static void menu_screens(const Game *g)
         }
         menu_gfx_draw(gs,MG_LOGO,320,96,1.0f,0x80808080);
         font_draw(gs,FONT_BASIC,320,150,1.25f,FONT_CENTER,0x60707880,"CLASSIC");
-        float half=74,cy=262;int lw=menu_gfx_width(MG_PLAY_LEFT);
-        menu_gfx_draw(gs,MG_PLAY_LEFT,320-half,cy,1.0f,0x80808080);
-        menu_gfx_draw_span(gs,MG_PLAY_MIDDLE,320-half+lw/2.0f,320+half-lw/2.0f,cy,1.0f);
-        menu_gfx_draw(gs,MG_PLAY_RIGHT,320+half,cy,1.0f,0x80808080);
-        font_draw(gs,FONT_BASIC,320,cy-24,1.9f,FONT_CENTER,0x80808080,"JOGAR");
-        font_draw(gs,FONT_BASIC,320,410,0.75f,FONT_CENTER,0x80808080,"X: JOGAR   O: VOLTAR AO JOGO");
+        float k=main_choice==0?1.1f:1.0f,half=74*k,cy=262;int lw=menu_gfx_width(MG_PLAY_LEFT);
+        unsigned play_tint=main_choice==0?0x80909090:0x80707070;
+        menu_gfx_draw(gs,MG_PLAY_LEFT,320-half,cy,k,play_tint);
+        menu_gfx_draw_span(gs,MG_PLAY_MIDDLE,320-half+lw*k/2.0f,320+half-lw*k/2.0f,cy,k);
+        menu_gfx_draw(gs,MG_PLAY_RIGHT,320+half,cy,k,play_tint);
+        font_draw(gs,FONT_BASIC,320,cy-24*k,1.9f*k,FONT_CENTER,0x80808080,"JOGAR");
+        /* The options gear at the bottom left opens sound and about above it (TOGGLE_OPTIONS). */
+        static const int ids[4]={0,MG_OPTIONS,MG_SOUNDS,MG_ABOUT};static const float ys[4]={0,404,330,256};
+        for(int b=1;b<4;b++){
+            if(b>1 && !options_open)continue;
+            int sel=b==main_choice;float kk=sel?1.15f:1.0f;
+            if(sel)disk(46,ys[b],32*kk,color(255,236,150));
+            menu_gfx_draw(gs,ids[b],46,ys[b],kk,sel?0x80909090:0x80707070);
+            if(b==2 && strcmp(audio_status(),"SOM LIGADO"))menu_gfx_draw(gs,MG_OFF,46,ys[b],kk,0x80808080);
+        }
+        font_draw(gs,FONT_BASIC,360,414,0.7f,FONT_CENTER,0x80808080,"CIMA/BAIXO: ESCOLHER   X: CONFIRMAR   O: VOLTAR");
+        return;
+    }
+    if(m->screen==MENU_CREDITS){
+        /* credits.lua: ABOUT_BIRDS_3, the TEXT_ABOUT of the APK and the back arrow. */
+        if(background_prepare(0,388,-1,0,0))background_draw(gs);else gsKit_clear(gs,color(120,194,205));
+        gsKit_prim_sprite(gs,40,40,600,380,1,GS_SETREG_RGBAQ(10,24,30,0x60,0));
+        menu_gfx_draw(gs,MG_ABOUT_BIRDS,130,200,1.0f,0x80808080);
+        float y=70;const char *t=menu_gfx_about();char row[96];
+        while(*t && y<340){
+            /* One line per text line, wrapped near 34 characters, the version filled in. */
+            int n=0;while(t[n] && t[n]!='\n')n++;
+            char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
+            char out[320];const char *v=strstr(src,"$GAME_VERSION");
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.78.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            const char *o=out;
+            if(!*o)y+=12;
+            while(*o){
+                int len=(int)strlen(o),cut=len;
+                if(len>34){cut=34;while(cut>0 && o[cut]!=' ')cut--;if(cut==0)cut=34;}
+                snprintf(row,sizeof(row),"%.*s",cut,o);
+                font_draw(gs,FONT_BASIC,240,y,0.75f,FONT_LEFT,0x80808080,row);y+=20;
+                o+=cut;while(*o==' ')o++;
+            }
+            t+=n;if(*t=='\n')t++;
+        }
+        font_draw(gs,FONT_BASIC,240,y+10,0.7f,FONT_LEFT,0x80c0d0b0,"Port não oficial para PlayStation 2:");
+        font_draw(gs,FONT_BASIC,240,y+30,0.7f,FONT_LEFT,0x80c0d0b0,"PS2Birds Classic (usa o APK do jogador).");
+        menu_gfx_draw(gs,MG_BACK,44,404,1.0f,0x80808080);
+        font_draw(gs,FONT_BASIC,360,414,0.7f,FONT_CENTER,0x80808080,"O: VOLTAR");
         return;
     }
     sunburst(color(70,150,40),color(96,176,52),320,470);
@@ -459,7 +500,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(200,250,1,cream,"DIRECIONAL/ANALÓGICO: MIRA   X: LANÇAR");
             text(200,270,1,cream,"QUADRADO (SEGURAR): AJUSTE FINO");
             text(200,290,1,cream,"X NO AR: HABILIDADE DO PÁSSARO   SELECT: FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.77.0 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.78.0 / PLAYSTATION 2");
             text(200,350,1,color(135,192,181),save_mc_status());
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -470,7 +511,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
             text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
             text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.77.0 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.78.0 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             text(90,318,1,color(135,192,181),save_mc_status());
         } else {
@@ -586,7 +627,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s\n",font_init(gs)?"loaded":"unavailable");
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.77.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.78.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
@@ -637,6 +678,26 @@ int main(int argc,char **argv)
         if(menu){
             unsigned keys=((pressed&PAD_UP)?MENU_KEY_UP:0)|((pressed&PAD_DOWN)?MENU_KEY_DOWN:0)|((pressed&PAD_LEFT)?MENU_KEY_LEFT:0)|((pressed&PAD_RIGHT)?MENU_KEY_RIGHT:0)
                 |((pressed&PAD_CROSS)?MENU_KEY_OK:0)|((pressed&PAD_CIRCLE)?MENU_KEY_BACK:0)|((pressed&PAD_L2)?MENU_KEY_PREV:0)|((pressed&PAD_R2)?MENU_KEY_NEXT:0);
+            if(menu_state.screen==MENU_CREDITS){
+                if(pressed&(PAD_CIRCLE|PAD_CROSS)){menu_state.screen=MENU_MAIN;audio_play(SFX_MENU_BACK);}
+                old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
+            }
+            if(menu_state.screen==MENU_MAIN){
+                /* Screen order from the top: PLAY, about, sound, gear (the last three only when open). */
+                static const int open_order[4]={0,3,2,1},closed_order[2]={0,1};
+                const int *order=options_open?open_order:closed_order;int n=options_open?4:2,at=0;
+                for(int i=0;i<n;i++)if(order[i]==main_choice)at=i;
+                if(pressed&PAD_DOWN){main_choice=order[(at+1)%n];audio_play(SFX_MENU_MOVE);}
+                if(pressed&PAD_UP){main_choice=order[(at+n-1)%n];audio_play(SFX_MENU_MOVE);}
+                if(pressed&PAD_CROSS){
+                    if(main_choice==1){options_open=!options_open;audio_play(SFX_MENU_CONFIRM);}
+                    else if(main_choice==2){audio_toggle();music_set_enabled(!strcmp(audio_status(),"SOM LIGADO"));audio_play(SFX_MENU_CONFIRM);}
+                    else if(main_choice==3){menu_state.screen=MENU_CREDITS;audio_play(SFX_MENU_CONFIRM);}
+                    else keys=MENU_KEY_OK;   /* PLAY */
+                    if(main_choice){old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;}
+                }else if(pressed&PAD_CIRCLE && options_open){options_open=0;if(main_choice>1)main_choice=1;audio_play(SFX_MENU_BACK);old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;}
+                else keys&=MENU_KEY_BACK;
+            }
             int was=menu_state.screen,result=menu_input(&menu_state,keys,g.unlocked);
             if(result==MENU_MOVED)audio_play(SFX_MENU_MOVE);
             else if(result==MENU_ENTERED)audio_play(SFX_MENU_CONFIRM);

@@ -1,7 +1,7 @@
-# Validação 0.77.0
+# Validação 0.78.0
 
 - Build com ps2dev: ELF sem dados do jogo; `CAMPAIGN.BIN`, `SPRITES.BIN`, `SOUNDS.BIN`, `MUSIC.BIN`, `UI.BIN`, `FONT.BIN`, `MENU.BIN` e `THEMES.BIN` gerados do APK.
-- Kit para Windows sob Wine: ELF e os oito arquivos de dados idênticos aos do build (o ELF final, com a pausa navegável, foi comparado com o do kit).
+- Kit para Windows sob Wine: ELF e os oito arquivos de dados idênticos aos do build.
 - Testes no PC: 81 verificações aprovadas.
 - Fim de fase: contagem dos pontos, estrelas e selo de novo recorde com os tempos do `level_end.lua` (teste no PC e no PCSX2).
 - Interface: estrelas, selo, botões e porco da derrota originais (`ui_assets_test.py`; no PCSX2, vitória na 1-1 e 1-2 e derrota na 1-1).
@@ -13,4 +13,5 @@
 - Pontos flutuantes: `popup_test.cpp`; no PCSX2, 500 nas peças, 10000 nos pássaros restantes e a tela de vitória depois (`docs/pcsx2_0.75.0_pontos.png`).
 - Terreno: textura de chão do tema nas peças fixas (`themes_assets_test.py`; no PCSX2, 1-1 e 1-2 em `docs/pcsx2_0.76.0_terreno.png`).
 - Pausa: painel original navegável (cima/baixo, X escolhe, O volta) com Continuar, Reiniciar, Menu e Som; menu com arte original depois de jogar (`ui_assets_test.py`; no PCSX2, `docs/pcsx2_0.77.0_pausa.png`).
+- Tela inicial: Jogar e opções (som, sobre) navegáveis; tela "Sobre" com o texto do APK (`menu_assets_test.py`; no PCSX2, `docs/pcsx2_0.78.0_menu_inicial.png`).
 - Fases sem roteiro vencedor (71): POACHED EGGS 3-20, MIGHTY HOAX 5-16, HAM EM HIGH 13-7, MINE AND DINE 16-5, MINE AND DINE 16-6, BIRDDAY 4-4, BIRDDAY 6-1, BIRDDAY 7-7, BIRDDAY 7-14, SURF AND TURF 2-15, SURF AND TURF 3-5, SURF AND TURF 3-14, BAD PIGGIES 2-7, BAD PIGGIES 2-15, BAD PIGGIES 3-5, BAD PIGGIES 3-12, SHORT FUSE 1-7, SHORT FUSE 1-15, SHORT FUSE 2-2, SHORT FUSE 2-4, SHORT FUSE 2-5, SHORT FUSE 2-7, SHORT FUSE 2-9, SHORT FUSE 2-13, SHORT FUSE 3-3, BIRD ISLAND 1-10, BIRD ISLAND 1-15, PIGGY FARM 1-8, PIGGY FARM 2-2, PIGGY FARM 3-11, DINO 1-12, DINO 2-9, DINO 3-8, DINO 3-14, FLOCK FAVORITES 1-4, FLOCK FAVORITES 1-13, FLOCK FAVORITES 2-6, FLOCK FAVORITES 2-7, FLOCK FAVORITES 2-9, FLOCK FAVORITES 2-12, FLOCK FAVORITES 2-13, GOLDEN EGGS 1-1, GOLDEN EGGS 1-4, GOLDEN EGGS 1-5, GOLDEN EGGS 1-6, GOLDEN EGGS 2-3, GOLDEN EGGS 2-7, GOLDEN EGGS 2-8, GOLDEN EGGS 2-9, GOLDEN EGGS 2-10, GOLDEN EGGS 2-11, GOLDEN EGGS 2-14, GOLDEN EGGS 2-15, GOLDEN EGGS 2-16, GOLDEN EGGS 2-18, TUTORIAL 9, TUTORIAL 12, TUTORIAL 13, TUTORIAL 14, MIGHTY FEATHERS 1, MIGHTY FEATHERS 7, MIGHTY FEATHERS 15, EGG DEFENDER 1, EGG DEFENDER 2, EGG DEFENDER 3, EGG DEFENDER 4, EGG DEFENDER 5, EGG DEFENDER 7, EGG DEFENDER 11, EGG DEFENDER 13, EGG DEFENDER 15.

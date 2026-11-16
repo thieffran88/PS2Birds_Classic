@@ -17,12 +17,29 @@ SPRITES=[('LOGO','MENU_LOGO',0.62),('PLAY_LEFT','PLAY_BUTTON_BG_LEFT',0.62),('PL
  ('ARROW_LEFT','BUTTON_ARROW_LEFT',0.5),('ARROW_RIGHT','BUTTON_ARROW_RIGHT',0.5),('BACK','ARROW_LEFT',0.55),
  ('LEVEL_CLOSED','LS_LEVEL_BG_NORMAL_CLOSED',LEVEL),('LEVEL_LOCK','LS_LEVEL_BG_LOCK',LEVEL)]+\
  [(f'LEVEL_OPEN_{i}',f'LS_LEVEL_BG_NORMAL_OPEN_{i}',LEVEL) for i in range(1,8)]+\
- [(f'STARS_{i}',f'LS_STARS_{i}',LEVEL) for i in range(1,4)]+[('DOT_WHITE','LS_DOT_WHITE',0.8),('DOT_BLACK','LS_DOT_BLACK',0.8)]
+ [(f'STARS_{i}',f'LS_STARS_{i}',LEVEL) for i in range(1,4)]+[('DOT_WHITE','LS_DOT_WHITE',0.8),('DOT_BLACK','LS_DOT_BLACK',0.8)]+\
+ [('OPTIONS','BUTTON_OPTIONS',0.62),('SOUNDS','BUTTON_SOUNDS_SMALL',0.62),('ABOUT','BUTTON_ABOUT_SMALL',0.62),('OFF','BUTTON_OFF_SMALL',0.62),('ABOUT_BIRDS','ABOUT_BIRDS_3',0.62)]
+# main_menu.lua options (gear, sound, about) and credits.lua (ABOUT_BIRDS_3, TEXT_ABOUT).
 # Episode cards in the port's episode order (menu.c): composition name, or None for the generic card.
 CARDS=['BTN_EP1','BTN_EP2','BTN_EP3','BTN_EP4','BTN_EP5','BTN_EP6','BTN_EP7','BTN_SURFTURF','BTN_BADPIGGIES',
        'BTN_BOMB_BIRD','BTN_BIRDISLAND','BTN_FARM','BTN_DINO','BTN_EP5','BTN_FLOCKFAVORITES',
        'BTN_GOLDENEGGS',('BTN_TUTORIAL_BACKGROUND','BTN_TUTORIAL_TEXT'),('BTN_EP1_BACKGROUND',None),'BTN_EGGDEFENDER']
 # Mighty Feathers has no card of its own in this APK: the Poached Eggs art, its title drawn with FONT_BASIC.
+def texts(apk,language='pt_BR'):
+    """TEXTS_BASIC.dat (KA3D TEXT): LDAT language list, LIDS identifiers, one TXGP per language."""
+    with zipfile.ZipFile(apk) as z:d=z.read('assets/data/localization/TEXTS_BASIC.dat')
+    i=d.index(b'LDAT');count=struct.unpack_from('>H',d,i+8)[0];p=i+10;langs=[]
+    for _ in range(count):l=struct.unpack_from('>H',d,p)[0];langs.append(d[p+2:p+2+l].decode());p+=2+l
+    i=d.index(b'LIDS');n=struct.unpack_from('>H',d,i+8)[0];p=i+10;ids=[]
+    for _ in range(n):l=struct.unpack_from('>H',d,p)[0];ids.append(d[p+2:p+2+l].decode());p+=2+l
+    groups=[]
+    while p<len(d) and d[p:p+4]==b'TXGP':
+        size=struct.unpack_from('>I',d,p+4)[0];q=p+8;strings=[]
+        for _ in range(n):l=struct.unpack_from('>H',d,q)[0];strings.append(d[q+2:q+2+l].decode('utf-8','replace'));q+=2+l
+        groups.append(strings);p+=8+size
+    table=groups[langs.index(language)];english=groups[0]
+    return {k:(table[i] or english[i]) for i,k in enumerate(ids)}
+def about_text(apk):return texts(apk)['TEXT_ABOUT']
 def frames_of(z):
     """sprite name -> (sheet path, frame) over the 1024x768 sheets."""
     out={}
@@ -68,10 +85,12 @@ def extract(apk,out):
         place[ident]=(p,x,y,w,h);cursor[p]=[x+w+1,y,max(shelf,h)]
     order=[i for i,*_ in SPRITES]+[f'{k}_{i}' for i in range(len(CARDS)) for k in ('CARD','TITLE')]
     offs={i:(dx,dy) for i,w,h,dx,dy,_ in images}
-    head=struct.pack('<4s3I',b'PBMN',1,len(order),len(PAGES))+b''.join(struct.pack('<2I',w,h) for w,h in PAGES)
+    head=struct.pack('<4s3I',b'PBMN',2,len(order),len(PAGES))+b''.join(struct.pack('<2I',w,h) for w,h in PAGES)
     head+=b''.join(struct.pack('<5H2h2x',*place[i],*offs[i]) for i in order)
     head+=bytes((-len(head))%64)
-    Path(out).write_bytes(head+b''.join(bytes(p) for p in pages))
+    # Version 2: after the pages, the pt_BR TEXT_ABOUT of TEXTS_BASIC.dat (credits.lua), UTF-8.
+    about=about_text(apk).encode()
+    Path(out).write_bytes(head+b''.join(bytes(p) for p in pages)+struct.pack('<I',len(about))+about)
     return {'sprites':len(order),'used':[c[1]+c[2] for c in cursor],'bytes':len(head)+sum(len(p) for p in pages)}
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('apk',type=Path);p.add_argument('output',type=Path);a=p.parse_args()
