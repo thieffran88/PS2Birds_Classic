@@ -156,8 +156,24 @@ static void block(const GameObject *o)
 {
     sprites_set_flip(o->mirror&OBJECT_MIRROR_X,o->mirror&OBJECT_MIRROR_Y);block_unflipped(o);sprites_set_flip(0,0);
 }
+static int terrain_baked;   /* the stage's fixed ground masks are painted into the background picture */
+/* GROUND_BLOCK mask of a fixed (kind 3) terrain piece, -1 for every other piece. */
+static int ground_mask(const GameObject *o)
+{
+    if(o->kind!=3)return -1;
+    for(const DefinitionSprite *d=definition_sprites;d->definition;d++)
+        if(!strcmp(o->definition,d->definition) && d->sprite!=SPR_GROUND_BLOCK_05 && d->sprite!=SPR_GROUND_BLOCK_01 && d->sprite!=SPR_GROUND_BLOCK_02 && d->sprite!=SPR_GROUND_BLOCK_03 && d->sprite!=SPR_GROUND_BLOCK_04 && d->sprite!=SPR_GROUND_BLOCK_06)return -1;
+    if(!strcmp(o->definition,"StaticBlock_06"))return SPR_GROUND_BLOCK_06;
+    if(!strcmp(o->definition,"StaticBlock_01"))return SPR_GROUND_BLOCK_01;
+    if(!strcmp(o->definition,"StaticBlock_02"))return SPR_GROUND_BLOCK_02;
+    if(!strcmp(o->definition,"StaticBlock_03"))return SPR_GROUND_BLOCK_03;
+    if(!strcmp(o->definition,"StaticBlock_04"))return SPR_GROUND_BLOCK_04;
+    if(!strcmp(o->definition,"StaticBlock_05"))return SPR_GROUND_BLOCK_05;
+    return -1;
+}
 static void block_unflipped(const GameObject *o)
 {
+    if(terrain_baked && ground_mask(o)>=0)return;
     if(o->kind==3 || o->kind==OBJECT_KIND_FRAGILE_GROUND){
         /* Fixed pieces added from blocks.lua with their own colour sprite (rulers, pencils...). */
         for(const DefinitionSprite *d=definition_sprites;d->definition;d++)
@@ -221,7 +237,7 @@ static void menu_screens(const Game *g)
     if(m->screen==MENU_MAIN){
         /* main_menu.lua: sky, clouds, ground, MENU_LOGO and the PLAY button. */
         /* The main menu stands on the first theme's picture, as in the original. */
-        if(background_prepare(0,388))background_draw(gs);
+        if(background_prepare(0,388,-1,0,0))background_draw(gs);
         else{
         for(int y=0;y<400;y+=8){float t=y/400.0f;rect(0,y,640,8,color((int)(122+110*t),(int)(196+44*t),(int)(222+26*t)));}
         for(int i=0;i<8;i++){disk(40+i*85,250+(i%2)*10,42,color(236,244,250));}
@@ -305,7 +321,18 @@ static void render(const Game *g, int connected, int paused,int menu)
     u64 cream=color(248,240,210), dark=color(23,53,58), gold=color(246,191,65);
     char line[64];
     /* themes.lua: the stage's theme picture (sky, layers, ground) copied into the frame. */
-    if(background_prepare(game_level_theme(g->level),(int)render_ground))background_draw(gs);
+    {
+        /* The theme's ground texture on the stage's fixed terrain pieces (painted once per stage). */
+        static BackgroundPiece pieces[MAX_LEVEL_OBJECTS];int count=0;
+        for(int i=0;i<game_object_count(g) && count<MAX_LEVEL_OBJECTS;i++){
+            GameObject o;if(!game_get_object(g,i,&o)||!o.alive)continue;
+            int id=ground_mask(&o);if(id<0)continue;
+            BackgroundPiece *p=&pieces[count++];p->sprite=id;p->x=o.x;p->y=o.y;p->angle=o.angle;
+            p->scale=(render_scale/render_pixels)*SPRITE_MASK_SCALE;p->flip_x=(o.mirror&OBJECT_MIRROR_X)!=0;p->flip_y=(o.mirror&OBJECT_MIRROR_Y)!=0;
+        }
+        terrain_baked=background_prepare(game_level_theme(g->level),(int)render_ground,g->level,pieces,count);
+    }
+    if(terrain_baked)background_draw(gs);
     else{
     gsKit_clear(gs,color(120,194,205));
     disk(555,158,24,color(255,221,121));
@@ -416,7 +443,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
             text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
             text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.75.0 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.76.0 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             text(90,318,1,color(135,192,181),save_mc_status());
         } else {
@@ -532,7 +559,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s\n",font_init(gs)?"loaded":"unavailable");
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.75.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.76.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);

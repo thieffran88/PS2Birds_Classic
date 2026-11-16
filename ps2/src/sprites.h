@@ -11,6 +11,8 @@ int sprites_bank(void);
 #define SPRITES_MENU_BANK (-2)
 int sprites_upload_pages(GSGLOBAL *gs,unsigned char *pixels,const unsigned *w,const unsigned *h,int count);
 GSTEXTURE *sprites_slot(int i);
+/* RGBA (alpha 0..128) of a frame of the active bank, still in RAM: size, pivot, row stride in pixels. */
+const unsigned char *sprites_frame_rgba(int id,int *w,int *h,int *px,int *py,int *stride);
 /* Where SPRITES.BIN (frame tables, every texture bank, save icon) is read from; set before sprites_init. */
 void sprites_set_data_path(const char *path);
 /* 1 if the last bank change could not read SPRITES.BIN. */

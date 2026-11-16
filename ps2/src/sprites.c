@@ -110,6 +110,16 @@ int sprites_upload_pages(GSGLOBAL *gs,unsigned char *pixels,const unsigned *w,co
     }
     bank=SPRITES_MENU_BANK;return 1;
 }
+const unsigned char *sprites_frame_rgba(int id,int *w,int *h,int *px,int *py,int *stride)
+{
+    /* The active stage bank stays in RAM (bank_buffer) after its upload. */
+    if(!ready || bank<0 || loaded!=bank || id<0 || id>=SPRITE_COUNT)return 0;
+    const SpriteFrame *s=&frames[bank][id];
+    if(s->page<0 || s->page>=SPRITE_PAGE_COUNT)return 0;
+    const SpritePage *pg=&pages[bank][s->page];
+    *w=s->w;*h=s->h;*px=s->px;*py=s->py;*stride=pg->width;
+    return bank_buffer+(pg->offset-pages[bank][0].offset)+((unsigned)s->y*pg->width+s->x)*4;
+}
 GSTEXTURE *sprites_slot(int i){return i>=0 && i<SPRITE_PAGE_COUNT?&atlases[i]:0;}
 void sprite_draw_tint(GSGLOBAL *gs,int id,float x,float y,float scale,float angle,unsigned int rgba)
 {

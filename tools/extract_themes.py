@@ -4,8 +4,10 @@ for each theme the sky colour, the bgLayers behind the stage and, under the grou
 the ground colour and the fgLayers; every layer is its sprite plus the items of its
 composition (THEMEnn.compo.json), scaled to the 640 x 448 screen, anchored on the ground line
 and tiled across the width. The result is one opaque 640 x 648 RGBA5551 picture per theme with
-the ground line at row 448; the game takes the rows around a stage's ground line and copies
-them into the frame buffer every frame (the camera does not pan, so the parallax factors play
+the ground line at row 448, followed by the theme's ground texture (`texture`, a 256 x 256
+RGB565 PVR in images/base) as RGBA5551 for the fixed terrain pieces; the game takes the rows
+around a stage's ground line, paints the terrain pieces with the texture, and copies the
+picture into the frame buffer every frame (the camera does not pan, so the parallax factors play
 no part). No game script runs."""
 import argparse,json,struct,zipfile
 from pathlib import Path
@@ -73,12 +75,24 @@ def extract(apk,out,preview=None):
             if not layers and FALLBACK.get(name) in done:blobs.append((name,done[FALLBACK[name]]));continue
             canvas=compose_canvas(col(c,(146,204,222)),col(g,(10,19,57)),layers)
             if preview:Path(out).write_bytes(bytes(canvas[(448-390)*640*3:(448-390+448)*640*3]))
-            blobs.append((name,to5551(canvas)));done[name]=blobs[-1][1]
-    head=struct.pack('<4s4I',b'PBTH',2,len(blobs),640,ABOVE+BELOW);off=len(head)+40*len(blobs);off+=(-off)%2048;pad=off-len(head)-40*len(blobs);table=b''
+            blobs.append((name,to5551(canvas)+ground_texture(z,t.get('texture'),col(g,(10,19,57)))));done[name]=blobs[-1][1]
+    head=struct.pack('<4s4I',b'PBTH',3,len(blobs),640,ABOVE+BELOW);off=len(head)+40*len(blobs);off+=(-off)%2048;pad=off-len(head)-40*len(blobs);table=b''
     for name,blob in blobs:table+=struct.pack('<32s2I',name.encode()[:31],off,len(blob));off+=len(blob)
     if not preview:Path(out).write_bytes(head+table+bytes(pad)+b''.join(b for _,b in blobs))
     return {n:i for i,(n,_) in enumerate(blobs)}
 ABOVE,BELOW=448,200
+def ground_texture(z,name,fallback):
+    """256 x 256 RGBA5551 tile of the theme's ground texture (RGB565 PVR v3), or the ground colour."""
+    path=f'assets/data/images/base/{name}.pvr' if isinstance(name,str) else None
+    if path and path in z.namelist():
+        d=z.read(path);version,flags,fmt,_,_,h,w,depth,surfaces,faces,mips,meta=struct.unpack_from('<IIQIIIIIIIII',d)
+        if version==0x03525650 and fmt==0x0005060500626772 and (w,h)==(256,256) and len(d)>=52+meta+w*h*2:
+            out=bytearray()
+            for i in range(w*h):
+                v=struct.unpack_from('<H',d,52+meta+2*i)[0]
+                out+=struct.pack('<H',((v>>11)&31)|(((v>>6)&31)<<5)|((v&31)<<10)|0x8000)   # RGB565 -> RGBA5551
+            return bytes(out)
+    r,g,b=fallback;return struct.pack('<H',(r>>3)|((g>>3)<<5)|((b>>3)<<10)|0x8000)*(256*256)
 def compose_canvas(sky,ground,layers):
     """640 x (ABOVE+BELOW) RGB, ground line at row ABOVE: sky, bgLayers, ground colour, fgLayers."""
     W=640;img=bytearray(bytes(sky)*W*ABOVE+bytes(ground)*W*BELOW)
