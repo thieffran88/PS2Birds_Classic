@@ -583,6 +583,7 @@ int game_level_stars(int index,int score){
     const CampaignLevel &l=campaign_levels[index];
     return score>=l.star_gold?3:score>=l.star_silver?2:1;
 }
+int game_level_silver(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].star_silver:0;}
 int game_level_bank(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].bank:0;}
 const char *game_level_script(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].script:"";}
 int game_load_level(Game *g,int index) {

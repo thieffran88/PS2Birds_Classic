@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.66.0)
+# Lacunas do port (levantamento atualizado na 0.67.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -239,6 +239,10 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 - **Menu de fases:** episódios e grade 5 × 3 com páginas, estrelas e cadeados, no formato do original. Faltam os sprites originais do menu (fundos `LS_LEVEL_BG_*`, pontinhos `LS_DOT_*`, cadeados), o menu principal, a tela de fim de fase e a escolha de power-ups.
 - **Egg Defender:** 8 e 14 vencidas com esperas maiores; 9 fases ainda sem roteiro.
+
+## Achados da 0.67.0
+
+- **Tela de fim de fase:** tempos da contagem, das estrelas e do novo recorde vindos do `level_end.lua`. Faltam os sprites (`BIG_STAR_*`, `NEW_HIGHSCORE_BADGE`, `BUTTON_MENU`/`RESTART`/`NEXTLEVEL`, `LEVEL_FAILED_PIG`), as partículas das estrelas e os sons próprios (`star_1..3`, `score_count`, `new_highscore`), que ainda não são extraídos do APK.
 
 ## O que falta no jogo (código nativo não recuperado)
 

@@ -12,6 +12,7 @@
 #include <string.h>
 #include "game.h"
 #include "menu.h"
+#include "level_end.h"
 #include "sprites.h"
 #include "definition_sprites.h"
 #include "save_mc.h"
@@ -177,6 +178,7 @@ static void block_unflipped(const GameObject *o)
 }
 
 static Menu menu_state;
+static LevelEnd level_end;
 static void render(const Game *g, int connected, int paused,int menu)
 {
     /* Swap texture banks when the active stage belongs to another episode. */
@@ -189,7 +191,7 @@ static void render(const Game *g, int connected, int paused,int menu)
     rect(0,0,640,109,dark);
     text(30,22,3,cream,"PS2BIRDS CLASSIC");
     if(sprites_load_failed())text(31,55,1,gold,"SPRITES.BIN AUSENTE: COPIE-O PARA A PASTA DO ELF");
-    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.66.0 / PLAYSTATION 2");
+    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.67.0 / PLAYSTATION 2");
     text(430,55,1,color(135,192,181),audio_status());
     text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
     text(31,80,2,gold,game_level_title(g->level));
@@ -255,10 +257,21 @@ static void render(const Game *g, int connected, int paused,int menu)
     GameBird airborne;int airborne_type=game_get_projectile(g,0,&airborne)?airborne.type:-1;
     text(30,430,1,color(156,195,178),!game_special_available(g)?"SEGURE QUADRADO PARA AJUSTE FINO":airborne_type==BIRD_WHITE_TYPE?"X: SOLTAR OVO  QUADRADO: AJUSTE FINO":(airborne_type==BIRD_BLACK_TYPE||airborne_type==BIRD_SHOCK_TYPE)?"X: EXPLODIR PRETO  QUADRADO: AJUSTE FINO":airborne_type==BIRD_YELLOW_TYPE?"X: ACELERAR AMARELO  QUADRADO: AJUSTE FINO":"X: DIVIDIR AZUL EM TRES  QUADRADO: AJUSTE FINO");
     if (g->state==WON || g->state==LOST || paused) {
-        rect(106,185,428,86,dark);
-        text(130,204,2,gold,paused?"PAUSADO":g->state==WON?"FASE CONCLUIDA":"TENTE NOVAMENTE");
-        if(!paused && g->state==WON){static const char *stars[4]={"","*","* *","* * *"};text(400,200,3,gold,stars[game_level_stars(g->level,g->score)]);}
-        text(130,241,1,cream,paused?"START PARA CONTINUAR":g->state==WON?(g->level+1<game_level_count()?"X: PROXIMA FASE  TRIANGULO: REINICIAR":"X: SELECAO  TRIANGULO: REINICIAR"):"TRIANGULO PARA REINICIAR");
+        if(!paused && g->state==WON){
+            /* level_end.lua LevelComplete: stars, score counting up, new-highscore badge, buttons. */
+            static const char *stars[4]={"","*","* *","* * *"};char line[48];
+            rect(106,165,428,126,dark);
+            text(130,178,2,gold,"FASE CONCLUIDA");
+            text(400,174,3,gold,stars[level_end_shown_stars(&level_end)]);
+            snprintf(line,sizeof(line),"%d",level_end_shown_score(&level_end));text(130,212,2,cream,line);
+            if(level_end_new_highscore(&level_end))text(300,214,1,gold,"NOVO RECORDE!");
+            else if(!level_end_counting(&level_end)){snprintf(line,sizeof(line),"RECORDE %d",g->highscores[g->level]);text(300,214,1,cream,line);}
+            text(130,262,1,cream,g->level+1<game_level_count()?"X: PROXIMA  TRIANGULO: REINICIAR  O: MENU":"X: SELECAO  TRIANGULO: REINICIAR  O: MENU");
+        } else {
+            rect(106,185,428,86,dark);
+            text(130,204,2,gold,paused?"PAUSADO":"FASE PERDIDA");
+            text(130,241,1,cream,paused?"START PARA CONTINUAR":"TRIANGULO: REINICIAR  O: MENU");
+        }
     }
     if (!connected) text(300,119,1,color(128,48,41),"CONECTE O CONTROLE 1");
     if(menu){
@@ -358,7 +371,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: started as '%s'\n",argc>0 && argv && argv[0]?argv[0]:"");
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.66.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.67.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
@@ -412,6 +425,11 @@ int main(int argc,char **argv)
             else if(result==MENU_PLAY && game_load_level(&g,menu_episode_first(menu_state.episode)+menu_state.level)){menu=0;paused=0;audio_play(SFX_MENU_CONFIRM);audio_play(SFX_START);}
             old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
         }
+        if(g.state==WON)level_end_update(&level_end,frame_seconds);
+        if((pressed & PAD_CIRCLE) && (g.state==WON || g.state==LOST)){
+            menu=1;menu_open(&menu_state,g.level);audio_play(SFX_MENU_BACK);
+            old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
+        }
         if ((pressed & PAD_CROSS) && g.state==WON){
             if(!game_next_level(&g)){menu=1;menu_open(&menu_state,g.level);audio_play(SFX_MENU_BACK);}else audio_play(SFX_START);
             paused=0;old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
@@ -435,14 +453,14 @@ int main(int argc,char **argv)
                 else if(game_special(&g)){GameBird active;if(game_get_projectile(&g,0,&active)){if(active.type==BIRD_BLUE_TYPE)audio_play(SFX_SPLIT);else if(active.type==BIRD_YELLOW_TYPE)audio_play(SFX_BOOST);else if(active.type==BIRD_WHITE_TYPE)audio_play(SFX_DROP_EGG);}}
                 printf("PS2Birds: launch state=%d angle=%.1f power=%.1f birds=%d\n",g.state,g.angle,g.power,g.birds);
             }
-            GameState before=g.state;
+            GameState before=g.state;int old_record=g.highscores[g.level];
             game_update(&g,frame_seconds);
             if(g.events&GAME_EVENT_EXPLOSION)audio_play(SFX_EXPLOSION);
             if(g.events&GAME_EVENT_PIG)audio_play(SFX_PIG);
             if(g.events&GAME_EVENT_GLASS)audio_play(SFX_GLASS);
             else if(g.events&GAME_EVENT_STONE)audio_play(SFX_STONE);
             else if(g.events&(GAME_EVENT_WOOD|GAME_EVENT_EXTRA))audio_play(SFX_WOOD);
-            if(before!=g.state && g.state==WON){save_mc_request();audio_play(SFX_WIN);}
+            if(before!=g.state && g.state==WON){level_end_start(&level_end,g.score,old_record,game_level_stars(g.level,g.score),game_level_silver(g.level));save_mc_request();audio_play(SFX_WIN);}
             if(before!=g.state && g.state==LOST)audio_play(SFX_LOSE);
             if (before!=g.state) printf("PS2Birds: state=%d score=%d\n",g.state,g.score);
         }
