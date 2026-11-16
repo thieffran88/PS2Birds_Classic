@@ -242,7 +242,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.67.0
 
-- **Tela de fim de fase:** tempos da contagem, das estrelas e do novo recorde vindos do `level_end.lua`. Faltam os sprites (`BIG_STAR_*`, `NEW_HIGHSCORE_BADGE`, `BUTTON_MENU`/`RESTART`/`NEXTLEVEL`, `LEVEL_FAILED_PIG`) e as partículas das estrelas.
+- **Tela de fim de fase:** tempos da contagem, das estrelas e do novo recorde vindos do `level_end.lua`. Sprites originais incluídos; faltam as partículas das estrelas.
 
 ## Achados da 0.68.0
 
@@ -258,7 +258,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.71.0
 
-- **Gráficos do fim de fase:** feitos com uma página de interface de 128 KB que fica fixa na memória de vídeo. Restam cerca de 32 KB livres; mais telas com gráficos (menu de fases, menu principal) precisam trocar essa página por tela ou reduzir as texturas das fases. Faltam as partículas das estrelas.
+- **Gráficos da interface:** página PSMT8 de 128 KB (128×1024, paleta de 256 cores) fixa na memória de vídeo com fim de fase, pausa, partículas e pontuações. Faltam as partículas das estrelas do fim de fase.
 
 ## Achados da 0.72.0
 
@@ -297,7 +297,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 - Fórmulas de dano, de queda de explosão e de "sono" dos corpos: hoje são aproximações. São a causa provável de a 3-20 continuar sem vitória (cinco pássaros explosivos).
 - Pontuação: as estrelas usam os limites originais, mas a pontuação do port é aproximada. A contagem de estrelas é, portanto, indicativa.
-- Música de fundo, preenchimento de terreno (texturas de solo das cenas) e efeitos de partículas.
+- Feito: música de fundo, terreno e partículas de impacto (madeira, vidro, pedra, penas, fumaça). Faltam as partículas das estrelas e de explosões de TNT.
 
 ## Prioridade sugerida
 

@@ -5,7 +5,7 @@
 #include <cstdio>
 int main(){
     Game g;game_init(&g);
-    game_add_popup(&g,100,200,500,POPUP_PIECE);
+    game_add_popup(&g,100,200,500,POPUP_PIECE,1);
     const GamePopup *p=&g.popups[0];
     assert(p->life==0.6f && std::fabs(p->scale-(0.25f+500/3000.0f))<1e-5f && game_popup_scale(p)==0);
     GamePopup q=*p;q.time=0.125f;assert(std::fabs(game_popup_scale(&q)-p->scale/2)<1e-5f);   // growing
@@ -13,8 +13,8 @@ int main(){
     q.time=0.5f;assert(std::fabs(game_popup_scale(&q)-p->scale*0.4f)<1e-4f);                 // shrinking
     q.time=0.6f;assert(game_popup_scale(&q)==0);
     q.time=-0.5f;assert(game_popup_scale(&q)==0);                                           // queued (birds left, 0.5 s apart)
-    game_add_popup(&g,0,0,5000,POPUP_PIG);assert(g.popups[1].life==0.9f && g.popups[1].scale==1.0f);
-    game_add_popup(&g,0,0,0,POPUP_PIECE);assert(g.popup_next==2);                           // no score, no popup
+    game_add_popup(&g,0,0,5000,POPUP_PIG,1);assert(g.popups[1].life==0.9f && g.popups[1].scale==1.0f);
+    game_add_popup(&g,0,0,0,POPUP_PIECE,1);assert(g.popup_next==2);                           // no score, no popup
     // A real win: POACHED EGGS 1-1 with its campaign shot puts a 5000 over the pig.
     game_load_level(&g,0);for(int i=0;i<240;i++)game_update(&g,1.0f/120);
     int pig=0;

@@ -304,7 +304,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.79.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.80.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -446,10 +446,53 @@ static void render(const Game *g, int connected, int paused,int menu)
             if(y1>=109 && y1<391 && y2>=109 && y2<391)gsKit_prim_line(gs,blast.x+cosf(a)*r,y1,blast.x+cosf(b)*r,y2,3,GS_SETREG_RGBAQ(255,188,65,(int)(128*(1-t)),0));
         }
     }
-    /* gamelogic.lua floating scores in FONT_SCORE: pieces in the font's own colours, pigs in
-       green and the birds left at the end in red (the original uses coloured score sprites). */
+    /* Particles (PARTICLES_1): fragments of the destroyed piece's material, a smoke puff for a
+       pig, feathers of the bird's colour on its first impact. Drawn only: they do not touch the
+       physics. A fresh popup (time 0) marks a destruction this frame. */
+    {
+        enum {PARTICLES=128};
+        static struct {float x,y,vx,vy,angle,spin,life,max,scale;int sprite;} part[PARTICLES];static int next;
+        static int prev_hit[16];
+        #define SPAWN(spr,px,py,sp,sc,lf) do{int _i=next;next=(next+1)%PARTICLES;float _a=(rand()%628)/100.0f,_v=(sp)*(0.4f+(rand()%60)/100.0f);\
+            part[_i].x=(px);part[_i].y=(py);part[_i].vx=cosf(_a)*_v;part[_i].vy=sinf(_a)*_v-(sp)*0.5f;part[_i].angle=_a;\
+            part[_i].spin=((rand()%200)-100)/20.0f;part[_i].life=part[_i].max=(lf);part[_i].scale=(sc);part[_i].sprite=(spr);}while(0)
+        for(int k=0;k<GAME_POPUPS;k++){
+            const GamePopup *pp=&g->popups[k];if(pp->time!=0 || pp->life<=0)continue;
+            int m=pp->material;
+            if(pp->kind==POPUP_PIG)for(int i=0;i<4;i++)SPAWN(UI_SMOKE+rand()%3,pp->x,pp->y,40,1.0f,0.7f);
+            else if(pp->kind==POPUP_PIECE){
+                int base=m==2?UI_LIGHT:m==5?UI_ROCK:UI_WOOD,kinds=m==2?5:3;
+                for(int i=0;i<6;i++)SPAWN(base+rand()%kinds,pp->x,pp->y,160,0.9f,0.9f);
+            }
+        }
+        for(int i=0;i<game_projectile_count(g) && i<16;i++){
+            GameBird b;if(!game_get_projectile(g,i,&b))continue;
+            if(b.collided && !prev_hit[i]){
+                static const int feather[11]={0,1,2,3,-1,-1,6,5,0,0,3};
+                int f=b.type>=0 && b.type<11?feather[b.type]:0;
+                if(f>=0)for(int j=0;j<6;j++)SPAWN(UI_FEATHER+f*3+rand()%3,b.x,b.y,120,0.8f,1.2f);
+            }
+            prev_hit[i]=b.collided;
+        }
+        for(int i=game_projectile_count(g);i<16;i++)prev_hit[i]=0;
+        #undef SPAWN
+        const float dt=1.0f/60;
+        for(int i=0;i<PARTICLES;i++){
+            if(part[i].life<=0)continue;
+            if(!paused && !menu){part[i].life-=dt;part[i].vy+=300*dt;part[i].x+=part[i].vx*dt;part[i].y+=part[i].vy*dt;part[i].angle+=part[i].spin*dt;}
+            float t=part[i].life/part[i].max;unsigned a=(unsigned)(0x80*(t<0.3f?t/0.3f:1));
+            ui_draw_rotated(gs,part[i].sprite,part[i].x,part[i].y,part[i].scale*(part[i].sprite>=UI_SMOKE && part[i].sprite<UI_SMOKE+3?1.6f-0.6f*t:1),part[i].angle,0x00808080u|(a<<24));
+        }
+    }
+    /* gamelogic.lua floating scores: pieces in FONT_SCORE; pigs (5K_GREEN) and the birds left
+       (10K_<bird>) with the original score sprites. */
     for(int k=0;k<GAME_POPUPS && font_ready();k++){
         const GamePopup *pp=&g->popups[k];float sc=game_popup_scale(pp);if(sc<=0)continue;
+        if(pp->kind!=POPUP_PIECE && ui_ready()){
+            static const int ten_k[11]={0,1,2,3,4,4,5,0,0,0,3};
+            int id=pp->kind==POPUP_PIG?UI_SCORE_5K:UI_SCORE_10K+(pp->material>=0 && pp->material<11?ten_k[pp->material]:0);
+            ui_draw(gs,id,pp->x,pp->y,sc*0.9f,0x80808080);continue;
+        }
         char num[16];snprintf(num,sizeof(num),"%d",pp->score);
         font_draw(gs,FONT_SCORE,pp->x,pp->y-font_line(FONT_SCORE,1.8f*sc)/2,1.8f*sc,FONT_CENTER,pp->kind==POPUP_PIG?0x80208030u:pp->kind==POPUP_BIRD?0x80303080u:0x80808080u,num);
     }
@@ -527,7 +570,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(200,250,1,cream,"DIRECIONAL/ANALÓGICO: MIRA   X: LANÇAR");
             text(200,270,1,cream,"QUADRADO (SEGURAR): AJUSTE FINO");
             text(200,290,1,cream,"X NO AR: HABILIDADE DO PÁSSARO   SELECT: FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.79.0 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.80.0 / PLAYSTATION 2");
             text(200,350,1,color(135,192,181),save_mc_status());
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -538,7 +581,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
             text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
             text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.79.0 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.80.0 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             text(90,318,1,color(135,192,181),save_mc_status());
         } else {
@@ -650,11 +693,11 @@ int main(int argc,char **argv)
     background_set_data_path(data_file("THEMES.BIN",file));
     printf("PS2Birds: started as '%s'\n",argc>0 && argv && argv[0]?argv[0]:"");
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
-    printf("PS2Birds: interface sprites %s\n",ui_init(gs)?"loaded":"unavailable");
-    printf("PS2Birds: fonts %s\n",font_init(gs)?"loaded":"unavailable");
+    printf("PS2Birds: interface sprites %s (VRAM %u)\n",ui_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
+    printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.79.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.80.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
@@ -788,7 +831,7 @@ int main(int argc,char **argv)
             if(g.events&GAME_EVENT_GLASS)audio_play(SFX_GLASS);
             else if(g.events&GAME_EVENT_STONE)audio_play(SFX_STONE);
             else if(g.events&(GAME_EVENT_WOOD|GAME_EVENT_EXTRA))audio_play(SFX_WOOD);
-            if(before!=g.state && g.state==WON){music_play(MUSIC_LEVEL_COMPLETE);for(int b=0;b<g.birds;b++){game_add_popup(&g,49+b*24,g.ground_y-15,10000,POPUP_BIRD);g.popups[(g.popup_next+GAME_POPUPS-1)%GAME_POPUPS].time=-0.5f*b;}
+            if(before!=g.state && g.state==WON){music_play(MUSIC_LEVEL_COMPLETE);for(int b=0;b<g.birds;b++){game_add_popup(&g,49+b*24,g.ground_y-15,10000,POPUP_BIRD,game_queue_type(&g,b));g.popups[(g.popup_next+GAME_POPUPS-1)%GAME_POPUPS].time=-0.5f*b;}
                 won_wait=1.0f+0.5f*g.birds;level_end_start(&level_end,g.score,old_record,game_level_stars(g.level,g.score),game_level_silver(g.level));save_mc_request();audio_play(SFX_WIN);}
             if(before!=g.state && g.state==LOST)audio_play(SFX_LOSE);
             if (before!=g.state) printf("PS2Birds: state=%d score=%d\n",g.state,g.score);

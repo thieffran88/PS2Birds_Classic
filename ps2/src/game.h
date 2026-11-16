@@ -213,7 +213,8 @@ typedef enum { AIMING, FLYING, WON, LOST } GameState;
    scale 1). Screen coordinates; time grows until life. */
 enum {POPUP_PIECE=0,POPUP_PIG=1,POPUP_BIRD=2};
 #define GAME_POPUPS 24
-typedef struct {float x,y,time,life,scale;int score,kind;} GamePopup;
+/* material: the piece's kind (1 wood, 2 glass, 5 stone...) or 4 for a pig; the bird type for POPUP_BIRD. */
+typedef struct {float x,y,time,life,scale;int score,kind,material;} GamePopup;
 typedef struct {
     float x,y,vx,vy,angle,power,flight_time,cooldown,accumulator;
     int birds,score,pig_alive,block_alive;
@@ -264,7 +265,7 @@ int game_level_stars(int index,int score);
 int game_level_silver(int index);
 int game_level_music(int index);
 int game_level_theme(int index);
-void game_add_popup(Game *g,float x,float y,int score,int kind);
+void game_add_popup(Game *g,float x,float y,int score,int kind,int material);
 /* updateFloatingScores: grows in the first 0.25 s, holds, shrinks in the last 0.25 s; 0 when gone. */
 float game_popup_scale(const GamePopup *p);    /* THEMES.BIN picture of the stage's theme, -1: none */    /* MUSIC.BIN track of the stage's theme ambience, -1: none */   /* silver threshold (starTable silverScore) */
 float game_level_gravity(int index);
