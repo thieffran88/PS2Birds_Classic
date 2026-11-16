@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.78.0)
+# Lacunas do port (levantamento atualizado na 0.79.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -266,7 +266,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.73.0
 
-- **Menus:** tela inicial, episódios e fases com a arte original, usando as páginas de textura das fases enquanto o menu está aberto. Faltam: os pássaros e porcos decorativos dos lados da seleção de fases e as animações (pássaros voando no menu).
+- **Menus:** tela inicial, episódios e fases com a arte original, usando as páginas de textura das fases enquanto o menu está aberto. Faltam: os pássaros e porcos decorativos dos lados da seleção de fases.
 
 ## Achados da 0.74.0
 
@@ -288,6 +288,10 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 ## Achados da 0.78.0
 
 - **Tela inicial:** opções do original (som, sobre). Ficam de fora os botões que dependem de serviços online (placares, conquistas, loja, notícias, Facebook/Twitter).
+
+## Achados da 0.79.0
+
+- **Tela inicial:** pássaros voando como no `animateBirds`. Faltam o grito ao tocar (sem toque no PS2) e as recompensas que também voam no original (ovos de ouro, troféus de 3 estrelas).
 
 ## O que falta no jogo (código nativo não recuperado)
 

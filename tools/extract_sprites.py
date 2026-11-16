@@ -192,6 +192,31 @@ def bank_members(all_names,levels_dir=None):
         banks[b]-=set(aliases[b])
     return [sorted(b) for b in banks],aliases
 
+def sheet_sprite(archive,sheet,name,game='classic',sevenzip=None,_cache={}):
+    """RGBA (alpha 0..128), width, height, pivot of one frame of a sheet (PNG or RGBA stream),
+    with the same decoding as extract() (used by tools/extract_menu.py for the menu birds)."""
+    base='assets/data/images/'+sheet if '/' in sheet else 'assets/data/images/base/'+sheet
+    key=(id(archive),base)
+    if key not in _cache:
+        _cache.clear()
+        frames={f['filename']:f for f in json.loads(decode_payload(archive.read(base+'.sheet.json'),game,sevenzip))['frames']}
+        if base+'.stream.7z' in archive.namelist():
+            from mini7z import extract as _x7;data=('stream',_x7(archive.read(base+'.stream.7z')))
+        else:data=('png',archive.read(base+'.png'))
+        _cache[key]=(frames,data)
+    frames,(kind,data)=_cache[key];f=frames[name];fw,fh=f['frame']['w'],f['frame']['h']
+    if kind=='png':rgba=decode_png_frame(data,f)
+    else:
+        s=f['stream'];p=s['position'];w=s['width'];h=s['height'];head=data[p:p+40];left,top,right,bottom=f['extrude']
+        if head[32:40]==b'RGBA8888':
+            if (w,h)!=(fw+left+right,fh+top+bottom):left,top,right,bottom=struct.unpack('>HHHH',head[24:32])
+            px=data[p+40:p+40+w*h*4];rgba=bytearray().join(px[((y+top)*w+left)*4:((y+top)*w+left+fw)*4] for y in range(fh))
+            for k in range(3,len(rgba),4):rgba[k]=(rgba[k]*128+127)//255
+        else:
+            rgba=decode_rgba4444(data[p+40:p+40+w*h*2],w,h)
+            rgba=bytearray().join(rgba[((y+top)*(w-2)+left)*4:((y+top)*(w-2)+left+fw)*4] for y in range(fh))
+    return rgba,fw,fh,f['pivot']
+
 def extract(apk,out,sevenzip=None,game="classic",levels_dir=None):
     """levels_dir: the stage JSON made by tools/build_campaign.py (decides which sprites each bank holds)."""
     sprites=[];manifest=[]

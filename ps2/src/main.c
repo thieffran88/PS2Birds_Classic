@@ -249,6 +249,30 @@ static void menu_screens(const Game *g)
         for(int i=0;i<6;i++){float x=60+i*110;rect(x,300-(i%3)*18,26,100,color(196,212,236));disk(x+13,292-(i%3)*18,30,color(196,212,236));}
         rect(0,394,640,54,color(32,44,96));rect(0,388,640,8,color(105,190,40));
         }
+        /* main_menu.lua animateBirds: while fewer than 0.75 x the bird list fly, a 1-in-5 chance
+           per frame throws one from below the screen (layer 3..5, scale 0.2 x layer, speed
+           100..350 sideways and 150..400 up scaled by the layer), pulled down at 150 px/s^2. */
+        {
+            enum {FLY_MAX=8,BIRD_KINDS=7};
+            static struct {float x,y,vx,vy,scale;int kind,layer,alive;} fly[FLY_MAX];
+            const float W=640,H=448,dt=1.0f/60;int n=0;
+            for(int i=0;i<FLY_MAX;i++)n+=fly[i].alive;
+            if(n<0.75f*BIRD_KINDS && rand()%5==0)for(int i=0;i<FLY_MAX;i++)if(!fly[i].alive){
+                int layer=3+rand()%3;float sc=layer*0.2f;
+                fly[i].alive=1;fly[i].layer=layer;fly[i].kind=rand()%BIRD_KINDS;fly[i].scale=sc;
+                fly[i].x=-0.75f*W+(rand()%1000)/1000.0f*1.5f*W;
+                fly[i].y=H+30*H/320+(H/320*20)*(5-layer);
+                fly[i].vx=(100+rand()%251)*sc*(W/480+1)/2;
+                fly[i].vy=-(150+rand()%251)*sc*(H/320+1)/2;
+                break;
+            }
+            for(int layer=3;layer<=5;layer++)for(int i=0;i<FLY_MAX;i++){
+                if(!fly[i].alive || fly[i].layer!=layer)continue;
+                fly[i].vy+=150*dt;fly[i].x+=fly[i].vx*dt;fly[i].y+=fly[i].vy*dt;
+                if(fly[i].y>H+80*H/320){fly[i].alive=0;continue;}
+                menu_gfx_draw(gs,MG_FLY_BIRD+fly[i].kind,fly[i].x,fly[i].y,fly[i].scale*0.8f,0x80808080);
+            }
+        }
         menu_gfx_draw(gs,MG_LOGO,320,96,1.0f,0x80808080);
         font_draw(gs,FONT_BASIC,320,150,1.25f,FONT_CENTER,0x60707880,"CLASSIC");
         float k=main_choice==0?1.1f:1.0f,half=74*k,cy=262;int lw=menu_gfx_width(MG_PLAY_LEFT);
@@ -280,7 +304,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.78.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.79.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -355,6 +379,9 @@ static void menu_screens(const Game *g)
 static void render(const Game *g, int connected, int paused,int menu)
 {
     /* Menus with the original art take the texture slots; a stage brings its bank back. */
+    /* Clip to the 640 x 448 frame: pieces of sprites drawn off the bottom (the menu birds start
+       below the screen) would otherwise land in the VRAM after the frame buffer. */
+    gsKit_set_scissor(gs,GS_SETREG_SCISSOR(0,639,0,447));
     if(menu && font_ready() && menu_gfx_show(gs)){menu_screens(g);gsKit_queue_exec(gs);gsKit_sync_flip(gs);return;}
     /* Swap texture banks when the active stage belongs to another episode. */
     sprites_select_bank(gs,game_level_bank(g->level));menu_gfx_release();
@@ -500,7 +527,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(200,250,1,cream,"DIRECIONAL/ANALÓGICO: MIRA   X: LANÇAR");
             text(200,270,1,cream,"QUADRADO (SEGURAR): AJUSTE FINO");
             text(200,290,1,cream,"X NO AR: HABILIDADE DO PÁSSARO   SELECT: FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.78.0 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.79.0 / PLAYSTATION 2");
             text(200,350,1,color(135,192,181),save_mc_status());
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -511,7 +538,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
             text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
             text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.78.0 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.79.0 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             text(90,318,1,color(135,192,181),save_mc_status());
         } else {
@@ -627,7 +654,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s\n",font_init(gs)?"loaded":"unavailable");
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.78.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.79.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
