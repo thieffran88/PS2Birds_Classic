@@ -6,6 +6,11 @@ int sprites_init(GSGLOBAL *gs);
 /* Uploads the texture pages of a bank into the shared slots; no-op if already active. */
 int sprites_select_bank(GSGLOBAL *gs,int bank);
 int sprites_bank(void);
+/* Menu pages (MENU.BIN) uploaded into the stage texture slots; sprites_bank() is then
+   SPRITES_MENU_BANK until a stage bank is selected again. */
+#define SPRITES_MENU_BANK (-2)
+int sprites_upload_pages(GSGLOBAL *gs,unsigned char *pixels,const unsigned *w,const unsigned *h,int count);
+GSTEXTURE *sprites_slot(int i);
 /* Where SPRITES.BIN (frame tables, every texture bank, save icon) is read from; set before sprites_init. */
 void sprites_set_data_path(const char *path);
 /* 1 if the last bank change could not read SPRITES.BIN. */

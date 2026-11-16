@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.72.0)
+# Lacunas do port (levantamento atualizado na 0.73.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -263,6 +263,10 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 ## Achados da 0.72.0
 
 - **Fontes e HUD:** `FONT_BASIC` e `FONT_SCORE` originais; HUD no formato do `GameHud.lua`. A memória de vídeo agora está cheia (página de interface 128 KB + fontes 32 KB). Faltam: os pontos flutuantes sobre as peças destruídas (`FONT_SCORE`, já extraída), o botão de pausa (`INGAME_BUTTON_PAUSE`) e o visor de power-ups.
+
+## Achados da 0.73.0
+
+- **Menus:** tela inicial, episódios e fases com a arte original, usando as páginas de textura das fases enquanto o menu está aberto. Faltam: o fundo da tela inicial e das fases (camadas `THEME_*` do `themes.lua`; o port ainda desenha céu e morros simples), os pássaros e porcos decorativos dos lados da seleção de fases, os botões redondos da tela inicial (configurações, placares) e as animações (pássaros voando no menu).
 
 ## O que falta no jogo (código nativo não recuperado)
 

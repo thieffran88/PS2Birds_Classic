@@ -27,5 +27,10 @@ int main(){
     assert(menu_input(&m,MENU_KEY_OK,1)==MENU_LOCKED && m.screen==MENU_EPISODES);
     assert(menu_input(&m,MENU_KEY_OK,999)==MENU_ENTERED && m.screen==MENU_LEVELS && m.level==0);
     assert(menu_input(&m,MENU_KEY_UP,999)==MENU_MOVED && m.level==10);
-    printf("Menu OK: %d episodes, 5 x 3 stage grid, pages, locks and back.\n",n);
+    // main menu (main_menu.lua): PLAY opens the episode cards; back from the cards returns to it
+    m.screen=MENU_MAIN;assert(menu_input(&m,MENU_KEY_OK,999)==MENU_ENTERED && m.screen==MENU_EPISODES);
+    assert(menu_input(&m,MENU_KEY_RIGHT,999)==MENU_MOVED && m.episode==2 && menu_input(&m,MENU_KEY_LEFT,999)==MENU_MOVED && m.episode==1);
+    assert(menu_input(&m,MENU_KEY_BACK,999)==MENU_LEFT_SCREEN && m.screen==MENU_MAIN);
+    assert(menu_input(&m,MENU_KEY_BACK,999)==MENU_LEFT_SCREEN && m.screen==MENU_MAIN);
+    printf("Menu OK: %d episodes, main menu, episode cards, 5 x 3 stage grid, pages, locks and back.\n",n);
 }

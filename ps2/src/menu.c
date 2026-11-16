@@ -42,19 +42,24 @@ void menu_open(Menu *m,int level){
 static int wrap(int v,int n){return n<=0?0:((v%n)+n)%n;}
 int menu_input(Menu *m,unsigned keys,int unlocked){
     build();
+    if(m->screen==MENU_MAIN){
+        if(keys&MENU_KEY_OK){m->screen=MENU_EPISODES;return MENU_ENTERED;}
+        if(keys&MENU_KEY_BACK)return MENU_LEFT_SCREEN;
+        return MENU_NONE;
+    }
     if(m->screen==MENU_EPISODES){
         int e=m->episode;
-        if(keys&MENU_KEY_UP)e--;
-        if(keys&MENU_KEY_DOWN)e++;
-        if(keys&(MENU_KEY_LEFT|MENU_KEY_PREV))e-=MENU_EPISODES_PER_PAGE;
-        if(keys&(MENU_KEY_RIGHT|MENU_KEY_NEXT))e+=MENU_EPISODES_PER_PAGE;
+        if(keys&(MENU_KEY_UP|MENU_KEY_LEFT))e--;
+        if(keys&(MENU_KEY_DOWN|MENU_KEY_RIGHT))e++;
+        if(keys&MENU_KEY_PREV)e-=MENU_EPISODES_PER_PAGE;
+        if(keys&MENU_KEY_NEXT)e+=MENU_EPISODES_PER_PAGE;
         e=wrap(e,episodes);
         if(keys&MENU_KEY_OK){
             m->episode=e;
             if(first[e]>=unlocked)return MENU_LOCKED;
             m->screen=MENU_LEVELS;m->level=0;return MENU_ENTERED;
         }
-        if(keys&MENU_KEY_BACK)return MENU_LEFT_SCREEN;
+        if(keys&MENU_KEY_BACK){m->screen=MENU_MAIN;return MENU_LEFT_SCREEN;}
         if(e!=m->episode){m->episode=e;return MENU_MOVED;}
         return MENU_NONE;
     }

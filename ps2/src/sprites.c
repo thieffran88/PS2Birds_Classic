@@ -89,13 +89,28 @@ int sprites_select_bank(GSGLOBAL *gs,int next)
         const SpritePage *page=&pages[next][i];GSTEXTURE *atlas=&atlases[i];
         if(!page->width)continue;
         atlas->Width=page->width;atlas->Height=page->height;
-        atlas->PSM=GS_PSM_CT32;atlas->Filter=GS_FILTER_NEAREST;
+        atlas->PSM=GS_PSM_CT32;atlas->Filter=GS_FILTER_NEAREST;   /* menus switch it to LINEAR */
         atlas->Mem=(unsigned int*)(pixels+(page->offset-pages[next][0].offset));
         gsKit_texture_upload(gs,atlas);
     }
     bank=next;return 1;
 }
 int sprites_bank(void){return bank;}
+int sprites_upload_pages(GSGLOBAL *gs,unsigned char *pixels,const unsigned *w,const unsigned *h,int count)
+{
+    /* Menus draw no stage: their pages take the same VRAM slots (bank SPRITES_MENU_BANK). The
+       stage bank is uploaded again by the next sprites_select_bank (from RAM if still read). */
+    if(!ready || count>SPRITE_PAGE_COUNT)return 0;
+    unsigned offset=0;
+    for(int i=0;i<count;i++)if(w[i]*h[i]*4>(unsigned)sprite_slot_bytes[i])return 0;
+    for(int i=0;i<count;i++){
+        GSTEXTURE *atlas=&atlases[i];
+        atlas->Width=w[i];atlas->Height=h[i];atlas->PSM=GS_PSM_CT32;atlas->Filter=GS_FILTER_LINEAR;
+        atlas->Mem=(unsigned int*)(pixels+offset);gsKit_texture_upload(gs,atlas);offset+=w[i]*h[i]*4;
+    }
+    bank=SPRITES_MENU_BANK;return 1;
+}
+GSTEXTURE *sprites_slot(int i){return i>=0 && i<SPRITE_PAGE_COUNT?&atlases[i]:0;}
 void sprite_draw_tint(GSGLOBAL *gs,int id,float x,float y,float scale,float angle,unsigned int rgba)
 {
     if(!ready || bank<0 || id<0 || id>=SPRITE_COUNT)return;

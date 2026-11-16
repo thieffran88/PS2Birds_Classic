@@ -16,6 +16,7 @@
 #include "music.h"
 #include "ui.h"
 #include "font.h"
+#include "menu_gfx.h"
 #include "sprites.h"
 #include "definition_sprites.h"
 #include "save_mc.h"
@@ -188,10 +189,108 @@ static void block_unflipped(const GameObject *o)
 
 static Menu menu_state;
 static LevelEnd level_end;
+
+/* Level button of each episode's first page (episodes.lua level_button, translated by hand). */
+static const unsigned char episode_button[]={1,4,6,1,1,1,6,5,6,6,7,1,1,1,1,1,1,1,1};
+static void sunburst(u64 a,u64 b,float cx,float cy)
+{
+    /* level_selection.lua / episode_selection.lua backdrop: rays from the sun at the bottom. */
+    gsKit_clear(gs,a);
+    /* Drawn as 2-pixel scanline spans (like disk()): ray i covers angles [a0,a1) above the sun. */
+    for(int y=0;y<(int)cy && y<448;y+=2){
+        float h=cy-y;
+        for(int i=0;i<18;i+=2){
+            float a0=3.14159f-(i+1)*3.14159f/18,a1=3.14159f-i*3.14159f/18;   /* angle from +x, upward */
+            float x0=cx+h*cosf(a1)/sinf(a1),x1=cx+h*cosf(a0)/sinf(a0);
+            if(x0>x1){float t=x0;x0=x1;x1=t;}
+            if(x1<0||x0>640)continue;
+            if(x0<0)x0=0;
+            if(x1>640)x1=640;
+            rect(x0,y,x1-x0,2,b);
+        }
+    }
+    disk(cx,cy,70,color(255,236,120));disk(cx,cy,56,color(255,250,190));
+}
+static void menu_screens(const Game *g)
+{
+    const Menu *m=&menu_state;char line[64];
+    if(m->screen==MENU_MAIN){
+        /* main_menu.lua: sky, clouds, ground, MENU_LOGO and the PLAY button. */
+        for(int y=0;y<400;y+=8){float t=y/400.0f;rect(0,y,640,8,color((int)(122+110*t),(int)(196+44*t),(int)(222+26*t)));}
+        for(int i=0;i<8;i++){disk(40+i*85,250+(i%2)*10,42,color(236,244,250));}
+        rect(0,262,640,140,color(236,244,250));
+        for(int i=0;i<6;i++){float x=60+i*110;rect(x,300-(i%3)*18,26,100,color(196,212,236));disk(x+13,292-(i%3)*18,30,color(196,212,236));}
+        rect(0,394,640,54,color(32,44,96));rect(0,388,640,8,color(105,190,40));
+        menu_gfx_draw(gs,MG_LOGO,320,96,1.0f,0x80808080);
+        font_draw(gs,FONT_BASIC,320,150,1.25f,FONT_CENTER,0x60707880,"CLASSIC");
+        float half=74,cy=262;int lw=menu_gfx_width(MG_PLAY_LEFT);
+        menu_gfx_draw(gs,MG_PLAY_LEFT,320-half,cy,1.0f,0x80808080);
+        menu_gfx_draw_span(gs,MG_PLAY_MIDDLE,320-half+lw/2.0f,320+half-lw/2.0f,cy,1.0f);
+        menu_gfx_draw(gs,MG_PLAY_RIGHT,320+half,cy,1.0f,0x80808080);
+        font_draw(gs,FONT_BASIC,320,cy-24,1.9f,FONT_CENTER,0x80808080,"JOGAR");
+        font_draw(gs,FONT_BASIC,320,410,0.75f,FONT_CENTER,0x80808080,"X: JOGAR   O: VOLTAR AO JOGO");
+        return;
+    }
+    sunburst(color(70,150,40),color(96,176,52),320,470);
+    menu_gfx_draw(gs,MG_BACK,44,404,1.0f,0x80808080);
+    if(m->screen==MENU_EPISODES){
+        /* episode_selection.lua: one card per episode (EPx background + title), score and stars. */
+        int n=menu_episode_count();
+        for(int d=-3;d<=3;d++){
+            int e=m->episode+d;if(e<0||e>=n)continue;
+            int f=menu_episode_first(e),size=menu_episode_size(e),score=0,stars=0,open=f<g->unlocked;
+            for(int i=f;i<f+size;i++){score+=g->highscores[i];stars+=game_level_stars(i,g->highscores[i]);}
+            float x=320+d*124,y=202,k=d==0?1.08f:0.94f;unsigned tint=open?0x80808080:0x80404040;
+            menu_gfx_draw(gs,MG_CARD(e),x,y,k,tint);
+            if(menu_gfx_width(MG_TITLE(e)))menu_gfx_draw(gs,MG_TITLE(e),x,y,k,tint);
+            else font_draw(gs,FONT_BASIC,x,y-112*k,0.95f*k,FONT_CENTER,tint,menu_episode_name(e));
+            snprintf(line,sizeof(line),"%d.",e+1);font_draw(gs,FONT_BASIC,x-38*k,y-128*k,0.8f*k,FONT_LEFT,0x80808080,line);
+            if(!open){menu_gfx_draw(gs,MG_LEVEL_LOCK,x,y+20,k,0x80808080);continue;}
+            menu_gfx_draw(gs,MG_SCOREBOX,x,y+44*k,k,0x80808080);
+            menu_gfx_draw(gs,MG_SCOREBOX_TEXT,x,y+38*k,k*0.8f,0x80808080);
+            snprintf(line,sizeof(line),"%d",score);font_draw(gs,FONT_BASIC,x,y+44*k,0.75f*k,FONT_CENTER,0x80808080,line);
+            menu_gfx_draw(gs,MG_STARBOX,x,y+78*k,k,0x80808080);
+            snprintf(line,sizeof(line),"%d/%d",stars,size*3);font_draw(gs,FONT_BASIC,x,y+80*k,0.75f*k,FONT_CENTER,0x80808080,line);
+        }
+        if(m->episode>0)menu_gfx_draw(gs,MG_ARROW_LEFT,30,202,1.0f,0x80808080);
+        if(m->episode<n-1)menu_gfx_draw(gs,MG_ARROW_RIGHT,610,202,1.0f,0x80808080);
+        font_draw(gs,FONT_BASIC,380,410,0.7f,FONT_CENTER,0x80808080,"ESQUERDA/DIREITA: EPISÓDIO   X: ABRIR   O: VOLTAR");
+        return;
+    }
+    /* level_selection.lua: 5 x 3 buttons (the episode's LS_LEVEL_BG_NORMAL_OPEN_n), number,
+       LS_STARS_n, closed button with a lock, page dots. */
+    int f=menu_episode_first(m->episode),size=menu_episode_size(m->episode);
+    int page=m->level/MENU_PER_PAGE,pages=(size+MENU_PER_PAGE-1)/MENU_PER_PAGE;
+    int button=MG_LEVEL_OPEN_1+(m->episode<(int)sizeof(episode_button)?episode_button[m->episode]:1)-1;
+    font_draw(gs,FONT_BASIC,320,14,1.1f,FONT_CENTER,0x80808080,menu_episode_name(m->episode));
+    for(int c=0;c<MENU_PER_PAGE;c++){
+        int l=page*MENU_PER_PAGE+c;if(l>=size)break;
+        int i=f+l,open=i<g->unlocked,sel=l==m->level;
+        float x=140+(c%MENU_COLUMNS)*90,y=110+(c/MENU_COLUMNS)*98,k=sel?1.14f:1.0f;
+        if(open){
+            menu_gfx_draw(gs,button,x,y,k,sel?0x80909090:0x80808080);
+            font_draw(gs,FONT_BASIC,x,y-26*k,1.35f*k,FONT_CENTER,0x80808080,menu_level_label(i));
+            int st=game_level_stars(i,g->highscores[i]);
+            if(st)menu_gfx_draw(gs,MG_STARS_1+st-1,x,y+28*k,k,0x80808080);
+        }else{
+            menu_gfx_draw(gs,MG_LEVEL_CLOSED,x,y,k,sel?0x80909090:0x80808080);
+            menu_gfx_draw(gs,MG_LEVEL_LOCK,x,y,k*0.75f,0x80808080);
+        }
+    }
+    for(int d=0;d<pages && d<24;d++)menu_gfx_draw(gs,d==page?MG_DOT_WHITE:MG_DOT_BLACK,320-(pages-1)*8+d*16,382,1.0f,0x80808080);
+    int i=f+m->level;
+    if(i<g->unlocked)snprintf(line,sizeof(line),"%s   Recorde: %d",game_level_title(i),g->highscores[i]);
+    else snprintf(line,sizeof(line),"%s   (bloqueada)",game_level_title(i));
+    font_draw(gs,FONT_BASIC,320,346,0.8f,FONT_CENTER,0x80808080,line);
+    font_draw(gs,FONT_BASIC,380,410,0.7f,FONT_CENTER,0x80808080,"DIRECIONAL: FASE   L2/R2: PÁGINA   X: JOGAR   O: VOLTAR");
+}
+
 static void render(const Game *g, int connected, int paused,int menu)
 {
+    /* Menus with the original art take the texture slots; a stage brings its bank back. */
+    if(menu && font_ready() && menu_gfx_show(gs)){menu_screens(g);gsKit_queue_exec(gs);gsKit_sync_flip(gs);return;}
     /* Swap texture banks when the active stage belongs to another episode. */
-    sprites_select_bank(gs,game_level_bank(g->level));
+    sprites_select_bank(gs,game_level_bank(g->level));menu_gfx_release();
     render_scale=g->view_scale;render_pixels=g->pixels;render_ground=g->ground_y;
     render_sling_x=g->sling_x;render_sling_y=g->sling_y;
     if(!paused && !menu)visual_frame++;
@@ -298,7 +397,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
             text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
             text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.72.0 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.73.0 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             text(90,318,1,color(135,192,181),save_mc_status());
         } else {
@@ -405,12 +504,13 @@ int main(int argc,char **argv)
     music_set_data_path(data_file("MUSIC.BIN",file));
     ui_set_data_path(data_file("UI.BIN",file));
     font_set_data_path(data_file("FONT.BIN",file));
+    menu_gfx_set_data_path(data_file("MENU.BIN",file));
     printf("PS2Birds: started as '%s'\n",argc>0 && argv && argv[0]?argv[0]:"");
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     printf("PS2Birds: interface sprites %s\n",ui_init(gs)?"loaded":"unavailable");
     printf("PS2Birds: fonts %s\n",font_init(gs)?"loaded":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.72.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.73.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
@@ -426,7 +526,7 @@ int main(int argc,char **argv)
     {extern unsigned char save_icon[];sprites_read_icon(save_icon,SAVE_ICON_BYTES);}
     Game g; game_init(&g); save_mc_init(&g); audio_init(); printf("PS2Birds: music %s\n",music_init()?"loaded":"unavailable");
     u32 old_buttons=0;
-    int paused=0, previously_connected=0, analog_requested=0,menu=1;menu_state.screen=MENU_EPISODES;menu_state.episode=0;menu_state.level=0;
+    int paused=0, previously_connected=0, analog_requested=0,menu=1;menu_state.screen=MENU_MAIN;menu_state.episode=0;menu_state.level=0;
     u64 previous_time=GetTimerSystemTime();
     for (;;) {
         u64 now=GetTimerSystemTime();u32 elapsed_seconds,elapsed_us;
@@ -465,7 +565,7 @@ int main(int argc,char **argv)
             if(result==MENU_MOVED)audio_play(SFX_MENU_MOVE);
             else if(result==MENU_ENTERED)audio_play(SFX_MENU_CONFIRM);
             else if(result==MENU_LOCKED)audio_play(SFX_MENU_BACK);
-            else if(result==MENU_LEFT_SCREEN){audio_play(SFX_MENU_BACK);if(was==MENU_EPISODES)menu=0;}
+            else if(result==MENU_LEFT_SCREEN){audio_play(SFX_MENU_BACK);if(was==MENU_MAIN)menu=0;}
             else if(result==MENU_PLAY && game_load_level(&g,menu_episode_first(menu_state.episode)+menu_state.level)){menu=0;paused=0;audio_play(SFX_MENU_CONFIRM);audio_play(SFX_START);}
             old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
         }
