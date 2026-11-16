@@ -13,6 +13,7 @@
 #include "game.h"
 #include "menu.h"
 #include "level_end.h"
+#include "music.h"
 #include "sprites.h"
 #include "definition_sprites.h"
 #include "save_mc.h"
@@ -191,7 +192,7 @@ static void render(const Game *g, int connected, int paused,int menu)
     rect(0,0,640,109,dark);
     text(30,22,3,cream,"PS2BIRDS CLASSIC");
     if(sprites_load_failed())text(31,55,1,gold,"SPRITES.BIN AUSENTE: COPIE-O PARA A PASTA DO ELF");
-    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.68.0 / PLAYSTATION 2");
+    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.69.0 / PLAYSTATION 2");
     text(430,55,1,color(135,192,181),audio_status());
     text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
     text(31,80,2,gold,game_level_title(g->level));
@@ -368,10 +369,11 @@ int main(int argc,char **argv)
     char file[300];set_data_dir(argc,argv);
     sprites_set_data_path(data_file("SPRITES.BIN",file));
     audio_set_data_path(data_file("SOUNDS.BIN",file));
+    music_set_data_path(data_file("MUSIC.BIN",file));
     printf("PS2Birds: started as '%s'\n",argc>0 && argv && argv[0]?argv[0]:"");
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.68.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.69.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
@@ -385,7 +387,7 @@ int main(int argc,char **argv)
         }
     }
     {extern unsigned char save_icon[];sprites_read_icon(save_icon,SAVE_ICON_BYTES);}
-    Game g; game_init(&g); save_mc_init(&g); audio_init();
+    Game g; game_init(&g); save_mc_init(&g); audio_init(); printf("PS2Birds: music %s\n",music_init()?"loaded":"unavailable");
     u32 old_buttons=0;
     int paused=0, previously_connected=0, analog_requested=0,menu=1;menu_state.screen=MENU_EPISODES;menu_state.episode=0;menu_state.level=0;
     u64 previous_time=GetTimerSystemTime();
@@ -395,6 +397,11 @@ int main(int argc,char **argv)
         float frame_seconds=(float)elapsed_seconds+(float)elapsed_us/1000000.0f;
         if(frame_seconds>0.1f)frame_seconds=0.1f;
         save_mc_poll();audio_tick();
+        /* Music: title_theme in the menus (gamelogic.lua currentMainMenuSong); level_complete once on a win. */
+        if(menu && music_current()!=MUSIC_TITLE)music_play(MUSIC_TITLE);
+        else if(!menu && music_current()==MUSIC_TITLE)music_play(MUSIC_NONE);
+        else if(!menu && g.state!=WON && music_current()==MUSIC_LEVEL_COMPLETE)music_play(MUSIC_NONE);
+        music_tick();
         struct padButtonStatus status;
         u32 buttons=0;
         int state=pad_open?padGetState(0,0):PAD_STATE_DISCONN;
@@ -410,7 +417,7 @@ int main(int argc,char **argv)
         if (connected && !previously_connected) old_buttons=buttons;
         u32 pressed=buttons & ~old_buttons;
         if ((state==PAD_STATE_DISCONN || state==PAD_STATE_ERROR) && previously_connected) paused=1;
-        if(pressed & PAD_R3)audio_toggle();
+        if(pressed & PAD_R3){audio_toggle();music_set_enabled(!strcmp(audio_status(),"SOM LIGADO"));}
         if(pressed & PAD_L1)save_mc_request();
         if(!menu && !paused && (pressed & PAD_L2) && game_use_powerup(&g))audio_play(SFX_EXPLOSION);
         if(pressed & PAD_SELECT){menu=!menu;menu_open(&menu_state,g.level);audio_play(menu?SFX_MENU_MOVE:SFX_MENU_BACK);}
@@ -468,7 +475,7 @@ int main(int argc,char **argv)
             if(g.events&GAME_EVENT_GLASS)audio_play(SFX_GLASS);
             else if(g.events&GAME_EVENT_STONE)audio_play(SFX_STONE);
             else if(g.events&(GAME_EVENT_WOOD|GAME_EVENT_EXTRA))audio_play(SFX_WOOD);
-            if(before!=g.state && g.state==WON){level_end_start(&level_end,g.score,old_record,game_level_stars(g.level,g.score),game_level_silver(g.level));save_mc_request();audio_play(SFX_WIN);}
+            if(before!=g.state && g.state==WON){music_play(MUSIC_LEVEL_COMPLETE);level_end_start(&level_end,g.score,old_record,game_level_stars(g.level,g.score),game_level_silver(g.level));save_mc_request();audio_play(SFX_WIN);}
             if(before!=g.state && g.state==LOST)audio_play(SFX_LOSE);
             if (before!=g.state) printf("PS2Birds: state=%d score=%d\n",g.state,g.score);
         }

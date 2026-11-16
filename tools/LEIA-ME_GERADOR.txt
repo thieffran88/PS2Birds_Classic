@@ -21,7 +21,7 @@ Como usar
 4. Resultado, na mesma pasta:
    - PS2Birds_Classic.iso          -> para emulador (PCSX2) ou gravação/OPL;
    - PS2Birds_Classic_USB\         -> PS2BIRDS.ELF + SPRITES.BIN + SOUNDS.BIN +
-                                      CAMPAIGN.BIN, para rodar de USB/HDD (copie a
+                                      MUSIC.BIN + CAMPAIGN.BIN, para rodar de USB/HDD (copie a
                                       pasta inteira; o ELF lê os .BIN ao lado dele).
 
 Nada é instalado no Windows: o Python usado está na pasta "python" deste pacote.
