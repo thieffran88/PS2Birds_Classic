@@ -205,6 +205,7 @@ static void block_unflipped(const GameObject *o)
 }
 
 static Menu menu_state;
+static int menu_yell_request;   /* main menu: Triangle stands for the touch that makes a bird yell */
 static LevelEnd level_end;
 /* gamelogic.lua: each bird left gives 10000 shown over it, 0.5 s apart (birdBuffTimer), then
    the level-complete screen opens; won_wait counts down that pause. */
@@ -254,7 +255,7 @@ static void menu_screens(const Game *g)
            100..350 sideways and 150..400 up scaled by the layer), pulled down at 150 px/s^2. */
         {
             enum {FLY_MAX=12,BIRD_KINDS=7};
-            static struct {float x,y,vx,vy,scale;int kind,layer,alive;} fly[FLY_MAX];
+            static struct {float x,y,vx,vy,scale,yell;int kind,layer,alive;} fly[FLY_MAX];
             const float W=640,H=448,dt=1.0f/60;int n=0;
             /* buildBirdList: the birds, plus each episode's reward_completion sprite once every
                stage has a score, or its reward_three_stars sprite once every stage has 3 stars. */
@@ -273,18 +274,32 @@ static void menu_screens(const Game *g)
             for(int i=0;i<FLY_MAX;i++)n+=fly[i].alive;
             if(n<0.75f*nk && rand()%5==0)for(int i=0;i<FLY_MAX;i++)if(!fly[i].alive){
                 int layer=3+rand()%3;float sc=layer*0.2f;
-                fly[i].alive=1;fly[i].layer=layer;fly[i].kind=kinds[rand()%nk];fly[i].scale=sc;
+                fly[i].alive=1;fly[i].yell=0;fly[i].layer=layer;fly[i].kind=kinds[rand()%nk];fly[i].scale=sc;
                 fly[i].x=-0.75f*W+(rand()%1000)/1000.0f*1.5f*W;
                 fly[i].y=H+30*H/320+(H/320*20)*(5-layer);
                 fly[i].vx=(100+rand()%251)*sc*(W/480+1)/2;
                 fly[i].vy=-(150+rand()%251)*sc*(H/320+1)/2;
                 break;
             }
+            /* Touching a flying bird in the original swaps it to its <bird>_YELL sprite with its cry;
+               here Triangle picks the nearest bird to the screen centre that is on screen. */
+            if(menu_yell_request){
+                menu_yell_request=0;int best=-1;float bd=1e9f;
+                for(int i=0;i<FLY_MAX;i++){
+                    if(!fly[i].alive || fly[i].kind<MG_FLY_BIRD || fly[i].kind>=MG_FLY_BIRD+BIRD_KINDS || fly[i].y<0 || fly[i].y>H)continue;
+                    float d=(fly[i].x-W/2)*(fly[i].x-W/2)+(fly[i].y-H/2)*(fly[i].y-H/2);if(d<bd){bd=d;best=i;}
+                }
+                if(best>=0){
+                    static const int cry[BIRD_KINDS]={SFX_LAUNCH_RED,SFX_LAUNCH_BLUE,SFX_LAUNCH_YELLOW,SFX_LAUNCH_BLACK,SFX_LAUNCH_RED,SFX_LAUNCH_RED,SFX_LAUNCH_RED};
+                    fly[best].yell=0.7f;audio_play(cry[fly[best].kind-MG_FLY_BIRD]);
+                }
+            }
             for(int layer=3;layer<=5;layer++)for(int i=0;i<FLY_MAX;i++){
                 if(!fly[i].alive || fly[i].layer!=layer)continue;
                 fly[i].vy+=150*dt;fly[i].x+=fly[i].vx*dt;fly[i].y+=fly[i].vy*dt;
                 if(fly[i].y>H+80*H/320){fly[i].alive=0;continue;}
-                menu_gfx_draw(gs,fly[i].kind,fly[i].x,fly[i].y,fly[i].scale*(fly[i].kind<MG_FLY_BIRD+BIRD_KINDS?0.8f:1.6f),0x80808080);
+                if(fly[i].yell>0)fly[i].yell-=dt;
+                menu_gfx_draw(gs,fly[i].yell>0?fly[i].kind+(MG_YELL_BIRD-MG_FLY_BIRD):fly[i].kind,fly[i].x,fly[i].y,fly[i].scale*(fly[i].kind>=MG_FLY_BIRD+BIRD_KINDS?1.6f:fly[i].yell>0?1.0f:0.8f),0x80808080);
             }
         }
         menu_gfx_draw(gs,MG_LOGO,320,96,1.0f,0x80808080);
@@ -304,7 +319,7 @@ static void menu_screens(const Game *g)
             menu_gfx_draw(gs,ids[b],46,ys[b],kk,sel?0x80909090:0x80707070);
             if(b==2 && strcmp(audio_status(),"SOM LIGADO"))menu_gfx_draw(gs,MG_OFF,46,ys[b],kk,0x80808080);
         }
-        font_draw(gs,FONT_BASIC,360,414,0.7f,FONT_CENTER,0x80808080,"CIMA/BAIXO: ESCOLHER   X: CONFIRMAR   O: VOLTAR");
+        font_draw(gs,FONT_BASIC,360,414,0.7f,FONT_CENTER,0x80808080,"CIMA/BAIXO: ESCOLHER   X: CONFIRMAR   TRIANGULO: GRITO");
         return;
     }
     if(m->screen==MENU_CREDITS){
@@ -318,7 +333,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.82.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.83.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -602,7 +617,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(200,250,1,cream,"DIRECIONAL/ANALÓGICO: MIRA   X: LANÇAR");
             text(200,270,1,cream,"QUADRADO (SEGURAR): AJUSTE FINO");
             text(200,290,1,cream,"X NO AR: HABILIDADE DO PÁSSARO   SELECT: FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.82.0 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.83.0 / PLAYSTATION 2");
             text(200,350,1,color(135,192,181),save_mc_status());
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -613,7 +628,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
             text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
             text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.82.0 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.83.0 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             text(90,318,1,color(135,192,181),save_mc_status());
         } else {
@@ -729,7 +744,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.82.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.83.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
@@ -772,6 +787,7 @@ int main(int argc,char **argv)
         /* Ignore held buttons on reconnection; require a fresh press. */
         if (connected && !previously_connected) old_buttons=buttons;
         u32 pressed=buttons & ~old_buttons;
+        if(menu && menu_state.screen==MENU_MAIN && (pressed&PAD_TRIANGLE))menu_yell_request=1;
         if ((state==PAD_STATE_DISCONN || state==PAD_STATE_ERROR) && previously_connected) paused=1;
         if(pressed & PAD_R3){audio_toggle();music_set_enabled(!strcmp(audio_status(),"SOM LIGADO"));}
         if(pressed & PAD_L1)save_mc_request();

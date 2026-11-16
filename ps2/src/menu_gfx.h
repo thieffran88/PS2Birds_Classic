@@ -8,7 +8,7 @@ enum {MG_LOGO,MG_PLAY_LEFT,MG_PLAY_MIDDLE,MG_PLAY_RIGHT,MG_SCOREBOX,MG_SCOREBOX_
       MG_ARROW_LEFT,MG_ARROW_RIGHT,MG_BACK,MG_LEVEL_CLOSED,MG_LEVEL_LOCK,MG_LEVEL_OPEN_1,
       MG_STARS_1=MG_LEVEL_OPEN_1+7,MG_DOT_WHITE=MG_STARS_1+3,MG_DOT_BLACK,
       MG_OPTIONS,MG_SOUNDS,MG_ABOUT,MG_OFF,MG_ABOUT_BIRDS,
-      MG_FLY_BIRD,MG_CARDS=MG_FLY_BIRD+7};   /* MG_FLY_BIRD..+6: red, blue, yellow, grey, green, big brother, boomerang */
+      MG_FLY_BIRD,MG_YELL_BIRD=MG_FLY_BIRD+7,MG_CARDS=MG_YELL_BIRD+7};   /* MG_YELL_BIRD..+6: the same birds yelling (<bird>_YELL) */   /* MG_FLY_BIRD..+6: red, blue, yellow, grey, green, big brother, boomerang */
 #define MG_CARD(e) (MG_CARDS+2*(e))
 #define MG_TITLE(e) (MG_CARDS+2*(e)+1)
 /* main_menu.lua buildBirdList rewards (extract_menu.py REWARDS), after the 19 episode cards:

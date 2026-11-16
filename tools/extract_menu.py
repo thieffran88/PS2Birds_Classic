@@ -21,7 +21,7 @@ SPRITES=[('LOGO','MENU_LOGO',0.62),('PLAY_LEFT','PLAY_BUTTON_BG_LEFT',0.62),('PL
  [(f'LEVEL_OPEN_{i}',f'LS_LEVEL_BG_NORMAL_OPEN_{i}',LEVEL) for i in range(1,8)]+\
  [(f'STARS_{i}',f'LS_STARS_{i}',LEVEL) for i in range(1,4)]+[('DOT_WHITE','LS_DOT_WHITE',0.8),('DOT_BLACK','LS_DOT_BLACK',0.8)]+\
  [('OPTIONS','BUTTON_OPTIONS',0.62),('SOUNDS','BUTTON_SOUNDS_SMALL',0.62),('ABOUT','BUTTON_ABOUT_SMALL',0.62),('OFF','BUTTON_OFF_SMALL',0.62),('ABOUT_BIRDS','ABOUT_BIRDS_3',0.62)]+\
- [(f'FLY_{n}',n,1.0) for n in MENU_BIRDS]
+ [(f'FLY_{n}',n,1.0) for n in MENU_BIRDS]+[(f'YELL_{n}',n+'_YELL',0.8) for n in MENU_BIRDS]
 # main_menu.lua options (gear, sound, about) and credits.lua (ABOUT_BIRDS_3, TEXT_ABOUT).
 # Episode cards in the port's episode order (menu.c): composition name, or None for the generic card.
 CARDS=['BTN_EP1','BTN_EP2','BTN_EP3','BTN_EP4','BTN_EP5','BTN_EP6','BTN_EP7','BTN_SURFTURF','BTN_BADPIGGIES',
@@ -69,9 +69,11 @@ def extract(apk,out):
         where=frames_of(z);images=[]
         compo={c['name']:c for c in json.loads(decode_payload(z.read('assets/data/images/1024x768/LEVELSELECTION.compo.json'),'classic'))['compo']}
         def add(ident,name,factor,dx=0,dy=0):
-            if name in MENU_BIRDS:
+            if name in MENU_BIRDS or name.endswith('_YELL'):
                 from extract_sprites import sheet_sprite
-                rgba,fw,fh,_=sheet_sprite(z,'INGAME_BIRDS_1',name);images.append((ident,fw,fh,0,0,rgba));return
+                rgba,fw,fh,_=sheet_sprite(z,'INGAME_BIRDS_1',name)
+                if factor!=1.0:rgba,fw,fh=scale(rgba,fw,fh,factor)
+                images.append((ident,fw,fh,0,0,rgba));return
             rgba,f=read(z,where,name);small,w,h=scale(rgba,f['frame']['w'],f['frame']['h'],factor)
             images.append((ident,w,h,round(dx*factor),round(dy*factor),small))
         for ident,name,factor in SPRITES:add(ident,name,factor)

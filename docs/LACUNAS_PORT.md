@@ -291,7 +291,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.79.0
 
-- **Tela inicial:** pássaros voando como no `animateBirds`. As recompensas dos episódios (completo e 3 estrelas) também voam, desde a 0.82.0. Falta o grito ao tocar (sem toque no PS2).
+- **Tela inicial:** pássaros voando como no `animateBirds`. As recompensas dos episódios (completo e 3 estrelas) também voam, desde a 0.82.0. O grito ao tocar foi trocado pelo botão Triângulo na 0.83.0.
 
 ## O que falta no jogo (código nativo não recuperado)
 
