@@ -253,13 +253,27 @@ static void menu_screens(const Game *g)
            per frame throws one from below the screen (layer 3..5, scale 0.2 x layer, speed
            100..350 sideways and 150..400 up scaled by the layer), pulled down at 150 px/s^2. */
         {
-            enum {FLY_MAX=8,BIRD_KINDS=7};
+            enum {FLY_MAX=12,BIRD_KINDS=7};
             static struct {float x,y,vx,vy,scale;int kind,layer,alive;} fly[FLY_MAX];
             const float W=640,H=448,dt=1.0f/60;int n=0;
+            /* buildBirdList: the birds, plus each episode's reward_completion sprite once every
+               stage has a score, or its reward_three_stars sprite once every stage has 3 stars. */
+            static const char *reward_episode[MG_REWARD_COUNT]={"POACHED EGGS","MIGHTY HOAX","DANGER ABOVE","BIG SETUP",
+                "HAM EM HIGH","MINE AND DINE","BIRDDAY","BAD PIGGIES","SHORT FUSE","SURF AND TURF","PIGGY FARM","DINO"};
+            int kinds[BIRD_KINDS+MG_REWARD_COUNT],nk=0;
+            for(int k=0;k<BIRD_KINDS;k++)kinds[nk++]=MG_FLY_BIRD+k;
+            for(int e=0;e<menu_episode_count();e++){
+                const char *name=menu_episode_name(e);int r=-1;
+                for(int k=0;k<MG_REWARD_COUNT;k++)if(!strcmp(name,reward_episode[k]))r=k;
+                if(r<0)continue;
+                int f=menu_episode_first(e),size=menu_episode_size(e),done=size>0,three=size>0;
+                for(int l=f;l<f+size;l++){int hs=g->highscores[l];if(hs<=0)done=0;if(game_level_stars(l,hs)<3)three=0;}
+                if(three)kinds[nk++]=MG_REWARD_STAR(r);else if(done)kinds[nk++]=MG_REWARD(r);
+            }
             for(int i=0;i<FLY_MAX;i++)n+=fly[i].alive;
-            if(n<0.75f*BIRD_KINDS && rand()%5==0)for(int i=0;i<FLY_MAX;i++)if(!fly[i].alive){
+            if(n<0.75f*nk && rand()%5==0)for(int i=0;i<FLY_MAX;i++)if(!fly[i].alive){
                 int layer=3+rand()%3;float sc=layer*0.2f;
-                fly[i].alive=1;fly[i].layer=layer;fly[i].kind=rand()%BIRD_KINDS;fly[i].scale=sc;
+                fly[i].alive=1;fly[i].layer=layer;fly[i].kind=kinds[rand()%nk];fly[i].scale=sc;
                 fly[i].x=-0.75f*W+(rand()%1000)/1000.0f*1.5f*W;
                 fly[i].y=H+30*H/320+(H/320*20)*(5-layer);
                 fly[i].vx=(100+rand()%251)*sc*(W/480+1)/2;
@@ -270,7 +284,7 @@ static void menu_screens(const Game *g)
                 if(!fly[i].alive || fly[i].layer!=layer)continue;
                 fly[i].vy+=150*dt;fly[i].x+=fly[i].vx*dt;fly[i].y+=fly[i].vy*dt;
                 if(fly[i].y>H+80*H/320){fly[i].alive=0;continue;}
-                menu_gfx_draw(gs,MG_FLY_BIRD+fly[i].kind,fly[i].x,fly[i].y,fly[i].scale*0.8f,0x80808080);
+                menu_gfx_draw(gs,fly[i].kind,fly[i].x,fly[i].y,fly[i].scale*(fly[i].kind<MG_FLY_BIRD+BIRD_KINDS?0.8f:1.6f),0x80808080);
             }
         }
         menu_gfx_draw(gs,MG_LOGO,320,96,1.0f,0x80808080);
@@ -304,7 +318,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.81.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.82.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -588,7 +602,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(200,250,1,cream,"DIRECIONAL/ANALÓGICO: MIRA   X: LANÇAR");
             text(200,270,1,cream,"QUADRADO (SEGURAR): AJUSTE FINO");
             text(200,290,1,cream,"X NO AR: HABILIDADE DO PÁSSARO   SELECT: FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.81.0 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.82.0 / PLAYSTATION 2");
             text(200,350,1,color(135,192,181),save_mc_status());
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -599,7 +613,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
             text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
             text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.81.0 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.82.0 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             text(90,318,1,color(135,192,181),save_mc_status());
         } else {
@@ -715,7 +729,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.81.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.82.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);

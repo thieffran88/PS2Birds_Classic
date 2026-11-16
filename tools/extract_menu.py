@@ -27,6 +27,13 @@ SPRITES=[('LOGO','MENU_LOGO',0.62),('PLAY_LEFT','PLAY_BUTTON_BG_LEFT',0.62),('PL
 CARDS=['BTN_EP1','BTN_EP2','BTN_EP3','BTN_EP4','BTN_EP5','BTN_EP6','BTN_EP7','BTN_SURFTURF','BTN_BADPIGGIES',
        'BTN_BOMB_BIRD','BTN_BIRDISLAND','BTN_FARM','BTN_DINO','BTN_EP5','BTN_FLOCKFAVORITES',
        'BTN_GOLDENEGGS',('BTN_TUTORIAL_BACKGROUND','BTN_TUTORIAL_TEXT'),('BTN_EP1_BACKGROUND',None),'BTN_EGGDEFENDER']
+# main_menu.lua buildBirdList: each episode's reward_completion / reward_three_stars sprite flies
+# with the birds once the episode is completed / three-starred (episodes.lua). Port episode
+# names -> reward sprite (completion, three stars).
+REWARDS=[('POACHED EGGS','REWARD_1'),('MIGHTY HOAX','REWARD_2'),('DANGER ABOVE','REWARD_3'),('BIG SETUP','REWARD_4'),
+         ('HAM EM HIGH','REWARD_5'),('MINE AND DINE','REWARD_6'),('BIRDDAY','REWARD_7'),('BAD PIGGIES','REWARD_8'),
+         ('SHORT FUSE','REWARD_9'),('SURF AND TURF','REWARD_SURFTURF'),('PIGGY FARM','REWARD_FARM'),('DINO','REWARD_DINO')]
+REWARD_SCALE=0.45
 # Mighty Feathers has no card of its own in this APK: the Poached Eggs art, its title drawn with FONT_BASIC.
 def texts(apk,language='pt_BR'):
     """TEXTS_BASIC.dat (KA3D TEXT): LDAT language list, LIDS identifiers, one TXGP per language."""
@@ -77,6 +84,7 @@ def extract(apk,out):
                 parts={s['name']:s for s in compo[card]['sprites']}
                 tx=[n for n in parts if n.endswith('_TEXT')][0];bg=[n for n in parts if n!=tx][0]
                 add(f'CARD_{i}',bg,CARD,parts[bg]['x'],parts[bg]['y']);add(f'TITLE_{i}',tx,CARD,parts[tx]['x'],parts[tx]['y'])
+        for i,(_,name) in enumerate(REWARDS):add(f'REWARD_{i}',name,REWARD_SCALE);add(f'REWARD_STAR_{i}',name+'_STAR',REWARD_SCALE)
     # Shelf packing into the four slots, tallest first, 1-pixel gutter.
     pages=[bytearray(w*h*4) for w,h in PAGES];cursor=[[0,0,0] for _ in PAGES];place={}
     for ident,w,h,dx,dy,rgba in sorted(images,key=lambda s:-s[2]):
@@ -89,7 +97,7 @@ def extract(apk,out):
         pw=PAGES[p][0]
         for r in range(h):pages[p][((y+r)*pw+x)*4:((y+r)*pw+x+w)*4]=rgba[r*w*4:(r+1)*w*4]
         place[ident]=(p,x,y,w,h);cursor[p]=[x+w+1,y,max(shelf,h)]
-    order=[i for i,*_ in SPRITES]+[f'{k}_{i}' for i in range(len(CARDS)) for k in ('CARD','TITLE')]
+    order=[i for i,*_ in SPRITES]+[f'{k}_{i}' for i in range(len(CARDS)) for k in ('CARD','TITLE')]+[f'{k}_{i}' for i in range(len(REWARDS)) for k in ('REWARD','REWARD_STAR')]
     offs={i:(dx,dy) for i,w,h,dx,dy,_ in images}
     head=struct.pack('<4s3I',b'PBMN',2,len(order),len(PAGES))+b''.join(struct.pack('<2I',w,h) for w,h in PAGES)
     head+=b''.join(struct.pack('<5H2h2x',*place[i],*offs[i]) for i in order)

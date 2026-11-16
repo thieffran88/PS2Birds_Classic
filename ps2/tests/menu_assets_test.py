@@ -2,7 +2,7 @@ import struct
 from pathlib import Path
 d=(Path(__file__).resolve().parents[1]/'assets/MENU.BIN').read_bytes()
 magic,version,count,npages=struct.unpack_from('<4s3I',d)
-assert magic==b'PBMN' and version==2 and npages==4 and count==74    # 36 interface sprites (7 flying birds) + 19 episode cards (art + title)
+assert magic==b'PBMN' and version==2 and npages==4 and count==98    # 36 interface sprites (7 flying birds) + 19 episode cards (art + title) + 12 rewards x 2
 dims=[struct.unpack_from('<2I',d,16+8*i) for i in range(npages)]
 assert dims==[(512,512),(512,512),(512,256),(512,128)]               # the four stage texture slots
 head=16+8*npages+16*count;head+=(-head)%64

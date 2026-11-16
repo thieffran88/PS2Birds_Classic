@@ -266,7 +266,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.73.0
 
-- **Menus:** tela inicial, episódios e fases com a arte original, usando as páginas de textura das fases enquanto o menu está aberto. Faltam: os pássaros e porcos decorativos dos lados da seleção de fases.
+- **Menus:** tela inicial, episódios e fases com a arte original, usando as páginas de textura das fases enquanto o menu está aberto. A decoração lateral da seleção de fases (`LS_THEME_*_LEFT/RIGHT`) só existe no APK para o tema 15 e o Egg Defender; os episódios clássicos não a têm.
 
 ## Achados da 0.74.0
 
@@ -291,7 +291,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.79.0
 
-- **Tela inicial:** pássaros voando como no `animateBirds`. Faltam o grito ao tocar (sem toque no PS2) e as recompensas que também voam no original (ovos de ouro, troféus de 3 estrelas).
+- **Tela inicial:** pássaros voando como no `animateBirds`. As recompensas dos episódios (completo e 3 estrelas) também voam, desde a 0.82.0. Falta o grito ao tocar (sem toque no PS2).
 
 ## O que falta no jogo (código nativo não recuperado)
 
