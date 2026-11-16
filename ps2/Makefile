@@ -1,7 +1,7 @@
 EE_BIN = build/PS2Birds_Classic.elf
 BOX2D_SRC = $(shell find vendor/box2d/src -name "*.cpp")
 BOX2D_OBJS = $(patsubst %.cpp,build/%.o,$(BOX2D_SRC))
-EE_OBJS = build/audio.o build/audio_assets.o build/audsrv_rpc.o build/save_codec.o build/save_mc.o build/save_assets.o build/main.o build/game.o build/sprites.o $(BOX2D_OBJS)
+EE_OBJS = build/audio.o build/audio_assets.o build/audsrv_rpc.o build/save_codec.o build/save_mc.o build/save_assets.o build/main.o build/menu.o build/game.o build/sprites.o $(BOX2D_OBJS)
 EE_INCS = -Ivendor/box2d/include -Ivendor/box2d/src -Isrc -I$(GSKIT)/include
 EE_CFLAGS = -std=gnu99 -Wextra
 EE_CXXFLAGS = -std=gnu++11 -Wextra -fno-exceptions -fno-rtti
@@ -94,6 +94,9 @@ test: assets/CAMPAIGN.BIN assets/SOUNDS.BIN assets/manifest.json joint-test tria
 	./build/green_test
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc tests/globe_test.cpp build/host/game.o $(HOST_BOX2D_OBJS) -lm -o build/globe_test
 	./build/globe_test
+	$(CC) -O2 -std=gnu99 -Wall -Wextra -Werror -Isrc -c src/menu.c -o build/host/menu.o
+	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc tests/menu_test.cpp build/host/menu.o build/host/game.o $(HOST_BOX2D_OBJS) -lm -o build/menu_test
+	./build/menu_test
 	python3 tests/sprite_test.py
 	python3 tests/profile_test.py
 	python3 tests/tools_test.py

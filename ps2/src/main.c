@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "game.h"
+#include "menu.h"
 #include "sprites.h"
 #include "definition_sprites.h"
 #include "save_mc.h"
@@ -175,7 +176,8 @@ static void block_unflipped(const GameObject *o)
         }
 }
 
-static void render(const Game *g, int connected, int paused,int menu,int selected)
+static Menu menu_state;
+static void render(const Game *g, int connected, int paused,int menu)
 {
     /* Swap texture banks when the active stage belongs to another episode. */
     sprites_select_bank(gs,game_level_bank(g->level));
@@ -260,22 +262,45 @@ static void render(const Game *g, int connected, int paused,int menu,int selecte
     }
     if (!connected) text(300,119,1,color(128,48,41),"CONECTE O CONTROLE 1");
     if(menu){
-        rect(75,154,490,217,dark);text(95,170,2,gold,"SELECIONE A FASE");
-        int first=(selected/3)*3;
-        for(int i=first;i<game_level_count() && i<first+3;i++){
-            float y=207+(i-first)*37;
-            if(i==selected)rect(89,y-5,460,31,color(44,82,79));
-            text(101,y,1,i<g->unlocked?cream:color(125,142,138),game_level_title(i));
-            static const char *star_text[4]={"","*","**","***"};
-            if(i<g->unlocked)snprintf(line,sizeof(line),"RECORDE %05d %s",g->highscores[i],star_text[game_level_stars(i,g->highscores[i])]);
-            else snprintf(line,sizeof(line),"BLOQUEADA");
-            text(340,y,1,i<g->unlocked?gold:color(125,142,138),line);
+        /* episode_selection.lua / level_selection.lua: episodes, then 15 stages per page (5 x 3). */
+        const Menu *m=&menu_state;u64 grey=color(125,142,138),panel=color(44,82,79);
+        rect(40,140,560,250,dark);
+        if(m->screen==MENU_EPISODES){
+            text(60,152,2,gold,"EPISODIOS");
+            int n=menu_episode_count(),first=(m->episode/MENU_EPISODES_PER_PAGE)*MENU_EPISODES_PER_PAGE;
+            for(int e=first;e<n && e<first+MENU_EPISODES_PER_PAGE;e++){
+                float y=186+(e-first)*28;int f=menu_episode_first(e),size=menu_episode_size(e),done=0,stars=0;
+                for(int i=f;i<f+size;i++)if(g->highscores[i]>0){done++;stars+=game_level_stars(i,g->highscores[i]);}
+                int open=f<g->unlocked;
+                if(e==m->episode)rect(52,y-5,536,25,panel);
+                text(64,y,1,open?cream:grey,menu_episode_name(e));
+                if(open)snprintf(line,sizeof(line),"%3d/%-3d FASES  %3d/%-3d *",done,size,stars,size*3);
+                else snprintf(line,sizeof(line),"BLOQUEADO");
+                text(340,y,1,open?gold:grey,line);
+            }
+            snprintf(line,sizeof(line),"EPISODIO %d DE %d",m->episode+1,n);
+            text(60,358,1,color(156,195,178),line);
+            text(60,372,1,cream,"CIMA/BAIXO: EPISODIO  X: ABRIR  O/SELECT: VOLTAR AO JOGO");
+        }else{
+            int f=menu_episode_first(m->episode),size=menu_episode_size(m->episode);
+            int page=m->level/MENU_PER_PAGE,pages=(size+MENU_PER_PAGE-1)/MENU_PER_PAGE;
+            text(60,152,2,gold,menu_episode_name(m->episode));
+            for(int c=0;c<MENU_PER_PAGE;c++){
+                int l=page*MENU_PER_PAGE+c;if(l>=size)break;
+                int i=f+l,open=i<g->unlocked;float x=70+(c%MENU_COLUMNS)*102,y=186+(c/MENU_COLUMNS)*52;
+                rect(x,y,88,44,l==m->level?gold:open?panel:color(30,45,44));
+                text(x+8,y+6,2,l==m->level?dark:open?cream:grey,open?menu_level_label(i):"--");
+                static const char *star_text[4]={"","*","* *","* * *"};
+                if(open)text(x+8,y+30,1,l==m->level?dark:gold,star_text[game_level_stars(i,g->highscores[i])]);
+            }
+            for(int d=0;d<pages && d<24;d++)rect(320-pages*7+d*14,344,8,8,d==page?cream:grey);
+            int i=f+m->level;
+            if(i<g->unlocked)snprintf(line,sizeof(line),"%s  RECORDE %05d",game_level_title(i),g->highscores[i]);
+            else snprintf(line,sizeof(line),"%s  BLOQUEADA",game_level_title(i));
+            text(60,358,1,color(156,195,178),line);
+            text(60,372,1,cream,"DIRECIONAL: FASE  L2/R2: PAGINA  X: JOGAR  O: EPISODIOS");
         }
-        snprintf(line,sizeof(line),"LISTA %d-%d DE %d",first+1,first+3<game_level_count()?first+3:game_level_count(),game_level_count());
-        text(95,307,1,color(156,195,178),line);
-        text(95,321,1,cream,"CIMA/BAIXO: FASE  ESQ/DIR: PAGINA");
-        text(95,335,1,cream,"X: JOGAR  L1: SALVAR  R3: SOM");
-        text(95,351,1,color(156,195,178),save_mc_status());
+        text(430,152,1,color(156,195,178),save_mc_status());
     }
     gsKit_queue_exec(gs);
     gsKit_sync_flip(gs);
@@ -349,7 +374,7 @@ int main(int argc,char **argv)
     {extern unsigned char save_icon[];sprites_read_icon(save_icon,SAVE_ICON_BYTES);}
     Game g; game_init(&g); save_mc_init(&g); audio_init();
     u32 old_buttons=0;
-    int paused=0, previously_connected=0, analog_requested=0,menu=1,selected=0;
+    int paused=0, previously_connected=0, analog_requested=0,menu=1;menu_state.screen=MENU_EPISODES;menu_state.episode=0;menu_state.level=0;
     u64 previous_time=GetTimerSystemTime();
     for (;;) {
         u64 now=GetTimerSystemTime();u32 elapsed_seconds,elapsed_us;
@@ -375,21 +400,21 @@ int main(int argc,char **argv)
         if(pressed & PAD_R3)audio_toggle();
         if(pressed & PAD_L1)save_mc_request();
         if(!menu && !paused && (pressed & PAD_L2) && game_use_powerup(&g))audio_play(SFX_EXPLOSION);
-        if(pressed & PAD_SELECT){menu=!menu;selected=g.level;audio_play(menu?SFX_MENU_MOVE:SFX_MENU_BACK);}
+        if(pressed & PAD_SELECT){menu=!menu;menu_open(&menu_state,g.level);audio_play(menu?SFX_MENU_MOVE:SFX_MENU_BACK);}
         if(menu){
-            if(pressed&PAD_UP){selected=(selected+game_level_count()-1)%game_level_count();audio_play(SFX_MENU_MOVE);}
-            if(pressed&PAD_DOWN){selected=(selected+1)%game_level_count();audio_play(SFX_MENU_MOVE);}
-            if(pressed&(PAD_LEFT|PAD_RIGHT)){
-                int count=game_level_count(),pages=(count+2)/3,row=selected%3;
-                int page=(selected/3+((pressed&PAD_RIGHT)?1:pages-1))%pages;
-                selected=page*3+row;if(selected>=count)selected=count-1;audio_play(SFX_MENU_MOVE);
-            }
-            if((pressed&PAD_CROSS) && game_load_level(&g,selected)){menu=0;paused=0;audio_play(SFX_MENU_CONFIRM);audio_play(SFX_START);}
-            old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu,selected);continue;
+            unsigned keys=((pressed&PAD_UP)?MENU_KEY_UP:0)|((pressed&PAD_DOWN)?MENU_KEY_DOWN:0)|((pressed&PAD_LEFT)?MENU_KEY_LEFT:0)|((pressed&PAD_RIGHT)?MENU_KEY_RIGHT:0)
+                |((pressed&PAD_CROSS)?MENU_KEY_OK:0)|((pressed&PAD_CIRCLE)?MENU_KEY_BACK:0)|((pressed&PAD_L2)?MENU_KEY_PREV:0)|((pressed&PAD_R2)?MENU_KEY_NEXT:0);
+            int was=menu_state.screen,result=menu_input(&menu_state,keys,g.unlocked);
+            if(result==MENU_MOVED)audio_play(SFX_MENU_MOVE);
+            else if(result==MENU_ENTERED)audio_play(SFX_MENU_CONFIRM);
+            else if(result==MENU_LOCKED)audio_play(SFX_MENU_BACK);
+            else if(result==MENU_LEFT_SCREEN){audio_play(SFX_MENU_BACK);if(was==MENU_EPISODES)menu=0;}
+            else if(result==MENU_PLAY && game_load_level(&g,menu_episode_first(menu_state.episode)+menu_state.level)){menu=0;paused=0;audio_play(SFX_MENU_CONFIRM);audio_play(SFX_START);}
+            old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
         }
         if ((pressed & PAD_CROSS) && g.state==WON){
-            if(!game_next_level(&g)){menu=1;selected=g.level;audio_play(SFX_MENU_BACK);}else audio_play(SFX_START);
-            paused=0;old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu,selected);continue;
+            if(!game_next_level(&g)){menu=1;menu_open(&menu_state,g.level);audio_play(SFX_MENU_BACK);}else audio_play(SFX_START);
+            paused=0;old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
         }
         if (pressed & PAD_TRIANGLE) { game_reset(&g); paused=0;audio_play(SFX_START); }
         if (connected && (pressed & PAD_START)){paused=!paused;audio_play(SFX_MENU_BACK);}
@@ -423,6 +448,6 @@ int main(int argc,char **argv)
         }
         old_buttons=buttons;
         previously_connected=connected;
-        render(&g,connected,paused,menu,selected);
+        render(&g,connected,paused,menu);
     }
 }
