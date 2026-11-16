@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.69.0)
+# Lacunas do port (levantamento atualizado na 0.70.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -250,7 +250,11 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.69.0
 
-- **Música:** `title_theme` nos menus e `level_complete` na vitória, por streaming de PCM. Faltam as músicas e ambiências de cada tema dentro das fases (`blockTable.themes[].music`: `ambient_*`, `level_*`, `birthday_ambience`, etc.) e as dos episódios especiais.
+- **Música:** `title_theme` nos menus e `level_complete` na vitória, por streaming de PCM. Ambiências dos temas feitas na 0.70.0.
+
+## Achados da 0.70.0
+
+- **Ambiência dos temas:** 11 faixas, 699 fases. A `dino_ambience` (episódio Dino) é um recurso baixado à parte no original e não está no APK; as 46 fases Dino ficam sem música.
 
 ## O que falta no jogo (código nativo não recuperado)
 

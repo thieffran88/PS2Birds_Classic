@@ -40,9 +40,9 @@ static uint32_t rd32(const unsigned char *p){return (uint32_t)p[0]|((uint32_t)p[
 static float rdf(const unsigned char *p){uint32_t v=rd32(p);float f;memcpy(&f,&v,4);return f;}
 int game_campaign_load(const unsigned char *data,unsigned size)
 {
-    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=7)return -1;
+    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=8)return -1;
     unsigned nl=rd32(data+8),no=rd32(data+12),nj=rd32(data+16),np=rd32(data+20),nf=rd32(data+24),ns=rd32(data+28);
-    const unsigned LV=4*(3+16+8+2+1+2+2+1),OB=4*16,JO=4*20,PO=4*18,FO=4*14;
+    const unsigned LV=4*(3+16+8+2+1+2+2+1+1),OB=4*16,JO=4*20,PO=4*18,FO=4*14;
     if(nl==0 || nl>MAX_CAMPAIGN_LEVELS || 32ull+(unsigned long long)nl*LV+(unsigned long long)no*OB+(unsigned long long)nj*JO+np*PO+nf*FO+ns!=size)return -1;
     const unsigned char *pl=data+32,*po=pl+nl*LV,*pj=po+no*OB,*pp=pj+nj*JO,*pf=pp+np*PO,*pstr=pf+nf*FO;
     char *strings=(char*)malloc(ns+1);CampaignLevel *levels=(CampaignLevel*)calloc(nl,sizeof(CampaignLevel));
@@ -74,7 +74,7 @@ int game_campaign_load(const unsigned char *data,unsigned size)
         q+=76;l.gravity=rdf(q);l.sling_x=rdf(q+4);l.sling_y=rdf(q+8);l.ground_y=rdf(q+12);l.pixels=rdf(q+16);l.view_x=rdf(q+20);l.view_y=rdf(q+24);l.view_scale=rdf(q+28);
         l.title=STR(q+32);l.script=STR(q+36);l.bank=(int)rd32(q+40);j0=rd32(q+44);jc=rd32(q+48);
         if(j0+jc>nj||jc>MAX_LEVEL_JOINTS)goto bad;
-        l.joints=jc?joints+j0:0;l.joint_count=(int)jc;l.star_silver=(int)rd32(q+52);l.star_gold=(int)rd32(q+56);l.powerup=(int)rd32(q+60);
+        l.joints=jc?joints+j0:0;l.joint_count=(int)jc;l.star_silver=(int)rd32(q+52);l.star_gold=(int)rd32(q+56);l.powerup=(int)rd32(q+60);l.music=(int)rd32(q+64);
     }
 #undef STR
     campaign_levels=levels;campaign_polygons=polys;campaign_forces=forces;campaign_count=nl;
@@ -583,6 +583,7 @@ int game_level_stars(int index,int score){
     const CampaignLevel &l=campaign_levels[index];
     return score>=l.star_gold?3:score>=l.star_silver?2:1;
 }
+int game_level_music(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].music:-1;}
 int game_level_silver(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].star_silver:0;}
 int game_level_bank(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].bank:0;}
 const char *game_level_script(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].script:"";}

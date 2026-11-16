@@ -10,44 +10,68 @@
 #endif
 
 static char path[256]="MUSIC.BIN";
-static int current=MUSIC_NONE,enabled=1,count;
-static unsigned char *data;  /* whole MUSIC.BIN (about 3 MiB): no disc access while playing */
-static unsigned start,offsets[MUSIC_COUNT],sizes[MUSIC_COUNT],loops[MUSIC_COUNT],position;
+static int current=MUSIC_NONE,enabled=1,count,loaded_ambience=MUSIC_NONE;
+static unsigned start,offsets[MUSIC_MAX],sizes[MUSIC_MAX],loops[MUSIC_MAX],position;
+/* Title theme and level complete (about 3 MiB) stay resident; the current theme ambience
+   (up to about 4 MiB) is read when a stage of another theme starts, never while playing. */
+static unsigned char *resident,*ambience;static unsigned ambience_capacity;
 static char chunk[MUSIC_CHUNK] __attribute__((aligned(64)));
 
 static unsigned rd32(const unsigned char *p){return p[0]|(p[1]<<8)|(p[2]<<16)|((unsigned)p[3]<<24);}
 void music_set_data_path(const char *p){if(p){strncpy(path,p,sizeof(path)-1);path[sizeof(path)-1]=0;}}
+static int read_at(int fd,unsigned at,unsigned char *to,unsigned n){
+    lseek(fd,(off_t)at,SEEK_SET);unsigned done=0;
+    while(done<n){int r=(int)read(fd,to+done,n-done);if(r<=0)return 0;done+=(unsigned)r;}
+    return 1;
+}
 int music_init(void){
-    free(data);data=0;count=0;current=MUSIC_NONE;
+    free(resident);free(ambience);resident=ambience=0;ambience_capacity=0;loaded_ambience=MUSIC_NONE;count=0;current=MUSIC_NONE;
     int fd=open(path,O_RDONLY);if(fd<0)return 0;
-    long n=(long)lseek(fd,0,SEEK_END);lseek(fd,0,SEEK_SET);
-    if(n>16+12*MUSIC_COUNT && n<=8*1048576)data=(unsigned char*)malloc((size_t)n);
-    long done=0;while(data && done<n){int r=(int)read(fd,data+done,(size_t)(n-done));if(r<=0)break;done+=r;}
-    close(fd);
-    int ok=data && done==n && !memcmp(data,"PBMU",4) && rd32(data+4)==1 && rd32(data+8)==MUSIC_COUNT;
-    start=ok?rd32(data+12):0;
-    for(int i=0;ok && i<MUSIC_COUNT;i++){
-        offsets[i]=rd32(data+16+12*i);sizes[i]=rd32(data+20+12*i);loops[i]=rd32(data+24+12*i);
-        ok=sizes[i]>0 && (long)start+offsets[i]+sizes[i]<=n;
+    long n=(long)lseek(fd,0,SEEK_END);
+    unsigned char head[16+12*MUSIC_MAX];
+    int ok=n>16 && read_at(fd,0,head,16) && !memcmp(head,"PBMU",4) && rd32(head+4)==1;
+    unsigned c=ok?rd32(head+8):0;start=ok?rd32(head+12):0;
+    ok=ok && c>=MUSIC_RESIDENT && c<=MUSIC_MAX && read_at(fd,16,head+16,12*c);
+    for(unsigned i=0;ok && i<c;i++){
+        offsets[i]=rd32(head+16+12*i);sizes[i]=rd32(head+20+12*i);loops[i]=rd32(head+24+12*i);
+        ok=sizes[i]>0 && (long)start+offsets[i]+sizes[i]<=n && (i==0 || offsets[i]>=offsets[i-1]);
     }
+    /* Resident tracks are stored first: one read of [offsets[0], end of track 1). */
+    unsigned resident_bytes=ok?offsets[1]+sizes[1]-offsets[0]:0;
+    if(ok)ok=(resident=(unsigned char*)malloc(resident_bytes))!=0 && read_at(fd,start+offsets[0],resident,resident_bytes);
+    close(fd);
     struct audsrv_fmt_t format={22050,16,1};
     if(ok)ok=audsrv_set_format(&format)==0;
-    if(!ok){free(data);data=0;return 0;}
+    if(!ok){free(resident);resident=0;return 0;}
     audsrv_set_volume(70);
-    count=MUSIC_COUNT;return 1;
+    count=(int)c;return 1;
 }
+int music_count(void){return count;}
 int music_current(void){return current;}
+static const unsigned char *track_data(int track){
+    return track<MUSIC_RESIDENT?resident+offsets[track]-offsets[0]:ambience;
+}
 void music_play(int track){
-    if(track<0 || track>=count){current=MUSIC_NONE;return;}
+    current=MUSIC_NONE;
+    if(track<0 || track>=count)return;
+    if(track>=MUSIC_RESIDENT && track!=loaded_ambience){
+        loaded_ambience=MUSIC_NONE;
+        if(sizes[track]>ambience_capacity){free(ambience);ambience_capacity=0;ambience=(unsigned char*)malloc(sizes[track]);if(!ambience)return;ambience_capacity=sizes[track];}
+        int fd=open(path,O_RDONLY);if(fd<0)return;
+        int ok=read_at(fd,start+offsets[track],ambience,sizes[track]);close(fd);
+        if(!ok)return;
+        loaded_ambience=track;
+    }
     current=track;position=0;
 }
 void music_set_enabled(int on){enabled=on;}
 void music_tick(void){
-    if(!data || current==MUSIC_NONE || !enabled)return;
+    if(!resident || current==MUSIC_NONE || !enabled)return;
+    const unsigned char *data=track_data(current);
     /* Fill what the ring can take, a chunk at a time, without blocking the frame. */
     for(int guard=0;guard<8 && audsrv_available()>=MUSIC_CHUNK;guard++){
         unsigned left=sizes[current]-position,n=left<MUSIC_CHUNK?left:MUSIC_CHUNK;
-        memcpy(chunk,data+start+offsets[current]+position,n);
+        memcpy(chunk,data+position,n);
         if(n<MUSIC_CHUNK)memset(chunk+n,0,MUSIC_CHUNK-n);
         audsrv_play_audio(chunk,MUSIC_CHUNK);
         position+=n;

@@ -254,7 +254,8 @@ const char *game_level_script(int index);
 int game_level_bank(int index);
 /* Stars (0-3) a score earns on a stage: 0 when unwon, then win/silver/gold thresholds. */
 int game_level_stars(int index,int score);
-int game_level_silver(int index);   /* silver threshold (starTable silverScore) */
+int game_level_silver(int index);
+int game_level_music(int index);    /* MUSIC.BIN track of the stage's theme ambience, -1: none */   /* silver threshold (starTable silverScore) */
 float game_level_gravity(int index);
 int game_get_object(const Game *game,int index,GameObject *object);
 #ifdef __cplusplus

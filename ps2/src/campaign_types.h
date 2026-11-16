@@ -46,5 +46,7 @@ typedef struct {const CampaignObject *objects;int count,birds;int bird_types[16]
     /* Star thresholds from starLimits.lua: a win is 1 star, silverScore 2, goldScore 3. */
     int star_silver,star_gold;
     /* Power-up of the stage (shop tutorials, episodes.lua shopTutorialPowerup): POWERUP_*. */
-    int powerup;} CampaignLevel;
+    int powerup;
+    /* MUSIC.BIN track of the theme's ambience (themes.lua music), -1 when none. */
+    int music;} CampaignLevel;
 #endif

@@ -192,7 +192,7 @@ static void render(const Game *g, int connected, int paused,int menu)
     rect(0,0,640,109,dark);
     text(30,22,3,cream,"PS2BIRDS CLASSIC");
     if(sprites_load_failed())text(31,55,1,gold,"SPRITES.BIN AUSENTE: COPIE-O PARA A PASTA DO ELF");
-    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.69.0 / PLAYSTATION 2");
+    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.70.0 / PLAYSTATION 2");
     text(430,55,1,color(135,192,181),audio_status());
     text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
     text(31,80,2,gold,game_level_title(g->level));
@@ -373,7 +373,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: started as '%s'\n",argc>0 && argv && argv[0]?argv[0]:"");
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.69.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.70.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
@@ -397,10 +397,10 @@ int main(int argc,char **argv)
         float frame_seconds=(float)elapsed_seconds+(float)elapsed_us/1000000.0f;
         if(frame_seconds>0.1f)frame_seconds=0.1f;
         save_mc_poll();audio_tick();
-        /* Music: title_theme in the menus (gamelogic.lua currentMainMenuSong); level_complete once on a win. */
-        if(menu && music_current()!=MUSIC_TITLE)music_play(MUSIC_TITLE);
-        else if(!menu && music_current()==MUSIC_TITLE)music_play(MUSIC_NONE);
-        else if(!menu && g.state!=WON && music_current()==MUSIC_LEVEL_COMPLETE)music_play(MUSIC_NONE);
+        /* Music: title_theme in the menus (gamelogic.lua currentMainMenuSong); in a stage, the looped
+           ambience of its theme (themes.lua music, gamelogic.lua currentMusic); level_complete once on a win. */
+        if(menu){if(music_current()!=MUSIC_TITLE)music_play(MUSIC_TITLE);}
+        else if(g.state!=WON){int ambience=game_level_music(g.level);if(music_current()!=ambience){music_play(ambience);printf("PS2Birds: ambience %d %s\n",ambience,music_current()==ambience?"playing":"unavailable");}}
         music_tick();
         struct padButtonStatus status;
         u32 buttons=0;

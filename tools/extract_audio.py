@@ -12,23 +12,33 @@ SOUNDS=[
  ('STAR_1','star_1',2,0),('STAR_2','star_2',3,0),('STAR_3','star_3',4,0),('SCORE_COUNT','gamescorescreen_score_count_loop',7,0),('NEW_HIGHSCORE','highscore',9,0)]
 # Music (audio.lua clip names): title_theme loops in the menus (gamelogic.lua currentMainMenuSong),
 # level_complete plays once when the stage is won (level_end.lua LevelComplete.onEntry).
-MUSIC=[('TITLE','title_theme',1),('LEVEL_COMPLETE','level_complete',0)]
+# Ambience of each theme inside the stages (themes.lua music -> audio.lua clip file), looped like
+# gamelogic.lua does with currentMusic. The first two tracks stay in memory; one ambience at a time
+# is read from the disc when a stage of another theme starts. Clip names in the third column.
+MUSIC=[('TITLE','title_theme',1,'title_theme'),('LEVEL_COMPLETE','level_complete',0,'level_complete'),
+ ('DRYFOREST','ambient_white_dryforest',1,'ambient_theme1'),('JUNGLE','ambient_green_jungleish',1,'ambient_theme2'),
+ ('SAVANNAH','ambient_red_savannah',1,'ambient_theme3'),('CITY','ambient_city',1,'ambient_theme7'),
+ ('CONSTRUCTION','ambient_construction',1,'construction_theme1'),('CAVE','ab_cave_ambient',1,'ambient_cave'),
+ ('BIRTHDAY','birthday_ambience',1,'birthday_ambience'),('BEACH','BeachAmbience',1,'beach_ambience'),
+ ('WATERFALL','ambience_waterfall',1,'ambience_waterfall'),('RAIN','RainAmbience',1,'rain_ambience'),
+ ('BLACKBIRD','ambience_blackbird_01',1,'ambience_blackbird_01')]
+MUSIC_OF_CLIP={clip:i for i,(_,_,_,clip) in enumerate(MUSIC)}
 MUSIC_RATE=22050
 def write_music_bin(apk,out,ffmpeg,folder):
  """MUSIC.BIN streamed by the game: "PBMU", version 1, count, data start, then (offset,bytes,loop)
  per track, then signed 16-bit little-endian mono PCM at 22050 Hz."""
  tracks=[];pcm=bytearray()
  with zipfile.ZipFile(apk) as archive:
-  for name,filename,loop in MUSIC:
+  for name,filename,loop,_ in MUSIC:
    source='assets/data/audio/music/'+filename+'.ogg';ogg=archive.read(source)
    if not ogg.startswith(b'OggS'):raise ValueError('Unsupported audio container: '+source)
    p=Path(folder)/'music.ogg';raw=Path(folder)/'music.raw';p.write_bytes(ogg)
    subprocess.run([ffmpeg,'-v','error','-y','-i',str(p),'-ar',str(MUSIC_RATE),'-ac','1','-f','s16le',str(raw)],check=True)
    data=raw.read_bytes()
    while len(pcm)%2048:pcm.append(0)
-   tracks.append({'id':name,'source':source,'source_sha256':hashlib.sha256(ogg).hexdigest(),'offset':len(pcm),'bytes':len(data),'loop':loop,'seconds':round(len(data)/2/MUSIC_RATE,2),'pcm_sha256':hashlib.sha256(data).hexdigest()})
+   tracks.append({'id':name,'source':source,'source_sha256':hashlib.sha256(ogg).hexdigest(),'offset':len(pcm),'bytes':len(data),'loop':loop,'clip':MUSIC[len(tracks)][3],'seconds':round(len(data)/2/MUSIC_RATE,2),'pcm_sha256':hashlib.sha256(data).hexdigest()})
    pcm+=data
- start=2048
+ start=(16+12*len(tracks)+2047)//2048*2048
  head=struct.pack('<4s3I',b'PBMU',1,len(tracks),start)+b''.join(struct.pack('<3I',t['offset'],t['bytes'],t['loop']) for t in tracks)
  (out/'MUSIC.BIN').write_bytes(head+bytes(start-len(head))+bytes(pcm))
  (out/'music_manifest.json').write_text(json.dumps({'format':'s16le mono PCM','sample_rate':MUSIC_RATE,'tracks':tracks},indent=2)+'\n')
