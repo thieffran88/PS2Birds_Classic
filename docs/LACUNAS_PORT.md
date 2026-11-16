@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.65.0)
+# Lacunas do port (levantamento atualizado na 0.66.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -234,6 +234,11 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 - **Egg Defender jogável por roteiro:** 6, 9, 10 e 12 vencidas pela busca com espera antes dos tiros. As outras 11 perdem com a grade atual; vale uma busca mais fina (esperas maiores, ângulos de 1°) antes de concluir que há diferença de física.
 - **Power-ups da loja (Double Score, Extra Bird, Homing Hat, Chrono Bird, Boom Box):** decompilados; dependem de um menu de seleção que o port não tem.
+
+## Achados da 0.66.0
+
+- **Menu de fases:** episódios e grade 5 × 3 com páginas, estrelas e cadeados, no formato do original. Faltam os sprites originais do menu (fundos `LS_LEVEL_BG_*`, pontinhos `LS_DOT_*`, cadeados), o menu principal, a tela de fim de fase e a escolha de power-ups.
+- **Egg Defender:** 8 e 14 vencidas com esperas maiores; 9 fases ainda sem roteiro.
 
 ## O que falta no jogo (código nativo não recuperado)
 

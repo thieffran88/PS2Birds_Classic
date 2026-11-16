@@ -748,13 +748,13 @@ static const Stage stages[]={
  {"EggDefender_5",195,5,77,9,{{0,0,-1.0f,0}},0}, /* EGG DEFENDER 5 (sem roteiro vencedor) */
  {"EggDefender_6",218,5,101,11,{{45,100,0.5f,0.0f},{0,40,-1.0f,0.0f},{-10,94,-1.0f,0.0f},{25,70,0.5f,0.0f},{20,52,-1.0f,3.0f},{40,64,-1.0f,3.0f}},6}, /* EGG DEFENDER 6 */
  {"EggDefender_7",226,5,98,12,{{0,0,-1.0f,0}},0}, /* EGG DEFENDER 7 (sem roteiro vencedor) */
- {"EggDefender_8",192,5,76,10,{{0,0,-1.0f,0}},0}, /* EGG DEFENDER 8 (sem roteiro vencedor) */
+ {"EggDefender_8",192,5,76,10,{{5,76,0.5f,1.5f},{-5,40,0.5f,1.5f},{15,76,-1.0f,6.0f},{55,40,0.5f,1.5f},{10,52,0.5f,3.0f},{0,94,0.5f,6.0f},{40,64,-1.0f,6.0f}},7}, /* EGG DEFENDER 8 */
  {"EggDefender_9",213,5,87,10,{{35,94,-1.0f,0.0f},{5,82,0.5f,0.0f}},2}, /* EGG DEFENDER 9 */
  {"EggDefender_10",237,5,114,10,{{60,100,0.5f,3.0f},{25,76,-1.0f,3.0f},{55,58,-1.0f,0.0f}},3}, /* EGG DEFENDER 10 */
  {"EggDefender_11",275,5,151,10,{{0,0,-1.0f,0}},0}, /* EGG DEFENDER 11 (sem roteiro vencedor) */
  {"EggDefender_12",240,6,122,11,{{40,100,-1.0f,0.0f},{20,94,-1.0f,3.0f},{5,64,-1.0f,0.0f},{50,88,-1.0f,3.0f},{-5,94,0.5f,3.0f},{40,82,0.5f,3.0f},{55,70,-1.0f,0.0f},{50,100,0.5f,3.0f}},8}, /* EGG DEFENDER 12 */
  {"EggDefender_13",226,5,110,9,{{0,0,-1.0f,0}},0}, /* EGG DEFENDER 13 (sem roteiro vencedor) */
- {"EggDefender_14",253,5,135,13,{{0,0,-1.0f,0}},0}, /* EGG DEFENDER 14 (sem roteiro vencedor) */
+ {"EggDefender_14",253,5,135,13,{{10,58,0.5f,6.0f},{-10,46,0.5f,3.0f},{50,100,-1.0f,1.5f}},3}, /* EGG DEFENDER 14 */
  {"EggDefender_15",245,7,123,12,{{0,0,-1.0f,0}},0}, /* EGG DEFENDER 15 (sem roteiro vencedor) */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
@@ -879,7 +879,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==73);
+    assert(unverified==71);
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");
