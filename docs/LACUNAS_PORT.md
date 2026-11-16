@@ -23,7 +23,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.21.0
 
-- `blocks.lua` declara, para cada pássaro, duas tabelas por material: `damageMultiplier` (já usada pelo port: azul ×2,9 no gelo, amarelo ×2,4 na madeira, preto ×4 na pedra) e `velocityMultiplier` (azul ×1,9 no gelo e ×2 em osso; Terence ×1,8). Esta segunda tabela ainda não é aplicada: ela controla quanto da velocidade o pássaro conserva ao atravessar a peça.
+- `blocks.lua` declara, para cada pássaro, duas tabelas por material: `damageMultiplier` (já usada pelo port: azul ×2,9 no gelo, amarelo ×2,4 na madeira, preto ×4 na pedra) e `velocityMultiplier` (azul ×1,9 no gelo e ×2 em osso; Terence ×1,8). Esta segunda tabela ainda não é aplicada: ela controla quanto da velocidade o pássaro conserva ao atravessar a peça. Tabela completa lida do `blocks.lua`: azul — vidro 1,9 e osso 2; Terence — madeira/pedra/vidro 1,8; bumerangue — madeira e vidro 1,3; baiacu — 4 (inflado 2); pena do vermelho — pedra/vidro 0,9; demais pássaros 1. Teste feito em 16/11/2026 (fórmula do `AdventureModeCollisions.lua`: ao quebrar a peça, velocidade anterior × min(1, sobra do dano × multiplicador), só onde o multiplicador passa de 1): 86 fases deixam de ser vencidas pelos roteiros verificados, porque esses roteiros foram calibrados na física atual. Aplicar a tabela exige recalcular os roteiros das fases afetadas; por isso o código não foi mantido.
 - 5-16 e 3-20 são as únicas fases sem roteiro, e as duas só têm pássaros pretos/explosivos. A cena da 5-16 assenta sem perder nenhum porco (deslocamento máximo de 2 unidades), então a importação está correta; o que falta é a fórmula nativa da explosão do pássaro preto (raio, queda com a distância e impulso), que não está nos scripts Lua.
 - A página 5 precisou de um terceiro banco de texturas. Para caber, as peças numeradas desse banco usam dois quadros de dano (intacto e muito danificado) em vez de quatro.
 
@@ -304,6 +304,6 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 1. Egg Defender: os tiros dos canhões, a calibragem dos voadores e a mira do vermelho (`pigTargeted`); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
-2. `velocityMultiplier` por material (dado já recuperado).
+2. `velocityMultiplier` por material (dado já recuperado; testado: quebra 86 roteiros de vitória, que precisam ser recalculados junto).
 3. Cordas.
 4. Pan de câmera e música.
