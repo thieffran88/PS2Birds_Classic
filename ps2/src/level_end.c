@@ -2,7 +2,7 @@
 #include <math.h>
 
 void level_end_start(LevelEnd *e,int score,int old_score,int stars,int silver){
-    e->timer=0;e->score=score;e->old_score=old_score;e->stars=stars;e->silver=silver;
+    e->timer=0;e->next_count=0;e->score=score;e->old_score=old_score;e->stars=stars;e->silver=silver;
 }
 void level_end_update(LevelEnd *e,float seconds){e->timer+=seconds;}
 float level_end_count_time(const LevelEnd *e){

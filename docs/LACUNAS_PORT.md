@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.67.0)
+# Lacunas do port (levantamento atualizado na 0.68.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -242,7 +242,11 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.67.0
 
-- **Tela de fim de fase:** tempos da contagem, das estrelas e do novo recorde vindos do `level_end.lua`. Faltam os sprites (`BIG_STAR_*`, `NEW_HIGHSCORE_BADGE`, `BUTTON_MENU`/`RESTART`/`NEXTLEVEL`, `LEVEL_FAILED_PIG`), as partículas das estrelas e os sons próprios (`star_1..3`, `score_count`, `new_highscore`), que ainda não são extraídos do APK.
+- **Tela de fim de fase:** tempos da contagem, das estrelas e do novo recorde vindos do `level_end.lua`. Faltam os sprites (`BIG_STAR_*`, `NEW_HIGHSCORE_BADGE`, `BUTTON_MENU`/`RESTART`/`NEXTLEVEL`, `LEVEL_FAILED_PIG`) e as partículas das estrelas.
+
+## Achados da 0.68.0
+
+- **Sons do fim de fase:** `star_1..3`, `score_count` e `new_highscore` extraídos e tocados nos momentos do `level_end.lua`. Ainda falta a música (`music/level_complete.ogg` é tocada em streaming no original; a SPU2 do port só guarda efeitos curtos).
 
 ## O que falta no jogo (código nativo não recuperado)
 

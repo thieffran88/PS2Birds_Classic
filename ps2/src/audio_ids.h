@@ -22,8 +22,13 @@
 #define SFX_EXPLOSION 17
 #define SFX_LAUNCH_WHITE 18
 #define SFX_DROP_EGG 19
+#define SFX_STAR_1 20
+#define SFX_STAR_2 21
+#define SFX_STAR_3 22
+#define SFX_SCORE_COUNT 23
+#define SFX_NEW_HIGHSCORE 24
 #define SFX_CHANNELS 10
-#define SFX_COUNT 20
+#define SFX_COUNT 25
 typedef struct {int channel,cooldown;} AudioAsset;
 static const AudioAsset audio_assets[SFX_COUNT]={
  {0,4},
@@ -46,5 +51,10 @@ static const AudioAsset audio_assets[SFX_COUNT]={
  {9,0},
  {1,0},
  {2,0},
+ {2,0},
+ {3,0},
+ {4,0},
+ {7,0},
+ {9,0},
 };
 #endif

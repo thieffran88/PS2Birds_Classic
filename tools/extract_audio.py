@@ -8,7 +8,8 @@ SOUNDS=[
  ('SPLIT','special egg',2,0),('BOOST','special boost',2,0),('PIG','piglette destroyed',3,8),
  ('WOOD','wood destroyed a1',4,12),('GLASS','light destroyed a1',4,12),('STONE','rock destroyed a1',4,12),
  ('WIN','level clear military a1',5,0),('LOSE','level failed piglets a1',6,0),('START','level start military a1',7,0),
- ('STRETCH','slingshot streched',8,30),('LAUNCH_BLACK','bird 04 flying',1,0),('EXPLOSION','special egg explosion',9,0),('LAUNCH_WHITE','bird 05 flying',1,0),('DROP_EGG','special group',2,0)]
+ ('STRETCH','slingshot streched',8,30),('LAUNCH_BLACK','bird 04 flying',1,0),('EXPLOSION','special egg explosion',9,0),('LAUNCH_WHITE','bird 05 flying',1,0),('DROP_EGG','special group',2,0),
+ ('STAR_1','star_1',2,0),('STAR_2','star_2',3,0),('STAR_3','star_3',4,0),('SCORE_COUNT','gamescorescreen_score_count_loop',7,0),('NEW_HIGHSCORE','highscore',9,0)]
 def write_sounds_bin(entries,bank,path):
  """SOUNDS.BIN read by the game: "PBSN", version, count, data start, (offset,size) per effect, samples."""
  start=(16+8*len(entries)+63)//64*64

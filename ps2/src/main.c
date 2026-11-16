@@ -191,7 +191,7 @@ static void render(const Game *g, int connected, int paused,int menu)
     rect(0,0,640,109,dark);
     text(30,22,3,cream,"PS2BIRDS CLASSIC");
     if(sprites_load_failed())text(31,55,1,gold,"SPRITES.BIN AUSENTE: COPIE-O PARA A PASTA DO ELF");
-    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.67.0 / PLAYSTATION 2");
+    else text(31,55,1,color(135,192,181),"PROTOTIPO 0.68.0 / PLAYSTATION 2");
     text(430,55,1,color(135,192,181),audio_status());
     text(31,68,1,save_mc_busy()?gold:color(135,192,181),save_mc_status());
     text(31,80,2,gold,game_level_title(g->level));
@@ -371,7 +371,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: started as '%s'\n",argc>0 && argv && argv[0]?argv[0]:"");
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.67.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.68.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
@@ -425,7 +425,15 @@ int main(int argc,char **argv)
             else if(result==MENU_PLAY && game_load_level(&g,menu_episode_first(menu_state.episode)+menu_state.level)){menu=0;paused=0;audio_play(SFX_MENU_CONFIRM);audio_play(SFX_START);}
             old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
         }
-        if(g.state==WON)level_end_update(&level_end,frame_seconds);
+        if(g.state==WON){
+            /* level_end.lua: star_N as each star appears, score_count while counting, new_highscore with the badge. */
+            int stars=level_end_shown_stars(&level_end),badge=level_end_new_highscore(&level_end),counting=level_end_counting(&level_end);
+            level_end_update(&level_end,frame_seconds);
+            int now=level_end_shown_stars(&level_end);
+            if(now>stars)audio_play(now==1?SFX_STAR_1:now==2?SFX_STAR_2:SFX_STAR_3);
+            if(counting && level_end_counting(&level_end) && level_end.timer>=level_end.next_count){audio_play(SFX_SCORE_COUNT);level_end.next_count+=0.36f;  /* length of gamescorescreen_score_count_loop */}
+            if(!badge && level_end_new_highscore(&level_end))audio_play(SFX_NEW_HIGHSCORE);
+        }
         if((pressed & PAD_CIRCLE) && (g.state==WON || g.state==LOST)){
             menu=1;menu_open(&menu_state,g.level);audio_play(SFX_MENU_BACK);
             old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
