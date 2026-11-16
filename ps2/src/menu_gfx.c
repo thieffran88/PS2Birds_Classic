@@ -10,34 +10,45 @@
 
 typedef struct {int page,x,y,w,h,dx,dy;} MenuSprite;
 static char path[256]="MENU.BIN";
-static MenuSprite sprites[MG_MAX];static int count;static unsigned char *pixels;
+static MenuSprite sprites[MG_MAX];static int count;
+static int failed;   /* no retry every frame after a failure; cleared when the menu closes */
 static unsigned rd32(const unsigned char *p){return p[0]|(p[1]<<8)|(p[2]<<16)|((unsigned)p[3]<<24);}
 static int rd16(const unsigned char *p){return p[0]|(p[1]<<8);}
 void menu_gfx_set_data_path(const char *p){if(p){strncpy(path,p,sizeof(path)-1);path[sizeof(path)-1]=0;}}
 int menu_gfx_active(void){return count>0 && sprites_bank()==SPRITES_MENU_BANK;}
 int menu_gfx_count(void){return count;}
-void menu_gfx_release(void){if(!menu_gfx_active()){free(pixels);pixels=0;}}
+void menu_gfx_release(void){failed=0;}
 int menu_gfx_show(GSGLOBAL *gs){
     if(menu_gfx_active())return 1;
+    if(failed)return 0;
     /* MENU.BIN: "PBMN", version 1, sprites, pages, (w,h) per page, per sprite page,x,y,w,h (u16)
-       and the composition offset dx,dy (s16), padding to 64, then the CT32 pages. */
-    int fd=open(path,O_RDONLY);if(fd<0)return 0;
+       and the composition offset dx,dy (s16), padding to 64, then the CT32 pages. The pages are
+       read one at a time into the stage bank's RAM buffer (no 2.8 MiB allocation: after a stage
+       the theme ambience and background take that room) and sent into the texture slots. */
+    int fd=open(path,O_RDONLY);if(fd<0){failed=1;return 0;}
     long n=(long)lseek(fd,0,SEEK_END);lseek(fd,0,SEEK_SET);
-    free(pixels);pixels=n>64 && n<=4*1048576?(unsigned char*)memalign(128,(size_t)n):0;
-    long done=0;while(pixels && done<n){int r=(int)read(fd,pixels+done,(size_t)(n-done));if(r<=0)break;done+=r;}
-    close(fd);
-    unsigned c=pixels && done==n?rd32(pixels+8):0,np=c?rd32(pixels+12):0,w[4],h[4];
-    int ok=pixels && done==n && !memcmp(pixels,"PBMN",4) && rd32(pixels+4)==1 && c>0 && c<=MG_MAX && np==4;
-    unsigned head=16+8*np+16*c;head=(head+63)/64*64;unsigned long total=head;
-    for(unsigned i=0;ok && i<np;i++){w[i]=rd32(pixels+16+8*i);h[i]=rd32(pixels+20+8*i);total+=w[i]*h[i]*4;}
+    unsigned char head[16+8*4+16*MG_MAX+64];
+    int ok=n>64 && read(fd,head,32)==32 && !memcmp(head,"PBMN",4) && rd32(head+4)==1 && rd32(head+12)==4;
+    unsigned c=ok?rd32(head+8):0,w[4],h[4],biggest=0;
+    ok=ok && c>0 && c<=MG_MAX;
+    unsigned headsize=ok?(16+8*4+16*c+63)/64*64:0;
+    ok=ok && headsize<=sizeof(head) && read(fd,head+32,headsize-32)==(int)(headsize-32);
+    unsigned long total=headsize;
+    for(unsigned i=0;ok && i<4;i++){w[i]=rd32(head+16+8*i);h[i]=rd32(head+20+8*i);total+=w[i]*h[i]*4;if(w[i]*h[i]*4>biggest)biggest=w[i]*h[i]*4;}
     ok=ok && total==(unsigned long)n;
     for(unsigned i=0;ok && i<c;i++){
-        const unsigned char *q=pixels+16+8*np+16*i;MenuSprite *s=&sprites[i];
+        const unsigned char *q=head+16+8*4+16*i;MenuSprite *s=&sprites[i];
         s->page=rd16(q);s->x=rd16(q+2);s->y=rd16(q+4);s->w=rd16(q+6);s->h=rd16(q+8);s->dx=(short)rd16(q+10);s->dy=(short)rd16(q+12);
-        ok=s->page<(int)np && (unsigned)(s->x+s->w)<=w[s->page] && (unsigned)(s->y+s->h)<=h[s->page];
+        ok=s->page<4 && (unsigned)(s->x+s->w)<=w[s->page] && (unsigned)(s->y+s->h)<=h[s->page];
     }
-    if(ok)ok=sprites_upload_pages(gs,pixels+head,w,h,(int)np);
-    if(!ok){printf("PS2Birds: MENU.BIN rejected\n");free(pixels);pixels=0;count=0;return 0;}
+    unsigned char *buffer=ok?sprites_borrow_buffer(biggest,0):0;ok=ok && buffer;
+    for(unsigned i=0;ok && i<4;i++){
+        unsigned bytes=w[i]*h[i]*4,done=0;
+        while(done<bytes){int r=(int)read(fd,buffer+done,bytes-done);if(r<=0)break;done+=(unsigned)r;}
+        ok=done==bytes && sprites_upload_page(gs,(int)i,buffer,w[i],h[i]);
+    }
+    close(fd);
+    if(!ok){printf("PS2Birds: MENU.BIN rejected\n");count=0;failed=1;return 0;}
     count=(int)c;return 1;
 }
 static void alpha_test(GSGLOBAL *gs,int on){

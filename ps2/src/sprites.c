@@ -7,6 +7,8 @@
 #include <malloc.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <kernel.h>
+#include <dmaKit.h>
 /* Nothing of the original art is linked into the ELF: SPRITES.BIN (made from the player's
    APK by tools/gerar_iso.py, on the disc or next to the ELF) holds the frame tables, the
    pixels of every texture bank and the memory-card icon. The tables are read once; a
@@ -108,6 +110,24 @@ int sprites_upload_pages(GSGLOBAL *gs,unsigned char *pixels,const unsigned *w,co
         atlas->Width=w[i];atlas->Height=h[i];atlas->PSM=GS_PSM_CT32;atlas->Filter=GS_FILTER_LINEAR;
         atlas->Mem=(unsigned int*)(pixels+offset);gsKit_texture_upload(gs,atlas);offset+=w[i]*h[i]*4;
     }
+    bank=SPRITES_MENU_BANK;return 1;
+}
+unsigned char *sprites_borrow_buffer(unsigned need,unsigned *size)
+{
+    /* Menus draw no stage: they may use the stage bank's RAM copy as a staging buffer. The
+       stage bank is then read again from the disc when a stage is shown. */
+    if(!bank_buffer){unsigned most=0;if(!read_header())return NULL;for(int i=0;i<SPRITE_BANK_COUNT;i++)if(bank_bytes(i)>most)most=bank_bytes(i);bank_buffer=(unsigned char*)memalign(64,most);if(!bank_buffer)return NULL;}
+    unsigned most=0;for(int i=0;i<SPRITE_BANK_COUNT;i++)if(bank_bytes(i)>most)most=bank_bytes(i);
+    if(most<need)return NULL;
+    loaded=-1;if(size)*size=most;return bank_buffer;
+}
+int sprites_upload_page(GSGLOBAL *gs,int i,unsigned char *pixels,unsigned w,unsigned h)
+{
+    if(!ready || i<0 || i>=SPRITE_PAGE_COUNT || w*h*4>(unsigned)sprite_slot_bytes[i])return 0;
+    GSTEXTURE *atlas=&atlases[i];
+    atlas->Width=w;atlas->Height=h;atlas->PSM=GS_PSM_CT32;atlas->Filter=GS_FILTER_LINEAR;
+    atlas->Mem=(unsigned int*)pixels;FlushCache(0);gsKit_texture_upload(gs,atlas);
+    dmaKit_wait_fast();   /* the staging buffer is reused for the next page */
     bank=SPRITES_MENU_BANK;return 1;
 }
 const unsigned char *sprites_frame_rgba(int id,int *w,int *h,int *px,int *py,int *stride)

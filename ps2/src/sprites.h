@@ -11,6 +11,10 @@ int sprites_bank(void);
 #define SPRITES_MENU_BANK (-2)
 int sprites_upload_pages(GSGLOBAL *gs,unsigned char *pixels,const unsigned *w,const unsigned *h,int count);
 GSTEXTURE *sprites_slot(int i);
+/* The stage bank's RAM buffer lent to a menu (NULL if smaller than need); the stage bank is
+   read again afterwards. sprites_upload_page sends one page into slot i and waits for it. */
+unsigned char *sprites_borrow_buffer(unsigned need,unsigned *size);
+int sprites_upload_page(GSGLOBAL *gs,int i,unsigned char *pixels,unsigned w,unsigned h);
 /* RGBA (alpha 0..128) of a frame of the active bank, still in RAM: size, pivot, row stride in pixels. */
 const unsigned char *sprites_frame_rgba(int id,int *w,int *h,int *px,int *py,int *stride);
 /* Where SPRITES.BIN (frame tables, every texture bank, save icon) is read from; set before sprites_init. */

@@ -209,6 +209,8 @@ static LevelEnd level_end;
 /* gamelogic.lua: each bird left gives 10000 shown over it, 0.5 s apart (birdBuffTimer), then
    the level-complete screen opens; won_wait counts down that pause. */
 static float won_wait;
+/* Pause panel cursor: 0 resume, 1 restart, 2 menu, 3 sound. */
+static int pause_choice;
 
 /* Level button of each episode's first page (episodes.lua level_button, translated by hand). */
 static const unsigned char episode_button[]={1,4,6,1,1,1,6,5,6,6,7,1,1,1,1,1,1,1,1};
@@ -440,12 +442,19 @@ static void render(const Game *g, int connected, int paused,int menu)
             gsKit_prim_sprite(gs,0,0,150,448,1,GS_SETREG_RGBAQ(10,24,30,0x60,0));
             gsKit_prim_sprite(gs,150,0,640,448,1,GS_SETREG_RGBAQ(0,0,0,0x30,0));
             gsKit_prim_sprite(gs,186,236,640,368,1,GS_SETREG_RGBAQ(10,24,30,0x60,0));   /* behind the hints */
-            ui_draw(gs,UI_RESUME,62,74,1.7f,0x80808080);text(16,104,1,cream,"START: CONTINUAR");
-            ui_draw(gs,UI_RESTART,62,170,1.45f,0x80808080);text(16,202,1,cream,"TRIÂNGULO: REINICIAR");
-            ui_draw(gs,UI_MENU,62,266,1.45f,0x80808080);text(16,298,1,cream,"O: MENU");
+            /* The chosen button is bigger and brighter, with a light ring behind it. */
+            static const float by[4]={74,170,266,372},bs[4]={1.7f,1.45f,1.45f,1.6f};
+            static const char *label[4]={"CONTINUAR","REINICIAR","MENU","SOM"};
+            static const int id[4]={UI_RESUME,UI_RESTART,UI_MENU,UI_SOUND};
             int sound_on=!strcmp(audio_status(),"SOM LIGADO");
-            ui_draw(gs,UI_SOUND,62,372,1.6f,0x80808080);if(!sound_on)ui_draw(gs,UI_SOUND_OFF,62,372,1.45f,0x80808080);
-            text(16,404,1,cream,"R3: SOM");
+            for(int b=0;b<4;b++){
+                int sel=b==pause_choice;float k=bs[b]*(sel?1.18f:1.0f);
+                if(sel)disk(62,by[b],34*k/1.45f,color(255,236,150));
+                ui_draw(gs,id[b],62,by[b],k,sel?0x80909090:0x80606060);
+                if(b==3 && !sound_on)ui_draw(gs,UI_SOUND_OFF,62,by[b],k*0.9f,0x80808080);
+                text(16,by[b]+32,1,sel?gold:cream,label[b]);
+            }
+            text(16,428,1,color(135,192,181),"X: ESCOLHER   O: VOLTAR");
             font_draw(gs,FONT_BASIC,395,150,2.2f,FONT_CENTER,0x80808080,"pausa");
             text(200,250,1,cream,"DIRECIONAL/ANALÓGICO: MIRA   X: LANÇAR");
             text(200,270,1,cream,"QUADRADO (SEGURAR): AJUSTE FINO");
@@ -646,7 +655,18 @@ int main(int argc,char **argv)
             if(counting && level_end_counting(&level_end) && level_end.timer>=level_end.next_count){audio_play(SFX_SCORE_COUNT);level_end.next_count+=0.36f;  /* length of gamescorescreen_score_count_loop */}
             if(!badge && level_end_new_highscore(&level_end))audio_play(SFX_NEW_HIGHSCORE);
         }
-        if((pressed & PAD_CIRCLE) && (g.state==WON || g.state==LOST || paused)){
+        if(paused && connected && !menu){
+            /* PausePage navigation: up/down choose, X confirms, O goes back to the game. */
+            if(pressed & PAD_UP){pause_choice=(pause_choice+3)%4;audio_play(SFX_MENU_MOVE);}
+            if(pressed & PAD_DOWN){pause_choice=(pause_choice+1)%4;audio_play(SFX_MENU_MOVE);}
+            int choose=(pressed & PAD_CROSS)?pause_choice:(pressed & PAD_CIRCLE)?0:-1;
+            if(choose==0){paused=0;audio_play(SFX_MENU_BACK);}
+            else if(choose==1){game_reset(&g);paused=0;audio_play(SFX_START);}
+            else if(choose==2){menu=1;paused=0;menu_open(&menu_state,g.level);audio_play(SFX_MENU_BACK);}
+            else if(choose==3){audio_toggle();music_set_enabled(!strcmp(audio_status(),"SOM LIGADO"));audio_play(SFX_MENU_CONFIRM);}
+            if(choose>=0){old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;}
+        }
+        if((pressed & PAD_CIRCLE) && (g.state==WON || g.state==LOST)){
             menu=1;paused=0;menu_open(&menu_state,g.level);audio_play(SFX_MENU_BACK);
             old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
         }
@@ -655,7 +675,7 @@ int main(int argc,char **argv)
             paused=0;old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
         }
         if (pressed & PAD_TRIANGLE) { game_reset(&g); paused=0;audio_play(SFX_START); }
-        if (connected && (pressed & PAD_START)){paused=!paused;audio_play(SFX_MENU_BACK);}
+        if (connected && (pressed & PAD_START)){paused=!paused;pause_choice=0;audio_play(SFX_MENU_BACK);}
         if (connected && !paused) {
             float horizontal=0, vertical=0;
             if ((status.mode >> 4)==7) {
