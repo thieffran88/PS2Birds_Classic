@@ -48,5 +48,7 @@ typedef struct {const CampaignObject *objects;int count,birds;int bird_types[16]
     /* Power-up of the stage (shop tutorials, episodes.lua shopTutorialPowerup): POWERUP_*. */
     int powerup;
     /* MUSIC.BIN track of the theme's ambience (themes.lua music), -1 when none. */
-    int music;} CampaignLevel;
+    int music;
+    /* THEMES.BIN background (themes.lua theme of the stage), -1 when none. */
+    int theme;} CampaignLevel;
 #endif

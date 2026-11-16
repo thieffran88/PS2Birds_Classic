@@ -27,9 +27,9 @@ static const CampaignJoint breakable_list[]={
  {JOINT_WELD,2,3,30,3.5f,30,0.5f,0,0,0.001f,0,0,0,0,0,0,0,0,0},
 };
 static const CampaignLevel campaign_levels[]={
- {joint_objects,6,1,{0},20,0,0,5,20,100,200,5,"JOINT FIXTURE","fixture-joint",0,joint_list,3,0,0,0,-1},
- {joint_objects,6,1,{0},20,0,0,5,20,100,200,5,"BREAK FIXTURE","fixture-break",0,breakable_list,1,0,0,0,-1},
- {joint_objects,10,1,{0},20,0,0,5,20,100,200,5,"MOTOR FIXTURE","fixture-motor",0,motor_list,2,0,0,0,-1},};
+ {joint_objects,6,1,{0},20,0,0,5,20,100,200,5,"JOINT FIXTURE","fixture-joint",0,joint_list,3,0,0,0,-1,-1},
+ {joint_objects,6,1,{0},20,0,0,5,20,100,200,5,"BREAK FIXTURE","fixture-break",0,breakable_list,1,0,0,0,-1,-1},
+ {joint_objects,10,1,{0},20,0,0,5,20,100,200,5,"MOTOR FIXTURE","fixture-motor",0,motor_list,2,0,0,0,-1,-1},};
 #define CAMPAIGN_COUNT (sizeof(campaign_levels)/sizeof(campaign_levels[0]))
 static const CampaignPolygon campaign_polygons[]={{0,0,{0}}};
 static const CampaignForce campaign_forces[]={{0,0,0,0,0,0,0,0,0,0,0,0,0,0}};

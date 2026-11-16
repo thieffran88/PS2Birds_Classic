@@ -1,4 +1,4 @@
-# PS2Birds Classic — protótipo 0.73.0
+# PS2Birds Classic — protótipo 0.74.0
 
 Port não oficial do Angry Birds Classic para PlayStation 2 (homebrew). São 745 fases do
 Tutorial e dos episódios Poached Eggs, Mighty Hoax, Danger Above, Big Setup, Ham 'Em High, Mine and Dine,
@@ -13,7 +13,7 @@ cartão de memória são convertidos a partir do APK que o jogador possui, pelo 
 1. Baixe o kit `PS2Birds_Classic_<versão>_Gerador_Windows.zip` e extraia numa pasta.
 2. Copie para a pasta o APK original `com.rovio.angrybirds.apk` (a versão suportada é
    conferida pelo SHA-256 que está em `profiles/supported_apk.json`).
-3. Execute `GERAR_ISO.bat`. Em menos de um minuto saem:
+3. Execute `GERAR_ISO.bat`. Em alguns minutos (os fundos das fases levam a maior parte) saem:
    - `PS2Birds_Classic.iso` — para o PCSX2, OPL ou gravação;
    - `PS2Birds_Classic_USB\` — `PS2BIRDS.ELF` e os arquivos de dados, para USB/HDD.
 
@@ -29,8 +29,8 @@ python3 tools/gerar_iso.py com.rovio.angrybirds.apk --saida PS2Birds_Classic.iso
 
 ## Jogar
 
-A ISO tem `PS2BIRDS.ELF` e sete arquivos de dados: `CAMPAIGN.BIN` (fases), `SPRITES.BIN`
-(texturas e ícone), `SOUNDS.BIN` (efeitos), `MUSIC.BIN` (músicas), `UI.BIN` (interface), `FONT.BIN` (fontes) e `MENU.BIN` (menus). Para rodar o ELF de USB/HDD, copie os oito
+A ISO tem `PS2BIRDS.ELF` e oito arquivos de dados: `CAMPAIGN.BIN` (fases), `SPRITES.BIN`
+(texturas e ícone), `SOUNDS.BIN` (efeitos), `MUSIC.BIN` (músicas), `UI.BIN` (interface), `FONT.BIN` (fontes), `MENU.BIN` (menus) e `THEMES.BIN` (fundos das fases). Para rodar o ELF de USB/HDD, copie os nove
 arquivos para a mesma pasta. Sem os dados, o jogo mostra uma tela de aviso. Vídeo NTSC
 640×448; o console físico ainda não foi validado.
 

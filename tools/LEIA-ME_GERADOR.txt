@@ -17,10 +17,11 @@ Como usar
 ---------
 1. Extraia este ZIP numa pasta (por exemplo C:\PS2Birds).
 2. Copie o APK para dentro dessa pasta (ou arraste o APK sobre GERAR_ISO.bat).
-3. Dê dois cliques em GERAR_ISO.bat e aguarde (menos de 1 minuto num PC comum).
+3. Dê dois cliques em GERAR_ISO.bat e aguarde (de 5 a 10 minutos num PC comum;
+   a montagem dos fundos das fases leva a maior parte).
 4. Resultado, na mesma pasta:
    - PS2Birds_Classic.iso          -> para emulador (PCSX2) ou gravação/OPL;
-   - PS2Birds_Classic_USB\         -> PS2BIRDS.ELF + SPRITES.BIN + SOUNDS.BIN + UI.BIN + FONT.BIN + MENU.BIN +
+   - PS2Birds_Classic_USB\         -> PS2BIRDS.ELF + SPRITES.BIN + SOUNDS.BIN + UI.BIN + FONT.BIN + MENU.BIN + THEMES.BIN +
                                       MUSIC.BIN + CAMPAIGN.BIN, para rodar de USB/HDD (copie a
                                       pasta inteira; o ELF lê os .BIN ao lado dele).
 

@@ -17,6 +17,7 @@
 #include "ui.h"
 #include "font.h"
 #include "menu_gfx.h"
+#include "background.h"
 #include "sprites.h"
 #include "definition_sprites.h"
 #include "save_mc.h"
@@ -216,11 +217,15 @@ static void menu_screens(const Game *g)
     const Menu *m=&menu_state;char line[64];
     if(m->screen==MENU_MAIN){
         /* main_menu.lua: sky, clouds, ground, MENU_LOGO and the PLAY button. */
+        /* The main menu stands on the first theme's picture, as in the original. */
+        if(background_prepare(0,388))background_draw(gs);
+        else{
         for(int y=0;y<400;y+=8){float t=y/400.0f;rect(0,y,640,8,color((int)(122+110*t),(int)(196+44*t),(int)(222+26*t)));}
         for(int i=0;i<8;i++){disk(40+i*85,250+(i%2)*10,42,color(236,244,250));}
         rect(0,262,640,140,color(236,244,250));
         for(int i=0;i<6;i++){float x=60+i*110;rect(x,300-(i%3)*18,26,100,color(196,212,236));disk(x+13,292-(i%3)*18,30,color(196,212,236));}
         rect(0,394,640,54,color(32,44,96));rect(0,388,640,8,color(105,190,40));
+        }
         menu_gfx_draw(gs,MG_LOGO,320,96,1.0f,0x80808080);
         font_draw(gs,FONT_BASIC,320,150,1.25f,FONT_CENTER,0x60707880,"CLASSIC");
         float half=74,cy=262;int lw=menu_gfx_width(MG_PLAY_LEFT);
@@ -295,8 +300,11 @@ static void render(const Game *g, int connected, int paused,int menu)
     render_sling_x=g->sling_x;render_sling_y=g->sling_y;
     if(!paused && !menu)visual_frame++;
     u64 cream=color(248,240,210), dark=color(23,53,58), gold=color(246,191,65);
-    gsKit_clear(gs,color(120,194,205));
     char line[64];
+    /* themes.lua: the stage's theme picture (sky, layers, ground) copied into the frame. */
+    if(background_prepare(game_level_theme(g->level),(int)render_ground))background_draw(gs);
+    else{
+    gsKit_clear(gs,color(120,194,205));
     disk(555,158,24,color(255,221,121));
     disk(75,156,16,color(219,238,219)); disk(96,148,21,color(219,238,219));
     disk(120,157,15,color(219,238,219));
@@ -311,6 +319,7 @@ static void render(const Game *g, int connected, int paused,int menu)
     rect(0,render_ground,640,448-render_ground,color(119,81,53));
     rect(0,render_ground,640,8,color(133,180,67));
     rect(0,render_ground+8,640,3,color(69,113,56));
+    }
     sprite_draw(gs,SPR_SLING_SHOT_01_BACK,render_sling_x,render_sling_y,render_scale/render_pixels,0);
     for(int pass=0;pass<2;pass++) for(int i=0;i<game_object_count(g);i++) {
         GameObject o;if(!game_get_object(g,i,&o)||!o.alive)continue;
@@ -397,7 +406,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
             text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
             text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.73.0 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.74.0 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             text(90,318,1,color(135,192,181),save_mc_status());
         } else {
@@ -481,7 +490,8 @@ static const char *data_file(const char *name,char *out)
 int main(int argc,char **argv)
 {
     SifInitRpc(0);
-    gs = gsKit_init_global();
+    /* 3 MiB one-shot queue (two halves): each frame carries the 560 KiB stage background. */
+    gs = gsKit_init_global_custom(3*1024*1024,GS_RENDER_QUEUE_PER_POOLSIZE);
     if (!gs) { printf("PS2Birds: GS allocation failed\n"); SleepThread(); return 1; }
     gs->Mode = GS_MODE_NTSC;
     gs->Width = 640; gs->Height = 448;
@@ -505,12 +515,14 @@ int main(int argc,char **argv)
     ui_set_data_path(data_file("UI.BIN",file));
     font_set_data_path(data_file("FONT.BIN",file));
     menu_gfx_set_data_path(data_file("MENU.BIN",file));
+    background_set_data_path(data_file("THEMES.BIN",file));
     printf("PS2Birds: started as '%s'\n",argc>0 && argv && argv[0]?argv[0]:"");
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     printf("PS2Birds: interface sprites %s\n",ui_init(gs)?"loaded":"unavailable");
     printf("PS2Birds: fonts %s\n",font_init(gs)?"loaded":"unavailable");
+    printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.73.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.74.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
