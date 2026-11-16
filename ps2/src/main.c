@@ -434,6 +434,24 @@ static void render(const Game *g, int connected, int paused,int menu)
             if(level_end_new_highscore(&level_end))text(300,214,1,gold,"Novo recorde!");
             else if(!level_end_counting(&level_end)){snprintf(line,sizeof(line),"RECORDE %d",g->highscores[g->level]);text(300,214,1,cream,line);}
             text(130,262,1,cream,g->level+1<game_level_count()?"X: PROXIMA  TRIANGULO: REINICIAR  O: MENU":"X: SELECAO  TRIANGULO: REINICIAR  O: MENU");
+        } else if(paused && ui_ready() && font_ready()){
+            /* PausePage.lua: a side panel with resume at the top, restart and menu below it and
+               the sound toggle at the bottom (the cross of BUTTON_OFF over it when muted). */
+            gsKit_prim_sprite(gs,0,0,150,448,1,GS_SETREG_RGBAQ(10,24,30,0x60,0));
+            gsKit_prim_sprite(gs,150,0,640,448,1,GS_SETREG_RGBAQ(0,0,0,0x30,0));
+            gsKit_prim_sprite(gs,186,236,640,368,1,GS_SETREG_RGBAQ(10,24,30,0x60,0));   /* behind the hints */
+            ui_draw(gs,UI_RESUME,62,74,1.7f,0x80808080);text(16,104,1,cream,"START: CONTINUAR");
+            ui_draw(gs,UI_RESTART,62,170,1.45f,0x80808080);text(16,202,1,cream,"TRIÂNGULO: REINICIAR");
+            ui_draw(gs,UI_MENU,62,266,1.45f,0x80808080);text(16,298,1,cream,"O: MENU");
+            int sound_on=!strcmp(audio_status(),"SOM LIGADO");
+            ui_draw(gs,UI_SOUND,62,372,1.6f,0x80808080);if(!sound_on)ui_draw(gs,UI_SOUND_OFF,62,372,1.45f,0x80808080);
+            text(16,404,1,cream,"R3: SOM");
+            font_draw(gs,FONT_BASIC,395,150,2.2f,FONT_CENTER,0x80808080,"pausa");
+            text(200,250,1,cream,"DIRECIONAL/ANALÓGICO: MIRA   X: LANÇAR");
+            text(200,270,1,cream,"QUADRADO (SEGURAR): AJUSTE FINO");
+            text(200,290,1,cream,"X NO AR: HABILIDADE DO PÁSSARO   SELECT: FASES");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.77.0 / PLAYSTATION 2");
+            text(200,350,1,color(135,192,181),save_mc_status());
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
             rect(70,110,500,250,dark);
@@ -443,7 +461,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
             text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
             text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.76.0 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.77.0 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             text(90,318,1,color(135,192,181),save_mc_status());
         } else {
@@ -559,7 +577,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s\n",font_init(gs)?"loaded":"unavailable");
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.76.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.77.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
@@ -628,8 +646,8 @@ int main(int argc,char **argv)
             if(counting && level_end_counting(&level_end) && level_end.timer>=level_end.next_count){audio_play(SFX_SCORE_COUNT);level_end.next_count+=0.36f;  /* length of gamescorescreen_score_count_loop */}
             if(!badge && level_end_new_highscore(&level_end))audio_play(SFX_NEW_HIGHSCORE);
         }
-        if((pressed & PAD_CIRCLE) && (g.state==WON || g.state==LOST)){
-            menu=1;menu_open(&menu_state,g.level);audio_play(SFX_MENU_BACK);
+        if((pressed & PAD_CIRCLE) && (g.state==WON || g.state==LOST || paused)){
+            menu=1;paused=0;menu_open(&menu_state,g.level);audio_play(SFX_MENU_BACK);
             old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
         }
         if ((pressed & PAD_CROSS) && g.state==WON){

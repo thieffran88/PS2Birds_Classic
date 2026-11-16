@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Level-end interface sprites (level_end.lua: BIG_STAR_*, NEW_HIGHSCORE_BADGE, BUTTON_MENU/
-RESTART/NEXTLEVEL, LEVEL_FAILED_PIG) for UI.BIN: one 256 x 256 RGBA5551 page that stays in
+"""Level-end and pause interface sprites (level_end.lua: BIG_STAR_*, NEW_HIGHSCORE_BADGE, BUTTON_MENU/
+RESTART/NEXTLEVEL, LEVEL_FAILED_PIG; PausePage.lua: BUTTON_RESUME, BUTTON_SFX and the BUTTON_OFF cross drawn over it when muted) for UI.BIN: one 256 x 256 RGBA5551 page that stays in
 VRAM next to the stage texture banks. Frames are scaled to 40 % (the originals are drawn for
 1024 x 768). Reads the PNG sheets of the APK; never executes game scripts."""
 import argparse,json,struct,zipfile
@@ -11,7 +11,9 @@ SCALE=0.4;PAGE=256
 # Order = identifiers in ps2/src/ui.h.
 UI=[('STAR_1','MENU_GRADIENTS_1','BIG_STAR_1'),('STAR_2','MENU_GRADIENTS_1','BIG_STAR_2'),('STAR_3','MENU_GRADIENTS_1','BIG_STAR_3'),
     ('NEW_HIGHSCORE','MENU_ELEMENTS_1_1','NEW_HIGHSCORE_BADGE'),('MENU','BUTTONS_SHEET_1_1','BUTTON_MENU'),
-    ('RESTART','BUTTONS_SHEET_1_1','BUTTON_RESTART'),('NEXT','BUTTONS_SHEET_1_1','BUTTON_NEXTLEVEL'),('FAILED_PIG','MENU_ELEMENTS_2_1','LEVEL_FAILED_PIG')]
+    ('RESTART','BUTTONS_SHEET_1_1','BUTTON_RESTART'),('NEXT','BUTTONS_SHEET_1_1','BUTTON_NEXTLEVEL'),('FAILED_PIG','MENU_ELEMENTS_2_1','LEVEL_FAILED_PIG'),
+    # PausePage.lua: resume and the sound toggle (restart and menu are shared with the level end)
+    ('RESUME','BUTTONS_SHEET_1_1','BUTTON_RESUME'),('SOUND','BUTTONS_SHEET_1_1','BUTTON_SFX'),('SOUND_OFF','BUTTONS_SHEET_1_1','BUTTON_OFF')]
 def scale(rgba,w,h,f):
     """Area-average resample (alpha-weighted colour) to round(w*f) x round(h*f)."""
     W,H=max(1,round(w*f)),max(1,round(h*f));out=bytearray(W*H*4)

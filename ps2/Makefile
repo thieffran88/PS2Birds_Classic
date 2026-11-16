@@ -24,6 +24,16 @@ build/main.o build/sprites.o: src/sprite_ids.h src/sprites.h
 
 build/audio.o: src/audio.h src/audio_ids.h
 
+# Each module's own header (a changed enum or struct rebuilds its users).
+build/main.o: src/menu.h src/level_end.h src/music.h src/ui.h src/font.h src/menu_gfx.h src/background.h
+build/menu.o: src/menu.h
+build/level_end.o: src/level_end.h
+build/music.o: src/music.h
+build/ui.o: src/ui.h
+build/font.o: src/font.h
+build/menu_gfx.o: src/menu_gfx.h src/sprites.h
+build/background.o: src/background.h src/sprites.h
+
 build/audsrv_rpc.o: vendor/audsrv/ee/src/audsrv_rpc.c
 	@mkdir -p build
 	$(EE_CC) $(EE_CFLAGS) $(EE_INCS) -c $< -o $@

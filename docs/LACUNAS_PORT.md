@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.76.0)
+# Lacunas do port (levantamento atualizado na 0.77.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -280,6 +280,10 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 - **Terreno:** as peças fixas recebem a textura de chão do tema, pintada no fundo da fase. Faltam a borda de grama/contorno que o original desenha no alto das peças de terreno e a textura nas peças de terreno que quebram.
 - **Seleção de fases:** as decorações laterais (pássaros e porcos) dos episódios clássicos não estão no APK (só as do Egg Defender).
+
+## Achados da 0.77.0
+
+- **Pausa:** painel do `PausePage.lua` com os botões originais. Ficam de fora os botões que dependem de serviços ou da loja (tutoriais em vídeo, loja, Toons, checkpoint).
 
 ## O que falta no jogo (código nativo não recuperado)
 
