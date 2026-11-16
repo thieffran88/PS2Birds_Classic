@@ -34,7 +34,7 @@ int main(int argc,char **argv){
     for(int i=2;i+3<argc;i+=4)prefix.push_back(Shot{(float)atof(argv[i]),(float)atof(argv[i+1]),(float)atof(argv[i+2]),(float)atof(argv[i+3])});
     Game g;game_init(&g);g.unlocked=game_level_count();
     struct Result{double value;Shot shot;};std::vector<Result> results;
-    const float waits[]={0,3},specials[]={-1,0.5f};
+    const float waits[]={0,1.5f,3,6},specials[]={-1,0.5f};
     for(float w:waits)for(float special:specials)for(int a=-10;a<=60;a+=5)for(int p=40;p<=100;p+=6){
         game_load_level(&g,level);settle(&g);for(const Shot &s:prefix)fire(&g,s);
         if(g.state!=AIMING){printf("%s\n",g.state==WON?"PREFIX_WON":"PREFIX_ENDED");game_destroy(&g);return 0;}
