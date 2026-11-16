@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.63.0)
+# Lacunas do port (levantamento atualizado na 0.64.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -224,6 +224,11 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 ## Achados da 0.63.0
 
 - **Canhões dos veículos:** feitos (pavio, tiro na trajetória prevista do pássaro, recuo, 10 tiros). Pendências do Egg Defender: sustentação dos voadores (4, 11, 15) e vaivém com o ovo (2, 7).
+
+## Achados da 0.64.0
+
+- **Escala das forças:** `forceRelative`/`forceX`/`forceY` são acelerações (× massa da peça), como os balões clássicos. Confirmado pelos números dos scripts (veículos que pairam com o valor exato). Resolve a sustentação dos voadores e o vaivém com o ovo.
+- **Ovo:** não bloqueia veículos, não quebra, e volta a colidir quando é solto.
 
 ## O que falta no jogo (código nativo não recuperado)
 

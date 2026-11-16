@@ -71,6 +71,8 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 #define EGG_ROCKET_START 3.0f        /* EggDefenderGadget_Rocket: 3 s to full thrust, then 2 s burning */
 #define EGG_ROCKET_RUN 2.0f
 #define EGG_INFLATE_TIME 0.5f        /* EggDefenderGadget_BalloonInflater: the balloon fills in 0.5 s ... */
+#define EGG_CATEGORY 0x0002          /* collision category of the egg, left out of the vehicles' masks */
+#define EGG_BALLOON_MASS 21.1f      /* mass of the balloon an inflater makes (BP_SINGLE_BALLOON, density 1.5) */
 #define EGG_INFLATED_FORCE_X 0.0f    /* ... and pulls with inflatedForceX/Y (the port pulls the inflater) */
 #define EGG_INFLATED_FORCE_Y -150.0f
 #define EGG_AIM_UPDATES 5.0f        /* updateAiming: aimUpdateTreshold (frames between updates) */

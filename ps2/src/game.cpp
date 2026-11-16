@@ -203,7 +203,7 @@ struct Physics: b2ContactListener {
             if(w==current_wave && level->objects[i].kind==4 && bodies[i])return;}
         current_wave++;
         for(int i=0;i<level->count;i++)if((int)OBJECT_WAVE(level->objects[i].flags)==current_wave && !bodies[i] && !level->objects[i].spawn_of)
-            create_body(i,level->objects[i].x,level->objects[i].y,level->objects[i].angle);
+            {create_body(i,level->objects[i].x,level->objects[i].y,level->objects[i].angle);if(bodies[i])vehicle_filter(i);}
         for(int k=0;k<level->joint_count && joint_count<MAX_LEVEL_JOINTS;k++){
             const CampaignJoint &j=level->joints[k];
             bool fresh=(j.a>=0 && (int)OBJECT_WAVE(level->objects[j.a].flags)==current_wave)||(j.b>=0 && (int)OBJECT_WAVE(level->objects[j.b].flags)==current_wave);
@@ -246,8 +246,12 @@ struct Physics: b2ContactListener {
             if(!strcmp(level->objects[i].definition,"BP_EGG") && egg_i<0){egg_i=i;egg_home=bodies[i]->GetPosition();egg_home_angle=bodies[i]->GetAngle();}
             else if(!strcmp(level->objects[i].definition,"BP_NEST") && nest_i<0)nest_i=i;
         }
+        if(egg_i>=0)for(b2Fixture *f=bodies[egg_i]->GetFixtureList();f;f=f->GetNext()){b2Filter fl=f->GetFilterData();fl.categoryBits=EGG_CATEGORY;f->SetFilterData(fl);}
+        for(int i=0;i<level->count;i++)if(bodies[i] && OBJECT_WAVE(level->objects[i].flags))vehicle_filter(i);
         vehicle_start(1);
     }
+    /* collider_types.egg: the egg does not stop the vehicles (they drive up to it to take it). */
+    void vehicle_filter(int i){for(b2Fixture *f=bodies[i]->GetFixtureList();f;f=f->GetNext()){b2Filter fl=f->GetFilterData();fl.maskBits&=(uint16)~EGG_CATEGORY;f->SetFilterData(fl);}}
     /* EggDefenderVehicle.getX: the first living pig of the wave, relative to the slingshot. */
     int first_pig(int wave)const{for(int i=0;i<level->count;i++)if((int)OBJECT_WAVE(level->objects[i].flags)==wave && level->objects[i].kind==4 && bodies[i] && !level->objects[i].spawn_of)return i;return -1;}
     /* abandonVehicle (EggDefenderPig): the pig lets go of the vehicle (keeping a grabbed egg),
@@ -763,7 +767,7 @@ static void remove_silently(Game *g,Physics *p,int i){
 #ifdef EGG_DEBUG
     fprintf(stderr,"remove %d %s at %.1f,%.1f\n",i,p->level->objects[i].definition,p->bodies[i]->GetPosition().x,p->bodies[i]->GetPosition().y);
 #endif
-    if(i==p->egg_grabber)p->egg_grabber=-1;
+    if(i==p->egg_grabber){p->egg_grabber=-1;p->egg_tween=-1;if(p->egg_i>=0 && p->bodies[p->egg_i])p->set_mask(p->bodies[p->egg_i],0xFFFF);}
     p->world.DestroyBody(p->bodies[i]);p->bodies[i]=NULL;
     const CampaignObject &o=p->level->objects[i];
     if(o.kind==4 && p->is_goal(i) && !o.spawn_of)p->escaped_pigs++;  /* a pig that got away no longer has to be beaten */
@@ -805,6 +809,7 @@ static void egg_tick(Game *g,Physics *p,float dt){
         if(v.c && v.c->update && pig>=0)v.c->update(&v,dt);
     }
     b2Body *egg=p->egg_i>=0?p->bodies[p->egg_i]:NULL;
+    if(egg)p->health[p->egg_i]=p->level->objects[p->egg_i].strength;  /* BP_EGG: defence 1000, it does not break */
     for(int i=0;i<p->level->count;i++){
         const CampaignObject &o=p->level->objects[i];int w=(int)OBJECT_WAVE(o.flags);
         if(!w || o.kind!=4 || o.spawn_of || !p->bodies[i])continue;
@@ -1084,15 +1089,16 @@ static void tick(Game *g) {
         b->ApplyForceToCenter(b2Vec2(f->fx*m,f->fy*m),true);
     }
     /* Egg Defender force adder (native, libAngryBirdsClassic): a piece with a non-zero
-       forceRelative is pushed by F = forceRelative x (cos angle, sin angle), along its own x axis;
-       otherwise by its forceX/forceY. Forces are in newtons, as the scripts' numbers show (a cart's
-       balloon holds at -90, climbs at -180 and sinks at -50). With targetVelocity, each component is
-       dropped while the speed on that axis is at least the target and in the same direction. With
-       applyForceInterval (bellows) F is a puff: one 1/30 s impulse per interval. disableForce
-       (togglePower) switches the piece off. */
+       forceRelative is pushed along its own x axis, (cos angle, sin angle) x forceRelative; otherwise by
+       forceX/forceY. The values are accelerations: the force is value x the piece's mass, as for the
+       balloons of the classic stages (a 4-2 balloon at -147 x its 21 kg holds the 3125 N vehicle, as
+       the script means). With targetVelocity, each component is dropped while the speed on that axis
+       is at least the target and in the same direction. With applyForceInterval (bellows) it is a
+       puff: one 1/30 s impulse per interval. disableForce (togglePower) switches the piece off. */
     if(p->egg_mode)for(int i=0;i<p->level->count;i++)if(p->bodies[i] && OBJECT_WAVE(p->level->objects[i].flags) && !p->thrust_off[i] && (p->thrust[i]!=0 || p->wforce_x[i]!=0 || p->wforce_y[i]!=0)){
         b2Body *b=p->bodies[i];float a=b->GetAngle();
-        b2Vec2 force=p->thrust[i]!=0?b2Vec2(p->thrust[i]*cosf(a),p->thrust[i]*sinf(a)):b2Vec2(p->wforce_x[i],p->wforce_y[i]),v=b->GetLinearVelocity();
+        float m=p->gadget_state[i]==5?EGG_BALLOON_MASS:b->GetMass();  /* an inflated balloon pulls with its own mass */
+        b2Vec2 force=m*(p->thrust[i]!=0?b2Vec2(p->thrust[i]*cosf(a),p->thrust[i]*sinf(a)):b2Vec2(p->wforce_x[i],p->wforce_y[i])),v=b->GetLinearVelocity();
         float target=p->target_v[i];
         if(target>0){
             if(fabsf(v.x)>=target && v.x*force.x>0)force.x=0;
@@ -1202,11 +1208,11 @@ static void tick(Game *g) {
         p->impact[i]=0;
         if(p->chain_delay[i]>0){p->chain_delay[i]-=dt;if(p->chain_delay[i]>0)continue;}
         if(IS_FRAGILE_KIND(o.kind) && p->fragile_hit[i])p->health[i]=0;
-        if(o.kind!=3 && (p->health[i]<=0 || body->GetPosition().y>p->level->ground_y+25)) {
+        if(o.kind!=3 && ((p->health[i]<=0 && i!=p->egg_i) || body->GetPosition().y>p->level->ground_y+25)) {
             b2Vec2 where=body->GetPosition();bool exploded=p->explosive(i) && p->health[i]<=0;
             p->world.DestroyBody(body);p->bodies[i]=NULL;p->release_spawns(i,where);
             if(p->egg_mode && OBJECT_WAVE(o.flags)){EggVehicle &v=p->vehicles[OBJECT_WAVE(o.flags)];if(v.active && v.c && v.c->block_removed)v.c->block_removed(&v,piece_name(&o));}
-            if(i==p->egg_grabber){p->egg_grabber=-1;p->egg_tween=-1;}
+            if(i==p->egg_grabber){p->egg_grabber=-1;p->egg_tween=-1;if(p->egg_i>=0 && p->bodies[p->egg_i])p->set_mask(p->bodies[p->egg_i],0xFFFF);}  /* releaseEgg */
             /* A destroyed TNT crate blasts its surroundings; crates caught in the blast
                go off in the following ticks, giving chain reactions. */
             if(exploded){const CampaignForce *f=p->force_of[i];
@@ -1219,6 +1225,7 @@ static void tick(Game *g) {
     g->pig_alive+=p->pending_pigs;p->pending_pigs=0;
     /* checkLevelComplete: in Egg Defender the egg must also be back in its nest. */
     bool egg_home=true;
+    if(p->egg_mode && p->egg_i>=0 && !p->bodies[p->egg_i])egg_home=false;
     if(p->egg_mode && p->egg_i>=0 && p->bodies[p->egg_i]){egg_home=false;b2Body *e=p->bodies[p->egg_i];
         b2Body *n=p->nest_i>=0?p->bodies[p->nest_i]:NULL;
         for(int k=0;k<p->joint_count;k++)if(p->joints[k] && ((p->joints[k]->GetBodyA()==e && p->joints[k]->GetBodyB()==n)||(p->joints[k]->GetBodyB()==e && p->joints[k]->GetBodyA()==n)))egg_home=true;
