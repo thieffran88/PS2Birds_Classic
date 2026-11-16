@@ -21,7 +21,7 @@ for page,levels in pages:
     for n in range(1,len(levels)+1):
         d=json.loads((ROOT/f'ps2/data/level_{page}_{n}.json').read_text())
         waved=any(o.get('wave') for o in d['objects']);pigs=sum(bool(o['kind']==4 and not o.get('spawn_of') and (o.get('wave') or not waved)) for o in d['objects']);blocks=sum(o['kind'] not in (3,4) and not o.get('gun_bubble') and not o.get('cannon_ball') for o in d['objects'])
-        if index in shots:sh='{'+','.join('{%s,%s,%.1ff}'%s for s in shots[index])+'}';c=len(shots[index])
+        if index in shots:sh='{'+','.join('{%s,%s,%.1ff,0}'%s for s in shots[index])+'}';c=len(shots[index])
         else:sh,c='{{0,0,-1.0f}}',0;missing.append(d['title'])
         rows.append(f' {{"{d["stage_script"]}",{len(d["objects"])},{pigs},{blocks},{len(d["birds"])},{sh},{c}}}, /* {d["title"]}{" (sem roteiro vencedor)" if not c else ""} */')
         index+=1

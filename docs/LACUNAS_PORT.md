@@ -1,4 +1,4 @@
-# Lacunas do port (levantamento atualizado na 0.64.0)
+# Lacunas do port (levantamento atualizado na 0.65.0)
 
 Base: os 762 níveis dos episódios do Classic foram decompilados do APK e comparados com o que o port já entende (definições de objetos, pássaros, juntas). Nenhum nível falhou na leitura.
 
@@ -229,6 +229,11 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 - **Escala das forças:** `forceRelative`/`forceX`/`forceY` são acelerações (× massa da peça), como os balões clássicos. Confirmado pelos números dos scripts (veículos que pairam com o valor exato). Resolve a sustentação dos voadores e o vaivém com o ovo.
 - **Ovo:** não bloqueia veículos, não quebra, e volta a colidir quando é solto.
+
+## Achados da 0.65.0
+
+- **Egg Defender jogável por roteiro:** 6, 9, 10 e 12 vencidas pela busca com espera antes dos tiros. As outras 11 perdem com a grade atual; vale uma busca mais fina (esperas maiores, ângulos de 1°) antes de concluir que há diferença de física.
+- **Power-ups da loja (Double Score, Extra Bird, Homing Hat, Chrono Bird, Boom Box):** decompilados; dependem de um menu de seleção que o port não tem.
 
 ## O que falta no jogo (código nativo não recuperado)
 
