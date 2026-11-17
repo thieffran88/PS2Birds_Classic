@@ -25,14 +25,20 @@ static int ready,bank=-1,loaded=-1,failed,header_ok;
 static unsigned char *bank_buffer;
 static char data_path[256]="SPRITES.BIN";
 void sprites_set_data_path(const char *path){if(path){strncpy(data_path,path,sizeof(data_path)-1);data_path[sizeof(data_path)-1]=0;}}
+/* Why the sprite file could not be used (missing-data screen): 0 none, 1 cannot open, 2 not this game's SPRITES.BIN (header),
+   3 truncated, 4 invalid page table, 5 out of memory for a bank, 6 cannot open for a bank, 7 truncated bank. */
+static int err_code;
+int sprites_error(void){return err_code;}
 int sprites_load_failed(void){return failed;}
 static unsigned rd32(const unsigned char *p){return p[0]|(p[1]<<8)|(p[2]<<16)|((unsigned)p[3]<<24);}
 static unsigned bank_bytes(int b){unsigned n=0;for(int i=0;i<SPRITE_PAGE_COUNT;i++)n+=(unsigned)(pages[b][i].width*pages[b][i].height*4);return n;}
 static int read_header(void)
 {
     if(header_ok)return 1;
-    FILE *f=fopen(data_path,"rb");if(!f)return 0;
+    int hdr_bad=0;
+    FILE *f=fopen(data_path,"rb");if(!f){err_code=1;return 0;}
     unsigned char h[32];int ok=fread(h,1,32,f)==32 && !memcmp(h,"PBSP",4) && rd32(h+4)==2 && rd32(h+8)==SPRITE_BANK_COUNT && rd32(h+12)==SPRITE_PAGE_COUNT && rd32(h+16)==SPRITE_COUNT;
+    hdr_bad=!ok;
     if(ok){
         pixel_start=rd32(h+20);icon_offset=rd32(h+24);icon_size=rd32(h+28);
         unsigned char *t=(unsigned char*)malloc(SPRITE_BANK_COUNT*SPRITE_PAGE_COUNT*12);
@@ -41,26 +47,26 @@ static int read_header(void)
         ok=t && frames && fr && fread(t,1,SPRITE_BANK_COUNT*SPRITE_PAGE_COUNT*12,f)==SPRITE_BANK_COUNT*SPRITE_PAGE_COUNT*12 && fread(fr,1,SPRITE_BANK_COUNT*SPRITE_COUNT*14,f)==SPRITE_BANK_COUNT*SPRITE_COUNT*14;
         if(ok){
             for(int b=0;b<SPRITE_BANK_COUNT;b++)for(int i=0;i<SPRITE_PAGE_COUNT;i++){const unsigned char *q=t+(b*SPRITE_PAGE_COUNT+i)*12;pages[b][i].width=(int)rd32(q);pages[b][i].height=(int)rd32(q+4);pages[b][i].offset=(int)rd32(q+8);
-                if(pages[b][i].width*pages[b][i].height*4>sprite_slot_bytes[i])ok=0;}
+                if(pages[b][i].width*pages[b][i].height*4>sprite_slot_bytes[i]){ok=0;err_code=4;}}
             for(int b=0;b<SPRITE_BANK_COUNT;b++)for(int i=0;i<SPRITE_COUNT;i++){const unsigned char *q=fr+(b*SPRITE_COUNT+i)*14;short v[7];for(int k=0;k<7;k++)v[k]=(short)(q[2*k]|(q[2*k+1]<<8));
                 SpriteFrame *s=&frames[b][i];s->x=v[0];s->y=v[1];s->w=v[2];s->h=v[3];s->px=v[4];s->py=v[5];s->page=v[6];if(s->page>=SPRITE_PAGE_COUNT)ok=0;}
         }
         free(t);free(fr);
         if(!ok){free(frames);frames=0;}
     }
-    fclose(f);header_ok=ok;return ok;
+    fclose(f);header_ok=ok;if(!ok && !err_code)err_code=hdr_bad?2:3;return ok;
 }
 static unsigned char *bank_pixels(int b)
 {
     if(loaded==b)return bank_buffer;
     if(!read_header())return NULL;
-    if(!bank_buffer){unsigned most=0;for(int i=0;i<SPRITE_BANK_COUNT;i++)if(bank_bytes(i)>most)most=bank_bytes(i);bank_buffer=(unsigned char*)memalign(64,most);if(!bank_buffer)return NULL;}
+    if(!bank_buffer){unsigned most=0;for(int i=0;i<SPRITE_BANK_COUNT;i++)if(bank_bytes(i)>most)most=bank_bytes(i);bank_buffer=(unsigned char*)memalign(64,most);if(!bank_buffer){err_code=5;return NULL;}}
     /* Plain open/read in 256 KiB blocks: stdio splits reads into tiny requests, which made a
        2.9 MB bank take about 17 s from the disc in PCSX2. */
-    int fd=open(data_path,O_RDONLY);if(fd<0)return NULL;
+    int fd=open(data_path,O_RDONLY);if(fd<0){err_code=6;return NULL;}
     unsigned want=bank_bytes(b),done=0;int ok=lseek(fd,(off_t)(pixel_start+pages[b][0].offset),SEEK_SET)==(off_t)(pixel_start+pages[b][0].offset);
     while(ok && done<want){unsigned n=want-done>262144?262144:want-done;int r=read(fd,bank_buffer+done,n);if(r<=0)ok=0;else done+=(unsigned)r;}
-    close(fd);if(!ok){loaded=-1;return NULL;}
+    close(fd);if(!ok){err_code=7;loaded=-1;return NULL;}
     loaded=b;return bank_buffer;
 }
 int sprites_read_icon(unsigned char *out,unsigned capacity)

@@ -497,7 +497,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.93.1 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.93.2 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -799,7 +799,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(200,250,1,0,cream,"{PAD} MIRA   {X} LANÇAR");
             hint(200,270,1,0,cream,"{Q} SEGURAR: AJUSTE FINO");
             hint(200,290,1,0,cream,"{X} NO AR: HABILIDADE   {SELECT} FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.93.1 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.93.2 / PLAYSTATION 2");
             mc_status(200,350,color(135,192,181));
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -810,7 +810,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(90,200,1,0,cream,"{X} NO AR: HABILIDADE DO PÁSSARO");
             hint(90,220,1,0,cream,"{T} REINICIAR   {SELECT} FASES");
             hint(90,240,1,0,cream,"{R3} SOM   {START} CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.93.1 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.93.2 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             mc_status(90,318,color(135,192,181));
         } else {
@@ -929,16 +929,26 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.93.1: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.93.2: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
-        printf("PS2Birds: data files missing (%s)\n",file);
+        printf("PS2Birds: data files missing (%s); campaign error %d, sprites error %d\n",file,game_campaign_error(),sprites_error());
+        char detail[3][96];
+        snprintf(detail[0],sizeof(detail[0]),"CAMPAIGN.BIN: ERRO %d  SPRITES.BIN: ERRO %d",game_campaign_error(),sprites_error());
+        snprintf(detail[1],sizeof(detail[1]),"VERSAO 0.93.2");
+        snprintf(detail[2],sizeof(detail[2]),"%.90s",data_on_disc?"LENDO DO DISCO (CDROM0)":data_dir);
+        for(char *q=detail[2];*q;q++)if(*q>='a'&&*q<='z')*q=(char)(*q-32);
         for(;;){
             gsKit_clear(gs,color(16,40,48));
             text(40,140,2,color(240,200,80),"ARQUIVOS DE DADOS AUSENTES");
             text(40,190,1,color(220,230,230),"GERE A ISO COM A FERRAMENTA GERAR_ISO");
             text(40,214,1,color(220,230,230),"E O APK ORIGINAL (VEJA O LEIA-ME).");
             text(40,250,1,color(160,190,190),"FALTA: CAMPAIGN.BIN, SPRITES.BIN OU SOUNDS.BIN");
+            text(40,282,1,color(240,200,80),detail[0]);
+            text(40,304,1,color(160,190,190),detail[1]);
+            text(40,326,1,color(160,190,190),"PASTA:");
+            text(104,326,1,color(160,190,190),detail[2]);
+            text(40,360,1,color(160,190,190),"ERRO 1 ABRIR  2 LER  3 MEMORIA  4 FORMATO  5 TAMANHO  6 LIMITES");
             gsKit_queue_exec(gs);gsKit_sync_flip(gs);
         }
     }

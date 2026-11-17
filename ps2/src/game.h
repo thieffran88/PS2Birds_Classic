@@ -254,6 +254,7 @@ int game_object_count(const Game *game);
 /* Reads the stages (CAMPAIGN.BIN); returns the number of stages or -1. */
 int game_campaign_load(const unsigned char *data,unsigned size);
 int game_campaign_load_file(const char *path);
+int game_campaign_error(void);   /* reason of the last failed load: see game.cpp */
 int game_level_count(void);
 int game_load_level(Game *game,int index);
 int game_next_level(Game *game);

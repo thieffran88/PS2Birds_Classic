@@ -25,6 +25,7 @@ const unsigned char *sprites_frame_rgba(int id,int *w,int *h,int *px,int *py,int
 void sprites_set_data_path(const char *path);
 /* 1 if the last bank change could not read SPRITES.BIN. */
 int sprites_load_failed(void);
+int sprites_error(void);   /* reason of the failure, see sprites.c */
 /* Copies the memory-card icon stored in SPRITES.BIN; returns its size or -1. */
 int sprites_read_icon(unsigned char *out,unsigned capacity);
 /* Mirror the following draws (negative scaleX/scaleY of a piece); 0,0 restores. */

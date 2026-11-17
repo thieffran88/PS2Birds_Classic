@@ -21,6 +21,10 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <unistd.h>
+/* Why the last CAMPAIGN.BIN load failed (shown on the missing-data screen): 0 ok, 1 cannot open, 2 empty or short read,
+   3 out of memory, 4 not a CAMPAIGN.BIN of this version, 5 sizes do not match the header, 6 a stage over the limits. */
+static int campaign_err;
+int game_campaign_error(void){return campaign_err;}
 #ifdef PS2BIRDS_RUNTIME_CAMPAIGN
 /* The stages are not part of the program: they come from CAMPAIGN.BIN, generated from the
    player's own APK by tools/gerar_iso.py (layout below and in tools/build_campaign.py). */
@@ -40,16 +44,17 @@ static uint32_t rd32(const unsigned char *p){return (uint32_t)p[0]|((uint32_t)p[
 static float rdf(const unsigned char *p){uint32_t v=rd32(p);float f;memcpy(&f,&v,4);return f;}
 int game_campaign_load(const unsigned char *data,unsigned size)
 {
-    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=9)return -1;
+    campaign_err=0;
+    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=9){campaign_err=4;return -1;}
     unsigned nl=rd32(data+8),no=rd32(data+12),nj=rd32(data+16),np=rd32(data+20),nf=rd32(data+24),ns=rd32(data+28);
     const unsigned LV=4*(3+16+8+2+1+2+2+1+1+1),OB=4*16,JO=4*20,PO=4*18,FO=4*14;
-    if(nl==0 || nl>MAX_CAMPAIGN_LEVELS || 32ull+(unsigned long long)nl*LV+(unsigned long long)no*OB+(unsigned long long)nj*JO+np*PO+nf*FO+ns!=size)return -1;
+    if(nl==0 || nl>MAX_CAMPAIGN_LEVELS || 32ull+(unsigned long long)nl*LV+(unsigned long long)no*OB+(unsigned long long)nj*JO+np*PO+nf*FO+ns!=size){campaign_err=5;return -1;}
     const unsigned char *pl=data+32,*po=pl+nl*LV,*pj=po+no*OB,*pp=pj+nj*JO,*pf=pp+np*PO,*pstr=pf+nf*FO;
     char *strings=(char*)malloc(ns+1);CampaignLevel *levels=(CampaignLevel*)calloc(nl,sizeof(CampaignLevel));
     CampaignObject *objects=(CampaignObject*)calloc(no?no:1,sizeof(CampaignObject));CampaignJoint *joints=(CampaignJoint*)calloc(nj?nj:1,sizeof(CampaignJoint));
     CampaignPolygon *polys=(CampaignPolygon*)calloc(np+1,sizeof(CampaignPolygon));CampaignForce *forces=(CampaignForce*)calloc(nf+1,sizeof(CampaignForce));
     const char **onames=(const char**)calloc(no?no:1,sizeof(char*)),**jnames=(const char**)calloc(nj?nj:1,sizeof(char*));
-    if(!strings||!levels||!objects||!joints||!polys||!forces||!onames||!jnames){free(strings);free(levels);free(objects);free(joints);free(polys);free(forces);free(onames);free(jnames);return -1;}
+    if(!strings||!levels||!objects||!joints||!polys||!forces||!onames||!jnames){campaign_err=3;free(strings);free(levels);free(objects);free(joints);free(polys);free(forces);free(onames);free(jnames);return -1;}
     memcpy(strings,pstr,ns);strings[ns]=0;
 #define STR(o) (rd32(o)<ns?strings+rd32(o):strings)
     for(unsigned i=0;i<no;i++){
@@ -79,16 +84,16 @@ int game_campaign_load(const unsigned char *data,unsigned size)
 #undef STR
     campaign_levels=levels;campaign_polygons=polys;campaign_forces=forces;campaign_count=nl;
     object_base=objects;object_names=onames;joint_base=joints;joint_names=jnames;return (int)nl;
-bad:free(strings);free(levels);free(objects);free(joints);free(polys);free(forces);free(onames);free(jnames);return -1;
+bad:campaign_err=6;free(strings);free(levels);free(objects);free(joints);free(polys);free(forces);free(onames);free(jnames);return -1;
 }
 int game_campaign_load_file(const char *path)
 {
     /* open/read in large blocks (stdio reads from the disc in tiny requests). */
-    int fd=open(path,O_RDONLY);if(fd<0)return -1;
+    campaign_err=0;int fd=open(path,O_RDONLY);if(fd<0){campaign_err=1;return -1;}
     long n=(long)lseek(fd,0,SEEK_END);lseek(fd,0,SEEK_SET);
-    unsigned char *buffer=n>0?(unsigned char*)malloc((size_t)n):0;int result=-1;long done=0;
+    unsigned char *buffer=n>0?(unsigned char*)malloc((size_t)n):0;int result=-1;long done=0;if(n<=0)campaign_err=2;else if(!buffer)campaign_err=3;
     while(buffer && done<n){long k=n-done>262144?262144:n-done;int r=(int)read(fd,buffer+done,(size_t)k);if(r<=0)break;done+=r;}
-    if(buffer && done==n)result=game_campaign_load(buffer,(unsigned)n);
+    if(buffer && done==n)result=game_campaign_load(buffer,(unsigned)n);else if(buffer)campaign_err=2;
     close(fd);free(buffer);return result;
 }
 #if !defined(_EE)
