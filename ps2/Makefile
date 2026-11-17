@@ -6,6 +6,13 @@ EE_INCS = -Ivendor/box2d/include -Ivendor/box2d/src -Isrc -I$(GSKIT)/include
 EE_CFLAGS = -std=gnu99 -Wextra
 EE_CXXFLAGS = -std=gnu++11 -Wextra -fno-exceptions -fno-rtti
 EE_LDFLAGS = -L$(GSKIT)/lib
+# GAME=rio builds the Rio variant of the runtime: its own memory-card folder and save identity, so
+# it never reads or writes the Classic progress. The default (classic) is unchanged.
+GAME ?= classic
+ifeq ($(GAME),rio)
+EE_BIN = build/PS2Birds_Rio.elf
+EE_CFLAGS += -DPS2BIRDS_SAVE_DIR='"/PS2BRIO"' -DPS2BIRDS_SAVE_ID=0x52494f31u
+endif
 EE_LIBS = -lgskit -ldmakit -lpad -lmc -lpatches -lm
 
 .PHONY: all clean test iso

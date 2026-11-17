@@ -109,3 +109,13 @@ Com isso o save do Rio tem pasta (`/PS2BRIO`) e identidade próprias. Resta liga
 ### Atualização: gravidade, o que foi procurado
 
 Procurei `gravity` em todos os scripts recuperados, nos arquivos de dados e de configuração do APK e no binário nativo: nos scripts só aparece em nomes de power-ups (`bubbleAntiGravity`, `antiGravityMaxVelocity`); nos demais arquivos só em layouts de interface do Android; no nativo, só `gravityX` e `gravityY`. **O valor do mundo não está em nenhum dado legível do Rio.** O que se sabe: as fases do Rio e as do Classic usam o mesmo `physicsToWorld` (20) e o runtime aplica `b2World(0, gravidade)` com y para baixo. Por isso +20 continua sendo o valor provisório mais plausível, mas só uma medição no jogo original (trajetória de um tiro) ou a leitura do código nativo o confirma.
+
+## Decisão: o Rio segue o mesmo esquema do Classic
+
+Decidido com o autor do projeto: o Rio funciona como o Classic.
+- **O repositório não leva dado do jogo.** Quem gera a ISO usa o próprio APK do Rio; o gerador (`tools/gerar_iso.py --jogo rio`) valida o APK pelo SHA-256 e cria os bancos de dados (campanha, sprites, sons, música, interface) a partir dele.
+- **Só o executável (ELF) e o código-fonte são distribuídos**, sem textura, som ou fase do jogo original.
+- **A gravidade fica em +20** (o valor dos arquivos do Classic), sem medição no jogo original, porque não há vídeo de referência; se alguém encontrar diferença na jogabilidade, é um parâmetro único (`--gravity`) para ajustar.
+- **Build:** `make GAME=rio` gera `build/PS2Birds_Rio.elf` com a pasta de save `/PS2BRIO` e a identidade `RIO1`; o padrão (`GAME=classic`) segue igual. Conferido: o ELF do Rio compila e só tem caminhos `/PS2BRIO`.
+
+Falta, para o Rio ter ISO: os bancos de sprites do Rio no gerador (a lista de sprites compilada em `ps2/src/sprite_ids.h` hoje é a do Classic; o Rio precisará da própria), a ligação dos demais bancos e a verificação no PCSX2.
