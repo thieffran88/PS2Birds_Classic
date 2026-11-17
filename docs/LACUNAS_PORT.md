@@ -307,3 +307,9 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 2. `velocityMultiplier` por material (dado já recuperado; testado: quebra 86 roteiros de vitória, que precisam ser recalculados junto).
 3. Cordas.
 4. Pan de câmera e música.
+
+
+## Cutscenes em quadrinhos (levantamento de 17/11/2026)
+- O APK tem as histórias de todos os episódios em `cutscenes.lua` (início, meio e fim de cada episódio, Short Fuse, Mighty Hoax, Piggy Farm, Dino, Egg Defender), montadas pelo `CUTSCENES.compo.json` e tocadas pelo `menus/cutscene.lua`.
+- **Feito na 0.86.0:** `pack1_intro` (abertura de Poached Eggs), com rolagem `cubic_in_out` e a música `birds_intro`.
+- **Falta:** as demais cenas (`world1_complete` etc.), os olhos animados do Rei Porco (`KINGPIG_EYE_*`), as cenas com vários quadros e efeitos (`createsprite`/`deletesprite`, `fittogrid`) e a moldura de filme (`CUTSCENE_FILMSTRIP_*`).

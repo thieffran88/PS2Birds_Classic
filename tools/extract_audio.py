@@ -21,7 +21,8 @@ MUSIC=[('TITLE','title_theme',1,'title_theme'),('LEVEL_COMPLETE','level_complete
  ('CONSTRUCTION','ambient_construction',1,'construction_theme1'),('CAVE','ab_cave_ambient',1,'ambient_cave'),
  ('BIRTHDAY','birthday_ambience',1,'birthday_ambience'),('BEACH','BeachAmbience',1,'beach_ambience'),
  ('WATERFALL','ambience_waterfall',1,'ambience_waterfall'),('RAIN','RainAmbience',1,'rain_ambience'),
- ('BLACKBIRD','ambience_blackbird_01',1,'ambience_blackbird_01')]
+ ('BLACKBIRD','ambience_blackbird_01',1,'ambience_blackbird_01'),
+ ('INTRO','birds_intro',0,'birds_intro')]   # cutscenes.lua pack1_intro playsound birds_intro (once)
 MUSIC_OF_CLIP={clip:i for i,(_,_,_,clip) in enumerate(MUSIC)}
 MUSIC_RATE=22050
 def write_music_bin(apk,out,ffmpeg,folder):

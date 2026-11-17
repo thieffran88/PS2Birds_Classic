@@ -18,6 +18,7 @@
 #include "font.h"
 #include "menu_gfx.h"
 #include "background.h"
+#include "cutscene.h"
 #include "sprites.h"
 #include "definition_sprites.h"
 #include "save_mc.h"
@@ -205,7 +206,9 @@ static void block_unflipped(const GameObject *o)
 }
 
 static Menu menu_state;
-static int menu_yell_request;   /* main menu: Triangle stands for the touch that makes a bird yell */
+static int menu_yell_request;
+/* cutscenes.lua pack1_intro: plays before Poached Eggs 1-1 until that stage has a score; X/Start skips. */
+static float cutscene_time=-1;static int cutscene_seen;   /* main menu: Triangle stands for the touch that makes a bird yell */
 static LevelEnd level_end;
 /* gamelogic.lua: each bird left gives 10000 shown over it, 0.5 s apart (birdBuffTimer), then
    the level-complete screen opens; won_wait counts down that pause. */
@@ -333,7 +336,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.85.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.86.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -630,7 +633,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(200,250,1,cream,"DIRECIONAL/ANALÓGICO: MIRA   X: LANÇAR");
             text(200,270,1,cream,"QUADRADO (SEGURAR): AJUSTE FINO");
             text(200,290,1,cream,"X NO AR: HABILIDADE DO PÁSSARO   SELECT: FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.85.0 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.86.0 / PLAYSTATION 2");
             text(200,350,1,color(135,192,181),save_mc_status());
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -641,7 +644,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
             text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
             text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.85.0 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.86.0 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             text(90,318,1,color(135,192,181),save_mc_status());
         } else {
@@ -751,13 +754,14 @@ int main(int argc,char **argv)
     font_set_data_path(data_file("FONT.BIN",file));
     menu_gfx_set_data_path(data_file("MENU.BIN",file));
     background_set_data_path(data_file("THEMES.BIN",file));
+    cutscene_set_data_path(data_file("CUTSCENE.BIN",file));
     printf("PS2Birds: started as '%s'\n",argc>0 && argv && argv[0]?argv[0]:"");
     if(!sprites_init(gs)){printf("PS2Birds: texture VRAM allocation failed\n");SleepThread();return 1;}
     printf("PS2Birds: interface sprites %s (VRAM %u)\n",ui_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.85.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.86.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
@@ -801,6 +805,13 @@ int main(int argc,char **argv)
         if (connected && !previously_connected) old_buttons=buttons;
         u32 pressed=buttons & ~old_buttons;
         if(menu && menu_state.screen==MENU_MAIN && (pressed&PAD_TRIANGLE))menu_yell_request=1;
+        if(cutscene_time>=0){
+            cutscene_time+=frame_seconds;
+            int over=(pressed&(PAD_CROSS|PAD_START)) || !cutscene_draw(gs,cutscene_time);
+            if(over){cutscene_stop();cutscene_time=-1;music_play(MUSIC_NONE);audio_play(SFX_START);}
+            else{gsKit_queue_exec(gs);gsKit_sync_flip(gs);}
+            old_buttons=buttons;previously_connected=connected;continue;
+        }
         if ((state==PAD_STATE_DISCONN || state==PAD_STATE_ERROR) && previously_connected) paused=1;
         if(pressed & PAD_R3){audio_toggle();music_set_enabled(!strcmp(audio_status(),"SOM LIGADO"));}
         if(pressed & PAD_L1)save_mc_request();
@@ -834,7 +845,9 @@ int main(int argc,char **argv)
             else if(result==MENU_ENTERED)audio_play(SFX_MENU_CONFIRM);
             else if(result==MENU_LOCKED)audio_play(SFX_MENU_BACK);
             else if(result==MENU_LEFT_SCREEN){audio_play(SFX_MENU_BACK);if(was==MENU_MAIN)menu=0;}
-            else if(result==MENU_PLAY && game_load_level(&g,menu_episode_first(menu_state.episode)+menu_state.level)){menu=0;paused=0;audio_play(SFX_MENU_CONFIRM);audio_play(SFX_START);}
+            else if(result==MENU_PLAY && game_load_level(&g,menu_episode_first(menu_state.episode)+menu_state.level)){menu=0;paused=0;audio_play(SFX_MENU_CONFIRM);
+                if(g.level==0 && g.highscores[0]<=0 && !cutscene_seen && cutscene_start(CUTSCENE_PACK1_INTRO)){cutscene_seen=1;cutscene_time=0;music_play(MUSIC_INTRO);}
+                else audio_play(SFX_START);}
             old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
         }
         if(g.state==WON && won_wait>0)won_wait-=frame_seconds;

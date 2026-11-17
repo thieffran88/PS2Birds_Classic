@@ -33,7 +33,7 @@ def check_apk(path):
 def generate(apk_path,out_dir,ffmpeg=None,log=print,dev=False):
     """Writes CAMPAIGN.BIN, SPRITES.BIN, SOUNDS.BIN, MUSIC.BIN, UI.BIN, FONT.BIN, MENU.BIN and THEMES.BIN into out_dir. dev=True keeps the
     intermediate files where the developer build and tests expect them (ps2/assets, ps2/data)."""
-    import build_campaign,extract_sprites,build_save_icon,pack_sprites,extract_audio,extract_ui,extract_font,extract_menu,extract_themes
+    import build_campaign,extract_cutscene,extract_sprites,build_save_icon,pack_sprites,extract_audio,extract_ui,extract_font,extract_menu,extract_themes
     out_dir=Path(out_dir);out_dir.mkdir(parents=True,exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='ps2birds-') as work:
         work=Path(work)
@@ -50,8 +50,8 @@ def generate(apk_path,out_dir,ffmpeg=None,log=print,dev=False):
         pack_sprites.pack(assets/'manifest.json',assets/'sprites.rgba',assets/'save.icn',ROOT/'ps2/src/sprite_ids.h',out_dir/'SPRITES.BIN')
         log(f'    ok ({time.time()-t:.0f} s)');t=time.time();log('3/3 Sons ...')
         extract_audio.extract(apk_path,assets,find_ffmpeg(ffmpeg),None)
-        extract_ui.extract(apk_path,assets/'UI.BIN');extract_font.extract(apk_path,assets/'FONT.BIN');extract_menu.extract(apk_path,assets/'MENU.BIN');extract_themes.extract(apk_path,assets/'THEMES.BIN')
-        for name in ['SOUNDS.BIN','MUSIC.BIN','UI.BIN','FONT.BIN','MENU.BIN','THEMES.BIN']:
+        extract_ui.extract(apk_path,assets/'UI.BIN');extract_font.extract(apk_path,assets/'FONT.BIN');extract_menu.extract(apk_path,assets/'MENU.BIN');extract_themes.extract(apk_path,assets/'THEMES.BIN');extract_cutscene.extract(apk_path,assets/'CUTSCENE.BIN')
+        for name in ['SOUNDS.BIN','MUSIC.BIN','UI.BIN','FONT.BIN','MENU.BIN','THEMES.BIN','CUTSCENE.BIN']:
             if Path(assets/name).resolve()!=Path(out_dir/name).resolve():shutil.copyfile(assets/name,out_dir/name)
         log(f'    ok ({time.time()-t:.0f} s)')
 
@@ -73,7 +73,7 @@ def main():
     if not a.ignorar_versao:check_apk(a.apk)
     with tempfile.TemporaryDirectory(prefix='ps2birds-data-') as data:
         data=Path(data);generate(a.apk,data,a.ffmpeg)
-        files=[data/'SPRITES.BIN',data/'SOUNDS.BIN',data/'MUSIC.BIN',data/'UI.BIN',data/'FONT.BIN',data/'MENU.BIN',data/'THEMES.BIN',data/'CAMPAIGN.BIN']
+        files=[data/'SPRITES.BIN',data/'SOUNDS.BIN',data/'MUSIC.BIN',data/'UI.BIN',data/'FONT.BIN',data/'MENU.BIN',data/'THEMES.BIN',data/'CUTSCENE.BIN',data/'CAMPAIGN.BIN']
         import make_iso
         a.saida.parent.mkdir(parents=True,exist_ok=True)
         make_iso.write_with_pycdlib(Path(elf).read_bytes(),a.saida.resolve(),files)

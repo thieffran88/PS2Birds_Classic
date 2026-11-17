@@ -1,7 +1,7 @@
 EE_BIN = build/PS2Birds_Classic.elf
 BOX2D_SRC = $(shell find vendor/box2d/src -name "*.cpp")
 BOX2D_OBJS = $(patsubst %.cpp,build/%.o,$(BOX2D_SRC))
-EE_OBJS = build/audio.o build/audio_assets.o build/audsrv_rpc.o build/save_codec.o build/save_mc.o build/save_assets.o build/main.o build/menu.o build/level_end.o build/music.o build/ui.o build/font.o build/menu_gfx.o build/background.o build/game.o build/sprites.o $(BOX2D_OBJS)
+EE_OBJS = build/audio.o build/audio_assets.o build/audsrv_rpc.o build/save_codec.o build/save_mc.o build/save_assets.o build/main.o build/menu.o build/level_end.o build/music.o build/ui.o build/font.o build/menu_gfx.o build/background.o build/cutscene.o build/game.o build/sprites.o $(BOX2D_OBJS)
 EE_INCS = -Ivendor/box2d/include -Ivendor/box2d/src -Isrc -I$(GSKIT)/include
 EE_CFLAGS = -std=gnu99 -Wextra
 EE_CXXFLAGS = -std=gnu++11 -Wextra -fno-exceptions -fno-rtti
@@ -33,6 +33,7 @@ build/ui.o: src/ui.h
 build/font.o: src/font.h
 build/menu_gfx.o: src/menu_gfx.h src/sprites.h
 build/background.o: src/background.h src/sprites.h
+build/cutscene.o: src/cutscene.h
 
 build/audsrv_rpc.o: vendor/audsrv/ee/src/audsrv_rpc.c
 	@mkdir -p build
