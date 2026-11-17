@@ -8,7 +8,10 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'tools'));sys.path.insert(0,str(ROOT/'tools/rio'))
 import build_campaign as classic
 from rio_import_level import convert
-BIRD_TYPE={'RedBird':0}
+# Same definition names as the Classic's runtime types (profiles/classic_level.json bird_types). The Rio birds have
+# their own radius/density (e.g. the yellow bird 0.8, the small blue bird 0.6); the runtime still uses the
+# Classic's values for each type, so these are approximations until the bird parameters are imported.
+BIRD_TYPE={'RedBird':0,'SmallBlueBird':1,'YellowBird':2,'BlackBird':3}
 def stage(path,gravity,index):
     r=convert(path,gravity)
     unknown=[b['definition'] for b in r['birds'] if b['definition'] not in BIRD_TYPE]
