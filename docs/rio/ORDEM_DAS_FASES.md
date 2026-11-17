@@ -217,3 +217,18 @@ Pendente: o runtime escolhe a faixa do tema pelo índice do tema do Classic; par
 Pássaros: as definições `SmallBlueBird`, `YellowBird` e `BlackBird` têm o mesmo nome no Rio e no Classic, então entram nos tipos 1, 2 e 3 do runtime (antes, só o vermelho entrava, e 22 das 30 fases ficavam de fora). Os pássaros do Rio têm raio e densidade próprios (por exemplo o amarelo com raio 0,8 e o azul pequeno com 0,6) e o runtime ainda usa os valores do Classic para cada tipo: é uma aproximação até importar os parâmetros dos pássaros.
 
 Resultado: **as 30 fases de `warehouse` e `warehouse2` entram no `CAMPAIGN.BIN`** (de 25 a 144 objetos, 3 a 5 pássaros, 2 a 13 alvos). O teste de fumaça (`ps2/tests/rio_smoke.cpp`, agora percorre todas as fases) carregou as 30 no `game.cpp` do Classic, deixou cada uma assentar 2 s sem perder nenhum alvo nem pontuar, e deu um tiro de teste sem valores inválidos em todas. Isso valida o carregamento e a estabilidade numérica, **não** a jogabilidade: a gravidade é provisória e os parâmetros dos pássaros são os do Classic.
+
+## Parâmetros dos pássaros (comparação com o runtime) e correção do build do Rio
+
+Comparados os pássaros do `birds.lua` do Rio com os valores fixos do runtime (`game.cpp`):
+
+| Pássaro | Raio Rio / runtime | Densidade | Restituição | Atrito |
+| --- | --- | --- | --- | --- |
+| `SmallBlueBird` (azul) | 0,6 / 0,6 | 4,5 / 4,5 | 0,25 / 0,25 | 0,3 / 0,3 |
+| `YellowBird` (amarelo) | 0,8 / 0,8 | 6 / 6 | 0,23 / 0,23 | 0,3 / 0,3 |
+| `BlackBird` (preto) | 1,0 / 1,0 | 6 / 6 | 0,03 / 0,03 | 0,3 / 0,3 |
+| `RedBird` (vermelho) | **0,85 / 0,75** | 6 / 6 | **0,43 / 0,25** | 0,3 / 0,3 |
+
+Azul, amarelo e preto já coincidem. O vermelho do Rio é maior e mais saltitante: `game.cpp` ganhou as macros `RED_RADIUS` e `RED_RESTITUTION` (0,75 e 0,25 no Classic, 0,85 e 0,43 com `make GAME=rio`; `PS2BIRDS_RIO` agora também vale para o C++). As habilidades continuam as do Classic (o amarelo tem `BOOST`, como lá; o azul do Rio tem `CLUSTER_BOMB`, que o runtime ainda não distingue).
+
+**Correção do build (erro meu):** o `make GAME=rio` reaproveitava objetos já compilados para o Classic, então um ELF do Rio feito depois de um build do Classic ainda carregava os caminhos `/PS2BIRDS`. Isso contradiz o que eu tinha registrado ("o ELF do Rio só tem `/PS2BRIO`"), que só valia para o primeiro build limpo. O `Makefile` agora guarda o jogo em `build/.game` e remove os objetos e ELFs quando `GAME` muda (os objetos do Box2D são compartilhados e ficam). Conferido em sequência: Rio só com `/PS2BRIO`, Classic só com `/PS2BIRDS`, e de novo Rio só com `/PS2BRIO`.

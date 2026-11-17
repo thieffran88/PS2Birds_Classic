@@ -105,6 +105,15 @@ static const char *joint_name(const CampaignJoint *){return "";}
 
 static float clamp(float v,float lo,float hi) { return v<lo?lo:v>hi?hi:v; }
 static void popup_at(Game *g,b2Vec2 where,int score,int kind,int material);
+/* The red bird's body. The Classic values are 0.75 / 0.25; the Rio's red bird (birds.lua, RedBird) is a
+   little bigger and bouncier: radius 0.85, restitution 0.43 (make GAME=rio). */
+#ifdef PS2BIRDS_RIO
+#define RED_RADIUS 0.85f
+#define RED_RESTITUTION 0.43f
+#else
+#define RED_RADIUS 0.75f
+#define RED_RESTITUTION 0.25f
+#endif
 struct Physics;
 /* One Egg Defender wave's vehicle and its translated controller (egg_vehicles.cpp). */
 struct EggVehicle {
@@ -472,9 +481,9 @@ struct Physics: b2ContactListener {
         b2BodyDef def;def.type=b2_dynamicBody;def.bullet=true;def.position=position;
         b2Body *body=world.CreateBody(&def);
         /* Radii, densities and restitutions consulted in the recovered blocks.lua. */
-        b2CircleShape circle;circle.m_radius=type==BIRD_PINK_TYPE?PINK_RADIUS:type==BIRD_PUFFER_TYPE?GLOBE_RADIUS:type==BIRD_BIG_TYPE?BIG_RADIUS:type==BIRD_GREEN_TYPE?GREEN_RADIUS:type==BIRD_BLUE_TYPE?0.6f:type==BIRD_YELLOW_TYPE?0.8f:(type==BIRD_BLACK_TYPE||type==BIRD_SHOCK_TYPE)?1.0f:type==BIRD_WHITE_TYPE?1.3f:type==BIRD_EGG_TYPE?WHITE_EGG_RADIUS:0.75f;
+        b2CircleShape circle;circle.m_radius=type==BIRD_PINK_TYPE?PINK_RADIUS:type==BIRD_PUFFER_TYPE?GLOBE_RADIUS:type==BIRD_BIG_TYPE?BIG_RADIUS:type==BIRD_GREEN_TYPE?GREEN_RADIUS:type==BIRD_BLUE_TYPE?0.6f:type==BIRD_YELLOW_TYPE?0.8f:(type==BIRD_BLACK_TYPE||type==BIRD_SHOCK_TYPE)?1.0f:type==BIRD_WHITE_TYPE?1.3f:type==BIRD_EGG_TYPE?WHITE_EGG_RADIUS:RED_RADIUS;
         b2FixtureDef fixture;fixture.shape=&circle;fixture.density=type==BIRD_PINK_TYPE?PINK_DENSITY:type==BIRD_PUFFER_TYPE?GLOBE_DENSITY:type==BIRD_BIG_TYPE?BIG_DENSITY:type==BIRD_GREEN_TYPE?GREEN_DENSITY:(type==BIRD_BLUE_TYPE || type==BIRD_WHITE_TYPE)?4.5f:type==BIRD_EGG_TYPE?3:6;
-        fixture.friction=0.3f;fixture.restitution=type==BIRD_PINK_TYPE?PINK_RESTITUTION:type==BIRD_PUFFER_TYPE?GLOBE_RESTITUTION:type==BIRD_BIG_TYPE?BIG_RESTITUTION:type==BIRD_GREEN_TYPE?GREEN_RESTITUTION:(type==BIRD_YELLOW_TYPE || type==BIRD_WHITE_TYPE || type==BIRD_EGG_TYPE)?0.23f:(type==BIRD_BLACK_TYPE||type==BIRD_SHOCK_TYPE)?0.03f:0.25f;
+        fixture.friction=0.3f;fixture.restitution=type==BIRD_PINK_TYPE?PINK_RESTITUTION:type==BIRD_PUFFER_TYPE?GLOBE_RESTITUTION:type==BIRD_BIG_TYPE?BIG_RESTITUTION:type==BIRD_GREEN_TYPE?GREEN_RESTITUTION:(type==BIRD_YELLOW_TYPE || type==BIRD_WHITE_TYPE || type==BIRD_EGG_TYPE)?0.23f:(type==BIRD_BLACK_TYPE||type==BIRD_SHOCK_TYPE)?0.03f:type==BIRD_RED_TYPE?RED_RESTITUTION:0.25f;
         if(type==BIRD_BLUE_TYPE)fixture.filter.groupIndex=-1;
         if(type==BIRD_WHITE_TYPE || type==BIRD_EGG_TYPE)fixture.filter.groupIndex=-2;
         body->CreateFixture(&fixture);body->SetLinearVelocity(velocity);return body;

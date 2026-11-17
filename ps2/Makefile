@@ -9,10 +9,15 @@ EE_LDFLAGS = -L$(GSKIT)/lib
 # GAME=rio builds the Rio variant of the runtime: its own memory-card folder and save identity, so
 # it never reads or writes the Classic progress. The default (classic) is unchanged.
 GAME ?= classic
+# The objects depend on GAME (save folder, sprite list...) but make does not track that: when the game being
+# built changes, the objects of the other one are removed (the Box2D objects are shared and stay).
+ifneq ($(shell cat build/.game 2>/dev/null),$(GAME))
+$(shell mkdir -p build && rm -f build/*.o build/*.elf && echo $(GAME) > build/.game)
+endif
 ifeq ($(GAME),rio)
 EE_BIN = build/PS2Birds_Rio.elf
 EE_CFLAGS += -DPS2BIRDS_SAVE_DIR='"/PS2BRIO"' -DPS2BIRDS_RIO -DPS2BIRDS_SAVE_ID=0x52494f31u -DPS2BIRDS_SPRITE_IDS='"rio/sprite_ids.h"' -DPS2BIRDS_DEFINITION_SPRITES='"rio/definition_sprites.h"'
-EE_CXXFLAGS += -DPS2BIRDS_SPRITE_IDS='"rio/sprite_ids.h"'
+EE_CXXFLAGS += -DPS2BIRDS_RIO -DPS2BIRDS_SPRITE_IDS='"rio/sprite_ids.h"'
 endif
 EE_LIBS = -lgskit -ldmakit -lpad -lmc -lpatches -lm
 
