@@ -27,11 +27,18 @@ def write_with_pycdlib(elf_bytes, destination, extras=(), disc_id=DEFAULT_DISC_I
     iso.new(interchange_level=1, vol_ident="PS2BIRDS_CLASSIC")
     iso.add_fp(io.BytesIO(cnf), len(cnf), "/SYSTEM.CNF;1")
     iso.add_fp(io.BytesIO(elf_bytes), len(elf_bytes), "/%s;1" % disc_id)
-    for extra in extras:
-        data = extra.read_bytes()
-        iso.add_fp(io.BytesIO(data), len(data), "/" + extra.name.upper() + ";1")
-    iso.write(str(destination))
-    iso.close()
+    handles = []
+    try:
+        for extra in extras:
+            # the file is read while the ISO is written, not loaded beforehand (phones have little memory)
+            fp = open(extra, "rb")
+            handles.append(fp)
+            iso.add_fp(fp, extra.stat().st_size, "/" + extra.name.upper() + ";1")
+        iso.write(str(destination))
+    finally:
+        iso.close()
+        for fp in handles:
+            fp.close()
 
 
 def main():

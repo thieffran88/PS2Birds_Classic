@@ -17,6 +17,7 @@ screen and stored as opaque RGBA5551 rows: the game copies the visible 640 colum
 frame each frame, as it does with the stage backgrounds. Nothing of the game is kept in the
 repository: the scenes are built from the APK when the data files are generated."""
 import argparse,json,os,struct,zipfile
+import paralelo
 from pathlib import Path
 from game_profiles import decode_payload
 import lua51_data
@@ -145,7 +146,7 @@ def extract(apk,out,names=None,workers=None,log=print):
     The scenes are independent, so they are built in parallel (one worker per core, at most 6); the result
     is the same as building them one after the other."""
     names=list(names or SCENES);blobs=[]
-    n=workers if workers is not None else min(6,os.cpu_count() or 1,len(names))
+    n=workers if workers is not None else paralelo.processos(len(names))
     results=None
     if n>1:
         try:

@@ -113,8 +113,15 @@ class Progress:
         threading.Thread(target=self.server.serve_forever,daemon=True).start()
         self.url='http://127.0.0.1:%d/'%self.server.server_address[1]
         self.write(f'Painel de acompanhamento: {self.url}')
-        try:webbrowser.open(self.url)
-        except Exception:self.write('Abra o endereço acima no navegador para acompanhar.')
+        opened=False
+        try:opened=bool(webbrowser.open(self.url))
+        except Exception:pass
+        if not opened:
+            try:   # Termux (Android): abre o navegador do celular
+                import shutil,subprocess
+                if shutil.which('termux-open-url'):subprocess.Popen(['termux-open-url',self.url]);opened=True
+            except Exception:pass
+        if not opened:self.write('Abra o endereço acima no navegador para acompanhar.')
 
 class Tee:
     """Substitui sys.stdout para que os avisos dos extratores também entrem no registro e no painel."""

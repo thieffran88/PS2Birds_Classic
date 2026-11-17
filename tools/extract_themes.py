@@ -10,6 +10,7 @@ around a stage's ground line, paints the terrain pieces with the texture, and co
 picture into the frame buffer every frame (the camera does not pan, so the parallax factors play
 no part). No game script runs."""
 import argparse,json,os,struct,zipfile
+import paralelo
 from pathlib import Path
 from game_profiles import decode_payload
 from lua51_data import load
@@ -80,7 +81,7 @@ def extract(apk,out,preview=None,workers=None,log=print):
     with zipfile.ZipFile(apk) as z:
         themes=theme_table(z);names=sorted(themes,key=lambda n:(themes[n].get('index',999),n))
     if preview:names=[n for n in names if n==preview]
-    n=workers if workers is not None else min(6,os.cpu_count() or 1,len(names))
+    n=workers if workers is not None else paralelo.processos(len(names))
     results=None;pool=None
     if n>1 and not preview:
         try:

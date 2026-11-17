@@ -1,0 +1,41 @@
+PS2Birds - Gerador de ISO para Android
+=======================================
+
+Para quem não tem computador. Funciona no celular ou tablet Android, usando o Termux
+(um aplicativo gratuito de terminal). Nada é instalado no Android além do Termux.
+
+O QUE VOCÊ PRECISA
+- Android 7 ou mais novo, com uns 2 GB de memória livre e 1,5 GB de espaço livre.
+- Internet só na primeira vez (para o Termux baixar o Python e o ffmpeg).
+- O APK ORIGINAL do Angry Birds Classic (com.rovio.angrybirds.apk), que você obtém por conta própria.
+  Este pacote NÃO traz nada do jogo original.
+
+PASSO A PASSO
+1. Instale o Termux pelo F-Droid (https://f-droid.org/packages/com.termux/). A versão da
+   Play Store está desatualizada e não funciona.
+2. Copie para a pasta Download do celular: o APK original e este ZIP (PS2Birds_..._Gerador_Android.zip).
+3. Abra o Termux e digite, uma linha por vez:
+       termux-setup-storage          (toque em PERMITIR quando o Android perguntar)
+       cd ~/storage/downloads
+       unzip PS2Birds_Classic_*_Gerador_Android.zip
+       bash PS2Birds_Gerador/GERAR_ISO_ANDROID.sh
+4. Na primeira vez o Termux instala o Python e o ffmpeg (alguns minutos). Depois o script
+   pergunta qual jogo (digite 1) e começa a gerar.
+5. Uma página de acompanhamento abre no navegador do celular, com as etapas, o tempo e o
+   registro detalhado. Se ela não abrir sozinha, o endereço (http://127.0.0.1:NNNN/)
+   aparece no Termux: abra-o no navegador. A geração leva de 15 a 40 minutos no celular;
+   mantenha o Termux aberto e a tela ligada se o celular for dormir.
+6. No fim, o resultado está na pasta PS2Birds do armazenamento do celular (abra o app
+   Arquivos): 
+   - SLUS_000.10.PS2Birds_Classic.iso   (para emulador, OPL, etc.)
+   - apps/PS2Birds/                     (ELF + dados, para pendrive/HDD; copie a pasta "apps")
+
+SE DER ERRO
+- "Não achei o APK": coloque com.rovio.angrybirds.apk na pasta Download.
+- "Pouco espaço": libere uns 1,5 GB.
+- Qualquer outro erro: envie o arquivo GERAR_ISO_LOG.txt (na pasta PS2Birds).
+
+OBSERVAÇÕES
+- O Angry Birds Rio ainda não gera ISO.
+- Para usar menos memória o script usa 2 processos. Num celular potente você pode tentar
+  mais: PS2BIRDS_PROCESSOS=4 bash PS2Birds_Gerador/GERAR_ISO_ANDROID.sh
