@@ -14,24 +14,40 @@ com o APK do jogador (por exemplo, `profiles/`).
 > Sega. *Angry Birds* e os personagens são marcas e obras dos seus donos. Nada daqui dá direito
 > sobre o jogo original: para usar, é preciso ter o APK de forma legítima.
 
-## Gerar a ISO (Windows)
+## Gerar a ISO
+
+Escolha o seu caso:
+
+- **Windows:** veja abaixo.
+- **Android (sem computador):** veja o passo a passo em [`docs/GERADOR_ANDROID.md`](docs/GERADOR_ANDROID.md).
+- **Linux/macOS:** veja o fim desta seção.
+
+### Windows
 
 1. Baixe o kit `PS2Birds_Classic_<versão>_Gerador_Windows.zip` e extraia numa pasta.
 2. Copie para a pasta o APK original `com.rovio.angrybirds.apk` (a versão suportada é
    conferida pelo SHA-256 que está em `profiles/supported_apk.json`).
-3. Execute `GERAR_ISO.bat`. Em alguns minutos (os fundos das fases levam a maior parte) saem:
-   - `PS2Birds_Classic.iso` — para o PCSX2, OPL ou gravação;
-   - `PS2Birds_Classic_USB\` — `PS2BIRDS.ELF` e os arquivos de dados, para USB/HDD.
+3. Execute `GERAR_ISO.bat`, escolha o jogo e acompanhe pela página que abre no navegador.
+   Em alguns minutos saem:
+   - `SLUS_000.10.PS2Birds_Classic.iso` — para o PCSX2, OPL ou gravação (o começo do nome é o
+     ID do disco, que o OPL exige);
+   - `apps\PS2Birds\` — `PS2BIRDS.ELF`, os arquivos de dados e um `title.cfg`, para USB/HDD
+     (copie a pasta `apps` para a raiz).
 
 O kit traz o próprio Python (pacote oficial para Windows), o ffmpeg (para ler os sons Ogg) e
 as ferramentas deste repositório. Nada é instalado e nenhum script do jogo é executado: as
 fases são lidas como dados direto do bytecode Lua (`tools/lua51_data.py`).
 
-No Linux/macOS, com Python 3.9+ e ffmpeg:
+### Linux/macOS
+
+Com Python 3.9+, `pycdlib` e ffmpeg:
 
 ```sh
-python3 tools/gerar_iso.py com.rovio.angrybirds.apk --saida PS2Birds_Classic.iso --pasta USB --elf PS2BIRDS.ELF
+python3 tools/gerar_iso.py com.rovio.angrybirds.apk --elf PS2BIRDS.ELF
 ```
+
+Gera `SLUS_000.10.PS2Birds_Classic.iso` e a pasta `apps/PS2Birds` na pasta atual
+(`--painel` abre o acompanhamento no navegador; `--pasta`, `--saida` e `--id` trocam os padrões).
 
 ## Jogar
 
@@ -62,6 +78,7 @@ sh ps2/build.sh -j3          # ELF + arquivos de dados em ps2/build
 sh ps2/build.sh test         # testes no PC
 sh ps2/build.sh iso          # ISO de desenvolvimento
 python3 tools/make_windows_kit.py ps2/build/PS2Birds_Classic.elf Gerador_Windows.zip
+python3 tools/make_android_kit.py ps2/build/PS2Birds_Classic.elf Gerador_Android.zip
 ```
 
 `ps2/assets` e `ps2/data` são gerados do APK e ficam fora do Git. Os testes de procedência
