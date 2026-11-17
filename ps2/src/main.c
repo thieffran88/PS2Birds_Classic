@@ -170,6 +170,31 @@ __attribute__((noinline)) static void mc_status(float x,float y,u64 col){
 
 static unsigned int visual_frame;
 static float render_scale,render_pixels,render_ground,render_sling_x,render_sling_y;
+#ifdef PS2BIRDS_RIO
+/* Rio build (make GAME=rio): pieces are drawn from the Rio piece-to-sprite table (rio/definition_sprites.h),
+   which the generator makes from the player's own APK; there are no pigs, and only the red bird exists. */
+static int terrain_baked;
+static int ground_mask(const GameObject *o){(void)o;return -1;}
+static int rio_sprite_of(const char *definition){
+    for(const DefinitionSprite *d=definition_sprites;d->definition;d++)if(!strcmp(definition,d->definition))return d->sprite;
+    return -1;
+}
+static void bird(float x,float y,float radius,int type,float angle,int collided,float fuse,int special_used)
+{
+    (void)type;(void)collided;(void)fuse;(void)special_used;
+    int id=rio_sprite_of("RedBird");if(id<0)return;
+    sprite_draw(gs,id,x,y,(render_scale/render_pixels)*(radius/6.0f),angle);
+}
+static void block(const GameObject *o)
+{
+    for(const DefinitionSprite *d=definition_sprites;d->definition;d++)if(!strcmp(o->definition,d->definition)){
+        sprites_set_flip(o->mirror&OBJECT_MIRROR_X,o->mirror&OBJECT_MIRROR_Y);
+        sprite_draw(gs,d->sprite,o->x,o->y,(render_scale/render_pixels)*d->scale,o->angle);
+        sprites_set_flip(0,0);return;
+    }
+}
+static void pig(const GameObject *o){block(o);}   /* the Rio goals (cages) are pieces of the table */
+#else
 static void bird(float x,float y,float radius,int type,float angle,int collided,float fuse,int special_used)
 {
     /* GlobeBird: puffed sprite is stored at half resolution; fuse carries the puffed size (0..1). */
@@ -291,6 +316,7 @@ static void block_unflipped(const GameObject *o)
         }
 }
 
+#endif
 static Menu menu_state;
 static int menu_yell_request;
 /* cutscenes.lua pack1_intro: plays before Poached Eggs 1-1 until that stage has a score; X/Start skips. */
@@ -587,7 +613,9 @@ static void render(const Game *g, int connected, int paused,int menu)
     rect(0,render_ground,640,8,color(133,180,67));
     rect(0,render_ground+8,640,3,color(69,113,56));
     }
+#ifndef PS2BIRDS_RIO
     sprite_draw(gs,SPR_SLING_SHOT_01_BACK,render_sling_x,render_sling_y,render_scale/render_pixels,0);
+#endif
     for(int pass=0;pass<2;pass++) for(int i=0;i<game_object_count(g);i++) {
         GameObject o;if(!game_get_object(g,i,&o)||!o.alive)continue;
         if(o.kind==4){if(pass==1)pig(&o);}
@@ -666,7 +694,9 @@ static void render(const Game *g, int connected, int paused,int menu)
         font_draw(gs,FONT_SCORE,pp->x,pp->y-font_line(FONT_SCORE,1.8f*sc)/2,1.8f*sc,FONT_CENTER,pp->kind==POPUP_PIG?0x80208030u:pp->kind==POPUP_BIRD?0x80303080u:0x80808080u,num);
     }
     if(g->state==AIMING)bird(g->x,g->y,6,game_queue_type(g,0),0,0,-2,0);
+#ifndef PS2BIRDS_RIO
     sprite_draw(gs,SPR_SLING_SHOT_01_FRONT,render_sling_x,render_sling_y,render_scale/render_pixels,0);
+#endif
     int waiting=g->birds-(g->state==AIMING?1:0);
     /* gamelogic.lua jumpTimer: the birds waiting by the slingshot hop now and then. The native
        timings are in compiled code; here each bird waits 1-4 s at random, then hops 10 px for

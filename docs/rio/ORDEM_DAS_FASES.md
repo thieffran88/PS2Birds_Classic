@@ -159,3 +159,9 @@ Para compilar o ELF do Rio, os 210 nomes de sprite do Classic que faltam na list
 | 590 e 669 | estilingue (`SPR_SLING_SHOT_01_BACK/FRONT`) | 2 | o Rio tem `R2_SLING_SHOT_01_BACK/FRONT`, a incluir no banco |
 
 Plano: envolver esses blocos em `#ifndef PS2BIRDS_RIO` e escrever, para o Rio, versões curtas (pássaro vermelho, peça pela tabela, estilingue `R2_*`), sem tocar o caminho do Classic. A compilação do Classic e os testes (`make test`) são a verificação de que ele não muda.
+
+### Atualização: o ELF do Rio compila e liga
+
+`ps2/src/main.c` ganhou um caminho próprio para a variante do Rio (`#ifdef PS2BIRDS_RIO`, ligado por `make GAME=rio`): o terreno do Classic fica desligado, o pássaro e as peças são desenhados pela tabela `rio/definition_sprites.h`, os alvos (gaiolas) passam pela mesma tabela e o estilingue do Classic não é desenhado (o `R2_SLING_SHOT` ainda não está no banco). O caminho do Classic ficou dentro do `#else`, sem alteração de código.
+
+Conferido: `make GAME=rio build/PS2Birds_Rio.elf` compila e liga (5.629.244 bytes); o Classic também compila e liga (`make`). **Nada disso foi rodado ainda**: o ELF do Rio não foi testado no PCSX2, e o jogo só terá o que desenhar depois de o gerador montar os bancos do Rio (som, música, interface e fundos ainda são do Classic ou não existem). Falta a validação do `make test` do Classic para esta etapa (ver o registro de modificações).
