@@ -51,7 +51,10 @@ def half_resolution_sprites():
     """Sprites stored at half resolution: the prefixes above plus pieces marked half_resolution
     in profiles/classic_level.json (the many props of Birdday 5, to fit the texture banks)."""
     prof=json.loads((ROOT/'profiles/classic_level.json').read_text())
-    return {v['sprite'] for v in prof['objects'].values() if v.get('half_resolution')}
+    # A sprite shared with a piece drawn at full size (MISC_THEMED_8X1 reuses BLOCK_WOOD_1_6, the
+    # plank of WoodBlock6) must stay at full resolution, or every stage shows that piece halved.
+    full={v['sprite'] for v in prof['objects'].values() if not v.get('half_resolution') and 'sprite' in v}
+    return {v['sprite'] for v in prof['objects'].values() if v.get('half_resolution')}-full
 def is_half(name,_cache=[]):
     if not _cache:_cache.append(half_resolution_sprites())
     return name.startswith(HALF_RESOLUTION) or name in _cache[0]
