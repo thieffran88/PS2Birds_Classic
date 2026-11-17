@@ -322,6 +322,7 @@ static void block_unflipped(const GameObject *o)
 static Menu menu_state;
 static int menu_yell_request;
 /* cutscenes.lua pack1_intro: plays before Poached Eggs 1-1 until that stage has a score; X/Start skips. */
+static int boot_splash;   /* 0 not started, 1 Rovio logo, 2 loading splash, 3 done */
 static float cutscene_time=-1;static int cutscene_music_pending;   /* start the music after the first frame is up: reading the track stalls the game for seconds */
 static int world_pending;   /* stage index + 1 whose first win may complete a world */
 /* cutscenes.lua scenes, tied to the port's stages (episodes.lua lists each scene next to the levels it follows).
@@ -526,7 +527,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.94.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.94.1 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -828,7 +829,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(200,250,1,0,cream,"{PAD} MIRA   {X} LANÇAR");
             hint(200,270,1,0,cream,"{Q} SEGURAR: AJUSTE FINO");
             hint(200,290,1,0,cream,"{X} NO AR: HABILIDADE   {SELECT} FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.94.0 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.94.1 / PLAYSTATION 2");
             mc_status(200,350,color(135,192,181));
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -839,7 +840,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(90,200,1,0,cream,"{X} NO AR: HABILIDADE DO PÁSSARO");
             hint(90,220,1,0,cream,"{T} REINICIAR   {SELECT} FASES");
             hint(90,240,1,0,cream,"{R3} SOM   {START} CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.94.0 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.94.1 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             mc_status(90,318,color(135,192,181));
         } else {
@@ -982,13 +983,13 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.94.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.94.1: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s); campaign error %d, sprites error %d\n",file,game_campaign_error(),sprites_error());
         char detail[3][96];
         snprintf(detail[0],sizeof(detail[0]),"CAMPAIGN.BIN: ERRO %d  SPRITES.BIN: ERRO %d",game_campaign_error(),sprites_error());
-        snprintf(detail[1],sizeof(detail[1]),"VERSAO 0.94.0");
+        snprintf(detail[1],sizeof(detail[1]),"VERSAO 0.94.1");
         snprintf(detail[2],sizeof(detail[2]),"%.90s",data_on_disc?"LENDO DO DISCO (CDROM0)":tried_dirs[0]?tried_dirs:data_dir);
         for(char *q=detail[2];*q;q++)if(*q>='a'&&*q<='z')*q=(char)(*q-32);
         char more[2][96]={"",""};
@@ -1041,9 +1042,13 @@ int main(int argc,char **argv)
         if (connected && !previously_connected) old_buttons=buttons;
         u32 pressed=buttons & ~old_buttons;
         if(menu && menu_state.screen==MENU_MAIN && (pressed&PAD_TRIANGLE))menu_yell_request=1;
+        /* Before the menu: the Rovio logo, then the game's loading splash (splashes.lua); X or Start skips one. */
+        if(boot_splash==0){boot_splash=1;if(!play_scene("splash_rovio")){boot_splash=2;if(!play_scene("splash_loading"))boot_splash=3;}}
         if(cutscene_time>=0){
             cutscene_time+=frame_seconds;
             int over=(pressed&(PAD_CROSS|PAD_START)) || !cutscene_draw(gs,cutscene_time);
+            if(over && boot_splash==1){cutscene_stop();cutscene_time=-1;boot_splash=2;if(!play_scene("splash_loading"))boot_splash=3;over=0;if(cutscene_time>=0){old_buttons=buttons;previously_connected=connected;continue;}}
+            if(over && boot_splash==2){cutscene_stop();cutscene_time=-1;boot_splash=3;old_buttons=buttons;previously_connected=connected;continue;}
             if(over){cutscene_stop();cutscene_time=-1;music_play(MUSIC_NONE);audio_play(SFX_START);}
             else{gsKit_queue_exec(gs);gsKit_sync_flip(gs);if(cutscene_music_pending){cutscene_music_pending=0;music_play(cutscene_music());}}
             old_buttons=buttons;previously_connected=connected;continue;

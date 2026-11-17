@@ -39,7 +39,9 @@ SCENES=['pack1_intro','world1_complete','world2_complete','world3_complete',
         'blackbird_intro','blackbird_middle_1','blackbird_middle_2','blackbird_end',
         'intro_cutscene_farm','outro_cutscene_farm','intro_cutscene_dino','outro_cutscene_dino',
         # Egg Defender and Mighty Feathers: panels that pop in one by one; here they are shown together, in their final places
-        'eggdefender_intro','eggdefender_complete','rmf_classic_intro','rmf_complete']
+        'eggdefender_intro','eggdefender_complete','rmf_classic_intro','rmf_complete',
+        # the two screens before the main menu (splashes.lua): the Rovio logo and the game's loading splash
+        'splash_rovio','splash_loading']
 # Not here: the Egg Defender scenes (tweened panels) and the Short Fuse, Piggy Farm and Dino
 # stories (WebP sheets, which this generator cannot decode).
 COMPOS=['CUTSCENES.compo.json','CUTSCENE_BLACKBIRD.compo.json','CUTSCENES_STORY_FARM.compo.json','CUTSCENES_STORY_DINO.compo.json']
@@ -192,7 +194,46 @@ def overlays(name,where,z,k):
         out.append((int(a['time']*1000),int(t1*1000),int(round((a['x']-pv['x'])*k)),int(round((a['y']-pv['y'])*k)),ow,oh,bytes(px)))
     return out
 
+def splash_frames(z):
+    out={}
+    for n in z.namelist():
+        if n.startswith('assets/data/images/1024x768_splash/') and n.endswith('.sheet.json'):
+            for f in json.loads(decode_payload(z.read(n),'classic'))['frames']:out.setdefault(f['filename'],(n[:-len('.sheet.json')],f))
+    return out
+
+def build_splash(name):
+    """splash_rovio: white screen, the Rovio logo in the middle and the copyright line below (3 s). splash_loading:
+    the game's picture covering the screen and the word "Carregando" at the bottom (2 s). Sizes follow splashes.lua
+    (1024x768 layout) scaled to the 640x448 screen."""
+    z=_STATE['z'];sp=splash_frames(z)
+    def sprite(n,k):
+        rgba,f=read(z,sp,n);fw,fh=f['frame']['w'],f['frame']['h'];return scale(rgba,fw,fh,k)
+    out=bytearray(SCREEN_W*SCREEN_H*4)
+    def put(img,w,h,x0,y0):
+        for r in range(h):
+            y=y0+r
+            if not 0<=y<SCREEN_H:continue
+            for c in range(w):
+                x=x0+c
+                if not 0<=x<SCREEN_W:continue
+                i=(r*w+c)*4;a=min(255,(img[i+3]*255+64)//128);o=(y*SCREEN_W+x)*4
+                for q in range(3):out[o+q]=(img[i+q]*a+out[o+q]*(255-a)+127)//255
+    for i in range(SCREEN_W*SCREEN_H):out[i*4+3]=255
+    k=SCREEN_H/768
+    if name=='splash_rovio':
+        for i in range(SCREEN_W*SCREEN_H*4):
+            if i%4!=3:out[i]=255
+        img,w,h=sprite('SPLASH_ROVIO',k);put(img,w,h,(SCREEN_W-w)//2,(SCREEN_H-h)//2-8)
+        img,w,h=sprite('COPYRIGHT_TEXT',k);put(img,w,h,(SCREEN_W-w)//2,SCREEN_H-h-int(20*k))
+        end=3.0
+    else:
+        kc=max(SCREEN_W/1024,SCREEN_H/768);img,w,h=sprite('SPLASH_ANGRY_BIRDS_BACKGROUND',kc);put(img,w,h,(SCREEN_W-w)//2,(SCREEN_H-h)//2)
+        img,w,h=sprite('LOADING_PT_BR',k*1.3);put(img,w,h,(SCREEN_W-w)//2,SCREEN_H-h-int(24*k*1.3)-8)
+        end=2.0
+    return (name,SCREEN_W,SCREEN_H,0,0,int(end*1000),-1,0,to5551(bytes(out)),0,0,0,0),'cena %s pronta (abertura)'%name
+
 def build_scene(name):
+    if name.startswith('splash_'):return build_splash(name)
     """One scene -> (blob tuple or None, message). Runs in a worker process (or in the main one)."""
     z=_STATE['z'];where=_STATE['where'];comp=_STATE['comp']
     if any(a['action']=='fittogrid' for a in _STATE['script'][name].values()):return build_panels(name,_STATE['script'][name])
