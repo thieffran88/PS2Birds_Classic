@@ -158,7 +158,7 @@ struct Physics: b2ContactListener {
        while the red bird flies the closest pig is its target; on the special the world slows for
        0.5 s, then the bird flies straight at the target at 75 m/s without gravity until it hits. */
     float cannon_timer[MAX_LEVEL_OBJECTS];int cannon_shots[MAX_LEVEL_OBJECTS];bool cannon_aimed[MAX_LEVEL_OBJECTS];float cannon_clock;
-    bool red_mode;int red_target;float red_delay;b2Vec2 red_aim;bool red_fly;
+    bool red_mode;int red_target;float red_delay;b2Vec2 red_aim;bool red_fly;int red_targeted_count,red_triggered_count;
     /* Egg Defender gadgets (EggDefenderGadget_*.lua): sucker state (0 idle, 1 starting, 2 sucking)
        and timers of rockets and balloon inflaters. */
     int gadget_state[MAX_LEVEL_OBJECTS];float gadget_run[MAX_LEVEL_OBJECTS],gadget_time[MAX_LEVEL_OBJECTS],gadget_value[MAX_LEVEL_OBJECTS],gadget_value2[MAX_LEVEL_OBJECTS];
@@ -234,7 +234,7 @@ struct Physics: b2ContactListener {
         if(v.c && v.c->init)v.c->init(&v);
     }
     void egg_setup(){
-        escaped_pigs=0;for(int i=0;i<MAX_LEVEL_OBJECTS;i++){cannon_timer[i]=-1;cannon_shots[i]=CANNON_SHOTS;cannon_aimed[i]=false;}cannon_clock=0;red_mode=level->script && !strncmp(level->script,"EggDefender_",12);red_target=-1;red_delay=-1;red_fly=false;red_aim.SetZero();memset(gadget_state,0,sizeof(gadget_state));memset(gadget_time,0,sizeof(gadget_time));
+        escaped_pigs=0;for(int i=0;i<MAX_LEVEL_OBJECTS;i++){cannon_timer[i]=-1;cannon_shots[i]=CANNON_SHOTS;cannon_aimed[i]=false;}cannon_clock=0;red_mode=level->script && !strncmp(level->script,"EggDefender_",12);red_target=-1;red_targeted_count=red_triggered_count=0;red_delay=-1;red_fly=false;red_aim.SetZero();memset(gadget_state,0,sizeof(gadget_state));memset(gadget_time,0,sizeof(gadget_time));
         for(int i=0;i<MAX_LEVEL_OBJECTS;i++){gadget_run[i]=EGG_ROCKET_RUN;gadget_value[i]=EGG_INFLATED_FORCE_X;gadget_value2[i]=EGG_INFLATED_FORCE_Y;}
         egg_i=nest_i=egg_grabber=-1;egg_tween=-1;egg_lost=false;egg_home_angle=0;egg_home.SetZero();egg_from.SetZero();
         game_right=level->sling_x-EGG_SCREEN_MARGIN+EGG_SCREEN;
@@ -786,6 +786,7 @@ static b2Vec2 egg_hold_point(const Physics *p,int pig){
 static void auto_balance(EggVehicle *v);static void update_aim(EggVehicle *v);
 /* onRedBirdTarget / onRedBirdTriggered: the vehicle owning the pig reacts (pigTargeted, redBirdTriggered). */
 static void red_notify(Physics *p,int pig,bool triggered){
+    if(triggered)p->red_triggered_count++;else p->red_targeted_count++;
     int w=(int)OBJECT_WAVE(p->level->objects[pig].flags);if(!p->egg_mode || w<1 || w>15 || !p->vehicles[w].active)return;
     EggVehicle &v=p->vehicles[w];const EggReaction *r=egg_reaction(v.c?v.c->name:"");if(!r)return;
     if(triggered){if(r->red_triggered)r->red_triggered(&v);}
@@ -1312,3 +1313,10 @@ int game_get_object(const Game *g,int index,GameObject *out) {
 
 /* The vehicle controllers are compiled with the game (one translation unit for every build). */
 #include "egg_vehicles.cpp"
+
+/* Egg Defender red bird: how many times a pig became the target (pigTargeted) and how many
+   times the special was fired at one (redBirdTriggered) since the stage was loaded. */
+int game_red_notifications(const Game *g,int triggered){
+    const Physics *p=static_cast<const Physics*>(g->physics);if(!p)return 0;
+    return triggered?p->red_triggered_count:p->red_targeted_count;
+}

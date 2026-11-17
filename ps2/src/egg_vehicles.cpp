@@ -61,7 +61,7 @@ static void ed2_w4_init(EggVehicle *v){ev_set_force(v,"BP_SINGLE_BALLOON_4",ev_f
 static void ed2_w4_egg(EggVehicle *v){flip_thrust(v,"BP_FAN_5");ev_remove_joint(v,"BP_WOODEN_TRIANGLE_3BP_WOODEN_FRAME_6");}
 static void ed2_w4_removed(EggVehicle *v,const char *name){static const char *const stop[]={"BP_SINGLE_BALLOON_4","BP_ROPE_THICK_1","BP_FAN_5","ExtraRopeThick01_8",0};abandon_on(v,name,stop);}
 /* W5: balloon forceY -30; with the egg the fan reverses, the TNT is dropped and the balloon pulls
-   up with -200. (pigTargeted, the Red Bird's aiming, is not in the port.) */
+   up with -200. */
 static void ed2_w5_init(EggVehicle *v){ev_set_force(v,"BP_SINGLE_BALLOON_3",ev_force_x(v,"BP_SINGLE_BALLOON_3"),-30);}
 static void ed2_w5_egg(EggVehicle *v){
     flee_thrust(v,"BP_FAN_5");ev_remove_joint(v,"BP_WOODEN_FRAME_3BP_WOODEN_FRAME_1");ev_remove_joint(v,"BP_TNT_SMALL_1BP_WOODEN_TRIANGLE_3");
@@ -644,7 +644,7 @@ static void ed12_w5_update(EggVehicle *v,float){
 static void ed12_w5_egg(EggVehicle *v){rocket(v,"BP_ROCKET_RED_1");}
 static void ed12_w5_removed(EggVehicle *v,const char *name){if(!strcmp(name,"BP_ROCKET_RED_1") || (!strcmp(name,"BP_ROTOR_1") && ev_vars(v)[1]==0))ev_timer(v,abandon,1);}
 
-/* ---- EggDefender_13 (balloon inflaters; pigTargeted reactions need the Red Bird's aiming) ---- */
+/* ---- EggDefender_13 (balloon inflaters; pigTargeted reactions) ---- */
 /* W1: three inflaters on a stacked cart with a sucker, fan forceX -500. With the egg the sucker is
    dropped, the last balloon inflates and the frames let go; the fan pushes 500. vars: 0 done. */
 static void ed13_w1_init(EggVehicle *v){
@@ -686,7 +686,7 @@ static void ed13_w5_removed(EggVehicle *v,const char *name){if(!strcmp(name,"BP_
 
 /* ---- EggDefender_14 ---- */
 /* W1: two fans (forceX ∓500 by the egg) and three inflaters; the first two only inflate when the
-   Red Bird aims at the pig (pigTargeted, not in the port). With the egg, 1 s later the cart drops its
+   Red Bird aims at the pig (pigTargeted). With the egg, 1 s later the cart drops its
    TNT and the violet balloon inflates. */
 static void ed14_w1_run(EggVehicle *v){
     ev_remove_joint(v,"BP_TNT_SMALL_2BP_LIGHT_METAL_FRAME_12");ev_remove_joint(v,"BP_LIGHT_METAL_FRAME_12BP_TNT_CASING_2");ev_remove_joint(v,"BP_LIGHT_METAL_FRAME_12BP_WOODEN_TRIANGLE_2");

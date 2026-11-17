@@ -209,7 +209,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.60.0
 
-- **Habilidade do pássaro vermelho no Egg Defender (`useRedBirdSpeciality`):** o vermelho marca um porco como alvo e os veículos reagem (`pigTargeted`). Falta no port; é o próximo item do modo, junto com os canhões e os voadores.
+- **Habilidade do pássaro vermelho no Egg Defender (`useRedBirdSpeciality`):** o vermelho marca um porco como alvo e os veículos reagem (`pigTargeted`). Feito desde a 0.62.0 (o porco mais próximo vira alvo e o veículo reage; ao disparar, `redBirdTriggered`), com teste próprio na 0.87.0 (`red_target_test.cpp`). Era o próximo item do modo, junto com os canhões e os voadores.
 - **Controladores:** 63 de 72 (fases 1 a 13). Na sonda, o balão da 12-1 volta para a direita e a carroça da 13-1 para a cerca de 10 m do ovo.
 
 ## Achados da 0.61.0
@@ -301,7 +301,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Egg Defender: os tiros dos canhões, a calibragem dos voadores e a mira do vermelho (`pigTargeted`); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
+1. Egg Defender: os tiros dos canhões e a calibragem dos voadores (a mira do vermelho já está feita); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado; testado: quebra 86 roteiros de vitória, que precisam ser recalculados junto).

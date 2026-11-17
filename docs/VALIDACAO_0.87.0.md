@@ -1,8 +1,8 @@
-# Validação 0.86.0
+# Validação 0.87.0
 
 - Build com ps2dev: ELF sem dados do jogo; `CAMPAIGN.BIN`, `SPRITES.BIN`, `SOUNDS.BIN`, `MUSIC.BIN`, `UI.BIN`, `FONT.BIN`, `MENU.BIN`, `THEMES.BIN` e `CUTSCENE.BIN` gerados do APK.
 - Kit para Windows sob Wine: ELF e os nove arquivos de dados idênticos aos do build.
-- Testes no PC: 81 verificações aprovadas.
+- Testes no PC: 82 verificações aprovadas.
 - Fim de fase: contagem dos pontos, estrelas e selo de novo recorde com os tempos do `level_end.lua` (teste no PC e no PCSX2).
 - Interface: estrelas, selo, botões e porco da derrota originais (`ui_assets_test.py`; no PCSX2, vitória na 1-1 e 1-2 e derrota na 1-1).
 - Fontes e HUD: `FONT_BASIC` e `FONT_SCORE` originais em `FONT.BIN` (`font_assets_test.py`); no PCSX2, "fonts loaded", HUD com Pontuação/Recorde, fim de fase e pausa.
@@ -22,4 +22,5 @@
 - Pássaros da fila: dão pulinhos de 10 px a cada 1 a 4 s (aproximação do `jumpTimer`); no PCSX2, a 1-1 roda normalmente.
 - Tábua comprida (`WoodBlock6`) no tamanho certo antes e depois de levar dano: os quatro quadros com 168×20 em todos os 65 bancos (checagem da tabela do `SPRITES.BIN`); no PCSX2, a torre da 1-1 com as tábuas inteiras.
 - Cutscene da 1-1 (`pack1_intro`): no PCSX2, o console registra a abertura do `CUTSCENE.BIN` e "cutscene 0 loaded (1392 x 448)" ao entrar na 1-1 sem recorde; com X a cena é pulada e a fase começa com a ambiência.
+- Mira do vermelho no Egg Defender: `red_target_test.cpp` confere que `pigTargeted` e `redBirdTriggered` chegam aos veículos em 24 fases do modo e que nada é enviado fora dele.
 - Fases sem roteiro vencedor (71): POACHED EGGS 3-20, MIGHTY HOAX 5-16, HAM EM HIGH 13-7, MINE AND DINE 16-5, MINE AND DINE 16-6, BIRDDAY 4-4, BIRDDAY 6-1, BIRDDAY 7-7, BIRDDAY 7-14, SURF AND TURF 2-15, SURF AND TURF 3-5, SURF AND TURF 3-14, BAD PIGGIES 2-7, BAD PIGGIES 2-15, BAD PIGGIES 3-5, BAD PIGGIES 3-12, SHORT FUSE 1-7, SHORT FUSE 1-15, SHORT FUSE 2-2, SHORT FUSE 2-4, SHORT FUSE 2-5, SHORT FUSE 2-7, SHORT FUSE 2-9, SHORT FUSE 2-13, SHORT FUSE 3-3, BIRD ISLAND 1-10, BIRD ISLAND 1-15, PIGGY FARM 1-8, PIGGY FARM 2-2, PIGGY FARM 3-11, DINO 1-12, DINO 2-9, DINO 3-8, DINO 3-14, FLOCK FAVORITES 1-4, FLOCK FAVORITES 1-13, FLOCK FAVORITES 2-6, FLOCK FAVORITES 2-7, FLOCK FAVORITES 2-9, FLOCK FAVORITES 2-12, FLOCK FAVORITES 2-13, GOLDEN EGGS 1-1, GOLDEN EGGS 1-4, GOLDEN EGGS 1-5, GOLDEN EGGS 1-6, GOLDEN EGGS 2-3, GOLDEN EGGS 2-7, GOLDEN EGGS 2-8, GOLDEN EGGS 2-9, GOLDEN EGGS 2-10, GOLDEN EGGS 2-11, GOLDEN EGGS 2-14, GOLDEN EGGS 2-15, GOLDEN EGGS 2-16, GOLDEN EGGS 2-18, TUTORIAL 9, TUTORIAL 12, TUTORIAL 13, TUTORIAL 14, MIGHTY FEATHERS 1, MIGHTY FEATHERS 7, MIGHTY FEATHERS 15, EGG DEFENDER 1, EGG DEFENDER 2, EGG DEFENDER 3, EGG DEFENDER 4, EGG DEFENDER 5, EGG DEFENDER 7, EGG DEFENDER 11, EGG DEFENDER 13, EGG DEFENDER 15.

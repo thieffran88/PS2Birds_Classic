@@ -259,6 +259,7 @@ int game_load_level(Game *game,int index);
 int game_next_level(Game *game);
 const char *game_level_title(int index);
 const char *game_level_script(int index);
+int game_red_notifications(const Game *g,int triggered);   /* Egg Defender red bird: pigTargeted (0) / redBirdTriggered (1) count */
 /* Texture bank holding the sprites of a stage's episode. */
 int game_level_bank(int index);
 /* Stars (0-3) a score earns on a stage: 0 when unwon, then win/silver/gold thresholds. */
