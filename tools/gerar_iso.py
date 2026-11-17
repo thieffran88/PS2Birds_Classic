@@ -55,7 +55,7 @@ def generate(apk_path,out_dir,ffmpeg=None,log=print,dev=False,progress=None):
             shutil.copyfile(assets/'sprite_ids.h',ROOT/'ps2/src/sprite_ids.h');build_campaign.write_definition_sprites()
         pack_sprites.pack(assets/'manifest.json',assets/'sprites.rgba',assets/'save.icn',ROOT/'ps2/src/sprite_ids.h',out_dir/'SPRITES.BIN')
         log(f'    ok ({time.time()-t:.0f} s)');t=time.time();etapa(2)
-        extract_audio.extract(apk_path,assets,find_ffmpeg(ffmpeg),None)
+        t0=time.time();extract_audio.extract(apk_path,assets,find_ffmpeg(ffmpeg),None);log(f'    ok ({time.time()-t0:.0f} s)')
         def parte(i,fn,*args):
             etapa(i);t0=time.time();fn(*args);log(f'    ok ({time.time()-t0:.0f} s)')
         parte(3,extract_ui.extract,apk_path,assets/'UI.BIN');parte(4,extract_font.extract,apk_path,assets/'FONT.BIN');parte(5,extract_menu.extract,apk_path,assets/'MENU.BIN')
@@ -79,11 +79,14 @@ def main():
     a=p.parse_args()
     if not a.apk.is_file():p.error(f'APK não encontrado: {a.apk}')
     selected=a.jogo
-    if selected=='auto':
-        digest=hashlib.sha256(a.apk.read_bytes()).hexdigest()
-        selected=next((name for name,profile in PROJECTS.items() if profile['sha256']==digest),'classic')
+    digest=hashlib.sha256(a.apk.read_bytes()).hexdigest()
+    real=next((name for name,profile in PROJECTS.items() if profile['sha256']==digest),None)
+    if selected=='auto':selected=real or 'classic'
+    elif real and real!=selected and not a.ignorar_versao:
+        p.error(f"Você escolheu {PROJECTS[selected]['title']}, mas este APK é de {PROJECTS[real]['title']}. Use o APK do jogo escolhido ou troque a escolha.")
+    if selected=='rio' and not a.investigar:
+        p.error('O Angry Birds Rio ainda está em desenvolvimento e não gera ISO (apenas a auditoria dos dados, com --investigar). Escolha o Classic.')
     if selected=='rio':
-        if not a.investigar:p.error('Rio está em investigação; use --jogo rio --investigar. Geração de ISO Rio depende da integração do runtime.')
         if a.dev:p.error('--dev não está disponível para a investigação Rio.')
         from rio.investigate_rio import investigate
         investigate(a.apk);return

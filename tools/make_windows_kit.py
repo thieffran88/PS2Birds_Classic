@@ -15,24 +15,47 @@ PYTHON='3.12.10'
 WHEELS=['pycdlib==1.22.0','imageio-ffmpeg==0.8.1']
 TOOLS=['gerar_iso.py','progresso.py','build_campaign.py','import_level.py','lua51_data.py','game_profiles.py','aes_cbc.py','mini7z.py',
        'extract_sprites.py','png_decode.py','build_save_icon.py','pack_sprites.py','extract_audio.py','spu_adpcm.py','make_iso.py','extract_ui.py','extract_font.py','extract_menu.py','extract_themes.py','extract_cutscene.py']
-PROFILES=['egg_defender.json','games.json','classic_level.json','classic_episode.json','sprite_metrics.json','star_limits.json','supported_apk.json']
+PROFILES=['egg_defender.json','games.json','classic_level.json','classic_episode.json','sprite_metrics.json','star_limits.json','supported_apk.json','projects.json']
 BAT=r'''@echo off
 chcp 65001 >nul
-title PS2Birds Classic - Gerador de ISO
+title PS2Birds - Gerador de ISO
 cd /d "%~dp0"
+echo.
+echo  ============================================
+echo    PS2Birds - Gerador de ISO para PlayStation 2
+echo  ============================================
+echo.
+echo  Qual jogo voce quer gerar?
+echo.
+echo    [1] Angry Birds Classic
+echo    [2] Angry Birds Rio  ^(em desenvolvimento: ainda nao gera ISO^)
+echo.
+set "PADRAO=1"
 set "APK=%~1"
+if "%APK%"=="" if exist "com.rovio.angrybirdsrio.apk" if not exist "com.rovio.angrybirds.apk" set "PADRAO=2"
+choice /c 12 /n /t 10 /d %PADRAO% /m " Digite 1 ou 2 (escolhe %PADRAO% sozinho em 10 segundos): "
+if errorlevel 2 (set "JOGO=rio") else (set "JOGO=classic")
+echo.
+if "%APK%"=="" (
+  if "%JOGO%"=="rio" (
+    if exist "com.rovio.angrybirdsrio.apk" set "APK=com.rovio.angrybirdsrio.apk"
+  ) else (
+    if exist "com.rovio.angrybirds.apk" set "APK=com.rovio.angrybirds.apk"
+  )
+)
 if "%APK%"=="" for %%f in (*.apk) do set "APK=%%f"
 if "%APK%"=="" (
-  echo.
-  echo  Coloque o APK original nesta pasta ^(ou arraste-o sobre GERAR_ISO.bat^) e execute de novo.
+  echo  Coloque o APK original do jogo escolhido nesta pasta ^(ou arraste-o sobre GERAR_ISO.bat^) e execute de novo.
   echo.
   pause
   exit /b 1
 )
+echo  Jogo: %JOGO%
+echo  APK:  %APK%
 echo.
-echo  APK: %APK%
+echo  Uma pagina de acompanhamento vai abrir no navegador. Se ela nao abrir, o endereco aparece abaixo.
 echo.
-"python\python.exe" -I tools\gerar_iso.py "%APK%" --saida "PS2Birds_Classic.iso" --pasta "PS2Birds_Classic_USB" --painel
+"python\python.exe" -I tools\gerar_iso.py "%APK%" --jogo %JOGO% --saida "PS2Birds_Classic.iso" --pasta "PS2Birds_Classic_USB" --painel
 echo.
 pause
 '''
