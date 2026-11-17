@@ -11,7 +11,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - Surf and Turf 2/45, Bad Piggies 3/45, Flock Favorites 3/30
 - Zero: Tutorial, Big Setup, Mine and Dine, Short Fuse, Bird Island, Piggy Farm, Dino, Birdday 2–7 (levantamento inicial; hoje todos, exceto o Tutorial, estão no port)
 
-## Resumo do que falta (0.90.0)
+## Resumo do que falta (0.91.0)
 
 Esta é a lista atual. As seções abaixo são o histórico de cada versão e podem citar como pendente algo que já foi feito.
 
@@ -36,9 +36,8 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 - Pan de câmera do início da fase: não se aplica, o port mostra a fase inteira numa vista fixa.
 
 **Cutscenes** (ver `docs/CUTSCENES.md`)
-- Feitas: a abertura de Poached Eggs (`pack1_intro`) e as cenas do fim dos mundos 1 e 2 (`world1_complete`, `world2_complete`).
-- O jogo já sabe quando tocar as demais; cada uma só precisa de uma linha em `tools/extract_cutscene.py`.
-- Faltam o suporte a cenas com vários quadros e efeitos, os olhos animados do Rei Porco e a moldura de filme.
+- Feitas na 0.91.0: 28 cenas, com tempos, música e imagem lidos do próprio `cutscenes.lua` (aberturas dos episódios, fins de mundo, Birdday 3 e Surf and Turf).
+- Faltam: a abertura de Danger Above (rola na vertical), as cenas do Egg Defender (painéis animados), Short Fuse, Piggy Farm e Dino (imagens em WebP, que o gerador não decodifica), Birdday 18/19 e o episódio de `pack9` (sem correspondência conhecida) e as animações dentro das cenas (olhos do Rei Porco, "oink").
 
 ## O que falta na decompilação/importação
 
@@ -338,7 +337,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 4. Pan de câmera e música.
 
 
-## Cutscenes em quadrinhos (levantamento de 17/11/2026)
+## Cutscenes em quadrinhos (levantamento de 17/11/2026; histórico, o estado atual está no resumo do topo)
 - O APK tem as histórias de todos os episódios em `cutscenes.lua` (início, meio e fim de cada episódio, Short Fuse, Mighty Hoax, Piggy Farm, Dino, Egg Defender), montadas pelo `CUTSCENES.compo.json` e tocadas pelo `menus/cutscene.lua`.
 - **Feito na 0.86.0:** `pack1_intro` (abertura de Poached Eggs), com rolagem `cubic_in_out` e a música `birds_intro`.
 - **Falta:** as demais cenas (`world1_complete` etc.), os olhos animados do Rei Porco (`KINGPIG_EYE_*`), as cenas com vários quadros e efeitos (`createsprite`/`deletesprite`, `fittogrid`) e a moldura de filme (`CUTSCENE_FILMSTRIP_*`).
