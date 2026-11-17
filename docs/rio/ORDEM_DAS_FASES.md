@@ -25,3 +25,21 @@ e confere cada nome contra as pastas de `assets/data/levels`.
 1. Importar as 30 definições da fase (`import_level.py` com perfil Rio), incluindo materiais e as 5 gaiolas.
 2. Converter os sprites mínimos (caixas, gaiolas, pássaro vermelho, fundo do `theme2`) e montar `SPRITES.BIN` do Rio.
 3. Generalizar o objetivo de vitória no runtime e gravar saves em `/PS2BRIO`.
+
+## O que a Level190 precisa em texturas (investigado)
+
+A fase usa 23 sprites (pássaro vermelho, caixas, caixotes, madeira, concreto, as gaiolas e os passarinhos presos). Resultado:
+
+| Folha | Onde está | Formato | Dá para ler só com Python? |
+| --- | --- | --- | --- |
+| `INGAME_COMMON_BIRDS_1` (pássaro vermelho) | `ingame_assets` | PNG | sim |
+| `INGAME_RIO1_BIRD_1` (pássaro vermelho, outra folha) | `ingame_assets` e `_sd` | PVR 1024x1002 e 509x508 | sim: RGBA4444 sem compressão |
+| `INGAME_RIO1_BLOCKS_MISC_1` (caixas, caixotes) | `ingame_assets_sd` | PVR 439x410, RGBA4444 | sim |
+| `INGAME_RIO1_BLOCKS_MISC_2` (gaiolas, passarinhos) | `ingame_assets_sd` | PVR 545x510, RGBA4444 | sim |
+| `INGAME_COMMON_BLOCKS_MISC_1` (caixa de metal) | `ingame_assets` e `_sd` | **WebP (VP8X)**, nas duas resoluções | **não**: precisa de decodificador WebP |
+
+Conclusões:
+- A folha `_sd` do Rio é PVR RGBA4444, que se lê sem biblioteca. Isso cobre quase tudo da primeira fase.
+- A única dependência de WebP é a **caixa de metal** (`BLOCK_METAL_BOX_1/2`) e a madeira `BLOCK_WOOD_10X1_1` (que também existe em PVR `INGAME_RIO1_BLOCKS_WOOD_1`). A caixa de metal é o que força decidir sobre WebP.
+- Os nomes `B_CAGE_2/8/12/15` não são sprites de folha: são composições (`COMP`) das gaiolas, montadas a partir de `BLOCK_CAGE_*` e do passarinho preso. O leitor COMP já os lê estruturalmente, mas a montagem ainda falta.
+- Dois objetos decorativos (`DECO_CHAINS`, `WAREHOUSE_PROPELLER_1`) não estão no cruzamento das 81 definições: são do tema, e podem ficar de fora da primeira versão.
