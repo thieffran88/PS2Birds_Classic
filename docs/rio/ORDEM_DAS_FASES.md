@@ -195,3 +195,11 @@ Resultado com `theme2`: 1 tema, 960.512 bytes (640 x 648 x 2 + 256 x 256 x 2, qu
 As peças da primeira fase pedem 26 nomes de som (`wood_collision`, `cage_destroyed`, `light_damage` etc.). Esses nomes são **grupos**, montados em código no `gamelogic.lua`, cada um com variantes que são apelidos do perfil de som (`audio/profiles/default.lua`, legível como dados): por exemplo `cage_collision` → `bird cage collision a2` e `a3`. `tools/rio/sound_groups.py` lê as constantes da função que monta os grupos (nome do grupo seguido dos apelidos) e, para os grupos que o código não lista, usa a regra "`<grupo com espaços> aN`" (`wood_collision` → `wood collision a1`, `a2`...). Resultado: **52 grupos; 25 dos 26 sons da primeira fase resolvidos**, só `ground_collision` ficou sem grupo (provavelmente vem do material do chão ou do código nativo). As variantes resolvidas existem como MP3 no APK.
 
 Falta converter esses MP3 e a música (`ab rio ambience warehouse`) para o formato dos bancos `SOUNDS.BIN` e `MUSIC.BIN` do runtime e mapear os grupos aos canais.
+
+## `SOUNDS.BIN` do Rio (`tools/rio/extract_audio_rio.py`)
+
+O runtime toca os efeitos pelos números de `ps2/src/audio_ids.h` (a lista do Classic). Para não mexer no runtime, o banco do Rio mantém os mesmos 25 números e a mesma ordem, preenchendo cada um com o arquivo equivalente do APK do Rio: o mesmo nome quando existe (`bird 01 flying`, `special egg`, `slingshot streched`, `wood destroyed a1`, `star_1`, `highscore` e outros) ou o da tabela `OVERRIDE` — os três sons de menu usam `ui_select`, a derrota usa `level_failed_birds` e o "porco destruído" (o alvo) usa `bird cage breaks 1`, porque o objetivo do Rio é a gaiola. Conversão igual à do Classic: MP3 para PCM mono de 22050 Hz (ffmpeg) e depois para ADPCM do SPU2, com o codificador em Python do projeto.
+
+Resultado: **25 efeitos, 535.664 bytes (limite de 1 MiB do SPU2)**; o cabeçalho "PBSN" confere (25 entradas, deslocamentos alinhados em 64 bytes). Não foi ouvido (o emulador não toca som aqui); só a estrutura e os tamanhos foram conferidos. Escolhas de som feitas por nome (por exemplo `ui_select` para o menu) são aproximações e podem ser trocadas na tabela.
+
+Falta a música (`MUSIC.BIN` do Rio, com `ab rio ambience warehouse`) e os sons por material das peças (grupos de `sound_groups.py`), que o runtime do Classic ainda não toca por peça.
