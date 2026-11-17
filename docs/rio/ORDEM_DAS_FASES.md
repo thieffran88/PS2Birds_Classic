@@ -74,3 +74,7 @@ Consequência para o runtime: gaiolas e macacos se comportam, para a contagem de
 Converte uma fase do Rio na lista de objetos que o `build_campaign` grava no `CAMPAIGN.BIN`: tamanho pelo sprite (ou pela largura e altura da definição), escala da instância, material e resistência pelo catálogo, estilingue no pássaro 1 e gravidade como parâmetro (`--gravity`, padrão -10, **só um marcador**: o valor real ainda não foi obtido).
 
 Resultado na `warehouse/Level190`: 21 dos 25 objetos convertem (20 de material comum e 1 gaiola), mais 4 pássaros e o estilingue em (108,81; -9,46). As 4 gaiolas restantes (`BLOCK_CAGE_2`, `_8`, `_12`, `_15`) não têm largura e altura na definição: são composições (`B_CAGE_*`), e o tamanho tem de vir da extensão da composição nos arquivos COMP, que o leitor já lê mas ainda não mede. A saída fica em `work/rio/` (fora do Git).
+
+### Atualização: composições medidas
+
+O corpo de uma gaiola composta é o último filho da composição (deslocamento 0); o passarinho preso é o filho anterior. O importador usa o tamanho desse sprite: nas gaiolas pequenas 83x83 px, ou seja, 83/20 x 0,92 = 3,82 m, praticamente os 3,81 m que o `levelgoals.lua` declara para as gaiolas equivalentes `R2_*`. Com isso a `warehouse/Level190` converte **25 de 25 objetos** (20 de material comum e 5 gaiolas como alvos tipo 4), e **as 459 fases do Rio convertem sem nenhuma definição sem adaptador**. Isso só mostra que formas e tamanhos estão resolvidos; não valida física, sprites nem objetivos no PS2.

@@ -8,7 +8,7 @@ import argparse,json,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'tools'))
 from lua51_data import load
-CAT=ROOT/'work/rio/analysis/definition_catalogue.json';INV=ROOT/'work/rio/analysis/dat_inventory.json'
+COMP=ROOT/'work/rio/analysis/comp_inventory.json';CAT=ROOT/'work/rio/analysis/definition_catalogue.json';INV=ROOT/'work/rio/analysis/dat_inventory.json'
 SIZE_FACTOR=0.92
 KIND_OF_MATERIAL={'cage':4,'monkey':4,'monkeyHanging':4,'wood':1,'crate':1,'glass':2,'stone':5,'cardboard':1,'metal':6,'misc':1}
 def frame_sizes():
@@ -16,8 +16,15 @@ def frame_sizes():
     for p in json.loads(INV.read_text())['parsed']:
         for f in p.get('frames') or []:sizes.setdefault(f['name'],(f['w'],f['h']))
     return sizes
+def composites():
+    """name -> sprite of the body of a composition: its last child, drawn at offset 0 (the cage; the freed bird is the child before it)."""
+    out={}
+    for p in json.loads(COMP.read_text())['parsed']:
+        for c in p.get('composites') or []:
+            if c.get('children'):out[c['name']]=c['children'][-1]['sprite']
+    return out
 def convert(path,gravity):
-    env=load(Path(path).read_bytes());cat=json.loads(CAT.read_text())['definitions'];sizes=frame_sizes()
+    env=load(Path(path).read_bytes());cat=json.loads(CAT.read_text())['definitions'];sizes=frame_sizes();bodies=composites()
     pixels=float(env['physicsToWorld']);objects=[];birds=[];ground=None;skipped=[]
     for o in env['world'].values():
         d=o['definition']
@@ -25,7 +32,7 @@ def convert(path,gravity):
         if d=='Ground':ground=o;continue
         e=(cat.get(d) or {}).get('effective')
         if not e:skipped.append(d);continue
-        sprite=e.get('sprite');mat=e.get('material')
+        sprite=e.get('sprite');sprite=bodies.get(sprite,sprite);mat=e.get('material')
         if e.get('type')=='box' and e.get('width') and e.get('height'):w,h=float(e['width']),float(e['height'])
         elif sprite in sizes:
             w,h=sizes[sprite][0]/pixels,sizes[sprite][1]/pixels
