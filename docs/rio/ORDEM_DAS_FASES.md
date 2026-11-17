@@ -119,3 +119,11 @@ Decidido com o autor do projeto: o Rio funciona como o Classic.
 - **Build:** `make GAME=rio` gera `build/PS2Birds_Rio.elf` com a pasta de save `/PS2BRIO` e a identidade `RIO1`; o padrão (`GAME=classic`) segue igual. Conferido: o ELF do Rio compila e só tem caminhos `/PS2BRIO`.
 
 Falta, para o Rio ter ISO: os bancos de sprites do Rio no gerador (a lista de sprites compilada em `ps2/src/sprite_ids.h` hoje é a do Classic; o Rio precisará da própria), a ligação dos demais bancos e a verificação no PCSX2.
+
+## Banco de sprites do primeiro episódio (`tools/rio/extract_sprites_rio.py`)
+
+`python3 tools/rio/extract_sprites_rio.py APK SAIDA [--levels warehouse warehouse2 ...]` monta o banco de sprites a partir do APK do usuário: lista as peças usadas pelas fases pedidas, pega os sprites folha (o corpo e o passarinho preso, no caso das gaiolas compostas), recorta cada um nas folhas PVR RGBA4444 (ou PNG) e empacota com o mesmo empacotador do Classic, gravando `sprites.rgba` e `manifest.json` em `work/rio/` (fora do Git).
+
+Resultado para Smugglers' Den (`warehouse` e `warehouse2`, 30 fases): 81 definições, 74 sprites pedidos, **68 empacotados em 1 página (1 MiB de VRAM, de 2,75 MiB disponíveis)**. Seis ficaram de fora e são listados: `BLOCK_METAL_BOX_1/2/3`, `BLOCK_CHAINS` e `B_FRUIT_PINEAPPLE` (só existem em WebP ou ETC1) e `EMPTY_1X1` (peça sem imagem). Sem as caixas de metal, as fases que as usam ficam sem esse desenho até haver decodificador de WebP.
+
+Falta: o `sprite_ids.h` do Rio (lista compilada no runtime), o formato "PBSP" do `SPRITES.BIN` e escolher como o runtime associa cada peça do Rio ao seu sprite.
