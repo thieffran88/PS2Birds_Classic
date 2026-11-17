@@ -324,15 +324,18 @@ static int menu_yell_request;
 /* cutscenes.lua pack1_intro: plays before Poached Eggs 1-1 until that stage has a score; X/Start skips. */
 static float cutscene_time=-1;static int cutscene_music_pending;   /* start the music after the first frame is up: reading the track stalls the game for seconds */
 static int world_pending;   /* stage index + 1 whose first win may complete a world */
-/* cutscenes.lua scenes, tied to the port's stages. Entering the first stage of an episode with no
-   score yet plays its opening; the first score that completes a world (every stage with the same
-   title prefix "<EPISODE> N-") plays that world's scene after the win screen. The world numbers of
-   the Poached Eggs to Mine and Dine, Birdday 3 and Surf and Turf scenes match the titles; Short
-   Fuse, Piggy Farm and Dino stories are WebP and are not in CUTSCENE.BIN (docs/CUTSCENES.md).
+/* cutscenes.lua scenes, tied to the port's stages (episodes.lua lists each scene next to the levels it follows).
+   Entering the first stage of an episode with no score yet plays its opening; entering the first stage of a world
+   with no score in it plays that world's opening; the first score that completes a world (every stage with the same
+   title prefix "<EPISODE> N-") plays that world's scene after the win screen. Titles carry the world number.
+   Not in the table: the Egg Defender and Mighty Feathers panels (docs/CUTSCENES.md).
    A scene that is not in CUTSCENE.BIN is skipped. */
 static const char *const episode_scene[][2]={{"POACHED EGGS","pack1_intro"},{"MIGHTY HOAX","pack2_intro"},
     {"DANGER ABOVE","pack3_intro"},{"BIG SETUP","pack4_intro"},{"HAM EM HIGH","pack5_intro"},{"MINE AND DINE","pack6_intro"},
-    {"BIRDDAY","pack7_intro"},{"SURF AND TURF","pack8_intro"}};
+    {"SURF AND TURF","pack8_intro"},{"BAD PIGGIES","pack9_intro"},{"SHORT FUSE","blackbird_intro"},
+    {"PIGGY FARM","intro_cutscene_farm"},{"DINO","intro_cutscene_dino"}};
+/* The seventh Birdday has its own opening, before its first world. */
+static const char *const world_intro_scene[][2]={{"BIRDDAY 7-","pack7_intro"}};
 static const char *const world_scene[][2]={
     {"POACHED EGGS 1-","world1_complete"},{"POACHED EGGS 2-","world2_complete"},{"POACHED EGGS 3-","world3_complete"},
     {"MIGHTY HOAX 4-","world4_complete"},{"MIGHTY HOAX 5-","world5_complete"},
@@ -340,18 +343,35 @@ static const char *const world_scene[][2]={
     {"BIG SETUP 9-","world9_complete"},{"BIG SETUP 10-","world10_complete"},{"BIG SETUP 11-","world11_complete"},
     {"HAM EM HIGH 12-","world12_complete"},{"HAM EM HIGH 13-","world13_complete"},{"HAM EM HIGH 14-","world14_complete"},
     {"MINE AND DINE 15-","world15_complete"},{"MINE AND DINE 16-","world16_complete"},{"MINE AND DINE 17-","world17_complete"},
-    {"BIRDDAY 3-","birdday3_complete"},
-    {"SURF AND TURF 1-","worldS1_complete"},{"SURF AND TURF 2-","worldS2_complete"},{"SURF AND TURF 3-","worldS3_complete"}};
+    {"BIRDDAY 2-","world18_complete"},{"BIRDDAY 3-","world19_complete"},{"BIRDDAY 4-","birdday3_complete"},
+    {"SURF AND TURF 1-","worldS1_complete"},{"SURF AND TURF 2-","worldS2_complete"},{"SURF AND TURF 3-","worldS3_complete"},
+    {"BAD PIGGIES 1-","world20_complete"},{"BAD PIGGIES 2-","world21_complete"},{"BAD PIGGIES 3-","world22_complete"},
+    {"SHORT FUSE 1-","blackbird_middle_1"},{"SHORT FUSE 2-","blackbird_middle_2"},{"SHORT FUSE 3-","blackbird_end"},
+    {"PIGGY FARM 3-","outro_cutscene_farm"},{"DINO 3-","outro_cutscene_dino"}};
 static int play_scene(const char *name){
     if(!cutscene_start(name))return 0;
     cutscene_time=0;cutscene_music_pending=1;return 1;
 }
 /* Returns 1 when the stage starts right away (no scene). */
-static int episode_intro(int level,const int *highscores){
+static int episode_intro_only(int level,const int *highscores){
     int e=menu_episode_of(level);if(e<0 || level!=menu_episode_first(e))return 1;
     for(int l=level;l<level+menu_episode_size(e);l++)if(highscores[l]>0)return 1;
     for(unsigned k=0;k<sizeof(episode_scene)/sizeof(episode_scene[0]);k++)if(!strcmp(menu_episode_name(e),episode_scene[k][0]))return !play_scene(episode_scene[k][1]);
     return 1;
+}
+/* The first stage of a world with no score in that world: the world's opening, if it has one. */
+static int world_intro(int level,const int *highscores){
+    const char *t=game_level_title(level),*dash=strrchr(t,'-');if(!dash)return 1;
+    size_t prefix=(size_t)(dash-t)+1;
+    if(level>0 && !strncmp(game_level_title(level-1),t,prefix))return 1;
+    for(int l=level;l<game_level_count() && !strncmp(game_level_title(l),t,prefix);l++)if(highscores[l]>0)return 1;
+    for(unsigned k=0;k<sizeof(world_intro_scene)/sizeof(world_intro_scene[0]);k++)
+        if(strlen(world_intro_scene[k][0])==prefix && !strncmp(world_intro_scene[k][0],t,prefix))return !play_scene(world_intro_scene[k][1]);
+    return 1;
+}
+static int episode_intro(int level,const int *highscores){
+    if(!episode_intro_only(level,highscores))return 0;
+    return world_intro(level,highscores);
 }
 /* After a stage's first score: if that completes its world, the world's scene. */
 static void world_complete(int level,const int *highscores){

@@ -1,6 +1,6 @@
 /* Comic cutscenes from CUTSCENE.BIN (tools/extract_cutscene.py): one wide picture per scene,
-   448 rows tall, scrolled from its left edge to its right edge with cubic_in_out easing, as
-   cutscenes.lua does (pack1_intro: 9.6 s of scroll, the scene ends at 15.6 s). The visible 640
+   448 rows tall, scrolled with cubic_in_out easing as cutscenes.lua does: from its left edge to a target
+   (usually the right edge) and, in some scenes, on to a second target (pack1_intro: 9.6 s of scroll, the scene ends at 15.6 s). The visible 640
    columns are copied into the frame each frame, like the stage backgrounds: no VRAM is taken. */
 #ifndef PS2BIRDS_CUTSCENE_H
 #define PS2BIRDS_CUTSCENE_H

@@ -33,10 +33,14 @@ SCENES=['pack1_intro','world1_complete','world2_complete','world3_complete',
         'pack5_intro','world12_complete','world13_complete','world14_complete',
         'pack6_intro','world15_complete','world16_complete','world17_complete',
         'pack7_intro','birdday3_complete',
-        'pack8_intro','worldS1_complete','worldS2_complete','worldS3_complete']
+        'pack8_intro','worldS1_complete','worldS2_complete','worldS3_complete',
+        # Birdday 2 and 3 worlds, Bad Piggies, Short Fuse, Piggy Farm and Dino (WebP sheets: tools/webp.py)
+        'world18_complete','world19_complete','pack9_intro','world20_complete','world21_complete','world22_complete',
+        'blackbird_intro','blackbird_middle_1','blackbird_middle_2','blackbird_end',
+        'intro_cutscene_farm','outro_cutscene_farm','intro_cutscene_dino','outro_cutscene_dino']
 # Not here: the Egg Defender scenes (tweened panels) and the Short Fuse, Piggy Farm and Dino
 # stories (WebP sheets, which this generator cannot decode).
-COMPOS=['CUTSCENES.compo.json']
+COMPOS=['CUTSCENES.compo.json','CUTSCENE_BLACKBIRD.compo.json','CUTSCENES_STORY_FARM.compo.json','CUTSCENES_STORY_DINO.compo.json']
 SCREEN_H=448;SCREEN_W=640
 
 def parse(script):
@@ -49,7 +53,8 @@ def parse(script):
     bg=[a for a in acts if a['action']=='set_bg_colour']
     start=[a for a in acts if a['action']=='set_scroll_position']
     clips=[a['sound'] for a in acts if a['action']=='playsound' and a.get('sound') in MUSIC_OF_CLIP]
-    return {'image':pic['image'],'ref_w':int(ref['width']),'ref_h':int(ref['height']),
+    segments=sorted(((a['time'],a['duration'],a['scroll_target'].get('x',1.0)) for a in scroll),key=lambda t:t[0])
+    return {'image':pic['image'],'ref_w':int(ref['width']),'ref_h':int(ref['height']),'bg_x':pic.get('x',0.0),'bg_y':pic.get('y',0.0),'segments':segments,
             'music':MUSIC_OF_CLIP[clips[0]] if clips else -1,
             'scroll_start':scroll[0]['time'] if scroll else 0.0,'scroll':scroll[0]['duration'] if scroll else 0.0,
             'end':[a for a in acts if a['action']=='end'][0]['time'],
@@ -117,31 +122,43 @@ def _init(apk):_setup(apk)
 def build_scene(name):
     """One scene -> (blob tuple or None, message). Runs in a worker process (or in the main one)."""
     z=_STATE['z'];where=_STATE['where'];comp=_STATE['comp'];p=parse(_STATE['script'][name])
-    if p['image'] not in comp:return None,'cena %s ignorada: %s não é uma composição'%(name,p['image'])
-    # Only PNG and PVR sheets can be read here (the Short Fuse story is WebP).
-    have=set(z.namelist());bases={where[q['name']][0] for q in comp[p['image']]['sprites']}
-    bad=sorted(b.split('/')[-1] for b in bases if b+'.png' not in have and b+'.pvr' not in have)
+    if p['image'] in comp:entry=comp[p['image']]
+    elif p['image'] in where:entry={'sprites':[{'name':p['image'],'x':p['bg_x'],'y':p['bg_y']}]}   # a single sprite, placed by its centre
+    else:return None,'cena %s ignorada: %s não é uma composição nem um sprite'%(name,p['image'])
+    # PNG, PVR and WebP sheets can be read here.
+    have=set(z.namelist());bases={where[q['name']][0] for q in entry['sprites']}
+    bad=sorted(b.split('/')[-1] for b in bases if b+'.png' not in have and b+'.pvr' not in have and b+'.webp' not in have)
     if bad:return None,'cena %s ignorada: formato de imagem sem suporte (%s)'%(name,bad[0])
-    right,bottom=extent(where,comp[p['image']])
+    right,bottom=extent(where,entry)
     if p['vertical']:
         # fitwidth: scaled to the screen width, scrolling up or down.
         w=p['ref_w'];h=min(p['ref_h'],bottom) if bottom else p['ref_h']
-        canvas=compose(z,where,comp[p['image']],w,h,p['bg'])
+        canvas=compose(z,where,entry,w,h,p['bg'])
         small,sw,sh=scale(canvas,w,h,SCREEN_W/w)
     else:
         # The script's reference width can be a little wider than what the pieces cover:
         # the real extent is used, so no empty strip is scrolled into view.
         w=min(p['ref_w'],right) if right else p['ref_w'];h=p['ref_h']
-        canvas=compose(z,where,comp[p['image']],w,h,p['bg'])
+        canvas=compose(z,where,entry,w,h,p['bg'])
         small,sw,sh=scale(canvas,w,h,SCREEN_H/h)
         if sw<SCREEN_W:small=pad_width(small,sw,sh,SCREEN_W);sw=SCREEN_W
     options=(1 if p['vertical'] else 0)|(2 if p['reverse'] else 0)
-    return (name,sw,sh,int(p['scroll_start']*1000),int(p['scroll']*1000),int(p['end']*1000),p['music'],options,to5551(small)),'cena %s pronta (%d x %d)'%(name,sw,sh)
+    # Scroll segments: where the right edge of the screen (the scroll cursor) ends, as a fraction of the picture
+    # width, becomes a fraction of the scroll range in thousandths. Vertical scenes scroll over their whole height.
+    segs=[(0.0,0.0,1.0)] if not p['segments'] else p['segments']
+    if p['vertical']:segs=[(p['scroll_start'],p['scroll'],1.0)]
+    if len(segs)>2:return None,'cena %s ignorada: mais de duas rolagens'%name
+    rng=sw-SCREEN_W
+    def permille(t):return 1000 if p['vertical'] else (0 if rng<=0 else max(0,min(1000,round((t*sw-SCREEN_W)/rng*1000))))
+    a=segs[0];b=segs[1] if len(segs)>1 else (0.0,0.0,0.0)
+    seg=(int(a[0]*1000),int(a[1]*1000),permille(a[2]),int(b[0]*1000),int(b[1]*1000),permille(b[2]) if len(segs)>1 else 0)
+    return (name,sw,sh,seg[0],seg[1],int(p['end']*1000),p['music'],options,to5551(small),seg[2],seg[3],seg[4],seg[5]),'cena %s pronta (%d x %d)'%(name,sw,sh)
 
 def extract(apk,out,names=None,workers=None,log=print):
-    """CUTSCENE.BIN: "PBCS", version 4, scene count, then per scene a 24-byte name (NUL padded),
+    """CUTSCENE.BIN: "PBCS", version 5, scene count, then per scene a 24-byte name (NUL padded),
     width, height, scroll start ms, scroll ms, end ms, data offset, music track (-1: none),
-    options (bit 0: vertical scroll, bit 1: starts at the far end) and the RGBA5551 rows. A
+    options (bit 0: vertical scroll, bit 1: starts at the far end), the end of the first scroll in thousandths
+    of the scroll range and a second scroll (start ms, ms, end in thousandths) and the RGBA5551 rows. A
     horizontal scene is 448 rows tall and at least 640 wide; a vertical one is 640 wide.
     The scenes are independent, so they are built in parallel (one worker per core, at most 6); the result
     is the same as building them one after the other."""
@@ -162,11 +179,11 @@ def extract(apk,out,names=None,workers=None,log=print):
         log('    [%d/%d] %s'%(k,len(names),msg))
         if blob:blobs.append(blob)
     if pool:pool.close();pool.join()
-    head=struct.pack('<4s2I',b'PBCS',4,len(blobs));offset=len(head)+56*len(blobs);offset+=(-offset)%64
+    head=struct.pack('<4s2I',b'PBCS',5,len(blobs));offset=len(head)+72*len(blobs);offset+=(-offset)%64
     table=b'';pos=offset
-    for name,sw,sh,st,sc,en,mu,op,px in blobs:table+=struct.pack('<24s6IiI',name.encode()[:23],sw,sh,st,sc,en,pos,mu,op);pos+=len(px)+(-len(px))%64
+    for name,sw,sh,st,sc,en,mu,op,px,t1,st2,sc2,t2 in blobs:table+=struct.pack('<24s6IiI4i',name.encode()[:23],sw,sh,st,sc,en,pos,mu,op,t1,st2,sc2,t2);pos+=len(px)+(-len(px))%64
     data=bytearray(head+table);data+=bytes(offset-len(data))
-    for *_,px in blobs:data+=px+bytes((-len(px))%64)
+    for b in blobs:px=b[8];data+=px+bytes((-len(px))%64)
     Path(out).write_bytes(data)
     return {'scenes':len(blobs),'bytes':len(data),'sizes':sorted({(b[1],b[2]) for b in blobs})}
 

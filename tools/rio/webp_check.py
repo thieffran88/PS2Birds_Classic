@@ -1,8 +1,8 @@
-"""Development check of tools/rio/webp.py against Pillow's decoder (needs Pillow; the reader itself does not).
+"""Development check of tools/webp.py against Pillow's decoder (needs Pillow; the reader itself does not).
 usage: webp_check.py APK [NAME ...]  -> mean and largest difference per channel for each sheet"""
 import io,sys,zipfile
 from pathlib import Path
-sys.path.insert(0,str(Path(__file__).resolve().parent))
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import webp
 def check(apk,names):
     from PIL import Image

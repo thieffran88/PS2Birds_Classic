@@ -59,9 +59,22 @@ def frames_of(z):
             except Exception:continue
             for f in fr:out.setdefault(f['filename'],(n[:-len('.sheet.json')],f))
     return out
+_WEBP={}
+def decode_webp_frame(z,base,frame):
+    """One frame of a WebP sheet (tools/webp.py, no library): RGBA with the alpha on the GS scale (0..128)."""
+    import webp
+    if base not in _WEBP:_WEBP.clear();_WEBP[base]=webp.decode_webp(z.read(base+'.webp'))
+    sw,sh,px=_WEBP[base]
+    if frame.get('rotated'):raise ValueError('Unsupported WebP orientation')
+    f=frame['frame'];x,y,w,h=(f[k] for k in ('x','y','w','h'))
+    if w<=0 or h<=0 or x<0 or y<0 or x+w>sw or y+h>sh:raise ValueError('WebP frame outside sheet')
+    rgba=bytearray().join(px[((y+r)*sw+x)*4:((y+r)*sw+x+w)*4] for r in range(h))
+    for i in range(3,len(rgba),4):rgba[i]=(rgba[i]*128+127)//255
+    return rgba
 def read(z,where,name,cache={}):
     base,f=where[name]
     if base+'.png' in z.namelist():return decode_png_frame(z.read(base+'.png'),f),f
+    if base+'.webp' in z.namelist():return decode_webp_frame(z,base,f),f
     if base not in cache:cache.clear();cache[base]=z.read(base+'.pvr')
     return decode_pvr_frame(cache[base],f),f
 def extract(apk,out):
