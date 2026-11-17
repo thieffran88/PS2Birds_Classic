@@ -20,11 +20,14 @@ Como usar
 3. Dê dois cliques em GERAR_ISO.bat e aguarde (de 5 a 10 minutos num PC comum;
    a montagem dos fundos das fases leva a maior parte).
 4. Resultado, na mesma pasta:
-   - PS2Birds_Classic.iso          -> para emulador (PCSX2) ou gravação/OPL;
+   - SLUS_000.10.PS2Birds_Classic.iso -> para emulador (PCSX2), gravação ou OPL. O nome começa com o ID do disco
+                                      (SLUS_000.10), como o OPL exige: copie o arquivo para a pasta DVD do USB/HDD
+                                      sem trocar o começo do nome;
    - apps\PS2Birds\                -> PS2BIRDS.ELF + SPRITES.BIN + SOUNDS.BIN + UI.BIN + FONT.BIN + MENU.BIN + THEMES.BIN +
                                       MUSIC.BIN + CAMPAIGN.BIN, para rodar de USB/HDD (copie a
                                       pasta "apps" para a raiz do USB/HDD; o ELF procura os
-                                      dados em apps/PS2Birds e ao lado dele).
+                                      dados em apps/PS2Birds e ao lado dele; a pasta tem um
+                                      title.cfg, que o OPL usa para listá-la no menu Apps).
 
 Nada é instalado no Windows: o Python usado está na pasta "python" deste pacote.
 

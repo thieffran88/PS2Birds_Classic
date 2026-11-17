@@ -55,7 +55,7 @@ echo  APK:  %APK%
 echo.
 echo  Uma pagina de acompanhamento vai abrir no navegador. Se ela nao abrir, o endereco aparece abaixo.
 echo.
-"python\python.exe" -I tools\gerar_iso.py "%APK%" --jogo %JOGO% --saida "PS2Birds_Classic.iso" --pasta "apps\PS2Birds" --painel
+"python\python.exe" -I tools\gerar_iso.py "%APK%" --jogo %JOGO% --pasta "apps\PS2Birds" --painel
 echo.
 pause
 '''

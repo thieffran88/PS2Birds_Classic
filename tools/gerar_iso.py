@@ -68,7 +68,8 @@ def main():
     p.add_argument('apk',type=Path,help='APK original do jogo selecionado')
     p.add_argument('--jogo',choices=['auto','classic','rio'],default='auto',help='perfil do jogo (padrão: detectar pelo SHA-256)')
     p.add_argument('--investigar',action='store_true',help='auditar dados do Rio; não gera ELF/ISO')
-    p.add_argument('--saida',type=Path,default=Path('PS2Birds_Classic.iso'),help='ISO a criar (padrão: PS2Birds_Classic.iso)')
+    p.add_argument('--saida',type=Path,default=None,help='ISO a criar (padrão: <ID do disco>.PS2Birds_Classic.iso, o nome que o OPL espera)')
+    p.add_argument('--id',default=None,help='ID do disco, no formato SLUS_000.10 (padrão: o do jogo escolhido)')
     p.add_argument('--pasta',type=Path,default=Path('apps')/'PS2Birds',help='pasta onde também são gravados o ELF e os arquivos de dados, para USB/OPL/HDD (padrão: apps/PS2Birds)')
     p.add_argument('--elf',type=Path,default=None,help='programa do jogo (padrão: PS2BIRDS.ELF ao lado da ferramenta)')
     p.add_argument('--ffmpeg',default=None);p.add_argument('--ignorar-versao',action='store_true')
@@ -83,6 +84,8 @@ def main():
     if selected=='auto':selected=real or 'classic'
     elif real and real!=selected and not a.ignorar_versao:
         p.error(f"Você escolheu {PROJECTS[selected]['title']}, mas este APK é de {PROJECTS[real]['title']}. Use o APK do jogo escolhido ou troque a escolha.")
+    disc_id=a.id or PROJECTS[selected].get('disc_id','SLUS_000.10')
+    if a.saida is None:a.saida=Path(f'{disc_id}.PS2Birds_Classic.iso')
     if selected=='rio' and not a.investigar:
         p.error('O Angry Birds Rio ainda está em desenvolvimento e não gera ISO (apenas a auditoria dos dados, com --investigar). Escolha o Classic.')
     if selected=='rio':
@@ -108,10 +111,12 @@ def main():
             files=[data/'SPRITES.BIN',data/'SOUNDS.BIN',data/'MUSIC.BIN',data/'UI.BIN',data/'FONT.BIN',data/'MENU.BIN',data/'THEMES.BIN',data/'CUTSCENE.BIN',data/'CAMPAIGN.BIN']
             import make_iso
             prog.step(8);a.saida.parent.mkdir(parents=True,exist_ok=True)
-            make_iso.write_with_pycdlib(Path(elf).read_bytes(),a.saida.resolve(),files)
+            make_iso.write_with_pycdlib(Path(elf).read_bytes(),a.saida.resolve(),files,disc_id)
             prog.write(f'ISO pronta: {a.saida.resolve()}')
             if a.pasta:
                 a.pasta.mkdir(parents=True,exist_ok=True);shutil.copyfile(elf,a.pasta/'PS2BIRDS.ELF')
+                # title.cfg: o OPL lista a pasta como aplicativo (menu Apps) quando ela tem este arquivo
+                (a.pasta/'title.cfg').write_text('title=PS2Birds Classic\nboot=PS2BIRDS.ELF\n',encoding='ascii')
                 for f in files:shutil.copyfile(f,a.pasta/f.name)
                 prog.write(f'Pasta pronta: {a.pasta.resolve()} (copie a pasta inteira; o ELF lê os .BIN ao lado dele)')
         prog.finish(f'ISO: {a.saida.resolve()}')
