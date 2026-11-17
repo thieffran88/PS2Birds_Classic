@@ -20,7 +20,11 @@
 #include "background.h"
 #include "cutscene.h"
 #include "sprites.h"
-#include "definition_sprites.h"
+/* Piece-to-sprite table: the Classic's, or the Rio's (make GAME=rio). */
+#ifndef PS2BIRDS_DEFINITION_SPRITES
+#define PS2BIRDS_DEFINITION_SPRITES "definition_sprites.h"
+#endif
+#include PS2BIRDS_DEFINITION_SPRITES
 #include "save_mc.h"
 #include "audio.h"
 #include "save_assets.h"
