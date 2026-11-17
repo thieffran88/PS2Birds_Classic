@@ -16,7 +16,7 @@ The picture is composed here (pieces at their pivot, back to front), scaled to t
 screen and stored as opaque RGBA5551 rows: the game copies the visible 640 columns into the
 frame each frame, as it does with the stage backgrounds. Nothing of the game is kept in the
 repository: the scenes are built from the APK when the data files are generated."""
-import argparse,json,struct,zipfile
+import argparse,json,os,struct,zipfile
 from pathlib import Path
 from game_profiles import decode_payload
 import lua51_data
@@ -104,41 +104,63 @@ def pad_width(rgba,w,h,target):
             sx=min(max(x-left,0),w-1);out[(y*target+x)*4:(y*target+x)*4+4]=row[sx*4:sx*4+4]
     return out
 
-def extract(apk,out,names=None):
+_STATE={}
+def _setup(apk):
+    """Per-process state: the archive, the frame table, the compositions and the cutscene script."""
+    z=zipfile.ZipFile(apk);where=frames_of(z);comp={}
+    for f in COMPOS:
+        comp.update({c['name']:c for c in json.loads(decode_payload(z.read('assets/data/images/1024x768/'+f),'classic'))['compo']})
+    script=lua51_data.load(decode_payload(z.read('assets/data/scripts/cutscenes.lua'),'classic'))
+    _STATE.update(z=z,where=where,comp=comp,script=script)
+def _init(apk):_setup(apk)
+def build_scene(name):
+    """One scene -> (blob tuple or None, message). Runs in a worker process (or in the main one)."""
+    z=_STATE['z'];where=_STATE['where'];comp=_STATE['comp'];p=parse(_STATE['script'][name])
+    if p['image'] not in comp:return None,'cena %s ignorada: %s não é uma composição'%(name,p['image'])
+    # Only PNG and PVR sheets can be read here (the Short Fuse story is WebP).
+    have=set(z.namelist());bases={where[q['name']][0] for q in comp[p['image']]['sprites']}
+    bad=sorted(b.split('/')[-1] for b in bases if b+'.png' not in have and b+'.pvr' not in have)
+    if bad:return None,'cena %s ignorada: formato de imagem sem suporte (%s)'%(name,bad[0])
+    right,bottom=extent(where,comp[p['image']])
+    if p['vertical']:
+        # fitwidth: scaled to the screen width, scrolling up or down.
+        w=p['ref_w'];h=min(p['ref_h'],bottom) if bottom else p['ref_h']
+        canvas=compose(z,where,comp[p['image']],w,h,p['bg'])
+        small,sw,sh=scale(canvas,w,h,SCREEN_W/w)
+    else:
+        # The script's reference width can be a little wider than what the pieces cover:
+        # the real extent is used, so no empty strip is scrolled into view.
+        w=min(p['ref_w'],right) if right else p['ref_w'];h=p['ref_h']
+        canvas=compose(z,where,comp[p['image']],w,h,p['bg'])
+        small,sw,sh=scale(canvas,w,h,SCREEN_H/h)
+        if sw<SCREEN_W:small=pad_width(small,sw,sh,SCREEN_W);sw=SCREEN_W
+    options=(1 if p['vertical'] else 0)|(2 if p['reverse'] else 0)
+    return (name,sw,sh,int(p['scroll_start']*1000),int(p['scroll']*1000),int(p['end']*1000),p['music'],options,to5551(small)),'cena %s pronta (%d x %d)'%(name,sw,sh)
+
+def extract(apk,out,names=None,workers=None,log=print):
     """CUTSCENE.BIN: "PBCS", version 4, scene count, then per scene a 24-byte name (NUL padded),
     width, height, scroll start ms, scroll ms, end ms, data offset, music track (-1: none),
     options (bit 0: vertical scroll, bit 1: starts at the far end) and the RGBA5551 rows. A
-    horizontal scene is 448 rows tall and at least 640 wide; a vertical one is 640 wide."""
-    names=list(names or SCENES)
-    with zipfile.ZipFile(apk) as z:
-        where=frames_of(z)
-        comp={}
-        for f in COMPOS:
-            comp.update({c['name']:c for c in json.loads(decode_payload(z.read('assets/data/images/1024x768/'+f),'classic'))['compo']})
-        script=lua51_data.load(decode_payload(z.read('assets/data/scripts/cutscenes.lua'),'classic'))
-        blobs=[]
-        for name in names:
-            p=parse(script[name])
-            if p['image'] not in comp:print('cena %s ignorada: %s não é uma composição'%(name,p['image']));continue
-            # Only PNG and PVR sheets can be read here (the Short Fuse story is WebP).
-            have=set(z.namelist());bases={where[q['name']][0] for q in comp[p['image']]['sprites']}
-            bad=sorted(b.split('/')[-1] for b in bases if b+'.png' not in have and b+'.pvr' not in have)
-            if bad:print('cena %s ignorada: formato de imagem sem suporte (%s)'%(name,bad[0]));continue
-            right,bottom=extent(where,comp[p['image']])
-            if p['vertical']:
-                # fitwidth: scaled to the screen width, scrolling up or down.
-                w=p['ref_w'];h=min(p['ref_h'],bottom) if bottom else p['ref_h']
-                canvas=compose(z,where,comp[p['image']],w,h,p['bg'])
-                small,sw,sh=scale(canvas,w,h,SCREEN_W/w)
-            else:
-                # The script's reference width can be a little wider than what the pieces cover:
-                # the real extent is used, so no empty strip is scrolled into view.
-                w=min(p['ref_w'],right) if right else p['ref_w'];h=p['ref_h']
-                canvas=compose(z,where,comp[p['image']],w,h,p['bg'])
-                small,sw,sh=scale(canvas,w,h,SCREEN_H/h)
-                if sw<SCREEN_W:small=pad_width(small,sw,sh,SCREEN_W);sw=SCREEN_W
-            options=(1 if p['vertical'] else 0)|(2 if p['reverse'] else 0)
-            blobs.append((name,sw,sh,int(p['scroll_start']*1000),int(p['scroll']*1000),int(p['end']*1000),p['music'],options,to5551(small)))
+    horizontal scene is 448 rows tall and at least 640 wide; a vertical one is 640 wide.
+    The scenes are independent, so they are built in parallel (one worker per core, at most 6); the result
+    is the same as building them one after the other."""
+    names=list(names or SCENES);blobs=[]
+    n=workers if workers is not None else min(6,os.cpu_count() or 1,len(names))
+    results=None
+    if n>1:
+        try:
+            import multiprocessing
+            pool=multiprocessing.get_context('spawn').Pool(n,_init,(str(apk),))
+            log('    quadrinhos: %d cenas em %d processos paralelos'%(len(names),n))
+            results=pool.imap(build_scene,names)
+        except Exception as e:
+            log('    (processamento em paralelo indisponível: %s; seguindo em um processo)'%e);results=None
+    if results is None:
+        _setup(str(apk));results=map(build_scene,names);pool=None
+    for k,(blob,msg) in enumerate(results,1):
+        log('    [%d/%d] %s'%(k,len(names),msg))
+        if blob:blobs.append(blob)
+    if pool:pool.close();pool.join()
     head=struct.pack('<4s2I',b'PBCS',4,len(blobs));offset=len(head)+56*len(blobs);offset+=(-offset)%64
     table=b'';pos=offset
     for name,sw,sh,st,sc,en,mu,op,px in blobs:table+=struct.pack('<24s6IiI',name.encode()[:23],sw,sh,st,sc,en,pos,mu,op);pos+=len(px)+(-len(px))%64

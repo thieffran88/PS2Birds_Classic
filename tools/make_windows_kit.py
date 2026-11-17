@@ -13,7 +13,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 PYTHON='3.12.10'
 WHEELS=['pycdlib==1.22.0','imageio-ffmpeg==0.8.1']
-TOOLS=['gerar_iso.py','build_campaign.py','import_level.py','lua51_data.py','game_profiles.py','aes_cbc.py','mini7z.py',
+TOOLS=['gerar_iso.py','progresso.py','build_campaign.py','import_level.py','lua51_data.py','game_profiles.py','aes_cbc.py','mini7z.py',
        'extract_sprites.py','png_decode.py','build_save_icon.py','pack_sprites.py','extract_audio.py','spu_adpcm.py','make_iso.py','extract_ui.py','extract_font.py','extract_menu.py','extract_themes.py','extract_cutscene.py']
 PROFILES=['egg_defender.json','games.json','classic_level.json','classic_episode.json','sprite_metrics.json','star_limits.json','supported_apk.json']
 BAT=r'''@echo off
@@ -32,7 +32,7 @@ if "%APK%"=="" (
 echo.
 echo  APK: %APK%
 echo.
-"python\python.exe" -I tools\gerar_iso.py "%APK%" --saida "PS2Birds_Classic.iso" --pasta "PS2Birds_Classic_USB"
+"python\python.exe" -I tools\gerar_iso.py "%APK%" --saida "PS2Birds_Classic.iso" --pasta "PS2Birds_Classic_USB" --painel
 echo.
 pause
 '''

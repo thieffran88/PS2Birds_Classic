@@ -31,27 +31,35 @@ def check_apk(path):
         raise SystemExit(f"APK diferente do suportado.\n  esperado: {SUPPORTED['name']} ({SUPPORTED['version']}), SHA-256 {SUPPORTED['sha256']}\n  recebido: SHA-256 {digest}\n"
                          "Use o APK da versão indicada; outras versões têm fases e texturas diferentes. (--ignorar-versao força a tentativa.)")
 
-def generate(apk_path,out_dir,ffmpeg=None,log=print,dev=False):
+STEPS=['Fases (campanha)','Texturas (sprites)','Sons e música','Interface','Letras','Menu','Fundos (temas)','Quadrinhos (cenas)','Montar a ISO']
+
+def generate(apk_path,out_dir,ffmpeg=None,log=print,dev=False,progress=None):
     """Writes CAMPAIGN.BIN, SPRITES.BIN, SOUNDS.BIN, MUSIC.BIN, UI.BIN, FONT.BIN, MENU.BIN and THEMES.BIN into out_dir. dev=True keeps the
     intermediate files where the developer build and tests expect them (ps2/assets, ps2/data)."""
     import build_campaign,extract_cutscene,extract_sprites,build_save_icon,pack_sprites,extract_audio,extract_ui,extract_font,extract_menu,extract_themes
     out_dir=Path(out_dir);out_dir.mkdir(parents=True,exist_ok=True)
+    def etapa(i):
+        if progress:progress.step(i)
+        else:log(f'[{i+1}/{len(STEPS)}] {STEPS[i]} ...')
     with tempfile.TemporaryDirectory(prefix='ps2birds-') as work:
         work=Path(work)
         levels=ROOT/'ps2/data' if dev else work/'levels';assets=ROOT/'ps2/assets' if dev else work/'assets'
         levels.mkdir(parents=True,exist_ok=True);assets.mkdir(parents=True,exist_ok=True)
-        t=time.time();log('1/3 Fases (330) ...')
+        t=time.time();etapa(0)
         with zipfile.ZipFile(apk_path) as apk:build_campaign.build(apk=apk,workdir=levels,output=out_dir/'CAMPAIGN.BIN',quiet=True)
-        log(f'    ok ({time.time()-t:.0f} s)');t=time.time();log('2/3 Texturas ...')
+        log(f'    ok ({time.time()-t:.0f} s)');t=time.time();etapa(1)
         extract_sprites.extract(apk_path,assets,None,'classic',levels)
         build_save_icon.build(assets,write_sys=False)
         if dev:
             # A developer adding pieces or episodes regenerates the identifiers compiled into the game.
             shutil.copyfile(assets/'sprite_ids.h',ROOT/'ps2/src/sprite_ids.h');build_campaign.write_definition_sprites()
         pack_sprites.pack(assets/'manifest.json',assets/'sprites.rgba',assets/'save.icn',ROOT/'ps2/src/sprite_ids.h',out_dir/'SPRITES.BIN')
-        log(f'    ok ({time.time()-t:.0f} s)');t=time.time();log('3/3 Sons ...')
+        log(f'    ok ({time.time()-t:.0f} s)');t=time.time();etapa(2)
         extract_audio.extract(apk_path,assets,find_ffmpeg(ffmpeg),None)
-        extract_ui.extract(apk_path,assets/'UI.BIN');extract_font.extract(apk_path,assets/'FONT.BIN');extract_menu.extract(apk_path,assets/'MENU.BIN');extract_themes.extract(apk_path,assets/'THEMES.BIN');extract_cutscene.extract(apk_path,assets/'CUTSCENE.BIN')
+        def parte(i,fn,*args):
+            etapa(i);t0=time.time();fn(*args);log(f'    ok ({time.time()-t0:.0f} s)')
+        parte(3,extract_ui.extract,apk_path,assets/'UI.BIN');parte(4,extract_font.extract,apk_path,assets/'FONT.BIN');parte(5,extract_menu.extract,apk_path,assets/'MENU.BIN')
+        parte(6,extract_themes.extract,apk_path,assets/'THEMES.BIN');parte(7,extract_cutscene.extract,apk_path,assets/'CUTSCENE.BIN')
         for name in ['SOUNDS.BIN','MUSIC.BIN','UI.BIN','FONT.BIN','MENU.BIN','THEMES.BIN','CUTSCENE.BIN']:
             if Path(assets/name).resolve()!=Path(out_dir/name).resolve():shutil.copyfile(assets/name,out_dir/name)
         log(f'    ok ({time.time()-t:.0f} s)')
@@ -65,6 +73,8 @@ def main():
     p.add_argument('--pasta',type=Path,help='também grava ELF e arquivos de dados nesta pasta (para USB/OPL/HDD)')
     p.add_argument('--elf',type=Path,default=None,help='programa do jogo (padrão: PS2BIRDS.ELF ao lado da ferramenta)')
     p.add_argument('--ffmpeg',default=None);p.add_argument('--ignorar-versao',action='store_true')
+    p.add_argument('--painel',action='store_true',help='abre no navegador um painel com as etapas, o tempo e o registro detalhado')
+    p.add_argument('--log',type=Path,default=Path('GERAR_ISO_LOG.txt'),help='arquivo de registro (padrão: GERAR_ISO_LOG.txt)')
     p.add_argument('--dev',action='store_true',help='desenvolvimento: só gera os dados em ps2/assets e ps2/data (para make/make test)')
     a=p.parse_args()
     if not a.apk.is_file():p.error(f'APK não encontrado: {a.apk}')
@@ -84,16 +94,25 @@ def main():
     elf=a.elf or next((c for c in [HERE/'PS2BIRDS.ELF',ROOT/'PS2BIRDS.ELF',ROOT/'ps2/build/PS2Birds_Classic.elf'] if c.exists()),None)
     if not elf or Path(elf).read_bytes()[:4]!=b'\x7fELF':p.error('PS2BIRDS.ELF não encontrado (use --elf).')
     if not a.ignorar_versao:check_apk(a.apk)
-    with tempfile.TemporaryDirectory(prefix='ps2birds-data-') as data:
-        data=Path(data);generate(a.apk,data,a.ffmpeg)
-        files=[data/'SPRITES.BIN',data/'SOUNDS.BIN',data/'MUSIC.BIN',data/'UI.BIN',data/'FONT.BIN',data/'MENU.BIN',data/'THEMES.BIN',data/'CUTSCENE.BIN',data/'CAMPAIGN.BIN']
-        import make_iso
-        a.saida.parent.mkdir(parents=True,exist_ok=True)
-        make_iso.write_with_pycdlib(Path(elf).read_bytes(),a.saida.resolve(),files)
-        print(f'ISO pronta: {a.saida.resolve()}')
-        if a.pasta:
-            a.pasta.mkdir(parents=True,exist_ok=True);shutil.copyfile(elf,a.pasta/'PS2BIRDS.ELF')
-            for f in files:shutil.copyfile(f,a.pasta/f.name)
-            print(f'Pasta pronta: {a.pasta.resolve()} (copie a pasta inteira; o ELF lê os .BIN ao lado dele)')
+    import progresso
+    prog=progresso.Progress(STEPS,logfile=a.log,panel=a.painel);real_out=sys.stdout;sys.stdout=progresso.Tee(prog,real_out)
+    prog.write(f'Registro completo: {a.log.resolve()}');prog.write('Se uma etapa demorar, o programa continua escrevendo "ainda trabalhando" a cada poucos segundos.')
+    try:
+        with tempfile.TemporaryDirectory(prefix='ps2birds-data-') as data:
+            data=Path(data);generate(a.apk,data,a.ffmpeg,progress=prog,log=prog.write)
+            files=[data/'SPRITES.BIN',data/'SOUNDS.BIN',data/'MUSIC.BIN',data/'UI.BIN',data/'FONT.BIN',data/'MENU.BIN',data/'THEMES.BIN',data/'CUTSCENE.BIN',data/'CAMPAIGN.BIN']
+            import make_iso
+            prog.step(8);a.saida.parent.mkdir(parents=True,exist_ok=True)
+            make_iso.write_with_pycdlib(Path(elf).read_bytes(),a.saida.resolve(),files)
+            prog.write(f'ISO pronta: {a.saida.resolve()}')
+            if a.pasta:
+                a.pasta.mkdir(parents=True,exist_ok=True);shutil.copyfile(elf,a.pasta/'PS2BIRDS.ELF')
+                for f in files:shutil.copyfile(f,a.pasta/f.name)
+                prog.write(f'Pasta pronta: {a.pasta.resolve()} (copie a pasta inteira; o ELF lê os .BIN ao lado dele)')
+        prog.finish(f'ISO: {a.saida.resolve()}')
+    except BaseException as e:
+        prog.fail(f'{type(e).__name__}: {e}');raise
+    finally:
+        sys.stdout=real_out;prog.close()
 
 if __name__=='__main__':main()

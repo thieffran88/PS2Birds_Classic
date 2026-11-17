@@ -9,7 +9,7 @@ RGB565 PVR in images/base) as RGBA5551 for the fixed terrain pieces; the game ta
 around a stage's ground line, paints the terrain pieces with the texture, and copies the
 picture into the frame buffer every frame (the camera does not pan, so the parallax factors play
 no part). No game script runs."""
-import argparse,json,struct,zipfile
+import argparse,json,os,struct,zipfile
 from pathlib import Path
 from game_profiles import decode_payload
 from lua51_data import load
@@ -58,24 +58,45 @@ def compose(z,frames,compo,name,factor):
                 for k in range(3):out[p+k]=round((s[q+k]*a+out[p+k]*(255-a))/255) if b else s[q+k]
                 out[p+3]=min(255,a+b*(255-a)//255)
     return out,W,H,y0,x0,tile
-def extract(apk,out,preview=None):
+_STATE={}
+def _init(apk):
+    z=zipfile.ZipFile(apk);_STATE.update(z=z,themes=theme_table(z))
+def build_theme(name):
+    """One theme -> (name, picture bytes + ground texture, True when it has no layers of its own)."""
+    z=_STATE['z'];t=_STATE['themes'][name];frames,compo=graphics(z,t);layers=[]
+    for kind,key in ((0,'bgLayers'),(1,'fgLayers')):
+        for _,L in sorted(t.get(key,{}).items()):
+            sprite=num(L,2);factor=(num(L,4) or 1.0)*SCREEN
+            if not isinstance(sprite,str) or not sprite:continue
+            r=compose(z,frames,compo,sprite,factor)
+            if r:layers.append((kind,)+r)
+    c=t.get('color',{});g=t.get('groundColor',{})
+    col=lambda d,dflt:tuple(int(d.get(k,v)) for k,v in zip('rgb',dflt))
+    canvas=compose_canvas(col(c,(146,204,222)),col(g,(10,19,57)),layers)
+    return name,(canvas,to5551(canvas)+ground_texture(z,t.get('texture'),col(g,(10,19,57)))),not layers
+def extract(apk,out,preview=None,workers=None,log=print):
+    """THEMES.BIN. The themes are independent, so they are built in parallel (one worker per core, at most 6);
+    the order of the file and the fallbacks of the themes without layers are the same as one after the other."""
     with zipfile.ZipFile(apk) as z:
-        themes=theme_table(z);names=sorted(themes,key=lambda n:(themes[n].get('index',999),n));blobs=[];done={}
-        for name in names:
-            if preview and name!=preview:continue
-            t=themes[name];frames,compo=graphics(z,t);layers=[]
-            for kind,key in ((0,'bgLayers'),(1,'fgLayers')):
-                for _,L in sorted(t.get(key,{}).items()):
-                    sprite=num(L,2);factor=(num(L,4) or 1.0)*SCREEN
-                    if not isinstance(sprite,str) or not sprite:continue
-                    r=compose(z,frames,compo,sprite,factor)
-                    if r:layers.append((kind,)+r)
-            c=t.get('color',{});g=t.get('groundColor',{})
-            col=lambda d,dflt:tuple(int(d.get(k,v)) for k,v in zip('rgb',dflt))
-            if not layers and FALLBACK.get(name) in done:blobs.append((name,done[FALLBACK[name]]));continue
-            canvas=compose_canvas(col(c,(146,204,222)),col(g,(10,19,57)),layers)
-            if preview:Path(out).write_bytes(bytes(canvas[(448-390)*640*3:(448-390+448)*640*3]))
-            blobs.append((name,to5551(canvas)+ground_texture(z,t.get('texture'),col(g,(10,19,57)))));done[name]=blobs[-1][1]
+        themes=theme_table(z);names=sorted(themes,key=lambda n:(themes[n].get('index',999),n))
+    if preview:names=[n for n in names if n==preview]
+    n=workers if workers is not None else min(6,os.cpu_count() or 1,len(names))
+    results=None;pool=None
+    if n>1 and not preview:
+        try:
+            import multiprocessing
+            pool=multiprocessing.get_context('spawn').Pool(n,_init,(str(apk),))
+            log('    fundos: %d temas em %d processos paralelos'%(len(names),n));results=pool.imap(build_theme,names)
+        except Exception as e:
+            log('    (processamento em paralelo indisponível: %s; seguindo em um processo)'%e);results=None;pool=None
+    if results is None:
+        _init(str(apk));results=map(build_theme,names)
+    blobs=[];done={}
+    for k,(name,(canvas,blob),empty) in enumerate(results,1):
+        if empty and FALLBACK.get(name) in done:blobs.append((name,done[FALLBACK[name]]));log('    [%d/%d] tema %s usa o fundo de %s'%(k,len(names),name,FALLBACK[name]));continue
+        if preview:Path(out).write_bytes(bytes(canvas[(448-390)*640*3:(448-390+448)*640*3]))
+        blobs.append((name,blob));done[name]=blob;log('    [%d/%d] tema %s pronto'%(k,len(names),name))
+    if pool:pool.close();pool.join()
     head=struct.pack('<4s4I',b'PBTH',3,len(blobs),640,ABOVE+BELOW);off=len(head)+40*len(blobs);off+=(-off)%2048;pad=off-len(head)-40*len(blobs);table=b''
     for name,blob in blobs:table+=struct.pack('<32s2I',name.encode()[:31],off,len(blob));off+=len(blob)
     if not preview:Path(out).write_bytes(head+table+bytes(pad)+b''.join(b for _,b in blobs))

@@ -30,23 +30,32 @@ PARTICLES=[f'WOOD_PARTICLE_{i}' for i in (1,2,3)]+[f'LIGHT_PARTICLE_{i}' for i i
 # Explosion clouds are large; they are stored smaller and drawn scaled up.
 CLOUD_SCALE=0.35
 def scale(rgba,w,h,f):
-    """Area-average resample (alpha-weighted colour) to round(w*f) x round(h*f)."""
+    """Area-average resample (alpha-weighted colour) to round(w*f) x round(h*f).
+    The weights of each output column and row are computed once (same values, same order of the sums, so the
+    result is identical to the plain per-pixel version, only faster)."""
     W,H=max(1,round(w*f)),max(1,round(h*f));out=bytearray(W*H*4)
+    cols=[]
+    for X in range(W):
+        x0,x1=X/f,min(w,(X+1)/f);lst=[]
+        for x in range(int(x0),min(w,int(x1+0.999))):
+            wx=min(x+1,x1)-max(x,x0)
+            if wx>0:lst.append((x,wx))
+        cols.append(lst)
     for Y in range(H):
-        y0,y1=Y/f,min(h,(Y+1)/f)
+        y0,y1=Y/f,min(h,(Y+1)/f);rows=[]
+        for y in range(int(y0),min(h,int(y1+0.999))):
+            wy=min(y+1,y1)-max(y,y0)
+            if wy>0:rows.append((y*w,wy))
         for X in range(W):
-            x0,x1=X/f,min(w,(X+1)/f);acc=[0.0]*4;area=0.0
-            for y in range(int(y0),min(h,int(y1+0.999))):
-                wy=min(y+1,y1)-max(y,y0)
-                if wy<=0:continue
-                for x in range(int(x0),min(w,int(x1+0.999))):
-                    wx=min(x+1,x1)-max(x,x0)
-                    if wx<=0:continue
-                    a=wx*wy;p=(y*w+x)*4;al=rgba[p+3]
-                    acc[0]+=rgba[p]*al*a;acc[1]+=rgba[p+1]*al*a;acc[2]+=rgba[p+2]*al*a;acc[3]+=al*a;area+=a
-            q=(Y*W+X)*4;al=acc[3]
-            if al>0:out[q:q+3]=bytes(min(255,round(c/al)) for c in acc[:3])
-            out[q+3]=round(al/area) if area else 0
+            a0=a1=a2=a3=0.0;area=0.0;cl=cols[X]
+            for base,wy in rows:
+                for x,wx in cl:
+                    a=wx*wy;p=(base+x)*4;al=rgba[p+3];area+=a
+                    if al:
+                        a0+=rgba[p]*al*a;a1+=rgba[p+1]*al*a;a2+=rgba[p+2]*al*a;a3+=al*a
+            q=(Y*W+X)*4
+            if a3>0:out[q]=min(255,round(a0/a3));out[q+1]=min(255,round(a1/a3));out[q+2]=min(255,round(a2/a3))
+            out[q+3]=round(a3/area) if area else 0
     return out,W,H
 def decode_pvr_frame(data,frame):
     """Crop a frame from a PVR v3 sheet stored as packed RGBA4444 (r in the high nibble),
