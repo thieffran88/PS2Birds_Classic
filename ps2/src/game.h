@@ -123,7 +123,7 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 #define GLOBE_BLAST_FORCE 45000.0f
 #define GLOBE_DAMAGE_RADIUS 5.0f
 /* Terence (RedBigBird), from blocks.lua: radius 1.8, density 10, friction 0.3, restitution 0.45,
-   no specialty. RedBigBirdDamageFactors: damage x0.3 on wood/rock/light (velocity x1.8 not ported). */
+   no specialty. RedBigBirdDamageFactors: damage x0.3 on wood/rock/light (velocity x1.8 applied since 0.90.0). */
 #define BIG_RADIUS 1.8f
 #define BIG_DENSITY 10.0f
 #define BIG_RESTITUTION 0.45f

@@ -580,7 +580,7 @@ struct Physics: b2ContactListener {
 };
 /* velocityMultiplier of blocks.lua for the port's materials (1 wood, 2 glass = light, 5 rock):
    BlueBird light 1.9; RedBigBird 1.8; BoomerangBird wood/light 1.3; GlobeBird 4 (puffed 2). */
-static float __attribute__((unused)) velocity_multiplier(int type,int kind,bool puffed){
+static float velocity_multiplier(int type,int kind,bool puffed){
     if(kind!=1 && kind!=2 && kind!=5)return 1.0f;
     switch(type){
         case BIRD_BLUE_TYPE:return kind==2?1.9f:1.0f;
@@ -1233,7 +1233,7 @@ static void tick(Game *g) {
         /* blocks.lua <Bird>DamageFactors.velocityMultiplier: when the bird's hit breaks the piece,
            it keeps its speed before the hit x min(1, leftover damage share x multiplier)
            (AdventureModeCollisions.lua). Applied where the multiplier is above 1. */
-#ifdef PS2BIRDS_VELOCITY_MULTIPLIER   /* off until the stage scripts are re-solved (LACUNAS_PORT.md) */
+#ifndef PS2BIRDS_NO_VELOCITY_MULTIPLIER   /* on since 0.90.0; the stage scripts were re-solved with it */
         if(p->bird_hit[i] && p->bird && before>0 && p->health[i]<=0 && dealt>0){
             float m=velocity_multiplier(p->bird_type,o.kind,p->puffer_state>0);
             if(m>1){

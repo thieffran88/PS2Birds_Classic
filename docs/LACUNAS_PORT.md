@@ -11,12 +11,12 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - Surf and Turf 2/45, Bad Piggies 3/45, Flock Favorites 3/30
 - Zero: Tutorial, Big Setup, Mine and Dine, Short Fuse, Bird Island, Piggy Farm, Dino, Birdday 2–7 (levantamento inicial; hoje todos, exceto o Tutorial, estão no port)
 
-## Resumo do que falta (0.89.0)
+## Resumo do que falta (0.90.0)
 
 Esta é a lista atual. As seções abaixo são o histórico de cada versão e podem citar como pendente algo que já foi feito.
 
 **Física e jogabilidade**
-- `velocityMultiplier` (velocidade que o pássaro conserva ao quebrar uma peça: azul ×1,9 no vidro, Terence ×1,8, bumerangue ×1,3, baiacu ×4). O código existe, atrás da chave `PS2BIRDS_VELOCITY_MULTIPLIER`, desligada: ativá-lo quebra 86 roteiros de vitória, e a busca de roteiros novos está em andamento.
+- (feito na 0.90.0) `velocityMultiplier`: velocidade que o pássaro conserva ao quebrar uma peça (azul ×1,9 no vidro, Terence ×1,8, bumerangue ×1,3, baiacu ×4). Aplicada com a regra do `AdventureModeCollisions.lua`; a fórmula exata do modo Classic é nativa e não foi recuperada, então é uma aproximação.
 - Fórmulas nativas de dano, de queda da explosão e de "sono" das peças: são aproximações, porque o código nativo não foi recuperado.
 - Pontuação aproximada: os limites de estrelas são os originais, mas a contagem é indicativa.
 - Power-ups da loja (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers): precisam de um menu de seleção antes da fase.
@@ -24,7 +24,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 
 **Fases sem roteiro de vitória verificado**
 - 3-20, 5-16 e 13-7 dependem da explosão do pássaro preto (fórmula nativa); Birdday 4-4, Dino 3-8 e fases grandes de Mine and Dine (16-5, 16-6 e outras).
-- O teste da campanha lista 71 fases sem roteiro, contando Egg Defender (9), Golden Eggs, Tutorial e Mighty Feathers.
+- O teste da campanha lista 78 fases sem roteiro (as 7 novas da 0.90.0: Bad Piggies 2-9, Bird Island 1-5, Piggy Farm 2-5 e 2-14, Dino 1-6, 1-7 e 1-13), contando Egg Defender (9), Golden Eggs, Tutorial e Mighty Feathers.
 
 **Egg Defender**
 - `setTargetY` (altura-alvo de alguns veículos) e a conferência fase a fase contra o original.
@@ -52,7 +52,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 
 ## Achados da 0.21.0
 
-- `blocks.lua` declara, para cada pássaro, duas tabelas por material: `damageMultiplier` (já usada pelo port: azul ×2,9 no gelo, amarelo ×2,4 na madeira, preto ×4 na pedra) e `velocityMultiplier` (azul ×1,9 no gelo e ×2 em osso; Terence ×1,8). Esta segunda tabela ainda não é aplicada: ela controla quanto da velocidade o pássaro conserva ao atravessar a peça. Tabela completa lida do `blocks.lua`: azul — vidro 1,9 e osso 2; Terence — madeira/pedra/vidro 1,8; bumerangue — madeira e vidro 1,3; baiacu — 4 (inflado 2); pena do vermelho — pedra/vidro 0,9; demais pássaros 1. Teste feito em 16/11/2026 (fórmula do `AdventureModeCollisions.lua`: ao quebrar a peça, velocidade anterior × min(1, sobra do dano × multiplicador), só onde o multiplicador passa de 1): 86 fases deixam de ser vencidas pelos roteiros verificados, porque esses roteiros foram calibrados na física atual. Aplicar a tabela exige recalcular os roteiros das fases afetadas; por isso o código não foi mantido.
+- `blocks.lua` declara, para cada pássaro, duas tabelas por material: `damageMultiplier` (já usada pelo port: azul ×2,9 no gelo, amarelo ×2,4 na madeira, preto ×4 na pedra) e `velocityMultiplier` (azul ×1,9 no gelo e ×2 em osso; Terence ×1,8). Esta segunda tabela foi aplicada na 0.90.0 (seção "Achados da 0.90.0").
 - 5-16 e 3-20 são as únicas fases sem roteiro, e as duas só têm pássaros pretos/explosivos. A cena da 5-16 assenta sem perder nenhum porco (deslocamento máximo de 2 unidades), então a importação está correta; o que falta é a fórmula nativa da explosão do pássaro preto (raio, queda com a distância e impulso), que não está nos scripts Lua.
 - A página 5 precisou de um terceiro banco de texturas. Para caber, as peças numeradas desse banco usam dois quadros de dano (intacto e muito danificado) em vez de quatro.
 
@@ -90,7 +90,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 - **Escala por peça (corrigido):** o `ObjectCreation.lua` multiplica o tamanho pela `scaleX`/`scaleY` da instância. O importador ignorava esses campos; só a 6-14 os usa (um bloco de terreno reduzido a 25% × 88%).
 - **Capacetes escorregando:** o capacete grande é mais largo que o porco e fica apoiado no topo redondo; no port ele escorrega devagar ao carregar. Faz parte da mesma questão das peças em repouso.
 - **Corda grossa:** segmentos-caixa (BLOCK_ROPE_THICK_1) ligados por juntas de distância; na 10-15 ela segura um TNT pendurado.
-- **Pendências do Terence:** a tabela `velocityMultiplier` (×1,8 na madeira, no gelo e na pedra) ainda não é usada; só o multiplicador de dano (×0,3).
+- **Terence:** a tabela `velocityMultiplier` (×1,8) foi aplicada na 0.90.0, além do multiplicador de dano (×0,3).
 
 ## Achados da 0.27.0
 
@@ -331,9 +331,9 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 ## Prioridade sugerida
 
 1. Egg Defender: só falta o `setTargetY` (canhões feitos na 0.63.0; voadores e vaivém com o ovo na 0.64.0; mira do vermelho na 0.62.0); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
-1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
+1b. (feito na 0.90.0) Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
-2. `velocityMultiplier` por material (dado já recuperado; testado: quebra 86 roteiros de vitória, que precisam ser recalculados junto).
+2. (feito na 0.90.0) `velocityMultiplier` por material.
 3. Cordas.
 4. Pan de câmera e música.
 
@@ -347,3 +347,10 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 ## Revisão da lista de pendências (17/11/2026)
 - Conferidos no código e nos testes: a mira do vermelho (0.62.0), os canhões (0.63.0), a sustentação dos voadores e o vaivém com o ovo (0.64.0) já estão no port. As linhas antigas que os davam como pendentes foram corrigidas.
 - O que de fato falta: `setTargetY` no Egg Defender; `velocityMultiplier` junto com o recálculo dos roteiros; power-ups da loja (precisam de um menu de seleção); fórmulas nativas de dano e de "sono" dos corpos; demais cutscenes.
+
+
+## Achados da 0.90.0
+- **`velocityMultiplier` ligado.** Quando o pássaro quebra uma peça, ele mantém a velocidade de antes da batida × min(1, sobra do dano × multiplicador), onde o multiplicador passa de 1: azul ×1,9 no vidro, Terence ×1,8, bumerangue ×1,3 (madeira e vidro), baiacu ×4 (inflado ×2).
+- **Efeito nos roteiros:** 86 fases deixaram de ser vencidas pelos roteiros antigos. A busca automática achou roteiros novos para 79: 72 com um tiro repetido e 7 com sequências de vários pássaros (busca em feixe).
+- **Sete fases ficaram sem roteiro verificado:** Bad Piggies 2-9, Bird Island 1-5, Piggy Farm 2-5, Piggy Farm 2-14, Dino 1-6, Dino 1-7 e Dino 1-13. A busca não achou vitória para elas (duas, Dino 1-6 e 1-7, não chegaram a terminar no tempo disponível). Isso não significa que sejam impossíveis, só que nenhum roteiro foi verificado.
+- Para desligar o efeito, compile com `-DPS2BIRDS_NO_VELOCITY_MULTIPLIER`.
