@@ -328,12 +328,15 @@ static int world_pending;   /* stage index + 1 whose first win may complete a wo
    Entering the first stage of an episode with no score yet plays its opening; entering the first stage of a world
    with no score in it plays that world's opening; the first score that completes a world (every stage with the same
    title prefix "<EPISODE> N-") plays that world's scene after the win screen. Titles carry the world number.
-   Not in the table: the Egg Defender and Mighty Feathers panels (docs/CUTSCENES.md).
+   Mighty Feathers and Egg Defender have an episode opening and an episode ending (panels, still).
    A scene that is not in CUTSCENE.BIN is skipped. */
 static const char *const episode_scene[][2]={{"POACHED EGGS","pack1_intro"},{"MIGHTY HOAX","pack2_intro"},
     {"DANGER ABOVE","pack3_intro"},{"BIG SETUP","pack4_intro"},{"HAM EM HIGH","pack5_intro"},{"MINE AND DINE","pack6_intro"},
     {"SURF AND TURF","pack8_intro"},{"BAD PIGGIES","pack9_intro"},{"SHORT FUSE","blackbird_intro"},
-    {"PIGGY FARM","intro_cutscene_farm"},{"DINO","intro_cutscene_dino"}};
+    {"PIGGY FARM","intro_cutscene_farm"},{"DINO","intro_cutscene_dino"},
+    {"MIGHTY FEATHERS","rmf_classic_intro"},{"EGG DEFENDER","eggdefender_intro"}};
+/* Scene after the last stage of an episode gets its first score (no worlds with dashes there). */
+static const char *const episode_done_scene[][2]={{"MIGHTY FEATHERS","rmf_complete"},{"EGG DEFENDER","eggdefender_complete"}};
 /* The seventh Birdday has its own opening, before its first world. */
 static const char *const world_intro_scene[][2]={{"BIRDDAY 7-","pack7_intro"}};
 static const char *const world_scene[][2]={
@@ -375,6 +378,10 @@ static int episode_intro(int level,const int *highscores){
 }
 /* After a stage's first score: if that completes its world, the world's scene. */
 static void world_complete(int level,const int *highscores){
+    {int e=menu_episode_of(level);
+     if(e>=0)for(unsigned k=0;k<sizeof(episode_done_scene)/sizeof(episode_done_scene[0]);k++)if(!strcmp(menu_episode_name(e),episode_done_scene[k][0])){
+        int first=menu_episode_first(e);for(int l=first;l<first+menu_episode_size(e);l++)if(highscores[l]<=0)return;
+        play_scene(episode_done_scene[k][1]);return;}}
     const char *t=game_level_title(level),*dash=strrchr(t,'-');if(!dash)return;
     size_t prefix=(size_t)(dash-t)+1;
     for(int l=0;l<game_level_count();l++)if(!strncmp(game_level_title(l),t,prefix) && highscores[l]<=0)return;
@@ -519,7 +526,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.93.3 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.93.4 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -821,7 +828,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(200,250,1,0,cream,"{PAD} MIRA   {X} LANÇAR");
             hint(200,270,1,0,cream,"{Q} SEGURAR: AJUSTE FINO");
             hint(200,290,1,0,cream,"{X} NO AR: HABILIDADE   {SELECT} FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.93.3 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.93.4 / PLAYSTATION 2");
             mc_status(200,350,color(135,192,181));
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -832,7 +839,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(90,200,1,0,cream,"{X} NO AR: HABILIDADE DO PÁSSARO");
             hint(90,220,1,0,cream,"{T} REINICIAR   {SELECT} FASES");
             hint(90,240,1,0,cream,"{R3} SOM   {START} CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.93.3 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.93.4 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             mc_status(90,318,color(135,192,181));
         } else {
@@ -975,13 +982,13 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.93.3: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.93.4: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s); campaign error %d, sprites error %d\n",file,game_campaign_error(),sprites_error());
         char detail[3][96];
         snprintf(detail[0],sizeof(detail[0]),"CAMPAIGN.BIN: ERRO %d  SPRITES.BIN: ERRO %d",game_campaign_error(),sprites_error());
-        snprintf(detail[1],sizeof(detail[1]),"VERSAO 0.93.3");
+        snprintf(detail[1],sizeof(detail[1]),"VERSAO 0.93.4");
         snprintf(detail[2],sizeof(detail[2]),"%.90s",data_on_disc?"LENDO DO DISCO (CDROM0)":tried_dirs[0]?tried_dirs:data_dir);
         for(char *q=detail[2];*q;q++)if(*q>='a'&&*q<='z')*q=(char)(*q-32);
         char more[2][96]={"",""};

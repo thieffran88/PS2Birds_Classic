@@ -75,4 +75,4 @@ está no `CUTSCENE.BIN` é simplesmente pulada.
 - Gatilhos: a abertura de cada episódio na primeira fase, o final ao fechar o mundo; Birdday 7 tem abertura própria.
 - Aproximações: nas cenas do Dino o modo "tamanho de referência" foi estimado; o brilho piscante da árvore
   (Short Fuse) e os olhos do Rei Porco não são animados.
-- Ainda não feitas: as cenas em painéis do Egg Defender e do Mighty Feathers (precisam de animação de escala/posição).
+- Egg Defender e Mighty Feathers: painéis mostrados juntos, parados (sem a animação de entrada).

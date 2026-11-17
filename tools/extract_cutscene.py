@@ -37,7 +37,9 @@ SCENES=['pack1_intro','world1_complete','world2_complete','world3_complete',
         # Birdday 2 and 3 worlds, Bad Piggies, Short Fuse, Piggy Farm and Dino (WebP sheets: tools/webp.py)
         'world18_complete','world19_complete','pack9_intro','world20_complete','world21_complete','world22_complete',
         'blackbird_intro','blackbird_middle_1','blackbird_middle_2','blackbird_end',
-        'intro_cutscene_farm','outro_cutscene_farm','intro_cutscene_dino','outro_cutscene_dino']
+        'intro_cutscene_farm','outro_cutscene_farm','intro_cutscene_dino','outro_cutscene_dino',
+        # Egg Defender and Mighty Feathers: panels that pop in one by one; here they are shown together, in their final places
+        'eggdefender_intro','eggdefender_complete','rmf_classic_intro','rmf_complete']
 # Not here: the Egg Defender scenes (tweened panels) and the Short Fuse, Piggy Farm and Dino
 # stories (WebP sheets, which this generator cannot decode).
 COMPOS=['CUTSCENES.compo.json','CUTSCENE_BLACKBIRD.compo.json','CUTSCENES_STORY_FARM.compo.json','CUTSCENES_STORY_DINO.compo.json']
@@ -119,9 +121,41 @@ def _setup(apk):
     script=lua51_data.load(decode_payload(z.read('assets/data/scripts/cutscenes.lua'),'classic'))
     _STATE.update(z=z,where=where,comp=comp,script=script)
 def _init(apk):_setup(apk)
+def build_panels(name,acts):
+    """Panel scenes (fittogrid + tweenPosition/tweenScale): the panels in their final places, fitted to the screen,
+    still picture for the scene's duration (the pop-in animation is not reproduced)."""
+    z=_STATE['z'];where=_STATE['where'];acts=[acts[k] for k in sorted(acts,key=float)]
+    final={}
+    for a in acts:
+        if a['action']=='createsprite':final[a['name']]={'name':a['image'],'x':a['x'],'y':a['y'],'z':a.get('z',0)}
+    for a in acts:
+        if a['action']=='tweenPosition' and a['name'] in final:final[a['name']]['x'],final[a['name']]['y']=a['to']['x'],a['to']['y']
+    sprites=sorted(final.values(),key=lambda q:q['z'],reverse=True)   # compose() draws the list back to front
+    if any(q['name'] not in where for q in sprites):return None,'cena %s ignorada: painel desconhecido'%name
+    bases={where[q['name']][0] for q in sprites}
+    if any(b+'.png' not in z.namelist() and b+'.webp' not in z.namelist() and b+'.pvr' not in z.namelist() for b in bases):return None,'cena %s ignorada: formato de imagem sem suporte'%name
+    x0=y0=1e9;x1=y1=-1e9
+    for q in sprites:
+        f=where[q['name']][1];fw,fh=f['frame']['w'],f['frame']['h'];pv=f.get('pivot',{'x':fw/2,'y':fh/2})
+        x0=min(x0,q['x']-pv['x']);y0=min(y0,q['y']-pv['y']);x1=max(x1,q['x']-pv['x']+fw);y1=max(y1,q['y']-pv['y']+fh)
+    for q in sprites:q['x']-=x0;q['y']-=y0
+    w=int(x1-x0)+1;h=int(y1-y0)+1
+    canvas=compose(z,where,{'sprites':sprites},w,h,(0,0,0))
+    k=min(SCREEN_W/w,SCREEN_H/h);small,sw,sh=scale(canvas,w,h,k)
+    out=bytearray(SCREEN_W*SCREEN_H*4)
+    for i in range(SCREEN_W*SCREEN_H):out[i*4+3]=255
+    ox=(SCREEN_W-sw)//2;oy=(SCREEN_H-sh)//2
+    for r in range(sh):
+        out[((r+oy)*SCREEN_W+ox)*4:((r+oy)*SCREEN_W+ox+sw)*4]=small[r*sw*4:(r+1)*sw*4]
+    clips=[a['sound'] for a in acts if a['action']=='playsound' and a.get('sound') in MUSIC_OF_CLIP]
+    end=[a for a in acts if a['action']=='end'][0]['time']
+    return (name,SCREEN_W,SCREEN_H,0,0,int(end*1000),MUSIC_OF_CLIP[clips[0]] if clips else -1,0,to5551(bytes(out)),0,0,0,0),'cena %s pronta (painéis, %d x %d)'%(name,SCREEN_W,SCREEN_H)
+
 def build_scene(name):
     """One scene -> (blob tuple or None, message). Runs in a worker process (or in the main one)."""
-    z=_STATE['z'];where=_STATE['where'];comp=_STATE['comp'];p=parse(_STATE['script'][name])
+    z=_STATE['z'];where=_STATE['where'];comp=_STATE['comp']
+    if any(a['action']=='fittogrid' for a in _STATE['script'][name].values()):return build_panels(name,_STATE['script'][name])
+    p=parse(_STATE['script'][name])
     if p['image'] in comp:entry=comp[p['image']]
     elif p['image'] in where:entry={'sprites':[{'name':p['image'],'x':p['bg_x'],'y':p['bg_y']}]}   # a single sprite, placed by its centre
     else:return None,'cena %s ignorada: %s não é uma composição nem um sprite'%(name,p['image'])
