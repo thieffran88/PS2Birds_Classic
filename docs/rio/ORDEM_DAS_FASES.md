@@ -244,3 +244,15 @@ O APK do Rio tem as mesmas fontes do Classic (`FONT_BASIC` e `FONT_SCORE`, arqui
 **Partículas.** Dos 53 nomes do Classic, 38 não existem no Rio com o mesmo nome; o Rio usa nomes próprios (por exemplo `FEATHER_RED_1`, `SMOKE_BUFF_1`, `P_STAR_1`, `BLACK_SMOKE_PARTICLE_*`) e só tem penas de 5 pássaros (vermelho, azul, amarelo, preto e branco). **Quase todas essas partículas estão em folhas WebP**; só as pontuações `SCORE_10K_*` estão em PVR. Os fragmentos de madeira, vidro e pedra não têm nome equivalente evidente (o Rio parece gerá-los pelos sprites das próprias peças).
 
 Conclusão: o `UI.BIN` do Rio pode ter a parte da interface agora, mas as partículas (penas, fumaça, estrelas) exigem o **decodificador de WebP**, que passa a ser a próxima peça de maior retorno. Também é preciso adaptar o `extract_ui.py`, que lê as folhas do conjunto 1024x768 do Classic (inexistente no Rio) e a ordem de identificadores de `ps2/src/ui.h`.
+
+## Leitor de WebP em Python puro (`tools/rio/webp.py`, `vp8l.py`, `vp8_tables.py`)
+
+As 100 folhas WebP do APK do Rio (11 sem transparência e 89 com) usam o formato com perda **VP8** e, nas 89, a transparência em um bloco **ALPH** comprimido no formato sem perda **VP8L** (com filtros 0, 1 ou 3). Dois leitores novos, sem nenhuma biblioteca:
+
+- `webp.py`: contêiner RIFF, quadro-chave VP8 completo (cabeçalhos, segmentos, quantização, árvores de modos, tokens de coeficientes, transformada inversa DCT e WHT, as 10 predições de blocos 4x4 e as de 16x16 e 8x8, filtros de laço simples e normal), upsampling de croma bilinear e conversão YUV para RGB.
+- `vp8l.py`: o fluxo sem perda do ALPH (códigos de prefixo, cache de cores, referências para trás, e as quatro transformações: preditor, correlação de cores, subtrair verde e índice de cores), mais os filtros de predição do ALPH.
+- `vp8_tables.py`: só números (probabilidades padrão dos tokens e dos modos de sub-bloco e as tabelas de quantização), extraídos uma vez de uma compilação de referência.
+
+**Conferência:** `tools/rio/webp_check.py` compara a saída com a do Pillow (só para desenvolvimento). Nos **100 arquivos do APK a diferença é zero em todos os canais, pixel a pixel**, em 2 min 32 s no total (cerca de 1,5 s por folha, em Python puro). Com isso as peças que estavam bloqueadas por WebP (caixas de metal e outras), as partículas (penas, fumaça, estrelas), os temas e boa parte dos menus do Rio passam a ser legíveis pelo gerador, que continua sem depender de bibliotecas no kit para Windows.
+
+Falta ligar o leitor aos extratores: `crop_sprites` e o banco de sprites (hoje ignoram folhas WebP), `extract_themes_rio` (camadas WebP) e o futuro `UI.BIN` do Rio.
