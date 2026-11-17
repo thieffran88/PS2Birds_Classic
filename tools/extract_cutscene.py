@@ -12,13 +12,15 @@ from pathlib import Path
 from game_profiles import decode_payload
 from extract_menu import frames_of,read
 from extract_ui import scale
+from extract_audio import MUSIC_OF_CLIP
 
 # One entry per scene: (cutscenes.lua scene name, CUTSCENES.compo.json image, setreferencesize
-# width and height, scroll duration s, end time s). The game looks scenes up by name and plays
-# each one where cutscenes.lua does; a scene missing here is simply skipped. To add a scene, read
-# its block in cutscenes.lua (image, setreferencesize, scroll duration, the last time) and add a
-# line: see docs/CUTSCENES.md.
-SCENES=[('pack1_intro','STORY_1_BEGINNING',2048,659,9.6,15.6)]
+# width and height, scroll duration s, end time s, music clip). The game looks scenes up by name
+# and plays each one where cutscenes.lua does; a scene missing here is simply skipped. To add a
+# scene, read its block in cutscenes.lua (image, setreferencesize, the playsound clip, the two
+# times) and add a line: see docs/CUTSCENES.md. The music clip must be in extract_audio.MUSIC.
+SCENES=[('pack1_intro','STORY_1_BEGINNING',2048,659,9.6,15.6,'birds_intro'),
+        ('world1_complete','STORY_1_MIDDLE_1',1368,659,2.0,7.5,'birds_boss')]
 SCREEN_H=448
 
 def compose(z,where,compo,w,h):
@@ -53,18 +55,18 @@ def to5551(rgba):
 
 def extract(apk,out):
     """CUTSCENE.BIN: "PBCS", version 2, scene count, then per scene a 24-byte name (NUL padded),
-    width, height, scroll ms, end ms, data offset, and the RGBA5551 rows."""
+    width, height, scroll ms, end ms, data offset, music track, and the RGBA5551 rows."""
     with zipfile.ZipFile(apk) as z:
         where=frames_of(z)
         comp={c['name']:c for c in json.loads(decode_payload(z.read('assets/data/images/1024x768/CUTSCENES.compo.json'),'classic'))['compo']}
         blobs=[]
-        for name,image,w,h,scroll_s,end_s in SCENES:
+        for name,image,w,h,scroll_s,end_s,clip in SCENES:
             canvas=compose(z,where,comp[image],w,h)
             small,sw,sh=scale(canvas,w,h,SCREEN_H/h)
-            blobs.append((name,sw,sh,int(scroll_s*1000),int(end_s*1000),to5551(small)))
-    head=struct.pack('<4s2I',b'PBCS',2,len(blobs));offset=len(head)+44*len(blobs);offset+=(-offset)%64
+            blobs.append((name,sw,sh,int(scroll_s*1000),int(end_s*1000),MUSIC_OF_CLIP[clip],to5551(small)))
+    head=struct.pack('<4s2I',b'PBCS',2,len(blobs));offset=len(head)+48*len(blobs);offset+=(-offset)%64
     table=b'';pos=offset
-    for name,sw,sh,sc,en,px in blobs:table+=struct.pack('<24s5I',name.encode()[:23],sw,sh,sc,en,pos);pos+=len(px)+(-len(px))%64
+    for name,sw,sh,sc,en,mu,px in blobs:table+=struct.pack('<24s6I',name.encode()[:23],sw,sh,sc,en,pos,mu);pos+=len(px)+(-len(px))%64
     data=bytearray(head+table);data+=bytes(offset-len(data))
     for *_,px in blobs:data+=px+bytes((-len(px))%64)
     Path(out).write_bytes(data)

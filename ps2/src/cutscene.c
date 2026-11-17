@@ -10,19 +10,20 @@
 #define W 640
 #define H 448
 static char path[256]="CUTSCENE.BIN";
-static unsigned short *picture,*frame;static int pic_w,scroll_ms,end_ms;
+static unsigned short *picture,*frame;static int pic_w,scroll_ms,end_ms,music_track=-1;
 static unsigned rd32(const unsigned char *p){return p[0]|(p[1]<<8)|(p[2]<<16)|((unsigned)p[3]<<24);}
 void cutscene_set_data_path(const char *p){if(p){strncpy(path,p,sizeof(path)-1);path[sizeof(path)-1]=0;}}
+int cutscene_music(void){return music_track;}
 void cutscene_stop(void){free(picture);picture=0;free(frame);frame=0;}
 int cutscene_start(const char *name){
     cutscene_stop();
     int fd=open(path,O_RDONLY);if(fd<0)return 0;
     /* Version 1 (one unnamed scene: pack1_intro) or 2 (24-byte name per scene). */
-    unsigned char head[12],e[44],*entry=e;int ok=read(fd,head,12)==12 && !memcmp(head,"PBCS",4),found=0;
+    unsigned char head[12],e[48],*entry=e;int ok=read(fd,head,12)==12 && !memcmp(head,"PBCS",4),found=0;
     unsigned version=ok?rd32(head+4):0,count=ok?rd32(head+8):0;ok=ok && (version==1||version==2) && count<64;
     for(unsigned i=0;ok && i<count && !found;i++){
         if(version==1){ok=read(fd,e,20)==20;found=!strcmp(name,"pack1_intro");entry=e;}
-        else{ok=read(fd,e,44)==44;e[23]=0;found=!strcmp((const char*)e,name);entry=e+24;}
+        else{ok=read(fd,e,48)==48;e[23]=0;found=!strcmp((const char*)e,name);entry=e+24;}
     }
     ok=ok && found;
     unsigned w=ok?rd32(entry):0,h=ok?rd32(entry+4):0;ok=ok && h==H && w>=W && w<=4096;
@@ -35,6 +36,7 @@ int cutscene_start(const char *name){
     close(fd);
     if(!ok){cutscene_stop();return 0;}
     pic_w=(int)w;scroll_ms=(int)rd32(entry+8);end_ms=(int)rd32(entry+12);
+    music_track=version==1?13:(int)rd32(entry+20);   /* version 1: the intro, track 13 */
     printf("PS2Birds: cutscene %s loaded (%d x %d)\n",name,pic_w,H);return 1;
 }
 int cutscene_draw(GSGLOBAL *gs,float time){

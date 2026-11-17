@@ -12,7 +12,7 @@ uma cena basta registrá-la no gerador — nenhuma mudança no código do jogo �
 | Sair da tela de vitória quando essa vitória completou um mundo (todas as fases com título `"<EPISÓDIO> N-"` pontuadas) | `worldN_complete` (N = número do mundo no título; Poached Eggs 1–3, Mighty Hoax 4–5, Danger Above 6–8, …) |
 | O mesmo no Surf and Turf | `worldS1_complete` … `worldS3_complete` |
 
-X ou Start pulam a cena. A música da cena é a faixa `MUSIC_INTRO` (`birds_intro`).
+X ou Start pulam a cena. A música é a de cada cena (coluna "Música" da tabela no fim).
 
 ## Como acrescentar uma cena
 
@@ -20,14 +20,20 @@ X ou Start pulam a cena. A música da cena é a faixa `MUSIC_INTRO` (`birds_intr
    como constantes perto do nome da cena — o `extract_cutscene.py` mostra como a primeira foi lida):
    - `image` — o nome da composição no `CUTSCENES.compo.json` (por exemplo `STORY_1_MIDDLE_1`);
    - `setreferencesize` — largura e altura de referência (números `float` de 4 bytes);
+   - `playsound` → `sound` — o clipe de música (por exemplo `birds_boss`); ele precisa estar na
+     lista `MUSIC` de `tools/extract_audio.py` (acrescente uma linha se não estiver);
    - `scroll` → `duration` — o tempo da rolagem em segundos;
    - o último `time` do bloco — quando a cena termina.
+   Dica: as constantes de um bloco só aparecem na primeira vez em que são usadas no arquivo; o que
+   se repete (como a altura 659) vem do bloco anterior.
 2. **Acrescente uma linha em `SCENES`** em `tools/extract_cutscene.py`:
    ```python
-   SCENES=[('pack1_intro','STORY_1_BEGINNING',2048,659,9.6,15.6),
-           ('world1_complete','STORY_1_MIDDLE_1',LARGURA,ALTURA,ROLAGEM,FIM)]
+   SCENES=[('pack1_intro','STORY_1_BEGINNING',2048,659,9.6,15.6,'birds_intro'),
+           ('world1_complete','STORY_1_MIDDLE_1',1368,659,2.0,7.5,'birds_boss'),
+           ('world2_complete','STORY_1_MIDDLE_2',LARGURA,ALTURA,ROLAGEM,FIM,'CLIPE')]
    ```
-   O primeiro campo é o nome que o jogo procura (tabela acima).
+   O primeiro campo é o nome que o jogo procura (tabela acima). Use como largura a que o desenho
+   realmente ocupa (a caixa das peças da composição), que pode ser um pouco menor que a de referência.
 3. **Gere os dados de novo** (`GERAR_ISO.bat`, ou `python3 tools/gerar_iso.py APK --dev` no
    desenvolvimento). Nada do jogo fica no repositório: a cena é montada a partir do seu APK.
 
@@ -39,4 +45,12 @@ X ou Start pulam a cena. A música da cena é a faixa `MUSIC_INTRO` (`birds_intr
   vários quadros e efeitos (`createsprite`/`deletesprite`, `fittogrid`, olhos animados do Rei
   Porco, moldura de filme `CUTSCENE_FILMSTRIP_*`) precisariam de suporte novo no `cutscene.c`.
 - Formato do `CUTSCENE.BIN`: "PBCS", versão 2, número de cenas, depois por cena o nome (24 bytes),
-  largura, altura, rolagem (ms), fim (ms) e posição dos dados; o jogo ainda lê a versão 1 antiga.
+  largura, altura, rolagem (ms), fim (ms), posição dos dados e faixa de música; o jogo ainda lê a
+  versão 1 antiga (uma cena só, a abertura).
+
+## Cenas feitas
+
+| Cena | Imagem | Música |
+| --- | --- | --- |
+| `pack1_intro` | `STORY_1_BEGINNING` | `birds_intro` |
+| `world1_complete` | `STORY_1_MIDDLE_1` | `birds_boss` |

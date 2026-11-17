@@ -9,6 +9,7 @@ void cutscene_set_data_path(const char *path);
 /* Loads the scene named as in cutscenes.lua ("pack1_intro", "world1_complete"...); 0 when
    CUTSCENE.BIN is missing or has no such scene (the game then just goes on). */
 int cutscene_start(const char *name);
+int cutscene_music(void);                    /* the scene's music track (MUSIC.BIN index) */
 int cutscene_draw(GSGLOBAL *gs,float time);  /* queues the frame at that time; 0 once the scene is over */
 void cutscene_stop(void);                    /* frees the picture */
 #endif

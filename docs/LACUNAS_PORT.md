@@ -11,6 +11,35 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - Surf and Turf 2/45, Bad Piggies 3/45, Flock Favorites 3/30
 - Zero: Tutorial, Big Setup, Mine and Dine, Short Fuse, Bird Island, Piggy Farm, Dino, Birdday 2–7 (levantamento inicial; hoje todos, exceto o Tutorial, estão no port)
 
+## Resumo do que falta (0.88.0)
+
+Esta é a lista atual. As seções abaixo são o histórico de cada versão e podem citar como pendente algo que já foi feito.
+
+**Física e jogabilidade**
+- `velocityMultiplier` (velocidade que o pássaro conserva ao quebrar uma peça: azul ×1,9 no vidro, Terence ×1,8, bumerangue ×1,3, baiacu ×4). O código existe, atrás da chave `PS2BIRDS_VELOCITY_MULTIPLIER`, desligada: ativá-lo quebra 86 roteiros de vitória, e a busca de roteiros novos está em andamento.
+- Fórmulas nativas de dano, de queda da explosão e de "sono" das peças: são aproximações, porque o código nativo não foi recuperado.
+- Pontuação aproximada: os limites de estrelas são os originais, mas a contagem é indicativa.
+- Power-ups da loja (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers): precisam de um menu de seleção antes da fase.
+- Efeitos do Short Fuse a conferir: foguete (`RocketCanister.lua`), ímã e balão explosivo.
+
+**Fases sem roteiro de vitória verificado**
+- 3-20, 5-16 e 13-7 dependem da explosão do pássaro preto (fórmula nativa); Birdday 4-4, Dino 3-8 e fases grandes de Mine and Dine (16-5, 16-6 e outras).
+- O teste da campanha lista 71 fases sem roteiro, contando Egg Defender (9), Golden Eggs, Tutorial e Mighty Feathers.
+
+**Egg Defender**
+- `setTargetY` (altura-alvo de alguns veículos) e a conferência fase a fase contra o original.
+
+**Gráficos e interface**
+- Borda de grama no alto do terreno (desenhada pelo código nativo) e textura nas peças de terreno que quebram.
+- Mine and Dine: por falta de memória de vídeo, o porco machucado usa o desenho normal.
+- Botão de pausa na tela e visor de power-ups.
+- Pan de câmera do início da fase: não se aplica, o port mostra a fase inteira numa vista fixa.
+
+**Cutscenes** (ver `docs/CUTSCENES.md`)
+- Feitas: a abertura de Poached Eggs (`pack1_intro`) e a cena do fim do mundo 1 (`world1_complete`).
+- O jogo já sabe quando tocar as demais; cada uma só precisa de uma linha em `tools/extract_cutscene.py`.
+- Faltam o suporte a cenas com vários quadros e efeitos, os olhos animados do Rei Porco e a moldura de filme.
+
 ## O que falta na decompilação/importação
 
 - 547 definições sem adaptador. As mais usadas:
@@ -53,7 +82,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 - **Peças "dormindo" — testado.** Com a opção `SCENE_STARTS_ASLEEP` (peças criadas em repouso), nenhuma das 150 fases tem peça se movendo mais de 1 unidade ao carregar (antes, 15 fases passavam de 3 unidades). Mas 109 dos 148 roteiros deixam de vencer e a 1-1 cai de 119 para 68 acertos na grade de teste, porque as construções ficam mais firmes. Há também um contra-indício: no jogo original, porcos às vezes morrem antes do primeiro tiro porque a construção se acomoda, o que só acontece com as peças acordadas. A opção ficou no código, desligada, até haver evidência direta (por exemplo, o código nativo que cria os corpos).
 - **Memória — resolvido.** Os bancos de textura 1+ saem do ELF e vão para o `SPRITES.BIN`; cada novo episódio passa a custar só disco, não RAM. Testado no PCSX2 pela ISO (disco) e pelo ELF com o arquivo ao lado (HostFs).
-- **Big Setup (mundos 9–11, 45 fases):** nenhuma fase importa ainda. Todas usam o Terence (RedBigBird: raio 1,8, densidade 10, restituição 0,45, sem habilidade especial; `RedBigBirdDamageFactors` dá dano ×0,3 e velocidade ×1,8) e capacetes (ExtraHelmetSmall/Big/Boss) definidos como polígonos livres, com vértices relativos ao tamanho do sprite. O port só tem triângulos fixos: falta um importador de polígonos genéricos. Uma fase também usa corda (ExtraRopeThick01).
+- **Big Setup (mundos 9–11, 45 fases):** feito (as 45 fases entraram); o texto abaixo é o levantamento original. Todas usam o Terence (RedBigBird: raio 1,8, densidade 10, restituição 0,45, sem habilidade especial; `RedBigBirdDamageFactors` dá dano ×0,3 e velocidade ×1,8) e capacetes (ExtraHelmetSmall/Big/Boss) definidos como polígonos livres, com vértices relativos ao tamanho do sprite. O port só tem triângulos fixos: falta um importador de polígonos genéricos. Uma fase também usa corda (ExtraRopeThick01).
 
 ## Achados da 0.26.0
 
@@ -205,7 +234,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.59.0
 
-- **Controladores:** 53 de 72 (fases 1 a 11). O voador de balões e foles da 11-1 não sobe no port (mesma falta de sustentação dos voadores da fase 4); a primeira carroça da fase 10 para antes do ovo.
+- **Controladores:** levantamento antigo de 53 de 72; hoje são 72 de 72. O voador de balões e foles da 11-1 não sobe no port (mesma falta de sustentação dos voadores da fase 4); a primeira carroça da fase 10 para antes do ovo.
 
 ## Achados da 0.60.0
 
@@ -237,7 +266,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.66.0
 
-- **Menu de fases:** episódios e grade 5 × 3 com páginas, estrelas e cadeados, no formato do original. Faltam os sprites originais do menu (fundos `LS_LEVEL_BG_*`, pontinhos `LS_DOT_*`, cadeados), o menu principal, a tela de fim de fase e a escolha de power-ups.
+- **Menu de fases:** episódios e grade 5 × 3 com páginas, estrelas e cadeados, no formato do original. Os sprites originais, o menu principal e a tela de fim de fase foram feitos depois; falta só a escolha de power-ups.
 - **Egg Defender:** 8 e 14 vencidas com esperas maiores; 9 fases ainda sem roteiro.
 
 ## Achados da 0.67.0
@@ -246,7 +275,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.68.0
 
-- **Sons do fim de fase:** `star_1..3`, `score_count` e `new_highscore` extraídos e tocados nos momentos do `level_end.lua`. Ainda falta a música (`music/level_complete.ogg` é tocada em streaming no original; a SPU2 do port só guarda efeitos curtos).
+- **Sons do fim de fase:** `star_1..3`, `score_count` e `new_highscore` extraídos e tocados nos momentos do `level_end.lua`. A música (`level_complete`) foi feita depois, em streaming pelo audsrv (`music.c`).
 
 ## Achados da 0.69.0
 
@@ -262,7 +291,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.72.0
 
-- **Fontes e HUD:** `FONT_BASIC` e `FONT_SCORE` originais; HUD no formato do `GameHud.lua`. A memória de vídeo agora está cheia (página de interface 128 KB + fontes 32 KB). Faltam: os pontos flutuantes sobre as peças destruídas (`FONT_SCORE`, já extraída), o botão de pausa (`INGAME_BUTTON_PAUSE`) e o visor de power-ups.
+- **Fontes e HUD:** `FONT_BASIC` e `FONT_SCORE` originais; HUD no formato do `GameHud.lua`. A memória de vídeo agora está cheia (página de interface 128 KB + fontes 32 KB). Os pontos flutuantes foram feitos na 0.75.0; faltam o botão de pausa (`INGAME_BUTTON_PAUSE`) e o visor de power-ups.
 
 ## Achados da 0.73.0
 

@@ -208,7 +208,8 @@ static void block_unflipped(const GameObject *o)
 static Menu menu_state;
 static int menu_yell_request;
 /* cutscenes.lua pack1_intro: plays before Poached Eggs 1-1 until that stage has a score; X/Start skips. */
-static float cutscene_time=-1;static int world_pending;   /* stage index + 1 whose first win may complete a world */
+static float cutscene_time=-1;static int cutscene_music_pending;   /* start the music after the first frame is up: reading the track stalls the game for seconds */
+static int world_pending;   /* stage index + 1 whose first win may complete a world */
 /* cutscenes.lua: packN_intro when an episode is entered with no score yet; worldN_complete when the
    last stage of world N (title "<EPISODE> N-") gets its first score; Surf and Turf uses worldS1..S3.
    Scenes not present in CUTSCENE.BIN are skipped; see docs/CUTSCENES.md to add them. */
@@ -216,7 +217,7 @@ static const char *const pack_intro[][2]={{"POACHED EGGS","pack1_intro"},{"MIGHT
     {"BIG SETUP","pack4_intro"},{"HAM EM HIGH","pack5_intro"},{"MINE AND DINE","pack6_intro"},{"BIRDDAY","pack7_intro"},{"SURF AND TURF","pack8_intro"}};
 static int play_scene(const char *name){
     if(!cutscene_start(name))return 0;
-    cutscene_time=0;music_play(MUSIC_INTRO);return 1;
+    cutscene_time=0;cutscene_music_pending=1;return 1;
 }
 /* Returns 1 when the stage starts right away (no scene). */
 static int episode_intro(int level,const int *highscores){
@@ -366,7 +367,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.87.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.88.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -663,7 +664,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(200,250,1,cream,"DIRECIONAL/ANALÓGICO: MIRA   X: LANÇAR");
             text(200,270,1,cream,"QUADRADO (SEGURAR): AJUSTE FINO");
             text(200,290,1,cream,"X NO AR: HABILIDADE DO PÁSSARO   SELECT: FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.87.0 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.88.0 / PLAYSTATION 2");
             text(200,350,1,color(135,192,181),save_mc_status());
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -674,7 +675,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
             text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
             text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.87.0 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.88.0 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             text(90,318,1,color(135,192,181),save_mc_status());
         } else {
@@ -791,7 +792,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.87.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.88.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
@@ -839,7 +840,7 @@ int main(int argc,char **argv)
             cutscene_time+=frame_seconds;
             int over=(pressed&(PAD_CROSS|PAD_START)) || !cutscene_draw(gs,cutscene_time);
             if(over){cutscene_stop();cutscene_time=-1;music_play(MUSIC_NONE);audio_play(SFX_START);}
-            else{gsKit_queue_exec(gs);gsKit_sync_flip(gs);}
+            else{gsKit_queue_exec(gs);gsKit_sync_flip(gs);if(cutscene_music_pending){cutscene_music_pending=0;music_play(cutscene_music());}}
             old_buttons=buttons;previously_connected=connected;continue;
         }
         if ((state==PAD_STATE_DISCONN || state==PAD_STATE_ERROR) && previously_connected) paused=1;
