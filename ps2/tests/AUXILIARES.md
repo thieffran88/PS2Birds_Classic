@@ -20,3 +20,7 @@ jogo muda (foi assim em 0.90.0, com o `velocityMultiplier`). Todos rodam no PC, 
 2. Rodar o `solver` nessas fases (em paralelo, uma por processo).
 3. Para as que sobrarem, rodar `beam.py` (cada uma pode levar dezenas de minutos).
 4. Gravar os roteiros achados na tabela do `campaign_test.cpp` e ajustar a contagem esperada de fases sem roteiro (`unverified`).
+
+## Fumaça do Rio (`rio_smoke.cpp`)
+
+Carrega um `CAMPAIGN.BIN` do Rio (gerado por `tools/rio/rio_campaign.py`) pela variável `PS2BIRDS_CAMPAIGN`, deixa a primeira fase assentar, dá um tiro e imprime os contadores. Compilar com `g++ -O2 -std=c++11 -Isrc -c tests/rio_smoke.cpp` e ligar com `build/host/game.o` e os objetos do Box2D em `build/host/vendor` (depois de um `make test`); rodar com `PS2BIRDS_CAMPAIGN=caminho/CAMPAIGN_RIO.BIN`.

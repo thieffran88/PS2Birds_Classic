@@ -87,3 +87,9 @@ O corpo de uma gaiola composta é o último filho da composição (deslocamento 
 - Pássaros: só o vermelho (tipo 0) tem equivalente no runtime. As fases com outros pássaros do Rio param com erro explícito.
 - **Ainda não foi carregado pelo runtime** (nem no teste em PC nem no PCSX2): só a escrita e a releitura em Python foram conferidas. O arquivo fica em `work/rio/`, fora do Git e fora da ISO.
 - Nomes: os scripts do Rio se chamam `rio_import_level.py` e `rio_campaign.py` para não colidir com `import_level.py` e `build_campaign.py` do Classic.
+
+### Atualização: o runtime carrega a fase do Rio (teste em PC)
+
+O `ps2/tests/rio_smoke.cpp` carregou o `CAMPAIGN.BIN` do Rio no `game.cpp` do Classic, sem alterá-lo: 1 fase, 25 objetos, 4 pássaros, **5 alvos tipo 4 (as gaiolas) e 20 outras peças**. Após assentar 2 s de simulação nada foi destruído e a pontuação seguiu zerada. Um tiro de teste (ângulo 0,7, força 0,8) libertou 1 gaiola: alvos 5 -> 4 e 5000 pontos, sem valores inválidos.
+
+Isso confirma que o contador de alvos do Classic serve às gaiolas e que o formato carrega. **Não valida** a gravidade (+20 provisória), a fidelidade da física, nem sprites ou som; ainda não foi rodado no PCSX2.
