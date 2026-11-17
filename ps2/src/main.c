@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include "game.h"
 #include "menu.h"
 #include "level_end.h"
@@ -893,6 +895,28 @@ static const char *data_file(const char *name,char *out)
     if(data_on_disc)sprintf(out,"cdrom0:\\%s;1",name);else sprintf(out,"%s%s",data_dir,name);
     return out;
 }
+/* Started as a plain ELF (USB, HDD, emulator) the folder is taken from the path the loader gave as argv[0], but
+   loaders differ (some give no folder, some a different device name). If CAMPAIGN.BIN is not there, the usual
+   places next to the program are tried and the first that has it is used; the list tried is kept for the
+   missing-data screen. */
+static char tried_dirs[160];
+static int can_open(const char *dir)
+{
+    char p[300];snprintf(p,sizeof(p),"%sCAMPAIGN.BIN",dir);int fd=open(p,O_RDONLY);if(fd<0)return 0;close(fd);return 1;
+}
+static void find_data_dir(void)
+{
+    if(data_on_disc)return;
+    static const char *const extra[]={"host:","mass:","mass0:","mass:/","mass0:/","./"};
+    tried_dirs[0]=0;
+    if(can_open(data_dir))return;
+    snprintf(tried_dirs,sizeof(tried_dirs),"%s",data_dir);
+    for(unsigned i=0;i<sizeof(extra)/sizeof(extra[0]);i++){
+        if(!strcmp(extra[i],data_dir))continue;
+        size_t n=strlen(tried_dirs);if(n+strlen(extra[i])+2<sizeof(tried_dirs))snprintf(tried_dirs+n,sizeof(tried_dirs)-n," %s",extra[i]);
+        if(can_open(extra[i])){snprintf(data_dir,sizeof(data_dir),"%s",extra[i]);printf("PS2Birds: data found in '%s'\n",data_dir);return;}
+    }
+}
 int main(int argc,char **argv)
 {
     SifInitRpc(0);
@@ -914,7 +938,7 @@ int main(int argc,char **argv)
     gsKit_mode_switch(gs,GS_ONESHOT);
     gs->PrimAlphaEnable=GS_SETTING_ON;
     gsKit_set_primalpha(gs,ALPHA_BLEND_NORMAL,0);
-    char file[300];set_data_dir(argc,argv);
+    char file[300];set_data_dir(argc,argv);find_data_dir();
     sprites_set_data_path(data_file("SPRITES.BIN",file));
     audio_set_data_path(data_file("SOUNDS.BIN",file));
     music_set_data_path(data_file("MUSIC.BIN",file));
@@ -936,7 +960,7 @@ int main(int argc,char **argv)
         char detail[3][96];
         snprintf(detail[0],sizeof(detail[0]),"CAMPAIGN.BIN: ERRO %d  SPRITES.BIN: ERRO %d",game_campaign_error(),sprites_error());
         snprintf(detail[1],sizeof(detail[1]),"VERSAO 0.93.2");
-        snprintf(detail[2],sizeof(detail[2]),"%.90s",data_on_disc?"LENDO DO DISCO (CDROM0)":data_dir);
+        snprintf(detail[2],sizeof(detail[2]),"%.90s",data_on_disc?"LENDO DO DISCO (CDROM0)":tried_dirs[0]?tried_dirs:data_dir);
         for(char *q=detail[2];*q;q++)if(*q>='a'&&*q<='z')*q=(char)(*q-32);
         for(;;){
             gsKit_clear(gs,color(16,40,48));
