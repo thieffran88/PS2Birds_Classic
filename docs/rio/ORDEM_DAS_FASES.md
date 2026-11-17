@@ -177,3 +177,9 @@ Do `themes.lua`, o tema `theme2` (usado pela `warehouse/Level190`) tem: uma cama
 `tools/rio/pvr.py` ganhou um decodificador **ETC1** em Python puro (blocos 4x4 de 8 bytes, modos individual e diferencial, as duas orientações de sub-bloco e as 8 tabelas de modificadores). A ordem dos blocos foi conferida de forma numérica, sem olhar a imagem: na leitura em fileiras a diferença média entre pixels vizinhos na borda dos blocos é 9,05 contra 7,49 dentro deles (continuidade), enquanto em ordem de Morton seria 24,81 contra 7,65. Resultado: `python3 tools/rio/pvr.py APK` agora decodifica **as 139 folhas PVR do APK (antes 118)**.
 
 Falta ligar as camadas ao fundo do runtime: o `background.c` do Classic monta o fundo a partir do banco `THEMES.BIN`; o Rio precisa do próprio `THEMES.BIN` com as camadas do `theme2`, a rolagem e as cores.
+
+### Atualização: as camadas do `theme2` são sprites simples
+
+Conferido nos arquivos `.dat`: as três camadas do tema da primeira fase **não são composições**, são sprites únicos de largura 1024 — `THEME_WH_ROOM_1` (1024x683, folha `THEME_1_WH_2`, ETC1), `THEME_WH_FG_1` (1024x129) e `THEME_WH_BOXES_1` (1024x311), ambos na folha `THEME_1_WH_1` (RGBA4444). As composições do tema (`THEME_1_COMPOSPRITES`) só têm `THEME_WH_CHAINS` e `THEME_WH_CHAINS_DARK`, que são as correntes decorativas das fases (`DECO_CHAINS`), não as camadas de fundo.
+
+Consequência: montar o fundo do Rio é mais simples que no Classic (não há composição por camada). O `extract_themes.py` do Classic compõe cada camada (sprite mais itens da composição), escala à tela de 640x448 pelo fator 448/768, ancora na linha do chão e repete na largura. Para o Rio falta decidir a **linha do chão** (o tema não a traz; vem de `Ground.y` da fase) e o **fator de escala** (o Rio usa câmeras por plataforma: `iphone` 480x320 e `ipad` 1024x768). Isso será confirmado comparando a altura dos sprites com o `castleCameraData`, e depois implementado como `extract_themes_rio.py`.
