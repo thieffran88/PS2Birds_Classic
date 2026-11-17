@@ -236,3 +236,11 @@ Azul, amarelo e preto já coincidem. O vermelho do Rio é maior e mais saltitant
 ## `FONT.BIN` do Rio (`tools/rio/extract_font_rio.py`)
 
 O APK do Rio tem as mesmas fontes do Classic (`FONT_BASIC` e `FONT_SCORE`, arquivo de glifos mais folha PVR RGBA4444), mas em três conjuntos de tamanho (320x240, 480x320 e 864x480) e **sem** o conjunto 1024x768 que o Classic lê. O extrator de fontes do Classic passou a aceitar a pasta e a lista de fontes como parâmetros (padrões iguais aos de antes: o `FONT.BIN` do Classic gerado de novo é idêntico ao anterior, conferido por hash, e o teste das fontes passa). O Rio usa o conjunto 864x480 com os fatores do Classic corrigidos pela razão 1024/864 (0,52 e 0,38), o que mantém o mesmo tamanho de letra na tela. Resultado: `FONT.BIN` do Rio com 19.648 bytes, na mesma página de 256 x 128 do Classic.
+
+## Interface e partículas do Rio (levantamento para o `UI.BIN` e o `MENU.BIN`)
+
+**Botões e telas de fim de fase.** Os nomes do Classic não existem no Rio, mas há equivalentes com formato legível: `ICON_MENU`, `ICON_RESTART`, `ICON_NEXT`, `ICON_RESUME_SMALL` (ou `ICON_PLAY`), `ICON_SFX`, `SOUND_OFF`, `LEVEL_FAILED_CAGE_BIRD` (no lugar do porco da derrota, já que o alvo é a gaiola), `BIG_STAR_1..3` e `NEW_HIGHSCORE_BADGE`. O conjunto `480x320` tem todos os 12 em **PVR** (que o `pvr.py` lê), inclusive `SOUND_OFF`, que só existe nele. Os conjuntos 320x240 e 864x480 trazem várias em WebP. Portanto os 11 sprites de interface podem sair do conjunto 480x320 sem WebP.
+
+**Partículas.** Dos 53 nomes do Classic, 38 não existem no Rio com o mesmo nome; o Rio usa nomes próprios (por exemplo `FEATHER_RED_1`, `SMOKE_BUFF_1`, `P_STAR_1`, `BLACK_SMOKE_PARTICLE_*`) e só tem penas de 5 pássaros (vermelho, azul, amarelo, preto e branco). **Quase todas essas partículas estão em folhas WebP**; só as pontuações `SCORE_10K_*` estão em PVR. Os fragmentos de madeira, vidro e pedra não têm nome equivalente evidente (o Rio parece gerá-los pelos sprites das próprias peças).
+
+Conclusão: o `UI.BIN` do Rio pode ter a parte da interface agora, mas as partículas (penas, fumaça, estrelas) exigem o **decodificador de WebP**, que passa a ser a próxima peça de maior retorno. Também é preciso adaptar o `extract_ui.py`, que lê as folhas do conjunto 1024x768 do Classic (inexistente no Rio) e a ordem de identificadores de `ps2/src/ui.h`.
