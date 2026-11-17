@@ -68,3 +68,9 @@ Consequência para o runtime: gaiolas e macacos se comportam, para a contagem de
 - O formato da fase em `CAMPAIGN.BIN` já traz, por fase, `gravity`, `sling_x`, `sling_y`, `ground_y` e `physics_to_world` (veja `tools/build_campaign.py`). O gerador do Rio só precisa preenchê-los: a origem do lançamento vem do pássaro 1 da fase; a gravidade continua em aberto.
 - A vitória conta peças de tipo 4 (`kind==4`): `pig_alive` sobe na carga da fase e desce em `game.cpp` (linhas ~1168 e ~1261) quando a peça é destruída, com 5000 pontos. Fora do modo Egg Defender toda peça tipo 4 é alvo (`is_goal`).
 - Portanto uma gaiola ou um macaco do Rio pode entrar como peça tipo 4, com a resistência e o material do `levelgoals.lua`. **Para a primeira fase não é preciso alterar o runtime**: basta o gerador do Rio emitir as gaiolas como tipo 4. O que muda é só a aparência (sprite e efeito de saída do passarinho) e, depois, o comportamento dos macacos.
+
+## Importador de fases (`tools/rio/import_level.py`)
+
+Converte uma fase do Rio na lista de objetos que o `build_campaign` grava no `CAMPAIGN.BIN`: tamanho pelo sprite (ou pela largura e altura da definição), escala da instância, material e resistência pelo catálogo, estilingue no pássaro 1 e gravidade como parâmetro (`--gravity`, padrão -10, **só um marcador**: o valor real ainda não foi obtido).
+
+Resultado na `warehouse/Level190`: 21 dos 25 objetos convertem (20 de material comum e 1 gaiola), mais 4 pássaros e o estilingue em (108,81; -9,46). As 4 gaiolas restantes (`BLOCK_CAGE_2`, `_8`, `_12`, `_15`) não têm largura e altura na definição: são composições (`B_CAGE_*`), e o tamanho tem de vir da extensão da composição nos arquivos COMP, que o leitor já lê mas ainda não mede. A saída fica em `work/rio/` (fora do Git).
