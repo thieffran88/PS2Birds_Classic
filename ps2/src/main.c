@@ -217,7 +217,7 @@ static int world_pending;   /* stage index + 1 whose first win may complete a wo
    Fuse, Piggy Farm and Dino stories are WebP and are not in CUTSCENE.BIN (docs/CUTSCENES.md).
    A scene that is not in CUTSCENE.BIN is skipped. */
 static const char *const episode_scene[][2]={{"POACHED EGGS","pack1_intro"},{"MIGHTY HOAX","pack2_intro"},
-    {"BIG SETUP","pack4_intro"},{"HAM EM HIGH","pack5_intro"},{"MINE AND DINE","pack6_intro"},
+    {"DANGER ABOVE","pack3_intro"},{"BIG SETUP","pack4_intro"},{"HAM EM HIGH","pack5_intro"},{"MINE AND DINE","pack6_intro"},
     {"BIRDDAY","pack7_intro"},{"SURF AND TURF","pack8_intro"}};
 static const char *const world_scene[][2]={
     {"POACHED EGGS 1-","world1_complete"},{"POACHED EGGS 2-","world2_complete"},{"POACHED EGGS 3-","world3_complete"},
@@ -374,7 +374,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.91.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.92.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -671,7 +671,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(200,250,1,cream,"DIRECIONAL/ANALÓGICO: MIRA   X: LANÇAR");
             text(200,270,1,cream,"QUADRADO (SEGURAR): AJUSTE FINO");
             text(200,290,1,cream,"X NO AR: HABILIDADE DO PÁSSARO   SELECT: FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.91.0 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.92.0 / PLAYSTATION 2");
             text(200,350,1,color(135,192,181),save_mc_status());
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -682,7 +682,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
             text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
             text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.91.0 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.92.0 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             text(90,318,1,color(135,192,181),save_mc_status());
         } else {
@@ -799,7 +799,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.91.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.92.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);

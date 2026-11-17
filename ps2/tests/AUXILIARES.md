@@ -1,0 +1,22 @@
+# Auxiliares de desenvolvimento dos testes
+
+Estes arquivos **não fazem parte do ELF nem do `make test`**. São as ferramentas usadas para
+achar e recalcular os roteiros de vitória da tabela de `campaign_test.cpp` quando a física do
+jogo muda (foi assim em 0.90.0, com o `velocityMultiplier`). Todos rodam no PC, usando o mesmo
+`game.cpp` do jogo, e precisam dos dados gerados em `ps2/assets` e `ps2/data`
+(`python3 tools/gerar_iso.py APK --dev`).
+
+| Arquivo | Para que serve |
+| --- | --- |
+| `solver.cpp` | Busca, para cada fase, um tiro (ângulo, força e momento da habilidade) que, repetido para todos os pássaros, vence. Uso: `solver [primeira_fase] [última_fase]`. |
+| `solver3.cpp` + `beam.py` | Busca em feixe para as fases em que um tiro repetido não basta: testa sequências de pássaros diferentes. Uso: `beam.py FASE [LARGURA]`; imprime `WIN` seguido de ângulo, força e habilidade de cada pássaro e da pontuação. |
+| `ed_solver.cpp` | O mesmo passo da busca em feixe para o Egg Defender, onde a espera antes do lançamento importa, porque os veículos chegam em ondas. Uso: `ed_solver fase [espera ângulo força habilidade]...`. |
+| `settle_probe.cpp` | Mede quanto as peças de cada fase se movem ao assentar, antes de qualquer tiro. |
+| `make_campaign_table.py` | Reconstrói a tabela de fases do `campaign_test.cpp` a partir dos resultados das buscas (`ps2/build/all_*.txt` e `nb*_<índice>.txt`). Fases sem vitória ficam com roteiro vazio e entram no teste como "sem roteiro". |
+
+## Receita usada na 0.90.0
+
+1. Rodar `CAMPAIGN_LIST=1 ./build/campaign_test` para listar as fases (`FAIL level N`) que deixaram de vencer.
+2. Rodar o `solver` nessas fases (em paralelo, uma por processo).
+3. Para as que sobrarem, rodar `beam.py` (cada uma pode levar dezenas de minutos).
+4. Gravar os roteiros achados na tabela do `campaign_test.cpp` e ajustar a contagem esperada de fases sem roteiro (`unverified`).

@@ -11,7 +11,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - Surf and Turf 2/45, Bad Piggies 3/45, Flock Favorites 3/30
 - Zero: Tutorial, Big Setup, Mine and Dine, Short Fuse, Bird Island, Piggy Farm, Dino, Birdday 2–7 (levantamento inicial; hoje todos, exceto o Tutorial, estão no port)
 
-## Resumo do que falta (0.91.0)
+## Resumo do que falta (0.92.0)
 
 Esta é a lista atual. As seções abaixo são o histórico de cada versão e podem citar como pendente algo que já foi feito.
 
@@ -20,7 +20,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 - Fórmulas nativas de dano, de queda da explosão e de "sono" das peças: são aproximações, porque o código nativo não foi recuperado.
 - Pontuação aproximada: os limites de estrelas são os originais, mas a contagem é indicativa.
 - Power-ups da loja (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers): precisam de um menu de seleção antes da fase.
-- Efeitos do Short Fuse a conferir: foguete (`RocketCanister.lua`), ímã e balão explosivo.
+- Short Fuse: frascos, balão explosivo e peças de foguete já estão no jogo (levantamento antigo desatualizado). O ímã não tem nenhuma referência nos scripts do APK, então não há o que portar.
 
 **Fases sem roteiro de vitória verificado**
 - 3-20, 5-16 e 13-7 dependem da explosão do pássaro preto (fórmula nativa); Birdday 4-4, Dino 3-8 e fases grandes de Mine and Dine (16-5, 16-6 e outras).
@@ -36,8 +36,8 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 - Pan de câmera do início da fase: não se aplica, o port mostra a fase inteira numa vista fixa.
 
 **Cutscenes** (ver `docs/CUTSCENES.md`)
-- Feitas na 0.91.0: 28 cenas, com tempos, música e imagem lidos do próprio `cutscenes.lua` (aberturas dos episódios, fins de mundo, Birdday 3 e Surf and Turf).
-- Faltam: a abertura de Danger Above (rola na vertical), as cenas do Egg Defender (painéis animados), Short Fuse, Piggy Farm e Dino (imagens em WebP, que o gerador não decodifica), Birdday 18/19 e o episódio de `pack9` (sem correspondência conhecida) e as animações dentro das cenas (olhos do Rei Porco, "oink").
+- Feitas até a 0.92.0: 29 cenas, com tempos, música e imagem lidos do próprio `cutscenes.lua` (aberturas dos episódios, inclusive a de Danger Above com rolagem vertical, fins de mundo, Birdday 3 e Surf and Turf).
+- Faltam: as cenas do Egg Defender (painéis animados), Short Fuse, Piggy Farm e Dino (imagens em WebP, que o gerador não decodifica), Birdday 18/19 e o episódio de `pack9` (sem correspondência conhecida) e as animações dentro das cenas (olhos do Rei Porco, "oink").
 
 ## O que falta na decompilação/importação
 
@@ -143,7 +143,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 
 - **Pássaro de choque (Short Fuse) — feito**, a partir do `BlackBirdAbility.lua` e do `blocks.lua`.
 - **Mighty Feathers = modo Egg Defender:** as 30 fases do episódio vêm com scripts de jogabilidade próprios (`EggDefender_*.scripts.lua`); é um modo novo, não só peças.
-- **Efeitos especiais do Short Fuse ainda não portados:** frascos (`VialEffects.lua`: azul, laranja e rosa mudam os porcos), foguete (`RocketCanister.lua`), ímã e balão explosivo.
+- **Efeitos especiais do Short Fuse (levantamento antigo; frascos, foguete e balão explosivo foram feitos depois, e o ímã não existe nos scripts):** frascos (`VialEffects.lua`: azul, laranja e rosa mudam os porcos), foguete (`RocketCanister.lua`), ímã e balão explosivo.
 - **Instabilidade em 2-13 e 3-3:** soldas entre vidro leve e pedra pesada; precisa de mais iterações do solver ou outra estratégia de solda, o que mexe em todas as fases.
 
 ## Achados da 0.40.0

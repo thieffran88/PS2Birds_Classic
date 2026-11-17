@@ -26,15 +26,15 @@ from extract_audio import MUSIC_OF_CLIP
 
 # cutscenes.lua scene names that the player can show (see docs/CUTSCENES.md).
 SCENES=['pack1_intro','world1_complete','world2_complete','world3_complete',
-        'pack2_intro','world4_complete','world5_complete',
+        'pack2_intro','pack3_intro','world4_complete','world5_complete',
         'world6_complete','world7_complete','world8_complete',
         'pack4_intro','world9_complete','world10_complete','world11_complete',
         'pack5_intro','world12_complete','world13_complete','world14_complete',
         'pack6_intro','world15_complete','world16_complete','world17_complete',
         'pack7_intro','birdday3_complete',
         'pack8_intro','worldS1_complete','worldS2_complete','worldS3_complete']
-# Not here: pack3_intro (vertical scroll), the Egg Defender scenes (tweened panels) and the
-# Short Fuse, Piggy Farm and Dino stories (WebP sheets, which this generator cannot decode).
+# Not here: the Egg Defender scenes (tweened panels) and the Short Fuse, Piggy Farm and Dino
+# stories (WebP sheets, which this generator cannot decode).
 COMPOS=['CUTSCENES.compo.json']
 SCREEN_H=448;SCREEN_W=640
 
@@ -44,22 +44,30 @@ def parse(script):
     ref=[a for a in acts if a['action']=='setreferencesize'][0]
     pic=[a for a in acts if a['action']=='createsprite' and a.get('name')=='background'][0]
     scroll=[a for a in acts if a['action']=='scroll']
+    fit_width=any(a['action']=='fitwidth' for a in acts)     # fitwidth: the picture is as wide as the screen and scrolls vertically
+    bg=[a for a in acts if a['action']=='set_bg_colour']
+    start=[a for a in acts if a['action']=='set_scroll_position']
     clips=[a['sound'] for a in acts if a['action']=='playsound' and a.get('sound') in MUSIC_OF_CLIP]
     return {'image':pic['image'],'ref_w':int(ref['width']),'ref_h':int(ref['height']),
             'music':MUSIC_OF_CLIP[clips[0]] if clips else -1,
             'scroll_start':scroll[0]['time'] if scroll else 0.0,'scroll':scroll[0]['duration'] if scroll else 0.0,
-            'end':[a for a in acts if a['action']=='end'][0]['time']}
+            'end':[a for a in acts if a['action']=='end'][0]['time'],
+            'vertical':fit_width,
+            # set_scroll_position at y = 1 starts at the bottom of the picture and scrolls up.
+            'reverse':bool(fit_width and start and start[0]['scroll_cursor']['y']==1.0),
+            'bg':(int(bg[0]['r']),int(bg[0]['g']),int(bg[0]['b'])) if bg else None}
 
 def extent(where,compo):
-    """Right edge of the pieces of a composition (x, y place each piece's pivot)."""
-    right=0
+    """Right and bottom edge of the pieces of a composition (x, y place each piece's pivot)."""
+    right=bottom=0
     for s in compo['sprites']:
-        f=where[s['name']][1];fw=f['frame']['w'];pv=f.get('pivot',{'x':fw/2})
-        right=max(right,s['x']-pv['x']+fw)
-    return int(round(right))
+        f=where[s['name']][1];fw,fh=f['frame']['w'],f['frame']['h'];pv=f.get('pivot',{'x':fw/2,'y':fh/2})
+        right=max(right,s['x']-pv['x']+fw);bottom=max(bottom,s['y']-pv['y']+fh)
+    return int(round(right)),int(round(bottom))
 
-def compose(z,where,compo,w,h):
-    canvas=bytearray(w*h*4)
+def compose(z,where,compo,w,h,bg=None):
+    # set_bg_colour: the colour behind the pieces (black when the scene does not set one).
+    canvas=bytearray((bg+(255,))*(w*h)) if bg else bytearray(w*h*4)
     # The list runs front to back (the sky and grass gradients come last): drawn in reverse.
     for s in reversed(compo['sprites']):
         rgba,f=read(z,where,s['name']);fw,fh=f['frame']['w'],f['frame']['h']
@@ -97,9 +105,10 @@ def pad_width(rgba,w,h,target):
     return out
 
 def extract(apk,out,names=None):
-    """CUTSCENE.BIN: "PBCS", version 3, scene count, then per scene a 24-byte name (NUL padded),
-    width, height, scroll start ms, scroll ms, end ms, data offset, music track (-1: none), and
-    the RGBA5551 rows."""
+    """CUTSCENE.BIN: "PBCS", version 4, scene count, then per scene a 24-byte name (NUL padded),
+    width, height, scroll start ms, scroll ms, end ms, data offset, music track (-1: none),
+    options (bit 0: vertical scroll, bit 1: starts at the far end) and the RGBA5551 rows. A
+    horizontal scene is 448 rows tall and at least 640 wide; a vertical one is 640 wide."""
     names=list(names or SCENES)
     with zipfile.ZipFile(apk) as z:
         where=frames_of(z)
@@ -115,17 +124,24 @@ def extract(apk,out,names=None):
             have=set(z.namelist());bases={where[q['name']][0] for q in comp[p['image']]['sprites']}
             bad=sorted(b.split('/')[-1] for b in bases if b+'.png' not in have and b+'.pvr' not in have)
             if bad:print('cena %s ignorada: formato de imagem sem suporte (%s)'%(name,bad[0]));continue
-            right=extent(where,comp[p['image']])
-            # The script's reference width can be a little wider than what the pieces cover:
-            # the real extent is used, so no empty strip is scrolled into view.
-            w=min(p['ref_w'],right) if right else p['ref_w'];h=p['ref_h']
-            canvas=compose(z,where,comp[p['image']],w,h)
-            small,sw,sh=scale(canvas,w,h,SCREEN_H/h)
-            if sw<SCREEN_W:small=pad_width(small,sw,sh,SCREEN_W);sw=SCREEN_W
-            blobs.append((name,sw,sh,int(p['scroll_start']*1000),int(p['scroll']*1000),int(p['end']*1000),p['music'],to5551(small)))
-    head=struct.pack('<4s2I',b'PBCS',3,len(blobs));offset=len(head)+52*len(blobs);offset+=(-offset)%64
+            right,bottom=extent(where,comp[p['image']])
+            if p['vertical']:
+                # fitwidth: scaled to the screen width, scrolling up or down.
+                w=p['ref_w'];h=min(p['ref_h'],bottom) if bottom else p['ref_h']
+                canvas=compose(z,where,comp[p['image']],w,h,p['bg'])
+                small,sw,sh=scale(canvas,w,h,SCREEN_W/w)
+            else:
+                # The script's reference width can be a little wider than what the pieces cover:
+                # the real extent is used, so no empty strip is scrolled into view.
+                w=min(p['ref_w'],right) if right else p['ref_w'];h=p['ref_h']
+                canvas=compose(z,where,comp[p['image']],w,h,p['bg'])
+                small,sw,sh=scale(canvas,w,h,SCREEN_H/h)
+                if sw<SCREEN_W:small=pad_width(small,sw,sh,SCREEN_W);sw=SCREEN_W
+            options=(1 if p['vertical'] else 0)|(2 if p['reverse'] else 0)
+            blobs.append((name,sw,sh,int(p['scroll_start']*1000),int(p['scroll']*1000),int(p['end']*1000),p['music'],options,to5551(small)))
+    head=struct.pack('<4s2I',b'PBCS',4,len(blobs));offset=len(head)+56*len(blobs);offset+=(-offset)%64
     table=b'';pos=offset
-    for name,sw,sh,st,sc,en,mu,px in blobs:table+=struct.pack('<24s6Ii',name.encode()[:23],sw,sh,st,sc,en,pos,mu);pos+=len(px)+(-len(px))%64
+    for name,sw,sh,st,sc,en,mu,op,px in blobs:table+=struct.pack('<24s6IiI',name.encode()[:23],sw,sh,st,sc,en,pos,mu,op);pos+=len(px)+(-len(px))%64
     data=bytearray(head+table);data+=bytes(offset-len(data))
     for *_,px in blobs:data+=px+bytes((-len(px))%64)
     Path(out).write_bytes(data)

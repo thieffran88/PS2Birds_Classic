@@ -12,16 +12,18 @@ Nada do jogo fica no repositório.
 | `setreferencesize` | largura e altura da imagem (a cena é ajustada à altura da tela, `fitheight`) |
 | `createsprite` (`background`) | a imagem da cena (uma composição) |
 | `playsound` | a faixa de música |
-| `scroll` | início, duração e curva (`cubic_in_out`) da rolagem da esquerda para a direita |
+| `scroll` | início, duração e curva (`cubic_in_out`) da rolagem: da esquerda para a direita (`fitheight`) ou de baixo para cima (`fitwidth`) |
+| `set_bg_colour` | a cor de fundo atrás das peças |
 | `end` | quando a cena termina |
 
 Outras ações (os olhos do Rei Porco, efeitos sonoros avulsos) são ignoradas.
 
-## Cenas incluídas (28)
+## Cenas incluídas (29)
 
 | Cena no script | Quando toca no port |
 | --- | --- |
-| `pack1_intro`, `pack2_intro`, `pack4_intro`, `pack5_intro`, `pack6_intro`, `pack7_intro`, `pack8_intro` | ao entrar na primeira fase do episódio sem nenhuma pontuação: Poached Eggs, Mighty Hoax, Big Setup, Ham 'Em High, Mine and Dine, Birdday, Surf and Turf |
+| `pack1_intro` … `pack8_intro` (menos a `pack3_intro`, abaixo) | ao entrar na primeira fase do episódio sem nenhuma pontuação: Poached Eggs, Mighty Hoax, Big Setup, Ham 'Em High, Mine and Dine, Birdday, Surf and Turf |
+| `pack3_intro` | abertura de Danger Above, com rolagem **vertical**: começa embaixo (os pássaros) e sobe até os porcos na cesta de balões |
 | `world1_complete` … `world3_complete` | ao sair da vitória que completa Poached Eggs 1, 2 e 3 |
 | `world4_complete`, `world5_complete` | Mighty Hoax 4 e 5 |
 | `world6_complete` … `world8_complete` | Danger Above 6, 7 e 8 |
@@ -37,7 +39,6 @@ está no `CUTSCENE.BIN` é simplesmente pulada.
 
 ## O que ficou de fora
 
-- **`pack3_intro`** (Danger Above): rola na vertical, e o reprodutor só rola na horizontal.
 - **Egg Defender** (`rmf_classic_intro`, `rmf_complete`, `eggdefender_intro`, `eggdefender_complete`): painéis em grade com animações de escala e posição.
 - **Short Fuse** (`blackbird_*`), **Piggy Farm** (`*_farm`) e **Dino** (`*_dino`): as imagens estão em WebP (e a saída do Dino nem é uma composição), e o gerador, que roda só com Python puro no Windows, não decodifica esse formato. Também não estão ligadas a fases.
 - **Birdday** `world18_complete` e `world19_complete`, e `pack9_intro` com `world20` a `world22`: não dá para saber a que episódio ou mundo do port correspondem, então não têm gatilho.
@@ -58,7 +59,8 @@ está no `CUTSCENE.BIN` é simplesmente pulada.
 
 - Cada cena fica na RAM (cerca de 1 a 3 MB) só enquanto toca, e não ocupa memória de vídeo: o
   jogo copia as 640 colunas visíveis para o quadro a cada quadro, como nos fundos das fases.
-- Formato do `CUTSCENE.BIN`: "PBCS", versão 3, número de cenas e, por cena, o nome (24 bytes),
-  largura, altura, início da rolagem (ms), duração da rolagem (ms), fim (ms), posição dos dados e
-  faixa de música; depois as imagens em RGBA5551.
+- Formato do `CUTSCENE.BIN`: "PBCS", versão 4, número de cenas e, por cena, o nome (24 bytes),
+  largura, altura, início da rolagem (ms), duração da rolagem (ms), fim (ms), posição dos dados,
+  faixa de música e opções (bit 0: rolagem vertical; bit 1: começa pelo fim); depois as imagens em
+  RGBA5551. Uma cena horizontal tem 448 linhas e pelo menos 640 de largura; uma vertical tem 640 de largura.
 - A transparência dos sprites do APK vem na escala do PS2 (0 a 128) e é convertida na composição.
