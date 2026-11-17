@@ -11,7 +11,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - Surf and Turf 2/45, Bad Piggies 3/45, Flock Favorites 3/30
 - Zero: Tutorial, Big Setup, Mine and Dine, Short Fuse, Bird Island, Piggy Farm, Dino, Birdday 2–7 (levantamento inicial; hoje todos, exceto o Tutorial, estão no port)
 
-## Resumo do que falta (0.88.0)
+## Resumo do que falta (0.89.0)
 
 Esta é a lista atual. As seções abaixo são o histórico de cada versão e podem citar como pendente algo que já foi feito.
 
@@ -36,7 +36,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 - Pan de câmera do início da fase: não se aplica, o port mostra a fase inteira numa vista fixa.
 
 **Cutscenes** (ver `docs/CUTSCENES.md`)
-- Feitas: a abertura de Poached Eggs (`pack1_intro`) e a cena do fim do mundo 1 (`world1_complete`).
+- Feitas: a abertura de Poached Eggs (`pack1_intro`) e as cenas do fim dos mundos 1 e 2 (`world1_complete`, `world2_complete`).
 - O jogo já sabe quando tocar as demais; cada uma só precisa de uma linha em `tools/extract_cutscene.py`.
 - Faltam o suporte a cenas com vários quadros e efeitos, os olhos animados do Rei Porco e a moldura de filme.
 

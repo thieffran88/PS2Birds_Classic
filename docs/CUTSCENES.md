@@ -25,7 +25,8 @@ X ou Start pulam a cena. A música é a de cada cena (coluna "Música" da tabela
    - `scroll` → `duration` — o tempo da rolagem em segundos;
    - o último `time` do bloco — quando a cena termina.
    Dica: as constantes de um bloco só aparecem na primeira vez em que são usadas no arquivo; o que
-   se repete (como a altura 659) vem do bloco anterior.
+   se repete (como a altura 659) vem do bloco anterior. Se o bloco não traz nenhum número novo
+   (como `world2_complete`), ele usa os valores de um bloco anterior; o mais provável é o da cena irmã.
 2. **Acrescente uma linha em `SCENES`** em `tools/extract_cutscene.py`:
    ```python
    SCENES=[('pack1_intro','STORY_1_BEGINNING',2048,659,9.6,15.6,'birds_intro'),
@@ -54,3 +55,4 @@ X ou Start pulam a cena. A música é a de cada cena (coluna "Música" da tabela
 | --- | --- | --- |
 | `pack1_intro` | `STORY_1_BEGINNING` | `birds_intro` |
 | `world1_complete` | `STORY_1_MIDDLE_1` | `birds_boss` |
+| `world2_complete` | `STORY_1_MIDDLE_2` | `birds_boss` |

@@ -20,7 +20,8 @@ from extract_audio import MUSIC_OF_CLIP
 # scene, read its block in cutscenes.lua (image, setreferencesize, the playsound clip, the two
 # times) and add a line: see docs/CUTSCENES.md. The music clip must be in extract_audio.MUSIC.
 SCENES=[('pack1_intro','STORY_1_BEGINNING',2048,659,9.6,15.6,'birds_intro'),
-        ('world1_complete','STORY_1_MIDDLE_1',1368,659,2.0,7.5,'birds_boss')]
+        ('world1_complete','STORY_1_MIDDLE_1',1368,659,2.0,7.5,'birds_boss'),
+        ('world2_complete','STORY_1_MIDDLE_2',1368,659,2.0,7.5,'birds_boss')]
 SCREEN_H=448
 
 def compose(z,where,compo,w,h):
@@ -39,7 +40,7 @@ def compose(z,where,compo,w,h):
             for c in range(fw):
                 x=x0+c
                 if not 0<=x<w:continue
-                i=(r*fw+c)*4;a=rgba[i+3]
+                i=(r*fw+c)*4;a=min(255,(rgba[i+3]*255+64)//128)   # source alpha is on the GS scale, 0..128
                 if not a:continue
                 if solid:a=255   # the sky/grass gradient tiles overlap with soft edges: drawn opaque, no seams
                 o=(y*w+x)*4
