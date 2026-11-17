@@ -95,7 +95,10 @@ def main():
     if not elf or Path(elf).read_bytes()[:4]!=b'\x7fELF':p.error('PS2BIRDS.ELF não encontrado (use --elf).')
     if not a.ignorar_versao:check_apk(a.apk)
     import progresso
-    prog=progresso.Progress(STEPS,logfile=a.log,panel=a.painel);real_out=sys.stdout;sys.stdout=progresso.Tee(prog,real_out)
+    real_out=sys.stdout   # o console recebe as linhas direto; a saída dos extratores passa pelo Tee só para o registro e o painel
+    def to_console(line):
+        real_out.write(line+'\n');real_out.flush()
+    prog=progresso.Progress(STEPS,logfile=a.log,panel=a.painel,echo=to_console);sys.stdout=progresso.Tee(prog,real_out)
     prog.write(f'Registro completo: {a.log.resolve()}');prog.write('Se uma etapa demorar, o programa continua escrevendo "ainda trabalhando" a cada poucos segundos.')
     try:
         with tempfile.TemporaryDirectory(prefix='ps2birds-data-') as data:
