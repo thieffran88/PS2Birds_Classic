@@ -32,12 +32,14 @@ def make_palette(outline):
         for step in range(5):
             t=1-step/4;c=[round(255*t+o*(1-t)) for o in outline];pal.append(c[0]|(c[1]<<8)|(c[2]<<16)|(a<<24))
     return pal
-def extract(apk,out):
+def extract(apk,out,folder='1024x768',font_list=None):
+    """folder: the size set of the APK to read (the Rio has 320x240, 480x320 and 864x480 instead of 1024x768);
+    font_list: (name, factor, characters) per font, FONTS by default."""
     fonts=[];glyphs=[]
     with zipfile.ZipFile(apk) as z:
-        for fid,(name,factor,keep) in enumerate(FONTS):
-            line,table=glyph_table(z.read(f'assets/data/fonts/1024x768/{name}.dat'))
-            sheet=z.read(f'assets/data/fonts/1024x768/{name}.pvr')
+        for fid,(name,factor,keep) in enumerate(font_list or FONTS):
+            line,table=glyph_table(z.read(f'assets/data/fonts/{folder}/{name}.dat'))
+            sheet=z.read(f'assets/data/fonts/{folder}/{name}.pvr')
             chars=[c for c in (keep or sorted(table)) if c in table]
             dark=[0,0,0];count=0;images=[]
             for c in chars:
