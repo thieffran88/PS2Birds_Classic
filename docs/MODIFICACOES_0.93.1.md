@@ -23,3 +23,9 @@ Versão do **gerador de ISO** (acompanhamento e velocidade). O jogo em si não m
 - Quadrinhos: 290 s para 91 s; arquivo idêntico ao anterior.
 - Interface, letras e menu: ligeiramente mais rápidos com o novo redimensionamento (resultado idêntico).
 - Os tempos absolutos em outro computador variam com o número de núcleos.
+
+## Também nesta versão (depois da primeira lista)
+- **Escolha do jogo:** o `GERAR_ISO.bat` pergunta "[1] Angry Birds Classic / [2] Angry Birds Rio" (escolhe sozinho em 10 s, preferindo o Rio só quando o único APK da pasta é o do Rio) e procura o APK do jogo escolhido. O programa aceita `--jogo classic|rio|auto` e avisa quando o APK é de outro jogo; o Rio ainda não gera ISO e isso é dito claramente.
+- **Correção:** o pacote para Windows passa a incluir o arquivo de perfis dos dois jogos (`projects.json`), que o gerador lê ao iniciar; sem ele a versão não abriria.
+- **Correção:** a etapa de sons ganhou a linha "ok (X s)", e as linhas do registro não saem mais duplicadas nem com "ok" sobrando no fim.
+- **Verificação:** teste completo no Wine (as nove etapas, painel e ISO); os dez arquivos gerados são idênticos aos da geração direta (a ISO só difere nas datas de criação, 40 bytes). `make test` completo passou.

@@ -62,7 +62,6 @@ def generate(apk_path,out_dir,ffmpeg=None,log=print,dev=False,progress=None):
         parte(6,extract_themes.extract,apk_path,assets/'THEMES.BIN');parte(7,extract_cutscene.extract,apk_path,assets/'CUTSCENE.BIN')
         for name in ['SOUNDS.BIN','MUSIC.BIN','UI.BIN','FONT.BIN','MENU.BIN','THEMES.BIN','CUTSCENE.BIN']:
             if Path(assets/name).resolve()!=Path(out_dir/name).resolve():shutil.copyfile(assets/name,out_dir/name)
-        log(f'    ok ({time.time()-t:.0f} s)')
 
 def main():
     p=argparse.ArgumentParser(description=__doc__,formatter_class=argparse.RawDescriptionHelpFormatter)
