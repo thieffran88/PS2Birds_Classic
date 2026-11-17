@@ -62,3 +62,9 @@ A tabela traz 62 definições com `levelGoal`. Todas têm forma de caixa (exceto
 | Luiz | `Luiz` (polígono, sem resistência) | — | — |
 
 Consequência para o runtime: gaiolas e macacos se comportam, para a contagem de vitória, como os porcos do Classic — uma peça com resistência e pontos que, ao ser destruída, diminui o número de alvos restantes. A primeira versão pode reaproveitar o contador de porcos (`pig_alive`) com um tipo de alvo "gaiola", trocando apenas sprite, material e som; as animações e estados dos macacos, o Luiz e os chefes entram depois.
+
+## O runtime já aceita o alvo "gaiola" (conferido no código)
+
+- O formato da fase em `CAMPAIGN.BIN` já traz, por fase, `gravity`, `sling_x`, `sling_y`, `ground_y` e `physics_to_world` (veja `tools/build_campaign.py`). O gerador do Rio só precisa preenchê-los: a origem do lançamento vem do pássaro 1 da fase; a gravidade continua em aberto.
+- A vitória conta peças de tipo 4 (`kind==4`): `pig_alive` sobe na carga da fase e desce em `game.cpp` (linhas ~1168 e ~1261) quando a peça é destruída, com 5000 pontos. Fora do modo Egg Defender toda peça tipo 4 é alvo (`is_goal`).
+- Portanto uma gaiola ou um macaco do Rio pode entrar como peça tipo 4, com a resistência e o material do `levelgoals.lua`. **Para a primeira fase não é preciso alterar o runtime**: basta o gerador do Rio emitir as gaiolas como tipo 4. O que muda é só a aparência (sprite e efeito de saída do passarinho) e, depois, o comportamento dos macacos.
