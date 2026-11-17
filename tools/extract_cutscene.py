@@ -13,7 +13,12 @@ from game_profiles import decode_payload
 from extract_menu import frames_of,read
 from extract_ui import scale
 
-SCENES=[('pack1_intro','STORY_1_BEGINNING',2048,659,9.6,15.6)]   # name, compo, reference size, scroll s, end s
+# One entry per scene: (cutscenes.lua scene name, CUTSCENES.compo.json image, setreferencesize
+# width and height, scroll duration s, end time s). The game looks scenes up by name and plays
+# each one where cutscenes.lua does; a scene missing here is simply skipped. To add a scene, read
+# its block in cutscenes.lua (image, setreferencesize, scroll duration, the last time) and add a
+# line: see docs/CUTSCENES.md.
+SCENES=[('pack1_intro','STORY_1_BEGINNING',2048,659,9.6,15.6)]
 SCREEN_H=448
 
 def compose(z,where,compo,w,h):
@@ -47,8 +52,8 @@ def to5551(rgba):
     return out
 
 def extract(apk,out):
-    """CUTSCENE.BIN: "PBCS", version 1, scene count, then per scene (width, height, scroll ms,
-    end ms, data offset) and the RGBA5551 rows."""
+    """CUTSCENE.BIN: "PBCS", version 2, scene count, then per scene a 24-byte name (NUL padded),
+    width, height, scroll ms, end ms, data offset, and the RGBA5551 rows."""
     with zipfile.ZipFile(apk) as z:
         where=frames_of(z)
         comp={c['name']:c for c in json.loads(decode_payload(z.read('assets/data/images/1024x768/CUTSCENES.compo.json'),'classic'))['compo']}
@@ -56,14 +61,14 @@ def extract(apk,out):
         for name,image,w,h,scroll_s,end_s in SCENES:
             canvas=compose(z,where,comp[image],w,h)
             small,sw,sh=scale(canvas,w,h,SCREEN_H/h)
-            blobs.append((sw,sh,int(scroll_s*1000),int(end_s*1000),to5551(small)))
-    head=struct.pack('<4s2I',b'PBCS',1,len(blobs));offset=len(head)+20*len(blobs);offset+=(-offset)%64
+            blobs.append((name,sw,sh,int(scroll_s*1000),int(end_s*1000),to5551(small)))
+    head=struct.pack('<4s2I',b'PBCS',2,len(blobs));offset=len(head)+44*len(blobs);offset+=(-offset)%64
     table=b'';pos=offset
-    for sw,sh,sc,en,px in blobs:table+=struct.pack('<5I',sw,sh,sc,en,pos);pos+=len(px)+(-len(px))%64
+    for name,sw,sh,sc,en,px in blobs:table+=struct.pack('<24s5I',name.encode()[:23],sw,sh,sc,en,pos);pos+=len(px)+(-len(px))%64
     data=bytearray(head+table);data+=bytes(offset-len(data))
     for *_,px in blobs:data+=px+bytes((-len(px))%64)
     Path(out).write_bytes(data)
-    return {'scenes':len(blobs),'sizes':[(b[0],b[1]) for b in blobs],'bytes':len(data)}
+    return {'scenes':[b[0] for b in blobs],'sizes':[(b[1],b[2]) for b in blobs],'bytes':len(data)}
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('apk');p.add_argument('output')

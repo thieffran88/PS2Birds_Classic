@@ -208,7 +208,37 @@ static void block_unflipped(const GameObject *o)
 static Menu menu_state;
 static int menu_yell_request;
 /* cutscenes.lua pack1_intro: plays before Poached Eggs 1-1 until that stage has a score; X/Start skips. */
-static float cutscene_time=-1;static int cutscene_seen;   /* main menu: Triangle stands for the touch that makes a bird yell */
+static float cutscene_time=-1;static int world_pending;   /* stage index + 1 whose first win may complete a world */
+/* cutscenes.lua: packN_intro when an episode is entered with no score yet; worldN_complete when the
+   last stage of world N (title "<EPISODE> N-") gets its first score; Surf and Turf uses worldS1..S3.
+   Scenes not present in CUTSCENE.BIN are skipped; see docs/CUTSCENES.md to add them. */
+static const char *const pack_intro[][2]={{"POACHED EGGS","pack1_intro"},{"MIGHTY HOAX","pack2_intro"},{"DANGER ABOVE","pack3_intro"},
+    {"BIG SETUP","pack4_intro"},{"HAM EM HIGH","pack5_intro"},{"MINE AND DINE","pack6_intro"},{"BIRDDAY","pack7_intro"},{"SURF AND TURF","pack8_intro"}};
+static int play_scene(const char *name){
+    if(!cutscene_start(name))return 0;
+    cutscene_time=0;music_play(MUSIC_INTRO);return 1;
+}
+/* Returns 1 when the stage starts right away (no scene). */
+static int episode_intro(int level,const int *highscores){
+    int e=menu_episode_of(level);if(e<0 || level!=menu_episode_first(e))return 1;
+    for(int l=level;l<level+menu_episode_size(e);l++)if(highscores[l]>0)return 1;
+    for(unsigned k=0;k<sizeof(pack_intro)/sizeof(pack_intro[0]);k++)if(!strcmp(menu_episode_name(e),pack_intro[k][0]))return !play_scene(pack_intro[k][1]);
+    return 1;
+}
+/* After a stage's first score: if that completes its world, its worldN_complete scene. */
+static void world_complete(int level,const int *highscores){
+    const char *t=game_level_title(level),*dash=strrchr(t,'-');if(!dash)return;
+    const char *num=dash;while(num>t && num[-1]>='0' && num[-1]<='9')num--;
+    if(num==dash || num==t || num[-1]!=' ')return;
+    size_t prefix=(size_t)(dash-t)+1;int world=atoi(num);
+    for(int l=0;l<game_level_count();l++)if(!strncmp(game_level_title(l),t,prefix) && highscores[l]<=0)return;
+    char name[32];
+    if(!strncmp(t,"SURF AND TURF ",14))snprintf(name,sizeof(name),"worldS%d_complete",world);
+    else{int classic=0;for(unsigned k=0;k<sizeof(pack_intro)/sizeof(pack_intro[0]);k++)if(!strncmp(t,pack_intro[k][0],strlen(pack_intro[k][0])))classic=1;
+        if(!classic)return;
+        snprintf(name,sizeof(name),"world%d_complete",world);}
+    play_scene(name);
+}   /* main menu: Triangle stands for the touch that makes a bird yell */
 static LevelEnd level_end;
 /* gamelogic.lua: each bird left gives 10000 shown over it, 0.5 s apart (birdBuffTimer), then
    the level-complete screen opens; won_wait counts down that pause. */
@@ -846,8 +876,7 @@ int main(int argc,char **argv)
             else if(result==MENU_LOCKED)audio_play(SFX_MENU_BACK);
             else if(result==MENU_LEFT_SCREEN){audio_play(SFX_MENU_BACK);if(was==MENU_MAIN)menu=0;}
             else if(result==MENU_PLAY && game_load_level(&g,menu_episode_first(menu_state.episode)+menu_state.level)){menu=0;paused=0;audio_play(SFX_MENU_CONFIRM);
-                if(g.level==0 && g.highscores[0]<=0 && !cutscene_seen && cutscene_start(CUTSCENE_PACK1_INTRO)){cutscene_seen=1;cutscene_time=0;music_play(MUSIC_INTRO);}
-                else audio_play(SFX_START);}
+                if(episode_intro(g.level,g.highscores))audio_play(SFX_START);}
             old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
         }
         if(g.state==WON && won_wait>0)won_wait-=frame_seconds;
@@ -876,6 +905,7 @@ int main(int argc,char **argv)
             old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
         }
         if ((pressed & PAD_CROSS) && g.state==WON){
+            if(world_pending){world_complete(world_pending-1,g.highscores);world_pending=0;}
             if(!game_next_level(&g)){menu=1;menu_open(&menu_state,g.level);audio_play(SFX_MENU_BACK);}else audio_play(SFX_START);
             paused=0;old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
         }
@@ -906,6 +936,7 @@ int main(int argc,char **argv)
             else if(g.events&GAME_EVENT_STONE)audio_play(SFX_STONE);
             else if(g.events&(GAME_EVENT_WOOD|GAME_EVENT_EXTRA))audio_play(SFX_WOOD);
             if(before!=g.state && g.state==WON){music_play(MUSIC_LEVEL_COMPLETE);for(int b=0;b<g.birds;b++){game_add_popup(&g,49+b*24,g.ground_y-15,10000,POPUP_BIRD,game_queue_type(&g,b));g.popups[(g.popup_next+GAME_POPUPS-1)%GAME_POPUPS].time=-0.5f*b;}
+                if(old_record<=0){world_pending=g.level+1;}
                 won_wait=1.0f+0.5f*g.birds;level_end_start(&level_end,g.score,old_record,game_level_stars(g.level,g.score),game_level_silver(g.level));save_mc_request();audio_play(SFX_WIN);}
             if(before!=g.state && g.state==LOST)audio_play(SFX_LOSE);
             if (before!=g.state) printf("PS2Birds: state=%d score=%d\n",g.state,g.score);
