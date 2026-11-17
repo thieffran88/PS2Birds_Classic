@@ -21,9 +21,10 @@ Como usar
    a montagem dos fundos das fases leva a maior parte).
 4. Resultado, na mesma pasta:
    - PS2Birds_Classic.iso          -> para emulador (PCSX2) ou gravação/OPL;
-   - PS2Birds_Classic_USB\         -> PS2BIRDS.ELF + SPRITES.BIN + SOUNDS.BIN + UI.BIN + FONT.BIN + MENU.BIN + THEMES.BIN +
+   - apps\PS2Birds\                -> PS2BIRDS.ELF + SPRITES.BIN + SOUNDS.BIN + UI.BIN + FONT.BIN + MENU.BIN + THEMES.BIN +
                                       MUSIC.BIN + CAMPAIGN.BIN, para rodar de USB/HDD (copie a
-                                      pasta inteira; o ELF lê os .BIN ao lado dele).
+                                      pasta "apps" para a raiz do USB/HDD; o ELF procura os
+                                      dados em apps/PS2Birds e ao lado dele).
 
 Nada é instalado no Windows: o Python usado está na pasta "python" deste pacote.
 
@@ -37,7 +38,7 @@ Conteúdo do pacote
 
 Linha de comando (opcional)
 ---------------------------
-  python\python.exe -I tools\gerar_iso.py CAMINHO\DO\APK --saida minha.iso --pasta USB
+  python\python.exe -I tools\gerar_iso.py CAMINHO\DO\APK --saida minha.iso --pasta apps\PS2Birds
 
 Nenhum script do jogo é executado: as fases são lidas como dados do bytecode Lua.
 Angry Birds é marca da Rovio Entertainment; este projeto não é afiliado à Rovio.

@@ -69,7 +69,7 @@ def main():
     p.add_argument('--jogo',choices=['auto','classic','rio'],default='auto',help='perfil do jogo (padrão: detectar pelo SHA-256)')
     p.add_argument('--investigar',action='store_true',help='auditar dados do Rio; não gera ELF/ISO')
     p.add_argument('--saida',type=Path,default=Path('PS2Birds_Classic.iso'),help='ISO a criar (padrão: PS2Birds_Classic.iso)')
-    p.add_argument('--pasta',type=Path,help='também grava ELF e arquivos de dados nesta pasta (para USB/OPL/HDD)')
+    p.add_argument('--pasta',type=Path,default=Path('apps')/'PS2Birds',help='pasta onde também são gravados o ELF e os arquivos de dados, para USB/OPL/HDD (padrão: apps/PS2Birds)')
     p.add_argument('--elf',type=Path,default=None,help='programa do jogo (padrão: PS2BIRDS.ELF ao lado da ferramenta)')
     p.add_argument('--ffmpeg',default=None);p.add_argument('--ignorar-versao',action='store_true')
     p.add_argument('--painel',action='store_true',help='abre no navegador um painel com as etapas, o tempo e o registro detalhado')

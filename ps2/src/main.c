@@ -899,7 +899,7 @@ static const char *data_file(const char *name,char *out)
    loaders differ (some give no folder, some a different device name). If CAMPAIGN.BIN is not there, the usual
    places next to the program are tried and the first that has it is used; the list tried is kept for the
    missing-data screen. */
-static char tried_dirs[160];
+static char tried_dirs[400];
 static int can_open(const char *dir)
 {
     char p[300];snprintf(p,sizeof(p),"%sCAMPAIGN.BIN",dir);int fd=open(p,O_RDONLY);if(fd<0)return 0;close(fd);return 1;
@@ -907,7 +907,9 @@ static int can_open(const char *dir)
 static void find_data_dir(void)
 {
     if(data_on_disc)return;
-    static const char *const extra[]={"host:","mass:","mass0:","mass:/","mass0:/","./"};
+    /* The default folder of the program is apps/PS2Birds (the generator writes it there): tried first. */
+    static const char *const extra[]={"mass:/apps/PS2Birds/","mass0:/apps/PS2Birds/","mass:/APPS/PS2Birds/","mass0:/APPS/PS2Birds/","host:apps/PS2Birds/",
+                                      "host:","mass:","mass0:","mass:/","mass0:/","./"};
     tried_dirs[0]=0;
     if(can_open(data_dir))return;
     snprintf(tried_dirs,sizeof(tried_dirs),"%s",data_dir);
@@ -962,6 +964,10 @@ int main(int argc,char **argv)
         snprintf(detail[1],sizeof(detail[1]),"VERSAO 0.93.2");
         snprintf(detail[2],sizeof(detail[2]),"%.90s",data_on_disc?"LENDO DO DISCO (CDROM0)":tried_dirs[0]?tried_dirs:data_dir);
         for(char *q=detail[2];*q;q++)if(*q>='a'&&*q<='z')*q=(char)(*q-32);
+        char more[2][96]={"",""};
+        if(!data_on_disc && strlen(tried_dirs)>90)snprintf(more[0],sizeof(more[0]),"%.90s",tried_dirs+90);
+        if(!data_on_disc && strlen(tried_dirs)>180)snprintf(more[1],sizeof(more[1]),"%.90s",tried_dirs+180);
+        for(int k=0;k<2;k++)for(char *q=more[k];*q;q++)if(*q>='a'&&*q<='z')*q=(char)(*q-32);
         for(;;){
             gsKit_clear(gs,color(16,40,48));
             text(40,140,2,color(240,200,80),"ARQUIVOS DE DADOS AUSENTES");
@@ -972,7 +978,8 @@ int main(int argc,char **argv)
             text(40,304,1,color(160,190,190),detail[1]);
             text(40,326,1,color(160,190,190),"PASTA:");
             text(104,326,1,color(160,190,190),detail[2]);
-            text(40,360,1,color(160,190,190),"ERRO 1 ABRIR  2 LER  3 MEMORIA  4 FORMATO  5 TAMANHO  6 LIMITES");
+            text(40,342,1,color(160,190,190),more[0]);text(40,358,1,color(160,190,190),more[1]);
+            text(40,382,1,color(160,190,190),"ERRO 1 ABRIR  2 LER  3 MEMORIA  4 FORMATO  5 TAMANHO  6 LIMITES");
             gsKit_queue_exec(gs);gsKit_sync_flip(gs);
         }
     }
