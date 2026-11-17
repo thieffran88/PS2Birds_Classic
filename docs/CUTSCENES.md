@@ -66,13 +66,23 @@ está no `CUTSCENE.BIN` é simplesmente pulada.
   RGBA5551. Uma cena horizontal tem 448 linhas e pelo menos 640 de largura; uma vertical tem 640 de largura.
 - A transparência dos sprites do APK vem na escala do PS2 (0 a 128) e é convertida na composição.
 
-## Cenas acrescentadas na 0.93.4
+## Cenas acrescentadas na 0.93.4 e 0.94.0
 
 - Short Fuse (blackbird_intro, middle_1, middle_2, end), Bad Piggies (pack9_intro e world20/21/22_complete),
-  Piggy Farm e Dino (abertura e final), Birdday (world18/19_complete). As folhas vêm em WebP, lido pelo
-  decodificador próprio (`tools/webp.py`, com `vp8l.py` para o modo sem perdas).
-- Rolagens parciais e duplas (pack4_intro, pack8_intro, blackbird_intro) agora seguem o destino do original.
-- Gatilhos: a abertura de cada episódio na primeira fase, o final ao fechar o mundo; Birdday 7 tem abertura própria.
-- Aproximações: nas cenas do Dino o modo "tamanho de referência" foi estimado; o brilho piscante da árvore
-  (Short Fuse) e os olhos do Rei Porco não são animados.
-- Egg Defender e Mighty Feathers: painéis mostrados juntos, parados (sem a animação de entrada).
+  Piggy Farm e Dino (abertura e final), Birdday (world18/19_complete), Egg Defender e Mighty Feathers
+  (abertura e final de cada). As folhas vêm em WebP, lido pelo decodificador próprio (`tools/webp.py`, com `vp8l.py`
+  para o modo sem perdas). Com isso estão no Port as 47 cenas do roteiro (`cutscenes.lua`).
+- **Painéis animados** (Egg Defender, Mighty Feathers; opção bit 2 do `CUTSCENE.BIN`): cada painel é uma camada com
+  entrada por escala e posição (cubicOut ou bounceOut) e, na abertura do Mighty Feathers, o desvanecer dos painéis;
+  o jogo compõe as camadas por software a cada quadro, sobre o preto, ajustadas à tela como o `fittogrid` do original.
+- **Piscar do Rei Porco** (opção bit 3): os olhos trocados nas cenas de fim de mundo (Poached Eggs 3, Mighty Hoax 5,
+  Danger Above, Big Setup, Ham Em High, Mine and Dine, Birdday e Surf and Turf) são sprites sobre a imagem, trocados
+  nos tempos do roteiro. No Mighty Hoax 5 o rei vivo fica fora da imagem, e o olho também (como no original).
+- Rolagens parciais e duplas (pack4_intro, pack8_intro, blackbird_intro) seguem o destino do original.
+- Gatilhos: a abertura de cada episódio na primeira fase, o final ao fechar o mundo; Birdday 7 tem abertura própria;
+  Mighty Feathers e Egg Defender abrem na primeira fase e fecham ao completar as 15 fases.
+- O brilho da árvore (blackbird_intro) usa o sprite `BACKGROUND_TREE_GLOW`, que **não existe** no APK: o original
+  também não mostra nada ali.
+- Dino: `useReferenceSize` foi lido como "o destino é uma fração da imagem ajustada à altura"; na abertura a rolagem
+  vai até 75% da imagem; no final (destino x 0,5) a imagem cabe quase toda na tela e fica parada. É a leitura mais
+  provável, não confirmada contra o original.

@@ -1,4 +1,4 @@
-# Validação 0.93.4
+# Validação 0.94.0
 
 - Build com ps2dev: ELF sem dados do jogo; `CAMPAIGN.BIN`, `SPRITES.BIN`, `SOUNDS.BIN`, `MUSIC.BIN`, `UI.BIN`, `FONT.BIN`, `MENU.BIN`, `THEMES.BIN` e `CUTSCENE.BIN` gerados do APK.
 - Kit para Windows sob Wine: ELF e os nove arquivos de dados idênticos aos do build.

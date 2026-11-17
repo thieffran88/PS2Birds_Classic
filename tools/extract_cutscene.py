@@ -121,35 +121,76 @@ def _setup(apk):
     script=lua51_data.load(decode_payload(z.read('assets/data/scripts/cutscenes.lua'),'classic'))
     _STATE.update(z=z,where=where,comp=comp,script=script)
 def _init(apk):_setup(apk)
+EASE={'cubicOut':0,'bounceOut':1,'cubicInOut':2,'linear':3}
 def build_panels(name,acts):
-    """Panel scenes (fittogrid + tweenPosition/tweenScale): the panels in their final places, fitted to the screen,
-    still picture for the scene's duration (the pop-in animation is not reproduced)."""
+    """Panel scenes (fittogrid + tweenPosition/tweenScale/alpha tween): every panel is a layer with its own pop-in
+    (scale and position tween) and optional fade, drawn by the game in software (options bit 2). All panels are
+    fitted together to the screen, as fittogrid does."""
     z=_STATE['z'];where=_STATE['where'];acts=[acts[k] for k in sorted(acts,key=float)]
-    final={}
+    lay={}
     for a in acts:
-        if a['action']=='createsprite':final[a['name']]={'name':a['image'],'x':a['x'],'y':a['y'],'z':a.get('z',0)}
+        if a['action']=='createsprite':
+            lay[a['name']]={'img':a['image'],'x0':a['x'],'y0':a['y'],'x1':a['x'],'y1':a['y'],'z':a.get('z',0),'start':a['time'],'s0':a.get('scale_x',1.0),'s1':a.get('scale_x',1.0),
+                            'dur':0.0,'ease':0,'ast':0.0,'adur':0.0}
     for a in acts:
-        if a['action']=='tweenPosition' and a['name'] in final:final[a['name']]['x'],final[a['name']]['y']=a['to']['x'],a['to']['y']
-    sprites=sorted(final.values(),key=lambda q:q['z'],reverse=True)   # compose() draws the list back to front
-    if any(q['name'] not in where for q in sprites):return None,'cena %s ignorada: painel desconhecido'%name
-    bases={where[q['name']][0] for q in sprites}
+        L=lay.get(a.get('name'))
+        if not L:continue
+        if a['action']=='tweenPosition':L['x0'],L['y0'],L['x1'],L['y1']=a['from']['x'],a['from']['y'],a['to']['x'],a['to']['y'];L['dur']=a['duration'];L['ease']=EASE.get(a['type'],0)
+        elif a['action']=='tweenScale':L['s0'],L['s1']=a['from']['x'],a['to']['x'];L['dur']=a['duration'];L['ease']=EASE.get(a['type'],0);L['start']=max(L['start'],a['time']) if False else a['time']
+        elif a['action']=='tween' and a.get('property')=='alpha':L['ast']=a['time'];L['adur']=a['duration']
+    layers=sorted(lay.values(),key=lambda q:q['z'])
+    if any(q['img'] not in where for q in layers):return None,'cena %s ignorada: painel desconhecido'%name
+    bases={where[q['img']][0] for q in layers}
     if any(b+'.png' not in z.namelist() and b+'.webp' not in z.namelist() and b+'.pvr' not in z.namelist() for b in bases):return None,'cena %s ignorada: formato de imagem sem suporte'%name
     x0=y0=1e9;x1=y1=-1e9
-    for q in sprites:
-        f=where[q['name']][1];fw,fh=f['frame']['w'],f['frame']['h'];pv=f.get('pivot',{'x':fw/2,'y':fh/2})
-        x0=min(x0,q['x']-pv['x']);y0=min(y0,q['y']-pv['y']);x1=max(x1,q['x']-pv['x']+fw);y1=max(y1,q['y']-pv['y']+fh)
-    for q in sprites:q['x']-=x0;q['y']-=y0
-    w=int(x1-x0)+1;h=int(y1-y0)+1
-    canvas=compose(z,where,{'sprites':sprites},w,h,(0,0,0))
-    k=min(SCREEN_W/w,SCREEN_H/h);small,sw,sh=scale(canvas,w,h,k)
-    out=bytearray(SCREEN_W*SCREEN_H*4)
-    for i in range(SCREEN_W*SCREEN_H):out[i*4+3]=255
-    ox=(SCREEN_W-sw)//2;oy=(SCREEN_H-sh)//2
-    for r in range(sh):
-        out[((r+oy)*SCREEN_W+ox)*4:((r+oy)*SCREEN_W+ox+sw)*4]=small[r*sw*4:(r+1)*sw*4]
+    for q in layers:   # the layout at the end of the tweens
+        f=where[q['img']][1];fw,fh=f['frame']['w'],f['frame']['h'];pv=f.get('pivot',{'x':fw/2,'y':fh/2})
+        x0=min(x0,q['x1']-pv['x']);y0=min(y0,q['y1']-pv['y']);x1=max(x1,q['x1']-pv['x']+fw);y1=max(y1,q['y1']-pv['y']+fh)
+    w=x1-x0;h=y1-y0;k=min(SCREEN_W/w,SCREEN_H/h);ox=(SCREEN_W-w*k)/2;oy=(SCREEN_H-h*k)/2
+    def sx(v):return int(round((v-x0)*k+ox))
+    def sy(v):return int(round((v-y0)*k+oy))
+    blob=struct.pack('<I',len(layers))
+    for q in layers:
+        rgba,f=read(z,where,q['img']);fw,fh=f['frame']['w'],f['frame']['h'];pv=f.get('pivot',{'x':fw/2,'y':fh/2})
+        small,lw,lh=scale(rgba,fw,fh,k)
+        px=bytearray()
+        for i in range(0,len(small),4):   # source alpha is 0..128; 1 bit here, edges blend with black
+            al=small[i+3]
+            if al<64:px+=b'\0\0';continue
+            r,g,b=small[i],small[i+1],small[i+2]
+            if al<128:r,g,b=r*al//128,g*al//128,b*al//128
+            px+=struct.pack('<H',(r>>3)|((g>>3)<<5)|((b>>3)<<10)|(1<<15))
+        hdr=struct.pack('<16i',sx(q['x0']),sy(q['y0']),sx(q['x1']),sy(q['y1']),int(q['s0']*1000),int(q['s1']*1000),int(q['start']*1000),int(q['dur']*1000),
+                        q['ease'],int(q['ast']*1000),int(q['adur']*1000),lw,lh,int(round(pv['x']*k)),int(round(pv['y']*k)),0)
+        blob+=hdr+bytes(px)
     clips=[a['sound'] for a in acts if a['action']=='playsound' and a.get('sound') in MUSIC_OF_CLIP]
     end=[a for a in acts if a['action']=='end'][0]['time']
-    return (name,SCREEN_W,SCREEN_H,0,0,int(end*1000),MUSIC_OF_CLIP[clips[0]] if clips else -1,0,to5551(bytes(out)),0,0,0,0),'cena %s pronta (painéis, %d x %d)'%(name,SCREEN_W,SCREEN_H)
+    return (name,SCREEN_W,SCREEN_H,0,0,int(end*1000),MUSIC_OF_CLIP[clips[0]] if clips else -1,4,blob,len(blob),0,0,0),'cena %s pronta (%d painéis animados)'%(name,len(layers))
+
+def overlays(name,where,z,k):
+    """Sprites that the script creates after the background (the king pig's blinking eye): each one replaces the
+    previous sprite of the same name and stays until the next create/delete or the end of the scene.
+    -> [(start ms, end ms, x, y, width, height, RGBA5551 bytes)] in the scaled picture's pixels."""
+    acts=sorted((a for a in _STATE['script'][name].values() if a['action'] in('createsprite','deletesprite') and a.get('name')!='background'),key=lambda a:a['time'])
+    end=[a for a in _STATE['script'][name].values() if a['action']=='end'][0]['time']
+    out=[]
+    for i,a in enumerate(acts):
+        if a['action']!='createsprite' or a['image'] not in where:continue
+        nxt=[b['time'] for b in acts[i+1:] if b['name']==a['name']]
+        t1=nxt[0] if nxt else end
+        f=where[a['image']][1];fw,fh=f['frame']['w'],f['frame']['h'];pv=f.get('pivot',{'x':fw/2,'y':fh/2})
+        base=where[a['image']][0]
+        if base+'.png' not in z.namelist() and base+'.webp' not in z.namelist() and base+'.pvr' not in z.namelist():continue
+        rgba,_=read(z,where,a['image']);small,ow,oh=scale(rgba,fw,fh,k)
+        px=bytearray()
+        for j in range(0,len(small),4):
+            al=small[j+3]
+            if al<64:px+=b'\0\0';continue
+            r,g,b=small[j],small[j+1],small[j+2]
+            if al<128:r,g,b=r*al//128,g*al//128,b*al//128
+            px+=struct.pack('<H',(r>>3)|((g>>3)<<5)|((b>>3)<<10)|(1<<15))
+        out.append((int(a['time']*1000),int(t1*1000),int(round((a['x']-pv['x'])*k)),int(round((a['y']-pv['y'])*k)),ow,oh,bytes(px)))
+    return out
 
 def build_scene(name):
     """One scene -> (blob tuple or None, message). Runs in a worker process (or in the main one)."""
@@ -177,6 +218,11 @@ def build_scene(name):
         small,sw,sh=scale(canvas,w,h,SCREEN_H/h)
         if sw<SCREEN_W:small=pad_width(small,sw,sh,SCREEN_W);sw=SCREEN_W
     options=(1 if p['vertical'] else 0)|(2 if p['reverse'] else 0)
+    ov=b'';ovs=[]
+    if not p['vertical']:ovs=[o for o in overlays(name,where,z,SCREEN_H/h) if o[2]<sw and o[2]+o[4]>0]   # off the picture: not drawn
+    if ovs:
+        options|=8;ov=struct.pack('<I',len(ovs))
+        for t0,t1,x,y,ow,oh,px in ovs:ov+=struct.pack('<8i',t0,t1,x,y,ow,oh,0,0)+px
     # Scroll segments: where the right edge of the screen (the scroll cursor) ends, as a fraction of the picture
     # width, becomes a fraction of the scroll range in thousandths. Vertical scenes scroll over their whole height.
     segs=[(0.0,0.0,1.0)] if not p['segments'] else p['segments']
@@ -186,7 +232,7 @@ def build_scene(name):
     def permille(t):return 1000 if p['vertical'] else (0 if rng<=0 else max(0,min(1000,round((t*sw-SCREEN_W)/rng*1000))))
     a=segs[0];b=segs[1] if len(segs)>1 else (0.0,0.0,0.0)
     seg=(int(a[0]*1000),int(a[1]*1000),permille(a[2]),int(b[0]*1000),int(b[1]*1000),permille(b[2]) if len(segs)>1 else 0)
-    return (name,sw,sh,seg[0],seg[1],int(p['end']*1000),p['music'],options,to5551(small),seg[2],seg[3],seg[4],seg[5]),'cena %s pronta (%d x %d)'%(name,sw,sh)
+    return (name,sw,sh,seg[0],seg[1],int(p['end']*1000),p['music'],options,to5551(small)+ov,seg[2],seg[3],seg[4],seg[5]),'cena %s pronta (%d x %d)'%(name,sw,sh)
 
 def extract(apk,out,names=None,workers=None,log=print):
     """CUTSCENE.BIN: "PBCS", version 5, scene count, then per scene a 24-byte name (NUL padded),
