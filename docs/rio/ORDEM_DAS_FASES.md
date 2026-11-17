@@ -43,3 +43,8 @@ Conclusões:
 - A única dependência de WebP é a **caixa de metal** (`BLOCK_METAL_BOX_1/2`) e a madeira `BLOCK_WOOD_10X1_1` (que também existe em PVR `INGAME_RIO1_BLOCKS_WOOD_1`). A caixa de metal é o que força decidir sobre WebP.
 - Os nomes `B_CAGE_2/8/12/15` não são sprites de folha: são composições (`COMP`) das gaiolas, montadas a partir de `BLOCK_CAGE_*` e do passarinho preso. O leitor COMP já os lê estruturalmente, mas a montagem ainda falta.
 - Dois objetos decorativos (`DECO_CHAINS`, `WAREHOUSE_PROPELLER_1`) não estão no cruzamento das 81 definições: são do tema, e podem ficar de fora da primeira versão.
+
+## Origem do lançamento e gravidade (investigado)
+
+- **Origem do lançamento:** as fases do Rio não têm `birdZeroPos`. Os pássaros da fila são objetos do próprio mundo, com `startNumber` de 1 em diante. O de número 1 fica mais alto (Level190: x=108,8 y=-9,46) e é o que está no estilingue; os outros esperam no chão atrás dele (y≈-5,4, x decrescente). Nas três fases conferidas (Level190, 191 e 68) o padrão se repete. Portanto a origem vem do pássaro 1 de cada fase, na escala `physicsToWorld` (20 nas fases vistas).
+- **Gravidade:** não aparece em nenhum script Lua nem nas tabelas lidas (`gravity` só ocorre em `bubbleAntiGravity` e afins, dos power-ups). No código nativo (`libAngryBirdsRio.so`) as únicas ocorrências são `gravityX` e `gravityY`, que podem ser do acelerômetro. Em aberto: o valor do mundo precisa ser obtido do binário nativo ou calibrado por trajetória medida, nunca copiado do Classic sem conferir.
