@@ -11,7 +11,8 @@ EE_LDFLAGS = -L$(GSKIT)/lib
 GAME ?= classic
 ifeq ($(GAME),rio)
 EE_BIN = build/PS2Birds_Rio.elf
-EE_CFLAGS += -DPS2BIRDS_SAVE_DIR='"/PS2BRIO"' -DPS2BIRDS_SAVE_ID=0x52494f31u
+EE_CFLAGS += -DPS2BIRDS_SAVE_DIR='"/PS2BRIO"' -DPS2BIRDS_SAVE_ID=0x52494f31u -DPS2BIRDS_SPRITE_IDS='"rio/sprite_ids.h"'
+EE_CXXFLAGS += -DPS2BIRDS_SPRITE_IDS='"rio/sprite_ids.h"'
 endif
 EE_LIBS = -lgskit -ldmakit -lpad -lmc -lpatches -lm
 

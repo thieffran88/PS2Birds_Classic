@@ -1,7 +1,11 @@
 #ifndef PS2BIRDS_SPRITES_H
 #define PS2BIRDS_SPRITES_H
 #include <gsKit.h>
-#include "sprite_ids.h"
+/* The sprite list compiled into the runtime: the Classic's, or the Rio's (make GAME=rio). */
+#ifndef PS2BIRDS_SPRITE_IDS
+#define PS2BIRDS_SPRITE_IDS "sprite_ids.h"
+#endif
+#include PS2BIRDS_SPRITE_IDS
 int sprites_init(GSGLOBAL *gs);
 /* Uploads the texture pages of a bank into the shared slots; no-op if already active. */
 int sprites_select_bank(GSGLOBAL *gs,int bank);

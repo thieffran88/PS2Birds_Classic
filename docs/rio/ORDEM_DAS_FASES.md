@@ -133,3 +133,9 @@ Falta: o `sprite_ids.h` do Rio (lista compilada no runtime), o formato "PBSP" do
 `python3 tools/rio/pack_sprites_rio.py BANCO SPRITES.BIN sprite_ids.h` grava, a partir do banco de `extract_sprites_rio.py`, o `SPRITES.BIN` no formato "PBSP" v2 que o runtime já lê (1 banco, 1 página, 68 sprites, 1.049.600 bytes, sem ícone de cartão por enquanto) e o `ps2/src/rio/sprite_ids.h`, que guarda só nomes e tamanhos (como o do Classic; nenhum pixel). A ordem é a do Classic (mais altos primeiro, depois o nome). Conferido: o cabeçalho tem "PBSP", versão 2 e 68 sprites, e o `sprite_ids.h` compila.
 
 Pendência: o runtime inclui `"sprite_ids.h"` a partir de `ps2/src`, e uma inclusão entre aspas procura primeiro na pasta do próprio arquivo, então `-I` não troca o cabeçalho do Classic pelo do Rio. A variante `GAME=rio` terá de usar um nome de cabeçalho selecionado por macro (por exemplo `PS2BIRDS_SPRITE_IDS`) antes de gerar um ELF do Rio com esta lista.
+
+### Atualização: lista de sprites escolhida por macro
+
+`ps2/src/sprites.h` inclui a lista de sprites pela macro `PS2BIRDS_SPRITE_IDS` (padrão `"sprite_ids.h"`, a do Classic). `make GAME=rio` passa `-DPS2BIRDS_SPRITE_IDS='"rio/sprite_ids.h"'`, que é a lista do Rio, e continua com a pasta de save e a identidade próprias. É o único ponto do runtime que inclui a lista, então o Classic não muda.
+
+O código de desenho (`main.c`, `menu.c` etc.) ainda usa os nomes de sprite do Classic (`SPR_PIG_...`, `SPR_BIRD_...`), que a lista do Rio não tem: o ELF do Rio **ainda não compila** por esse motivo, e ligar cada peça do Rio ao seu sprite é o próximo trabalho do runtime.
