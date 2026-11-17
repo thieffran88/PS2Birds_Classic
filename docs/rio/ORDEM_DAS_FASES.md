@@ -145,3 +145,17 @@ O código de desenho (`main.c`, `menu.c` etc.) ainda usa os nomes de sprite do C
 `tools/rio/pack_sprites_rio.py` também grava `ps2/src/rio/definition_sprites.h`, no formato da tabela do Classic (`definition_sprites.h`): 87 peças do primeiro episódio com o sprite do banco (nas gaiolas compostas, o corpo; o passarinho preso ainda não é desenhado). Peças cujo sprite só existe em WebP ficam fora e não são desenhadas. `main.c` inclui a tabela pela macro `PS2BIRDS_DEFINITION_SPRITES` (padrão `"definition_sprites.h"`), e `make GAME=rio` aponta para a do Rio.
 
 Medido: com as duas listas do Rio, o `main.c` ainda dá **217 erros de compilação**, todos por nomes de sprite do Classic (`SPR_BIRD_*`, `SPR_PIG_*`, interface e efeitos) usados diretamente no desenho dos pássaros, porcos, fundo e interface. O desenho das peças do cenário já passa pela tabela; o que resta é a interface e o desenho do pássaro.
+
+## Inventário do desenho que ainda depende do Classic (`ps2/src/main.c`)
+
+Para compilar o ELF do Rio, os 210 nomes de sprite do Classic que faltam na lista do Rio se concentram em poucos blocos do `main.c`:
+
+| Trecho (linhas) | Função | Nomes | O que o Rio faz |
+| --- | --- | --- | --- |
+| 173-180 | `bird()`: sprites dos pássaros (inclui o globo, o rosa e o azul-cinza) | 23 `SPR_BIRD_*` | usar `BIRD_RED_NORMAL` do banco (só o vermelho existe no runtime) |
+| 182-199 | `pig()`: porcos do Classic | 17 `SPR_PIG_*` | o Rio não tem porcos: alvos são gaiolas, desenhadas pela tabela peça-sprite |
+| 201-243 | tabela `block_sprites` (madeira, vidro, pedra por estado de dano) | 147 `SPR_BLOCK_*` | as peças do Rio vêm da tabela `definition_sprites.h` (um sprite por peça); falta decidir se há sprites de dano |
+| 245-282 | máscaras de terreno e peças fixas, balões, TNT, extras | `SPR_GROUND_BLOCK_*`, `SPR_ESTRADE_*`, `SPR_HELMET_*` | terreno do Rio ainda não analisado |
+| 590 e 669 | estilingue (`SPR_SLING_SHOT_01_BACK/FRONT`) | 2 | o Rio tem `R2_SLING_SHOT_01_BACK/FRONT`, a incluir no banco |
+
+Plano: envolver esses blocos em `#ifndef PS2BIRDS_RIO` e escrever, para o Rio, versões curtas (pássaro vermelho, peça pela tabela, estilingue `R2_*`), sem tocar o caminho do Classic. A compilação do Classic e os testes (`make test`) são a verificação de que ele não muda.
