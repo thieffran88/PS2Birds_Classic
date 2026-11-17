@@ -169,3 +169,11 @@ Conferido: `make GAME=rio build/PS2Birds_Rio.elf` compila e liga (5.629.244 byte
 ### Atualização: estilingue no banco do Rio
 
 O estilingue do primeiro capítulo (`SLING_SHOT_01_BACK` e `_FRONT`, em PVR RGBA4444 na folha `INGAME_RIO1_BLOCKS_MISC_1`) agora entra no banco: `extract_sprites_rio.py` ganhou a lista `EXTRA` para sprites que o runtime desenha pelo nome. Os nomes coincidem com os do Classic, então o `main.c` desenha o estilingue igual nas duas variantes (o `#ifndef` provisório saiu). O banco do Rio passou a ter 70 sprites (1 MiB de VRAM), e o ELF do Rio e o do Classic compilam e ligam. O `R2_SLING_SHOT` é dos capítulos Rio 2 e fica para quando eles entrarem.
+
+## Fundo da primeira fase (tema `theme2`) e decodificador ETC1
+
+Do `themes.lua`, o tema `theme2` (usado pela `warehouse/Level190`) tem: uma camada de fundo (`THEME_WH_ROOM_1`, da folha `THEME_1_WH_2`), duas camadas de primeiro plano (`THEME_WH_FG_1` e `THEME_WH_BOXES_1`, da folha `THEME_1_WH_1`), a textura do chão `THEME_1_WH_GROUND` (32x32), cor das peças fixas (87, 45, 24) e céu e chão pretos. Folhas: `THEME_1_WH_1` (1024x449) e `THEME_1_WH_3` (465x251) são PVR RGBA4444; **`THEME_1_WH_2` (1024x1024) e `THEME_1_WH_GROUND` são ETC1**.
+
+`tools/rio/pvr.py` ganhou um decodificador **ETC1** em Python puro (blocos 4x4 de 8 bytes, modos individual e diferencial, as duas orientações de sub-bloco e as 8 tabelas de modificadores). A ordem dos blocos foi conferida de forma numérica, sem olhar a imagem: na leitura em fileiras a diferença média entre pixels vizinhos na borda dos blocos é 9,05 contra 7,49 dentro deles (continuidade), enquanto em ordem de Morton seria 24,81 contra 7,65. Resultado: `python3 tools/rio/pvr.py APK` agora decodifica **as 139 folhas PVR do APK (antes 118)**.
+
+Falta ligar as camadas ao fundo do runtime: o `background.c` do Classic monta o fundo a partir do banco `THEMES.BIN`; o Rio precisa do próprio `THEMES.BIN` com as camadas do `theme2`, a rolagem e as cores.
