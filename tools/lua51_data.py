@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Read data-only Lua 5.1 chunks (level tables) straight from bytecode, without a Lua
-runtime or decompiler. Only table/constant opcodes are evaluated; any call, closure,
-arithmetic other than unary minus, or jump makes the reader refuse the chunk, so no
-game code can run. Returns the globals the chunk assigns, in assignment order."""
+runtime or decompiler. Only table/constant opcodes are evaluated, plus + - * / between two
+numbers (constant folding, as in `2 * 1.5`); any call, closure, other arithmetic or jump makes
+the reader refuse the chunk, so no game code can run. Returns the globals the chunk assigns, in assignment order."""
 import struct
 
 class Unsupported(ValueError):pass
@@ -66,6 +66,11 @@ def load(data):
             if not isinstance(t,dict):raise Unsupported('Index of non-table')
             t[RK(B)]=RK(C)
         elif op==10:reg[A]={}
+        elif 12<=op<=15:
+            a,b=RK(B),RK(C)
+            if not isinstance(a,float) or not isinstance(b,float):raise Unsupported('Arithmetic on non-numbers')
+            if op==15 and b==0:raise Unsupported('Division by zero')
+            reg[A]=a+b if op==12 else a-b if op==13 else a*b if op==14 else a/b
         elif op==19:
             v=reg.get(B)
             if not isinstance(v,float):raise Unsupported('Unary minus of non-number')

@@ -1,58 +1,64 @@
-# Cutscenes — como acrescentar cenas
+# Cutscenes — como funcionam e como acrescentar cenas
 
-O port toca as cutscenes do `cutscenes.lua` pelo **nome**. O jogo já sabe quando cada uma deve
-aparecer; uma cena que ainda não está no `CUTSCENE.BIN` é simplesmente pulada. Para acrescentar
-uma cena basta registrá-la no gerador — nenhuma mudança no código do jogo é necessária.
+O `cutscenes.lua` do APK descreve cada cena como uma lista de ações. O gerador lê esse arquivo
+**como dados** (`tools/lua51_data.py`: só constantes, tabelas e contas entre números; nenhuma
+função do jogo é executada) e monta cada cena a partir da composição `CUTSCENES.compo.json`.
+Nada do jogo fica no repositório.
 
-## Quando cada cena toca (já ligado no jogo, `ps2/src/main.c`)
+## O que o script informa (e o gerador lê sozinho)
 
-| Momento | Nome procurado |
+| Ação do script | Uso |
 | --- | --- |
-| Entrar na primeira fase de um episódio que ainda não tem nenhuma pontuação | `pack1_intro` … `pack8_intro` (Poached Eggs, Mighty Hoax, Danger Above, Big Setup, Ham 'Em High, Mine and Dine, Birdday, Surf and Turf) |
-| Sair da tela de vitória quando essa vitória completou um mundo (todas as fases com título `"<EPISÓDIO> N-"` pontuadas) | `worldN_complete` (N = número do mundo no título; Poached Eggs 1–3, Mighty Hoax 4–5, Danger Above 6–8, …) |
-| O mesmo no Surf and Turf | `worldS1_complete` … `worldS3_complete` |
+| `setreferencesize` | largura e altura da imagem (a cena é ajustada à altura da tela, `fitheight`) |
+| `createsprite` (`background`) | a imagem da cena (uma composição) |
+| `playsound` | a faixa de música |
+| `scroll` | início, duração e curva (`cubic_in_out`) da rolagem da esquerda para a direita |
+| `end` | quando a cena termina |
 
-X ou Start pulam a cena. A música é a de cada cena (coluna "Música" da tabela no fim).
+Outras ações (os olhos do Rei Porco, efeitos sonoros avulsos) são ignoradas.
+
+## Cenas incluídas (28)
+
+| Cena no script | Quando toca no port |
+| --- | --- |
+| `pack1_intro`, `pack2_intro`, `pack4_intro`, `pack5_intro`, `pack6_intro`, `pack7_intro`, `pack8_intro` | ao entrar na primeira fase do episódio sem nenhuma pontuação: Poached Eggs, Mighty Hoax, Big Setup, Ham 'Em High, Mine and Dine, Birdday, Surf and Turf |
+| `world1_complete` … `world3_complete` | ao sair da vitória que completa Poached Eggs 1, 2 e 3 |
+| `world4_complete`, `world5_complete` | Mighty Hoax 4 e 5 |
+| `world6_complete` … `world8_complete` | Danger Above 6, 7 e 8 |
+| `world9_complete` … `world11_complete` | Big Setup 9, 10 e 11 |
+| `world12_complete` … `world14_complete` | Ham 'Em High 12, 13 e 14 |
+| `world15_complete` … `world17_complete` | Mine and Dine 15, 16 e 17 |
+| `birdday3_complete` | Birdday 3 (pelo nome da cena) |
+| `worldS1_complete` … `worldS3_complete` | Surf and Turf 1, 2 e 3 |
+
+X ou Start pulam a cena. A música é a da cena (`birds_intro`, `birds_boss` ou `birds_outro`).
+A tabela de gatilhos está em `ps2/src/main.c` (`episode_scene` e `world_scene`); uma cena que não
+está no `CUTSCENE.BIN` é simplesmente pulada.
+
+## O que ficou de fora
+
+- **`pack3_intro`** (Danger Above): rola na vertical, e o reprodutor só rola na horizontal.
+- **Egg Defender** (`rmf_classic_intro`, `rmf_complete`, `eggdefender_intro`, `eggdefender_complete`): painéis em grade com animações de escala e posição.
+- **Short Fuse** (`blackbird_*`), **Piggy Farm** (`*_farm`) e **Dino** (`*_dino`): as imagens estão em WebP (e a saída do Dino nem é uma composição), e o gerador, que roda só com Python puro no Windows, não decodifica esse formato. Também não estão ligadas a fases.
+- **Birdday** `world18_complete` e `world19_complete`, e `pack9_intro` com `world20` a `world22`: não dá para saber a que episódio ou mundo do port correspondem, então não têm gatilho.
+- **Animações dentro da cena:** os olhos do Rei Porco abrindo e o "oink" no fim das cenas de encerramento.
+- **Largura:** o script às vezes declara a imagem um pouco mais larga do que o desenho cobre. O gerador usa a largura real, para não rolar uma faixa vazia para dentro da tela.
 
 ## Como acrescentar uma cena
 
-1. **Leia o bloco da cena no `cutscenes.lua`** (o arquivo é bytecode Lua; os valores aparecem
-   como constantes perto do nome da cena — o `extract_cutscene.py` mostra como a primeira foi lida):
-   - `image` — o nome da composição no `CUTSCENES.compo.json` (por exemplo `STORY_1_MIDDLE_1`);
-   - `setreferencesize` — largura e altura de referência (números `float` de 4 bytes);
-   - `playsound` → `sound` — o clipe de música (por exemplo `birds_boss`); ele precisa estar na
-     lista `MUSIC` de `tools/extract_audio.py` (acrescente uma linha se não estiver);
-   - `scroll` → `duration` — o tempo da rolagem em segundos;
-   - o último `time` do bloco — quando a cena termina.
-   Dica: as constantes de um bloco só aparecem na primeira vez em que são usadas no arquivo; o que
-   se repete (como a altura 659) vem do bloco anterior. Se o bloco não traz nenhum número novo
-   (como `world2_complete`), ele usa os valores de um bloco anterior; o mais provável é o da cena irmã.
-2. **Acrescente uma linha em `SCENES`** em `tools/extract_cutscene.py`:
-   ```python
-   SCENES=[('pack1_intro','STORY_1_BEGINNING',2048,659,9.6,15.6,'birds_intro'),
-           ('world1_complete','STORY_1_MIDDLE_1',1368,659,2.0,7.5,'birds_boss'),
-           ('world2_complete','STORY_1_MIDDLE_2',LARGURA,ALTURA,ROLAGEM,FIM,'CLIPE')]
-   ```
-   O primeiro campo é o nome que o jogo procura (tabela acima). Use como largura a que o desenho
-   realmente ocupa (a caixa das peças da composição), que pode ser um pouco menor que a de referência.
-3. **Gere os dados de novo** (`GERAR_ISO.bat`, ou `python3 tools/gerar_iso.py APK --dev` no
-   desenvolvimento). Nada do jogo fica no repositório: a cena é montada a partir do seu APK.
+1. Acrescente o nome dela na lista `SCENES` de `tools/extract_cutscene.py`. Imagem, tamanho,
+   música, rolagem e fim vêm do próprio script; a faixa de música precisa estar na lista `MUSIC`
+   de `tools/extract_audio.py` (acrescente uma linha se não estiver).
+2. Ligue a cena a um momento do jogo na tabela `episode_scene` ou `world_scene` de
+   `ps2/src/main.c`.
+3. Gere os dados de novo (`GERAR_ISO.bat`, ou `python3 tools/gerar_iso.py APK --dev` no
+   desenvolvimento).
 
-## Limites conhecidos
+## Detalhes técnicos
 
-- Cada cena ocupa cerca de 1,25 MB no disco e na RAM enquanto toca (1392×448 em 16 bits; o
-  tamanho varia com a largura de referência). Só uma cena fica na memória por vez.
-- O reprodutor faz a rolagem simples da esquerda para a direita (`cubic_in_out`). Cenas com
-  vários quadros e efeitos (`createsprite`/`deletesprite`, `fittogrid`, olhos animados do Rei
-  Porco, moldura de filme `CUTSCENE_FILMSTRIP_*`) precisariam de suporte novo no `cutscene.c`.
-- Formato do `CUTSCENE.BIN`: "PBCS", versão 2, número de cenas, depois por cena o nome (24 bytes),
-  largura, altura, rolagem (ms), fim (ms), posição dos dados e faixa de música; o jogo ainda lê a
-  versão 1 antiga (uma cena só, a abertura).
-
-## Cenas feitas
-
-| Cena | Imagem | Música |
-| --- | --- | --- |
-| `pack1_intro` | `STORY_1_BEGINNING` | `birds_intro` |
-| `world1_complete` | `STORY_1_MIDDLE_1` | `birds_boss` |
-| `world2_complete` | `STORY_1_MIDDLE_2` | `birds_boss` |
+- Cada cena fica na RAM (cerca de 1 a 3 MB) só enquanto toca, e não ocupa memória de vídeo: o
+  jogo copia as 640 colunas visíveis para o quadro a cada quadro, como nos fundos das fases.
+- Formato do `CUTSCENE.BIN`: "PBCS", versão 3, número de cenas e, por cena, o nome (24 bytes),
+  largura, altura, início da rolagem (ms), duração da rolagem (ms), fim (ms), posição dos dados e
+  faixa de música; depois as imagens em RGBA5551.
+- A transparência dos sprites do APK vem na escala do PS2 (0 a 128) e é convertida na composição.
