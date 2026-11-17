@@ -203,3 +203,9 @@ O runtime toca os efeitos pelos números de `ps2/src/audio_ids.h` (a lista do Cl
 Resultado: **25 efeitos, 535.664 bytes (limite de 1 MiB do SPU2)**; o cabeçalho "PBSN" confere (25 entradas, deslocamentos alinhados em 64 bytes). Não foi ouvido (o emulador não toca som aqui); só a estrutura e os tamanhos foram conferidos. Escolhas de som feitas por nome (por exemplo `ui_select` para o menu) são aproximações e podem ser trocadas na tabela.
 
 Falta a música (`MUSIC.BIN` do Rio, com `ab rio ambience warehouse`) e os sons por material das peças (grupos de `sound_groups.py`), que o runtime do Classic ainda não toca por peça.
+
+## `MUSIC.BIN` do Rio (`tools/rio/extract_audio_rio_music.py`)
+
+O runtime toca música pelos números da lista do Classic (16 faixas), então o `MUSIC.BIN` do Rio ("PBMU" v1) mantém a mesma contagem e ordem: 9 faixas recebem música do APK do Rio e as outras 7 um trecho de silêncio. O APK tem 14 músicas (ambientes de armazém, selva, praia, aeroporto, carnaval, porto etc., o tema do Rio 2, a música de história e a do chefe). A tabela `RIO_MUSIC` do script decide a correspondência e **é uma aproximação por nome, sem conferência de ouvido**: o único tema de abertura no APK é o do Rio 2 (usado como título), e a faixa "cave" do Classic recebe o ambiente do armazém (`ab rio ambience warehouse`, o do `theme2`, a primeira fase). O arquivo gerado tem 20.896.256 bytes (cabeçalho e alinhamentos conferidos).
+
+Pendente: o runtime escolhe a faixa do tema pelo índice do tema do Classic; para o Rio é preciso ligar o `theme2` à faixa do armazém, o que depende de `THEMES.BIN` e do `main.c` do Rio.
