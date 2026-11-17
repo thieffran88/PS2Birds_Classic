@@ -133,6 +133,7 @@ struct Physics: b2ContactListener {
     int extra_types[16],extra_count,pending_birds,pending_pigs;int trapped_by,current_wave,last_wave;bool egg_mode;float quake_time;bool quake_used,potion_armed,potion_used,shock_bonus,shock_used;float potion_scale;
     float shock_time;b2Vec2 shock_center;bool shock_hit[MAX_LEVEL_OBJECTS];float electrocute[MAX_LEVEL_OBJECTS];float bubble_timer[MAX_LEVEL_OBJECTS],bubble_float[MAX_LEVEL_OBJECTS];float gun_timer[MAX_LEVEL_OBJECTS],gun_bubble_grow[MAX_LEVEL_OBJECTS],gun_bubble_life[MAX_LEVEL_OBJECTS];bool is_gun[MAX_LEVEL_OBJECTS];unsigned gun_seed;float vial_wait[MAX_LEVEL_OBJECTS],vial_pop[MAX_LEVEL_OBJECTS];int vial_kind[MAX_LEVEL_OBJECTS];bool vial_shield[MAX_LEVEL_OBJECTS];
     int bird_type;
+    bool bird_hit[MAX_LEVEL_OBJECTS];b2Vec2 bird_pre_velocity;   /* velocityMultiplier: pieces the bird touched this step, its speed before the solver */
     b2Body *split[2],*egg;bool egg_collided;
     bool split_collided[2],disturbed[MAX_LEVEL_OBJECTS];
     bool bomb_requested,detonated;
@@ -166,7 +167,7 @@ struct Physics: b2ContactListener {
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),puffer_state(0),puffer_timer(0),puffer_auto(-1),puffer_direction(0),puffer_seed(12345u),pink_timer(-1),bird_bubble(0),pink_hover(false),bird_type(BIRD_RED_TYPE) {
         egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
         damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
-        memset(chain_delay,0,sizeof(chain_delay));memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(thrust,0,sizeof(thrust));memset(thrust_clock,0,sizeof(thrust_clock));memset(thrust_off,0,sizeof(thrust_off));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(gun_timer,0,sizeof(gun_timer));memset(gun_bubble_grow,0,sizeof(gun_bubble_grow));memset(gun_bubble_life,0,sizeof(gun_bubble_life));memset(is_gun,0,sizeof(is_gun));gun_seed=12345u;memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;pending_pigs=0;quake_time=0;quake_used=false;trapped_by=-1;current_wave=1;last_wave=1;egg_mode=false;potion_armed=false;potion_used=false;shock_bonus=false;shock_used=false;potion_scale=1;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
+        memset(chain_delay,0,sizeof(chain_delay));memset(bird_hit,0,sizeof(bird_hit));bird_pre_velocity.SetZero();memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(thrust,0,sizeof(thrust));memset(thrust_clock,0,sizeof(thrust_clock));memset(thrust_off,0,sizeof(thrust_off));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(gun_timer,0,sizeof(gun_timer));memset(gun_bubble_grow,0,sizeof(gun_bubble_grow));memset(gun_bubble_life,0,sizeof(gun_bubble_life));memset(is_gun,0,sizeof(is_gun));gun_seed=12345u;memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;pending_pigs=0;quake_time=0;quake_used=false;trapped_by=-1;current_wave=1;last_wave=1;egg_mode=false;potion_armed=false;potion_used=false;shock_bonus=false;shock_used=false;potion_scale=1;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
         world.SetContactListener(this);destruction.owner=this;world.SetDestructionListener(&destruction);
         /* The Ground object of the stage data spans the whole level; stages place pieces up to
            x=825, so the floor is FLOOR_HALF_WIDTH wide on each side of the origin. */
@@ -497,6 +498,10 @@ struct Physics: b2ContactListener {
         /* Resting support force is not an impact. Keep only contacts that
            approached faster than 0.5 physics units/s before the solver. */
         if(approach>0.5f){
+            if(bird && (a==bird || b==bird)){
+                uintptr_t id=(a==bird?b:a)->GetUserData().pointer;
+                if(id>0 && id<=(uintptr_t)level->count){bird_hit[id-1]=true;bird_pre_velocity=bird->GetLinearVelocity();}
+            }
             for(b2Body *body:pair){
                 uintptr_t id=body->GetUserData().pointer;
                 if(id>0 && id<=(uintptr_t)level->count && body->GetType()==b2_dynamicBody)disturbed[id-1]=true;
@@ -573,6 +578,18 @@ struct Physics: b2ContactListener {
         }
     }
 };
+/* velocityMultiplier of blocks.lua for the port's materials (1 wood, 2 glass = light, 5 rock):
+   BlueBird light 1.9; RedBigBird 1.8; BoomerangBird wood/light 1.3; GlobeBird 4 (puffed 2). */
+static float __attribute__((unused)) velocity_multiplier(int type,int kind,bool puffed){
+    if(kind!=1 && kind!=2 && kind!=5)return 1.0f;
+    switch(type){
+        case BIRD_BLUE_TYPE:return kind==2?1.9f:1.0f;
+        case BIRD_BIG_TYPE:return 1.8f;
+        case BIRD_GREEN_TYPE:return kind==5?1.0f:1.3f;
+        case BIRD_PUFFER_TYPE:return puffed?2.0f:4.0f;
+        default:return 1.0f;
+    }
+}
 void JointListener::SayGoodbye(b2Joint *joint){owner->forget_joint(joint);}
 void game_init(Game *g) { memset(g,0,sizeof(*g));g->unlocked=1;game_load_level(g,0); }
 void game_destroy(Game *g) { delete static_cast<Physics*>(g->physics);g->physics=NULL; }
@@ -1210,8 +1227,24 @@ static void tick(Game *g) {
         if(p->vial_pop[i]>0 && (p->vial_pop[i]-=dt)<=0)p->health[i]=0;
         if(p->vial_shield[i] && p->bubble_timer[i]<=0)p->vial_shield[i]=false;
         if(p->vial_shield[i])p->impact[i]=0; /* ignoreAllDamage while in the pink bubble */
-        if(o.kind!=3 && p->impact[i]>3) p->health[i]-=(p->impact[i]-3)*12/fmaxf(o.defence,1);
+        float before=p->health[i],dealt=0;
+        if(o.kind!=3 && p->impact[i]>3){dealt=(p->impact[i]-3)*12/fmaxf(o.defence,1);p->health[i]-=dealt;}
         p->impact[i]=0;
+        /* blocks.lua <Bird>DamageFactors.velocityMultiplier: when the bird's hit breaks the piece,
+           it keeps its speed before the hit x min(1, leftover damage share x multiplier)
+           (AdventureModeCollisions.lua). Applied where the multiplier is above 1. */
+#ifdef PS2BIRDS_VELOCITY_MULTIPLIER   /* off until the stage scripts are re-solved (LACUNAS_PORT.md) */
+        if(p->bird_hit[i] && p->bird && before>0 && p->health[i]<=0 && dealt>0){
+            float m=velocity_multiplier(p->bird_type,o.kind,p->puffer_state>0);
+            if(m>1){
+                b2Vec2 v=fminf(1.0f,(dealt-before)/dealt*m)*p->bird_pre_velocity;
+                if(v.LengthSquared()>p->bird->GetLinearVelocity().LengthSquared())p->bird->SetLinearVelocity(v);
+            }
+        }
+#else
+        (void)before;
+#endif
+        p->bird_hit[i]=false;
         if(p->chain_delay[i]>0){p->chain_delay[i]-=dt;if(p->chain_delay[i]>0)continue;}
         if(IS_FRAGILE_KIND(o.kind) && p->fragile_hit[i])p->health[i]=0;
         if(o.kind!=3 && ((p->health[i]<=0 && i!=p->egg_i) || body->GetPosition().y>p->level->ground_y+25)) {
