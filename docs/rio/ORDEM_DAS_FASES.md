@@ -69,7 +69,7 @@ Consequência para o runtime: gaiolas e macacos se comportam, para a contagem de
 - A vitória conta peças de tipo 4 (`kind==4`): `pig_alive` sobe na carga da fase e desce em `game.cpp` (linhas ~1168 e ~1261) quando a peça é destruída, com 5000 pontos. Fora do modo Egg Defender toda peça tipo 4 é alvo (`is_goal`).
 - Portanto uma gaiola ou um macaco do Rio pode entrar como peça tipo 4, com a resistência e o material do `levelgoals.lua`. **Para a primeira fase não é preciso alterar o runtime**: basta o gerador do Rio emitir as gaiolas como tipo 4. O que muda é só a aparência (sprite e efeito de saída do passarinho) e, depois, o comportamento dos macacos.
 
-## Importador de fases (`tools/rio/import_level.py`)
+## Importador de fases (`tools/rio/rio_import_level.py`)
 
 Converte uma fase do Rio na lista de objetos que o `build_campaign` grava no `CAMPAIGN.BIN`: tamanho pelo sprite (ou pela largura e altura da definição), escala da instância, material e resistência pelo catálogo, estilingue no pássaro 1 e gravidade como parâmetro (`--gravity`, padrão -10, **só um marcador**: o valor real ainda não foi obtido).
 
@@ -78,3 +78,12 @@ Resultado na `warehouse/Level190`: 21 dos 25 objetos convertem (20 de material c
 ### Atualização: composições medidas
 
 O corpo de uma gaiola composta é o último filho da composição (deslocamento 0); o passarinho preso é o filho anterior. O importador usa o tamanho desse sprite: nas gaiolas pequenas 83x83 px, ou seja, 83/20 x 0,92 = 3,82 m, praticamente os 3,81 m que o `levelgoals.lua` declara para as gaiolas equivalentes `R2_*`. Com isso a `warehouse/Level190` converte **25 de 25 objetos** (20 de material comum e 5 gaiolas como alvos tipo 4), e **as 459 fases do Rio convertem sem nenhuma definição sem adaptador**. Isso só mostra que formas e tamanhos estão resolvidos; não valida física, sprites nem objetivos no PS2.
+
+## Primeiro `CAMPAIGN.BIN` do Rio (`tools/rio/rio_campaign.py`)
+
+`python3 tools/rio/rio_campaign.py SAIDA.BIN FASE.lua [...]` converte fases com o importador e grava com o mesmo escritor do Classic (`build_campaign.write_binary`, formato "PBCP" v9). Com a `warehouse/Level190` o arquivo sai com 1 fase, 25 objetos e 4 pássaros, e volta a ser lido sem erro pelo `read_binary`.
+
+- Os arquivos do Classic guardam gravidade **+20** com `physicsToWorld` 20 (eixo y para baixo). O gravador do Rio usa o mesmo +20 como valor provisório; **ele não foi conferido no APK do Rio**.
+- Pássaros: só o vermelho (tipo 0) tem equivalente no runtime. As fases com outros pássaros do Rio param com erro explícito.
+- **Ainda não foi carregado pelo runtime** (nem no teste em PC nem no PCSX2): só a escrita e a releitura em Python foram conferidas. O arquivo fica em `work/rio/`, fora do Git e fora da ISO.
+- Nomes: os scripts do Rio se chamam `rio_import_level.py` e `rio_campaign.py` para não colidir com `import_level.py` e `build_campaign.py` do Classic.

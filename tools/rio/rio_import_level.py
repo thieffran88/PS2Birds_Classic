@@ -3,7 +3,7 @@ Everything comes from the APK data read by tools/lua51_data.py and the catalogue
 tools/rio/build_catalogue.py: no Lua runs. Sizes follow ObjectCreation: a sprite-sized shape is
 sprite size / physicsToWorld scaled by the instance scale (and by 0.92 when it is not static).
 The world gravity is not in the stage data (see docs/rio/ORDEM_DAS_FASES.md): it is a parameter.
-usage: import_level.py LEVEL.lua [--gravity G]  -> prints a summary and writes work/rio/stage_<name>.json"""
+usage: rio_import_level.py LEVEL.lua [--gravity G]  -> prints a summary and writes work/rio/stage_<name>.json"""
 import argparse,json,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'tools'))
@@ -49,7 +49,7 @@ def convert(path,gravity):
         sling_x=sling['x'],sling_y=sling['y'],ground_y=ground['y'] if ground else 0.0,
         physics_to_world=pixels,gravity=gravity,skipped=sorted(set(skipped)))
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('level',type=Path);p.add_argument('--gravity',type=float,default=-10.0)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('level',type=Path);p.add_argument('--gravity',type=float,default=20.0)
     a=p.parse_args();r=convert(a.level,a.gravity)
     out=ROOT/'work/rio';out.mkdir(parents=True,exist_ok=True);(out/('stage_%s.json'%a.level.stem)).write_text(json.dumps(r,indent=1))
     kinds={}
