@@ -1,2 +1,2 @@
-# PNG sprite extraction and PNG conversion tests only.
+# PNG/WebP sprite extraction, Rio audit and conversion tests.
 Pillow>=10.0

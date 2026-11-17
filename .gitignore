@@ -9,3 +9,11 @@ ps2/data/
 # Screenshots of the running game show the original artwork: kept out of the repository.
 docs/*.png
 docs/*.jpg
+
+# Entradas locais, resultados de auditoria e artefatos gerados
+input/
+work/
+dist/
+*.apk
+*.iso
+*.elf

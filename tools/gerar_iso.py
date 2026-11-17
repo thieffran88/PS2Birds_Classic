@@ -14,6 +14,7 @@ HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE))
 ROOT=HERE.parent
 SUPPORTED=json.loads((ROOT/'profiles/supported_apk.json').read_text())
+PROJECTS=json.loads((ROOT/'profiles/projects.json').read_text())
 
 def find_ffmpeg(explicit=None):
     if explicit:return explicit
@@ -57,7 +58,9 @@ def generate(apk_path,out_dir,ffmpeg=None,log=print,dev=False):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__,formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument('apk',type=Path,help='APK original (com.rovio.angrybirds.apk)')
+    p.add_argument('apk',type=Path,help='APK original do jogo selecionado')
+    p.add_argument('--jogo',choices=['auto','classic','rio'],default='auto',help='perfil do jogo (padrão: detectar pelo SHA-256)')
+    p.add_argument('--investigar',action='store_true',help='auditar dados do Rio; não gera ELF/ISO')
     p.add_argument('--saida',type=Path,default=Path('PS2Birds_Classic.iso'),help='ISO a criar (padrão: PS2Birds_Classic.iso)')
     p.add_argument('--pasta',type=Path,help='também grava ELF e arquivos de dados nesta pasta (para USB/OPL/HDD)')
     p.add_argument('--elf',type=Path,default=None,help='programa do jogo (padrão: PS2BIRDS.ELF ao lado da ferramenta)')
@@ -65,6 +68,16 @@ def main():
     p.add_argument('--dev',action='store_true',help='desenvolvimento: só gera os dados em ps2/assets e ps2/data (para make/make test)')
     a=p.parse_args()
     if not a.apk.is_file():p.error(f'APK não encontrado: {a.apk}')
+    selected=a.jogo
+    if selected=='auto':
+        digest=hashlib.sha256(a.apk.read_bytes()).hexdigest()
+        selected=next((name for name,profile in PROJECTS.items() if profile['sha256']==digest),'classic')
+    if selected=='rio':
+        if not a.investigar:p.error('Rio está em investigação; use --jogo rio --investigar. Geração de ISO Rio depende da integração do runtime.')
+        if a.dev:p.error('--dev não está disponível para a investigação Rio.')
+        from rio.investigate_rio import investigate
+        investigate(a.apk);return
+    if a.investigar:p.error('--investigar está disponível para o perfil Rio.')
     if a.dev:
         if not a.ignorar_versao:check_apk(a.apk)
         generate(a.apk,ROOT/'ps2/assets',a.ffmpeg,dev=True);print('Dados de desenvolvimento gerados em ps2/assets e ps2/data.');return

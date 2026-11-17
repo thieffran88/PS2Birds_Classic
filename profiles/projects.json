@@ -1,0 +1,13 @@
+{
+  "classic": {
+    "title": "PS2Birds Classic",
+    "status": "generator_available",
+    "sha256": "8cdea1ef39a2a5c3bad5ac27050b491dbdf68050754241390cf9f0d3d24979b8"
+  },
+  "rio": {
+    "title": "PS2Birds Rio",
+    "status": "investigation_only",
+    "sha256": "64638e3207f0d2913b6882d1f1edc32e2abb736d938341d45525b0172ae2beb1",
+    "save_directory_planned": "/PS2BRIO"
+  }
+}
