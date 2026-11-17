@@ -99,3 +99,9 @@ Isso confirma que o contador de alvos do Classic serve às gaiolas e que o forma
 `ps2/src/save_mc.c` agora lê o diretório do cartão de memória da macro `PS2BIRDS_SAVE_DIR` (padrão `/PS2BIRDS`, o do Classic). Compilar com `-DPS2BIRDS_SAVE_DIR='"/PS2BRIO"'` faz as duas cópias do progresso, o `icon.sys` e o `save.icn` irem para `/PS2BRIO`, sem compartilhar progresso com o Classic. Conferido: `make save-test` passa com o padrão, e a compilação com `/PS2BRIO` produz só os caminhos do Rio.
 
 Com o padrão o comportamento do Classic é o mesmo, mas o ELF recompilado difere do da 0.93.0 em 109 bytes (organização das constantes de texto no binário; o ELF da 0.93.0 foi reproduzido byte a byte com o código anterior). Por isso a mudança segue só no código-fonte: o ELF e a ISO do Classic entram no próximo fechamento do Classic, sem uma versão nova só para isto. A identidade do codec (`CLAS`) ainda precisa ser separada.
+
+### Atualização: identidade do codec separada
+
+`ps2/src/save_codec.c` guarda em todo save a identidade do jogo na macro `PS2BIRDS_SAVE_ID` (padrão `0x434c4153`, "CLAS", a do Classic; o valor dos arquivos já gravados não muda). O Rio compila com `-DPS2BIRDS_SAVE_ID=0x52494f31u` ("RIO1"). O `make save-test` passou a rodar `tests/save_id_test.c` com as duas identidades: cada uma lê o próprio arquivo e recusa o do outro jogo. Com o padrão o código gerado para o Classic é o mesmo (só a constante, de mesmo valor).
+
+Com isso o save do Rio tem pasta (`/PS2BRIO`) e identidade próprias. Resta ligar essas duas macros ao build do Rio, quando houver um.

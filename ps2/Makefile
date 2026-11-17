@@ -163,6 +163,12 @@ save-test:
 	$(CC) -c src/save_assets.S -o build/host/save_assets.o
 	$(CXX) -std=c++11 -Wall -Wextra -Werror -Isrc -Itests tests/save_test.cpp build/host/save_codec.o build/host/save_mc.o build/host/save_assets.o -o build/save_test
 	./build/save_test
+	$(CC) -std=c99 -Wall -Wextra -Werror -Isrc tests/save_id_test.c src/save_codec.c -o build/save_id_classic
+	$(CC) -std=c99 -Wall -Wextra -Werror -DPS2BIRDS_SAVE_ID=0x52494f31u -Isrc tests/save_id_test.c src/save_codec.c -o build/save_id_rio
+	./build/save_id_classic write build/save_id.tmp && ./build/save_id_classic accept build/save_id.tmp && ./build/save_id_rio refuse build/save_id.tmp
+	./build/save_id_rio write build/save_id.tmp && ./build/save_id_rio accept build/save_id.tmp && ./build/save_id_classic refuse build/save_id.tmp
+	@rm -f build/save_id.tmp
+	@echo "Save identity OK: Classic and Rio saves refuse each other."
 
 .PHONY: audio-test
 audio-test:
