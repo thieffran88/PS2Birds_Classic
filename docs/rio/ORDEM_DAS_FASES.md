@@ -48,3 +48,17 @@ Conclusões:
 
 - **Origem do lançamento:** as fases do Rio não têm `birdZeroPos`. Os pássaros da fila são objetos do próprio mundo, com `startNumber` de 1 em diante. O de número 1 fica mais alto (Level190: x=108,8 y=-9,46) e é o que está no estilingue; os outros esperam no chão atrás dele (y≈-5,4, x decrescente). Nas três fases conferidas (Level190, 191 e 68) o padrão se repete. Portanto a origem vem do pássaro 1 de cada fase, na escala `physicsToWorld` (20 nas fases vistas).
 - **Gravidade:** não aparece em nenhum script Lua nem nas tabelas lidas (`gravity` só ocorre em `bubbleAntiGravity` e afins, dos power-ups). No código nativo (`libAngryBirdsRio.so`) as únicas ocorrências são `gravityX` e `gravityY`, que podem ser do acelerômetro. Em aberto: o valor do mundo precisa ser obtido do binário nativo ou calibrado por trajetória medida, nunca copiado do Classic sem conferir.
+
+## Objetivos de vitória (`levelgoals.lua`, investigado)
+
+A tabela traz 62 definições com `levelGoal`. Todas têm forma de caixa (exceto Luiz, polígono), material próprio e `strength` (resistência):
+
+| Tipo | Definições | Resistência | Pontos |
+| --- | --- | --- | --- |
+| Gaiolas | `BLOCK_CAGE_1..16`, `R2_BLOCK_CAGE_1..16`, `B_CAGE_BLU_JEWEL` | 10 (a nº 5: 15) | `SCORE_5K_CAGE` |
+| Macacos | 11 variantes `R2_Monkey*` e 8 `Monkey*` (em pé, na parede, pendurado; médio, "speedier", invertido) | 10 a 16 | `SCORE_5K_MONKEY` |
+| Redes de golfinho e jaula do Nigel | `DOLPHIN_NET_1`, `NIGEL_CAGE` | 10 | `SCORE_5K_CAGE` |
+| Chefes | `MonkeyBoss*` (500 a 1000), `BIRD_RIO_NIGEL*` (600, 1000, 1) e `_BOAT` (10000) | 1 a 10000 | — |
+| Luiz | `Luiz` (polígono, sem resistência) | — | — |
+
+Consequência para o runtime: gaiolas e macacos se comportam, para a contagem de vitória, como os porcos do Classic — uma peça com resistência e pontos que, ao ser destruída, diminui o número de alvos restantes. A primeira versão pode reaproveitar o contador de porcos (`pig_alive`) com um tipo de alvo "gaiola", trocando apenas sprite, material e som; as animações e estados dos macacos, o Luiz e os chefes entram depois.
