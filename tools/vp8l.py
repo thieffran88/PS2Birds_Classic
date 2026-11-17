@@ -166,6 +166,17 @@ def _predict(mode,L,T,TR,TL):
 def _sx8(v):return v-256 if v>127 else v
 
 def decode_alpha_stream(data,w,h):
+    return bytes((p>>8)&255 for p in decode_argb_stream(data,w,h))
+
+def decode_vp8l(chunk):
+    """Complete lossless WebP image ('VP8L' chunk) -> (w,h,RGBA bytes)."""
+    if chunk[0]!=0x2f:raise ValueError('VP8L inválido')
+    v=int.from_bytes(chunk[1:5],'little');w=(v&0x3fff)+1;h=((v>>14)&0x3fff)+1
+    pix=decode_argb_stream(chunk[5:],w,h);out=bytearray(w*h*4)
+    for i,p in enumerate(pix):out[i*4:i*4+4]=bytes(((p>>16)&255,(p>>8)&255,p&255,p>>24))
+    return w,h,bytes(out)
+
+def decode_argb_stream(data,w,h):
     br=Bits(data);transforms=[];width=w
     while br.read(1):
         t=br.read(2)
@@ -212,4 +223,4 @@ def decode_alpha_stream(data,w,h):
                         pred=_predict(mode,L,T,TR,TL)
                     out[i]=_add(res,pred)
             pix=out
-    return bytes((p>>8)&255 for p in pix)
+    return pix

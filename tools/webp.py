@@ -437,7 +437,9 @@ def yuv_to_rgba(w,h,Y,U,V,ys,uvs):
 
 def decode_webp(data):
     ch=parse_riff(data)
-    if 'VP8 ' not in ch:raise ValueError('WebP sem quadro VP8 com perdas (VP8L não suportado)')
+    if 'VP8L' in ch:
+        import vp8l;return vp8l.decode_vp8l(ch['VP8L'])
+    if 'VP8 ' not in ch:raise ValueError('WebP sem quadro de imagem')
     w,h,Y,U,V,ys,uvs=decode_vp8(ch['VP8 ']);rgba=yuv_to_rgba(w,h,Y,U,V,ys,uvs)
     if 'ALPH' in ch:
         a=decode_alpha(ch['ALPH'],w,h)

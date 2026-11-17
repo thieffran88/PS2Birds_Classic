@@ -78,7 +78,7 @@ def compose(z,where,compo,w,h,bg=None):
     for s in reversed(compo['sprites']):
         rgba,f=read(z,where,s['name']);fw,fh=f['frame']['w'],f['frame']['h']
         px,py=f.get('pivot',{}).get('x',fw/2),f.get('pivot',{}).get('y',fh/2)
-        sx,sy=s.get('scale',[1,1])
+        sc=s.get('scale',[1,1]);sx,sy=(sc,sc) if isinstance(sc,(int,float)) else sc
         if (sx,sy)!=(1,1):rgba,fw,fh=scale(rgba,fw,fh,abs(sx));px*=abs(sx);py*=abs(sx)
         x0,y0=int(round(s['x']-px)),int(round(s['y']-py));solid='GRADIENT' in s['name']
         for r in range(fh):

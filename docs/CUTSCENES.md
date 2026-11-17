@@ -59,8 +59,20 @@ está no `CUTSCENE.BIN` é simplesmente pulada.
 
 - Cada cena fica na RAM (cerca de 1 a 3 MB) só enquanto toca, e não ocupa memória de vídeo: o
   jogo copia as 640 colunas visíveis para o quadro a cada quadro, como nos fundos das fases.
-- Formato do `CUTSCENE.BIN`: "PBCS", versão 4, número de cenas e, por cena, o nome (24 bytes),
+- Formato do `CUTSCENE.BIN`: "PBCS", versão 5, número de cenas e, por cena (72 bytes), o nome (24 bytes),
   largura, altura, início da rolagem (ms), duração da rolagem (ms), fim (ms), posição dos dados,
-  faixa de música e opções (bit 0: rolagem vertical; bit 1: começa pelo fim); depois as imagens em
+  faixa de música, opções (bit 0: rolagem vertical; bit 1: começa pelo fim), destino da primeira rolagem
+  (milésimos do percurso total) e, para cenas com duas rolagens, início, duração e destino da segunda; depois as imagens em
   RGBA5551. Uma cena horizontal tem 448 linhas e pelo menos 640 de largura; uma vertical tem 640 de largura.
 - A transparência dos sprites do APK vem na escala do PS2 (0 a 128) e é convertida na composição.
+
+## Cenas acrescentadas na 0.93.4
+
+- Short Fuse (blackbird_intro, middle_1, middle_2, end), Bad Piggies (pack9_intro e world20/21/22_complete),
+  Piggy Farm e Dino (abertura e final), Birdday (world18/19_complete). As folhas vêm em WebP, lido pelo
+  decodificador próprio (`tools/webp.py`, com `vp8l.py` para o modo sem perdas).
+- Rolagens parciais e duplas (pack4_intro, pack8_intro, blackbird_intro) agora seguem o destino do original.
+- Gatilhos: a abertura de cada episódio na primeira fase, o final ao fechar o mundo; Birdday 7 tem abertura própria.
+- Aproximações: nas cenas do Dino o modo "tamanho de referência" foi estimado; o brilho piscante da árvore
+  (Short Fuse) e os olhos do Rei Porco não são animados.
+- Ainda não feitas: as cenas em painéis do Egg Defender e do Mighty Feathers (precisam de animação de escala/posição).
