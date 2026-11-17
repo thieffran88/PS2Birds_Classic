@@ -613,9 +613,7 @@ static void render(const Game *g, int connected, int paused,int menu)
     rect(0,render_ground,640,8,color(133,180,67));
     rect(0,render_ground+8,640,3,color(69,113,56));
     }
-#ifndef PS2BIRDS_RIO
     sprite_draw(gs,SPR_SLING_SHOT_01_BACK,render_sling_x,render_sling_y,render_scale/render_pixels,0);
-#endif
     for(int pass=0;pass<2;pass++) for(int i=0;i<game_object_count(g);i++) {
         GameObject o;if(!game_get_object(g,i,&o)||!o.alive)continue;
         if(o.kind==4){if(pass==1)pig(&o);}
@@ -694,9 +692,7 @@ static void render(const Game *g, int connected, int paused,int menu)
         font_draw(gs,FONT_SCORE,pp->x,pp->y-font_line(FONT_SCORE,1.8f*sc)/2,1.8f*sc,FONT_CENTER,pp->kind==POPUP_PIG?0x80208030u:pp->kind==POPUP_BIRD?0x80303080u:0x80808080u,num);
     }
     if(g->state==AIMING)bird(g->x,g->y,6,game_queue_type(g,0),0,0,-2,0);
-#ifndef PS2BIRDS_RIO
     sprite_draw(gs,SPR_SLING_SHOT_01_FRONT,render_sling_x,render_sling_y,render_scale/render_pixels,0);
-#endif
     int waiting=g->birds-(g->state==AIMING?1:0);
     /* gamelogic.lua jumpTimer: the birds waiting by the slingshot hop now and then. The native
        timings are in compiled code; here each bird waits 1-4 s at random, then hops 10 px for

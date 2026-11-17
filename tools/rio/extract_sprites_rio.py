@@ -11,6 +11,8 @@ import crop_sprites
 from extract_sprites import pack,VRAM_BUDGET
 from lua51_data import load
 import zipfile
+# Sprites the runtime draws by name, not through a piece definition: the slingshot of the first chapter.
+EXTRA=['SLING_SHOT_01_BACK','SLING_SHOT_01_FRONT']
 CAT=ROOT/'work/rio/analysis/definition_catalogue.json';LEVELS=ROOT/'work/rio/analysis/chunks/assets/data/levels'
 def wanted(packs):
     cat=json.loads(CAT.read_text())['definitions'];comps=json.loads(crop_sprites.INV.parent.joinpath('comp_inventory.json').read_text())
@@ -24,7 +26,7 @@ def wanted(packs):
         s=e.get('sprite')
         if not s:continue
         names|=set(composite.get(s,[s]))
-    return sorted(names),sorted(used)
+    return sorted(names|set(EXTRA)),sorted(used)
 def main(apk,out,packs):
     names,used=wanted(packs);hits=crop_sprites.find(set(names));cache={};sprites=[];pixels={};missing=[]
     with zipfile.ZipFile(apk) as z:

@@ -165,3 +165,7 @@ Plano: envolver esses blocos em `#ifndef PS2BIRDS_RIO` e escrever, para o Rio, v
 `ps2/src/main.c` ganhou um caminho próprio para a variante do Rio (`#ifdef PS2BIRDS_RIO`, ligado por `make GAME=rio`): o terreno do Classic fica desligado, o pássaro e as peças são desenhados pela tabela `rio/definition_sprites.h`, os alvos (gaiolas) passam pela mesma tabela e o estilingue do Classic não é desenhado (o `R2_SLING_SHOT` ainda não está no banco). O caminho do Classic ficou dentro do `#else`, sem alteração de código.
 
 Conferido: `make GAME=rio build/PS2Birds_Rio.elf` compila e liga (5.629.244 bytes); o Classic também compila e liga (`make`). **Nada disso foi rodado ainda**: o ELF do Rio não foi testado no PCSX2, e o jogo só terá o que desenhar depois de o gerador montar os bancos do Rio (som, música, interface e fundos ainda são do Classic ou não existem). Falta a validação do `make test` do Classic para esta etapa (ver o registro de modificações).
+
+### Atualização: estilingue no banco do Rio
+
+O estilingue do primeiro capítulo (`SLING_SHOT_01_BACK` e `_FRONT`, em PVR RGBA4444 na folha `INGAME_RIO1_BLOCKS_MISC_1`) agora entra no banco: `extract_sprites_rio.py` ganhou a lista `EXTRA` para sprites que o runtime desenha pelo nome. Os nomes coincidem com os do Classic, então o `main.c` desenha o estilingue igual nas duas variantes (o `#ifndef` provisório saiu). O banco do Rio passou a ter 70 sprites (1 MiB de VRAM), e o ELF do Rio e o do Classic compilam e ligam. O `R2_SLING_SHOT` é dos capítulos Rio 2 e fica para quando eles entrarem.
