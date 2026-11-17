@@ -8,7 +8,7 @@
 - **Rolagem vertical no reprodutor de cutscenes:** o `CUTSCENE.BIN` ganhou um campo de opções (rolagem vertical e começar pelo fim); o formato passou a ser a versão 4.
 - **Cor de fundo das cenas** (`set_bg_colour` do script): agora é lida e aplicada atrás das peças. A abertura de Danger Above usa o azul-céu.
 - **`ps2/tests/AUXILIARES.md`:** documenta, em português, as ferramentas de busca de roteiros (`solver`, `solver3` e `beam.py`, `ed_solver`, `settle_probe` e `make_campaign_table.py`), com a receita usada na 0.90.0. Eram arquivos sem nenhuma explicação.
-- Documentos novos da versão: `MODIFICACOES_0.92.0.md`, `VALIDACAO_0.92.0.md` e a captura `docs/pcsx2_0.92.0_cena.png`.
+- Documentos novos da versão: `MODIFICACOES_0.92.0.md`, `VALIDACAO_0.92.0.md` e uma captura de tela, não incluída no repositório.
 
 ## Editado
 - **`extract_cutscene.py`:** lê a direção da rolagem (`fitwidth` ou `fitheight` e `set_scroll_position`) e a cor de fundo do script, e monta cenas verticais (640 de largura).

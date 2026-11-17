@@ -5,8 +5,14 @@ Tutorial e dos episódios Poached Eggs, Mighty Hoax, Danger Above, Big Setup, Ha
 Birdday 2 a 7, Surf and Turf, Bad Piggies, Short Fuse, Bird Island, Piggy Farm, Dino, Flock Favorites, Golden Eggs e Mighty Feathers (fases clássicas e, em andamento, o modo Egg Defender), com física Box2D, os dez pássaros usados nesses episódios, efeitos sonoros e
 recordes no Memory Card. Ainda não é o port completo: veja `docs/LACUNAS_PORT.md`.
 
-**Este repositório não contém nada do jogo original.** Fases, texturas, sons e o ícone do
-cartão de memória são convertidos a partir do APK que o jogador possui, pelo Gerador de ISO.
+**Este repositório não contém os arquivos do jogo original** (imagens, sons, fases, fontes). Eles
+são convertidos, na hora, a partir do APK que o próprio jogador possui, pelo Gerador de ISO.
+O repositório contém código próprio, tabelas de parâmetros e lógica reescrita para trabalhar
+com o APK do jogador (por exemplo, `profiles/`).
+
+> **Aviso legal.** Projeto de fã, não oficial, sem vínculo com a Rovio Entertainment nem com a
+> Sega. *Angry Birds* e os personagens são marcas e obras dos seus donos. Nada daqui dá direito
+> sobre o jogo original: para usar, é preciso ter o APK de forma legítima.
 
 ## Gerar a ISO (Windows)
 
@@ -29,8 +35,8 @@ python3 tools/gerar_iso.py com.rovio.angrybirds.apk --saida PS2Birds_Classic.iso
 
 ## Jogar
 
-A ISO tem `PS2BIRDS.ELF` e oito arquivos de dados: `CAMPAIGN.BIN` (fases), `SPRITES.BIN`
-(texturas e ícone), `SOUNDS.BIN` (efeitos), `MUSIC.BIN` (músicas), `UI.BIN` (interface), `FONT.BIN` (fontes), `MENU.BIN` (menus) e `THEMES.BIN` (fundos das fases). Para rodar o ELF de USB/HDD, copie os nove
+A ISO tem `PS2BIRDS.ELF` e nove arquivos de dados: `CAMPAIGN.BIN` (fases), `SPRITES.BIN`
+(texturas e ícone), `SOUNDS.BIN` (efeitos), `MUSIC.BIN` (músicas), `UI.BIN` (interface), `FONT.BIN` (fontes), `MENU.BIN` (menus), `THEMES.BIN` (fundos das fases) e `CUTSCENE.BIN` (cutscenes em quadrinhos). Para rodar o ELF de USB/HDD, copie os dez
 arquivos para a mesma pasta. Sem os dados, o jogo mostra uma tela de aviso. Vídeo NTSC
 640×448; o console físico ainda não foi validado.
 
@@ -75,3 +81,17 @@ esses scripts em `ps2/data`; sem eles, aparecem como pulados.
 - `docs` — histórico de modificações, lacunas, validação e dependências.
 
 Angry Birds é marca da Rovio Entertainment. Este projeto não é afiliado à Rovio.
+
+## Licença
+
+O código deste repositório (`tools/`, `ps2/src`, `ps2/tests`, `docs/`) está sob a **licença MIT**
+(arquivo `LICENSE`, © 2026 ThiefFran). A licença cobre só o código próprio: ela não dá nenhum
+direito sobre o jogo original nem sobre o conteúdo da Rovio.
+
+### Licenças de terceiros
+
+- **Box2D** (`ps2/vendor/box2d`): MIT, © Erin Catto.
+- **audsrv** (`ps2/vendor/audsrv`): do PS2SDK, com as licenças que acompanham a pasta (`COPYING.LIB`, `LICENSE-AFL-2.0.txt`).
+- **PS2SDK e gsKit**: usados só para compilar; não são distribuídos aqui.
+- **Kit do Windows** (anexo das Releases, não faz parte do repositório): traz o Python para Windows e o ffmpeg (pelo pacote `imageio-ffmpeg`), cada um com a licença própria do projeto de origem.
+

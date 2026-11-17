@@ -6,3 +6,6 @@ __pycache__/
 ps2/assets/*
 !ps2/assets/save_icon.sys
 ps2/data/
+# Screenshots of the running game show the original artwork: kept out of the repository.
+docs/*.png
+docs/*.jpg

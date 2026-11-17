@@ -8,7 +8,7 @@
 - **Rolagem vertical no reprodutor de cutscenes:** o `CUTSCENE.BIN` ganhou um campo de opções (rolagem vertical e começar pelo fim); o formato passou a ser a versão 4.
 - **Cor de fundo das cenas** (`set_bg_colour` do script): agora é lida e aplicada atrás das peças. A abertura de Danger Above usa o azul-céu.
 - **`ps2/tests/AUXILIARES.md`:** documenta, em português, as ferramentas de busca de roteiros (`solver`, `solver3` e `beam.py`, `ed_solver`, `settle_probe` e `make_campaign_table.py`), com a receita usada na 0.90.0. Eram arquivos sem nenhuma explicação.
-- Documentos novos da versão: `MODIFICACOES_0.92.0.md`, `VALIDACAO_0.92.0.md` e a captura `docs/pcsx2_0.92.0_cena.png`.
+- Documentos novos da versão: `MODIFICACOES_0.92.0.md`, `VALIDACAO_0.92.0.md` e uma captura de tela, não incluída no repositório.
 
 ## Editado
 - **`extract_cutscene.py`:** lê a direção da rolagem (`fitwidth` ou `fitheight` e `set_scroll_position`) e a cor de fundo do script, e monta cenas verticais (640 de largura).
@@ -51,7 +51,7 @@
 - **Leitura da tabela do script de cutscenes:** o leitor de dados (`lua51_data.py`) passou a aceitar soma, subtração, multiplicação e divisão entre números. Continua recusando chamadas, funções e saltos, então nenhum código do jogo roda. Foi isso que permitiu ler o `cutscenes.lua` inteiro.
 - **Tabelas de gatilhos** no `main.c` (`episode_scene` e `world_scene`): ligam cada cena ao episódio ou ao mundo certo, de forma explícita.
 - **Aviso na geração** quando uma cena não pode ser montada (formato de imagem sem suporte), em vez de travar.
-- Documentos novos da versão: `MODIFICACOES_0.91.0.md`, `VALIDACAO_0.91.0.md` e a captura `docs/pcsx2_0.91.0_cena.png`.
+- Documentos novos da versão: `MODIFICACOES_0.91.0.md`, `VALIDACAO_0.91.0.md` e uma captura de tela, não incluída no repositório.
 
 ## Editado
 - **Extrator das cutscenes (`extract_cutscene.py`):** agora é guiado pelo próprio script. Imagem, tamanho, música, início e duração da rolagem e fim de cada cena vêm do `cutscenes.lua`, e não de valores que eu copiava à mão.
@@ -112,7 +112,7 @@
 
 ## Conferido
 - 82 verificações no PC aprovadas, com o efeito ligado. A do teste da campanha cobre as 745 fases.
-- No PCSX2, a 1-1 roda com a cena de abertura, o lançamento e a destruição com partículas (captura em `docs/pcsx2_0.90.0_jogo.png`).
+- No PCSX2, a 1-1 roda com a cena de abertura, o lançamento e a destruição com partículas (captura de tela, não incluída no repositório).
 
 ## Documentação
 - `LACUNAS_PORT.md`: o `velocityMultiplier` sai das pendências, as linhas antigas foram corrigidas e há uma seção nova "Achados da 0.90.0".
@@ -140,7 +140,7 @@
 
 ## Conferido
 - 82 verificações no PC aprovadas.
-- No PCSX2, a cena nova na tela, com cores e opacidade certas (captura em `docs/pcsx2_0.89.0_cena.png`).
+- No PCSX2, a cena nova na tela, com cores e opacidade certas (captura de tela, não incluída no repositório).
 
 ## Documentação
 - `docs/CUTSCENES.md`: nova cena na tabela das feitas e dica sobre blocos sem números novos.
@@ -187,7 +187,7 @@
 
 ## Conferido
 - 82 verificações no PC aprovadas.
-- No PCSX2, as duas cenas aparecem na tela com a rolagem certa, sem emendas nem faixas pretas (captura da cena nova em `docs/pcsx2_0.88.0_cena.png`).
+- No PCSX2, as duas cenas aparecem na tela com a rolagem certa, sem emendas nem faixas pretas (captura da cena nova em uma captura de tela, não incluída no repositório).
 
 ## Limpeza
 - Drive: os documentos e zips da 0.87.0 foram substituídos pelos da 0.88.0.
@@ -293,7 +293,7 @@
 ## Conferido
 - 81 verificações no PC aprovadas.
 - Checagem de todos os blocos com quatro quadros (intacto e três níveis de dano) em todos os bancos: nenhuma diferença de tamanho entre eles.
-- No PCSX2, a torre da 1-1 aparece com as tábuas inteiras (captura em `docs/pcsx2_0.85.0_tabuas.png`).
+- No PCSX2, a torre da 1-1 aparece com as tábuas inteiras (captura de tela, não incluída no repositório).
 
 ## Limpeza
 - Drive: os zips e documentos da 0.84.0 foram substituídos pelos da 0.85.0.
@@ -322,7 +322,7 @@
 
 ## Conferido
 - 81 verificações no PC aprovadas.
-- No PCSX2, a fase 1-1 roda com a fila animada (captura em `docs/pcsx2_0.84.0_fila.png`).
+- No PCSX2, a fase 1-1 roda com a fila animada (captura de tela, não incluída no repositório).
 
 ## Versão
 - Tela de pausa, "Sobre" e README: 0.84.0.
@@ -379,7 +379,7 @@
 - A borda de grama no alto do terreno não aparece em nenhum dado Lua (`themes.lua`, `blocks.lua`): é desenhada pelo código nativo, que não foi recuperado.
 
 ## Conferido no PCSX2
-- Captura em `docs/pcsx2_0.82.0_recompensas.png`.
+- Captura em uma captura de tela, não incluída no repositório.
 - Foi feita com um build de teste que libera todas as recompensas: elas voam junto com os pássaros.
 - O build final só mostra as recompensas conquistadas. Num cartão novo, só os pássaros voam, como no original.
 
@@ -416,7 +416,7 @@
 - Sem essa proteção, um valor inválido levava o GS a travar já na tela inicial (tela preta, sem quadros). O problema foi visto e corrigido no PCSX2 durante os testes.
 
 ## Conferido no PCSX2
-- Captura em `docs/pcsx2_0.81.0_estrelas.png`.
+- Captura em uma captura de tela, não incluída no repositório.
 - Na fase 1-1 aparecem as estrelinhas saindo das duas estrelas conquistadas.
 - A tela inicial funciona normalmente.
 
@@ -454,7 +454,7 @@
 - O teste `popup_test.cpp` foi atualizado.
 
 ## Conferido no PCSX2
-- Captura em `docs/pcsx2_0.80.0_particulas.png`.
+- Captura em uma captura de tela, não incluída no repositório.
 - Na fase 1-1 aparecem:
   - estilhaços de madeira e vidro;
   - os 500;
@@ -490,7 +490,7 @@
 ## Correção: recorte (scissor) na área da tela
 - Os pássaros nascem abaixo da tela, e o GS não recortava o que passava da linha 448: o desenho invadia a memória de vídeo depois do buffer de tela, e a tela inicial ficava preta.
 - Agora o recorte do GS é ajustado a 640×448 a cada quadro (`gsKit_set_scissor`), o que também protege as fases.
-- **Conferido no PCSX2** (captura em `docs/pcsx2_0.79.0_passaros_menu.png`):
+- **Conferido no PCSX2** (captura de tela, não incluída no repositório):
   - pássaros cruzando a tela inicial;
   - a fase 1-1 normal em seguida.
 
@@ -523,7 +523,7 @@
   - grava o `TEXT_ABOUT` ao fim do `MENU.BIN`, que passa à versão 2.
 - **`extract_font.py`:** a `FONT_BASIC` ganha o "©" (141 glyphs; a página continua com 256×128).
 - O teste `menu_assets_test.py` agora confere os 67 sprites e o texto "sobre".
-- **Conferido no PCSX2** (captura em `docs/pcsx2_0.78.0_menu_inicial.png`):
+- **Conferido no PCSX2** (captura de tela, não incluída no repositório):
   - opções abertas e som desligado;
   - tela "Sobre";
   - volta com O.
@@ -556,7 +556,7 @@
   - o `extract_ui.py` acrescenta `BUTTON_RESUME`, `BUTTON_SFX` e `BUTTON_OFF` à página de interface (agora 11 sprites, na mesma página de 256×256);
   - `BUTTON_SFX_OFF` não existe no APK; o original desenha o `BUTTON_OFF` por cima.
 - O teste `ui_assets_test.py` agora confere os 11 sprites.
-- Conferido no PCSX2 (captura em `docs/pcsx2_0.77.0_pausa.png`), junto com a tela de vitória, que segue igual.
+- Conferido no PCSX2 (captura de tela, não incluída no repositório), junto com a tela de vitória, que segue igual.
 
 ## Correção no build
 - O `Makefile` não recompilava um módulo quando só o cabeçalho dele mudava. Por isso, no primeiro teste, o `ui.o` antigo esperava 8 sprites e recusava o `UI.BIN` novo. Agora cada módulo (`ui`, `font`, `menu`, `menu_gfx`, `music`, `level_end`, `background`, `main`) depende dos seus cabeçalhos.
@@ -593,7 +593,7 @@
 - Nova função `sprites_frame_rgba()` (pixels de uma figura da fase atual).
 - Novo campo `stage` em `background_prepare()`: a imagem é refeita ao trocar de fase.
 - O teste `themes_assets_test.py` agora confere a textura de chão de cada tema.
-- **Conferido no PCSX2** (captura em `docs/pcsx2_0.76.0_terreno.png`): na 1-2, a base do estilingue e o terreno em "L" saem com a textura do tema.
+- **Conferido no PCSX2** (captura de tela, não incluída no repositório): na 1-2, a base do estilingue e o terreno em "L" saem com a textura do tema.
 
 ## Seleção de fases — investigação
 - As decorações laterais (pássaros e porcos) da seleção de fases não estão no APK: só existem as do Egg Defender (`LS_THEME_EGGDEFENDER*`). As outras são baixadas à parte pelo original. Ficam registradas como lacuna.
@@ -623,7 +623,7 @@
   - crescer, parar e encolher;
   - espera do bônus;
   - uma vitória real na 1-1 gera o 5000 do porco, e todos os pontos somem em 2 s.
-- **Conferido no PCSX2** (a captura `docs/pcsx2_0.75.0_pontos.png` mostra o 10000 e a vitória; o "500" foi visto na rodada anterior da mesma versão):
+- **Conferido no PCSX2** (uma captura de tela, não incluída no repositório mostra o 10000 e a vitória; o "500" foi visto na rodada anterior da mesma versão):
   - "500" sobre as peças;
   - "10000" sobre os pássaros que sobraram;
   - a tela de vitória abrindo depois.
@@ -667,7 +667,7 @@
 ## Testes
 - Novo `ps2/tests/themes_assets_test.py`: cabeçalho, 37 fundos opacos com camadas (nenhum de cor lisa), alinhamento e todos os temas usados pelas fases presentes.
 - Os arquivos de teste da física ganharam o campo `theme` da fase.
-- **Conferido no PCSX2** (captura em `docs/pcsx2_0.74.0_fundos.png`):
+- **Conferido no PCSX2** (captura de tela, não incluída no repositório):
   - tela inicial com o fundo do tema 1;
   - a 1-1 com o fundo atrás do estilingue e da torre;
   - a tela de vitória por cima do fundo.
@@ -724,7 +724,7 @@
 ## Testes
 - `menu_test.cpp`: tela inicial, Jogar → episódios, esquerda/direita, O volta à tela inicial.
 - Novo `menu_assets_test.py`: cabeçalho, as quatro páginas, os 19 cartões, os títulos e os sprites sem sobreposição.
-- **Conferido no PCSX2** (captura em `docs/pcsx2_0.73.0_menus.png`):
+- **Conferido no PCSX2** (captura de tela, não incluída no repositório):
   - tela inicial;
   - episódios depois de vencer a 1-1 (31000 pontos, 2/189 estrelas);
   - grade com a 1-1 de 2 estrelas e a 1-2 liberada;
@@ -769,7 +769,7 @@
 - Canto superior esquerdo: o nome da fase.
 - Saíram da tela de jogo o ângulo, a força, a barra de força, a contagem de porcos e blocos, a versão e as dicas de controle. Dicas, versão, som e cartão de memória foram para a tela de pausa.
 - Textos originais em português do `TEXTS_BASIC.dat` do APK: "Pontuação", "Recorde", "NÍVEL CONCLUÍDO!", "NÍVEL NÃO CONCLUÍDO!", "Novo recorde!" e "pausa".
-- **Conferido no PCSX2** (captura em `docs/pcsx2_0.72.0_hud_fontes.png`):
+- **Conferido no PCSX2** (captura de tela, não incluída no repositório):
   - menu de episódios e fase em jogo com a HUD nova;
   - vitória com "NÍVEL CONCLUÍDO!";
   - tela de pausa.
@@ -810,7 +810,7 @@
 - **Derrota:** o porco da derrota e os botões Menu (O) e Reiniciar (TRIÂNGULO).
 - Sem `UI.BIN`, as telas voltam ao texto da 0.70.0.
 - Novo teste `ps2/tests/ui_assets_test.py`: cabeçalho, tamanho da página, posições sem sobreposição, área opaca de cada sprite e texels transparentes pretos.
-- **Conferido no PCSX2** (captura em `docs/pcsx2_0.71.0_fim_de_fase.png`):
+- **Conferido no PCSX2** (captura de tela, não incluída no repositório):
   - vitória na 1-1 (2 estrelas) e na 1-2 (1 estrela);
   - derrota na 1-1.
 
@@ -899,7 +899,7 @@
 - `SOUNDS.BIN` passa de 20 para 25 efeitos (498 KB, dentro do limite de 1 MB da SPU2).
 - Cada estrela tem seu próprio canal de voz, para uma não cortar a anterior (são 0,8 s entre elas e os sons duram até 3,3 s).
 - O teste `audio_assets_test.py` agora confere os 25 efeitos.
-- Conferido no PCSX2: 1-1 vencida, 31000 pontos, 2 estrelas, "NOVO RECORDE", sem travamentos. Captura em `docs/pcsx2_0.68.0_fim_de_fase.png`.
+- Conferido no PCSX2: 1-1 vencida, 31000 pontos, 2 estrelas, "NOVO RECORDE", sem travamentos. Captura em uma captura de tela, não incluída no repositório.
 
 ## Limpeza
 - Removidos os documentos e a captura da 0.67.0 (substituídos pelos da 0.68.0).
@@ -919,7 +919,7 @@
   - X: próxima fase;
   - TRIÂNGULO: reiniciar;
   - O: volta ao menu de fases (novo).
-- Conferido no PCSX2 (1-2 vencida: 41000 pontos, "NOVO RECORDE"); captura em `docs/pcsx2_0.67.0_fim_de_fase.png`.
+- Conferido no PCSX2 (1-2 vencida: 41000 pontos, "NOVO RECORDE"); captura de tela, não incluída no repositório.
 - **Derrota:** o título agora é "FASE PERDIDA" (`MT_LEVEL_FAILED`), com TRIÂNGULO para reiniciar e O para o menu.
 - Novo acessor `game_level_silver()` (limite de prata da fase, o `silverScore` do original).
 - Novo teste `ps2/tests/level_end_test.cpp`: tempo da contagem, momento de cada estrela, limite de 2,7 s, selo de recorde e escurecimento do fundo (até 0,65).
@@ -944,7 +944,7 @@
   - O volta;
   - L2/R2 trocam a página.
 - Fases bloqueadas não abrem.
-- Conferido no PCSX2: captura em `docs/pcsx2_0.66.0_menu_fases.png`.
+- Conferido no PCSX2: captura de tela, não incluída no repositório.
 - Novo teste `ps2/tests/menu_test.cpp`: 19 episódios somando 745 fases, rótulos, navegação, páginas, cadeados e volta.
 
 ## Egg Defender: busca mais fina
@@ -2146,7 +2146,7 @@
 - **Investigação**
   - `docs/LACUNAS_PORT.md`: cobertura dos 762 níveis do Classic, definições e pássaros faltantes, juntas, câmera, dano nativo, pontuação e música.
 - **Versão e documentos**
-  - Tela e log em 0.20.0; README, validação, histórico e captura do menu (`docs/pcsx2_0.20.0_menu.png`).
+  - Tela e log em 0.20.0; README, validação, histórico e captura do menu (captura de tela, não incluída no repositório).
 - **Drive**
   - Arquivos 0.19.0 (ELF, ISO, código-fonte e modificações) substituídos pelos 0.20.0.
 
