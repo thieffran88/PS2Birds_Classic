@@ -165,7 +165,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 ## Achados da 0.49.0
 
 - **Mighty Feathers tem dois tipos de fase.** As 15 `EggDefender_classic_N` (classe `RMFClassic` no `episodes.lua`) são fases comuns de estilingue com porcos em veículos: entraram no port. As 15 `EggDefender_N` (com `.scripts.lua`) são o modo Egg Defender de verdade (o jogador defende o ovo; `EggDefender.lua`, 1899 linhas, mais veículo, porco e HUD próprios): continuam fora.
-- **Engenhocas dos veículos — faltam.** `RMFClassic_Cannon.lua`, `RMFClassic_Sucker.lua` e `RMFClassic_BubbleGun.lua` (com `EggDefenderGadget_*.lua`) fazem o canhão atirar, o sugador puxar e a arma soltar bolhas. No port essas peças existem, mas ficam paradas; vale para as 15 fases do Mighty Feathers e para as 4 do Flock Favorites de tema 26 (12, 14, 25 e 28), que também entraram.
+- **Engenhocas dos veículos — feitas depois (canhão na 0.63.0; sugador e arma de bolhas antes dele); o texto abaixo é o levantamento original.** `RMFClassic_Cannon.lua`, `RMFClassic_Sucker.lua` e `RMFClassic_BubbleGun.lua` (com `EggDefenderGadget_*.lua`) fazem o canhão atirar, o sugador puxar e a arma soltar bolhas. No port essas peças existem, mas ficam paradas; vale para as 15 fases do Mighty Feathers e para as 4 do Flock Favorites de tema 26 (12, 14, 25 e 28), que também entraram.
 
 ## Achados da 0.50.0
 
@@ -199,7 +199,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Achados da 0.58.0
 
-- **Canhões dos veículos (`EggDefenderGadget_Cannon.lua`):** miram o pássaro (portado), mas o tiro cria balas durante a fase (`EggDefenderCannonBallManager.lua`); falta portar com balas escondidas, como as bolhas das armas.
+- **Canhões dos veículos (`EggDefenderGadget_Cannon.lua`):** feitos na 0.63.0, com as balas guardadas escondidas e liberadas no tiro, como as bolhas das armas.
 - **`disableTeleporting`:** três veículos ficam onde a onda manda (perto do ninho); feito.
 - **Controladores:** 43 de 72 (fases 1 a 9).
 
@@ -301,7 +301,7 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 
 ## Prioridade sugerida
 
-1. Egg Defender: os tiros dos canhões e a calibragem dos voadores (a mira do vermelho já está feita); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
+1. Egg Defender: só falta o `setTargetY` (canhões feitos na 0.63.0; voadores e vaivém com o ovo na 0.64.0; mira do vermelho na 0.62.0); power-ups da loja que não aparecem em fases (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers); roteiros das fases ainda sem vitória (lista em `docs/VALIDACAO_<versão>.md`).
 1b. Velocidade preservada ao atravessar materiais (`velocityMultiplier`), que o Terence usa.
 1c. Peças em repouso: só com evidência direta do código nativo.
 2. `velocityMultiplier` por material (dado já recuperado; testado: quebra 86 roteiros de vitória, que precisam ser recalculados junto).
@@ -313,3 +313,8 @@ Base: os 762 níveis dos episódios do Classic foram decompilados do APK e compa
 - O APK tem as histórias de todos os episódios em `cutscenes.lua` (início, meio e fim de cada episódio, Short Fuse, Mighty Hoax, Piggy Farm, Dino, Egg Defender), montadas pelo `CUTSCENES.compo.json` e tocadas pelo `menus/cutscene.lua`.
 - **Feito na 0.86.0:** `pack1_intro` (abertura de Poached Eggs), com rolagem `cubic_in_out` e a música `birds_intro`.
 - **Falta:** as demais cenas (`world1_complete` etc.), os olhos animados do Rei Porco (`KINGPIG_EYE_*`), as cenas com vários quadros e efeitos (`createsprite`/`deletesprite`, `fittogrid`) e a moldura de filme (`CUTSCENE_FILMSTRIP_*`).
+
+
+## Revisão da lista de pendências (17/11/2026)
+- Conferidos no código e nos testes: a mira do vermelho (0.62.0), os canhões (0.63.0), a sustentação dos voadores e o vaivém com o ovo (0.64.0) já estão no port. As linhas antigas que os davam como pendentes foram corrigidas.
+- O que de fato falta: `setTargetY` no Egg Defender; `velocityMultiplier` junto com o recálculo dos roteiros; power-ups da loja (precisam de um menu de seleção); fórmulas nativas de dano e de "sono" dos corpos; demais cutscenes.
