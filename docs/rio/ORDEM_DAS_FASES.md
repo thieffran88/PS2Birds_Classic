@@ -93,3 +93,9 @@ O corpo de uma gaiola composta é o último filho da composição (deslocamento 
 O `ps2/tests/rio_smoke.cpp` carregou o `CAMPAIGN.BIN` do Rio no `game.cpp` do Classic, sem alterá-lo: 1 fase, 25 objetos, 4 pássaros, **5 alvos tipo 4 (as gaiolas) e 20 outras peças**. Após assentar 2 s de simulação nada foi destruído e a pontuação seguiu zerada. Um tiro de teste (ângulo 0,7, força 0,8) libertou 1 gaiola: alvos 5 -> 4 e 5000 pontos, sem valores inválidos.
 
 Isso confirma que o contador de alvos do Classic serve às gaiolas e que o formato carrega. **Não valida** a gravidade (+20 provisória), a fidelidade da física, nem sprites ou som; ainda não foi rodado no PCSX2.
+
+## Save do Rio em `/PS2BRIO`
+
+`ps2/src/save_mc.c` agora lê o diretório do cartão de memória da macro `PS2BIRDS_SAVE_DIR` (padrão `/PS2BIRDS`, o do Classic). Compilar com `-DPS2BIRDS_SAVE_DIR='"/PS2BRIO"'` faz as duas cópias do progresso, o `icon.sys` e o `save.icn` irem para `/PS2BRIO`, sem compartilhar progresso com o Classic. Conferido: `make save-test` passa com o padrão, e a compilação com `/PS2BRIO` produz só os caminhos do Rio.
+
+Com o padrão o comportamento do Classic é o mesmo, mas o ELF recompilado difere do da 0.93.0 em 109 bytes (organização das constantes de texto no binário; o ELF da 0.93.0 foi reproduzido byte a byte com o código anterior). Por isso a mudança segue só no código-fonte: o ELF e a ISO do Classic entram no próximo fechamento do Classic, sem uma versão nova só para isto. A identidade do codec (`CLAS`) ainda precisa ser separada.

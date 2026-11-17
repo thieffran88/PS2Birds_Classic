@@ -16,7 +16,12 @@ extern unsigned char save_icon_sys[];
 /* The icon is drawn from the original RedBird sprite, so it lives in SPRITES.BIN and is
    copied here at start-up (main.c); without it the save still works with a blank icon. */
 unsigned char save_icon[SAVE_ICON_BYTES] __attribute__((aligned(64)));
-static const char *slots[]={"/PS2BIRDS/progress_a.dat","/PS2BIRDS/progress_b.dat"};
+/* Memory-card folder of the game's save: Classic keeps /PS2BIRDS; another game built on this runtime
+   (the Rio port) sets its own with -DPS2BIRDS_SAVE_DIR='"/PS2BRIO"' so the two never share progress. */
+#ifndef PS2BIRDS_SAVE_DIR
+#define PS2BIRDS_SAVE_DIR "/PS2BIRDS"
+#endif
+static const char *slots[]={PS2BIRDS_SAVE_DIR "/progress_a.dat",PS2BIRDS_SAVE_DIR "/progress_b.dat"};
 enum {IDLE,INFO,OPEN_READ,READ,CLOSE_READ,CHECK_CARD,CHECK_DIR,MKDIR,OPEN_WRITE,WRITE,FLUSH,CLOSE_WRITE,OPEN_VERIFY,VERIFY,CLOSE_VERIFY};
 typedef char save_capacity_matches_game[(MAX_CAMPAIGN_LEVELS==SAVE_LEVEL_CAPACITY)?1:-1];
 #define SAVE_IO_BUFFER_BYTES (((SAVE_BYTES+1+63)/64)*64)
@@ -77,7 +82,7 @@ static void open_read(void){queue(mcOpen(0,0,slots[io.read_slot],FIO_O_RDONLY),O
 static const unsigned char *write_data(void){return io.write_file==0?save_icon_sys:io.write_file==1?save_icon:io.tx;}
 static int write_size(void){return io.write_file==0?SAVE_SYS_BYTES:io.write_file==1?SAVE_ICON_BYTES:SAVE_BYTES;}
 static void open_write(void){
-    const char *path=io.write_file==0?"/PS2BIRDS/icon.sys":io.write_file==1?"/PS2BIRDS/save.icn":slots[io.target];
+    const char *path=io.write_file==0?PS2BIRDS_SAVE_DIR "/icon.sys":io.write_file==1?PS2BIRDS_SAVE_DIR "/save.icn":slots[io.target];
     io.failed=0;queue(mcOpen(0,0,path,FIO_O_WRONLY|FIO_O_CREAT|FIO_O_TRUNC),OPEN_WRITE);
 }
 static void finish_reads(void){
@@ -127,10 +132,10 @@ void save_mc_poll(void){
     case CHECK_CARD:
         if(!card_ok(result))break;
         if(result==-1){io.status="MC1 TROCADO - L1: TENTAR";io.state=IDLE;io.pending=0;break;}
-        queue(mcGetDir(0,0,"/PS2BIRDS",0,1,&entry),CHECK_DIR);break;
+        queue(mcGetDir(0,0,PS2BIRDS_SAVE_DIR,0,1,&entry),CHECK_DIR);break;
     case CHECK_DIR:
         if(result==1 && (entry.AttrFile&MC_ATTR_SUBDIR)){io.write_file=0;open_write();}
-        else if(result==0 || result==-4)queue(mcMkDir(0,0,"/PS2BIRDS"),MKDIR);
+        else if(result==0 || result==-4)queue(mcMkDir(0,0,PS2BIRDS_SAVE_DIR),MKDIR);
         else fail(result<0?result:-5);
         break;
     case MKDIR:if(result<0)fail(result);else{io.write_file=0;open_write();}break;
