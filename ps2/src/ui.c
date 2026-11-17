@@ -60,6 +60,7 @@ void ui_draw(GSGLOBAL *gs,int id,float x,float y,float scale,unsigned int rgba){
     gsKit_prim_sprite_texture(gs,&page,x-w/2,y-h/2,rects[id][0],rects[id][1],x+w/2,y+h/2,rects[id][0]+rects[id][2],rects[id][1]+rects[id][3],3,rgba);
     alpha_test(gs,0);
 }
+float ui_width(int id){return ready && id>=0 && id<UI_COUNT?(float)rects[id][2]:0;}
 void ui_draw_rotated(GSGLOBAL *gs,int id,float x,float y,float scale,float angle,unsigned int rgba){
     if(!ready || id<0 || id>=UI_COUNT)return;
     float hw=rects[id][2]*scale/2,hh=rects[id][3]*scale/2,cs=cosf(angle),sn=sinf(angle);

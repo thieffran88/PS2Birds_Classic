@@ -17,5 +17,6 @@ int ui_ready(void);
 /* Centred at (x,y); rgba 0x80808080 is the original colour. */
 void ui_draw(GSGLOBAL *gs,int id,float x,float y,float scale,unsigned int rgba);
 /* Rotated (radians) about its centre. */
+float ui_width(int id);   /* width in pixels of the sprite at scale 1; 0 when not loaded */
 void ui_draw_rotated(GSGLOBAL *gs,int id,float x,float y,float scale,float angle,unsigned int rgba);
 #endif

@@ -5,9 +5,10 @@
 #include <cstdio>
 #include <cstring>
 #include <vector>
-static int freq,bits,channels,ring;static std::vector<char> played;
+static int freq,bits,channels,ring,volume=-1,stops;static std::vector<char> played;
 extern "C" int audsrv_set_format(struct audsrv_fmt_t *f){freq=f->freq;bits=f->bits;channels=f->channels;return 0;}
-extern "C" int audsrv_set_volume(int){return 0;}
+extern "C" int audsrv_set_volume(int v){volume=v;return 0;}
+extern "C" int audsrv_stop_audio(void){stops++;ring=1<<20;return 0;}   // the stopped stream leaves the ring empty
 extern "C" int audsrv_available(void){return ring;}
 extern "C" int audsrv_play_audio(const char *c,int n){played.insert(played.end(),c,c+n);ring-=n;return n;}
 static void put32(FILE *f,unsigned v){unsigned char b[4]={(unsigned char)v,(unsigned char)(v>>8),(unsigned char)(v>>16),(unsigned char)(v>>24)};fwrite(b,1,4,f);}
@@ -33,7 +34,13 @@ int main(){
     played.clear();music_play(2);assert(music_current()==2);ring=MUSIC_CHUNK*2;music_tick();
     assert(played.size()==2*MUSIC_CHUNK && played[0]=='A' && played[2047]=='A' && played[2048]=='A' && played[2499]=='A' && played[2500]==0 && music_current()==2);
     music_play(3);assert(music_current()==MUSIC_NONE);
-    played.clear();music_play(MUSIC_TITLE);music_set_enabled(0);ring=MUSIC_CHUNK*8;music_tick();assert(played.empty()); // sound off
-    music_set_enabled(1);music_play(MUSIC_NONE);music_tick();assert(played.empty());
-    puts("Music OK: MUSIC.BIN header, 22050 Hz mono 16-bit, title theme loops, level complete plays once, theme ambience read on demand and looped, sound off and missing file stay silent.");
+    assert(volume==70 && stops==0);
+    played.clear();music_play(MUSIC_TITLE);
+    music_set_enabled(0);assert(stops==1 && volume==0);                       // sound off: stream stopped and emptied, not just starved
+    ring=MUSIC_CHUNK*8;music_tick();assert(played.empty());                    // nothing is sent while muted
+    music_set_enabled(0);assert(stops==1);                                     // already off: no second stop
+    music_set_enabled(1);assert(volume==70 && stops==1);                       // sound on: volume back, no stop
+    ring=MUSIC_CHUNK*2;music_tick();assert(played.size()==2*MUSIC_CHUNK);      // the stream is fed again
+    music_play(MUSIC_NONE);played.clear();music_tick();assert(played.empty());
+    puts("Music OK: MUSIC.BIN header, 22050 Hz mono 16-bit, title theme loops, level complete plays once, theme ambience read on demand and looped, sound off stops and empties the stream (no hiss from a starved ring) and sound on resumes it; a missing file stays silent.");
 }

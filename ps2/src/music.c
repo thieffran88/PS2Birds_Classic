@@ -10,6 +10,7 @@
 #endif
 
 static char path[256]="MUSIC.BIN";
+#define MUSIC_VOLUME 70
 static int current=MUSIC_NONE,enabled=1,count,loaded_ambience=MUSIC_NONE;
 static unsigned start,offsets[MUSIC_MAX],sizes[MUSIC_MAX],loops[MUSIC_MAX],position;
 /* Title theme and level complete (about 3 MiB) stay resident; the current theme ambience
@@ -43,7 +44,7 @@ int music_init(void){
     struct audsrv_fmt_t format={22050,16,1};
     if(ok)ok=audsrv_set_format(&format)==0;
     if(!ok){free(resident);resident=0;return 0;}
-    audsrv_set_volume(70);
+    audsrv_set_volume(enabled?MUSIC_VOLUME:0);
     count=(int)c;return 1;
 }
 int music_count(void){return count;}
@@ -64,7 +65,17 @@ void music_play(int track){
     }
     current=track;position=0;
 }
-void music_set_enabled(int on){enabled=on;}
+/* Sound off: the PCM ring must be stopped and emptied. Only withholding new chunks leaves the
+   ring to run dry, and an underrun replays stale data as a hiss. Sound on: the volume comes back
+   and the stream restarts from the next chunk (the emptied ring is refilled by music_tick). */
+void music_set_enabled(int on){
+    on=on!=0;
+    if(on==enabled)return;
+    enabled=on;
+    if(!resident)return;
+    if(!on){audsrv_stop_audio();audsrv_set_volume(0);}
+    else audsrv_set_volume(MUSIC_VOLUME);
+}
 void music_tick(void){
     if(!resident || current==MUSIC_NONE || !enabled)return;
     const unsigned char *data=track_data(current);

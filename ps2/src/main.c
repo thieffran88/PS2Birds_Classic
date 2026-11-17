@@ -53,14 +53,9 @@ static u64 color(int r, int g, int b) { return GS_SETREG_RGBAQ(r,g,b,0x80,0); }
 static void rect(float x, float y, float w, float h, u64 c)
 { gsKit_prim_sprite(gs, x,y,x+w,y+h,1,c); }
 
-static void text(float x, float y, int scale, u64 c, const char *s)
+/* The built-in 5 x 7 pixel font: crisp at small sizes (used on the pills of the button prompts). */
+static void pixel_text(float x, float y, int scale, u64 c, const char *s)
 {
-    if(font_ready()){
-        /* Original FONT_BASIC (white fill, black outline) tinted with the colour. */
-        unsigned r=(unsigned)(c&255),gr=(unsigned)((c>>8)&255),b=(unsigned)((c>>16)&255);
-        font_draw(gs,FONT_BASIC,x,y-2*scale,0.23f+0.48f*scale,FONT_LEFT,(r/2)|((gr/2)<<8)|((b/2)<<16)|(0x80u<<24),s);
-        return;
-    }
     for (; *s; s++, x += scale * 6) {
         const char *at = strchr(alphabet, *s);
         if (!at || *s == ' ') continue;
@@ -71,6 +66,16 @@ static void text(float x, float y, int scale, u64 c, const char *s)
                     rect(x+col*scale,y+row*scale,scale,scale,c);
     }
 }
+static void text(float x, float y, int scale, u64 c, const char *s)
+{
+    if(font_ready()){
+        /* Original FONT_BASIC (white fill, black outline) tinted with the colour. */
+        unsigned r=(unsigned)(c&255),gr=(unsigned)((c>>8)&255),b=(unsigned)((c>>16)&255);
+        font_draw(gs,FONT_BASIC,x,y-2*scale,0.23f+0.48f*scale,FONT_LEFT,(r/2)|((gr/2)<<8)|((b/2)<<16)|(0x80u<<24),s);
+        return;
+    }
+    pixel_text(x,y,scale,c,s);
+}
 
 static void disk(float x, float y, float radius, u64 c)
 {
@@ -80,6 +85,83 @@ static void disk(float x, float y, float radius, u64 c)
         float half=sqrtf(fmaxf(0,radius*radius-offset*offset));
         rect(x-half,y+row,half*2,1,c);
     }
+}
+
+/* ---- Button prompts. The PlayStation glyphs are drawn with primitives (a coloured ring and symbol
+   on a dark centre, like the face-button icons of a PlayStation prompt set; the d-pad and
+   shoulder buttons in pale blue-grey), so they need no texture and work on every screen. A hint
+   string marks them with braces: "{X} CONFIRMAR   {PADLR} ESCOLHER". ---- */
+enum {G_CROSS,G_CIRCLE,G_TRIANGLE,G_SQUARE,G_PAD,G_PAD_UD,G_PAD_LR,G_L1,G_L2,G_R1,G_R2,G_R3,G_START,G_SELECT,G_NONE};
+/* The functions below are kept out of line on purpose. Inlined into the very large render(), the
+   build showed a black screen in PCSX2 from the first frame (the cause was not found; keeping them
+   separate fixed it, and unrelated size changes to the program did not bring it back). */
+static int glyph_of(const char *t,int n){
+    static const struct {const char *name;int g;} tab[]={{"X",G_CROSS},{"O",G_CIRCLE},{"T",G_TRIANGLE},{"Q",G_SQUARE},
+        {"PAD",G_PAD},{"PADUD",G_PAD_UD},{"PADLR",G_PAD_LR},{"L1",G_L1},{"L2",G_L2},{"R1",G_R1},{"R2",G_R2},{"R3",G_R3},
+        {"START",G_START},{"SELECT",G_SELECT}};
+    for(unsigned i=0;i<sizeof(tab)/sizeof(tab[0]);i++)if((int)strlen(tab[i].name)==n && !strncmp(tab[i].name,t,(size_t)n))return tab[i].g;
+    return G_NONE;
+}
+static const char *const glyph_label[]={"L1","L2","R1","R2","R3","START","SELECT"};
+static int glyph_pixels(float s){int ps=(int)(s/16+0.5f);return ps<1?1:ps;}   /* pixel-font scale that suits a glyph of size s */
+static float glyph_width(int g,float s){
+    if(g<G_L1 || g>G_SELECT)return s;
+    int ps=glyph_pixels(s);return (float)strlen(glyph_label[g-G_L1])*6*ps+6*ps;
+}
+static void glyph_triangle(float cx,float cy,float r,u64 c){   /* apex up; r = circumradius */
+    float top=cy-r,bottom=cy+r*0.5f,half=r*0.866f;
+    for(float y=top;y<bottom;y+=1){float t=(y-top)/(bottom-top);rect(cx-half*t,y,half*2*t,1,c);}
+}
+__attribute__((noinline)) static void glyph_draw(int g,float cx,float cy,float s){
+    const u64 dark=color(26,30,42),light=color(174,189,208),dim=color(92,106,128);
+    if(g<=G_SQUARE){
+        static const unsigned char rgb[4][3]={{122,132,196},{224,88,84},{0,190,168},{224,112,150}};   /* cross, circle, triangle, square */
+        u64 c=color(rgb[g][0],rgb[g][1],rgb[g][2]);
+        float ring=fmaxf(1.5f,s*0.09f),r=s*0.27f,t=fmaxf(1.6f,s*0.11f);
+        disk(cx,cy,s/2,c);disk(cx,cy,s/2-ring,dark);
+        if(g==G_CROSS){for(float i=-r;i<=r;i+=0.6f){rect(cx+i-t/2,cy+i-t/2,t,t,c);rect(cx+i-t/2,cy-i-t/2,t,t,c);}}
+        else if(g==G_CIRCLE){disk(cx,cy,r,c);disk(cx,cy,r-t,dark);}
+        else if(g==G_SQUARE){rect(cx-r,cy-r,2*r,2*r,c);rect(cx-r+t,cy-r+t,2*(r-t),2*(r-t),dark);}
+        else{glyph_triangle(cx,cy+r*0.1f,r*1.15f,c);glyph_triangle(cx,cy+r*0.1f+t*0.6f,r*1.15f-t*1.7f,dark);}
+        return;
+    }
+    if(g<=G_PAD_LR){   /* d-pad: a plus; the arms the hint stands for are bright, the others dim */
+        float a=s*0.36f;
+        rect(cx-s/2,cy-a/2,s,a,g==G_PAD_UD?dim:light);
+        rect(cx-a/2,cy-s/2,a,s,g==G_PAD_LR?dim:light);
+        return;
+    }
+    /* shoulder buttons, START and SELECT: a rounded pill with the name on it */
+    const char *l=glyph_label[g-G_L1];int ps=glyph_pixels(s);float w=glyph_width(g,s),h=(float)(7*ps+6*ps),r=h/2;
+    rect(cx-w/2+r,cy-h/2,w-2*r,h,light);disk(cx-w/2+r,cy,r,light);disk(cx+w/2-r,cy,r,light);
+    pixel_text(cx-((float)strlen(l)*6*ps-ps)/2,cy-3.5f*ps,ps,dark,l);
+}
+static float text_px(int scale,const char *s){return font_ready()?font_width(FONT_BASIC,s,0.23f+0.48f*scale):(float)strlen(s)*6*scale;}
+/* Draws (or only measures) a hint line and returns its width. y is the text() y. */
+__attribute__((noinline)) static float hint_run(float x,float y,int scale,u64 col,const char *s,int draw){
+    float size=16.0f*scale,cx=x;
+    for(const char *p=s;*p;){
+        if(*p=='{'){
+            const char *e=strchr(p,'}');int g=e?glyph_of(p+1,(int)(e-p-1)):G_NONE;
+            if(g!=G_NONE){float w=glyph_width(g,size);if(draw)glyph_draw(g,cx+w/2,y+5.5f*scale,size);cx+=w+size*0.2f;p=e+1;continue;}
+        }
+        char seg[96];int n=0;seg[n++]=*p++;
+        while(*p && *p!='{' && n<95)seg[n++]=*p++;
+        seg[n]=0;if(draw)text(cx,y,scale,col,seg);cx+=text_px(scale,seg);
+    }
+    return cx-x;
+}
+__attribute__((noinline)) static void hint(float x,float y,int scale,int center,u64 col,const char *s){
+    float w=hint_run(0,0,scale,col,s,0);hint_run(center?x-w/2:x,y,scale,col,s,1);
+}
+/* The memory-card status ("... - L1: TENTAR") with the L1 prompt as a glyph. */
+__attribute__((noinline)) static void mc_status(float x,float y,u64 col){
+    char buf[96];size_t n=0;
+    for(const char *p=save_mc_status();*p && n<88;){
+        if(!strncmp(p,"L1:",3)){memcpy(buf+n,"{L1}",4);n+=4;p+=3;}
+        else buf[n++]=*p++;
+    }
+    buf[n]=0;hint(x,y,1,0,col,buf);
 }
 
 static unsigned int visual_frame;
@@ -253,6 +335,17 @@ static LevelEnd level_end;
 static float won_wait;
 /* Pause panel cursor: 0 resume, 1 restart, 2 menu, 3 sound. */
 static int pause_choice;
+/* Win/lose pop-up cursor, like the menus: the d-pad chooses, X confirms. 0 menu, 1 restart, 2 next (win only). */
+static int end_choice;
+__attribute__((noinline)) static void end_buttons(const int *id,const char *const *label,int n,const float *x,float y){
+    /* The chosen button is a little bigger, with a slim light ring, and its name under it. */
+    for(int b=0;b<n;b++){
+        int sel=b==end_choice;float k=sel?1.12f:1.0f;
+        if(sel)disk(x[b],y,ui_width(id[b])*k*0.37f+3,color(255,236,150));   /* the button art has a transparent margin: ring just wider than the visible circle */
+        ui_draw(gs,id[b],x[b],y,k,sel?0x80909090:0x80606060);
+    }
+    text(x[end_choice]-text_px(1,label[end_choice])/2,y+30,1,color(246,191,65),label[end_choice]);
+}
 /* main_menu.lua: 0 PLAY, 1 the options gear; with the gear open also 2 sound and 3 about. */
 static int main_choice,options_open;
 
@@ -360,7 +453,7 @@ static void menu_screens(const Game *g)
             menu_gfx_draw(gs,ids[b],46,ys[b],kk,sel?0x80909090:0x80707070);
             if(b==2 && strcmp(audio_status(),"SOM LIGADO"))menu_gfx_draw(gs,MG_OFF,46,ys[b],kk,0x80808080);
         }
-        font_draw(gs,FONT_BASIC,360,414,0.7f,FONT_CENTER,0x80808080,"CIMA/BAIXO: ESCOLHER   X: CONFIRMAR   TRIANGULO: GRITO");
+        hint(360,416,1,1,color(255,255,255),"{PADUD} ESCOLHER   {X} CONFIRMAR   {T} GRITO");
         return;
     }
     if(m->screen==MENU_CREDITS){
@@ -374,7 +467,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.92.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.93.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -389,7 +482,7 @@ static void menu_screens(const Game *g)
         font_draw(gs,FONT_BASIC,240,y+10,0.7f,FONT_LEFT,0x80c0d0b0,"Port não oficial para PlayStation 2:");
         font_draw(gs,FONT_BASIC,240,y+30,0.7f,FONT_LEFT,0x80c0d0b0,"PS2Birds Classic (usa o APK do jogador).");
         menu_gfx_draw(gs,MG_BACK,44,404,1.0f,0x80808080);
-        font_draw(gs,FONT_BASIC,360,414,0.7f,FONT_CENTER,0x80808080,"O: VOLTAR");
+        hint(360,416,1,1,color(255,255,255),"{O} VOLTAR");
         return;
     }
     sunburst(color(70,150,40),color(96,176,52),320,470);
@@ -415,7 +508,7 @@ static void menu_screens(const Game *g)
         }
         if(m->episode>0)menu_gfx_draw(gs,MG_ARROW_LEFT,30,202,1.0f,0x80808080);
         if(m->episode<n-1)menu_gfx_draw(gs,MG_ARROW_RIGHT,610,202,1.0f,0x80808080);
-        font_draw(gs,FONT_BASIC,380,410,0.7f,FONT_CENTER,0x80808080,"ESQUERDA/DIREITA: EPISÓDIO   X: ABRIR   O: VOLTAR");
+        hint(380,412,1,1,color(255,255,255),"{PADLR} EPISÓDIO   {X} ABRIR   {O} VOLTAR");
         return;
     }
     /* level_selection.lua: 5 x 3 buttons (the episode's LS_LEVEL_BG_NORMAL_OPEN_n), number,
@@ -443,7 +536,7 @@ static void menu_screens(const Game *g)
     if(i<g->unlocked)snprintf(line,sizeof(line),"%s   Recorde: %d",game_level_title(i),g->highscores[i]);
     else snprintf(line,sizeof(line),"%s   (bloqueada)",game_level_title(i));
     font_draw(gs,FONT_BASIC,320,346,0.8f,FONT_CENTER,0x80808080,line);
-    font_draw(gs,FONT_BASIC,380,410,0.7f,FONT_CENTER,0x80808080,"DIRECIONAL: FASE   L2/R2: PÁGINA   X: JOGAR   O: VOLTAR");
+    hint(380,412,1,1,color(255,255,255),"{PAD} FASE   {L2}{R2} PÁGINA   {X} JOGAR   {O} VOLTAR");
 }
 
 static void render(const Game *g, int connected, int paused,int menu)
@@ -597,16 +690,16 @@ static void render(const Game *g, int connected, int paused,int menu)
         snprintf(line,sizeof(line),"PONTOS %05d",g->score);text(430,22,1,cream,line);
     }
     if(sprites_load_failed())text(16,40,1,gold,"SPRITES.BIN AUSENTE: COPIE-O PARA A PASTA DO ELF");
-    if(save_mc_busy())text(16,40,1,gold,save_mc_status());
+    if(save_mc_busy())mc_status(16,40,gold);
     /* Shop tutorials: the stage's power-up (King Sling is always on; Bird Quake on L2, once). */
     if(game_powerup(g)==POWERUP_KING_SLING)text(16,58,1,cream,"ESTILINGUE REAL");
-    else if(game_powerup_available(g))text(16,58,1,cream,game_powerup(g)==POWERUP_POWER_POTION?"L2: POÇÃO":game_powerup(g)==POWERUP_SHOCKWAVE?"L2: ONDA DE CHOQUE":"L2: TERREMOTO");
+    else if(game_powerup_available(g))hint(16,58,1,0,cream,game_powerup(g)==POWERUP_POWER_POTION?"{L2} POÇÃO":game_powerup(g)==POWERUP_SHOCKWAVE?"{L2} ONDA DE CHOQUE":"{L2} TERREMOTO");
     if ((g->state==WON && won_wait<=0) || g->state==LOST || paused) {
         if(!paused && g->state==WON && ui_ready()){
             /* level_end.lua LevelComplete with the original sprites: stars at 0.4 of the height,
                spaced 1/8 of the width, the score below, the badge to its right, buttons at 0.8. */
             char line[48];
-            rect(90,128,460,262,dark);
+            rect(90,128,460,272,dark);
             text(172,138,2,gold,"NÍVEL CONCLUÍDO!");
             int shown=level_end_shown_stars(&level_end);
             for(int i=0;i<3;i++)ui_draw(gs,UI_STAR_1+i,220+i*100,i==1?192:200,i==1?0.95f:0.8f,i<shown?0x80808080:0x80202020);
@@ -629,15 +722,17 @@ static void render(const Game *g, int connected, int paused,int menu)
             snprintf(line,sizeof(line),"%d",level_end_shown_score(&level_end));text(320-(int)strlen(line)*12,262,2,cream,line);
             if(level_end_new_highscore(&level_end))ui_draw(gs,UI_NEW_HIGHSCORE,470,270,1.0f,0x80808080);
             else if(!level_end_counting(&level_end)){snprintf(line,sizeof(line),"Recorde: %d",g->highscores[g->level]);text(320-(int)strlen(line)*6,292,1,cream,line);}
-            ui_draw(gs,UI_MENU,230,338,1.0f,0x80808080);ui_draw(gs,UI_RESTART,320,338,1.0f,0x80808080);ui_draw(gs,UI_NEXT,410,338,1.0f,0x80808080);
-            text(226,366,1,cream,"O");text(306,366,1,cream,"TRI");text(406,366,1,cream,"X");
+            {static const int id[3]={UI_MENU,UI_RESTART,UI_NEXT};static const char *const label[3]={"MENU","REINICIAR","PRÓXIMA"};
+             static const float x[3]={230,320,410};end_buttons(id,label,3,x,330);}
+            hint(320,378,1,1,cream,"{PADLR} ESCOLHER   {X} CONFIRMAR");
         } else if(!paused && g->state==LOST && ui_ready()){
             /* level_end.lua LevelFailed: LEVEL_FAILED_PIG, menu and restart buttons. */
-            rect(150,150,340,230,dark);
+            rect(150,150,340,250,dark);
             text(178,160,2,gold,"NÍVEL NÃO CONCLUÍDO!");
             ui_draw(gs,UI_FAILED_PIG,320,250,1.0f,0x80808080);
-            ui_draw(gs,UI_MENU,270,330,1.0f,0x80808080);ui_draw(gs,UI_RESTART,370,330,1.0f,0x80808080);
-            text(266,358,1,cream,"O");text(362,358,1,cream,"TRI");
+            {static const int id[2]={UI_MENU,UI_RESTART};static const char *const label[2]={"MENU","REINICIAR"};
+             static const float x[2]={270,370};end_buttons(id,label,2,x,322);}
+            hint(320,378,1,1,cream,"{PADLR} ESCOLHER   {X} CONFIRMAR");
         } else if(!paused && g->state==WON){
             /* level_end.lua LevelComplete: stars, score counting up, new-highscore badge, buttons. */
             static const char *stars[4]={"","*","* *","* * *"};char line[48];
@@ -647,7 +742,9 @@ static void render(const Game *g, int connected, int paused,int menu)
             snprintf(line,sizeof(line),"%d",level_end_shown_score(&level_end));text(130,212,2,cream,line);
             if(level_end_new_highscore(&level_end))text(300,214,1,gold,"Novo recorde!");
             else if(!level_end_counting(&level_end)){snprintf(line,sizeof(line),"RECORDE %d",g->highscores[g->level]);text(300,214,1,cream,line);}
-            text(130,262,1,cream,g->level+1<game_level_count()?"X: PROXIMA  TRIANGULO: REINICIAR  O: MENU":"X: SELECAO  TRIANGULO: REINICIAR  O: MENU");
+            {static const char *const name[3]={"MENU","REINICIAR","PRÓXIMA"};
+             for(int b=0;b<3;b++)text(130+b*110,250,1,b==end_choice?gold:cream,name[b]);
+             hint(130,270,1,0,cream,"{PADLR} ESCOLHER   {X} CONFIRMAR");}
         } else if(paused && ui_ready() && font_ready()){
             /* PausePage.lua: a side panel with resume at the top, restart and menu below it and
                the sound toggle at the bottom (the cross of BUTTON_OFF over it when muted). */
@@ -655,40 +752,43 @@ static void render(const Game *g, int connected, int paused,int menu)
             gsKit_prim_sprite(gs,150,0,640,448,1,GS_SETREG_RGBAQ(0,0,0,0x30,0));
             gsKit_prim_sprite(gs,186,236,640,368,1,GS_SETREG_RGBAQ(10,24,30,0x60,0));   /* behind the hints */
             /* The chosen button is bigger and brighter, with a light ring behind it. */
-            static const float by[4]={74,170,266,372},bs[4]={1.7f,1.45f,1.45f,1.6f};
+            static const float by[4]={66,152,238,324},bs[4]={1.7f,1.45f,1.45f,1.6f};
             static const char *label[4]={"CONTINUAR","REINICIAR","MENU","SOM"};
             static const int id[4]={UI_RESUME,UI_RESTART,UI_MENU,UI_SOUND};
             int sound_on=!strcmp(audio_status(),"SOM LIGADO");
             for(int b=0;b<4;b++){
-                int sel=b==pause_choice;float k=bs[b]*(sel?1.18f:1.0f);
-                if(sel)disk(62,by[b],34*k/1.45f,color(255,236,150));
+                int sel=b==pause_choice;float k=bs[b]*(sel?1.1f:1.0f);
+                if(sel)disk(62,by[b],ui_width(id[b])*k*0.37f+3,color(255,236,150));   /* a slim ring, just wider than the visible button */
                 ui_draw(gs,id[b],62,by[b],k,sel?0x80909090:0x80606060);
                 if(b==3 && !sound_on)ui_draw(gs,UI_SOUND_OFF,62,by[b],k*0.9f,0x80808080);
                 text(16,by[b]+32,1,sel?gold:cream,label[b]);
             }
-            text(16,428,1,color(135,192,181),"X: ESCOLHER   O: VOLTAR");
+            hint(16,396,1,0,color(135,192,181),"{PADUD} NAVEGAR");
+            hint(16,414,1,0,color(135,192,181),"{X} ESCOLHER   {O} VOLTAR");
             font_draw(gs,FONT_BASIC,395,150,2.2f,FONT_CENTER,0x80808080,"pausa");
-            text(200,250,1,cream,"DIRECIONAL/ANALÓGICO: MIRA   X: LANÇAR");
-            text(200,270,1,cream,"QUADRADO (SEGURAR): AJUSTE FINO");
-            text(200,290,1,cream,"X NO AR: HABILIDADE DO PÁSSARO   SELECT: FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.92.0 / PLAYSTATION 2");
-            text(200,350,1,color(135,192,181),save_mc_status());
+            hint(200,250,1,0,cream,"{PAD} MIRA   {X} LANÇAR");
+            hint(200,270,1,0,cream,"{Q} SEGURAR: AJUSTE FINO");
+            hint(200,290,1,0,cream,"{X} NO AR: HABILIDADE   {SELECT} FASES");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.93.0 / PLAYSTATION 2");
+            mc_status(200,350,color(135,192,181));
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
             rect(70,110,500,250,dark);
             text(250,122,2,gold,"PAUSA");
-            text(90,160,1,cream,"DIRECIONAL/ANALÓGICO: MIRA   X: LANÇAR");
-            text(90,180,1,cream,"QUADRADO (SEGURAR): AJUSTE FINO");
-            text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
-            text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
-            text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.92.0 / PLAYSTATION 2");
+            hint(90,160,1,0,cream,"{PAD} MIRA   {X} LANÇAR");
+            hint(90,180,1,0,cream,"{Q} SEGURAR: AJUSTE FINO");
+            hint(90,200,1,0,cream,"{X} NO AR: HABILIDADE DO PÁSSARO");
+            hint(90,220,1,0,cream,"{T} REINICIAR   {SELECT} FASES");
+            hint(90,240,1,0,cream,"{R3} SOM   {START} CONTINUAR");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.93.0 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
-            text(90,318,1,color(135,192,181),save_mc_status());
+            mc_status(90,318,color(135,192,181));
         } else {
             rect(106,185,428,86,dark);
             text(130,204,2,gold,"NÍVEL NÃO CONCLUÍDO!");
-            text(130,241,1,cream,"TRIÂNGULO: REINICIAR  O: MENU");
+            {static const char *const name[2]={"MENU","REINICIAR"};
+             for(int b=0;b<2;b++)text(130+b*120,232,1,b==end_choice?gold:cream,name[b]);
+             hint(130,252,1,0,cream,"{PADLR} ESCOLHER   {X} CONFIRMAR");}
         }
     }
     if (!connected) text(300,119,1,color(128,48,41),"CONECTE O CONTROLE 1");
@@ -711,7 +811,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             }
             snprintf(line,sizeof(line),"EPISODIO %d DE %d",m->episode+1,n);
             text(60,358,1,color(156,195,178),line);
-            text(60,372,1,cream,"CIMA/BAIXO: EPISODIO  X: ABRIR  O/SELECT: VOLTAR AO JOGO");
+            hint(60,372,1,0,cream,"{PADUD} EPISODIO  {X} ABRIR  {O}/{SELECT} VOLTAR AO JOGO");
         }else{
             int f=menu_episode_first(m->episode),size=menu_episode_size(m->episode);
             int page=m->level/MENU_PER_PAGE,pages=(size+MENU_PER_PAGE-1)/MENU_PER_PAGE;
@@ -729,9 +829,9 @@ static void render(const Game *g, int connected, int paused,int menu)
             if(i<g->unlocked)snprintf(line,sizeof(line),"%s  RECORDE %05d",game_level_title(i),g->highscores[i]);
             else snprintf(line,sizeof(line),"%s  BLOQUEADA",game_level_title(i));
             text(60,358,1,color(156,195,178),line);
-            text(60,372,1,cream,"DIRECIONAL: FASE  L2/R2: PAGINA  X: JOGAR  O: EPISODIOS");
+            hint(60,372,1,0,cream,"{PAD} FASE  {L2}{R2} PAGINA  {X} JOGAR  {O} EPISODIOS");
         }
-        text(430,152,1,color(156,195,178),save_mc_status());
+        mc_status(430,152,color(156,195,178));
     }
     gsKit_queue_exec(gs);
     gsKit_sync_flip(gs);
@@ -799,7 +899,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.92.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.93.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
@@ -908,16 +1008,21 @@ int main(int argc,char **argv)
             else if(choose==3){audio_toggle();music_set_enabled(!strcmp(audio_status(),"SOM LIGADO"));audio_play(SFX_MENU_CONFIRM);}
             if(choose>=0){old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;}
         }
-        if((pressed & PAD_CIRCLE) && (g.state==WON || g.state==LOST)){
-            menu=1;paused=0;menu_open(&menu_state,g.level);audio_play(SFX_MENU_BACK);
-            old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
+        if((g.state==WON && won_wait<=0) || g.state==LOST){
+            /* The win/lose pop-up works like the menus: the d-pad chooses, X confirms (O: menu). */
+            int n=g.state==WON?3:2;
+            if(pressed & (PAD_LEFT|PAD_UP)){end_choice=(end_choice+n-1)%n;audio_play(SFX_MENU_MOVE);}
+            if(pressed & (PAD_RIGHT|PAD_DOWN)){end_choice=(end_choice+1)%n;audio_play(SFX_MENU_MOVE);}
+            int choose=(pressed & PAD_CROSS)?end_choice:(pressed & PAD_CIRCLE)?0:-1;
+            if(choose>=0){
+                if(g.state==WON && world_pending){world_complete(world_pending-1,g.highscores);world_pending=0;}
+                if(choose==0){menu=1;paused=0;menu_open(&menu_state,g.level);audio_play(SFX_MENU_BACK);}
+                else if(choose==1){game_reset(&g);paused=0;audio_play(SFX_START);}
+                else{if(!game_next_level(&g)){menu=1;menu_open(&menu_state,g.level);audio_play(SFX_MENU_BACK);}else audio_play(SFX_START);paused=0;}
+                old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
+            }
         }
-        if ((pressed & PAD_CROSS) && g.state==WON){
-            if(world_pending){world_complete(world_pending-1,g.highscores);world_pending=0;}
-            if(!game_next_level(&g)){menu=1;menu_open(&menu_state,g.level);audio_play(SFX_MENU_BACK);}else audio_play(SFX_START);
-            paused=0;old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
-        }
-        if (pressed & PAD_TRIANGLE) { game_reset(&g); paused=0;audio_play(SFX_START); }
+        if ((pressed & PAD_TRIANGLE) && g.state!=WON && g.state!=LOST) { game_reset(&g); paused=0;audio_play(SFX_START); }
         if (connected && (pressed & PAD_START)){paused=!paused;pause_choice=0;audio_play(SFX_MENU_BACK);}
         if (connected && !paused) {
             float horizontal=0, vertical=0;
@@ -945,8 +1050,9 @@ int main(int argc,char **argv)
             else if(g.events&(GAME_EVENT_WOOD|GAME_EVENT_EXTRA))audio_play(SFX_WOOD);
             if(before!=g.state && g.state==WON){music_play(MUSIC_LEVEL_COMPLETE);for(int b=0;b<g.birds;b++){game_add_popup(&g,49+b*24,g.ground_y-15,10000,POPUP_BIRD,game_queue_type(&g,b));g.popups[(g.popup_next+GAME_POPUPS-1)%GAME_POPUPS].time=-0.5f*b;}
                 if(old_record<=0){world_pending=g.level+1;}
+                end_choice=2;   /* the cursor starts on next */
                 won_wait=1.0f+0.5f*g.birds;level_end_start(&level_end,g.score,old_record,game_level_stars(g.level,g.score),game_level_silver(g.level));save_mc_request();audio_play(SFX_WIN);}
-            if(before!=g.state && g.state==LOST)audio_play(SFX_LOSE);
+            if(before!=g.state && g.state==LOST){audio_play(SFX_LOSE);end_choice=1;}   /* the cursor starts on restart */
             if (before!=g.state) printf("PS2Birds: state=%d score=%d\n",g.state,g.score);
         }
         old_buttons=buttons;
