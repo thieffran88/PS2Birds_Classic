@@ -105,3 +105,7 @@ Com o padrão o comportamento do Classic é o mesmo, mas o ELF recompilado difer
 `ps2/src/save_codec.c` guarda em todo save a identidade do jogo na macro `PS2BIRDS_SAVE_ID` (padrão `0x434c4153`, "CLAS", a do Classic; o valor dos arquivos já gravados não muda). O Rio compila com `-DPS2BIRDS_SAVE_ID=0x52494f31u` ("RIO1"). O `make save-test` passou a rodar `tests/save_id_test.c` com as duas identidades: cada uma lê o próprio arquivo e recusa o do outro jogo. Com o padrão o código gerado para o Classic é o mesmo (só a constante, de mesmo valor).
 
 Com isso o save do Rio tem pasta (`/PS2BRIO`) e identidade próprias. Resta ligar essas duas macros ao build do Rio, quando houver um.
+
+### Atualização: gravidade, o que foi procurado
+
+Procurei `gravity` em todos os scripts recuperados, nos arquivos de dados e de configuração do APK e no binário nativo: nos scripts só aparece em nomes de power-ups (`bubbleAntiGravity`, `antiGravityMaxVelocity`); nos demais arquivos só em layouts de interface do Android; no nativo, só `gravityX` e `gravityY`. **O valor do mundo não está em nenhum dado legível do Rio.** O que se sabe: as fases do Rio e as do Classic usam o mesmo `physicsToWorld` (20) e o runtime aplica `b2World(0, gravidade)` com y para baixo. Por isso +20 continua sendo o valor provisório mais plausível, mas só uma medição no jogo original (trajetória de um tiro) ou a leitura do código nativo o confirma.
