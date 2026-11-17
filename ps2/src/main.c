@@ -333,7 +333,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.83.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.84.0 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -530,7 +530,20 @@ static void render(const Game *g, int connected, int paused,int menu)
     if(g->state==AIMING)bird(g->x,g->y,6,game_queue_type(g,0),0,0,-2,0);
     sprite_draw(gs,SPR_SLING_SHOT_01_FRONT,render_sling_x,render_sling_y,render_scale/render_pixels,0);
     int waiting=g->birds-(g->state==AIMING?1:0);
-    for (int i=0; i<waiting; i++) bird(49+i*24,render_ground-15,7,game_queue_type(g,i+(g->state==AIMING?1:0)),0,0,-2,0);
+    /* gamelogic.lua jumpTimer: the birds waiting by the slingshot hop now and then. The native
+       timings are in compiled code; here each bird waits 1-4 s at random, then hops 10 px for
+       0.35 s (approximation). */
+    {
+        enum {HOPPERS=16};static float wait[HOPPERS],hop[HOPPERS];
+        for(int i=0;i<waiting;i++){
+            float lift=0;
+            if(i<HOPPERS){
+                if(hop[i]>0){hop[i]-=1.0f/60;lift=hop[i]>0?10*sinf(3.14159265f*(1-hop[i]/0.35f)):0;}
+                else if((wait[i]-=1.0f/60)<=0){hop[i]=0.35f;wait[i]=1.0f+(rand()%300)/100.0f;}
+            }
+            bird(49+i*24,render_ground-15-lift,7,game_queue_type(g,i+(g->state==AIMING?1:0)),0,0,-2,0);
+        }
+    }
     /* GameHud.lua: score at the top right ("Pontuação", then the number), the highscore below at
        70 %; the stage name at the top left. Texts are the original pt_BR TEXTS_BASIC entries. */
     if(font_ready()){
@@ -617,7 +630,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(200,250,1,cream,"DIRECIONAL/ANALÓGICO: MIRA   X: LANÇAR");
             text(200,270,1,cream,"QUADRADO (SEGURAR): AJUSTE FINO");
             text(200,290,1,cream,"X NO AR: HABILIDADE DO PÁSSARO   SELECT: FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.83.0 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.84.0 / PLAYSTATION 2");
             text(200,350,1,color(135,192,181),save_mc_status());
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -628,7 +641,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             text(90,200,1,cream,"X NO AR: HABILIDADE DO PÁSSARO");
             text(90,220,1,cream,"TRIÂNGULO: REINICIAR   SELECT: FASES");
             text(90,240,1,cream,"R3: SOM   START: CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.83.0 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.84.0 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             text(90,318,1,color(135,192,181),save_mc_status());
         } else {
@@ -744,7 +757,7 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.83.0: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.84.0: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s)\n",file);
