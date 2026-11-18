@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'tools'))
 from lua51_data import load
 COMP=ROOT/'work/rio/analysis/comp_inventory.json';CAT=ROOT/'work/rio/analysis/definition_catalogue.json';INV=ROOT/'work/rio/analysis/dat_inventory.json'
-SIZE_FACTOR=0.92
+SIZE_FACTOR=0.92   # ObjectCreation (gamelogic.lua): a sprite-sized shape is the sprite's size x 0.92
 GROUND_HALF_HEIGHT=5.0   # the Ground object is 10 units tall (as in tools/import_level.py): its top, where every stage's pieces rest, is y - 5; checked on the 45 stages: the lowest pieces end at y = 0
 KIND_OF_MATERIAL={'cage':4,'monkey':4,'monkeyHanging':4,'wood':1,'crate':1,'glass':2,'stone':5,'cardboard':1,'metal':6,'misc':1}
 def frame_sizes():
@@ -64,7 +64,7 @@ def convert(path,gravity):
         if e.get('type')=='box' and e.get('width') and e.get('height'):w,h=float(e['width']),float(e['height'])
         elif sprite in sizes:
             w,h=sizes[sprite][0]/pixels,sizes[sprite][1]/pixels
-            if e.get('density',0)!=0:w,h=w*SIZE_FACTOR,h*SIZE_FACTOR
+            if e.get("density",0)!=0:w,h=w*SIZE_FACTOR,h*SIZE_FACTOR
         else:skipped.append(d);continue
         sx=float(o.get('scaleX',1) or 1);sy=float(o.get('scaleY',1) or 1)
         w*=abs(sx);h*=abs(sy)

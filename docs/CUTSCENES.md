@@ -66,7 +66,7 @@ está no `CUTSCENE.BIN` é simplesmente pulada.
   RGBA5551. Uma cena horizontal tem 448 linhas e pelo menos 640 de largura; uma vertical tem 640 de largura.
 - A transparência dos sprites do APK vem na escala do PS2 (0 a 128) e é convertida na composição.
 
-## Cenas acrescentadas na 0.93.4 e 0.94.4
+## Cenas acrescentadas na 0.93.4 e 0.94.5
 
 - Short Fuse (blackbird_intro, middle_1, middle_2, end), Bad Piggies (pack9_intro e world20/21/22_complete),
   Piggy Farm e Dino (abertura e final), Birdday (world18/19_complete), Egg Defender e Mighty Feathers
@@ -87,6 +87,6 @@ está no `CUTSCENE.BIN` é simplesmente pulada.
   vai até 75% da imagem; no final (destino x 0,5) a imagem cabe quase toda na tela e fica parada. É a leitura mais
   provável, não confirmada contra o original.
 
-## Aberturas (0.94.4)
+## Aberturas (0.94.5)
 
 Antes do menu: `splash_rovio` (3 s) e `splash_loading` (2 s), no mesmo `CUTSCENE.BIN`, como imagens paradas. X ou Start pulam.

@@ -17,7 +17,8 @@ endif
 ifeq ($(GAME),rio)
 EE_BIN = build/PS2Birds_Rio.elf
 EE_CFLAGS += -DPS2BIRDS_SAVE_DIR='"/PS2BRIO"' -DPS2BIRDS_RIO -DPS2BIRDS_SAVE_ID=0x52494f31u -DPS2BIRDS_SPRITE_IDS='"rio/sprite_ids.h"' -DPS2BIRDS_DEFINITION_SPRITES='"rio/definition_sprites.h"'
-EE_CXXFLAGS += -DPS2BIRDS_RIO -DPS2BIRDS_SPRITE_IDS='"rio/sprite_ids.h"'
+# Rio: the stages are saved at rest, so the pieces start asleep and wake on contact (all 45 stages then stay still; awake they drift)
+EE_CXXFLAGS += -DPS2BIRDS_RIO -DSCENE_STARTS_ASLEEP=1 -DPS2BIRDS_SPRITE_IDS='"rio/sprite_ids.h"'
 endif
 EE_LIBS = -lgskit -ldmakit -lpad -lmc -lpatches -lm
 

@@ -16,6 +16,9 @@ static unsigned start,offsets[MUSIC_MAX],sizes[MUSIC_MAX],loops[MUSIC_MAX],posit
 /* Title theme and level complete (about 3 MiB) stay resident; the current theme ambience
    (up to about 4 MiB) is read when a stage of another theme starts, never while playing. */
 static unsigned char *resident,*ambience;static unsigned ambience_capacity;
+/* The PCM ring replays stale data as a buzz once it runs dry (a stopped or finished track): the ring is emptied when a playing track is stopped,
+   and after a track that ends by itself, as soon as the ring has played out (ring_free_max: the ring's size, seen while it was empty). */
+static int draining;static int ring_free_max;
 static char chunk[MUSIC_CHUNK] __attribute__((aligned(64)));
 
 static unsigned rd32(const unsigned char *p){return p[0]|(p[1]<<8)|(p[2]<<16)|((unsigned)p[3]<<24);}
@@ -53,8 +56,10 @@ static const unsigned char *track_data(int track){
     return track<MUSIC_RESIDENT?resident+offsets[track]-offsets[0]:ambience;
 }
 void music_play(int track){
+    if(current!=MUSIC_NONE && (track<0 || track>=count) && resident){audsrv_stop_audio();draining=0;}   /* stopped on purpose: empty the ring, no stale replay */
     current=MUSIC_NONE;
     if(track<0 || track>=count)return;
+    draining=0;
     if(track>=MUSIC_RESIDENT && track!=loaded_ambience){
         loaded_ambience=MUSIC_NONE;
         if(sizes[track]>ambience_capacity){free(ambience);ambience_capacity=0;ambience=(unsigned char*)malloc(sizes[track]);if(!ambience)return;ambience_capacity=sizes[track];}
@@ -77,6 +82,8 @@ void music_set_enabled(int on){
     else audsrv_set_volume(MUSIC_VOLUME);
 }
 void music_tick(void){
+    if(resident && enabled){int free_now=audsrv_available();if(free_now>ring_free_max)ring_free_max=free_now;
+        if(draining && current==MUSIC_NONE && free_now>=ring_free_max){audsrv_stop_audio();draining=0;}}
     if(!resident || current==MUSIC_NONE || !enabled)return;
     const unsigned char *data=track_data(current);
     /* Fill what the ring can take, a chunk at a time, without blocking the frame. */
@@ -88,7 +95,7 @@ void music_tick(void){
         position+=n;
         if(position>=sizes[current]){
             if(loops[current])position=0;
-            else{current=MUSIC_NONE;return;}
+            else{current=MUSIC_NONE;draining=1;return;}
         }
     }
 }
