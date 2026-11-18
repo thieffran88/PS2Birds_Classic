@@ -9,9 +9,14 @@ ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'tools'));sy
 # Episode titles by pack folder (the first episode is the only one whose name is known from the game's menu).
 EPISODE={'warehouse':"SMUGGLERS DEN",'warehouse2':"SMUGGLERS DEN"}
 LEVELS=ROOT/'work/rio/analysis/chunks/assets/data/levels'
-def build(apk,out,packs,ffmpeg):
+DEFAULT_PACKS=['warehouse','warehouse2','jungle1']   # the stages the shipped ELF's sprite and piece tables (ps2/src/rio) were made for
+def build(apk,out,packs,ffmpeg,etapa=None,ids_dir=None):
+    """etapa(i): called as each part starts (1 stages, 2 sprites, 3 themes, 4 sounds); ids_dir: where sprite_ids.h and
+    definition_sprites.h are written (default ps2/src/rio, which the ELF is compiled with)."""
+    etapa=etapa or (lambda i:None);ids_dir=Path(ids_dir) if ids_dir else ROOT/'ps2/src/rio'
     import build_campaign as classic,rio_campaign,extract_sprites_rio,pack_sprites_rio,extract_themes_rio,extract_audio_rio,extract_audio_rio_music,level_order
     out=Path(out);out.mkdir(parents=True,exist_ok=True)
+    etapa(1)
     order,_=level_order.level_order();levels=[];skipped=[];pack_of=[];k_in_pack=[]
     for pk in packs:
         for name in order[pk]:
@@ -25,8 +30,11 @@ def build(apk,out,packs,ffmpeg):
     stages=[rio_campaign.stage(f,20.0,i+1,themes) for i,f in enumerate(levels)]
     for i,f in enumerate(levels):stages[i]['stage_script']=f.stem;stages[i]['title']='%s %d'%(EPISODE.get(pack_of[i],pack_of[i].upper()),k_in_pack[i])
     classic.write_binary(stages,{'objects':{}},[],[],{},out/'CAMPAIGN.BIN')
-    bank=out/'_bank';extract_sprites_rio.main(apk,bank,packs);pack_sprites_rio.pack(bank,out/'SPRITES.BIN',ROOT/'ps2/src/rio/sprite_ids.h')
+    etapa(2)
+    bank=out/'_bank';extract_sprites_rio.main(apk,bank,packs);pack_sprites_rio.pack(bank,out/'SPRITES.BIN',ids_dir/'sprite_ids.h')
+    etapa(3)
     extract_themes_rio.extract(apk,out/'THEMES.BIN',themes)
+    etapa(4)
     extract_audio_rio.main(apk,out,ffmpeg);extract_audio_rio_music.main(apk,out,ffmpeg)
     for f in ('sprites.rgba','manifest.json'):(bank/f).unlink(missing_ok=True)
     try:bank.rmdir()
@@ -34,5 +42,5 @@ def build(apk,out,packs,ffmpeg):
     print('fases no CAMPAIGN.BIN:',len(levels),'| fora (%d):'%len(skipped),[s[0] for s in skipped][:8])
     return levels,skipped
 if __name__=='__main__':
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('apk',type=Path);p.add_argument('output',type=Path);p.add_argument('--packs',nargs='+',default=['warehouse','warehouse2']);p.add_argument('--ffmpeg',default='ffmpeg')
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('apk',type=Path);p.add_argument('output',type=Path);p.add_argument('--packs',nargs='+',default=DEFAULT_PACKS);p.add_argument('--ffmpeg',default='ffmpeg')
     a=p.parse_args();build(a.apk,a.output,a.packs,a.ffmpeg)

@@ -36,6 +36,6 @@ SE DER ERRO
 - Qualquer outro erro: envie o arquivo GERAR_ISO_LOG.txt (na pasta PS2Birds).
 
 OBSERVAÇÕES
-- O Angry Birds Rio ainda não gera ISO.
+- O Angry Birds Rio (opção 2) é experimental: gera uma ISO com o primeiro episódio e parte da selva, ainda sem menus próprios. Use o APK com.rovio.angrybirdsrio.apk.
 - Para usar menos memória o script usa 2 processos. Num celular potente você pode tentar
   mais: PS2BIRDS_PROCESSOS=4 bash PS2Birds_Gerador/GERAR_ISO_ANDROID.sh

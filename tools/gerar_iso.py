@@ -33,6 +33,35 @@ def check_apk(path):
 
 STEPS=['Fases (campanha)','Texturas (sprites)','Sons e música','Interface','Letras','Menu','Fundos (temas)','Quadrinhos (cenas)','Montar a ISO']
 
+STEPS_RIO=['Análise do APK','Fases (campanha)','Texturas (sprites)','Fundos (temas)','Sons e música','Montar a ISO']
+
+def generate_rio(apk_path,out_dir,ffmpeg=None,log=print,progress=None):
+    """Rio: analyses the APK (recovers the scripts as data, catalogues pieces and sprites in work/rio, kept for the next run), then writes
+    CAMPAIGN.BIN, SPRITES.BIN, THEMES.BIN, SOUNDS.BIN and MUSIC.BIN. UI/FONT/MENU/CUTSCENE of the Rio do not exist yet: the game uses built-in
+    letters and menus. Returns the list of warnings (empty when the sprite tables match the ELF)."""
+    sys.path.insert(0,str(HERE/'rio'))
+    from rio.investigate_rio import investigate
+    import build_rio_data
+    def etapa(i):
+        if progress:progress.step(i)
+        else:log(f'[{i+1}/{len(STEPS_RIO)}] {STEPS_RIO[i]} ...')
+    out_dir=Path(out_dir);out_dir.mkdir(parents=True,exist_ok=True);warnings=[]
+    etapa(0);t=time.time()
+    done=ROOT/'work/rio/analysis/recovery.json'
+    mine=hashlib.sha256(Path(apk_path).read_bytes()).hexdigest()
+    try:ready=done.is_file() and json.loads(done.read_text()).get('sha256')==mine and (ROOT/'work/rio/analysis/definition_catalogue.json').is_file()
+    except Exception:ready=False
+    if ready:log('    análise já feita antes para este APK: reaproveitada')
+    else:investigate(apk_path)
+    log(f'    ok ({time.time()-t:.0f} s)')
+    with tempfile.TemporaryDirectory(prefix='ps2birds-ids-') as ids:
+        build_rio_data.build(apk_path,out_dir,build_rio_data.DEFAULT_PACKS,find_ffmpeg(ffmpeg),etapa=lambda i:etapa(i),ids_dir=ids)
+        shipped=ROOT/'ps2/src/rio'
+        for name in ('sprite_ids.h','definition_sprites.h'):
+            a,b=Path(ids)/name,shipped/name
+            if b.is_file() and a.read_bytes()!=b.read_bytes():warnings.append(f'{name} gerado difere do compilado no ELF: os sprites podem aparecer trocados (use o ELF do mesmo pacote).')
+    return warnings
+
 def generate(apk_path,out_dir,ffmpeg=None,log=print,dev=False,progress=None):
     """Writes CAMPAIGN.BIN, SPRITES.BIN, SOUNDS.BIN, MUSIC.BIN, UI.BIN, FONT.BIN, MENU.BIN and THEMES.BIN into out_dir. dev=True keeps the
     intermediate files where the developer build and tests expect them (ps2/assets, ps2/data)."""
@@ -63,6 +92,38 @@ def generate(apk_path,out_dir,ffmpeg=None,log=print,dev=False,progress=None):
         for name in ['SOUNDS.BIN','MUSIC.BIN','UI.BIN','FONT.BIN','MENU.BIN','THEMES.BIN','CUTSCENE.BIN']:
             if Path(assets/name).resolve()!=Path(out_dir/name).resolve():shutil.copyfile(assets/name,out_dir/name)
 
+def main_rio(a,p,disc_id):
+    """ISO of the Rio (experimental: first episode and the first Jungle world; no menu art yet)."""
+    if a.dev:p.error('--dev não está disponível para o Rio.')
+    if a.saida==Path(f'{disc_id}.PS2Birds_Classic.iso'):a.saida=Path(f'{disc_id}.PS2Birds_Rio.iso')
+    elf=a.elf or next((c for c in [HERE/'PS2BIRDS_RIO.ELF',ROOT/'PS2BIRDS_RIO.ELF',ROOT/'ps2/build/PS2Birds_Rio.elf'] if c.exists()),None)
+    if not elf or Path(elf).read_bytes()[:4]!=b'\x7fELF':p.error('PS2BIRDS_RIO.ELF não encontrado (use --elf com o ELF do Rio).')
+    import progresso
+    real_out=sys.stdout
+    def to_console(line):
+        real_out.write(line+'\n');real_out.flush()
+    prog=progresso.Progress(STEPS_RIO,logfile=a.log,panel=a.painel,echo=to_console);sys.stdout=progresso.Tee(prog,real_out)
+    prog.write(f'Registro completo: {a.log.resolve()}')
+    try:
+        with tempfile.TemporaryDirectory(prefix='ps2birds-rio-') as data:
+            data=Path(data);warnings=generate_rio(a.apk,data,a.ffmpeg,progress=prog,log=prog.write)
+            for w in warnings:prog.write('AVISO: '+w)
+            files=[data/n for n in ('SPRITES.BIN','SOUNDS.BIN','MUSIC.BIN','THEMES.BIN','CAMPAIGN.BIN')]
+            import make_iso
+            prog.step(5);a.saida.parent.mkdir(parents=True,exist_ok=True)
+            make_iso.write_with_pycdlib(Path(elf).read_bytes(),a.saida.resolve(),files,disc_id)
+            prog.write(f'ISO pronta: {a.saida.resolve()}')
+            if a.pasta:
+                a.pasta.mkdir(parents=True,exist_ok=True);shutil.copyfile(elf,a.pasta/'PS2BIRDS.ELF')
+                (a.pasta/'title.cfg').write_text('title=PS2Birds Rio\nboot=PS2BIRDS.ELF\n',encoding='ascii')
+                for f in files:shutil.copyfile(f,a.pasta/f.name)
+                prog.write(f'Pasta pronta: {a.pasta.resolve()}')
+        prog.finish(f'ISO: {a.saida.resolve()}')
+    except BaseException as e:
+        prog.fail(f'{type(e).__name__}: {e}');raise
+    finally:
+        sys.stdout=real_out;prog.close()
+
 def main():
     p=argparse.ArgumentParser(description=__doc__,formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument('apk',type=Path,help='APK original do jogo selecionado')
@@ -87,7 +148,7 @@ def main():
     disc_id=a.id or PROJECTS[selected].get('disc_id','SLUS_000.10')
     if a.saida is None:a.saida=Path(f'{disc_id}.PS2Birds_Classic.iso')
     if selected=='rio' and not a.investigar:
-        p.error('O Angry Birds Rio ainda está em desenvolvimento e não gera ISO (apenas a auditoria dos dados, com --investigar). Escolha o Classic.')
+        main_rio(a,p,disc_id);return
     if selected=='rio':
         if a.dev:p.error('--dev não está disponível para a investigação Rio.')
         from rio.investigate_rio import investigate

@@ -45,3 +45,7 @@ Linha de comando (opcional)
 
 Nenhum script do jogo é executado: as fases são lidas como dados do bytecode Lua.
 Angry Birds é marca da Rovio Entertainment; este projeto não é afiliado à Rovio.
+
+ANGRY BIRDS RIO (experimental)
+  Escolha 2 no menu e coloque o APK com.rovio.angrybirdsrio.apk na pasta. Gera uma ISO (SLUS_000.11.PS2Birds_Rio.iso) com o primeiro
+  episódio e parte da selva, ainda sem menus próprios; a pasta apps\PS2BirdsRio recebe o ELF e os dados.

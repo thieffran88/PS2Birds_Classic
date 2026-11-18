@@ -32,24 +32,28 @@ command -v python >/dev/null 2>&1 || { echo "Python não encontrado."; exit 1; }
 echo
 echo "Qual jogo você quer gerar?"
 echo "  [1] Angry Birds Classic"
-echo "  [2] Angry Birds Rio  (em desenvolvimento: ainda não gera ISO)"
+echo "  [2] Angry Birds Rio  (em desenvolvimento: só o primeiro episódio e parte da selva)"
 read -r -p "Digite 1 ou 2: " OP
 if [ "$OP" = "2" ]; then JOGO=rio; else JOGO=classic; fi
-if [ "$JOGO" = "rio" ]; then echo; echo "O Angry Birds Rio ainda está em desenvolvimento e não gera ISO. Escolha o Classic."; exit 1; fi
+if [ "$JOGO" = "rio" ]; then APKNAME="com.rovio.angrybirdsrio.apk"; PASTA="apps/PS2BirdsRio"; TITULO="Rio"; else APKNAME="com.rovio.angrybirds.apk"; PASTA="apps/PS2Birds"; TITULO="Classic"; fi
 
 # ---- 3. Onde está o APK?
 APK="$1"
 if [ -z "$APK" ]; then
   for d in "$PWD" "$HOME/storage/downloads" "$HOME/storage/shared/Download" "$HOME/storage/shared"; do
-    [ -f "$d/com.rovio.angrybirds.apk" ] && APK="$d/com.rovio.angrybirds.apk" && break
+    [ -f "$d/$APKNAME" ] && APK="$d/$APKNAME" && break
   done
 fi
 if [ -z "$APK" ]; then
-  APK="$(find "$HOME/storage/downloads" "$HOME/storage/shared/Download" "$PWD" -maxdepth 2 -iname '*angrybirds*.apk' 2>/dev/null | grep -vi rio | head -1)"
+  if [ "$JOGO" = "rio" ]; then
+    APK="$(find "$HOME/storage/downloads" "$HOME/storage/shared/Download" "$PWD" -maxdepth 2 -iname '*angrybirdsrio*.apk' 2>/dev/null | head -1)"
+  else
+    APK="$(find "$HOME/storage/downloads" "$HOME/storage/shared/Download" "$PWD" -maxdepth 2 -iname '*angrybirds*.apk' 2>/dev/null | grep -vi rio | head -1)"
+  fi
 fi
 if [ -z "$APK" ] || [ ! -f "$APK" ]; then
   echo
-  echo "Não achei o APK do Angry Birds Classic (com.rovio.angrybirds.apk)."
+  echo "Não achei o APK do Angry Birds $TITULO ($APKNAME)."
   echo "Copie-o para a pasta Download do celular e rode este script de novo."
   exit 1
 fi
@@ -74,14 +78,14 @@ echo "Gerando. Uma página de acompanhamento vai abrir no navegador do celular."
 echo "Pode levar de 15 a 40 minutos no celular. Não feche o Termux."
 echo
 cd "$OUT" || exit 1
-python "$DIR/tools/gerar_iso.py" "$APK" --jogo "$JOGO" --painel --pasta apps/PS2Birds
+python "$DIR/tools/gerar_iso.py" "$APK" --jogo "$JOGO" --painel --pasta "$PASTA"
 STATUS=$?
 command -v termux-wake-unlock >/dev/null 2>&1 && termux-wake-unlock
 echo
 if [ $STATUS -eq 0 ]; then
   echo "Pronto! Arquivos em: $OUT"
-  echo "  - a ISO (nome começa com SLUS_000.10)"
-  echo "  - a pasta apps/PS2Birds (ELF + dados)"
+  echo "  - a ISO (nome começa com SLUS_000.10 no Classic e SLUS_000.11 no Rio)"
+  echo "  - a pasta $PASTA (ELF + dados)"
   echo "Abra o app de Arquivos do Android, pasta PS2Birds, para copiar para o pendrive ou o cartão."
 else
   echo "A geração terminou com erro. Veja o arquivo GERAR_ISO_LOG.txt em $OUT e me envie."

@@ -15,6 +15,12 @@ PYTHON='3.12.10'
 WHEELS=['pycdlib==1.22.0','imageio-ffmpeg==0.8.1']
 TOOLS=['gerar_iso.py','progresso.py','webp.py','vp8l.py','vp8_tables.py','paralelo.py','build_campaign.py','import_level.py','lua51_data.py','game_profiles.py','aes_cbc.py','mini7z.py',
        'extract_sprites.py','png_decode.py','build_save_icon.py','pack_sprites.py','extract_audio.py','spu_adpcm.py','make_iso.py','extract_ui.py','extract_font.py','extract_menu.py','extract_themes.py','extract_cutscene.py']
+# Rio (tools/rio): the analysis and conversion of the Rio APK, plus the piece and sprite tables the Rio ELF is compiled with.
+RIO_TOOLS=['__init__.py','investigate_rio.py','inspect_levels.py','inspect_dat.py','inspect_comp.py','build_catalogue.py','audit_gaps.py','level_order.py','rio_import_level.py',
+           'rio_campaign.py','build_rio_data.py','crop_sprites.py','extract_sprites_rio.py','pack_sprites_rio.py','extract_themes_rio.py','extract_audio_rio.py',
+           'extract_audio_rio_music.py','sound_groups.py','pvr.py']
+RIO_HEADERS=['sprite_ids.h','definition_sprites.h']
+TOOLS+=['inspect_apk.py']
 PROFILES=['egg_defender.json','games.json','classic_level.json','classic_episode.json','sprite_metrics.json','star_limits.json','supported_apk.json','projects.json']
 BAT=r'''@echo off
 chcp 65001 >nul
@@ -28,7 +34,7 @@ echo.
 echo  Qual jogo voce quer gerar?
 echo.
 echo    [1] Angry Birds Classic
-echo    [2] Angry Birds Rio  ^(em desenvolvimento: ainda nao gera ISO^)
+echo    [2] Angry Birds Rio  ^(em desenvolvimento: so o primeiro episodio e parte da selva^)
 echo.
 set "PADRAO=1"
 set "APK=%~1"
@@ -55,7 +61,9 @@ echo  APK:  %APK%
 echo.
 echo  Uma pagina de acompanhamento vai abrir no navegador. Se ela nao abrir, o endereco aparece abaixo.
 echo.
-"python\python.exe" -I tools\gerar_iso.py "%APK%" --jogo %JOGO% --pasta "apps\PS2Birds" --painel
+set "PASTA=apps\PS2Birds"
+if "%JOGO%"=="rio" set "PASTA=apps\PS2BirdsRio"
+"python\python.exe" -I tools\gerar_iso.py "%APK%" --jogo %JOGO% --pasta "%PASTA%" --painel
 echo.
 pause
 '''
@@ -66,7 +74,16 @@ def fetch(url,cache):
         print('baixando',url);target.write_bytes(urllib.request.urlopen(url).read())
     return target
 
-def build(elf,out,cache):
+def add_rio(kit,elf_rio):
+    """The Rio part of a kit: tools, header tables (to check against the ELF) and the Rio ELF, when given."""
+    (kit/'tools/rio').mkdir(parents=True,exist_ok=True);(kit/'ps2/src/rio').mkdir(parents=True,exist_ok=True)
+    for t in RIO_TOOLS:shutil.copyfile(ROOT/'tools/rio'/t,kit/'tools/rio'/t)
+    for h in RIO_HEADERS:shutil.copyfile(ROOT/'ps2/src/rio'/h,kit/'ps2/src/rio'/h)
+    if elf_rio:
+        if Path(elf_rio).read_bytes()[:4]!=b'\x7fELF':raise SystemExit('ELF do Rio inválido')
+        shutil.copyfile(elf_rio,kit/'PS2BIRDS_RIO.ELF')
+
+def build(elf,out,cache,elf_rio=None):
     cache.mkdir(parents=True,exist_ok=True)
     if Path(elf).read_bytes()[:4]!=b'\x7fELF':raise SystemExit('ELF inválido')
     nupkg=fetch(f'https://api.nuget.org/v3-flatcontainer/python/{PYTHON}/python.{PYTHON}.nupkg',cache)
@@ -86,7 +103,7 @@ def build(elf,out,cache):
         for t in TOOLS:shutil.copyfile(ROOT/'tools'/t,kit/'tools'/t)
         for p in PROFILES:shutil.copyfile(ROOT/'profiles'/p,kit/'profiles'/p)
         shutil.copyfile(ROOT/'ps2/src/sprite_ids.h',kit/'ps2/src/sprite_ids.h')
-        shutil.copyfile(elf,kit/'PS2BIRDS.ELF')
+        shutil.copyfile(elf,kit/'PS2BIRDS.ELF');add_rio(kit,elf_rio)
         (kit/'GERAR_ISO.bat').write_bytes(BAT.replace('\n','\r\n').encode('utf-8'))
         (kit/'LEIA-ME.txt').write_bytes((ROOT/'tools/LEIA-ME_GERADOR.txt').read_text(encoding='utf-8').replace('\n','\r\n').encode('utf-8'))
         out=Path(out);out.parent.mkdir(parents=True,exist_ok=True)
@@ -97,5 +114,5 @@ def build(elf,out,cache):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__,formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument('elf');p.add_argument('saida');p.add_argument('--cache',default=str(ROOT/'ps2/build/kit-cache'))
-    a=p.parse_args();build(a.elf,a.saida,Path(a.cache))
+    p.add_argument('elf');p.add_argument('saida');p.add_argument('--cache',default=str(ROOT/'ps2/build/kit-cache'));p.add_argument('--elf-rio',default=None,help='ELF do Rio (make GAME=rio): habilita o Rio no kit')
+    a=p.parse_args();build(a.elf,a.saida,Path(a.cache),a.elf_rio)

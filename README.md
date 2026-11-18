@@ -1,4 +1,4 @@
-# PS2Birds Classic — protótipo 0.94.1
+# PS2Birds Classic — protótipo 0.94.2
 
 Port não oficial do Angry Birds Classic para PlayStation 2 (homebrew). São 745 fases do
 Tutorial e dos episódios Poached Eggs, Mighty Hoax, Danger Above, Big Setup, Ham 'Em High, Mine and Dine,
@@ -21,6 +21,8 @@ Escolha o seu caso:
 - **Windows:** veja abaixo.
 - **Android (sem computador):** veja o passo a passo em [`docs/GERADOR_ANDROID.md`](docs/GERADOR_ANDROID.md).
 - **Linux/macOS:** veja o fim desta seção.
+
+**Angry Birds Rio (experimental):** o mesmo kit gera uma ISO do Rio (opção 2 do menu, APK `com.rovio.angrybirdsrio.apk`): primeiro episódio e parte da selva, sem menus próprios ainda. No Linux: `python3 tools/gerar_iso.py com.rovio.angrybirdsrio.apk --jogo rio --elf PS2Birds_Rio.elf` (o ELF do Rio sai de `make GAME=rio`). Detalhes em `docs/rio/`.
 
 ### Windows
 

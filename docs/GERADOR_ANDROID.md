@@ -14,7 +14,7 @@ Para quem **não tem computador**. O gerador roda no próprio celular ou tablet 
 - O **APK original do Angry Birds Classic**, com o nome `com.rovio.angrybirds.apk`.
 - O pacote do gerador para Android: `PS2Birds_Classic_<versão>_Gerador_Android.zip` (anexo das Releases).
 
-Por enquanto só o **Classic** gera ISO. O Angry Birds Rio ainda está em desenvolvimento.
+O **Classic** gera a ISO completa. O **Angry Birds Rio** (opção 2) é experimental: gera uma ISO com o primeiro episódio e parte da selva, ainda sem menus próprios; use o APK `com.rovio.angrybirdsrio.apk`. O resultado do Rio vai para a pasta `apps/PS2BirdsRio`.
 
 ## Passo a passo
 
