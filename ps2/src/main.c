@@ -183,12 +183,22 @@ static int rio_sprite_of(const char *definition){
 }
 static void bird(float x,float y,float radius,int type,float angle,int collided,float fuse,int special_used)
 {
-    (void)special_used;
     const BirdSprites *b=&bird_sprites[type>=0 && type<(int)(sizeof(bird_sprites)/sizeof(bird_sprites[0]))?type:0];
     if(b->normal<0)b=&bird_sprites[0];
-    /* fuse -2: the bird waiting on the sling or in the queue; otherwise it is flying (or has hit something). */
-    int id=fuse>-1.5f?(collided&&b->collision>=0?b->collision:b->flying>=0?b->flying:b->normal):b->normal;if(id<0)return;
-    sprite_draw(gs,id,x,y,(render_scale/render_pixels)*(radius/6.0f),angle);
+    const float unit=render_scale/render_pixels;
+    /* fuse -2: waiting on the sling or in the queue; otherwise flying (or hit something). The abilities use the
+       state sprites of the Rio definitions: the black bird's bomb timer, the white bird's egg, the boomerang, Stella's
+       bubble and the globe bird's inflated body (fuse is its size, 0..1). */
+    if(type==BIRD_PUFFER_TYPE && fuse>0 && b->extra>=0){sprite_draw(gs,b->extra,x,y,unit*fuse,angle);return;}
+    int id=b->normal;
+    if(fuse>-1.5f || type==BIRD_BLACK_TYPE){
+        id=collided&&b->collision>=0?b->collision:b->flying>=0?b->flying:b->normal;
+        if(type==BIRD_BLACK_TYPE && fuse>=0 && b->timer[0]>=0)id=fuse<0.33f?b->timer[0]:fuse<0.66f?b->timer[1]:b->timer[2];
+        else if(type==BIRD_BLACK_TYPE && fuse==-2)id=b->normal;
+        else if(special_used && b->action>=0 && type!=BIRD_BLACK_TYPE)id=b->action;
+    }
+    if(id<0)return;
+    sprite_draw(gs,id,x,y,unit*(radius/6.0f),angle);
 }
 static void block(const GameObject *o)
 {

@@ -132,19 +132,19 @@ static const DefinitionSprite definition_sprites[]={
  {"SPECIAL_FRUIT_5",SPR_B_FRUIT_BANANA_SPECIAL,1},
  {0,0,0}
 };
-/* Birds by runtime type (BirdType in game.h; empty rows draw as the red bird): normal, flying, collision sprite (-1: none). */
-typedef struct {const char *definition;int normal,flying,collision;} BirdSprites;
+/* Birds by runtime type (BirdType in game.h; empty rows draw as the red bird): normal, flying, collision, special-ability sprite, the black bird's three bomb-timer sprites (-1: none) and an extra (globe bird: the inflated sprite). */
+typedef struct {const char *definition;int normal,flying,collision,action,timer[3],extra;} BirdSprites;
 static const BirdSprites bird_sprites[]={
- {"RedBird",SPR_BIRD_RED_NORMAL,SPR_BIRD_RED_FLY_1,SPR_BIRD_RED_COL_1},   /* type 0 */
- {"SmallBlueBird",SPR_BIRD_BLUE_NORMAL,SPR_BIRD_BLUE_FLY_1,SPR_BIRD_BLUE_COL_1},   /* type 1 */
- {"YellowBird",SPR_BIRD_YELLOW_NORMAL,SPR_BIRD_YELLOW_FLY_1,SPR_BIRD_YELLOW_COL_1},   /* type 2 */
- {"BlackBird",SPR_BIRD_BLACK_NORMAL,SPR_BIRD_BLACK_FLY_1,SPR_BIRD_BLACK_SPECIAL_1},   /* type 3 */
- {"WhiteBird",SPR_BIRD_WHITE_NORMAL,SPR_BIRD_WHITE_FLY_1,SPR_BIRD_WHITE_COL_1},   /* type 4 */
- {"",-1,-1,-1},   /* type 5 */
- {"BoomerangBird",SPR_BIRD_BOOMERANG_NORMAL,SPR_BIRD_BOOMERANG_FLY_1,SPR_BIRD_BOOMERANG_COL_1},   /* type 6 */
- {"RedBigBird",SPR_BIRD_BB_NORMAL,SPR_BIRD_BB_FLY_1,SPR_BIRD_BB_NORMAL},   /* type 7 */
- {"GlobeBird",SPR_BIRD_PUFFER_1,SPR_BIRD_PUFFER_1,SPR_BIRD_PUFFER_1},   /* type 8 */
- {"PinkBird",SPR_STELLA_NORMAL,SPR_STELLA_FLY,SPR_STELLA_COL_1},   /* type 9 */
- {"",-1,-1,-1},   /* type 10 */
+ {"RedBird",SPR_BIRD_RED_NORMAL,SPR_BIRD_RED_FLY_1,SPR_BIRD_RED_COL_1,SPR_BIRD_RED_FLY_1,{-1,-1,-1},-1},   /* type 0 */
+ {"SmallBlueBird",SPR_BIRD_BLUE_NORMAL,SPR_BIRD_BLUE_FLY_1,SPR_BIRD_BLUE_COL_1,SPR_BIRD_BLUE_FLY_1,{-1,-1,-1},-1},   /* type 1 */
+ {"YellowBird",SPR_BIRD_YELLOW_NORMAL,SPR_BIRD_YELLOW_FLY_1,SPR_BIRD_YELLOW_COL_1,SPR_BIRD_YELLOW_FLY_1,{-1,-1,-1},-1},   /* type 2 */
+ {"BlackBird",SPR_BIRD_BLACK_NORMAL,SPR_BIRD_BLACK_FLY_1,SPR_BIRD_BLACK_SPECIAL_1,-1,{SPR_BIRD_BLACK_SPECIAL_1,SPR_BIRD_BLACK_SPECIAL_2,SPR_BIRD_BLACK_SPECIAL_3},-1},   /* type 3 */
+ {"WhiteBird",SPR_BIRD_WHITE_NORMAL,SPR_BIRD_WHITE_FLY_1,SPR_BIRD_WHITE_COL_1,SPR_BIRD_WHITE_SPECIAL,{-1,-1,-1},-1},   /* type 4 */
+ {"EggGranade",SPR_DROPPABLE_EGG,-1,-1,-1,{-1,-1,-1},-1},   /* type 5 */
+ {"BoomerangBird",SPR_BIRD_BOOMERANG_NORMAL,SPR_BIRD_BOOMERANG_FLY_1,SPR_BIRD_BOOMERANG_COL_1,SPR_BIRD_BOOMERANG_SPECIAL,{-1,-1,-1},-1},   /* type 6 */
+ {"RedBigBird",SPR_BIRD_BB_NORMAL,SPR_BIRD_BB_FLY_1,SPR_BIRD_BB_NORMAL,SPR_BIRD_BB_FLY_1,{-1,-1,-1},-1},   /* type 7 */
+ {"GlobeBird",SPR_BIRD_PUFFER_1,SPR_BIRD_PUFFER_1,SPR_BIRD_PUFFER_1,SPR_BIRD_PUFFER_1,{-1,-1,-1},SPR_BIRD_PUFFER_2},   /* type 8 */
+ {"PinkBird",SPR_STELLA_NORMAL,SPR_STELLA_FLY,SPR_STELLA_COL_1,SPR_STELLA_BUBBLE,{-1,-1,-1},-1},   /* type 9 */
+ {"",-1,-1,-1,-1,{-1,-1,-1},-1},   /* type 10 */
 };
 #endif

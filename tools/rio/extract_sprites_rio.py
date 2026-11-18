@@ -14,7 +14,14 @@ import zipfile
 # Sprites the runtime draws by name, not through a piece definition: the slingshot of the first chapter.
 EXTRA=['SLING_SHOT_01_BACK','SLING_SHOT_01_FRONT']
 # The runtime's bird types (tools/rio/rio_campaign.py BIRD_TYPE) and the sprite states it draws.
-BIRDS={0:'RedBird',1:'SmallBlueBird',2:'YellowBird',3:'BlackBird',4:'WhiteBird',6:'BoomerangBird',7:'RedBigBird',8:'GlobeBird',9:'PinkBird'};BIRD_STATES=('default','flying','collision')
+BIRDS={0:'RedBird',1:'SmallBlueBird',2:'YellowBird',3:'BlackBird',4:'WhiteBird',5:'EggGranade',6:'BoomerangBird',7:'RedBigBird',8:'GlobeBird',9:'PinkBird'}
+BIRD_STATES=('default','flying','collision','action')   # + the black bird's bomb timer and the globe bird's inflated sprite
+PUFFED='BIRD_PUFFER_2'
+def bird_names(sp):
+    """Every sprite a bird definition's `sprites` table can show in the game."""
+    out={sp[k] for k in BIRD_STATES if isinstance(sp.get(k),str)}
+    if isinstance(sp.get('timer'),dict):out|=set(sp['timer'].values())
+    return out
 CAT=ROOT/'work/rio/analysis/definition_catalogue.json';LEVELS=ROOT/'work/rio/analysis/chunks/assets/data/levels'
 def invisible(definition):
     """Static and dummy blocks are physics only (their sprite is a flat white placeholder): the theme draws the scenery."""
@@ -34,7 +41,8 @@ def wanted(packs):
         names|=set(composite.get(s,[s]))
     for b in BIRDS.values():
         sp=((cat.get(b) or {}).get('effective') or {}).get('sprites') or {}
-        names|={sp[k] for k in BIRD_STATES if isinstance(sp.get(k),str)}
+        names|=bird_names(sp)
+    names.add(PUFFED)
     return sorted(names|set(EXTRA)),sorted(used)
 def main(apk,out,packs):
     names,used=wanted(packs);hits=crop_sprites.find(set(names));cache={};sprites=[];pixels={};missing=[]
