@@ -10,6 +10,7 @@ ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'tools'))
 from lua51_data import load
 COMP=ROOT/'work/rio/analysis/comp_inventory.json';CAT=ROOT/'work/rio/analysis/definition_catalogue.json';INV=ROOT/'work/rio/analysis/dat_inventory.json'
 SIZE_FACTOR=0.92
+GROUND_HALF_HEIGHT=5.0   # the Ground object is 10 units tall (as in tools/import_level.py): its top, where every stage's pieces rest, is y - 5; checked on the 45 stages: the lowest pieces end at y = 0
 KIND_OF_MATERIAL={'cage':4,'monkey':4,'monkeyHanging':4,'wood':1,'crate':1,'glass':2,'stone':5,'cardboard':1,'metal':6,'misc':1}
 def frame_sizes():
     sizes={}
@@ -78,7 +79,7 @@ def convert(path,gravity):
     sling=birds[0]   # Slingshot.lua: the slingshot is placed on the first bird of the queue
     joints=convert_joints(env,objects)
     return dict(objects=objects,joints=joints,birds=[dict(definition=b['definition'],x=b['x'],y=b['y']) for b in birds],
-        sling_x=sling['x'],sling_y=sling['y'],ground_y=ground['y'] if ground else 0.0,
+        sling_x=sling['x'],sling_y=sling['y'],ground_y=(ground['y']-GROUND_HALF_HEIGHT) if ground else 0.0,
         physics_to_world=pixels,gravity=gravity,skipped=sorted(set(skipped)))
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('level',type=Path);p.add_argument('--gravity',type=float,default=20.0)
