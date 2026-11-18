@@ -6,21 +6,27 @@ usage: build_rio_data.py APK OUTDIR [--packs warehouse warehouse2] [--ffmpeg ffm
 import argparse,json,subprocess,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'tools'));sys.path.insert(0,str(ROOT/'tools/rio'))
+# Episode titles by pack folder (the first episode is the only one whose name is known from the game's menu).
+EPISODE={'warehouse':"SMUGGLERS DEN",'warehouse2':"SMUGGLERS DEN"}
 LEVELS=ROOT/'work/rio/analysis/chunks/assets/data/levels'
 def build(apk,out,packs,ffmpeg):
     import build_campaign as classic,rio_campaign,extract_sprites_rio,pack_sprites_rio,extract_themes_rio,extract_audio_rio,extract_audio_rio_music,level_order
     out=Path(out);out.mkdir(parents=True,exist_ok=True)
-    order,_=level_order.level_order();levels=[];skipped=[]
+    order,_=level_order.level_order();levels=[];skipped=[];pack_of=[];k_in_pack=[]
     for pk in packs:
         for name in order[pk]:
             f=LEVELS/pk/(name+'.lua')
-            try:rio_campaign.stage(f,20.0,len(levels)+1);levels.append(f)
+            try:rio_campaign.stage(f,20.0,len(levels)+1);levels.append(f);pack_of.append(pk);k_in_pack.append(sum(1 for q in pack_of if q==pk) if pk not in('warehouse','warehouse2') else len(levels))
             except ValueError as e:skipped.append((pk+'/'+name,str(e)))
-    stages=[rio_campaign.stage(f,20.0,i+1) for i,f in enumerate(levels)]
-    for i,f in enumerate(levels):stages[i]['stage_script']=f.stem;stages[i]['title']='SMUGGLERS DEN %d'%(i+1) if len(packs)else 'RIO %d'%(i+1)
+    themes=[]
+    for f in levels:
+        t=rio_campaign.level_theme(f)
+        if t not in themes:themes.append(t)
+    stages=[rio_campaign.stage(f,20.0,i+1,themes) for i,f in enumerate(levels)]
+    for i,f in enumerate(levels):stages[i]['stage_script']=f.stem;stages[i]['title']='%s %d'%(EPISODE.get(pack_of[i],pack_of[i].upper()),k_in_pack[i])
     classic.write_binary(stages,{'objects':{}},[],[],{},out/'CAMPAIGN.BIN')
     bank=out/'_bank';extract_sprites_rio.main(apk,bank,packs);pack_sprites_rio.pack(bank,out/'SPRITES.BIN',ROOT/'ps2/src/rio/sprite_ids.h')
-    extract_themes_rio.extract(apk,out/'THEMES.BIN',['theme2'])
+    extract_themes_rio.extract(apk,out/'THEMES.BIN',themes)
     extract_audio_rio.main(apk,out,ffmpeg);extract_audio_rio_music.main(apk,out,ffmpeg)
     for f in ('sprites.rgba','manifest.json'):(bank/f).unlink(missing_ok=True)
     try:bank.rmdir()

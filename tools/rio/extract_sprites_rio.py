@@ -14,7 +14,7 @@ import zipfile
 # Sprites the runtime draws by name, not through a piece definition: the slingshot of the first chapter.
 EXTRA=['SLING_SHOT_01_BACK','SLING_SHOT_01_FRONT']
 # The runtime's bird types (tools/rio/rio_campaign.py BIRD_TYPE) and the sprite states it draws.
-BIRDS=['RedBird','SmallBlueBird','YellowBird','BlackBird'];BIRD_STATES=('default','flying','collision')
+BIRDS={0:'RedBird',1:'SmallBlueBird',2:'YellowBird',3:'BlackBird',4:'WhiteBird',6:'BoomerangBird',7:'RedBigBird',8:'GlobeBird',9:'PinkBird'};BIRD_STATES=('default','flying','collision')
 CAT=ROOT/'work/rio/analysis/definition_catalogue.json';LEVELS=ROOT/'work/rio/analysis/chunks/assets/data/levels'
 def wanted(packs):
     cat=json.loads(CAT.read_text())['definitions'];comps=json.loads(crop_sprites.INV.parent.joinpath('comp_inventory.json').read_text())
@@ -28,7 +28,7 @@ def wanted(packs):
         s=e.get('sprite')
         if not s:continue
         names|=set(composite.get(s,[s]))
-    for b in BIRDS:
+    for b in BIRDS.values():
         sp=((cat.get(b) or {}).get('effective') or {}).get('sprites') or {}
         names|={sp[k] for k in BIRD_STATES if isinstance(sp.get(k),str)}
     return sorted(names|set(EXTRA)),sorted(used)

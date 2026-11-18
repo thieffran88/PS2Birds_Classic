@@ -185,6 +185,7 @@ static void bird(float x,float y,float radius,int type,float angle,int collided,
 {
     (void)fuse;(void)special_used;
     const BirdSprites *b=&bird_sprites[type>=0 && type<(int)(sizeof(bird_sprites)/sizeof(bird_sprites[0]))?type:0];
+    if(b->normal<0)b=&bird_sprites[0];
     int id=collided&&b->collision>=0?b->collision:b->normal;if(id<0)return;
     sprite_draw(gs,id,x,y,(render_scale/render_pixels)*(radius/6.0f),angle);
 }

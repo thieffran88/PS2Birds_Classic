@@ -20,17 +20,22 @@ def frames_of(z):
         if '/themes_android/' not in p['path']:continue
         for f in p.get('frames') or []:out[f['name']]=(p['texture'],f['x'],f['y'],f['w'],f['h'],f['px'],f['py'])
     return out
+def read_sheet(z,tex):
+    """(width, height, RGBA) of a theme sheet: PVR or WebP."""
+    if tex.endswith('.webp'):
+        import webp;w,h,px=webp.decode_webp(z.read(BASE+tex));return w,h,px
+    return pvr.read_pvr(z.read(BASE+tex))
 def layer(z,frames,cache,name,factor):
     if name not in frames:return None
     tex,x,y,w,h,px,py=frames[name]
-    if not tex.endswith('.pvr'):return None   # WebP/PNG sheets: not readable here
-    if tex not in cache:cache[tex]=pvr.read_pvr(z.read(BASE+tex))
+    if not tex.endswith(('.pvr','.webp')):return None   # PNG sheets: not used by the themes
+    if tex not in cache:cache[tex]=read_sheet(z,tex)
     sw,sh,rgba=cache[tex];crop=bytearray()
     for r in range(y,y+h):crop+=rgba[(r*sw+x)*4:(r*sw+x+w)*4]
     s,ww,hh=scale(bytes(crop),w,h,factor)
     return bytes(s),ww,hh,round(-py*factor),round(-px*factor),round(w*factor)   # top, x0, tile (as the Classic)
 def ground(z,name):
-    d=z.read(BASE+name+'.pvr');sw,sh,rgba=pvr.read_pvr(d);out=bytearray()
+    names=set(z.namelist());sw,sh,rgba=read_sheet(z,name+('.pvr' if BASE+name+'.pvr' in names else '.webp'));out=bytearray()
     for y in range(256):
         for x in range(256):
             i=((y%sh)*sw+(x%sw))*4;out+=struct.pack('<H',(rgba[i]>>3)|((rgba[i+1]>>3)<<5)|((rgba[i+2]>>3)<<10)|0x8000)
