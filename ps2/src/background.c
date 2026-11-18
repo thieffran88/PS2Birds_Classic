@@ -61,6 +61,8 @@ static void paint_piece(const BackgroundPiece *p){
         frame[Y*W+X]=blend(frame[Y*W+X],t,a);
     }
 }
+static int scroll_px,frame_scroll;
+void background_set_scroll(int pixels){scroll_px=((pixels%W)+W)%W;}
 int background_prepare(int theme,int ground_y,int stage,const BackgroundPiece *pieces,int count){
     if(!ready || theme<0 || theme>=themes){frame_theme=-1;return 0;}
     if(theme!=loaded){
@@ -72,14 +74,15 @@ int background_prepare(int theme,int ground_y,int stage,const BackgroundPiece *p
         if(done!=sizes[theme]){loaded=-1;frame_theme=-1;return 0;}
         loaded=theme;frame_theme=-1;
     }
-    if(theme!=frame_theme || ground_y!=frame_ground || stage!=frame_stage){
+    if(theme!=frame_theme || ground_y!=frame_ground || stage!=frame_stage || scroll_px!=frame_scroll){
         /* Screen row y shows canvas row 448 - ground + y (the ground line on the stage's ground). */
         for(int y=0;y<SCREEN_H;y++){
             int src=SCREEN_H-ground_y+y;if(src<0)src=0;if(src>=canvas_h)src=canvas_h-1;
-            memcpy(frame+y*W,canvas+src*W,W*2);
+            if(scroll_px){memcpy(frame+y*W,canvas+src*W+scroll_px,(W-scroll_px)*2);memcpy(frame+y*W+(W-scroll_px),canvas+src*W,scroll_px*2);}
+            else memcpy(frame+y*W,canvas+src*W,W*2);
         }
         for(int i=0;i<count;i++)paint_piece(&pieces[i]);
-        FlushCache(0);frame_theme=theme;frame_ground=ground_y;frame_stage=stage;
+        FlushCache(0);frame_theme=theme;frame_ground=ground_y;frame_stage=stage;frame_scroll=scroll_px;
     }
     return 1;
 }

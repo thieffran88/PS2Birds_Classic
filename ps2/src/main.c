@@ -626,6 +626,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             BackgroundPiece *p=&pieces[count++];p->sprite=id;p->x=o.x;p->y=o.y;p->angle=o.angle;
             p->scale=(render_scale/render_pixels)*SPRITE_MASK_SCALE;p->flip_x=(o.mirror&OBJECT_MIRROR_X)!=0;p->flip_y=(o.mirror&OBJECT_MIRROR_Y)!=0;
         }
+        background_set_scroll(menu?0:(int)(g->cam_x*0.35f));   /* the scenery moves slower than the stage (0 on fixed-camera stages) */
         terrain_baked=background_prepare(game_level_theme(g->level),(int)render_ground,g->level,pieces,count);
     }
     if(terrain_baked)background_draw(gs);
