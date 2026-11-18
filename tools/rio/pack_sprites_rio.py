@@ -27,13 +27,14 @@ def pack(bank,out_bin,out_ids):
     # Piece-to-sprite table (the Classic's definition_sprites.h): a piece is drawn with its sprite, or with
     # the body of its composition (the cage; the freed bird is not drawn yet). Pieces whose sprite is not
     # in the bank (WebP) are left out and are not drawn.
+    import extract_sprites_rio as xr
     cat=json.loads((ROOT/'work/rio/analysis/definition_catalogue.json').read_text())['definitions']
     comps=json.loads((ROOT/'work/rio/analysis/comp_inventory.json').read_text())
     body={c['name']:c['children'][-1]['sprite'] for p in comps['parsed'] for c in p.get('composites') or [] if c.get('children')}
     rows=[]
     for d in sorted(cat):
         e=cat[d].get('effective') or {};sp=e.get('sprite');sp=body.get(sp,sp)
-        if sp in by and e.get('type') in ('box','circle','polygon'):rows.append(' {"%s",SPR_%s,1},'%(d,sp))
+        if sp in by and e.get('type') in ('box','circle','polygon') and not xr.invisible(d):rows.append(' {"%s",SPR_%s,1},'%(d,sp))
     import extract_sprites_rio as xr
     brows=[]
     for t in range(11):

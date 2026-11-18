@@ -16,6 +16,9 @@ EXTRA=['SLING_SHOT_01_BACK','SLING_SHOT_01_FRONT']
 # The runtime's bird types (tools/rio/rio_campaign.py BIRD_TYPE) and the sprite states it draws.
 BIRDS={0:'RedBird',1:'SmallBlueBird',2:'YellowBird',3:'BlackBird',4:'WhiteBird',6:'BoomerangBird',7:'RedBigBird',8:'GlobeBird',9:'PinkBird'};BIRD_STATES=('default','flying','collision')
 CAT=ROOT/'work/rio/analysis/definition_catalogue.json';LEVELS=ROOT/'work/rio/analysis/chunks/assets/data/levels'
+def invisible(definition):
+    """Static and dummy blocks are physics only (their sprite is a flat white placeholder): the theme draws the scenery."""
+    return 'STATIC' in definition or 'DUMMY' in definition
 def wanted(packs):
     cat=json.loads(CAT.read_text())['definitions'];comps=json.loads(crop_sprites.INV.parent.joinpath('comp_inventory.json').read_text())
     composite={c['name']:[x['sprite'] for x in c['children']] for p in comps['parsed'] for c in p.get('composites') or []}
@@ -24,6 +27,7 @@ def wanted(packs):
         for f in sorted((LEVELS/pk).glob('*.lua')):
             used|={o['definition'] for o in load(f.read_bytes())['world'].values()}
     for d in used:
+        if invisible(d):continue
         e=(cat.get(d) or {}).get('effective') or {}
         s=e.get('sprite')
         if not s:continue
