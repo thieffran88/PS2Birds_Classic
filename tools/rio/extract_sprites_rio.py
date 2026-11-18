@@ -8,7 +8,7 @@ import argparse,json,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'tools'));sys.path.insert(0,str(ROOT/'tools/rio'))
 import crop_sprites
-from extract_sprites import pack,VRAM_BUDGET
+from extract_sprites import pack,VRAM_BUDGET,halve_mask
 from lua51_data import load
 import zipfile
 # Sprites the runtime draws by name, not through a piece definition: the slingshot of the first chapter.
@@ -23,9 +23,12 @@ def bird_names(sp):
     if isinstance(sp.get('timer'),dict):out|=set(sp['timer'].values())
     return out
 CAT=ROOT/'work/rio/analysis/definition_catalogue.json';LEVELS=ROOT/'work/rio/analysis/chunks/assets/data/levels'
-def invisible(definition):
-    """Static and dummy blocks are physics only (their sprite is a flat white placeholder): the theme draws the scenery."""
-    return 'STATIC' in definition or 'DUMMY' in definition
+def invisible(effective):
+    """Pieces drawn by nothing: the dummy anchors (collision = false), the empty-sprite pieces and the fixed terrain (`themed`: only physics, the theme's art is the scenery)."""
+    return effective.get('collision') is False or effective.get('themed') or (effective.get('sprite') in ('EMPTY_1X1',None) and not effective.get('sprites'))
+def mask_sprites(cat):
+    """The pieces whose sprite is a ground mask ("themed": the theme's ground texture is painted through it, as in the Classic)."""
+    return {e['sprite'] for d in cat.values() for e in [d.get('effective') or {}] if e.get('themed') and e.get('sprite')}
 def wanted(packs):
     cat=json.loads(CAT.read_text())['definitions'];comps=json.loads(crop_sprites.INV.parent.joinpath('comp_inventory.json').read_text())
     composite={c['name']:[x['sprite'] for x in c['children']] for p in comps['parsed'] for c in p.get('composites') or []}
@@ -34,8 +37,8 @@ def wanted(packs):
         for f in sorted((LEVELS/pk).glob('*.lua')):
             used|={o['definition'] for o in load(f.read_bytes())['world'].values()}
     for d in used:
-        if invisible(d):continue
         e=(cat.get(d) or {}).get('effective') or {}
+        if invisible(e):continue
         s=e.get('sprite')
         if not s:continue
         names|=set(composite.get(s,[s]))
@@ -45,7 +48,7 @@ def wanted(packs):
     names.add(PUFFED)
     return sorted(names|set(EXTRA)),sorted(used)
 def main(apk,out,packs):
-    names,used=wanted(packs);hits=crop_sprites.find(set(names));cache={};sprites=[];pixels={};missing=[]
+    names,used=wanted(packs);masks=mask_sprites(json.loads(CAT.read_text())['definitions']);hits=crop_sprites.find(set(names));cache={};sprites=[];pixels={};missing=[]
     with zipfile.ZipFile(apk) as z:
         for n in names:
             if n not in hits:missing.append(n);continue
@@ -54,7 +57,10 @@ def main(apk,out,packs):
             w,h,px=cache[k];rows=bytearray()
             for y in range(f['y'],f['y']+f['h']):rows+=px[(y*w+f['x'])*4:(y*w+f['x']+f['w'])*4]
             for q in range(3,len(rows),4):rows[q]=(rows[q]*128+127)//255   # alpha on the GS scale, 0..128, like the Classic bank
-            sprites.append({'name':n,'width':f['w'],'height':f['h'],'pivot_x':f['px'],'pivot_y':f['py']});pixels[n]=bytes(rows)
+            fw,fh,px_,py_=f['w'],f['h'],f['px'],f['py']
+            if n in masks:   # ground masks: half resolution, drawn at SPRITE_MASK_SCALE
+                rows,fw,fh=halve_mask(bytes(rows),fw,fh);px_=(px_+1)//2;py_=(py_+1)//2
+            sprites.append({'name':n,'width':fw,'height':fh,'pivot_x':px_,'pivot_y':py_});pixels[n]=bytes(rows)
     specs,placed=pack(sprites)
     sheets=[bytearray(s['width']*s['height']*4) for s in specs]
     for s in sprites:

@@ -9,7 +9,6 @@ static const DefinitionSprite definition_sprites[]={
  {"BLOCK_AIRPORT_CAGE_2",SPR_BLOCK_CAGE_3,1},
  {"BLOCK_AIRPORT_CAGE_4",SPR_BLOCK_CAGE_5,1},
  {"BLOCK_AIRPORT_CAGE_8",SPR_BLOCK_CAGE_4,1},
- {"BLOCK_BUSH",SPR_BLOCK_BUSH,1},
  {"BLOCK_CABLE_ROLL_1",SPR_BLOCK_CABLE_ROLL_1,1},
  {"BLOCK_CABLE_ROLL_2",SPR_BLOCK_CABLE_ROLL_2,1},
  {"BLOCK_CABLE_ROLL_2_PHYS",SPR_BLOCK_CABLE_ROLL_2,1},
@@ -41,6 +40,7 @@ static const DefinitionSprite definition_sprites[]={
  {"BLOCK_CRATE_MOVING_1",SPR_BLOCK_CRATE_1,1},
  {"BLOCK_CRATE_MOVING_2",SPR_BLOCK_CRATE_1,1},
  {"BLOCK_CRATE_MOVING_3",SPR_BLOCK_CRATE_2,1},
+ {"BLOCK_DUMMY_LEVEL_GOAL",SPR_BLOCK_CAGE_1,1},
  {"BLOCK_FLOWER_1",SPR_BLOCK_FLOWER_MAGENTA,1},
  {"BLOCK_FLOWER_2",SPR_BLOCK_FLOWER_WHITE,1},
  {"BLOCK_FLOWER_3",SPR_BLOCK_FLOWER_VIOLET,1},
@@ -92,8 +92,6 @@ static const DefinitionSprite definition_sprites[]={
  {"BLOCK_ROCK_ROUND_4X4_1",SPR_BLOCK_ROCK_1_7,1},
  {"BLOCK_ROCK_TRIANGLE_E_4X4_1",SPR_BLOCK_ROCK_TRIANGLE_M_1,1},
  {"BLOCK_ROCK_TRIANGLE_R_4X4_1",SPR_BLOCK_ROCK_TRIANGLE_L_1,1},
- {"BLOCK_STICKER_1",SPR_BLOCK_STICKER_1,1},
- {"BLOCK_STICKER_2",SPR_BLOCK_STICKER_2,1},
  {"BLOCK_SWIMRING_BLUE_1",SPR_BLOCK_SWIMRING_BLUE_1,1},
  {"BLOCK_SWIMRING_PINK_1",SPR_BLOCK_SWIMRING_PINK_1,1},
  {"BLOCK_SWIMRING_SPOTTED_1",SPR_BLOCK_SWIMRING_SPOTTED_1,1},
@@ -146,5 +144,10 @@ static const BirdSprites bird_sprites[]={
  {"GlobeBird",SPR_BIRD_PUFFER_1,SPR_BIRD_PUFFER_1,SPR_BIRD_PUFFER_1,SPR_BIRD_PUFFER_1,{-1,-1,-1},SPR_BIRD_PUFFER_2},   /* type 8 */
  {"PinkBird",SPR_STELLA_NORMAL,SPR_STELLA_FLY,SPR_STELLA_COL_1,SPR_STELLA_BUBBLE,{-1,-1,-1},-1},   /* type 9 */
  {"",-1,-1,-1,-1,{-1,-1,-1},-1},   /* type 10 */
+};
+/* Fixed terrain pieces drawn through the theme's ground texture (half-resolution masks, SPRITE_MASK_SCALE). */
+typedef struct {const char *definition;int sprite;} GroundMask;
+static const GroundMask ground_masks[]={
+ {0,0}
 };
 #endif

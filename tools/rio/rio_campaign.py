@@ -40,7 +40,7 @@ def stage(path,gravity,index,themes=None):
     th=level_theme(path)
     unknown=[b['definition'] for b in r['birds'] if b['definition'] not in BIRD_TYPE]
     if unknown:raise ValueError('pássaro sem tipo no runtime: %s'%sorted(set(unknown)))
-    return dict(objects=r['objects'],joints=[],birds=[{'type':BIRD_TYPE[b['definition']]} for b in r['birds']],gravity=r['gravity'],
+    return dict(objects=r['objects'],joints=r['joints'],birds=[{'type':BIRD_TYPE[b['definition']]} for b in r['birds']],gravity=r['gravity'],
         sling_x=r['sling_x'],sling_y=r['sling_y'],ground_y=r['ground_y'],physics_to_world=r['physics_to_world'],
         view=fit_view(r,level_zoom(path)),theme_index=(themes.index(th) if themes and th in themes else 0),title='RIO %d'%index,stage_script=Path(path).stem)
 if __name__=='__main__':
