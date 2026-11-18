@@ -1148,7 +1148,7 @@ int main(int argc,char **argv)
                 printf("PS2Birds: launch state=%d angle=%.1f power=%.1f birds=%d\n",g.state,g.angle,g.power,g.birds);
             }
             GameState before=g.state;int old_record=g.highscores[g.level];
-            game_update(&g,frame_seconds);
+            game_update(&g,frame_seconds);game_camera(&g,frame_seconds);
             if(g.events&GAME_EVENT_EXPLOSION)audio_play(SFX_EXPLOSION);
             if(g.events&GAME_EVENT_PIG)audio_play(SFX_PIG);
             if(g.events&GAME_EVENT_GLASS)audio_play(SFX_GLASS);

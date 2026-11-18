@@ -222,6 +222,7 @@ typedef struct {
     float explosion_x,explosion_y; /* screen position of the last GAME_EVENT_EXPLOSION */
     int level,unlocked,highscores[MAX_CAMPAIGN_LEVELS];
     float view_x,view_y,view_scale,pixels,ground_y,gravity,sling_x,sling_y;
+    float cam_x,cam_max,base_view_x,base_sling_x;   /* scrolling camera: how far the view has moved right, and how far it may (0: the stage fits the screen) */
     GameState state;
     GamePopup popups[GAME_POPUPS];int popup_next;
     void *physics;
@@ -230,6 +231,7 @@ typedef struct { float x,y,width,height,angle,health; int kind,alive; const char
 /* Initialize once before reset; destroy releases the Box2D world. */
 void game_init(Game *game);
 void game_destroy(Game *game);
+void game_camera(Game *game,float seconds);   /* follows the flying bird on stages wider than the screen; call every frame */
 void game_reset(Game *game);
 void game_aim(Game *game,float angle_delta,float power_delta);
 void game_launch(Game *game);

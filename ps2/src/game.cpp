@@ -629,6 +629,12 @@ int game_load_level(Game *g,int index) {
     g->ground_y=l->view_y+l->ground_y*l->view_scale;g->gravity=l->gravity;
     g->sling_x=l->view_x+l->sling_x*l->view_scale;g->sling_y=l->view_y+l->sling_y*l->view_scale;
     g->x=g->sling_x;g->y=g->sling_y;g->angle=30;g->power=75;g->birds=l->birds;g->state=AIMING;
+    /* Camera: the stage's right edge (the Classic stages are fitted to the screen, so they never scroll). */
+    g->base_view_x=l->view_x;g->base_sling_x=g->sling_x;g->cam_x=0;g->cam_max=0;
+#ifdef PS2BIRDS_RIO   /* only the Rio build: the Classic stages (Egg Defender included) keep their fixed camera */
+    {float right=-1e9f;for(int i=0;i<l->count;i++){const CampaignObject *o=&l->objects[i];float r=(o->x+fmaxf(o->width,o->height)*0.5f)*l->view_scale+l->view_x;if(r>right)right=r;}
+     if(right-608>8)g->cam_max=right-608;}
+#endif
     bool waved=false;for(int i=0;i<l->count;i++)if(OBJECT_WAVE(l->objects[i].flags))waved=true;
     /* Egg Defender: only the vehicles' pigs are goals (scene pigs, e.g. the opening scene's king, are not). */
     for(int i=0;i<l->count;i++){if(l->objects[i].kind==4 && !l->objects[i].spawn_of && (!waved || OBJECT_WAVE(l->objects[i].flags)))g->pig_alive++;if(l->objects[i].kind!=3 && l->objects[i].kind!=4 && !(l->objects[i].flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL)))g->block_alive++;}
@@ -1306,6 +1312,20 @@ static void tick(Game *g) {
         if(g->birds>0){g->state=AIMING;g->x=g->sling_x;g->y=g->sling_y;}
         else g->state=LOST;
     }
+}
+void game_camera(Game *g,float seconds){
+    if(g->cam_max<=0)return;
+    float want=g->cam_x;
+    if(g->state==AIMING)want=0;
+    else{GameBird b;float far_x=-1e9f;
+        for(int i=0;game_get_projectile(g,i,&b);i++){float x=b.x+g->cam_x;if(x>far_x)far_x=x;}
+        if(far_x>-1e8f){want=far_x-360;if(want<g->cam_x && g->state!=WON && g->state!=LOST)want=g->cam_x;}}
+    want=fminf(fmaxf(want,0.0f),g->cam_max);
+    float k=fminf(seconds*4,1.0f);float next=g->cam_x+(want-g->cam_x)*k,delta=next-g->cam_x;
+    g->cam_x=next;g->view_x=g->base_view_x-next;g->sling_x=g->base_sling_x-next;
+    if(g->state==AIMING){g->x-=delta;}
+    for(int i=0;i<GAME_POPUPS;i++)g->popups[i].x-=delta;
+    g->explosion_x-=delta;
 }
 void game_update(Game *g,float seconds) {
     g->events=0;
