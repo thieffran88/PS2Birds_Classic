@@ -34,17 +34,19 @@ int main(){
     played.clear();music_play(2);assert(music_current()==2);ring=MUSIC_CHUNK*2;music_tick();
     assert(played.size()==2*MUSIC_CHUNK && played[0]=='A' && played[2047]=='A' && played[2048]=='A' && played[2499]=='A' && played[2500]==0 && music_current()==2);
     music_play(3);assert(music_current()==MUSIC_NONE);
-    assert(volume==70 && stops==1);                                            // stopping a playing track on purpose emptied the ring once
+    assert(volume==70 && stops==0);                                            // stopping a playing track filled the ring with silence (no stop call)
     played.clear();music_play(MUSIC_TITLE);
-    music_set_enabled(0);assert(stops==2 && volume==0);                       // sound off: stream stopped and emptied, not just starved
+    music_set_enabled(0);assert(stops==1 && volume==0);                       // sound off: stream stopped and emptied, not just starved
     ring=MUSIC_CHUNK*8;music_tick();assert(played.empty());                    // nothing is sent while muted
-    music_set_enabled(0);assert(stops==2);                                     // already off: no second stop
-    music_set_enabled(1);assert(volume==70 && stops==2);                       // sound on: volume back, no stop
+    music_set_enabled(0);assert(stops==1);                                     // already off: no second stop
+    music_set_enabled(1);assert(volume==70 && stops==1);                       // sound on: volume back, no stop
     ring=MUSIC_CHUNK*2;music_tick();assert(played.size()==2*MUSIC_CHUNK);      // the stream is fed again
-    music_play(MUSIC_NONE);assert(stops==3);played.clear();music_tick();assert(played.empty());
+    ring=MUSIC_CHUNK*3;played.clear();music_play(MUSIC_NONE);assert(played.size()==3*MUSIC_CHUNK && played[0]==0 && played.back()==0 && stops==1);   // stopped on purpose: the free part of the ring is filled with silence
+    played.clear();music_tick();assert(played.empty());
     // a track that ends by itself: once the ring has played out it is emptied, not left to replay stale data
     music_play(MUSIC_LEVEL_COMPLETE);ring=MUSIC_CHUNK*8;music_tick();assert(music_current()==MUSIC_NONE);
-    ring=MUSIC_CHUNK*4;music_tick();assert(stops==3);                          // still playing out
-    ring=1<<20;music_tick();assert(stops==4);                                  // played out: emptied
+    played.clear();ring=MUSIC_CHUNK*4;music_tick();assert(played.empty() && stops==1);   // still playing out: nothing written
+    ring=MUSIC_CHUNK*2;music_tick();assert(played.empty());
+    ring=1<<20;music_tick();assert(!played.empty() && played[0]==0 && stops==1);        // played out: filled with silence, still no stop call
     puts("Music OK: MUSIC.BIN header, 22050 Hz mono 16-bit, title theme loops, level complete plays once, theme ambience read on demand and looped, sound off stops and empties the stream (no hiss from a starved ring) and sound on resumes it; a missing file stays silent.");
 }
