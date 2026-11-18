@@ -12,13 +12,23 @@ from rio_import_level import convert
 # their own radius/density (e.g. the yellow bird 0.8, the small blue bird 0.6); the runtime still uses the
 # Classic's values for each type, so these are approximations until the bird parameters are imported.
 BIRD_TYPE={'RedBird':0,'SmallBlueBird':1,'YellowBird':2,'BlackBird':3}
+def fit_view(r):
+    """The Classic's camera rule (tools/build_campaign.py): the whole stage in the 576 x 336 play area, scale at most 7."""
+    import math
+    left=r['sling_x']-4;right=r['sling_x']+4;top=r['sling_y']-5
+    for o in r['objects']:
+        cs=abs(math.cos(o['angle']));sn=abs(math.sin(o['angle']))
+        ex=(o['width']*cs+o['height']*sn)/2;ey=(o['width']*sn+o['height']*cs)/2
+        left=min(left,o['x']-ex);right=max(right,o['x']+ex);top=min(top,o['y']-ey)
+    scale=min(7,576/(right-left),210/max(1,r['ground_y']-top))
+    return {'scale':scale,'x':32-left*scale,'y':368-r['ground_y']*scale}
 def stage(path,gravity,index):
     r=convert(path,gravity)
     unknown=[b['definition'] for b in r['birds'] if b['definition'] not in BIRD_TYPE]
     if unknown:raise ValueError('pássaro sem tipo no runtime: %s'%sorted(set(unknown)))
     return dict(objects=r['objects'],joints=[],birds=[{'type':BIRD_TYPE[b['definition']]} for b in r['birds']],gravity=r['gravity'],
         sling_x=r['sling_x'],sling_y=r['sling_y'],ground_y=r['ground_y'],physics_to_world=r['physics_to_world'],
-        view={'x':210,'y':333,'scale':7},title='RIO %d'%index,stage_script=Path(path).stem)
+        view=fit_view(r),theme_index=0,title='RIO %d'%index,stage_script=Path(path).stem)
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('out',type=Path);p.add_argument('levels',nargs='+',type=Path);p.add_argument('--gravity',type=float,default=20.0)
     a=p.parse_args();levels=[stage(f,a.gravity,i+1) for i,f in enumerate(a.levels)]

@@ -2,7 +2,7 @@
 the repository). Sprite list: every sprite used by the pieces of the stages in scope (the leaf
 sprites of the definitions, from the catalogue of tools/rio/build_catalogue.py); pixels: the PVR
 RGBA4444 sheets of ingame_assets_sd (or PNG), cropped with the .dat rectangles and packed with the
-same skyline packer as the Classic. Sprites that only exist as WebP are listed, not packed.
+same skyline packer as the Classic. WebP sheets are read with tools/webp.py.
 usage: extract_sprites_rio.py APK OUTDIR [--levels warehouse warehouse2 ...]"""
 import argparse,json,sys
 from pathlib import Path
@@ -13,6 +13,8 @@ from lua51_data import load
 import zipfile
 # Sprites the runtime draws by name, not through a piece definition: the slingshot of the first chapter.
 EXTRA=['SLING_SHOT_01_BACK','SLING_SHOT_01_FRONT']
+# The runtime's bird types (tools/rio/rio_campaign.py BIRD_TYPE) and the sprite states it draws.
+BIRDS=['RedBird','SmallBlueBird','YellowBird','BlackBird'];BIRD_STATES=('default','flying','collision')
 CAT=ROOT/'work/rio/analysis/definition_catalogue.json';LEVELS=ROOT/'work/rio/analysis/chunks/assets/data/levels'
 def wanted(packs):
     cat=json.loads(CAT.read_text())['definitions'];comps=json.loads(crop_sprites.INV.parent.joinpath('comp_inventory.json').read_text())
@@ -26,6 +28,9 @@ def wanted(packs):
         s=e.get('sprite')
         if not s:continue
         names|=set(composite.get(s,[s]))
+    for b in BIRDS:
+        sp=((cat.get(b) or {}).get('effective') or {}).get('sprites') or {}
+        names|={sp[k] for k in BIRD_STATES if isinstance(sp.get(k),str)}
     return sorted(names|set(EXTRA)),sorted(used)
 def main(apk,out,packs):
     names,used=wanted(packs);hits=crop_sprites.find(set(names));cache={};sprites=[];pixels={};missing=[]
@@ -36,6 +41,7 @@ def main(apk,out,packs):
             if k not in cache:cache[k]=crop_sprites.sheet(z,folder,tex)
             w,h,px=cache[k];rows=bytearray()
             for y in range(f['y'],f['y']+f['h']):rows+=px[(y*w+f['x'])*4:(y*w+f['x']+f['w'])*4]
+            for q in range(3,len(rows),4):rows[q]=(rows[q]*128+127)//255   # alpha on the GS scale, 0..128, like the Classic bank
             sprites.append({'name':n,'width':f['w'],'height':f['h'],'pivot_x':f['px'],'pivot_y':f['py']});pixels[n]=bytes(rows)
     specs,placed=pack(sprites)
     sheets=[bytearray(s['width']*s['height']*4) for s in specs]

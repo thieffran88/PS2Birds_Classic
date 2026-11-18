@@ -8,14 +8,14 @@ import pvr
 from png_decode import decode as decode_png
 INV=ROOT/'work/rio/analysis/dat_inventory.json'
 def find(names):
-    """For each sprite, the first sheet with a rectangle for it that can be read here (PVR before PNG)."""
+    """For each sprite, the first sheet with a rectangle for it that can be read here (PVR, then PNG, then WebP)."""
     inv=json.loads(INV.read_text());hits={}
     for p in inv['parsed']:
         folder=p['path'].split('/')[3]
         if folder not in ('ingame_assets_sd','ingame_assets'):continue
         tex=p.get('texture') or '';ext=tex.rsplit('.',1)[-1].lower()
         for f in p.get('frames') or []:
-            if f['name'] in names and ext in ('pvr','png'):
+            if f['name'] in names and ext in ('pvr','png','webp'):
                 key=(ext!='pvr',folder!='ingame_assets_sd')   # prefer PVR in the SD set
                 if f['name'] not in hits or key<hits[f['name']][0]:hits[f['name']]=(key,folder,tex,f)
     return hits
@@ -23,6 +23,8 @@ def sheet(z,folder,tex):
     path='assets/data/images/%s/%s'%(folder,tex)
     b=z.read(path)
     if tex.endswith('.pvr'):return pvr.read_pvr(b)
+    if tex.endswith('.webp'):
+        import webp;return webp.decode_webp(b)
     w,h,rgba=decode_png(b)[:3];return w,h,rgba
 def main(apk,names):
     out=ROOT/'work/rio/sprites';out.mkdir(parents=True,exist_ok=True);hits=find(set(names));cache={};done=[];missing=[]
