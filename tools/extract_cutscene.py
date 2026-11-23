@@ -57,7 +57,13 @@ def parse(script):
     bg=[a for a in acts if a['action']=='set_bg_colour']
     start=[a for a in acts if a['action']=='set_scroll_position']
     clips=[a['sound'] for a in acts if a['action']=='playsound' and a.get('sound') in MUSIC_OF_CLIP]
-    segments=sorted(((a['time'],a['duration'],a['scroll_target'].get('x',1.0)) for a in scroll),key=lambda t:t[0])
+    # scroll_target is a position in the sprite's own units: its position + fraction x size. With useReferenceSize (the Dino scenes) the sprite can
+    # be placed by its centre (the outro: x 716 of 1432), so the fraction is relative to that position: 716 + 0.5 x 1432 = the picture's right edge.
+    ref_w=float(ref['width'])
+    def edge(a):
+        x=a['scroll_target'].get('x',1.0)
+        return (pic.get('x',0.0)/ref_w+x) if a.get('useReferenceSize') else x
+    segments=sorted(((a['time'],a['duration'],edge(a)) for a in scroll),key=lambda t:t[0])
     return {'image':pic['image'],'ref_w':int(ref['width']),'ref_h':int(ref['height']),'bg_x':pic.get('x',0.0),'bg_y':pic.get('y',0.0),'segments':segments,
             'music':MUSIC_OF_CLIP[clips[0]] if clips else -1,
             'scroll_start':scroll[0]['time'] if scroll else 0.0,'scroll':scroll[0]['duration'] if scroll else 0.0,
