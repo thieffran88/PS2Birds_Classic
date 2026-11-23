@@ -260,7 +260,12 @@ def build_scene(name):
     else:
         # The script's reference width can be a little wider than what the pieces cover:
         # the real extent is used, so no empty strip is scrolled into view.
-        w=min(p['ref_w'],right) if right else p['ref_w'];h=p['ref_h']
+        # The sprite is the whole composition: scroll targets (fractions of its width) and the story's last frames (the cardboard king of Mighty Hoax,
+        # the king of Bad Piggies) can lie beyond the reference width. The Farm and Dino compositions also hold far larger decoration (taller than the
+        # reference): there the reference width is kept.
+        if right and right>p['ref_w'] and bottom<=p['ref_h']*1.15:w=right
+        else:w=min(p['ref_w'],right) if right else p['ref_w']
+        h=p['ref_h']
         canvas=compose(z,where,entry,w,h,p['bg'])
         small,sw,sh=scale(canvas,w,h,SCREEN_H/h)
         if sw<SCREEN_W:small=pad_width(small,sw,sh,SCREEN_W);sw=SCREEN_W
