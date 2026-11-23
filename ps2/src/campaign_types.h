@@ -17,7 +17,7 @@ enum {OBJECT_NO_COLLISION=1,OBJECT_MIRROR_X=2,OBJECT_MIRROR_Y=4,OBJECT_GUN_BUBBL
 #define OBJECT_CLONE_OF(flags) (((((unsigned)(flags))>>16)&1023)-1)
 /* Bits 26-29: Egg Defender wave of the piece (0 or 1: present from the start; 2+: arrives later). */
 #define OBJECT_WAVE(flags) ((((unsigned)(flags))>>26)&15)
-typedef struct {float x,y,angle,width,height,density,strength,defence;int kind,shape;const char *definition;float friction,restitution;int spawn_of,flags;} CampaignObject;
+typedef struct {float x,y,angle,width,height,density,strength,defence;int kind,shape;const char *definition;float friction,restitution;int spawn_of,flags;float score;} CampaignObject;   /* score: destroyedScoreInc, -1 when the piece has none */
 /* friction/restitution come from the materials table of blocks.lua (wood 4.0/0.2,
    light 0.7/0.2, rock 4.0/0.1, immovable 0.8/0, piglette 0.7/0.05, extras 0.7/0.4). */
 /* CampaignObject.shape: box, circle, right triangle (vertices 0,0 1,1 0,1) and

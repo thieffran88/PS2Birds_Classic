@@ -742,7 +742,8 @@
         "density": 0.0,
         "strength": 0.1,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "StaticBalloon04": {
       "sprite": "BLOCK_BALLOON_2",
@@ -752,7 +753,8 @@
         "density": 0.0,
         "strength": 0.1,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "StaticBalloon05": {
       "sprite": "BLOCK_BALLOON_3",
@@ -762,7 +764,8 @@
         "density": 0.0,
         "strength": 0.1,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "StaticBalloon02": {
       "sprite": "BLOCK_PIG_BALLOON_2",
@@ -772,7 +775,8 @@
         "density": 0.0,
         "strength": 0.1,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraTrampoline2": {
       "sprite": "BLOCK_TRAMPOLINE_01",
@@ -801,7 +805,8 @@
         "density": 0.0,
         "strength": 2.0,
         "defence": 1.0
-      }
+      },
+      "score": 0.0
     },
     "StaticBalloon01": {
       "sprite": "BLOCK_PIG_BALLOON_1",
@@ -811,7 +816,8 @@
         "density": 0.0,
         "strength": 0.1,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraTrampoline": {
       "sprite": "BLOCK_SUPER_BALL",
@@ -877,7 +883,8 @@
         "density": 0.3,
         "strength": 10.0,
         "defence": 300.0
-      }
+      },
+      "score": 50.0
     },
     "ExtraHelmetBig": {
       "sprite": "HELMET_BIG",
@@ -913,7 +920,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 300.0
-      }
+      },
+      "score": 50.0
     },
     "ExtraHelmetBoss": {
       "sprite": "HELMET_BOSS",
@@ -949,7 +957,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 300.0
-      }
+      },
+      "score": 50.0
     },
     "ExtraRopeThick01": {
       "sprite": "BLOCK_ROPE_THICK_1",
@@ -959,7 +968,8 @@
         "density": 0.75,
         "strength": 5.0,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraCowboyHelmetSmall_1": {
       "sprite": "COWBOY_HAT_SMALL_1",
@@ -995,7 +1005,8 @@
         "density": 0.3,
         "strength": 10.0,
         "defence": 10.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraCowboyHelmet_1": {
       "sprite": "COWBOY_HAT_BIG_1",
@@ -1031,7 +1042,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraSheriffHat_1": {
       "sprite": "SHERIFF_HAT_1",
@@ -1067,7 +1079,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraSheriffHat_2": {
       "sprite": "SHERIFF_HAT_2",
@@ -1103,7 +1116,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraBanditoHat_1": {
       "sprite": "BANDITO_HAT_1",
@@ -1139,7 +1153,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 30.0
-      }
+      },
+      "score": 100.0
     },
     "BP_ROPE_THICK": {
       "sprite": "SHORT_THICK_ROPE",
@@ -1149,7 +1164,8 @@
         "density": 0.75,
         "strength": 5.0,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraSuperBowl": {
       "sprite": "B_EGG_SUPER_BOWL",
@@ -1174,7 +1190,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraCaveHat_2": {
       "sprite": "CAVE_HAT_2",
@@ -1189,7 +1206,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraCaveHat_3": {
       "sprite": "CAVE_HAT_3",
@@ -1204,7 +1222,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraKingCaveHat_1": {
       "sprite": "KING_CAVE_HAT_1",
@@ -1219,7 +1238,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraAmethyst": {
       "sprite": "BLOCK_AMETHYST",
@@ -1234,7 +1254,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 2.0
-      }
+      },
+      "score": 3000.0
     },
     "ExtraAmber": {
       "sprite": "BLOCK_AMBER",
@@ -1249,7 +1270,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 2.0
-      }
+      },
+      "score": 3000.0
     },
     "ExtraRuby": {
       "sprite": "BLOCK_RUBY",
@@ -1264,7 +1286,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 2.0
-      }
+      },
+      "score": 3000.0
     },
     "ExtraCaveShovel_1": {
       "sprite": "CAVE_SHOVEL_1",
@@ -1279,7 +1302,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraCaveShovel_2": {
       "sprite": "CAVE_SHOVEL_2",
@@ -1294,7 +1318,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraCavePickaxe_1": {
       "sprite": "CAVE_PICKAXE_1",
@@ -1319,7 +1344,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraCavePickaxe_2": {
       "sprite": "CAVE_PICKAXE_2",
@@ -1344,7 +1370,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraRopeThin01": {
       "sprite": "BLOCK_ROPE_THIN_1",
@@ -1355,7 +1382,8 @@
         "density": 0.75,
         "strength": 5.0,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraRopeThin02": {
       "sprite": "BLOCK_ROPE_THIN_2",
@@ -1366,7 +1394,8 @@
         "density": 0.75,
         "strength": 5.0,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraStalaktite_1": {
       "sprite": "BLOCK_STALAKTITE_1",
@@ -1381,7 +1410,8 @@
         "density": 0.0,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraStalaktite_2": {
       "sprite": "BLOCK_STALAKTITE_2",
@@ -1396,7 +1426,8 @@
         "density": 0.0,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraStalaktite_3": {
       "sprite": "BLOCK_STALAKTITE_3",
@@ -1411,7 +1442,8 @@
         "density": 0.0,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraStalaktite_Tip1": {
       "sprite": "BLOCK_STALAKTITE_TIP_1",
@@ -1426,7 +1458,8 @@
         "density": 60.0,
         "strength": 400.0,
         "defence": 50.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraStalaktite_Tip2": {
       "sprite": "BLOCK_STALAKTITE_TIP_2",
@@ -1441,7 +1474,8 @@
         "density": 60.0,
         "strength": 400.0,
         "defence": 50.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraStalaktite_Tip3": {
       "sprite": "BLOCK_STALAKTITE_TIP_3",
@@ -1456,7 +1490,8 @@
         "density": 60.0,
         "strength": 400.0,
         "defence": 50.0
-      }
+      },
+      "score": 100.0
     },
     "ExtraStalaktite_Tip4": {
       "sprite": "BLOCK_STALAKTITE_TIP_4",
@@ -1471,7 +1506,8 @@
         "density": 60.0,
         "strength": 400.0,
         "defence": 50.0
-      }
+      },
+      "score": 100.0
     },
     "BirthdayBalloon_1": {
       "sprite": "BLOCK_BALLOON_BDAY",
@@ -1490,7 +1526,8 @@
         "density": 1.5,
         "strength": 10.0,
         "defence": 1.0
-      }
+      },
+      "score": 500.0
     },
     "BirthdayBalloon_2": {
       "sprite": "BLOCK_BALLOON_1",
@@ -1509,7 +1546,8 @@
         "density": 1.5,
         "strength": 10.0,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "BirthdayBalloon_3": {
       "sprite": "BLOCK_BALLOON_2",
@@ -1528,7 +1566,8 @@
         "density": 1.5,
         "strength": 10.0,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "BirthdayBalloon_4": {
       "sprite": "BLOCK_BALLOON_3",
@@ -1547,7 +1586,8 @@
         "density": 1.5,
         "strength": 10.0,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "BirthdayCake_1": {
       "sprite": "CHOCO_CAKE_1",
@@ -1562,7 +1602,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 5.0
-      }
+      },
+      "score": 3000.0
     },
     "BirthdayCake_2": {
       "sprite": "PINK_CAKE_1",
@@ -1577,7 +1618,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 5.0
-      }
+      },
+      "score": 3000.0
     },
     "BirthdayCake_3": {
       "sprite": "MINT_CAKE_1",
@@ -1592,7 +1634,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 5.0
-      }
+      },
+      "score": 100.0
     },
     "BirthdayCandle_1": {
       "sprite": "BDAY_CANDLE_1",
@@ -1607,7 +1650,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 10.0
-      }
+      },
+      "score": 500.0
     },
     "PartyHat_1": {
       "sprite": "PARTY_HAT_1",
@@ -1622,7 +1666,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "PartyHat_2": {
       "sprite": "PARTY_HAT_2",
@@ -1637,7 +1682,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "PartyHat_3": {
       "sprite": "PARTY_HAT_3",
@@ -1652,7 +1698,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "PartyHat_4": {
       "sprite": "PARTY_HAT_4",
@@ -1667,7 +1714,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "SPECIAL_CAKE_1": {
       "sprite": "SPECIAL_CAKE_1",
@@ -1682,7 +1730,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 5.0
-      }
+      },
+      "score": 100.0
     },
     "Spawning_cake": {
       "sprite": "BLOCK_CAKE",
@@ -1704,7 +1753,8 @@
         "density": 1.0,
         "strength": 10.0,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "CakeCream": {
       "sprite": "BLOCK_CAKECREAM",
@@ -1719,7 +1769,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "PartyHat_5": {
       "sprite": "PARTY_HAT_5",
@@ -1734,7 +1785,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "PartyHat_6": {
       "sprite": "PARTY_HAT_6",
@@ -1749,7 +1801,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "PartyHat_blue": {
       "sprite": "PARTY_HAT_BLUE",
@@ -1764,7 +1817,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "BIRDDAY5_CAKE": {
       "sprite": "BIRDDAY5_CAKE",
@@ -1809,7 +1863,8 @@
         "density": 1.5,
         "strength": 15.0,
         "defence": 15.0
-      }
+      },
+      "score": 100.0
     },
     "BP_WOODEN_WHEEL_WEAK": {
       "sprite": "BP_WOODEN_WHEEL",
@@ -1824,7 +1879,8 @@
         "density": 1.5,
         "strength": 60.0,
         "defence": 2.5
-      }
+      },
+      "score": 50.0
     },
     "StaticNoCollisionBig": {
       "sprite": "GROUND_BLOCK_05",
@@ -1896,7 +1952,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 5.0
-      }
+      },
+      "score": 3000.0
     },
     "BLUE_BOTTLE_NECK_BIG": {
       "sprite": "BLUE_BOTTLE_NECK_BIG",
@@ -1908,7 +1965,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "BLUE_BOTTLE_NECK_SMALL": {
       "sprite": "BLUE_BOTTLE_NECK_SMALL",
@@ -1920,7 +1978,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "BLUE_GLASS_BOTTLE_BIG": {
       "sprite": "BLUE_GLASS_BOTTLE_BIG",
@@ -1932,7 +1991,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "BP_CANNON_FUSE_ROPE": {
       "sprite": "SHORT_THICK_ROPE",
@@ -1956,7 +2016,8 @@
         "density": 1.5,
         "strength": 40.0,
         "defence": 30.0
-      }
+      },
+      "score": 150.0
     },
     "CAGE": {
       "sprite": "CAGE",
@@ -1998,7 +2059,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 150.0
     },
     "EMPTY_VIAL_1": {
       "sprite": "EMPTY_VIAL_1",
@@ -2010,7 +2072,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "EMPTY_VIAL_2": {
       "sprite": "EMPTY_VIAL_2",
@@ -2040,7 +2103,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "EMPTY_VIAL_3": {
       "sprite": "EMPTY_VIAL_3",
@@ -2074,7 +2138,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "EMPTY_VIAL_4": {
       "sprite": "EMPTY_VIAL_4",
@@ -2086,7 +2151,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "EMPTY_VIAL_5": {
       "sprite": "EMPTY_VIAL_5",
@@ -2116,7 +2182,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "GLASSES_1_BIG": {
       "sprite": "GLASSES_1_BIG",
@@ -2128,7 +2195,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "GLASSES_1_MED": {
       "sprite": "GLASSES_1_MED",
@@ -2140,7 +2208,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "GLASSES_2_BIG": {
       "sprite": "GLASSES_2_BIG",
@@ -2156,7 +2225,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "GLASSES_2_MED": {
       "sprite": "GLASSES_2_MED",
@@ -2172,7 +2242,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "GREEN_BOTTLE_NECK": {
       "sprite": "GREEN_BOTTLE_NECK",
@@ -2184,7 +2255,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "HAIR_KING_LEFT": {
       "sprite": "HAIR_KING_LEFT",
@@ -2197,7 +2269,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "HAIR_KING_RIGHT": {
       "sprite": "HAIR_KING_RIGHT",
@@ -2210,7 +2283,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "HAT_BOOK": {
       "sprite": "HAT_BOOK",
@@ -2410,7 +2484,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 150.0
     },
     "MASK_1_BIG": {
       "sprite": "MASK_1_BIG",
@@ -2423,7 +2498,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "MASK_2_BIG": {
       "sprite": "MASK_2_BIG",
@@ -2439,7 +2515,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "MASK_2_MED": {
       "sprite": "MASK_2_MED",
@@ -2455,7 +2532,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "MASK_3_BIG_UP": {
       "sprite": "MASK_3_BIG_UP",
@@ -2468,7 +2546,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "MASK_3_MEDL_UP": {
       "sprite": "MASK_3_MEDL_UP",
@@ -2481,7 +2560,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "MASK_3_MED_DOWN": {
       "sprite": "MASK_3_MED_DOWN",
@@ -2494,7 +2574,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "MISC_FB_CONE": {
       "sprite": "MISC_FB_CONE_1",
@@ -2506,7 +2587,8 @@
         "density": 0.1,
         "strength": 5.0,
         "defence": 10.0
-      }
+      },
+      "score": 100.0
     },
     "MISC_FB_TAPE": {
       "sprite": "MISC_FB_TAPE_1",
@@ -2518,7 +2600,8 @@
         "density": 0.75,
         "strength": 5.0,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "MUSIC_PLAYER_OLD": {
       "sprite": "MUSIC_PLAYER_OLD",
@@ -2551,7 +2634,8 @@
         "density": 0.5,
         "strength": 1.0,
         "defence": 1.0
-      }
+      },
+      "score": 150.0
     },
     "NOTEPAD": {
       "sprite": "NOTEPAD",
@@ -2563,7 +2647,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 150.0
     },
     "PUCK": {
       "sprite": "PUCK",
@@ -2592,7 +2677,8 @@
         "density": 0.0,
         "strength": 100.0,
         "defence": 100.0
-      }
+      },
+      "score": 0.0
     },
     "STARWARS_HAT": {
       "sprite": "STARWARS_HAT",
@@ -3436,7 +3522,8 @@
         "density": 1.5,
         "strength": 10.0,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "BD7_Balloon_Red": {
       "sprite": "BD7_BALLOON_RED",
@@ -3455,7 +3542,8 @@
         "density": 1.5,
         "strength": 10.0,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "BD7_Balloon_Round_Green": {
       "sprite": "BD7_BALLOON_ROUND_GREEN",
@@ -3474,7 +3562,8 @@
         "density": 1.5,
         "strength": 10.0,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "BD7_Balloon_Round_Orange": {
       "sprite": "BD7_BALLOON_ROUND_ORANGE",
@@ -3493,7 +3582,8 @@
         "density": 1.5,
         "strength": 10.0,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "BD7_Balloon_Yellow": {
       "sprite": "BD7_BALLOON_YELLOW",
@@ -3512,7 +3602,8 @@
         "density": 1.5,
         "strength": 10.0,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "BD7_Cupcake": {
       "sprite": "BD7_CUPCACE",
@@ -3527,7 +3618,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 5.0
-      }
+      },
+      "score": 3000.0
     },
     "BD7_Flag_Purple": {
       "sprite": "BD7_FLAG_PURPLE",
@@ -3590,7 +3682,8 @@
         "density": 4.0,
         "strength": 20.0,
         "defence": 30.0
-      }
+      },
+      "score": 100.0
     },
     "BLOCK_GREEN_SPANNER_2": {
       "sprite": "BLOCK_GREEN_SPANNER_2",
@@ -3605,7 +3698,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "FLOWER001": {
       "sprite": "ML_FLOWER001",
@@ -3943,7 +4037,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "MISC_FB_GLASSES": {
       "sprite": "MISC_FB_GLASSES_1",
@@ -3980,7 +4075,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 100.0
     },
     "MISC_FB_HAMMER": {
       "sprite": "MISC_FB_HAMMER_1",
@@ -3991,7 +4087,8 @@
         "density": 0.2,
         "strength": 20.0,
         "defence": 30.0
-      }
+      },
+      "score": 100.0
     },
     "MISC_FB_HAT": {
       "sprite": "MISC_FB_HAT_1",
@@ -4028,7 +4125,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "MISC_FB_NET": {
       "sprite": "MISC_FB_NET_1",
@@ -4039,7 +4137,8 @@
         "density": 0.01,
         "strength": 1.0,
         "defence": 1.0
-      }
+      },
+      "score": 100.0
     },
     "MISC_FB_ROD": {
       "sprite": "MISC_FB_ROD_1",
@@ -4050,7 +4149,8 @@
         "density": 0.001,
         "strength": 10.0,
         "defence": 10.0
-      }
+      },
+      "score": 100.0
     },
     "MISC_FB_SHOVEL": {
       "sprite": "MISC_FB_SHOVEL_1",
@@ -4061,7 +4161,8 @@
         "density": 0.1,
         "strength": 5.0,
         "defence": 4.0
-      }
+      },
+      "score": 100.0
     },
     "MISC_FB_SMALL_HAT": {
       "sprite": "MISC_FB_SMALL_HAT_1",
@@ -4098,7 +4199,8 @@
         "density": 0.3,
         "strength": 10.0,
         "defence": 10.0
-      }
+      },
+      "score": 100.0
     },
     "MISC_FB_STICK": {
       "sprite": "MISC_FB_STICK_1",
@@ -4109,7 +4211,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "MISC_FB_TINYGLASSES": {
       "sprite": "MISC_FB_TINYGLASSES_1",
@@ -4146,7 +4249,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 100.0
     },
     "MISC_FB_UMBRELLA_BOTTOM": {
       "sprite": "MISC_FB_UMBRELLA_BOTTOM_1",
@@ -4157,7 +4261,8 @@
         "density": 0.01,
         "strength": 5.0,
         "defence": 10.0
-      }
+      },
+      "score": 100.0
     },
     "MISC_FB_UMBRELLA_TOP": {
       "sprite": "MISC_FB_UMBRELLA_TOP_1",
@@ -4168,7 +4273,8 @@
         "density": 0.1,
         "strength": 5.0,
         "defence": 10.0
-      }
+      },
+      "score": 100.0
     },
     "BLOCK_GREEN_BAG": {
       "sprite": "BLOCK_GREEN_BAG",
@@ -4183,7 +4289,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "BLOCK_GREEN_GOGGLES": {
       "sprite": "BLOCK_GREEN_GOGGLES",
@@ -4198,7 +4305,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "BLOCK_GREEN_OILCANISTER": {
       "sprite": "BLOCK_GREEN_OILCANISTER",
@@ -4213,7 +4321,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "BLOCK_GREEN_PILOTHELMET": {
       "sprite": "BLOCK_GREEN_PILOTHELMET",
@@ -4228,7 +4337,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 20.0
-      }
+      },
+      "score": 100.0
     },
     "BLOCK_GREEN_WOODENTIRE": {
       "sprite": "BLOCK_GREEN_WOODENTIRE",
@@ -4243,7 +4353,8 @@
         "density": 1.5,
         "strength": 10.0,
         "defence": 30.0
-      }
+      },
+      "score": 100.0
     },
     "GoldenSpanner": {
       "sprite": "BLOCK_GREEN_SPANNER_GOLDEN",
@@ -4258,7 +4369,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 2.0
-      }
+      },
+      "score": 3000.0
     },
     "ARROW_SIGN_ORANGE": {
       "sprite": "ARROW_SIGN_ORANGE",
@@ -4270,7 +4382,8 @@
         "density": 0.0,
         "strength": 100.0,
         "defence": 100.0
-      }
+      },
+      "score": 0.0
     },
     "BLACKBIRD_VIAL_BLUE": {
       "sprite": "AB_POTION_BLUE",
@@ -4285,7 +4398,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 15.0
-      }
+      },
+      "score": 150.0
     },
     "BLACKBIRD_VIAL_ORANGE": {
       "sprite": "AB_POTION_ORANGE",
@@ -4300,7 +4414,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 15.0
-      }
+      },
+      "score": 150.0
     },
     "BLACKBIRD_VIAL_PINK": {
       "sprite": "AB_POTION_PINK",
@@ -4319,7 +4434,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 15.0
-      }
+      },
+      "score": 150.0
     },
     "BLUE_CRYSTAL_1": {
       "sprite": "BLUE_CRYSTAL_1",
@@ -4352,7 +4468,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 4.0
-      }
+      },
+      "score": 1000.0
     },
     "BLUE_CRYSTAL_2": {
       "sprite": "BLUE_CRYSTAL_2",
@@ -4381,7 +4498,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 4.0
-      }
+      },
+      "score": 1000.0
     },
     "BLUE_GLASS_BOTTLE_SMALL": {
       "sprite": "BLUE_GLASS_BOTTLE_SMALL",
@@ -4392,7 +4510,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "BOLT": {
       "sprite": "BOLT",
@@ -4407,7 +4526,8 @@
         "density": 0.5,
         "strength": 120.0,
         "defence": 15.0
-      }
+      },
+      "score": 150.0
     },
     "BOW_TIE": {
       "sprite": "BOW_TIE",
@@ -4422,7 +4542,8 @@
         "density": 0.5,
         "strength": 1.0,
         "defence": 1.0
-      }
+      },
+      "score": 150.0
     },
     "BP_CABLE": {
       "sprite": "SHORT_THICK_CABLE",
@@ -4433,7 +4554,8 @@
         "density": 1.5,
         "strength": 120.0,
         "defence": 30.0
-      }
+      },
+      "score": 100.0
     },
     "BP_CLAMP": {
       "sprite": "CLAP",
@@ -4470,7 +4592,8 @@
         "density": 1.5,
         "strength": 120.0,
         "defence": 30.0
-      }
+      },
+      "score": 100.0
     },
     "BUNSEN_BURNER": {
       "sprite": "BUNSEN_BURNER",
@@ -4481,7 +4604,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 150.0
     },
     "BUNSEN_BURNER_HOLDER": {
       "sprite": "BUNSEN_BURNER_HOLDER",
@@ -4510,7 +4634,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 150.0
     },
     "CRACK": {
       "sprite": "CRACK",
@@ -4522,7 +4647,8 @@
         "density": 2.0,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 150.0
     },
     "EXPLOSIVE_BALLOON": {
       "sprite": "EXPLOSIVE_BALLOON",
@@ -4573,7 +4699,8 @@
         "density": 2.0,
         "strength": 120.0,
         "defence": 30.0
-      }
+      },
+      "score": 50.0
     },
     "GLASSES_1_SMALL": {
       "sprite": "GLASSES_1_SMALL",
@@ -4584,7 +4711,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "GLASSES_2_SMALL": {
       "sprite": "GLASSES_2_SMALL",
@@ -4599,7 +4727,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "GLASS_PIPE_FAT": {
       "sprite": "GLASS_PIPE_FAT",
@@ -4656,7 +4785,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "HAIR_BIG_RIGHT": {
       "sprite": "HAIR_BIG_RIGHT",
@@ -4668,7 +4798,8 @@
         "density": 0.1,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "HAIR_MED_LEFT": {
       "sprite": "HAIR_MED_LEFT",
@@ -4680,7 +4811,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "HAIR_MED_RIGHT": {
       "sprite": "HAIR_MED_RIGHT",
@@ -4692,7 +4824,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "HAIR_SMALL_LEFT": {
       "sprite": "HAIR_SMALL_LEFT",
@@ -4704,7 +4837,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "HAIR_SMALL_RIGHT": {
       "sprite": "HAIR_SMALL_RIGHT",
@@ -4716,7 +4850,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "HAIR_STACHE_LEFT": {
       "sprite": "HAIR_STACHE_LEFT",
@@ -4728,7 +4863,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "HAIR_STACHE_RIGHT": {
       "sprite": "HAIR_STACHE_RIGHT",
@@ -4740,7 +4876,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "KORK": {
       "sprite": "KORK",
@@ -4751,7 +4888,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 150.0
     },
     "LAB_VEST_MED": {
       "sprite": "LAB_VEST_MED",
@@ -4766,7 +4904,8 @@
         "density": 0.1,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "LAB_VEST_STACHE": {
       "sprite": "LAB_VEST_STACHE",
@@ -4781,7 +4920,8 @@
         "density": 0.1,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "MAGNET": {
       "sprite": "MAGNET",
@@ -4792,7 +4932,8 @@
         "density": 2.0,
         "strength": 120.0,
         "defence": 30.0
-      }
+      },
+      "score": 150.0
     },
     "MASK_1_MED": {
       "sprite": "MASK_1_MED",
@@ -4808,7 +4949,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "MASK_1_SMALL": {
       "sprite": "MASK_1_SMALL",
@@ -4824,7 +4966,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "MASK_2_SMALL": {
       "sprite": "MASK_2_SMALL",
@@ -4839,7 +4982,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "MASK_3_BIG_DOWN": {
       "sprite": "MASK_3_BIG_DOWN",
@@ -4851,7 +4995,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "MASK_3_SMALL_DOWN": {
       "sprite": "MASK_3_SMALL_DOWN",
@@ -4863,7 +5008,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "MASK_3_SMALL_UP": {
       "sprite": "MASK_3_SMALL_UP",
@@ -4875,7 +5021,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "METAL_TUBE_HOLDER_BLUE": {
       "sprite": "METAL_TUBE_HOLDER_BLUE",
@@ -4909,7 +5056,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 150.0
     },
     "NERDY_GLASSES_BIG": {
       "sprite": "NERDY_GLASSES_BIG",
@@ -4921,7 +5069,8 @@
         "density": 0.5,
         "strength": 1.0,
         "defence": 1.0
-      }
+      },
+      "score": 150.0
     },
     "ORANGE_MUSHROOM_1": {
       "sprite": "ORANGE_MUSHROOM_1",
@@ -4936,7 +5085,8 @@
         "density": 0.5,
         "strength": 7.0,
         "defence": 2.0
-      }
+      },
+      "score": 1000.0
     },
     "ORANGE_MUSHROOM_2": {
       "sprite": "ORANGE_MUSHROOM_2",
@@ -4969,7 +5119,8 @@
         "density": 0.5,
         "strength": 7.0,
         "defence": 2.0
-      }
+      },
+      "score": 1000.0
     },
     "PINK_FLOWER_1": {
       "sprite": "PINK_FLOWER_1",
@@ -4994,7 +5145,8 @@
         "density": 0.5,
         "strength": 4.0,
         "defence": 2.0
-      }
+      },
+      "score": 1000.0
     },
     "PINK_FLOWER_2": {
       "sprite": "PINK_FLOWER_2",
@@ -5019,7 +5171,8 @@
         "density": 0.5,
         "strength": 4.0,
         "defence": 2.0
-      }
+      },
+      "score": 1000.0
     },
     "PRESSURE_METER": {
       "sprite": "PRESSURE_METER",
@@ -5034,7 +5187,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 150.0
     },
     "PRESSURE_METER_NEEDLE": {
       "sprite": "PRESSURE_METER_NEEDLE",
@@ -5046,7 +5200,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 150.0
     },
     "ROCKET_CANISTER": {
       "sprite": "AIR_TANK_SMALL",
@@ -5100,7 +5255,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 150.0
     },
     "RUSTY_FUNNEL_UP": {
       "sprite": "RUSTY_FUNNEL_UP",
@@ -5129,7 +5285,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 150.0
     },
     "RUSTY_TUBE_CORNER": {
       "sprite": "RUSTY_TUBE_CORNER",
@@ -5208,7 +5365,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 150.0
     },
     "SPLASH_SMALL": {
       "sprite": "SPLASH_SMALL",
@@ -5220,7 +5378,8 @@
         "density": 0.0,
         "strength": 100.0,
         "defence": 100.0
-      }
+      },
+      "score": 0.0
     },
     "THERMOMETER": {
       "sprite": "THERMOMETER",
@@ -5231,7 +5390,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "TUBE_CORNER": {
       "sprite": "TUBE_CORNER",
@@ -5295,7 +5455,8 @@
         "density": 0.0,
         "strength": 100.0,
         "defence": 100.0
-      }
+      },
+      "score": 0.0
     },
     "WARNING_SIGN_BLUE": {
       "sprite": "WARNING_SIGN_BLUE",
@@ -5307,7 +5468,8 @@
         "density": 0.0,
         "strength": 100.0,
         "defence": 100.0
-      }
+      },
+      "score": 0.0
     },
     "WARNING_SIGN_ORANGE": {
       "sprite": "WARNING_SIGN_ORANGE",
@@ -5319,7 +5481,8 @@
         "density": 0.0,
         "strength": 100.0,
         "defence": 100.0
-      }
+      },
+      "score": 0.0
     },
     "WARNING_SIGN_PINK": {
       "sprite": "WARNING_SIGN_PINK",
@@ -5331,7 +5494,8 @@
         "density": 0.0,
         "strength": 100.0,
         "defence": 100.0
-      }
+      },
+      "score": 0.0
     },
     "BIRDSTICK_ARM1": {
       "sprite": "BIRDSTICK_ARM1",
@@ -5401,7 +5565,8 @@
         "density": 4.0,
         "strength": 40.0,
         "defence": 15.0
-      }
+      },
+      "score": 50.0
     },
     "BP_TWO_SAND_BAGS": {
       "sprite": "BP_TWO_SAND_BAGS",
@@ -5416,7 +5581,8 @@
         "density": 6.5,
         "strength": 40.0,
         "defence": 15.0
-      }
+      },
+      "score": 50.0
     },
     "BeardedKingPiglette": {
       "sprite": "ML_PIG_KING_01",
@@ -5454,7 +5620,8 @@
         "density": 5.0,
         "strength": 2.0,
         "defence": 1.0
-      }
+      },
+      "score": 0.0
     },
     "GREEN_PAINT002": {
       "sprite": "ML_GREEN_PAINT002",
@@ -5466,7 +5633,8 @@
         "density": 5.0,
         "strength": 2.0,
         "defence": 1.0
-      }
+      },
+      "score": 0.0
     },
     "LEAGUETICKET": {
       "sprite": "ML_TICKET_INGAME",
@@ -5555,7 +5723,8 @@
         "density": 1.5,
         "strength": 40.0,
         "defence": 30.0
-      }
+      },
+      "score": 150.0
     },
     "BP_BIG_LANDING_WHEEL": {
       "sprite": "BP_BIG_LANDING_WHEEL",
@@ -5581,7 +5750,8 @@
         "density": 1.5,
         "strength": 1000.0,
         "defence": 1000.0
-      }
+      },
+      "score": 100.0
     },
     "BP_CANNON_BALL": {
       "sprite": "BLOCK_APPLE",
@@ -5613,7 +5783,8 @@
         "density": 1.5,
         "strength": 30.0,
         "defence": 2.5
-      }
+      },
+      "score": 150.0
     },
     "BP_METAL_TAIL": {
       "sprite": "BP_METAL_TAIL",
@@ -5643,7 +5814,8 @@
         "density": 1.5,
         "strength": 120.0,
         "defence": 30.0
-      }
+      },
+      "score": 150.0
     },
     "BP_METAL_WING": {
       "sprite": "BP_METAL_WING",
@@ -5655,7 +5827,8 @@
         "density": 1.5,
         "strength": 120.0,
         "defence": 30.0
-      }
+      },
+      "score": 150.0
     },
     "BP_ROPE": {
       "sprite": "BP_ROPE",
@@ -5667,7 +5840,8 @@
         "density": 4.0,
         "strength": 40.0,
         "defence": 15.0
-      }
+      },
+      "score": 50.0
     },
     "BP_ROPE_RUBBER": {
       "sprite": "RUBBER_ROPE",
@@ -5679,7 +5853,8 @@
         "density": 0.75,
         "strength": 5.0,
         "defence": 1000.0
-      }
+      },
+      "score": 100.0
     },
     "BP_SMALL_ENGINE": {
       "sprite": "BP_SMALL_ENGINE",
@@ -5691,7 +5866,8 @@
         "density": 1.5,
         "strength": 40.0,
         "defence": 30.0
-      }
+      },
+      "score": 150.0
     },
     "BP_THREE_SAND_BAGS": {
       "sprite": "BP_THREE_SAND_BAGS",
@@ -5703,7 +5879,8 @@
         "density": 4.0,
         "strength": 40.0,
         "defence": 15.0
-      }
+      },
+      "score": 50.0
     },
     "BP_UMBRELLA_2": {
       "sprite": "BP_UMBRELLA_2",
@@ -5729,7 +5906,8 @@
         "density": 1.5,
         "strength": 40.0,
         "defence": 2.5
-      }
+      },
+      "score": 150.0
     },
     "BP_UMBRELLA_HOLDER": {
       "sprite": "BP_UMBRELLA_HOLDER",
@@ -5741,7 +5919,8 @@
         "density": 1.5,
         "strength": 40.0,
         "defence": 2.5
-      }
+      },
+      "score": 50.0
     },
     "BP_WOODEN_TAIL": {
       "sprite": "BP_WOODEN_TAIL",
@@ -5771,7 +5950,8 @@
         "density": 1.5,
         "strength": 90.0,
         "defence": 10.0
-      }
+      },
+      "score": 150.0
     },
     "CHAIN_INDESTRUCTIBLE": {
       "sprite": "FARM_CHAIN_PIECE_1",
@@ -6062,7 +6242,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 1.0
-      }
+      },
+      "score": 3000.0
     },
     "EASTER_EGG2": {
       "sprite": "EASTER_EGG_2",
@@ -6074,7 +6255,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 1.0
-      }
+      },
+      "score": 3000.0
     },
     "EASTER_EGG3": {
       "sprite": "EASTER_EGG_3",
@@ -6086,7 +6268,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 1.0
-      }
+      },
+      "score": 3000.0
     },
     "ExtraRubberBall": {
       "sprite": "BLOCK_BEACHBALL",
@@ -6114,7 +6297,8 @@
         "density": 0.1,
         "strength": 1.0,
         "defence": 1.0
-      }
+      },
+      "score": 3000.0
     },
     "FLOWER4": {
       "sprite": "B_FLOWER_4",
@@ -6130,7 +6314,8 @@
         "density": 0.1,
         "strength": 1.0,
         "defence": 1.0
-      }
+      },
+      "score": 3000.0
     },
     "FLOWER5": {
       "sprite": "B_FLOWER_5",
@@ -6146,7 +6331,8 @@
         "density": 0.1,
         "strength": 1.0,
         "defence": 1.0
-      }
+      },
+      "score": 3000.0
     },
     "FLOWER7": {
       "sprite": "B_FLOWER_7",
@@ -6162,7 +6348,8 @@
         "density": 0.1,
         "strength": 1.0,
         "defence": 1.0
-      }
+      },
+      "score": 3000.0
     },
     "Farm_ArrowBlock": {
       "sprite": "FARM_ARROWBLOCK",
@@ -6448,7 +6635,8 @@
         "density": 0.2,
         "strength": 1.0,
         "defence": 1.0
-      }
+      },
+      "score": 150.0
     },
     "FlowerRed": {
       "sprite": "FLOWER_RED",
@@ -6464,7 +6652,8 @@
         "density": 0.2,
         "strength": 1.0,
         "defence": 1.0
-      }
+      },
+      "score": 150.0
     },
     "GIANT_CHILI": {
       "sprite": "NBA_CHILI",
@@ -6510,7 +6699,8 @@
         "density": 0.3,
         "strength": 20.0,
         "defence": 10.0
-      }
+      },
+      "score": 3000.0
     },
     "GLASSES_1_STACHE": {
       "sprite": "GLASSES_1_STACHE",
@@ -6522,7 +6712,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "MASK_2_STACHE": {
       "sprite": "MASK_2_STACHE",
@@ -6538,7 +6729,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "SCORE_PUMPKIN": {
       "sprite": "BLOCK_PUMPKIN_1",
@@ -7031,7 +7223,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 1.0
-      }
+      },
+      "score": 3000.0
     },
     "DINO_EGG_GREEN": {
       "sprite": "INGAME_DINO_EGG_GREEN",
@@ -7043,7 +7236,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 1.0
-      }
+      },
+      "score": 3000.0
     },
     "DINO_EGG_ORANGE": {
       "sprite": "INGAME_DINO_EGG_ORANGE",
@@ -7055,7 +7249,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 1.0
-      }
+      },
+      "score": 3000.0
     },
     "DINO_EGG_PINK": {
       "sprite": "INGAME_DINO_EGG_PINK",
@@ -7067,7 +7262,8 @@
         "density": 0.5,
         "strength": 5.0,
         "defence": 1.0
-      }
+      },
+      "score": 3000.0
     },
     "DINO_SCORE_AMMONITE": {
       "sprite": "INGAME_DINO_AMMONITE",
@@ -7079,7 +7275,8 @@
         "density": 0.75,
         "strength": 40.0,
         "defence": 5.0
-      }
+      },
+      "score": 3000.0
     },
     "DINO_SCORE_CHERRY": {
       "sprite": "INGAME_DINO_FRUITS_CHERRY",
@@ -7091,7 +7288,8 @@
         "density": 0.75,
         "strength": 40.0,
         "defence": 5.0
-      }
+      },
+      "score": 3000.0
     },
     "DINO_SCORE_FRUIT_BLUE": {
       "sprite": "INGAME_DINO_FRUITS_ALIEN_BLUE",
@@ -7133,7 +7331,8 @@
         "density": 0.75,
         "strength": 40.0,
         "defence": 5.0
-      }
+      },
+      "score": 3000.0
     },
     "DINO_SCORE_FRUIT_RED": {
       "sprite": "INGAME_DINO_FRUITS_ALIEN_RED",
@@ -7149,7 +7348,8 @@
         "density": 0.75,
         "strength": 40.0,
         "defence": 5.0
-      }
+      },
+      "score": 3000.0
     },
     "DINO_SCORE_NECKLACE": {
       "sprite": "INGAME_DINO_NECKLACE",
@@ -7191,7 +7391,8 @@
         "density": 0.75,
         "strength": 40.0,
         "defence": 5.0
-      }
+      },
+      "score": 3000.0
     },
     "DecorationDinoDecoCastshadow": {
       "sprite": "DINO_CASTSHADOW",
@@ -8107,7 +8308,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "GOLD_BRACELET": {
       "sprite": "AZTEC_GOLD3",
@@ -8119,7 +8321,8 @@
         "density": 4.0,
         "strength": 35.0,
         "defence": 0.4
-      }
+      },
+      "score": 3000.0
     },
     "GOLD_SPHERE": {
       "sprite": "AZTEC_GOLD2",
@@ -8131,7 +8334,8 @@
         "density": 4.0,
         "strength": 35.0,
         "defence": 0.4
-      }
+      },
+      "score": 3000.0
     },
     "Hadrosaurus_lower_jaw": {
       "sprite": "INGAME_DINO_HADROSAURUS_LOWER_JAW",
@@ -8251,7 +8455,8 @@
         "density": 0.2,
         "strength": 1.0,
         "defence": 1.0
-      }
+      },
+      "score": 3000.0
     },
     "Palm_leaf_01": {
       "sprite": "INGAME_DINO_PALM_LEAF_01",
@@ -8984,7 +9189,8 @@
         "density": 0.1,
         "strength": 120.0,
         "defence": 30.0
-      }
+      },
+      "score": 150.0
     },
     "BP_FAN": {
       "sprite": "BP_FAN_1",
@@ -9018,7 +9224,8 @@
       "thrust": {
         "force": -400,
         "target": 4
-      }
+      },
+      "score": 150.0
     },
     "BP_GRASS": {
       "sprite": "EGG_DEFENDER_GROUND_2",
@@ -9060,7 +9267,8 @@
         "density": 0.75,
         "strength": 1000.0,
         "defence": 1000.0
-      }
+      },
+      "score": 100.0
     },
     "BP_LEADER_PIG_BERET": {
       "sprite": "LEADER_PIG_BERET",
@@ -9073,7 +9281,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 150.0
     },
     "BP_LEADER_PIG_SHADES": {
       "sprite": "LEADER_PIG_SHADES",
@@ -9086,7 +9295,8 @@
         "density": 0.1,
         "strength": 10.0,
         "defence": 4.0
-      }
+      },
+      "score": 150.0
     },
     "BP_LIGHT_METAL_FRAME": {
       "sprite": "BP_LIGHT_METAL_FRAME",
@@ -9098,7 +9308,8 @@
         "density": 1.5,
         "strength": 110.0,
         "defence": 30.0
-      }
+      },
+      "score": 100.0
     },
     "BP_METAL_WING_HOLDER": {
       "sprite": "BP_METAL_WING_HOLDER",
@@ -9110,7 +9321,8 @@
         "density": 1.5,
         "strength": 40.0,
         "defence": 30.0
-      }
+      },
+      "score": 50.0
     },
     "BP_RUBBER_BALLOON": {
       "sprite": "BP_SINGLE_BALLOON_RUBBER",
@@ -9157,7 +9369,8 @@
         "density": 0.5,
         "strength": 120.0,
         "defence": 30.0
-      }
+      },
+      "score": 150.0
     },
     "BP_TELESCOPIC_ARM": {
       "sprite": "TELESCOPIC_HARM",
@@ -9169,7 +9382,8 @@
         "density": 1.0,
         "strength": 120.0,
         "defence": 30.0
-      }
+      },
+      "score": 100.0
     },
     "BP_TNT": {
       "sprite": "BP_TNT",
@@ -9226,7 +9440,8 @@
         "density": 1.5,
         "strength": 15.0,
         "defence": 15.0
-      }
+      },
+      "score": 100.0
     },
     "BP_UMBRELLA_1": {
       "sprite": "BP_UMBRELLA_1",
@@ -9256,7 +9471,8 @@
         "density": 1.5,
         "strength": 70.0,
         "defence": 10.0
-      }
+      },
+      "score": 150.0
     },
     "BP_WOODEN_FRAME": {
       "sprite": "BP_WOODEN_FRAME",
@@ -9268,7 +9484,8 @@
         "density": 1.5,
         "strength": 90.0,
         "defence": 10.0
-      }
+      },
+      "score": 50.0
     },
     "BP_WOODEN_FRAME_WEAK": {
       "sprite": "BP_WOODEN_FRAME",
@@ -9280,7 +9497,8 @@
         "density": 1.5,
         "strength": 60.0,
         "defence": 2.5
-      }
+      },
+      "score": 50.0
     },
     "BP_WOODEN_TRIANGLE": {
       "sprite": "BP_WOODEN_TRIANGLE",
@@ -9306,7 +9524,8 @@
         "density": 1.5,
         "strength": 90.0,
         "defence": 10.0
-      }
+      },
+      "score": 50.0
     },
     "BP_WOODEN_WHEEL": {
       "sprite": "BP_WOODEN_WHEEL",
@@ -9322,7 +9541,8 @@
         "density": 1.5,
         "strength": 90.0,
         "defence": 10.0
-      }
+      },
+      "score": 50.0
     },
     "BP_WOODEN_WING": {
       "sprite": "BP_WOODEN_WING",
@@ -9352,7 +9572,8 @@
         "density": 1.5,
         "strength": 90.0,
         "defence": 10.0
-      }
+      },
+      "score": 150.0
     },
     "BP_WOODEN_WING_HOLDER": {
       "sprite": "BP_WOODEN_WING_HOLDER",
@@ -9382,7 +9603,8 @@
         "density": 0.8,
         "strength": 90.0,
         "defence": 10.0
-      }
+      },
+      "score": 50.0
     },
     "BP_FAN_MESH": {
       "sprite": "BP_FAN_MESH",
@@ -9394,7 +9616,8 @@
         "density": 0.5,
         "strength": 10.0,
         "defence": 30.0
-      }
+      },
+      "score": 50.0
     },
     "BP_ROTOR": {
       "sprite": "BP_ROTOR_1",
@@ -9427,7 +9650,8 @@
       },
       "thrust": {
         "force": -2000
-      }
+      },
+      "score": 150.0
     },
     "BP_TNT_WEAK": {
       "sprite": "BP_TNT",
@@ -9471,7 +9695,8 @@
         "density": 1.5,
         "strength": 60.0,
         "defence": 2.5
-      }
+      },
+      "score": 50.0
     },
     "ExtraBlueBird": {
       "sprite": "BIRD_BLUE",
@@ -9497,7 +9722,8 @@
         "density": 0.0,
         "strength": 2.0,
         "defence": 1.0
-      }
+      },
+      "score": 50.0
     },
     "StaticFragileBlock03": {
       "sprite": "GROUND_BLOCK_03",
@@ -9508,7 +9734,8 @@
         "density": 0.0,
         "strength": 2.0,
         "defence": 1.0
-      }
+      },
+      "score": 50.0
     },
     "DecorationFarmDecoRock2": {
       "sprite": "FARM_DECO_ROCK_2",
@@ -9533,7 +9760,8 @@
         "density": 4.0,
         "strength": 10.0,
         "defence": 1.0
-      }
+      },
+      "score": 3000.0
     },
     "TREASURE_CHEST": {
       "sprite": "B_TREASURE_1",
@@ -9549,7 +9777,8 @@
         "density": 5.0,
         "strength": 60.0,
         "defence": 5.0
-      }
+      },
+      "score": 3000.0
     },
     "LAB_VEST_SMALL": {
       "sprite": "LAB_VEST_SMALL",
@@ -9565,7 +9794,8 @@
         "density": 0.5,
         "strength": 2.0,
         "defence": 2.0
-      }
+      },
+      "score": 150.0
     },
     "MONEY_POT": {
       "sprite": "B_GOLDPOT_1",
@@ -9581,7 +9811,8 @@
         "density": 1.0,
         "strength": 35.0,
         "defence": 0.4
-      }
+      },
+      "score": 3000.0
     },
     "BP_LANDING_WHEEL_SMALL_TIRE": {
       "sprite": "BP_LANDING_WHEEL_SMALL_TIRE",
@@ -9597,7 +9828,8 @@
         "density": 0.75,
         "strength": 1000.0,
         "defence": 1000.0
-      }
+      },
+      "score": 100.0
     },
     "BP_SMALL_LANDING_WHEEL": {
       "sprite": "BP_SMALL_LANDING_WHEEL",
@@ -9623,7 +9855,8 @@
         "density": 1.5,
         "strength": 1000.0,
         "defence": 1000.0
-      }
+      },
+      "score": 100.0
     },
     "BP_HINGE": {
       "sprite": "HINGE",
@@ -9666,7 +9899,8 @@
       "thrust": {
         "force": -300,
         "target": 5
-      }
+      },
+      "score": 150.0
     },
     "BP_MOTOR_UMBRELLA": {
       "sprite": "BP_MOTOR_UMBRELLA",
@@ -9692,7 +9926,8 @@
         "density": 1.5,
         "strength": 40.0,
         "defence": 10.0
-      }
+      },
+      "score": 150.0
     },
     "BP_TNT_CASING": {
       "sprite": "BP_TNT_METAL",
@@ -9789,7 +10024,8 @@
         "force": -300,
         "target": 4,
         "interval": 1
-      }
+      },
+      "score": 150.0
     },
     "BP_CANNON": {
       "sprite": "CANNON_1",
@@ -9805,7 +10041,8 @@
         "density": 0.5,
         "strength": 120.0,
         "defence": 30.0
-      }
+      },
+      "score": 150.0
     },
     "BP_COG_OFF": {
       "sprite": "COG_OFF",
@@ -9880,7 +10117,8 @@
       "thrust": {
         "force": -150,
         "off": true
-      }
+      },
+      "score": 150.0
     },
     "BP_ROCKET_RED": {
       "sprite": "BP_ROCKET_2",
@@ -9900,7 +10138,8 @@
       "thrust": {
         "force": -150,
         "off": true
-      }
+      },
+      "score": 150.0
     },
     "SpecialBlockStart": {
       "sprite": "SWING_BASKET_01",

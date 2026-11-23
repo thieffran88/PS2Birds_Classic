@@ -45,9 +45,9 @@ static float rdf(const unsigned char *p){uint32_t v=rd32(p);float f;memcpy(&f,&v
 int game_campaign_load(const unsigned char *data,unsigned size)
 {
     campaign_err=0;
-    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=9){campaign_err=4;return -1;}
+    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=10){campaign_err=4;return -1;}
     unsigned nl=rd32(data+8),no=rd32(data+12),nj=rd32(data+16),np=rd32(data+20),nf=rd32(data+24),ns=rd32(data+28);
-    const unsigned LV=4*(3+16+8+2+1+2+2+1+1+1),OB=4*16,JO=4*20,PO=4*18,FO=4*14;
+    const unsigned LV=4*(3+16+8+2+1+2+2+1+1+1),OB=4*17,JO=4*20,PO=4*18,FO=4*14;
     if(nl==0 || nl>MAX_CAMPAIGN_LEVELS || 32ull+(unsigned long long)nl*LV+(unsigned long long)no*OB+(unsigned long long)nj*JO+np*PO+nf*FO+ns!=size){campaign_err=5;return -1;}
     const unsigned char *pl=data+32,*po=pl+nl*LV,*pj=po+no*OB,*pp=pj+nj*JO,*pf=pp+np*PO,*pstr=pf+nf*FO;
     char *strings=(char*)malloc(ns+1);CampaignLevel *levels=(CampaignLevel*)calloc(nl,sizeof(CampaignLevel));
@@ -60,7 +60,7 @@ int game_campaign_load(const unsigned char *data,unsigned size)
     for(unsigned i=0;i<no;i++){
         const unsigned char *q=po+i*OB;CampaignObject &o=objects[i];
         o.x=rdf(q);o.y=rdf(q+4);o.angle=rdf(q+8);o.width=rdf(q+12);o.height=rdf(q+16);o.density=rdf(q+20);o.strength=rdf(q+24);o.defence=rdf(q+28);
-        o.kind=(int)rd32(q+32);o.shape=(int)rd32(q+36);o.definition=STR(q+40);o.friction=rdf(q+44);o.restitution=rdf(q+48);o.spawn_of=(int)rd32(q+52);if(o.spawn_of<0||(unsigned)o.spawn_of>no)o.spawn_of=0;o.flags=(int)rd32(q+56);onames[i]=STR(q+60);
+        o.kind=(int)rd32(q+32);o.shape=(int)rd32(q+36);o.definition=STR(q+40);o.friction=rdf(q+44);o.restitution=rdf(q+48);o.spawn_of=(int)rd32(q+52);if(o.spawn_of<0||(unsigned)o.spawn_of>no)o.spawn_of=0;o.flags=(int)rd32(q+56);onames[i]=STR(q+60);o.score=rdf(q+64);
     }
     for(unsigned i=0;i<nj;i++){
         const unsigned char *q=pj+i*JO;CampaignJoint &j=joints[i];
@@ -1202,7 +1202,7 @@ static void tick(Game *g) {
         if(p->detach_time[k]>0){p->detach_time[k]-=dt;continue;}
         if(p->bodies[t]){
             b2Vec2 where=p->bodies[t]->GetPosition();p->world.DestroyBody(p->bodies[t]);p->bodies[t]=NULL;p->detach_target[k]=-1;p->release_spawns(t,where);
-            if(p->level->objects[t].kind==4 && p->is_goal(t)){g->pig_alive--;g->score+=5000;popup_at(g,where,5000,POPUP_PIG,4);g->events|=GAME_EVENT_PIG;}else if(p->level->objects[t].kind!=3 && !(p->level->objects[t].flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL))){g->block_alive--;g->events|=GAME_EVENT_EXTRA;}
+            if(p->level->objects[t].kind==4 && p->is_goal(t)){g->pig_alive--;{int pts=p->level->objects[t].score>=0?(int)p->level->objects[t].score:5000;g->score+=pts;popup_at(g,where,pts,POPUP_PIG,4);}g->events|=GAME_EVENT_PIG;}else if(p->level->objects[t].kind!=3 && !(p->level->objects[t].flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL))){g->block_alive--;g->events|=GAME_EVENT_EXTRA;}
         }
     }p->break_joints(1.0f/dt);
     if(p->bird_type==BIRD_BLACK_TYPE && p->bird && !p->detonated){
@@ -1295,7 +1295,7 @@ static void tick(Game *g) {
                 if(f && f->blast_radius>0)radial_blast(g,where,f->blast_radius,f->blast_force,f->damage_radius,f->damage);
                 else radial_blast(g,where,TNT_BLAST_RADIUS,TNT_BLAST_FORCE,TNT_DAMAGE_RADIUS,TNT_BLAST_DAMAGE);}
             if(o.flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL)){}
-            else if(o.kind==4 && p->is_goal(i)){g->pig_alive--;g->score+=5000;popup_at(g,where,5000,POPUP_PIG,4);g->events|=GAME_EVENT_PIG;}else {g->block_alive--;int earned=o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;if(g->shop_mask&SHOP_DOUBLE)earned*=2;g->score+=earned;popup_at(g,where,earned,POPUP_PIECE,o.kind);g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
+            else if(o.kind==4 && p->is_goal(i)){g->pig_alive--;{int pts=o.score>=0?(int)o.score:5000;g->score+=pts;popup_at(g,where,pts,POPUP_PIG,4);}g->events|=GAME_EVENT_PIG;}else {g->block_alive--;int earned=o.score>=0?(int)o.score:o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;   /* getScoreToAddForBreaking: the piece's destroyedScoreInc, else 500 */if(g->shop_mask&SHOP_DOUBLE)earned*=2;g->score+=earned;popup_at(g,where,earned,POPUP_PIECE,o.kind);g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
         }
     }
     g->pig_alive+=p->pending_pigs;p->pending_pigs=0;

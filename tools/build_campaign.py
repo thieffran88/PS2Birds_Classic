@@ -32,6 +32,7 @@ def write_binary(levels,profile,polys,forced,stars,path=None):
         for o in d['objects']:
             objs+=struct.pack('<8f2iI2fii',*[r(o[k]) for k in ['x','y','angle','width','height','density','strength','defence']],o['kind'],shapes.index(o['shape']),s(o['definition']),r(o['friction']),r(o['restitution']),o.get('spawn_of',0),(1 if o.get('no_collision') else 0)|o.get('mirror',0)|(8 if o.get('gun_bubble') else 0)|(16 if o.get('sucker') else 0)|(32 if o.get('cannon_ball') else 0)|(o.get('wave',0)<<26)|((o['release_bird']+1)<<8 if 'release_bird' in o else 0)|((o['clone_of']+1)<<16 if 'clone_of' in o else 0));no+=1
             objs+=struct.pack('<I',s(o['name'].split('_',1)[1] if o.get('wave') else ''))  # vehicle pieces: original name (getBlock)
+            objs+=struct.pack('<f',r(o.get('destroyedScoreInc',-1)))  # destroyedScoreInc: points when the piece is destroyed (-1: the default, 500)
         for j in d.get('joints') or []:
             joints+=struct.pack('<3i7fif6fi',j['type'],j['a'],j['b'],*[r(j[k]) for k in ['ax','ay','bx','by','frequency','damping','break_force']],int(j['collide']),r(j.get('destroy_timer',0.0)),*[r(j.get(k,0.0)) for k in ['axis_x','axis_y','lower','upper','motor_speed','max_force']],(1 if j.get('limit') else 0)|(2 if j.get('motor') else 0)|(4 if j.get('back_and_forth') else 0));nj+=1
             joints+=struct.pack('<I',s(j['name'] if j.get('vehicle') else ''))  # vehicle joints: original name (removeJoint)
@@ -50,7 +51,7 @@ def write_binary(levels,profile,polys,forced,stars,path=None):
         frc+=struct.pack('<I7fif3fi',s(name),*map(r,spec.get('force',[0.0,0.0])),r(spec.get('force_target',0.0)),*map(r,spec.get('explosion',[0.0,0.0,0.0,0.0])),int(spec.get('vial',[0,0.0])[0]),r(spec.get('vial',[0,0.0])[1]),
                          r(th.get('force',0.0)),r(th.get('target',0.0)),r(th.get('interval',0.0)),1 if th.get('off') else 0)
     while len(strings)%4:strings.append(0)
-    head=struct.pack('<4s7I',b'PBCP',9,len(levels),no,nj,len(polys),len(forced),len(strings))
+    head=struct.pack('<4s7I',b'PBCP',10,len(levels),no,nj,len(polys),len(forced),len(strings))
     data=head+bytes(lv)+bytes(objs)+bytes(joints)+bytes(pol)+bytes(frc)+bytes(strings)
     (Path(path) if path else ROOT/'ps2/assets/CAMPAIGN.BIN').write_bytes(data)
 
@@ -65,11 +66,11 @@ def read_binary(path):
     """Parse CAMPAIGN.BIN back (tests and tools): levels, objects, joints, polygons, forces."""
     import struct
     d=Path(path).read_bytes();magic,ver,nl,no,nj,np,nf,ns=struct.unpack_from('<4s7I',d)
-    if magic!=b'PBCP' or ver!=9:raise ValueError('Not a CAMPAIGN.BIN')
-    p=32;strs=d[32+nl*148+no*64+nj*80+np*72+nf*56:]
+    if magic!=b'PBCP' or ver!=10:raise ValueError('Not a CAMPAIGN.BIN')
+    p=32;strs=d[32+nl*148+no*68+nj*80+np*72+nf*56:]
     s=lambda o:strs[o:strs.index(b'\0',o)].decode()
     lv=[struct.unpack_from('<3I16i8f2Ii2I2iiii',d,p+i*148) for i in range(nl)];p+=nl*148
-    ob=[struct.unpack_from('<8f2iI2fiiI',d,p+i*64) for i in range(no)];p+=no*64
+    ob=[struct.unpack_from('<8f2iI2fiiIf',d,p+i*68) for i in range(no)];p+=no*68
     jo=[struct.unpack_from('<3i7fif6fiI',d,p+i*80) for i in range(nj)];p+=nj*80
     po={};fo={};ex={};vi={};th={}
     for i in range(np):
@@ -81,7 +82,7 @@ def read_binary(path):
         if any(v[4:8]):ex[s(v[0])]=tuple(v[4:8])
         if v[8]:vi[s(v[0])]=(v[8],v[9])
     return {'levels':[{'title':s(l[27]),'script':s(l[28]),'objects':l[1],'birds':l[2],'bank':l[29],'joints':l[31],'powerup':l[34],'music':l[35],'theme':l[36]} for l in lv],
-            'objects':[{'definition':s(o[10]),'spawn_of':o[13],'no_collision':bool(o[14]&1),'mirror':o[14]&6,'gun_bubble':bool(o[14]&8),'sucker':bool(o[14]&16),'cannon_ball':bool(o[14]&32),'wave':(o[14]>>26)&15,'release_bird':((o[14]>>8)&255)-1,'clone_of':((o[14]>>16)&1023)-1,'name':s(o[15])} for o in ob],
+            'objects':[{'definition':s(o[10]),'spawn_of':o[13],'no_collision':bool(o[14]&1),'mirror':o[14]&6,'gun_bubble':bool(o[14]&8),'sucker':bool(o[14]&16),'cannon_ball':bool(o[14]&32),'wave':(o[14]>>26)&15,'release_bird':((o[14]>>8)&255)-1,'clone_of':((o[14]>>16)&1023)-1,'name':s(o[15]),'score':o[16]} for o in ob],
             'joints':[{'type':j[0],'destroy_timer':j[11],'axis':(j[12],j[13]),'lower':j[14],'upper':j[15],'motor_speed':j[16],'max_force':j[17],'flags':j[18],'name':s(j[19])} for j in jo],'polygons':po,'forces':fo,'explosions':ex,'vials':vi,'thrust':th}
 
 def build(episode_path=EPISODE,apk=None,workdir=None,output=None,quiet=False):

@@ -1,4 +1,4 @@
-def _nodef(d):return {k:v for k,v in d.items() if k!='defaults'}
+def _nodef(d):return {k:v for k,v in d.items() if k not in ('defaults','score')}
 import importlib.util,json,lzma,re,struct,subprocess,sys,tempfile
 from pathlib import Path
 root=Path(__file__).resolve().parents[2];sys.path.insert(0,str(root/'tools'))
@@ -649,3 +649,9 @@ camp=_bc.read_binary(root/'ps2/assets/CAMPAIGN.BIN')
 lv=[l for l in camp['levels'] if l['script'] in order];assert len(lv)==15 and [l['birds'] for l in lv][:3]==[7,11,10]
 assert max(o['wave'] for o in camp['objects'])==5
 print("Egg Defender OK: 15 stages in bank 64; waves of vehicles stored hidden (up to 5 waves); red-bird queue from birdLimit.")
+# Score of each piece (destroyedScoreInc of blocks.lua, getScoreToAddForBreaking): carried per object.
+scored=[o for o in camp['objects'] if o['score']>=0]
+assert len(scored)>5000 and all(o['score']==int(o['score']) for o in scored)
+assert {o['score'] for o in camp['objects'] if o['definition'].startswith('DINO_SCORE_')}=={3000.0}
+assert 0.0 in {o['score'] for o in camp['objects'] if o['definition']=='StaticFragileBlock06'}   # the definition's value; a few instances override it
+print("Scores OK: %d of %d pieces carry their own destroyedScoreInc (gems 3000, fragile scenery 0); the rest score 500 (pigs 5000)."%(len(scored),len(camp['objects'])))

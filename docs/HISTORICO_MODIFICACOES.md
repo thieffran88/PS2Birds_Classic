@@ -3249,3 +3249,6 @@ Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached E
 ## Fórmulas nativas: explosão exata (0.94.11)
 - Achado: o Classic usa `AdventureMode`; `Explosions.lua` e `AdventureModeCollisions.lua` valem para ele. O `applyImpulse` nativo é um impulso puro do Box2D.
 - Explosão: impulso `força/20` com queda linear (era `/120`) e dano menos a defesa. 3-20, 5-16 e 13-7 passaram a vencer; fases sem roteiro 78 → 62. Detalhes em `docs/MODIFICACOES_0.94.11.md`.
+
+## Pontuação por peça (0.94.12)
+- Cada peça vale o seu `destroyedScoreInc` (7.926 peças têm valor próprio; antes todas valiam 500). `CAMPAIGN.BIN` v10. Falta somar o dano de colisão (`floor(dano) × 10`). Ver `docs/MODIFICACOES_0.94.12.md`.

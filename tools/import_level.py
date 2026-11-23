@@ -123,6 +123,8 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
         # ObjectCreation.lua: density, strength and defence missing from the instance come from the
         # piece definition, then from its material (profile 'defaults'; older levels such as LevelFB_*).
         for key,value in shape.get('defaults',{}).items():o.setdefault(key,value)
+        # destroyedScoreInc of the definition (blocks.lua); an instance's own value wins (getScoreToAddForBreaking).
+        if 'score' in shape:o.setdefault('destroyedScoreInc',shape['score'])
         kind=shape['kind']
         if kind not in [1,2,3,4,5,6,7,8,9]:raise ValueError('Unsupported runtime object kind')
         if 'size' in shape:w,h=float(shape['size'][0]),float(shape['size'][1])

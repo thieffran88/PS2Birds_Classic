@@ -18,7 +18,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 **Física e jogabilidade**
 - (feito na 0.90.0) `velocityMultiplier`: velocidade que o pássaro conserva ao quebrar uma peça (azul ×1,9 no vidro, Terence ×1,8, bumerangue ×1,3, baiacu ×4). Aplicada com a regra do `AdventureModeCollisions.lua`; a fórmula exata do modo Classic é nativa e não foi recuperada, então é uma aproximação.
 - Dano de colisão entre peças e com o chão: ainda é aproximação (`(impacto − 3) × 12 / defesa`); a fórmula exata foi lida em `AdventureModeCollisions.lua` e está na seção "Fórmulas exatas (0.94.11)" abaixo, ainda sem ser aplicada. A explosão já é a exata. O "sono" das peças é o do Box2D (`allowSleep`); nenhuma fórmula própria foi achada.
-- Pontuação aproximada: os limites de estrelas são os originais, mas a contagem é indicativa.
+- Pontuação: o valor de cada peça é o `destroyedScoreInc` original (0.94.12). Falta somar os pontos de dano por colisão (`floor(dano) × 10`), que dependem da fórmula exata de colisão; a contagem de estrelas ainda é indicativa por isso.
 - Power-ups da loja: o menu de seleção antes da fase existe; Double Score, Extra Bird e Homing Hat estão feitos. Faltam Boom Box, Chrono Bird e Red's Mighty Feathers.
 - Short Fuse: frascos, balão explosivo e peças de foguete já estão no jogo (levantamento antigo desatualizado). O ímã não tem nenhuma referência nos scripts do APK, então não há o que portar.
 
