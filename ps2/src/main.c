@@ -21,6 +21,7 @@
 #include "menu_gfx.h"
 #include "background.h"
 #include "cutscene.h"
+#include "scenes.h"
 #include "sprites.h"
 /* Piece-to-sprite table: the Classic's, or the Rio's (make GAME=rio). */
 #ifndef PS2BIRDS_DEFINITION_SPRITES
@@ -342,70 +343,19 @@ static int menu_yell_request;
 static int boot_splash;   /* 0 not started, 1 Rovio logo, 2 loading splash, 3 done */
 static float cutscene_time=-1;static int cutscene_music_pending;   /* start the music after the first frame is up: reading the track stalls the game for seconds */
 static int world_pending;   /* stage index + 1 whose first win may complete a world */
+static int intro_pending;   /* stage index + 1 just reached with "next": its opening (episode or world) plays once no scene is running */
 /* cutscenes.lua scenes, tied to the port's stages (episodes.lua lists each scene next to the levels it follows).
    Entering the first stage of an episode with no score yet plays its opening; entering the first stage of a world
    with no score in it plays that world's opening; the first score that completes a world (every stage with the same
    title prefix "<EPISODE> N-") plays that world's scene after the win screen. Titles carry the world number.
    Mighty Feathers and Egg Defender have an episode opening and an episode ending (panels, still).
    A scene that is not in CUTSCENE.BIN is skipped. */
-static const char *const episode_scene[][2]={{"POACHED EGGS","pack1_intro"},{"MIGHTY HOAX","pack2_intro"},
-    {"DANGER ABOVE","pack3_intro"},{"BIG SETUP","pack4_intro"},{"HAM EM HIGH","pack5_intro"},{"MINE AND DINE","pack6_intro"},
-    {"SURF AND TURF","pack8_intro"},{"BAD PIGGIES","pack9_intro"},{"SHORT FUSE","blackbird_intro"},
-    {"PIGGY FARM","intro_cutscene_farm"},{"DINO","intro_cutscene_dino"},
-    {"MIGHTY FEATHERS","rmf_classic_intro"},{"EGG DEFENDER","eggdefender_intro"}};
-/* Scene after the last stage of an episode gets its first score (no worlds with dashes there). */
-static const char *const episode_done_scene[][2]={{"MIGHTY FEATHERS","rmf_complete"},{"EGG DEFENDER","eggdefender_complete"}};
-/* The seventh Birdday has its own opening, before its first world. */
-static const char *const world_intro_scene[][2]={{"BIRDDAY 7-","pack7_intro"}};
-static const char *const world_scene[][2]={
-    {"POACHED EGGS 1-","world1_complete"},{"POACHED EGGS 2-","world2_complete"},{"POACHED EGGS 3-","world3_complete"},
-    {"MIGHTY HOAX 4-","world4_complete"},{"MIGHTY HOAX 5-","world5_complete"},
-    {"DANGER ABOVE 6-","world6_complete"},{"DANGER ABOVE 7-","world7_complete"},{"DANGER ABOVE 8-","world8_complete"},
-    {"BIG SETUP 9-","world9_complete"},{"BIG SETUP 10-","world10_complete"},{"BIG SETUP 11-","world11_complete"},
-    {"HAM EM HIGH 12-","world12_complete"},{"HAM EM HIGH 13-","world13_complete"},{"HAM EM HIGH 14-","world14_complete"},
-    {"MINE AND DINE 15-","world15_complete"},{"MINE AND DINE 16-","world16_complete"},{"MINE AND DINE 17-","world17_complete"},
-    {"BIRDDAY 2-","world18_complete"},{"BIRDDAY 3-","world19_complete"},{"BIRDDAY 4-","birdday3_complete"},
-    {"SURF AND TURF 1-","worldS1_complete"},{"SURF AND TURF 2-","worldS2_complete"},{"SURF AND TURF 3-","worldS3_complete"},
-    {"BAD PIGGIES 1-","world20_complete"},{"BAD PIGGIES 2-","world21_complete"},{"BAD PIGGIES 3-","world22_complete"},
-    {"SHORT FUSE 1-","blackbird_middle_1"},{"SHORT FUSE 2-","blackbird_middle_2"},{"SHORT FUSE 3-","blackbird_end"},
-    {"PIGGY FARM 3-","outro_cutscene_farm"},{"DINO 3-","outro_cutscene_dino"}};
 static int play_scene(const char *name){
     if(!cutscene_start(name))return 0;
     cutscene_time=0;cutscene_music_pending=1;return 1;
 }
-/* Returns 1 when the stage starts right away (no scene). */
-static int episode_intro_only(int level,const int *highscores){
-    int e=menu_episode_of(level);if(e<0 || level!=menu_episode_first(e))return 1;
-    for(int l=level;l<level+menu_episode_size(e);l++)if(highscores[l]>0)return 1;
-    for(unsigned k=0;k<sizeof(episode_scene)/sizeof(episode_scene[0]);k++)if(!strcmp(menu_episode_name(e),episode_scene[k][0]))return !play_scene(episode_scene[k][1]);
-    return 1;
-}
-/* The first stage of a world with no score in that world: the world's opening, if it has one. */
-static int world_intro(int level,const int *highscores){
-    const char *t=game_level_title(level),*dash=strrchr(t,'-');if(!dash)return 1;
-    size_t prefix=(size_t)(dash-t)+1;
-    if(level>0 && !strncmp(game_level_title(level-1),t,prefix))return 1;
-    for(int l=level;l<game_level_count() && !strncmp(game_level_title(l),t,prefix);l++)if(highscores[l]>0)return 1;
-    for(unsigned k=0;k<sizeof(world_intro_scene)/sizeof(world_intro_scene[0]);k++)
-        if(strlen(world_intro_scene[k][0])==prefix && !strncmp(world_intro_scene[k][0],t,prefix))return !play_scene(world_intro_scene[k][1]);
-    return 1;
-}
-static int episode_intro(int level,const int *highscores){
-    if(!episode_intro_only(level,highscores))return 0;
-    return world_intro(level,highscores);
-}
-/* After a stage's first score: if that completes its world, the world's scene. */
-static void world_complete(int level,const int *highscores){
-    {int e=menu_episode_of(level);
-     if(e>=0)for(unsigned k=0;k<sizeof(episode_done_scene)/sizeof(episode_done_scene[0]);k++)if(!strcmp(menu_episode_name(e),episode_done_scene[k][0])){
-        int first=menu_episode_first(e);for(int l=first;l<first+menu_episode_size(e);l++)if(highscores[l]<=0)return;
-        play_scene(episode_done_scene[k][1]);return;}}
-    const char *t=game_level_title(level),*dash=strrchr(t,'-');if(!dash)return;
-    size_t prefix=(size_t)(dash-t)+1;
-    for(int l=0;l<game_level_count();l++)if(!strncmp(game_level_title(l),t,prefix) && highscores[l]<=0)return;
-    for(unsigned k=0;k<sizeof(world_scene)/sizeof(world_scene[0]);k++)
-        if(strlen(world_scene[k][0])==prefix && !strncmp(world_scene[k][0],t,prefix)){play_scene(world_scene[k][1]);return;}
-}   /* main menu: Triangle stands for the touch that makes a bird yell */
+static int episode_intro(int level,const int *highscores){return scenes_episode_intro(level,highscores,play_scene);}
+static void world_complete(int level,const int *highscores){scenes_world_complete(level,highscores,play_scene);}   /* main menu: Triangle stands for the touch that makes a bird yell */
 static LevelEnd level_end;
 /* gamelogic.lua: each bird left gives 10000 shown over it, 0.5 s apart (birdBuffTimer), then
    the level-complete screen opens; won_wait counts down that pause. */
@@ -544,7 +494,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.94.6 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.94.7 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -850,7 +800,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(200,250,1,0,cream,"{PAD} MIRA   {X} LANÇAR");
             hint(200,270,1,0,cream,"{Q} SEGURAR: AJUSTE FINO");
             hint(200,290,1,0,cream,"{X} NO AR: HABILIDADE   {SELECT} FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.94.6 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.94.7 / PLAYSTATION 2");
             mc_status(200,350,color(135,192,181));
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -861,7 +811,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(90,200,1,0,cream,"{X} NO AR: HABILIDADE DO PÁSSARO");
             hint(90,220,1,0,cream,"{T} REINICIAR   {SELECT} FASES");
             hint(90,240,1,0,cream,"{R3} SOM   {START} CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.94.6 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.94.7 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             mc_status(90,318,color(135,192,181));
         } else {
@@ -1004,13 +954,13 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.94.6: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.94.7: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s); campaign error %d, sprites error %d\n",file,game_campaign_error(),sprites_error());
         char detail[3][96];
         snprintf(detail[0],sizeof(detail[0]),"CAMPAIGN.BIN: ERRO %d  SPRITES.BIN: ERRO %d",game_campaign_error(),sprites_error());
-        snprintf(detail[1],sizeof(detail[1]),"VERSAO 0.94.6");
+        snprintf(detail[1],sizeof(detail[1]),"VERSAO 0.94.7");
         snprintf(detail[2],sizeof(detail[2]),"%.90s",data_on_disc?"LENDO DO DISCO (CDROM0)":tried_dirs[0]?tried_dirs:data_dir);
         for(char *q=detail[2];*q;q++)if(*q>='a'&&*q<='z')*q=(char)(*q-32);
         char more[2][96]={"",""};
@@ -1065,6 +1015,8 @@ int main(int argc,char **argv)
         if(menu && menu_state.screen==MENU_MAIN && (pressed&PAD_TRIANGLE))menu_yell_request=1;
         /* Before the menu: the Rovio logo, then the game's loading splash (splashes.lua); X or Start skips one. */
         if(boot_splash==0){boot_splash=1;if(!play_scene("splash_rovio")){boot_splash=2;if(!play_scene("splash_loading"))boot_splash=3;}}
+        /* "Next" from the last stage of a world or episode: its opening plays after the closing scene (if any), as when starting from the menu. */
+        if(intro_pending && cutscene_time<0 && boot_splash==3){int l=intro_pending-1;intro_pending=0;if(!menu && l==g.level)episode_intro(l,g.highscores);}
         if(cutscene_time>=0){
             cutscene_time+=frame_seconds;
             int over=(pressed&(PAD_CROSS|PAD_START)) || !cutscene_draw(gs,cutscene_time);
@@ -1142,7 +1094,7 @@ int main(int argc,char **argv)
                 if(g.state==WON && world_pending){world_complete(world_pending-1,g.highscores);world_pending=0;}
                 if(choose==0){menu=1;paused=0;menu_open(&menu_state,g.level);audio_play(SFX_MENU_BACK);}
                 else if(choose==1){game_reset(&g);paused=0;audio_play(SFX_START);}
-                else{if(!game_next_level(&g)){menu=1;menu_open(&menu_state,g.level);audio_play(SFX_MENU_BACK);}else audio_play(SFX_START);paused=0;}
+                else{if(!game_next_level(&g)){menu=1;menu_open(&menu_state,g.level);audio_play(SFX_MENU_BACK);}else{audio_play(SFX_START);intro_pending=g.level+1;}paused=0;}
                 old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
             }
         }

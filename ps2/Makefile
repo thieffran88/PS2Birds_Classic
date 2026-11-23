@@ -1,7 +1,7 @@
 EE_BIN = build/PS2Birds_Classic.elf
 BOX2D_SRC = $(shell find vendor/box2d/src -name "*.cpp")
 BOX2D_OBJS = $(patsubst %.cpp,build/%.o,$(BOX2D_SRC))
-EE_OBJS = build/audio.o build/audio_assets.o build/audsrv_rpc.o build/save_codec.o build/save_mc.o build/save_assets.o build/main.o build/menu.o build/level_end.o build/music.o build/ui.o build/font.o build/menu_gfx.o build/background.o build/cutscene.o build/game.o build/sprites.o $(BOX2D_OBJS)
+EE_OBJS = build/audio.o build/audio_assets.o build/audsrv_rpc.o build/save_codec.o build/save_mc.o build/save_assets.o build/main.o build/menu.o build/level_end.o build/music.o build/ui.o build/font.o build/menu_gfx.o build/background.o build/cutscene.o build/scenes.o build/game.o build/sprites.o $(BOX2D_OBJS)
 EE_INCS = -Ivendor/box2d/include -Ivendor/box2d/src -Isrc -I$(GSKIT)/include
 EE_CFLAGS = -std=gnu99 -Wextra
 EE_CXXFLAGS = -std=gnu++11 -Wextra -fno-exceptions -fno-rtti
@@ -39,7 +39,7 @@ build/main.o build/sprites.o: src/sprite_ids.h src/sprites.h
 build/audio.o: src/audio.h src/audio_ids.h
 
 # Each module's own header (a changed enum or struct rebuilds its users).
-build/main.o: src/menu.h src/level_end.h src/music.h src/ui.h src/font.h src/menu_gfx.h src/background.h
+build/main.o: src/scenes.h src/menu.h src/level_end.h src/music.h src/ui.h src/font.h src/menu_gfx.h src/background.h
 build/menu.o: src/menu.h
 build/level_end.o: src/level_end.h
 build/music.o: src/music.h
@@ -48,6 +48,7 @@ build/font.o: src/font.h
 build/menu_gfx.o: src/menu_gfx.h src/sprites.h
 build/background.o: src/background.h src/sprites.h
 build/cutscene.o: src/cutscene.h
+build/scenes.o: src/scenes.h src/menu.h src/game.h
 
 build/audsrv_rpc.o: vendor/audsrv/ee/src/audsrv_rpc.c
 	@mkdir -p build
@@ -142,6 +143,9 @@ test: assets/CAMPAIGN.BIN assets/SOUNDS.BIN assets/manifest.json joint-test tria
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc tests/red_target_test.cpp build/host/game.o $(HOST_BOX2D_OBJS) -lm -o build/red_target_test
 	./build/red_target_test
 	$(CC) -O2 -std=gnu99 -Wall -Wextra -Werror -Isrc -c src/menu.c -o build/host/menu.o
+	$(CC) -O2 -std=gnu99 -Wall -Wextra -Werror -Isrc -c src/scenes.c -o build/host/scenes.o
+	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc tests/scenes_test.cpp build/host/scenes.o build/host/menu.o build/host/game.o $(HOST_BOX2D_OBJS) -lm -o build/scenes_test
+	./build/scenes_test
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc tests/menu_test.cpp build/host/menu.o build/host/game.o $(HOST_BOX2D_OBJS) -lm -o build/menu_test
 	./build/menu_test
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc tests/popup_test.cpp build/host/game.o $(HOST_BOX2D_OBJS) -lm -o build/popup_test
