@@ -3227,3 +3227,9 @@ Continua um protótipo parcial do Classic. Faltam as demais fases/episódios, ou
 - Substituídos os três artefatos 0.8.0 no Drive por ELF, ISO e código-fonte 0.9.0; removidos da pasta os artefatos 0.7.0, o relatório 0.7.0 já consolidado e a cópia duplicada do histórico. APK, decompilação e estudo de compatibilidade preservados; a pasta Ferramentas não é alterada.
 
 Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached Eggs e os demais episódios, pássaros preto/branco/grande, áudio, formas de colisão originais do cenário, pontuação fiel e validação em console físico.
+
+## Remoção do gerador para Android
+- **Excluído:** `docs/GERADOR_ANDROID.md`, `tools/GERAR_ISO_ANDROID.sh`, `tools/LEIA-ME_ANDROID.txt`, `tools/make_android_kit.py`.
+- **Editado:** `README.md` (sem as referências ao Android), `tools/paralelo.py` e `tools/progresso.py` (sem o tratamento do Termux).
+- **Editado:** `tools/rio/inspect_dat.py` lê o cabeçalho das imagens sem Pillow (o kit do Windows também não o tem).
+- O gerador oficial passa a ser só o do Windows (e o script Python no PC).

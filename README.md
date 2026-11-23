@@ -19,7 +19,6 @@ com o APK do jogador (por exemplo, `profiles/`).
 Escolha o seu caso:
 
 - **Windows:** veja abaixo.
-- **Android (sem computador):** veja o passo a passo em [`docs/GERADOR_ANDROID.md`](docs/GERADOR_ANDROID.md).
 - **Linux/macOS:** veja o fim desta seção.
 
 **Angry Birds Rio (experimental):** o mesmo kit gera uma ISO do Rio (opção 2 do menu, APK `com.rovio.angrybirdsrio.apk`): primeiro episódio e parte da selva, sem menus próprios ainda. No Linux: `python3 tools/gerar_iso.py com.rovio.angrybirdsrio.apk --jogo rio --elf PS2Birds_Rio.elf` (o ELF do Rio sai de `make GAME=rio`). Detalhes em `docs/rio/`.
@@ -80,7 +79,6 @@ sh ps2/build.sh -j3          # ELF + arquivos de dados em ps2/build
 sh ps2/build.sh test         # testes no PC
 sh ps2/build.sh iso          # ISO de desenvolvimento
 python3 tools/make_windows_kit.py ps2/build/PS2Birds_Classic.elf Gerador_Windows.zip
-python3 tools/make_android_kit.py ps2/build/PS2Birds_Classic.elf Gerador_Android.zip
 ```
 
 `ps2/assets` e `ps2/data` são gerados do APK e ficam fora do Git. Os testes de procedência
