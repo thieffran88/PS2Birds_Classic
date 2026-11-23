@@ -24,7 +24,9 @@ int main(int argc,char **argv){
     for(int level=first;level<=last;level++){
         int best=0;float ba=0,bp=0,bs=-1;
         const float specials[]={-1,0.4f,0.7f,1.0f,1.3f};
-        for(int si=0;si<5 && !best;si++)for(int a=-10;a<=80 && !best;a+=5)for(int p=30;p<=100 && !best;p+=4){
+        /* SOLVER_FAST=1: a coarser first pass (two special timings, angles every 10, forces every 8). */
+        const bool fast=getenv("SOLVER_FAST")!=NULL;const int nsp=fast?2:5,astep=fast?10:5,pstep=fast?8:4;
+        for(int si=0;si<nsp && !best;si++)for(int a=-10;a<=80 && !best;a+=astep)for(int p=30;p<=100 && !best;p+=pstep){
             int score=run(&g,level,(float)a,(float)p,specials[si]);
             if(score>0){best=score;ba=a;bp=p;bs=specials[si];}
         }

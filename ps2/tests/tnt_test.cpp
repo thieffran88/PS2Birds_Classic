@@ -29,7 +29,7 @@ int main(){
  GameObject outside=object(&g,3),shelf=object(&g,4);
  assert(outside.alive && outside.health==1);        // beyond the blast radius: no damage
  assert(shelf.alive && shelf.health==1 && std::fabs(shelf.x-(g.view_x+23*g.view_scale))<1e-3f); // static immunity
- assert(g.score==500*3+5000 && g.block_alive==1);
+ assert(g.score>=500*3+5000 && (g.score-(500*3+5000))%10==0 && g.block_alive==1);   // plus the points of the bird's own collision damage (floor(damage) x 10)
  // Each crate explodes exactly once.
  for(int i=0;i<600;i++){update(&g,1);assert(!(g.events&GAME_EVENT_EXPLOSION));}
  assert(g.state==AIMING && g.birds==1);

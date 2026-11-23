@@ -3252,3 +3252,6 @@ Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached E
 
 ## Pontuação por peça (0.94.12)
 - Cada peça vale o seu `destroyedScoreInc` (7.926 peças têm valor próprio; antes todas valiam 500). `CAMPAIGN.BIN` v10. Falta somar o dano de colisão (`floor(dano) × 10`). Ver `docs/MODIFICACOES_0.94.12.md`.
+
+## Pontos de dano e experimento de colisão (0.94.13)
+- Pontos de dano por colisão somados; fórmula exata de colisão testada e deixada desligada (mais difícil, sem prova). Ver `docs/MODIFICACOES_0.94.13.md`.

@@ -164,6 +164,10 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 #define EGG_BLAST_FORCE 10000.0f
 #define EGG_BLAST_DAMAGE 400.0f
 /* ExtraBlockTNT blast values recovered from blocks.lua; propagation shares the port's radial model. */
+/* Collision damage (AdventureModeCollisions.lua): velocities in world units (x physicsToWorld), divisor 10, ground multiplier 20. */
+#define EXACT_WORLD_SCALE 20.0f
+#define EXACT_DAMAGE_DIVISOR 10.0f
+#define EXACT_GROUND_MULTIPLIER 20.0f
 #define BLAST_IMPULSE_SCALE (1.0f/20.0f)   /* Explosions.lua: physicsScale * explosionForce, falling linearly to 0 over explosionRadius; applyImpulse is a raw b2Body impulse (native, read in the x86 library) */
 #define TNT_BLAST_RADIUS 10.0f
 #define TNT_DAMAGE_RADIUS 5.0f

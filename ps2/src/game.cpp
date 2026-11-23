@@ -154,7 +154,7 @@ struct Physics: b2ContactListener {
     float bomb_fuse,blast_life,blast_radius;
     float chain_delay[MAX_LEVEL_OBJECTS];
     b2Vec2 blast_position;
-    b2Contact *damage_contacts[MAX_LEVEL_OBJECTS*2];int damage_contact_count;
+    b2Contact *damage_contacts[MAX_LEVEL_OBJECTS*2];b2Vec2 damage_va[MAX_LEVEL_OBJECTS*2],damage_vb[MAX_LEVEL_OBJECTS*2];int damage_contact_count;
     /* Static scenery the launched bird overlapped at spawn; ignored until they separate. */
     b2Body *spawn_ignore[8];int spawn_ignore_count;
     b2Body *floor_body;
@@ -520,7 +520,7 @@ struct Physics: b2ContactListener {
                 uintptr_t id=body->GetUserData().pointer;
                 if(id>0 && id<=(uintptr_t)level->count && body->GetType()==b2_dynamicBody)disturbed[id-1]=true;
             }
-            if(damage_contact_count<MAX_LEVEL_OBJECTS*2)damage_contacts[damage_contact_count++]=contact;
+            if(damage_contact_count<MAX_LEVEL_OBJECTS*2){damage_va[damage_contact_count]=a->GetLinearVelocity();damage_vb[damage_contact_count]=b->GetLinearVelocity();damage_contacts[damage_contact_count++]=contact;}
         }
     }
     /* Scenery hulls are box approximations, so a slingshot placed on a slope can
@@ -564,8 +564,8 @@ struct Physics: b2ContactListener {
                     fragile_hit[id-1]=true;
             }
         }
-        bool damaging=false;for(int i=0;i<damage_contact_count;i++)if(damage_contacts[i]==contact){damaging=true;break;}
-        if(!damaging)return;
+        int dk=-1;for(int i=0;i<damage_contact_count;i++)if(damage_contacts[i]==contact){dk=i;break;}
+        if(dk<0)return;
         float normal=0;for(int i=0;i<impulse->count;i++)normal+=impulse->normalImpulses[i];
         b2Body *pair[]={contact->GetFixtureA()->GetBody(),contact->GetFixtureB()->GetBody()};
         for (b2Body *body:pair) {
@@ -587,7 +587,24 @@ struct Physics: b2ContactListener {
                 /* GlobeBirdDamageFactors: wood 3, rock 1.5, light 3; GlobeBirdBigDamageFactors (puffed): 0. */
                 if(projectile && bird_type==BIRD_PUFFER_TYPE && level->objects[i].kind!=4)factor=puffer_state>0?0.0f:level->objects[i].kind==1||level->objects[i].kind==2?3.0f:level->objects[i].kind==5?1.5f:1.0f;
                 if(projectile && bird_type==BIRD_GREEN_TYPE)factor=level->objects[i].kind==1||level->objects[i].kind==2?3.0f:level->objects[i].kind==5?1.5f:1.0f;
+#ifndef PS2BIRDS_EXACT_COLLISION
                 impact[i]=fmaxf(impact[i],normal/body->GetMass()*factor);
+#else
+                /* EXPERIMENTAL (build with -DPS2BIRDS_EXACT_COLLISION; off by default, see docs/LACUNAS_PORT.md): AdventureModeCollisions.lua, with the velocities before the solver (the native passes them to onCollision, which can disable
+                   the contact) in world units (physics x physicsToWorld 20), divided by 10:
+                   bird x piece:  |vBird - vPiece| / 10 * damageMultiplier(material) - defence
+                   piece x piece: |vA - vB| * massA * damageMultiplier(A, default 1) / 10 - defence of the piece hit
+                   piece x static (ground, fixed blocks): |v| * damageMultiplier(ground, default 20) / 10 - defence. */
+                {(void)normal;
+                 b2Vec2 va=damage_va[dk],vb=damage_vb[dk];const bool body_is_a=pair[0]==body;
+                 float rel=(va-vb).Length(),speed=(body_is_a?va:vb).Length();
+                 float dmg;
+                 if(projectile)dmg=rel*EXACT_WORLD_SCALE/EXACT_DAMAGE_DIVISOR*factor;
+                 else if(other->GetType()==b2_dynamicBody)dmg=rel*other->GetMass()*EXACT_WORLD_SCALE/EXACT_DAMAGE_DIVISOR;
+                 else dmg=speed*EXACT_WORLD_SCALE*EXACT_GROUND_MULTIPLIER/EXACT_DAMAGE_DIVISOR;
+                 dmg-=level->objects[i].defence;
+                 if(dmg>0)impact[i]+=dmg;}
+#endif
             }
         }
     }
@@ -1265,7 +1282,15 @@ static void tick(Game *g) {
         if(p->vial_shield[i] && p->bubble_timer[i]<=0)p->vial_shield[i]=false;
         if(p->vial_shield[i])p->impact[i]=0; /* ignoreAllDamage while in the pink bubble */
         float before=p->health[i],dealt=0;
-        if(o.kind!=3 && p->impact[i]>3){dealt=(p->impact[i]-3)*12/fmaxf(o.defence,1);p->health[i]-=dealt;}
+#ifndef PS2BIRDS_EXACT_COLLISION
+        if(o.kind!=3 && p->impact[i]>3){dealt=(p->impact[i]-3)*12/fmaxf(o.defence,1);p->health[i]-=dealt;
+            /* CollisionCallbacks.lua: each hit that deals damage scores floor(damage applied) x 10 (a killing hit applies what strength was left). */
+            g->score+=(int)floorf(fminf(dealt,fmaxf(before,0)))*10;}
+#else
+        if(o.kind!=3 && p->impact[i]>0){dealt=p->impact[i];p->health[i]-=dealt;
+            /* CollisionCallbacks.lua: each hit that deals damage scores floor(damage applied) x 10 (a killing hit applies what strength was left). */
+            g->score+=(int)floorf(fminf(dealt,fmaxf(before,0)))*10;}
+#endif
         p->impact[i]=0;
         /* blocks.lua <Bird>DamageFactors.velocityMultiplier: when the bird's hit breaks the piece,
            it keeps its speed before the hit x min(1, leftover damage share x multiplier)
