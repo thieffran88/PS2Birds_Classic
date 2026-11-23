@@ -31,7 +31,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 
 **Gráficos e interface**
 - Borda de grama no alto do terreno e textura nas peças que quebram: feitas na 0.94.17 como aproximação (a franja original é código nativo e não foi recuperada).
-- Mine and Dine: por falta de memória de vídeo, o porco machucado usa o desenho normal.
+- Mine and Dine: o porco machucado usa o desenho próprio nos bancos 11 e 12 e, no 13, em todos os porcos menos o avô de bigode (0.94.18); do banco 14 em diante ainda usa o desenho normal.
 - Botão de pausa na tela e visor de power-ups.
 - Pan de câmera do início da fase: não se aplica, o port mostra a fase inteira numa vista fixa.
 
@@ -104,7 +104,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 - **Densidade 0 = peça fixa:** regra do `ObjectCreation.lua`, agora aplicada a qualquer peça (estalactites e outras ficam presas no teto). Peças fixas não recebem dano no port (o dano usa a massa do corpo); a quebra de estalactites fixas depende de código nativo.
 - **Junta tipo 5 ("Destroy-attached"):** ver correção na 0.29.0.
 - **Limites:** fases com até ~320 peças (limite subiu para 352) e campanha acima de 256 fases (save v6 com 512 posições).
-- **Memória de vídeo:** os bancos de Mine and Dine ficaram no limite; neles, o porco machucado usa o quadro normal e as tábuas 10×1 usam dois quadros de dano.
+- **Memória de vídeo:** os bancos de Mine and Dine ficaram no limite; as tábuas 10×1 usam dois quadros de dano. O porco machucado voltou a ter quadro próprio nos bancos 11 a 13 na 0.94.18 (a quarta página, que estava vazia, o comporta), exceto o avô de bigode no banco 13.
 - **8 fases de Mine and Dine sem roteiro ainda** (15-2, 15-7, 15-14, 16-2, 16-5, 16-6, 17-4, 17-14): são as maiores (até 300 peças) e a busca em feixe leva horas; ficou rodando para a próxima versão.
 
 ## Achados da 0.29.0

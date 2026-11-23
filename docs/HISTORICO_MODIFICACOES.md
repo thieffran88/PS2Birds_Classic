@@ -3267,3 +3267,6 @@ Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached E
 
 ## Grama no terreno e textura nas peças que quebram (0.94.17)
 - Franja de grama (cor da linha do chão do tema) no topo do terreno; peças frágeis de terreno com a textura do tema. Ver docs/MODIFICACOES_0.94.17.md.
+
+## Porco machucado em Mine and Dine (0.94.18)
+- Bancos 11 a 13 voltam a ter o quadro de machucado (a quarta página, vazia, o comporta; só o avô de bigode do banco 13 continua com o normal). Ver docs/MODIFICACOES_0.94.18.md.

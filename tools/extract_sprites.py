@@ -187,9 +187,11 @@ def bank_members(all_names,levels_dir=None):
             elif re.fullmatch(r'BLOCK_(?:WOOD|LIGHT|ROCK)_(?:4X4|TRIANGLE_L|TRIANGLE_M)_[23]',n):target=n[:-1]+('1' if n.endswith('2') else '4')
             # Banks 2 and 3 (Mighty Hoax page 5, Danger Above) have the largest piece sets: numbered blocks keep
             # two frames, intact (states 1-2) and heavily damaged (states 3-4).
-            # Banks 11+ (Mine and Dine) also draw the hurt pig with its normal frame.
-            elif b>=11 and n.startswith('PIG_') and n.endswith('_02'):target=n[:-3]+'_01'
             elif b>=11 and re.fullmatch(r'BLOCK_(?:WOOD|LIGHT|ROCK)_10X1_[23]',n):target=n[:-1]+('1' if n.endswith('2') else '4')
+            # Banks 13+ also draw the hurt pig with its normal frame (banks 11 and 12 have room for it).
+            # The hurt pig keeps its own frame in banks 11 to 13 (Mine and Dine); only the grandpa pig's (the largest) still draws
+            # the normal frame in bank 13, which has no room for it, and so does every bank from 14 on.
+            elif (b>=14 or (b==13 and n=='PIG_MUSTACHE_02')) and n.startswith('PIG_') and n.endswith('_02'):target=n[:-3]+'_01'
             elif b>=2 and re.fullmatch(r'BLOCK_(?:WOOD|LIGHT|ROCK)_[23]_\d+',n):target=re.sub(r'_([23])_(\d+)$',lambda m:('_1_' if m[1]=='2' else '_4_')+m[2],n)
             if target and target in banks[b]:aliases[b][n]=target
         banks[b]-=set(aliases[b])
