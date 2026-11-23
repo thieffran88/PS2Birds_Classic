@@ -983,7 +983,10 @@ int main(int argc,char **argv)
         }
     }
     {extern unsigned char save_icon[];sprites_read_icon(save_icon,SAVE_ICON_BYTES);}
-    Game g; game_init(&g); save_mc_init(&g); audio_init(); printf("PS2Birds: music %s\n",music_init()?"loaded":"unavailable");
+    Game g; game_init(&g);
+    /* The IOP modules (memory card, audsrv), the sound effects and the music are only loaded after the first frame
+       (the Rovio logo) is on screen, so the black screen at start is as short as it can be. */
+    int late_init=0;
     u32 old_buttons=0;
     int paused=0, previously_connected=0, analog_requested=0,menu=1;menu_state.screen=MENU_MAIN;menu_state.episode=0;menu_state.level=0;
     u64 previous_time=GetTimerSystemTime();
@@ -992,6 +995,8 @@ int main(int argc,char **argv)
         TimerBusClock2USec(now-previous_time,&elapsed_seconds,&elapsed_us);previous_time=now;
         float frame_seconds=(float)elapsed_seconds+(float)elapsed_us/1000000.0f;
         if(frame_seconds>0.1f)frame_seconds=0.1f;
+        if(late_init==1){save_mc_init(&g);audio_init();printf("PS2Birds: music %s\n",music_init()?"loaded":"unavailable");previous_time=GetTimerSystemTime();now=previous_time;frame_seconds=0;}
+        if(late_init<2)late_init++;
         save_mc_poll();audio_tick();
         /* Music: title_theme in the menus (gamelogic.lua currentMainMenuSong); in a stage, the looped
            ambience of its theme (themes.lua music, gamelogic.lua currentMusic); level_complete once on a win. */

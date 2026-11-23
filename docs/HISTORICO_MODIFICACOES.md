@@ -3233,3 +3233,7 @@ Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached E
 - **Editado:** `README.md` (sem as referências ao Android), `tools/paralelo.py` e `tools/progresso.py` (sem o tratamento do Termux).
 - **Editado:** `tools/rio/inspect_dat.py` lê o cabeçalho das imagens sem Pillow (o kit do Windows também não o tem).
 - O gerador oficial passa a ser só o do Windows (e o script Python no PC).
+
+## Tela preta antes da primeira abertura (Classic)
+- **Editado:** `ps2/src/main.c`: o cartão de memória (`save_mc_init`), os efeitos sonoros (`audio_init`) e a música (`music_init`) passam a carregar no segundo quadro do laço, depois que o logo da Rovio já está na tela. Antes, tudo isso rodava antes do primeiro quadro e era o que mantinha a tela preta. O relógio do quadro é zerado após o carregamento para a abertura não pular tempo.
+- Compila e os testes do PC passam. Não medido em emulador/console: a duração real da tela preta ainda não foi comparada.
