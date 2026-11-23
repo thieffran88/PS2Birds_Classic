@@ -778,10 +778,12 @@ static void radial_blast(Game *g,const b2Vec2 &position,float radius,float force
         if(distance>=radius)continue;
         p->disturbed[i]=true;
         b2Vec2 direction=distance>0.001f?(1.0f/distance)*delta:b2Vec2(0,-1);
-        float impulse=(force/120.0f)*(1-distance/radius);
+        float impulse=(force*BLAST_IMPULSE_SCALE)*(1-distance/radius);
         body->ApplyLinearImpulseToCenter(impulse*direction,true);
         if(distance<damage_radius){
-            bool alive=p->health[i]>0;p->health[i]-=damage*(1-distance/damage_radius);
+            bool alive=p->health[i]>0;
+            /* Explosions.lua: explosionDamage falls linearly to 0 over explosionDamageRadius, minus the piece's defence; only a positive result hurts. */
+            float hurt=damage*(1-distance/damage_radius)-p->level->objects[i].defence;if(hurt>0)p->health[i]-=hurt;
             if(alive && p->health[i]<=0 && p->explosive(i))p->chain_delay[i]=TNT_CHAIN_SECONDS;
         }
     }

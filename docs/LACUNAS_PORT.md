@@ -17,13 +17,13 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 
 **Física e jogabilidade**
 - (feito na 0.90.0) `velocityMultiplier`: velocidade que o pássaro conserva ao quebrar uma peça (azul ×1,9 no vidro, Terence ×1,8, bumerangue ×1,3, baiacu ×4). Aplicada com a regra do `AdventureModeCollisions.lua`; a fórmula exata do modo Classic é nativa e não foi recuperada, então é uma aproximação.
-- Fórmulas nativas de dano, de queda da explosão e de "sono" das peças: são aproximações, porque o código nativo não foi recuperado.
+- Dano de colisão entre peças e com o chão: ainda é aproximação (`(impacto − 3) × 12 / defesa`); a fórmula exata foi lida em `AdventureModeCollisions.lua` e está na seção "Fórmulas exatas (0.94.11)" abaixo, ainda sem ser aplicada. A explosão já é a exata. O "sono" das peças é o do Box2D (`allowSleep`); nenhuma fórmula própria foi achada.
 - Pontuação aproximada: os limites de estrelas são os originais, mas a contagem é indicativa.
 - Power-ups da loja: o menu de seleção antes da fase existe; Double Score, Extra Bird e Homing Hat estão feitos. Faltam Boom Box, Chrono Bird e Red's Mighty Feathers.
 - Short Fuse: frascos, balão explosivo e peças de foguete já estão no jogo (levantamento antigo desatualizado). O ímã não tem nenhuma referência nos scripts do APK, então não há o que portar.
 
 **Fases sem roteiro de vitória verificado**
-- 3-20, 5-16 e 13-7 dependem da explosão do pássaro preto (fórmula nativa); Birdday 4-4, Dino 3-8 e fases grandes de Mine and Dine (16-5, 16-6 e outras).
+- (resolvido na 0.94.11: 3-20, 5-16 e 13-7 agora vencem com a explosão exata); Birdday 4-4, Dino 3-8 e fases grandes de Mine and Dine (16-5, 16-6 e outras).
 - O teste da campanha lista 78 fases sem roteiro (as 7 novas da 0.90.0: Bad Piggies 2-9, Bird Island 1-5, Piggy Farm 2-5 e 2-14, Dino 1-6, 1-7 e 1-13), contando Egg Defender (9), Golden Eggs, Tutorial e Mighty Feathers.
 
 **Egg Defender**
@@ -353,3 +353,11 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 - **Efeito nos roteiros:** 86 fases deixaram de ser vencidas pelos roteiros antigos. A busca automática achou roteiros novos para 79: 72 com um tiro repetido e 7 com sequências de vários pássaros (busca em feixe).
 - **Sete fases ficaram sem roteiro verificado:** Bad Piggies 2-9, Bird Island 1-5, Piggy Farm 2-5, Piggy Farm 2-14, Dino 1-6, Dino 1-7 e Dino 1-13. A busca não achou vitória para elas (duas, Dino 1-6 e 1-7, não chegaram a terminar no tempo disponível). Isso não significa que sejam impossíveis, só que nenhum roteiro foi verificado.
 - Para desligar o efeito, compile com `-DPS2BIRDS_NO_VELOCITY_MULTIPLIER`.
+
+
+## Fórmulas exatas (0.94.11)
+O Classic roda no `AdventureMode` (só existem `AdventureMode` e `MuseumMode`), então `AdventureModeCollisions.lua` e `Explosions.lua` são do Classic, ao contrário do que estava escrito antes.
+- **Explosão (aplicada):** `Explosions.lua`. Para cada peça não controlável, a menos de `explosionRadius`: impulso `physicsScale × (força → força mínima, linear até o raio)` na direção do centro da explosão. `physicsScale = 1/20`. O `applyImpulse` nativo (lido no `libAngryBirdsClassic.so` x86) é um `b2Body::ApplyLinearImpulse` puro, sem escala: `v += impulso / massa`. O port usava `força/120`, seis vezes mais fraco. Dano: `explosionDamage × (1 − distância/raio de dano) − defesa`; só dano positivo conta (o port esquecia a defesa).
+- **Prova:** 3-20, 5-16 e 13-7, que nunca foram vencidas com a fórmula antiga (3-20: busca exaustiva de 6 min sem vitória), vencem com um tiro simples com a exata. Das 215 fases afetadas, 153 acharam roteiro; as sem roteiro passaram de 78 para 62.
+- **Colisão (ainda não aplicada):** peça × peça: dano em B = `|vA − vB| × massaA × damageMultiplierA / 10 − defesaB` (A, ao contrário, igual). Peça × chão: `|v| × 20 / 10 − defesa` (`damageMultiplier` do chão, 20 por padrão). Só dano positivo reduz `strength`; ao chegar a 0 a peça morre. Pássaro × peça já usa essa regra com as tabelas `damageFactors`.
+- **Sono:** o campo `allowSleep` é do `b2BodyDef`; `setSleeping` só aparece no editor e no Demolisher. Não há fórmula nativa própria.

@@ -3245,3 +3245,7 @@ Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached E
 - **Double Score:** peças quebradas valem o dobro. O Lua decompilado não mostra a multiplicação, só o "2x" flutuante; o dobro vem do nome do power-up.
 - **Homing Hat:** R2 em voo. Aproximado: não troca o pássaro por "HomingBird" nem toca os sons do radar; unidades do 370 e do 40 estimadas.
 - **Faltam:** Boom Box, Chrono Bird, Red's Mighty Feathers (precisam de arte e regras próprias) e o visor na tela.
+
+## Fórmulas nativas: explosão exata (0.94.11)
+- Achado: o Classic usa `AdventureMode`; `Explosions.lua` e `AdventureModeCollisions.lua` valem para ele. O `applyImpulse` nativo é um impulso puro do Box2D.
+- Explosão: impulso `força/20` com queda linear (era `/120`) e dano menos a defesa. 3-20, 5-16 e 13-7 passaram a vencer; fases sem roteiro 78 → 62. Detalhes em `docs/MODIFICACOES_0.94.11.md`.
