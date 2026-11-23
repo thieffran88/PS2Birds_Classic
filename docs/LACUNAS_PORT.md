@@ -361,3 +361,9 @@ O Classic roda no `AdventureMode` (só existem `AdventureMode` e `MuseumMode`), 
 - **Prova:** 3-20, 5-16 e 13-7, que nunca foram vencidas com a fórmula antiga (3-20: busca exaustiva de 6 min sem vitória), vencem com um tiro simples com a exata. Das 215 fases afetadas, 153 acharam roteiro; as sem roteiro passaram de 78 para 62.
 - **Colisão (ainda não aplicada):** peça × peça: dano em B = `|vA − vB| × massaA × damageMultiplierA / 10 − defesaB` (A, ao contrário, igual). Peça × chão: `|v| × 20 / 10 − defesa` (`damageMultiplier` do chão, 20 por padrão). Só dano positivo reduz `strength`; ao chegar a 0 a peça morre. Pássaro × peça já usa essa regra com as tabelas `damageFactors`.
 - **Sono:** o campo `allowSleep` é do `b2BodyDef`; `setSleeping` só aparece no editor e no Demolisher. Não há fórmula nativa própria.
+
+### Dano de colisão exato: o que falta saber (investigação da 0.94.12)
+- Fórmulas lidas (ver acima) e tabelas `damageFactors` do `blocks.lua`: o pássaro vermelho usa multiplicador 1 (Default) e o herói vermelho 2; o azul vale 2,9 contra vidro; divisor 10.
+- **Não resolvido: a unidade de `xVel`/`yVel`.** Com velocidade em unidades de física (46 m/s no lançamento) um pássaro vermelho daria `46/10 − defesa 2,5 ≈ 2` de dano contra madeira de resistência 40, o que não bate com o jogo; em unidades de mundo (×20) daria ≈ 90, que bate. Mas a mesma regra, para o chão (`|v| × 20 / 10`), daria 40 por m/s, o que arrasaria qualquer queda. O preenchimento nativo desses campos (`libAngryBirdsClassic.so`) não foi decifrado.
+- **Não resolvido: frequência.** Não se sabe se o nativo chama `onCollision` a cada passo (PreSolve) ou só no início do contato; o `shouldDisableContact` indica PreSolve.
+- Por isso a fórmula de colisão continua não aplicada: sem a unidade e a frequência, trocá-la seria um palpite que refaria os roteiros de todas as fases sem prova (diferente da explosão, que teve a prova das fases 3-20, 5-16 e 13-7).
