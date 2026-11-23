@@ -3255,3 +3255,6 @@ Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached E
 
 ## Pontos de dano e experimento de colisão (0.94.13)
 - Pontos de dano por colisão somados; fórmula exata de colisão testada e deixada desligada (mais difícil, sem prova). Ver `docs/MODIFICACOES_0.94.13.md`.
+
+## Correção da tela de power-ups (0.94.14)
+- O painel de seleção só aparecia no modo sem arte; agora aparece sobre a grade de fases. Ver docs/MODIFICACOES_0.94.14.md.

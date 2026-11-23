@@ -402,6 +402,26 @@ static void sunburst(u64 a,u64 b,float cx,float cy)
     }
     disk(cx,cy,70,color(255,236,120));disk(cx,cy,56,color(255,250,190));
 }
+/* The power-up selection screen shown over the stage grid ("PLAY" on a stage): see game.h SHOP_*. */
+static void shop_panel(const Game *g)
+{
+    static const char *const bird_names[3]={"Vermelho","Amarelo","Azul"};
+    const u64 edge=color(246,191,65),back=color(18,44,40),row_on=color(70,120,96),on_mark=color(120,220,140);
+    rect(96,96,448,276,edge);rect(100,100,440,268,back);
+    font_draw(gs,FONT_BASIC,320,112,1.0f,FONT_CENTER,0x80808080,"Power-ups");
+    char line[96];
+    for(int r=0;r<4;r++){
+        float y=156+r*44;
+        if(r==shop_row)rect(112,y-6,416,38,row_on);
+        if(r<3 && (g->shop_mask&(r==0?SHOP_DOUBLE:r==1?SHOP_EXTRA_BIRD:SHOP_HOMING)))rect(118,y+4,10,18,on_mark);
+        if(r==0)snprintf(line,sizeof(line),"Dobro de pontos: %s",g->shop_mask&SHOP_DOUBLE?"ligado":"desligado");
+        else if(r==1)snprintf(line,sizeof(line),"Pássaro extra (%s): %s",bird_names[shop_bird_index(g->shop_bird)],g->shop_mask&SHOP_EXTRA_BIRD?"ligado":"desligado");
+        else if(r==2)snprintf(line,sizeof(line),"Chapéu teleguiado (R2): %s",g->shop_mask&SHOP_HOMING?"ligado":"desligado");
+        else snprintf(line,sizeof(line),"Jogar");
+        font_draw(gs,FONT_BASIC,r==3?320:140,y,0.8f,r==3?FONT_CENTER:FONT_LEFT,0x80808080,line);
+    }
+    hint(320,346,1,1,color(255,255,255),"{PADUD} ESCOLHER   {PADLR}/{X} MUDAR   {O} VOLTAR");
+}
 static void menu_screens(const Game *g)
 {
     const Menu *m=&menu_state;char line[64];
@@ -499,7 +519,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.94.13 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.94.14 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -569,6 +589,7 @@ static void menu_screens(const Game *g)
     else snprintf(line,sizeof(line),"%s   (bloqueada)",game_level_title(i));
     font_draw(gs,FONT_BASIC,320,346,0.8f,FONT_CENTER,0x80808080,line);
     hint(380,412,1,1,color(255,255,255),"{PAD} FASE   {L2}{R2} PÁGINA   {X} JOGAR   {O} VOLTAR");
+    if(shop_open)shop_panel(g);
 }
 
 static void render(const Game *g, int connected, int paused,int menu)
@@ -805,7 +826,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(200,250,1,0,cream,"{PAD} MIRA   {X} LANÇAR");
             hint(200,270,1,0,cream,"{Q} SEGURAR: AJUSTE FINO");
             hint(200,290,1,0,cream,"{X} NO AR: HABILIDADE   {SELECT} FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.94.13 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.94.14 / PLAYSTATION 2");
             mc_status(200,350,color(135,192,181));
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -816,7 +837,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(90,200,1,0,cream,"{X} NO AR: HABILIDADE DO PÁSSARO");
             hint(90,220,1,0,cream,"{T} REINICIAR   {SELECT} FASES");
             hint(90,240,1,0,cream,"{R3} SOM   {START} CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.94.13 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.94.14 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             mc_status(90,318,color(135,192,181));
         } else {
@@ -977,13 +998,13 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.94.13: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.94.14: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s); campaign error %d, sprites error %d\n",file,game_campaign_error(),sprites_error());
         char detail[3][96];
         snprintf(detail[0],sizeof(detail[0]),"CAMPAIGN.BIN: ERRO %d  SPRITES.BIN: ERRO %d",game_campaign_error(),sprites_error());
-        snprintf(detail[1],sizeof(detail[1]),"VERSAO 0.94.13");
+        snprintf(detail[1],sizeof(detail[1]),"VERSAO 0.94.14");
         snprintf(detail[2],sizeof(detail[2]),"%.90s",data_on_disc?"LENDO DO DISCO (CDROM0)":tried_dirs[0]?tried_dirs:data_dir);
         for(char *q=detail[2];*q;q++)if(*q>='a'&&*q<='z')*q=(char)(*q-32);
         char more[2][96]={"",""};
