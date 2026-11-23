@@ -40,6 +40,14 @@ static unsigned short blend(unsigned short dst,unsigned short src,int a){
     int r=((src&31)*a+(dst&31)*(128-a))>>7,g=(((src>>5)&31)*a+((dst>>5)&31)*(128-a))>>7,b=(((src>>10)&31)*a+((dst>>10)&31)*(128-a))>>7;
     return (unsigned short)(r|(g<<5)|(b<<10)|0x8000);
 }
+#define GRASS_MIN 5
+#define GRASS_MAX 8
+static unsigned short grass_row[W];   /* colour of the theme's ground line under each column (the terrain's grass fringe) */
+static unsigned short lighten(unsigned short c){
+    int r=(c&31)+5,g=((c>>5)&31)+5,b=((c>>10)&31)+4;
+    if(r>31)r=31;if(g>31)g=31;if(b>31)b=31;
+    return (unsigned short)(r|(g<<5)|(b<<10)|0x8000);
+}
 static void paint_piece(const BackgroundPiece *p){
     /* Inverse of sprite_draw_tint's transform: each screen pixel of the piece's box looks up the
        ground mask (alpha) and takes the texture, anchored to the screen at the 1024 x 768 scale. */
@@ -52,13 +60,21 @@ static void paint_piece(const BackgroundPiece *p){
         if(X<minx)minx=X;if(X>maxx)maxx=X;if(Y<miny)miny=Y;if(Y>maxy)maxy=Y;
     }
     int x0=minx<0?0:(int)minx,x1=maxx>W-1?W-1:(int)maxx+1,y0=miny<0?0:(int)miny,y1=maxy>SCREEN_H-1?SCREEN_H-1:(int)maxy+1;
-    for(int Y=y0;Y<=y1;Y++)for(int X=x0;X<=x1;X++){
-        float dx=X+0.5f-p->x,dy=Y+0.5f-p->y,u=(dx*cs+dy*sn)/kx+px,v=(-dx*sn+dy*cs)/ky+py;
-        int su=(int)u,sv=(int)v;
-        if(u<0 || v<0 || su>=w || sv>=h)continue;
-        int a=mask[((unsigned)sv*stride+su)*4+3];if(a<=0)continue;if(a>128)a=128;
-        unsigned short t=texture[(((int)(Y*1.7142857f))&255)*256+(((int)(X*1.7142857f))&255)];
-        frame[Y*W+X]=blend(frame[Y*W+X],t,a);
+    /* Column by column, top to bottom: `run` counts the covered pixels above (the terrain's top edge has run 0), and the first
+       GRASS_ROWS of each column take the grass colour of the theme's ground line (the original paints a grass fringe along the top of
+       its terrain natively; here the ground line's own row gives the colour, so a theme without grass gets a dirt-coloured edge). */
+    for(int X=x0;X<=x1;X++){
+        int run=0;int thick=GRASS_MIN+((X*2654435761u)>>29)%(GRASS_MAX-GRASS_MIN+1);
+        for(int Y=y0;Y<=y1;Y++){
+            float dx=X+0.5f-p->x,dy=Y+0.5f-p->y,u=(dx*cs+dy*sn)/kx+px,v=(-dx*sn+dy*cs)/ky+py;
+            int su=(int)u,sv=(int)v;
+            if(u<0 || v<0 || su>=w || sv>=h){run=0;continue;}
+            int a=mask[((unsigned)sv*stride+su)*4+3];if(a<=0){run=0;continue;}if(a>128)a=128;
+            unsigned short t=texture[(((int)(Y*1.7142857f))&255)*256+(((int)(X*1.7142857f))&255)];
+            if(run<thick)t=run<2?lighten(grass_row[X]):grass_row[X];
+            run++;
+            frame[Y*W+X]=blend(frame[Y*W+X],t,a);
+        }
     }
 }
 static int scroll_px,frame_scroll;
@@ -81,6 +97,7 @@ int background_prepare(int theme,int ground_y,int stage,const BackgroundPiece *p
             if(scroll_px){memcpy(frame+y*W,canvas+src*W+scroll_px,(W-scroll_px)*2);memcpy(frame+y*W+(W-scroll_px),canvas+src*W,scroll_px*2);}
             else memcpy(frame+y*W,canvas+src*W,W*2);
         }
+        {int gy=ground_y+3;if(gy>=SCREEN_H)gy=SCREEN_H-1;for(int x=0;x<W;x++)grass_row[x]=frame[gy*W+x];}   /* before the pieces cover it */
         for(int i=0;i<count;i++)paint_piece(&pieces[i]);
         FlushCache(0);frame_theme=theme;frame_ground=ground_y;frame_stage=stage;frame_scroll=scroll_px;
     }

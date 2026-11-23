@@ -3264,3 +3264,6 @@ Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached E
 
 ## Egg Defender: setTargetY e conferência (0.94.16)
 - setTargetY é código morto (nenhum script o chama); conferência estrutural dos 72 veículos sem divergências. Ver docs/MODIFICACOES_0.94.16.md.
+
+## Grama no terreno e textura nas peças que quebram (0.94.17)
+- Franja de grama (cor da linha do chão do tema) no topo do terreno; peças frágeis de terreno com a textura do tema. Ver docs/MODIFICACOES_0.94.17.md.

@@ -292,6 +292,7 @@ static int terrain_baked;   /* the stage's fixed ground masks are painted into t
 /* GROUND_BLOCK mask of a fixed (kind 3) terrain piece, -1 for every other piece. */
 static int ground_mask(const GameObject *o)
 {
+    if(o->kind==OBJECT_KIND_FRAGILE_GROUND && !strcmp(o->definition,"StaticFragileBlock06"))return SPR_GROUND_BLOCK_06;   /* breakable terrain: textured too, and repainted when one breaks */
     if(o->kind!=3)return -1;
     for(const DefinitionSprite *d=definition_sprites;d->definition;d++)
         if(!strcmp(o->definition,d->definition) && d->sprite!=SPR_GROUND_BLOCK_05 && d->sprite!=SPR_GROUND_BLOCK_01 && d->sprite!=SPR_GROUND_BLOCK_02 && d->sprite!=SPR_GROUND_BLOCK_03 && d->sprite!=SPR_GROUND_BLOCK_04 && d->sprite!=SPR_GROUND_BLOCK_06)return -1;
@@ -519,7 +520,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.94.16 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.94.17 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -612,15 +613,16 @@ static void render(const Game *g, int connected, int paused,int menu)
     /* themes.lua: the stage's theme picture (sky, layers, ground) copied into the frame. */
     {
         /* The theme's ground texture on the stage's fixed terrain pieces (painted once per stage). */
-        static BackgroundPiece pieces[MAX_LEVEL_OBJECTS];int count=0;
+        static BackgroundPiece pieces[MAX_LEVEL_OBJECTS];int count=0,fragile_alive=0;
         for(int i=0;i<game_object_count(g) && count<MAX_LEVEL_OBJECTS;i++){
             GameObject o;if(!game_get_object(g,i,&o)||!o.alive)continue;
             int id=ground_mask(&o);if(id<0)continue;
+            if(o.kind==OBJECT_KIND_FRAGILE_GROUND)fragile_alive++;
             BackgroundPiece *p=&pieces[count++];p->sprite=id;p->x=o.x;p->y=o.y;p->angle=o.angle;
             p->scale=(render_scale/render_pixels)*SPRITE_MASK_SCALE;p->flip_x=(o.mirror&OBJECT_MIRROR_X)!=0;p->flip_y=(o.mirror&OBJECT_MIRROR_Y)!=0;
         }
         background_set_scroll(menu?0:(int)(g->cam_x*0.35f));   /* the scenery moves slower than the stage (0 on fixed-camera stages) */
-        terrain_baked=background_prepare(game_level_theme(g->level),(int)render_ground,g->level,pieces,count);
+        terrain_baked=background_prepare(game_level_theme(g->level),(int)render_ground,g->level+1024*fragile_alive,pieces,count);
     }
     if(terrain_baked)background_draw(gs);
     else{
@@ -826,7 +828,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(200,250,1,0,cream,"{PAD} MIRA   {X} LANÇAR");
             hint(200,270,1,0,cream,"{Q} SEGURAR: AJUSTE FINO");
             hint(200,290,1,0,cream,"{X} NO AR: HABILIDADE   {SELECT} FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.94.16 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.94.17 / PLAYSTATION 2");
             mc_status(200,350,color(135,192,181));
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -837,7 +839,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(90,200,1,0,cream,"{X} NO AR: HABILIDADE DO PÁSSARO");
             hint(90,220,1,0,cream,"{T} REINICIAR   {SELECT} FASES");
             hint(90,240,1,0,cream,"{R3} SOM   {START} CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.94.16 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.94.17 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             mc_status(90,318,color(135,192,181));
         } else {
@@ -998,13 +1000,13 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.94.16: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.94.17: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s); campaign error %d, sprites error %d\n",file,game_campaign_error(),sprites_error());
         char detail[3][96];
         snprintf(detail[0],sizeof(detail[0]),"CAMPAIGN.BIN: ERRO %d  SPRITES.BIN: ERRO %d",game_campaign_error(),sprites_error());
-        snprintf(detail[1],sizeof(detail[1]),"VERSAO 0.94.16");
+        snprintf(detail[1],sizeof(detail[1]),"VERSAO 0.94.17");
         snprintf(detail[2],sizeof(detail[2]),"%.90s",data_on_disc?"LENDO DO DISCO (CDROM0)":tried_dirs[0]?tried_dirs:data_dir);
         for(char *q=detail[2];*q;q++)if(*q>='a'&&*q<='z')*q=(char)(*q-32);
         char more[2][96]={"",""};

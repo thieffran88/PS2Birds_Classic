@@ -30,7 +30,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 - Egg Defender: `setTargetY` não existe na prática (nenhum script o chama) e a conferência estrutural dos 72 veículos contra os scripts foi feita (0.94.16). Resta só comparar o comportamento no jogo original, o que o APK antigo e o ambiente não permitem.
 
 **Gráficos e interface**
-- Borda de grama no alto do terreno (desenhada pelo código nativo) e textura nas peças de terreno que quebram.
+- Borda de grama no alto do terreno e textura nas peças que quebram: feitas na 0.94.17 como aproximação (a franja original é código nativo e não foi recuperada).
 - Mine and Dine: por falta de memória de vídeo, o porco machucado usa o desenho normal.
 - Botão de pausa na tela e visor de power-ups.
 - Pan de câmera do início da fase: não se aplica, o port mostra a fase inteira numa vista fixa.
