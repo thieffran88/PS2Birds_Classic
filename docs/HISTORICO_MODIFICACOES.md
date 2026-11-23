@@ -3237,3 +3237,11 @@ Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached E
 ## Tela preta antes da primeira abertura (Classic)
 - **Editado:** `ps2/src/main.c`: o cartão de memória (`save_mc_init`), os efeitos sonoros (`audio_init`) e a música (`music_init`) passam a carregar no segundo quadro do laço, depois que o logo da Rovio já está na tela. Antes, tudo isso rodava antes do primeiro quadro e era o que mantinha a tela preta. O relógio do quadro é zerado após o carregamento para a abertura não pular tempo.
 - Compila e os testes do PC passam. Não medido em emulador/console: a duração real da tela preta ainda não foi comparada.
+
+## Power-ups da loja, parte 1 (Classic)
+- **Adicionado:** tela de seleção antes da fase (`ps2/src/main.c`): Dobro de pontos, Pássaro extra (vermelho, amarelo ou azul), Chapéu teleguiado e JOGAR. Sem moedas: tudo grátis e ilimitado; a escolha vale para as próximas fases e reinícios.
+- **Adicionado:** `ps2/tests/shop_test.cpp` (no `make test`): fila com o pássaro extra, dobro da pontuação de uma peça e aproximação do Homing Hat ao porco (ganho de 50,9 px).
+- **Editado:** `ps2/src/game.cpp` / `game.h` (`SHOP_*`, `shop_mask`, `shop_bird`, `game_use_homing`), `ps2/Makefile`, `docs/LACUNAS_PORT.md`.
+- **Double Score:** peças quebradas valem o dobro. O Lua decompilado não mostra a multiplicação, só o "2x" flutuante; o dobro vem do nome do power-up.
+- **Homing Hat:** R2 em voo. Aproximado: não troca o pássaro por "HomingBird" nem toca os sons do radar; unidades do 370 e do 40 estimadas.
+- **Faltam:** Boom Box, Chrono Bird, Red's Mighty Feathers (precisam de arte e regras próprias) e o visor na tela.

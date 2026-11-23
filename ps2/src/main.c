@@ -343,6 +343,11 @@ static int menu_yell_request;
 static int boot_splash;   /* 0 not started, 1 Rovio logo, 2 loading splash, 3 done */
 static float cutscene_time=-1;static int cutscene_music_pending;   /* start the music after the first frame is up: reading the track stalls the game for seconds */
 static int world_pending;   /* stage index + 1 whose first win may complete a world */
+/* Shop power-ups: the selection screen before a stage (menu "PLAY"). shop_open: stage index + 1 while it is shown. */
+static int shop_open,shop_row;
+static const int shop_bird_types[3]={BIRD_RED_TYPE,BIRD_YELLOW_TYPE,BIRD_BLUE_TYPE};
+static const char *const shop_bird_names[3]={"VERMELHO","AMARELO","AZUL"};
+static int shop_bird_index(int type){for(int i=0;i<3;i++)if(shop_bird_types[i]==type)return i;return 0;}
 static int intro_pending;   /* stage index + 1 just reached with "next": its opening (episode or world) plays once no scene is running */
 /* cutscenes.lua scenes, tied to the port's stages (episodes.lua lists each scene next to the levels it follows).
    Entering the first stage of an episode with no score yet plays its opening; entering the first stage of a world
@@ -863,6 +868,24 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(60,372,1,0,cream,"{PAD} FASE  {L2}{R2} PAGINA  {X} JOGAR  {O} EPISODIOS");
         }
         mc_status(430,152,color(156,195,178));
+        if(shop_open){
+            u64 on=color(120,220,140);
+            rect(90,150,460,230,color(24,52,50));rect(94,154,452,222,dark);
+            text(112,166,2,gold,"POWER-UPS");
+            snprintf(line,sizeof(line),"%s",game_level_title(shop_open-1));text(112,192,1,color(156,195,178),line);
+            for(int r=0;r<4;r++){
+                float y=218+r*30;if(r==shop_row)rect(104,y-6,432,26,panel);
+                u64 c=r==shop_row?gold:cream;
+                if(r==0)snprintf(line,sizeof(line),"DOBRO DE PONTOS     %s",g->shop_mask&SHOP_DOUBLE?"LIGADO":"DESLIGADO");
+                else if(r==1)snprintf(line,sizeof(line),"PASSARO EXTRA  %-9s %s",shop_bird_names[shop_bird_index(g->shop_bird)],g->shop_mask&SHOP_EXTRA_BIRD?"LIGADO":"DESLIGADO");
+                else if(r==2)snprintf(line,sizeof(line),"CHAPEU TELEGUIADO  %s",g->shop_mask&SHOP_HOMING?"LIGADO":"DESLIGADO");
+                else snprintf(line,sizeof(line),"JOGAR");
+                text(120,y,1,c,line);
+                if(r<3 && (g->shop_mask&(r==0?SHOP_DOUBLE:r==1?SHOP_EXTRA_BIRD:SHOP_HOMING)))rect(112,y,5,10,on);
+            }
+            hint(112,352,1,0,cream,"{PADUD} ESCOLHER  {PADLR}/{X} MUDAR  {O} VOLTAR");
+            if(g->shop_mask&SHOP_HOMING)text(112,366,1,color(156,195,178),"R2 NO VOO: O PASSARO PERSEGUE O PORCO");
+        }
     }
     gsKit_queue_exec(gs);
     gsKit_sync_flip(gs);
@@ -1035,6 +1058,7 @@ int main(int argc,char **argv)
         if(pressed & PAD_R3){audio_toggle();music_set_enabled(!strcmp(audio_status(),"SOM LIGADO"));}
         if(pressed & PAD_L1)save_mc_request();
         if(!menu && !paused && (pressed & PAD_L2) && game_use_powerup(&g))audio_play(SFX_EXPLOSION);
+        if(!menu && !paused && (pressed & PAD_R2) && game_use_homing(&g))audio_play(SFX_EXPLOSION);
         if(pressed & PAD_SELECT){menu=!menu;menu_open(&menu_state,g.level);audio_play(menu?SFX_MENU_MOVE:SFX_MENU_BACK);}
         if(menu){
             unsigned keys=((pressed&PAD_UP)?MENU_KEY_UP:0)|((pressed&PAD_DOWN)?MENU_KEY_DOWN:0)|((pressed&PAD_LEFT)?MENU_KEY_LEFT:0)|((pressed&PAD_RIGHT)?MENU_KEY_RIGHT:0)
@@ -1059,13 +1083,27 @@ int main(int argc,char **argv)
                 }else if(pressed&PAD_CIRCLE && options_open){options_open=0;if(main_choice>1)main_choice=1;audio_play(SFX_MENU_BACK);old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;}
                 else keys&=MENU_KEY_BACK;
             }
+            if(shop_open){
+                int bi=shop_bird_index(g.shop_bird);
+                if(keys&MENU_KEY_UP){shop_row=(shop_row+3)%4;audio_play(SFX_MENU_MOVE);}
+                else if(keys&MENU_KEY_DOWN){shop_row=(shop_row+1)%4;audio_play(SFX_MENU_MOVE);}
+                else if(keys&MENU_KEY_BACK){shop_open=0;audio_play(SFX_MENU_BACK);}
+                else if(keys&(MENU_KEY_LEFT|MENU_KEY_RIGHT|MENU_KEY_OK)){
+                    if(shop_row==1 && (keys&(MENU_KEY_LEFT|MENU_KEY_RIGHT))){bi=(bi+((keys&MENU_KEY_RIGHT)?1:2))%3;g.shop_bird=shop_bird_types[bi];g.shop_mask|=SHOP_EXTRA_BIRD;audio_play(SFX_MENU_MOVE);}
+                    else if(shop_row<3){g.shop_mask^=shop_row==0?SHOP_DOUBLE:shop_row==1?SHOP_EXTRA_BIRD:SHOP_HOMING;audio_play(SFX_MENU_MOVE);}
+                    else if(keys&MENU_KEY_OK){
+                        int lv=shop_open-1;shop_open=0;
+                        if(game_load_level(&g,lv)){menu=0;paused=0;audio_play(SFX_MENU_CONFIRM);if(episode_intro(g.level,g.highscores))audio_play(SFX_START);}
+                    }
+                }
+                old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
+            }
             int was=menu_state.screen,result=menu_input(&menu_state,keys,g.unlocked);
             if(result==MENU_MOVED)audio_play(SFX_MENU_MOVE);
             else if(result==MENU_ENTERED)audio_play(SFX_MENU_CONFIRM);
             else if(result==MENU_LOCKED)audio_play(SFX_MENU_BACK);
             else if(result==MENU_LEFT_SCREEN){audio_play(SFX_MENU_BACK);if(was==MENU_MAIN)menu=0;}
-            else if(result==MENU_PLAY && game_load_level(&g,menu_episode_first(menu_state.episode)+menu_state.level)){menu=0;paused=0;audio_play(SFX_MENU_CONFIRM);
-                if(episode_intro(g.level,g.highscores))audio_play(SFX_START);}
+            else if(result==MENU_PLAY){shop_open=menu_episode_first(menu_state.episode)+menu_state.level+1;shop_row=3;if(!g.shop_bird)g.shop_bird=BIRD_RED_TYPE;audio_play(SFX_MENU_CONFIRM);}
             old_buttons=buttons;previously_connected=connected;render(&g,connected,paused,menu);continue;
         }
         if(g.state==WON && won_wait>0)won_wait-=frame_seconds;

@@ -37,6 +37,7 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 #define BIRD_QUAKE_TIME 2.0f
 #define BIRD_QUAKE_X 7.0f
 #define BIRD_QUAKE_Y 7.5f
+#define HOMING_PULL 40.0f   /* Powerup_HomingHat.lua: steering added to the velocity per update */
 /* Power Potion (Powerup_SuperSeed.lua): the launched bird's radius and density are multiplied by
    these per-bird factors (indexed by BirdType; the pink bird has no entry and stays as it is). */
 #define POWER_POTION_RADIUS {1.5f,1.5f,1.5f,1.5f,1.5f,1.0f,1.5f,1.4f,1.5f,1.0f,1.5f}
@@ -225,6 +226,7 @@ typedef struct {
     float cam_x,cam_max,base_view_x,base_sling_x;   /* scrolling camera: how far the view has moved right, and how far it may (0: the stage fits the screen) */
     GameState state;
     GamePopup popups[GAME_POPUPS];int popup_next;
+    int shop_mask,shop_bird;   /* power-ups chosen before the stage (SHOP_*), and the extra bird's type; kept across restarts */
     void *physics;
 } Game;
 typedef struct { float x,y,width,height,angle,health; int kind,alive; const char *definition; int mirror; } GameObject;
@@ -244,6 +246,12 @@ int game_bird_trapped(const Game *game);
 /* Power-up of the current stage (POWERUP_*), and whether it can still be used (Bird Quake: once). */
 int game_powerup(const Game *game);
 int game_powerup_available(const Game *game);
+/* Shop power-ups picked on the selection screen before a stage (powerups/Powerup_*.lua). The port has no coins:
+   every power-up is free and unlimited. DOUBLE: pieces score twice. EXTRA_BIRD: one more bird (shop_bird, a BirdType)
+   at the end of the queue. HOMING: R2 in flight turns the bird toward the nearest pig. */
+enum {SHOP_DOUBLE=1,SHOP_EXTRA_BIRD=2,SHOP_HOMING=4};
+int game_homing_available(const Game *game);
+int game_use_homing(Game *game);
 /* Starts the stage's Bird Quake, or arms the Power Potion for the next launch; 1 if used. */
 int game_use_powerup(Game *game);
 /* Host tests: removes the piece's health; it breaks on the next physics tick. */

@@ -144,7 +144,7 @@ struct Physics: b2ContactListener {
     bool boomerang_active;float boomerang_x_force,boomerang_y_force,boomerang_spin;
     int puffer_state;float puffer_timer,puffer_auto,puffer_direction;unsigned puffer_seed;
     float pink_timer,bird_bubble;bool pink_hover;
-    int extra_types[16],extra_count,pending_birds,pending_pigs;int trapped_by,current_wave,last_wave;bool egg_mode;float quake_time;bool quake_used,potion_armed,potion_used,shock_bonus,shock_used;float potion_scale;
+    int extra_types[16],extra_count,pending_birds,pending_pigs;int trapped_by,current_wave,last_wave;bool egg_mode;float quake_time;bool homing_on,homing_used;bool quake_used,potion_armed,potion_used,shock_bonus,shock_used;float potion_scale;
     float shock_time;b2Vec2 shock_center;bool shock_hit[MAX_LEVEL_OBJECTS];float electrocute[MAX_LEVEL_OBJECTS];float bubble_timer[MAX_LEVEL_OBJECTS],bubble_float[MAX_LEVEL_OBJECTS];float gun_timer[MAX_LEVEL_OBJECTS],gun_bubble_grow[MAX_LEVEL_OBJECTS],gun_bubble_life[MAX_LEVEL_OBJECTS];bool is_gun[MAX_LEVEL_OBJECTS];unsigned gun_seed;float vial_wait[MAX_LEVEL_OBJECTS],vial_pop[MAX_LEVEL_OBJECTS];int vial_kind[MAX_LEVEL_OBJECTS];bool vial_shield[MAX_LEVEL_OBJECTS];
     int bird_type;
     bool bird_hit[MAX_LEVEL_OBJECTS];b2Vec2 bird_pre_velocity;   /* velocityMultiplier: pieces the bird touched this step, its speed before the solver */
@@ -181,7 +181,7 @@ struct Physics: b2ContactListener {
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),puffer_state(0),puffer_timer(0),puffer_auto(-1),puffer_direction(0),puffer_seed(12345u),pink_timer(-1),bird_bubble(0),pink_hover(false),bird_type(BIRD_RED_TYPE) {
         egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
         damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
-        memset(chain_delay,0,sizeof(chain_delay));memset(bird_hit,0,sizeof(bird_hit));bird_pre_velocity.SetZero();memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(thrust,0,sizeof(thrust));memset(thrust_clock,0,sizeof(thrust_clock));memset(thrust_off,0,sizeof(thrust_off));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(gun_timer,0,sizeof(gun_timer));memset(gun_bubble_grow,0,sizeof(gun_bubble_grow));memset(gun_bubble_life,0,sizeof(gun_bubble_life));memset(is_gun,0,sizeof(is_gun));gun_seed=12345u;memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;pending_pigs=0;quake_time=0;quake_used=false;trapped_by=-1;current_wave=1;last_wave=1;egg_mode=false;potion_armed=false;potion_used=false;shock_bonus=false;shock_used=false;potion_scale=1;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
+        memset(chain_delay,0,sizeof(chain_delay));memset(bird_hit,0,sizeof(bird_hit));bird_pre_velocity.SetZero();memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(thrust,0,sizeof(thrust));memset(thrust_clock,0,sizeof(thrust_clock));memset(thrust_off,0,sizeof(thrust_off));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(gun_timer,0,sizeof(gun_timer));memset(gun_bubble_grow,0,sizeof(gun_bubble_grow));memset(gun_bubble_life,0,sizeof(gun_bubble_life));memset(is_gun,0,sizeof(is_gun));gun_seed=12345u;memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;pending_pigs=0;quake_time=0;homing_on=false;homing_used=false;quake_used=false;trapped_by=-1;current_wave=1;last_wave=1;egg_mode=false;potion_armed=false;potion_used=false;shock_bonus=false;shock_used=false;potion_scale=1;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
         world.SetContactListener(this);destruction.owner=this;world.SetDestructionListener(&destruction);
         /* The Ground object of the stage data spans the whole level; stages place pieces up to
            x=825, so the floor is FLOOR_HALF_WIDTH wide on each side of the origin. */
@@ -622,13 +622,16 @@ int game_level_bank(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?camp
 const char *game_level_script(int index){return index>=0 && index<(int)CAMPAIGN_COUNT?campaign_levels[index].script:"";}
 int game_load_level(Game *g,int index) {
     if(index<0 || index>=(int)CAMPAIGN_COUNT || index>=g->unlocked)return 0;
-    int unlocked=g->unlocked,best[MAX_CAMPAIGN_LEVELS];memcpy(best,g->highscores,sizeof(best));
-    game_destroy(g);memset(g,0,sizeof(*g));g->level=index;g->unlocked=unlocked;memcpy(g->highscores,best,sizeof(best));
+    int unlocked=g->unlocked,shop_mask=g->shop_mask,shop_bird=g->shop_bird,best[MAX_CAMPAIGN_LEVELS];memcpy(best,g->highscores,sizeof(best));
+    game_destroy(g);memset(g,0,sizeof(*g));g->level=index;g->unlocked=unlocked;g->shop_mask=shop_mask;g->shop_bird=shop_bird;memcpy(g->highscores,best,sizeof(best));
     const CampaignLevel *l=&campaign_levels[index];g->physics=new Physics(l);
     g->view_x=l->view_x;g->view_y=l->view_y;g->view_scale=l->view_scale;g->pixels=l->pixels;
     g->ground_y=l->view_y+l->ground_y*l->view_scale;g->gravity=l->gravity;
     g->sling_x=l->view_x+l->sling_x*l->view_scale;g->sling_y=l->view_y+l->sling_y*l->view_scale;
     g->x=g->sling_x;g->y=g->sling_y;g->angle=30;g->power=75;g->birds=l->birds;g->state=AIMING;
+    {Physics *p=static_cast<Physics*>(g->physics);
+     /* Powerup_ExtraBird.lua / ExtraBirdManager.lua: the extra bird waits at the end of the queue. */
+     if((g->shop_mask&SHOP_EXTRA_BIRD) && l->birds>0 && p->extra_count<16){p->extra_types[p->extra_count++]=g->shop_bird;g->birds++;}}
     /* Camera: the stage's right edge (the Classic stages are fitted to the screen, so they never scroll). */
     g->base_view_x=l->view_x;g->base_sling_x=g->sling_x;g->cam_x=0;g->cam_max=0;
 #ifdef PS2BIRDS_RIO   /* only the Rio build: the Classic stages (Egg Defender included) keep their fixed camera */
@@ -657,7 +660,7 @@ void game_launch(Game *g) {
     p->egg=NULL;p->egg_collided=false;
     p->spawn_ignore_count=0;
     for(int i=0;i<2;i++){if(p->split[i])p->world.DestroyBody(p->split[i]);p->split[i]=NULL;p->split_collided[i]=false;}
-    p->bird_type=game_queue_type(g,0);p->red_delay=-1;p->red_fly=false;p->red_target=-1;p->shock_bonus=false;p->trapped_by=-1;p->special_used=false;p->bird_collided=false;p->boomerang_active=false;p->boomerang_spin=0;p->puffer_state=0;p->puffer_timer=0;p->puffer_auto=-1;p->puffer_direction=0;p->puffer_seed=12345u;p->pink_timer=-1;p->bird_bubble=0;p->pink_hover=false;
+    p->bird_type=game_queue_type(g,0);p->homing_on=false;p->red_delay=-1;p->red_fly=false;p->red_target=-1;p->shock_bonus=false;p->trapped_by=-1;p->special_used=false;p->bird_collided=false;p->boomerang_active=false;p->boomerang_spin=0;p->puffer_state=0;p->puffer_timer=0;p->puffer_auto=-1;p->puffer_direction=0;p->puffer_seed=12345u;p->pink_timer=-1;p->bird_bubble=0;p->pink_hover=false;
     g->angle=clamp(g->angle,ANGLE_MIN,ANGLE_MAX);g->power=clamp(g->power,POWER_MIN,POWER_MAX);
     float a=g->angle*0.01745329252f;
     p->bird=p->make_bird(b2Vec2(p->level->sling_x,p->level->sling_y),b2Vec2(cosf(a)*LAUNCH_SPEED_MAX*sling_power(p)*g->power/100.0f,-sinf(a)*LAUNCH_SPEED_MAX*sling_power(p)*g->power/100.0f),p->bird_type);
@@ -1062,6 +1065,18 @@ static void tick(Game *g) {
     p->update_waves();
     egg_tick(g,p,dt);if(g->state==LOST)return;
     p->cannons_update(dt);
+    if(p->homing_on && p->bird && !p->bird_collided && g->state==FLYING){
+        /* Powerup_HomingHat.lua: the nearest pig is the target; each update (30 a second) its direction is added, 40 strong, to the bird's
+           velocity, which is then turned back to the old speed. It locks on within 370 of the original's 800 pixels of width. */
+        b2Vec2 at=p->bird->GetPosition(),v=p->bird->GetLinearVelocity();int best=-1;float near=1e9f;
+        for(int i=0;i<p->level->count;i++){if(p->level->objects[i].kind!=4 || !p->is_goal(i) || p->health[i]<=0 || !p->bodies[i])continue;
+            b2Vec2 d=p->bodies[i]->GetPosition()-at;float l=d.Length();if(l<near){near=l;best=i;}}
+        float lock=370.0f/800.0f*608.0f/g->view_scale;
+        if(best>=0 && near<lock){
+            b2Vec2 d=p->bodies[best]->GetPosition()-at;d.Normalize();float speed=v.Length();
+            b2Vec2 w=v+(HOMING_PULL*dt*30.0f)*d;if(w.Normalize()>0)p->bird->SetLinearVelocity(speed*w);
+        }
+    }
     if(p->quake_time>0){
         float step=fminf(dt,p->quake_time);p->quake_time-=step;
         for(int i=0;i<p->level->count;i++){b2Body *b=p->bodies[i];
@@ -1278,7 +1293,7 @@ static void tick(Game *g) {
                 if(f && f->blast_radius>0)radial_blast(g,where,f->blast_radius,f->blast_force,f->damage_radius,f->damage);
                 else radial_blast(g,where,TNT_BLAST_RADIUS,TNT_BLAST_FORCE,TNT_DAMAGE_RADIUS,TNT_BLAST_DAMAGE);}
             if(o.flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL)){}
-            else if(o.kind==4 && p->is_goal(i)){g->pig_alive--;g->score+=5000;popup_at(g,where,5000,POPUP_PIG,4);g->events|=GAME_EVENT_PIG;}else {g->block_alive--;int earned=o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;g->score+=earned;popup_at(g,where,earned,POPUP_PIECE,o.kind);g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
+            else if(o.kind==4 && p->is_goal(i)){g->pig_alive--;g->score+=5000;popup_at(g,where,5000,POPUP_PIG,4);g->events|=GAME_EVENT_PIG;}else {g->block_alive--;int earned=o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;if(g->shop_mask&SHOP_DOUBLE)earned*=2;g->score+=earned;popup_at(g,where,earned,POPUP_PIECE,o.kind);g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
         }
     }
     g->pig_alive+=p->pending_pigs;p->pending_pigs=0;
@@ -1339,6 +1354,8 @@ void game_update(Game *g,float seconds) {
     }
 }
 int game_bird_trapped(const Game *g){return static_cast<const Physics*>(g->physics)->trapped_by>=0;}
+int game_homing_available(const Game *g){const Physics *p=static_cast<const Physics*>(g->physics);return (g->shop_mask&SHOP_HOMING) && !p->homing_used && g->state==FLYING && p->bird && !p->bird_collided;}
+int game_use_homing(Game *g){if(!game_homing_available(g))return 0;Physics *p=static_cast<Physics*>(g->physics);p->homing_used=true;p->homing_on=true;return 1;}
 int game_powerup(const Game *g){return static_cast<const Physics*>(g->physics)->level->powerup;}
 int game_powerup_available(const Game *g){const Physics *p=static_cast<const Physics*>(g->physics);
     if(p->level->powerup==POWERUP_BIRD_QUAKE)return !p->quake_used && (g->state==AIMING||g->state==FLYING);

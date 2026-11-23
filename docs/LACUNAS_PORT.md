@@ -19,7 +19,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 - (feito na 0.90.0) `velocityMultiplier`: velocidade que o pássaro conserva ao quebrar uma peça (azul ×1,9 no vidro, Terence ×1,8, bumerangue ×1,3, baiacu ×4). Aplicada com a regra do `AdventureModeCollisions.lua`; a fórmula exata do modo Classic é nativa e não foi recuperada, então é uma aproximação.
 - Fórmulas nativas de dano, de queda da explosão e de "sono" das peças: são aproximações, porque o código nativo não foi recuperado.
 - Pontuação aproximada: os limites de estrelas são os originais, mas a contagem é indicativa.
-- Power-ups da loja (Homing Hat, Boom Box, Chrono Bird, Double Score, Extra Bird, Red's Mighty Feathers): precisam de um menu de seleção antes da fase.
+- Power-ups da loja: o menu de seleção antes da fase existe; Double Score, Extra Bird e Homing Hat estão feitos. Faltam Boom Box, Chrono Bird e Red's Mighty Feathers.
 - Short Fuse: frascos, balão explosivo e peças de foguete já estão no jogo (levantamento antigo desatualizado). O ímã não tem nenhuma referência nos scripts do APK, então não há o que portar.
 
 **Fases sem roteiro de vitória verificado**
