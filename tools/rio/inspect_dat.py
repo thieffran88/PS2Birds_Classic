@@ -1,7 +1,16 @@
 import os
 import zipfile,struct,collections,json,io
 from pathlib import Path
-from PIL import Image
+def image_info(data):
+    """(format, width, height) read from the file header of a PNG or WebP: no imaging library needed."""
+    if data[:8]==b'\x89PNG\r\n\x1a\n':return 'PNG',int.from_bytes(data[16:20],'big'),int.from_bytes(data[20:24],'big')
+    if data[:4]==b'RIFF' and data[8:12]==b'WEBP':
+        kind=data[12:16]
+        if kind==b'VP8X':return 'WEBP',1+int.from_bytes(data[24:27],'little'),1+int.from_bytes(data[27:30],'little')
+        if kind==b'VP8L':
+            v=int.from_bytes(data[21:25],'little');return 'WEBP',(v&0x3fff)+1,((v>>14)&0x3fff)+1
+        if kind==b'VP8 ':return 'WEBP',int.from_bytes(data[26:28],'little')&0x3fff,int.from_bytes(data[28:30],'little')&0x3fff
+    raise ValueError('formato de imagem desconhecido')
 ROOT=Path(__file__).resolve().parents[2];apk=os.environ.get('RIO_APK_PATH',str(ROOT/'input/com.rovio.angrybirdsrio.apk'));results=[];errors=[];types=collections.Counter();pvr=collections.Counter();formats=collections.Counter()
 with zipfile.ZipFile(apk) as z:
  names=set(z.namelist())
@@ -25,9 +34,9 @@ with zipfile.ZipFile(apk) as z:
    texture_path=name.rsplit('/',1)[0]+'/'+texture;alternatives=[texture_path.rsplit('.',1)[0]+ext for ext in ['.png','.webp','.pvr'] if texture_path.rsplit('.',1)[0]+ext in names]
    dimensions=None;selected=next((a for a in alternatives if not a.endswith('.pvr')),None)
    if selected:
-    with Image.open(io.BytesIO(z.read(selected))) as img:
-     dimensions=list(img.size);formats[img.format]+=1
-     assert all(f['x']+f['w']<=img.width and f['y']+f['h']<=img.height for f in frames)
+    fmt,iw,ih=image_info(z.read(selected))
+    dimensions=[iw,ih];formats[fmt]+=1
+    assert all(f['x']+f['w']<=iw and f['y']+f['h']<=ih for f in frames)
    results.append({'path':name,'version':version,'texture':texture,'available':alternatives,'dimensions':dimensions,'frames':frames})
   except Exception as e:errors.append({'path':name,'error':str(e)})
  for name in names:
