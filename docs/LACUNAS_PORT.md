@@ -27,7 +27,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 - O teste da campanha lista 78 fases sem roteiro (as 7 novas da 0.90.0: Bad Piggies 2-9, Bird Island 1-5, Piggy Farm 2-5 e 2-14, Dino 1-6, 1-7 e 1-13), contando Egg Defender (9), Golden Eggs, Tutorial e Mighty Feathers.
 
 **Egg Defender**
-- `setTargetY` (altura-alvo de alguns veículos) e a conferência fase a fase contra o original.
+- Egg Defender: `setTargetY` não existe na prática (nenhum script o chama) e a conferência estrutural dos 72 veículos contra os scripts foi feita (0.94.16). Resta só comparar o comportamento no jogo original, o que o APK antigo e o ambiente não permitem.
 
 **Gráficos e interface**
 - Borda de grama no alto do terreno (desenhada pelo código nativo) e textura nas peças de terreno que quebram.

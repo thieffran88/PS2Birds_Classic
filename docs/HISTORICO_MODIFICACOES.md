@@ -3261,3 +3261,6 @@ Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached E
 
 ## Fases sem roteiro (0.94.15)
 - De 62 para 43, com a busca nova por sequências (`solver4`). Ver docs/MODIFICACOES_0.94.15.md.
+
+## Egg Defender: setTargetY e conferência (0.94.16)
+- setTargetY é código morto (nenhum script o chama); conferência estrutural dos 72 veículos sem divergências. Ver docs/MODIFICACOES_0.94.16.md.
