@@ -10,6 +10,7 @@ jogo muda (foi assim em 0.90.0, com o `velocityMultiplier`). Todos rodam no PC, 
 | --- | --- |
 | `solver.cpp` | Busca, para cada fase, um tiro (ângulo, força e momento da habilidade) que, repetido para todos os pássaros, vence. Uso: `solver [primeira_fase] [última_fase]`. |
 | `solver3.cpp` + `beam.py` | Busca em feixe para as fases em que um tiro repetido não basta: testa sequências de pássaros diferentes. Uso: `beam.py FASE [LARGURA]`; imprime `WIN` seguido de ângulo, força e habilidade de cada pássaro e da pontuação. |
+| `solver4.cpp` | Busca em feixe sobre a sequência inteira de pássaros, num único processo (bem mais rápida que o `beam.py`): grade mais grossa, orçamento de tempo e quatro momentos de habilidade. Uso: `solver4 FASE [LARGURA] [SEGUNDOS]`; imprime `WIN` com ângulo, força, habilidade e espera de cada pássaro, ou `none`. `WAITS=0,2,5` testa esperas antes do lançamento (Egg Defender). Resolveu 19 fases na 0.94.15. |
 | `ed_solver.cpp` | O mesmo passo da busca em feixe para o Egg Defender, onde a espera antes do lançamento importa, porque os veículos chegam em ondas. Uso: `ed_solver fase [espera ângulo força habilidade]...`. |
 | `settle_probe.cpp` | Mede quanto as peças de cada fase se movem ao assentar, antes de qualquer tiro. |
 | `make_campaign_table.py` | Reconstrói a tabela de fases do `campaign_test.cpp` a partir dos resultados das buscas (`ps2/build/all_*.txt` e `nb*_<índice>.txt`). Fases sem vitória ficam com roteiro vazio e entram no teste como "sem roteiro". |

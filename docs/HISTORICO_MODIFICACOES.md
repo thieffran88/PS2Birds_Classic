@@ -3258,3 +3258,6 @@ Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached E
 
 ## Correção da tela de power-ups (0.94.14)
 - O painel de seleção só aparecia no modo sem arte; agora aparece sobre a grade de fases. Ver docs/MODIFICACOES_0.94.14.md.
+
+## Fases sem roteiro (0.94.15)
+- De 62 para 43, com a busca nova por sequências (`solver4`). Ver docs/MODIFICACOES_0.94.15.md.
