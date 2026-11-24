@@ -368,3 +368,6 @@ O Classic roda no `AdventureMode` (só existem `AdventureMode` e `MuseumMode`), 
 ### Experimento da 0.94.13: dano exato de colisão
 - Implementado atrás de `-DPS2BIRDS_EXACT_COLLISION` (velocidade em unidades de mundo ×20, divisor 10, chão 20). Em 125 fases amostradas, a busca simples (`SOLVER_FAST=1`) vence 57% das fases (71 de 125) contra 72% (84 de 117) com a fórmula aproximada atual; nas 745 fases venceu 403. Com essa fórmula as quedas no chão quebram quase tudo (40 de dano por m/s), então é provável que a unidade do chão seja outra. Memória do usuário: o Red quebra vidro numa batida (a fórmula exata em unidades de mundo concorda; em unidades de física não).
 - Pontos de dano (`floor(dano) × 10`) somados em ambas as fórmulas.
+
+### Gravidade do Rio (0.94.24)
+- Confirmada: o mundo do Box2D do Rio é criado com a gravidade (0, +20) e `doSleep = 1` (`libAngryBirdsRio.so` x86, `b2World` criado em 0x7586c e 0x886f5; nenhum script ou fase a altera). É o valor que o port já usava.
