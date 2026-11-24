@@ -3273,3 +3273,6 @@ Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached E
 
 ## Botão de pausa e visor de power-ups (0.94.19)
 - Botão de pausa e visor desenhados no HUD da fase. Ver docs/MODIFICACOES_0.94.19.md.
+
+## Definições sem adaptador (0.94.20)
+- Conferência com tools/audit_definitions.py: nenhuma definição falta para as 745 fases do port; o 547 era antigo. Ver docs/MODIFICACOES_0.94.20.md.

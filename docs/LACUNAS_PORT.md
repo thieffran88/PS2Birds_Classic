@@ -41,11 +41,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 
 ## O que falta na decompilação/importação
 
-- 547 definições sem adaptador. As mais usadas:
-  - pássaros: RedBigBird (Terence), BoomerangBird (verde), PinkBird (Stella), GlobeBird (orbe);
-  - blocos: StaticFragileBlock06, LightBlock8, WhiteBlock11, STATIC_WALL_5;
-  - extras: cordas (ExtraRope*, BP_ROPE_THICK), barris, capacetes, trampolim, ferramentas e tesouros;
-  - decorações: Farm, Dino, Birthday.
+- **Definições sem adaptador: nenhuma para as 745 fases do port** (conferido na 0.94.20 com `tools/audit_definitions.py`; o número antigo, 547, era de uma versão muito anterior). Das 748 definições do `blocks.lua`, 614 têm adaptador (as 604 que as fases usam, mais as dos pássaros), 134 não; 103 dessas nenhuma fase do APK usa, e as outras 31 aparecem só em fases que o port não importa: Mighty League (273 fases), siege (9) e eagleDemo (3), com 46 definições próprias (gemas, moedas, decoração do Siege...). Esses modos ficam fora do port.
 - Juntas: o port suporta todos os tipos usados nas fases: distância (1), solda (2), dobradiça com motor e limites (3), prismática (4) e "destruir anexo" (5).
 - Câmera: os roteiros de pan (castleCameraData e birdCameraData) não são aplicados.
 
