@@ -3279,3 +3279,6 @@ Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached E
 
 ## Câmera do Classic (0.94.21)
 - Medida a câmera original dos 745 níveis; decisão de projeto: vista fixa. Ver docs/MODIFICACOES_0.94.21.md.
+
+## Mira mais visível (0.94.22)
+- Pontos da trajetória com anel escuro e centro claro. Ver docs/MODIFICACOES_0.94.22.md.
