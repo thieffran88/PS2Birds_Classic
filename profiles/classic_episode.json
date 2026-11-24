@@ -1714,6 +1714,18 @@
       ],
       "bank": 81,
       "first": 1
+    },
+    {
+      "number": 86,
+      "title_prefix": "SIEGE ",
+      "folder": "/levels/siege",
+      "levels": [
+        "SLevel7",
+        "SLevel8",
+        "Siege1"
+      ],
+      "bank": 82,
+      "first": 1
     }
   ],
   "powerups": {

@@ -61,6 +61,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
     world=env.get('world')
     if not isinstance(world,dict):raise ValueError('Missing world table')
     objects=[dict(o) for o in world.values() if isinstance(o,dict) and 'definition' in o and 'name' in o]
+    if '/levels/siege/' in (source_name or ''):objects=[o for o in objects if not o['definition'].startswith('DecorationFaceLift')]   # siege stages: decoration pieces blocks.lua never defines (nothing is drawn for them)
     # Egg Defender (EggDefender.lua): each wave is one pig vehicle (assets/data/vehicles/...), placed
     # with its bottom-left at the wave's (x, y) (VehiclePivotPoint.BottomLeft); the editor floor of the
     # vehicle file (Ground, StaticBlockTheme*) is dropped. Pieces keep their wave number.
