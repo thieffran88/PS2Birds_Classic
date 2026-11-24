@@ -18,7 +18,7 @@ TOOLS=['gerar_iso.py','progresso.py','webp.py','vp8l.py','vp8_tables.py','parale
 # Rio (tools/rio): the analysis and conversion of the Rio APK, plus the piece and sprite tables the Rio ELF is compiled with.
 RIO_TOOLS=['__init__.py','investigate_rio.py','inspect_levels.py','inspect_dat.py','inspect_comp.py','build_catalogue.py','audit_gaps.py','level_order.py','rio_import_level.py',
            'rio_campaign.py','build_rio_data.py','crop_sprites.py','extract_sprites_rio.py','pack_sprites_rio.py','extract_themes_rio.py','extract_audio_rio.py',
-           'extract_audio_rio_music.py','extract_font_rio.py','extract_ui_rio.py','extract_menu_rio.py','sound_groups.py','pvr.py']
+           'extract_audio_rio_music.py','extract_font_rio.py','extract_ui_rio.py','extract_menu_rio.py','extract_cutscene_rio.py','sound_groups.py','pvr.py']
 RIO_HEADERS=['sprite_ids.h','definition_sprites.h']
 TOOLS+=['inspect_apk.py']
 PROFILES=['egg_defender.json','games.json','classic_level.json','classic_episode.json','sprite_metrics.json','star_limits.json','supported_apk.json','projects.json']

@@ -1,3 +1,6 @@
+## Cenas e créditos do Rio (0.49.17)
+- `CUTSCENE.BIN` do Rio (7 cenas de painéis) e texto "sobre" do Rio. Ver docs/rio/MODIFICACOES_RIO_0.49.17.md.
+
 ## Interface do Rio (0.49.16)
 - `FONT.BIN`, `UI.BIN` e `MENU.BIN` do Rio gerados do APK; o banco do Rio ganha os quatro slots de textura do Classic. Ver docs/MODIFICACOES_RIO_0.49.16.md.
 

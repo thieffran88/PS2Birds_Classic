@@ -37,8 +37,8 @@ STEPS_RIO=['Análise do APK','Fases (campanha)','Texturas (sprites)','Fundos (te
 
 def generate_rio(apk_path,out_dir,ffmpeg=None,log=print,progress=None):
     """Rio: analyses the APK (recovers the scripts as data, catalogues pieces and sprites in work/rio, kept for the next run), then writes
-    CAMPAIGN.BIN, SPRITES.BIN, THEMES.BIN, SOUNDS.BIN, MUSIC.BIN, FONT.BIN, UI.BIN and MENU.BIN (the Rio's own font, interface and menu
-    graphics). The Rio has no CUTSCENE.BIN yet. Returns the list of warnings (empty when the sprite tables match the ELF)."""
+    CAMPAIGN.BIN, SPRITES.BIN, THEMES.BIN, SOUNDS.BIN, MUSIC.BIN, FONT.BIN, UI.BIN, MENU.BIN and CUTSCENE.BIN (the Rio's own font, interface, menu
+    graphics and comic scenes). Returns the list of warnings (empty when the sprite tables match the ELF)."""
     sys.path.insert(0,str(HERE/'rio'))
     from rio.investigate_rio import investigate
     import build_rio_data
@@ -108,7 +108,7 @@ def main_rio(a,p,disc_id):
         with tempfile.TemporaryDirectory(prefix='ps2birds-rio-') as data:
             data=Path(data);warnings=generate_rio(a.apk,data,a.ffmpeg,progress=prog,log=prog.write)
             for w in warnings:prog.write('AVISO: '+w)
-            files=[data/n for n in ('SPRITES.BIN','SOUNDS.BIN','MUSIC.BIN','THEMES.BIN','CAMPAIGN.BIN','FONT.BIN','UI.BIN','MENU.BIN') if (data/n).is_file()]
+            files=[data/n for n in ('SPRITES.BIN','SOUNDS.BIN','MUSIC.BIN','THEMES.BIN','CAMPAIGN.BIN','FONT.BIN','UI.BIN','MENU.BIN','CUTSCENE.BIN') if (data/n).is_file()]
             import make_iso
             prog.step(5);a.saida.parent.mkdir(parents=True,exist_ok=True)
             make_iso.write_with_pycdlib(Path(elf).read_bytes(),a.saida.resolve(),files,disc_id)

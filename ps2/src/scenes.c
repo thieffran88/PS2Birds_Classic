@@ -4,6 +4,14 @@
 #include "menu.h"
 #include "game.h"
 #include <string.h>
+#ifdef PS2BIRDS_RIO
+/* Rio (CutsceneScene.lua, tools/rio/extract_cutscene_rio.py): theme1Start opens Smugglers' Den and theme1End closes it. The other
+   endings (rio_end2..6) are in CUTSCENE.BIN but their episodes are not in the port yet. */
+static const char *const episode_scene[][2]={{"SMUGGLERS DEN","rio_intro"}};
+static const char *const episode_done_scene[][2]={{"SMUGGLERS DEN","rio_end1"}};
+static const char *const world_intro_scene[][2]={{"~","~"}};
+static const char *const world_scene[][2]={{"~","~"}};
+#else
 static const char *const episode_scene[][2]={{"POACHED EGGS","pack1_intro"},{"MIGHTY HOAX","pack2_intro"},
     {"DANGER ABOVE","pack3_intro"},{"BIG SETUP","pack4_intro"},{"HAM EM HIGH","pack5_intro"},{"MINE AND DINE","pack6_intro"},
     {"SURF AND TURF","pack8_intro"},{"BAD PIGGIES","pack9_intro"},{"SHORT FUSE","blackbird_intro"},
@@ -25,6 +33,7 @@ static const char *const world_scene[][2]={
     {"BAD PIGGIES 1-","world20_complete"},{"BAD PIGGIES 2-","world21_complete"},{"BAD PIGGIES 3-","world22_complete"},
     {"SHORT FUSE 1-","blackbird_middle_1"},{"SHORT FUSE 2-","blackbird_middle_2"},{"SHORT FUSE 3-","blackbird_end"},
     {"PIGGY FARM 3-","outro_cutscene_farm"},{"DINO 3-","outro_cutscene_dino"}};
+#endif
 /* Returns 1 when the stage starts right away (no scene). */
 static int episode_intro_only(int level,const int *highscores,SceneStarter play){
     int e=menu_episode_of(level);if(e<0 || level!=menu_episode_first(e))return 1;

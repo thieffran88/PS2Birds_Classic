@@ -377,3 +377,6 @@ O Classic roda no `AdventureMode` (só existem `AdventureMode` e `MuseumMode`), 
 
 ### Interface do Rio (0.49.16)
 - Feitos: `FONT.BIN` (com acentos), `UI.BIN` e `MENU.BIN` do Rio. Falta: pássaros do menu, prêmios dos episódios, penas das outras cores, conferir fim de fase e pausa no emulador. Ver `docs/MODIFICACOES_RIO_0.49.16.md`.
+
+### Cenas e créditos do Rio (0.49.17)
+- Feitos: abertura e final do Smugglers' Den, `CUTSCENE.BIN` com as 7 animações, texto "sobre". Falta: créditos longos, logos de abertura, fundo do menu atrás dos painéis, cenas dos episódios 2 a 6. Ver `docs/rio/MODIFICACOES_RIO_0.49.17.md`.
