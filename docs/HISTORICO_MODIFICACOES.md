@@ -1,3 +1,6 @@
+## Música das fases do Rio (0.49.18)
+- `CAMPAIGN.BIN` do Rio grava a trilha do tema de cada fase. Ver docs/rio/MODIFICACOES_RIO_0.49.18.md.
+
 ## Cenas e créditos do Rio (0.49.17)
 - `CUTSCENE.BIN` do Rio (7 cenas de painéis) e texto "sobre" do Rio. Ver docs/rio/MODIFICACOES_RIO_0.49.17.md.
 

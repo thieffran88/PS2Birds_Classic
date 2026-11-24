@@ -35,6 +35,15 @@ def level_zoom(path):
 def level_theme(path):
     from lua51_data import load
     return load(Path(path).read_bytes()).get('theme','theme2')
+# themes.lua `music` clip of the Rio -> track of the Rio MUSIC.BIN (extract_audio_rio_music.RIO_MUSIC, in the Classic's track order).
+CLIP_TRACK={'ab rio ambience warehouse':'CAVE','ambience_jungle':'JUNGLE','ambience_beach':'BEACH','ambience_carnival':'BIRTHDAY','ambience_airport':'CITY'}
+def level_music(path):
+    """MUSIC.BIN track of the stage's theme ambience (themes.lua `music`), -1 when the theme's clip has no track yet."""
+    from lua51_data import load
+    import extract_audio
+    themes=load((ROOT/'work/rio/analysis/chunks/assets/data/scripts/themes.lua').read_bytes())
+    clip=(themes.get(level_theme(path)) or {}).get('music');name=CLIP_TRACK.get(clip)
+    return [n for n,*_ in extract_audio.MUSIC].index(name) if name else -1
 def stage(path,gravity,index,themes=None):
     r=convert(path,gravity)
     th=level_theme(path)
@@ -42,7 +51,7 @@ def stage(path,gravity,index,themes=None):
     if unknown:raise ValueError('pássaro sem tipo no runtime: %s'%sorted(set(unknown)))
     return dict(objects=r['objects'],joints=r['joints'],birds=[{'type':BIRD_TYPE[b['definition']]} for b in r['birds']],gravity=r['gravity'],
         sling_x=r['sling_x'],sling_y=r['sling_y'],ground_y=r['ground_y'],physics_to_world=r['physics_to_world'],
-        view=fit_view(r,level_zoom(path)),theme_index=(themes.index(th) if themes and th in themes else 0),title='RIO %d'%index,stage_script=Path(path).stem)
+        view=fit_view(r,level_zoom(path)),theme_index=(themes.index(th) if themes and th in themes else 0),title='RIO %d'%index,stage_script=Path(path).stem,music=level_music(path))
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('out',type=Path);p.add_argument('levels',nargs='+',type=Path);p.add_argument('--gravity',type=float,default=20.0)
     a=p.parse_args();levels=[stage(f,a.gravity,i+1) for i,f in enumerate(a.levels)]
