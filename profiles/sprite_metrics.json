@@ -2918,5 +2918,90 @@
     "width": 73,
     "height": 22,
     "sheet": "INGAME_BLOCKS_1_1.sheet.json"
+  },
+  "BP_THREE_BALLOONS": {
+    "width": 126,
+    "height": 126,
+    "sheet": "INGAME_EPISODE_RED_BIRD_SHEET_0_1.sheet.json"
+  },
+  "FARM_DECO_ROCK_1": {
+    "width": 109,
+    "height": 90,
+    "sheet": "INGAME_FARM_DECOS_1.sheet.json"
+  },
+  "MIGHTYLEAGUE_EXTRA_DECO_GRASS1": {
+    "width": 385,
+    "height": 75,
+    "sheet": "INGAME_MIGHTYLEAGUE_EXTRA_1.sheet.json"
+  },
+  "MIGHTYLEAGUE_EXTRA_DECO_GRASS2": {
+    "width": 262,
+    "height": 68,
+    "sheet": "INGAME_MIGHTYLEAGUE_EXTRA_1.sheet.json"
+  },
+  "MIGHTYLEAGUE_EXTRA_DECO_PLANT1": {
+    "width": 114,
+    "height": 110,
+    "sheet": "INGAME_MIGHTYLEAGUE_EXTRA_1.sheet.json"
+  },
+  "MIGHTYLEAGUE_EXTRA_DECO_PLANT2": {
+    "width": 105,
+    "height": 102,
+    "sheet": "INGAME_MIGHTYLEAGUE_EXTRA_1.sheet.json"
+  },
+  "B_FLOWER_6": {
+    "width": 95,
+    "height": 94,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "GLASSES_1_KING": {
+    "width": 160,
+    "height": 69,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "AZTEC_GOLD1": {
+    "width": 78,
+    "height": 37,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "AZTEC_GOLD4": {
+    "width": 68,
+    "height": 74,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "B_COINS_1": {
+    "width": 89,
+    "height": 44,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "B_COINS_2": {
+    "width": 98,
+    "height": 42,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "PIGSDAY_TOXICBARREL1": {
+    "width": 88,
+    "height": 106,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "PLASMA_BALL_ON_EMPTY": {
+    "width": 72,
+    "height": 83,
+    "sheet": "INGAME_TRANSPARENCY_1_1.sheet.json"
+  },
+  "SODA_CAN": {
+    "width": 56,
+    "height": 106,
+    "sheet": "INGAME_EPISODE_BLACK_BIRD_SHEET_0_1.sheet.json"
+  },
+  "BLOCK_GIFT_1": {
+    "width": 86,
+    "height": 109,
+    "sheet": "INGAME_FARM_1.sheet.json"
+  },
+  "BLOCK_GIFT_3": {
+    "width": 139,
+    "height": 91,
+    "sheet": "INGAME_FARM_1.sheet.json"
   }
 }

@@ -42,26 +42,41 @@ static const char *joint_name(const CampaignJoint *j){return joint_names && j>=j
 #define CAMPAIGN_COUNT campaign_count
 static uint32_t rd32(const unsigned char *p){return (uint32_t)p[0]|((uint32_t)p[1]<<8)|((uint32_t)p[2]<<16)|((uint32_t)p[3]<<24);}
 static float rdf(const unsigned char *p){uint32_t v=rd32(p);float f;memcpy(&f,&v,4);return f;}
-int game_campaign_load(const unsigned char *data,unsigned size)
+/* CAMPAIGN.BIN is read in two small pieces (the stage table, then the joints, polygons, forces and strings); the pieces of the stages
+   (the biggest part: 14 MB with the Mighty League) stay on the disc and the one the player opens is read when it is loaded. */
+static char campaign_file[256];static const unsigned char *campaign_mem;
+static unsigned campaign_no,campaign_obj_off,*campaign_first;
+static char *campaign_strings;static unsigned campaign_ns;
+static CampaignObject *pool;static const char **pool_names;static unsigned pool_cap;static int pool_level=-1;
+#define CAMPAIGN_OB (4*17)
+static int campaign_read(unsigned off,void *dst,unsigned n)
 {
-    campaign_err=0;
-    if(size<32 || memcmp(data,"PBCP",4) || rd32(data+4)!=10){campaign_err=4;return -1;}
-    unsigned nl=rd32(data+8),no=rd32(data+12),nj=rd32(data+16),np=rd32(data+20),nf=rd32(data+24),ns=rd32(data+28);
-    const unsigned LV=4*(3+16+8+2+1+2+2+1+1+1),OB=4*17,JO=4*20,PO=4*18,FO=4*14;
+    if(campaign_mem){memcpy(dst,campaign_mem+off,n);return 1;}
+    int fd=open(campaign_file,O_RDONLY);if(fd<0)return 0;
+    int ok=lseek(fd,(off_t)off,SEEK_SET)==(off_t)off;unsigned done=0;
+    while(ok && done<n){unsigned k=n-done>262144?262144:n-done;int r=(int)read(fd,(char*)dst+done,k);if(r<=0)ok=0;else done+=(unsigned)r;}
+    close(fd);return ok && done==n;
+}
+static int campaign_parse(unsigned size)
+{
+    campaign_err=0;unsigned char h[32];
+    if(size<32 || !campaign_read(0,h,32) || memcmp(h,"PBCP",4) || rd32(h+4)!=10){campaign_err=4;return -1;}
+    unsigned nl=rd32(h+8),no=rd32(h+12),nj=rd32(h+16),np=rd32(h+20),nf=rd32(h+24),ns=rd32(h+28);
+    const unsigned LV=4*(3+16+8+2+1+2+2+1+1+1),OB=CAMPAIGN_OB,JO=4*20,PO=4*18,FO=4*14;
     if(nl==0 || nl>MAX_CAMPAIGN_LEVELS || 32ull+(unsigned long long)nl*LV+(unsigned long long)no*OB+(unsigned long long)nj*JO+np*PO+nf*FO+ns!=size){campaign_err=5;return -1;}
-    const unsigned char *pl=data+32,*po=pl+nl*LV,*pj=po+no*OB,*pp=pj+nj*JO,*pf=pp+np*PO,*pstr=pf+nf*FO;
+    unsigned obj_off=32+nl*LV,tail_off=obj_off+no*OB,tail=size-tail_off;
+    unsigned char *pl=(unsigned char*)malloc(nl*LV),*pj=(unsigned char*)malloc(tail?tail:1);
     char *strings=(char*)malloc(ns+1);CampaignLevel *levels=(CampaignLevel*)calloc(nl,sizeof(CampaignLevel));
-    CampaignObject *objects=(CampaignObject*)calloc(no?no:1,sizeof(CampaignObject));CampaignJoint *joints=(CampaignJoint*)calloc(nj?nj:1,sizeof(CampaignJoint));
+    unsigned *first=(unsigned*)calloc(nl,sizeof(unsigned));
+    CampaignJoint *joints=(CampaignJoint*)calloc(nj?nj:1,sizeof(CampaignJoint));
     CampaignPolygon *polys=(CampaignPolygon*)calloc(np+1,sizeof(CampaignPolygon));CampaignForce *forces=(CampaignForce*)calloc(nf+1,sizeof(CampaignForce));
-    const char **onames=(const char**)calloc(no?no:1,sizeof(char*)),**jnames=(const char**)calloc(nj?nj:1,sizeof(char*));
-    if(!strings||!levels||!objects||!joints||!polys||!forces||!onames||!jnames){campaign_err=3;free(strings);free(levels);free(objects);free(joints);free(polys);free(forces);free(onames);free(jnames);return -1;}
+    const char **jnames=(const char**)calloc(nj?nj:1,sizeof(char*));
+    if(!pl||!pj||!strings||!levels||!first||!joints||!polys||!forces||!jnames||!campaign_read(32,pl,nl*LV)||!campaign_read(tail_off,pj,tail)){
+        campaign_err=pl&&pj&&strings&&levels&&first&&joints&&polys&&forces&&jnames?2:3;
+        free(pl);free(pj);free(strings);free(levels);free(first);free(joints);free(polys);free(forces);free(jnames);return -1;}
+    const unsigned char *pp=pj+nj*JO,*pf=pp+np*PO,*pstr=pf+nf*FO;
     memcpy(strings,pstr,ns);strings[ns]=0;
 #define STR(o) (rd32(o)<ns?strings+rd32(o):strings)
-    for(unsigned i=0;i<no;i++){
-        const unsigned char *q=po+i*OB;CampaignObject &o=objects[i];
-        o.x=rdf(q);o.y=rdf(q+4);o.angle=rdf(q+8);o.width=rdf(q+12);o.height=rdf(q+16);o.density=rdf(q+20);o.strength=rdf(q+24);o.defence=rdf(q+28);
-        o.kind=(int)rd32(q+32);o.shape=(int)rd32(q+36);o.definition=STR(q+40);o.friction=rdf(q+44);o.restitution=rdf(q+48);o.spawn_of=(int)rd32(q+52);if(o.spawn_of<0||(unsigned)o.spawn_of>no)o.spawn_of=0;o.flags=(int)rd32(q+56);onames[i]=STR(q+60);o.score=rdf(q+64);
-    }
     for(unsigned i=0;i<nj;i++){
         const unsigned char *q=pj+i*JO;CampaignJoint &j=joints[i];
         j.type=(int)rd32(q);j.a=(int)rd32(q+4);j.b=(int)rd32(q+8);j.ax=rdf(q+12);j.ay=rdf(q+16);j.bx=rdf(q+20);j.by=rdf(q+24);
@@ -74,7 +89,7 @@ int game_campaign_load(const unsigned char *data,unsigned size)
         const unsigned char *q=pl+i*LV;CampaignLevel &l=levels[i];
         unsigned o0=rd32(q),oc=rd32(q+4),j0,jc;
         if(o0+oc>no||oc>MAX_LEVEL_OBJECTS)goto bad;
-        l.objects=objects+o0;l.count=(int)oc;l.birds=(int)rd32(q+8);if(l.birds<0||l.birds>16)goto bad;
+        l.objects=0;first[i]=o0;l.count=(int)oc;l.birds=(int)rd32(q+8);if(l.birds<0||l.birds>16)goto bad;
         for(int k=0;k<16;k++)l.bird_types[k]=(int)rd32(q+12+4*k);
         q+=76;l.gravity=rdf(q);l.sling_x=rdf(q+4);l.sling_y=rdf(q+8);l.ground_y=rdf(q+12);l.pixels=rdf(q+16);l.view_x=rdf(q+20);l.view_y=rdf(q+24);l.view_scale=rdf(q+28);
         l.title=STR(q+32);l.script=STR(q+36);l.bank=(int)rd32(q+40);j0=rd32(q+44);jc=rd32(q+48);
@@ -82,19 +97,40 @@ int game_campaign_load(const unsigned char *data,unsigned size)
         l.joints=jc?joints+j0:0;l.joint_count=(int)jc;l.star_silver=(int)rd32(q+52);l.star_gold=(int)rd32(q+56);l.powerup=(int)rd32(q+60);l.music=(int)rd32(q+64);l.theme=(int)rd32(q+68);
     }
 #undef STR
-    campaign_levels=levels;campaign_polygons=polys;campaign_forces=forces;campaign_count=nl;
-    object_base=objects;object_names=onames;joint_base=joints;joint_names=jnames;return (int)nl;
-bad:campaign_err=6;free(strings);free(levels);free(objects);free(joints);free(polys);free(forces);free(onames);free(jnames);return -1;
+    free(pl);free(pj);
+    campaign_levels=levels;campaign_polygons=polys;campaign_forces=forces;campaign_count=nl;campaign_first=first;campaign_no=no;campaign_obj_off=obj_off;
+    campaign_strings=strings;campaign_ns=ns;pool_level=-1;
+    joint_base=joints;joint_names=jnames;return (int)nl;
+bad:campaign_err=6;free(pl);free(pj);free(strings);free(levels);free(first);free(joints);free(polys);free(forces);free(jnames);return -1;
 }
+/* The pieces of one stage (a few hundred records) into the pool; the previous stage's are dropped. */
+static int campaign_objects(int index)
+{
+    if(index<0 || index>=(int)campaign_count)return 0;
+    CampaignLevel &l=campaign_levels[index];
+    if(pool_level==index && l.objects)return 1;
+    if(pool_level>=0 && pool_level<(int)campaign_count)campaign_levels[pool_level].objects=0;
+    pool_level=-1;unsigned oc=(unsigned)l.count;
+    if(oc>pool_cap){free(pool);free(pool_names);pool=(CampaignObject*)calloc(oc,sizeof(CampaignObject));pool_names=(const char**)calloc(oc,sizeof(char*));pool_cap=pool?oc:0;if(!pool||!pool_names)return 0;}
+    unsigned char *raw=(unsigned char*)malloc(oc?oc*CAMPAIGN_OB:1);
+    if(!raw || !campaign_read(campaign_obj_off+campaign_first[index]*CAMPAIGN_OB,raw,oc*CAMPAIGN_OB)){free(raw);return 0;}
+    const unsigned ns=campaign_ns;const char *strings=campaign_strings;
+#define STR(o) (rd32(o)<ns?strings+rd32(o):strings)
+    for(unsigned i=0;i<oc;i++){
+        const unsigned char *q=raw+i*CAMPAIGN_OB;CampaignObject &o=pool[i];
+        o.x=rdf(q);o.y=rdf(q+4);o.angle=rdf(q+8);o.width=rdf(q+12);o.height=rdf(q+16);o.density=rdf(q+20);o.strength=rdf(q+24);o.defence=rdf(q+28);
+        o.kind=(int)rd32(q+32);o.shape=(int)rd32(q+36);o.definition=STR(q+40);o.friction=rdf(q+44);o.restitution=rdf(q+48);o.spawn_of=(int)rd32(q+52);if(o.spawn_of<0||(unsigned)o.spawn_of>oc)o.spawn_of=0;o.flags=(int)rd32(q+56);pool_names[i]=STR(q+60);o.score=rdf(q+64);
+    }
+#undef STR
+    free(raw);l.objects=pool;object_base=pool;object_names=pool_names;pool_level=index;return 1;
+}
+int game_campaign_load(const unsigned char *data,unsigned size){campaign_mem=data;return campaign_parse(size);}
 int game_campaign_load_file(const char *path)
 {
-    /* open/read in large blocks (stdio reads from the disc in tiny requests). */
-    campaign_err=0;int fd=open(path,O_RDONLY);if(fd<0){campaign_err=1;return -1;}
-    long n=(long)lseek(fd,0,SEEK_END);lseek(fd,0,SEEK_SET);
-    unsigned char *buffer=n>0?(unsigned char*)malloc((size_t)n):0;int result=-1;long done=0;if(n<=0)campaign_err=2;else if(!buffer)campaign_err=3;
-    while(buffer && done<n){long k=n-done>262144?262144:n-done;int r=(int)read(fd,buffer+done,(size_t)k);if(r<=0)break;done+=r;}
-    if(buffer && done==n)result=game_campaign_load(buffer,(unsigned)n);else if(buffer)campaign_err=2;
-    close(fd);free(buffer);return result;
+    campaign_err=0;campaign_mem=0;strncpy(campaign_file,path,sizeof(campaign_file)-1);campaign_file[sizeof(campaign_file)-1]=0;
+    int fd=open(path,O_RDONLY);if(fd<0){campaign_err=1;return -1;}
+    long n=(long)lseek(fd,0,SEEK_END);close(fd);if(n<=0){campaign_err=2;return -1;}
+    return campaign_parse((unsigned)n);
 }
 #if !defined(_EE)
 /* Host builds (tests and solvers) read the generated file before main(). */
@@ -106,6 +142,7 @@ int game_campaign_load(const unsigned char *,unsigned){return (int)CAMPAIGN_COUN
 int game_campaign_load_file(const char *){return (int)CAMPAIGN_COUNT;}
 static const char *piece_name(const CampaignObject *){return "";}
 static const char *joint_name(const CampaignJoint *){return "";}
+static int campaign_objects(int index){return index>=0 && index<(int)CAMPAIGN_COUNT;}   /* the stages are compiled in: nothing to load */
 #endif
 
 static float clamp(float v,float lo,float hi) { return v<lo?lo:v>hi?hi:v; }
@@ -644,6 +681,7 @@ int game_load_level(Game *g,int index) {
     if(index<0 || index>=(int)CAMPAIGN_COUNT || index>=g->unlocked)return 0;
     int unlocked=g->unlocked,shop_mask=g->shop_mask,shop_bird=g->shop_bird,best[MAX_CAMPAIGN_LEVELS];memcpy(best,g->highscores,sizeof(best));
     game_destroy(g);memset(g,0,sizeof(*g));g->level=index;g->unlocked=unlocked;g->shop_mask=shop_mask;g->shop_bird=shop_bird;memcpy(g->highscores,best,sizeof(best));
+    if(!campaign_objects(index))return 0;
     const CampaignLevel *l=&campaign_levels[index];g->physics=new Physics(l);
     g->view_x=l->view_x;g->view_y=l->view_y;g->view_scale=l->view_scale;g->pixels=l->pixels;
     g->ground_y=l->view_y+l->ground_y*l->view_scale;g->gravity=l->gravity;

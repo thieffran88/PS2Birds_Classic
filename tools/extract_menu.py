@@ -26,7 +26,8 @@ SPRITES=[('LOGO','MENU_LOGO',0.62),('PLAY_LEFT','PLAY_BUTTON_BG_LEFT',0.62),('PL
 # Episode cards in the port's episode order (menu.c): composition name, or None for the generic card.
 CARDS=['BTN_EP1','BTN_EP2','BTN_EP3','BTN_EP4','BTN_EP5','BTN_EP6','BTN_EP7','BTN_SURFTURF','BTN_BADPIGGIES',
        'BTN_BOMB_BIRD','BTN_BIRDISLAND','BTN_FARM','BTN_DINO','BTN_EP5','BTN_FLOCKFAVORITES',
-       'BTN_GOLDENEGGS',('BTN_TUTORIAL_BACKGROUND','BTN_TUTORIAL_TEXT'),('BTN_EP1_BACKGROUND',None),'BTN_EGGDEFENDER']
+       'BTN_GOLDENEGGS',('BTN_TUTORIAL_BACKGROUND','BTN_TUTORIAL_TEXT'),('BTN_EP1_BACKGROUND',None),'BTN_EGGDEFENDER',
+       ('ALIAS:CARD_17','MIGHTY_LEAGUE_LOGO_TEXT_BR',0.3)]   # Mighty League: the generic card of Mighty Feathers (same picture) with the league's logo as its smaller title
 # main_menu.lua buildBirdList: each episode's reward_completion / reward_three_stars sprite flies
 # with the birds once the episode is completed / three-starred (episodes.lua). Port episode
 # names -> reward sprite (completion, three stars).
@@ -77,6 +78,7 @@ def read(z,where,name,cache={}):
     if base+'.webp' in z.namelist():return decode_webp_frame(z,base,f),f
     if base not in cache:cache.clear();cache[base]=z.read(base+'.pvr')
     return decode_pvr_frame(cache[base],f),f
+ALIASES={}   # identifier -> identifier whose picture it shares (no second copy in the VRAM slots)
 def extract(apk,out):
     with zipfile.ZipFile(apk) as z:
         where=frames_of(z);images=[]
@@ -92,8 +94,9 @@ def extract(apk,out):
         for ident,name,factor in SPRITES:add(ident,name,factor)
         for i,card in enumerate(CARDS):
             if isinstance(card,tuple):
-                add(f'CARD_{i}',card[0],CARD)
-                if card[1]:add(f'TITLE_{i}',card[1],CARD,0,-150)
+                if card[0].startswith('ALIAS:'):images.append((f'CARD_{i}',0,0,0,0,b''));ALIASES[f'CARD_{i}']=card[0][6:]
+                else:add(f'CARD_{i}',card[0],CARD)
+                if card[1]:add(f'TITLE_{i}',card[1],card[2] if len(card)>2 else CARD,0,-150)
                 else:images.append((f'TITLE_{i}',0,0,0,0,b''))
             else:
                 parts={s['name']:s for s in compo[card]['sprites']}
@@ -115,8 +118,11 @@ def pack_menu(images,apk,out,about=None):
         pw=PAGES[p][0]
         for r in range(h):pages[p][((y+r)*pw+x)*4:((y+r)*pw+x+w)*4]=rgba[r*w*4:(r+1)*w*4]
         place[ident]=(p,x,y,w,h);cursor[p]=[x+w+1,y,max(shelf,h)]
+    offs0={i:(dx,dy) for i,w,h,dx,dy,_ in images}
+    for k,v in ALIASES.items():
+        if v in place:place[k]=place[v];offs0[k]=offs0.get(v,(0,0))
     order=[i for i,*_ in SPRITES]+[f'{k}_{i}' for i in range(len(CARDS)) for k in ('CARD','TITLE')]+[f'{k}_{i}' for i in range(len(REWARDS)) for k in ('REWARD','REWARD_STAR')]
-    offs={i:(dx,dy) for i,w,h,dx,dy,_ in images}
+    offs={**{i:(dx,dy) for i,w,h,dx,dy,_ in images},**{k:offs0[k] for k in ALIASES if k in offs0}}
     head=struct.pack('<4s3I',b'PBMN',2,len(order),len(PAGES))+b''.join(struct.pack('<2I',w,h) for w,h in PAGES)
     head+=b''.join(struct.pack('<5H2h2x',*place[i],*offs[i]) for i in order)
     head+=bytes((-len(head))%64)

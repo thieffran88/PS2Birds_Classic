@@ -13,7 +13,7 @@ try:module.decode_rgba4444(b'',3,3)
 except ValueError:pass
 else:raise AssertionError('Truncated input accepted')
 a=root/'ps2/assets';meta=json.loads((a/'manifest.json').read_text());pixels=(a/'sprites.rgba').read_bytes()
-banks=meta['banks'];assert len(banks)==65
+banks=meta["banks"];assert len(banks)==81   # 65 episode banks + 16 for the Mighty League
 assert len(pixels)==sum(p['width']*p['height']*4 for b in banks for p in b['pages'])
 for b in banks:
     sizes=[(p['width'],p['height']) for p in b['pages']];assert 1<=len(sizes)<=4 and all(w==512 and h<=cap for (w,h),cap in zip(sizes,[512,512,256,128]))
@@ -21,7 +21,7 @@ assert [(p['width'],p['height']) for p in banks[0]['pages']]==[(512,512),(512,51
 assert sum(meta['slot_bytes'])<=meta['vram_budget']==2883584 and meta['slot_bytes']==[1048576,1048576,524288,262144]
 assert hashlib.sha256(pixels).hexdigest()==meta['atlas_sha256']
 assert max(pixels[3::4])==128 and min(pixels[3::4])==0
-assert len(meta['sprites'])==730 and [len(b['sprites']) for b in banks]==[153,151,127,128,119,97,120,128,120,117,115,122,129,122,129,121,123,120,110,120,104,104,115,110,113,70,72,72,75,74,70,123,135,140,109,95,99,122,108,128,139,105,68,106,114,92,89,81,99,75,62,72,79,85,41,128,115,108,52,94,155,60,96,104,73]
+assert len(meta['sprites'])==747 and [len(b['sprites']) for b in banks]==[153, 151, 127, 128, 119, 97, 120, 128, 120, 117, 115, 122, 129, 122, 129, 121, 123, 120, 110, 120, 104, 104, 115, 110, 113, 70, 72, 72, 75, 74, 70, 123, 135, 140, 109, 95, 99, 122, 108, 128, 139, 105, 68, 106, 114, 92, 89, 81, 99, 75, 62, 72, 79, 85, 41, 128, 115, 108, 52, 94, 155, 60, 96, 104, 73, 95, 99, 96, 96, 85, 109, 102, 91, 117, 103, 102, 106, 102, 108, 100, 118]
 # Dino cages are pieces kept only in the banks of the stages that place them.
 assert not any(n.endswith('_CAGE') for b in banks[:41] for n in b['sprites']) and any(n.endswith('_CAGE') for b in banks[41:] for n in b['sprites'])
 assert all('BLOCK_CAKECREAM' in banks[b]['sprites'] for b in (15,16)) # released by the big cake (deathSpawn)
@@ -40,7 +40,7 @@ for frame in meta['sprites']:
         if frame['sprite']=='BIRD_RED':assert sum(content[i]>150 and content[i]>content[i+1]*2 and content[i+3]>0 for i in range(0,len(content),4))>100
 # Aliased frames in the Mighty Hoax bank point at sprites present in that bank.
 for name,target in banks[1]['aliases'].items():assert target in banks[1]['sprites'] and name not in banks[1]['sprites'] and (name.endswith('_BLINK') or name[-1] in '23')
-header=(root/'ps2/src/sprite_ids.h').read_text();assert '#define SPRITE_BANK_COUNT 65' in header and '#define SPRITE_COUNT 730' in header
+header=(root/'ps2/src/sprite_ids.h').read_text();assert '#define SPRITE_BANK_COUNT 81' in header and '#define SPRITE_COUNT 747' in header
 print(f'Sprites OK: endian/channels, alpha, crop, {len(meta["sprites"])} frames in {len(banks)} texture banks ({checked} placements), shared slots within {meta["vram_budget"]} bytes, bounds, no overlap, per-frame hashes, aliases.')
 
 # PNG sheets use 8-bit alpha, unlike the existing RGBA4444 streams.

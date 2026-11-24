@@ -10153,6 +10153,267 @@
         "strength": 10.0,
         "defence": 1000000.0
       }
+    },
+    "MISC_THEMED_1X1": {
+      "sprite": "WHITE_SMALLSQUARE",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "MISC_THEMED_2X1": {
+      "sprite": "WHITE_VERYSHORT",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "MISC_THEMED_4X1": {
+      "sprite": "WHITE_SHORT",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "MISC_THEMED_4X1_CANDY": {
+      "sprite": "BLOCK_WOOD_1_4_BD7",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "MISC_THEMED_4X2_CANDY": {
+      "sprite": "BLOCK_WOOD_1_2_BD7",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "MISC_THEMED_4X4": {
+      "sprite": "WHITE_SQUARE",
+      "kind": 1,
+      "shape": "box",
+      "auto": true
+    },
+    "MISC_THEMED_PUMPKIN_L": {
+      "sprite": "WHITE_CIRCLE",
+      "kind": 1,
+      "shape": "circle",
+      "auto": true
+    },
+    "MISC_THEMED_SPHERE_L": {
+      "sprite": "WHITE_CIRCLE",
+      "kind": 1,
+      "shape": "circle",
+      "auto": true
+    },
+    "MISC_THEMED_SPHERE_L_CANDY": {
+      "sprite": "BLOCK_WOOD_1_7_BD7",
+      "kind": 1,
+      "shape": "circle",
+      "auto": true
+    },
+    "MISC_THEMED_SPHERE_M": {
+      "sprite": "BLOCK_WOOD_1_8",
+      "kind": 1,
+      "shape": "circle",
+      "auto": true
+    },
+    "MISC_THEMED_SPHERE_M_CANDY": {
+      "sprite": "BLOCK_WOOD_1_8_BD7",
+      "kind": 1,
+      "shape": "circle",
+      "auto": true
+    },
+    "BP_THREE_BALLOONS": {
+      "sprite": "BP_THREE_BALLOONS",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "force": [
+        0.0,
+        -150.0
+      ]
+    },
+    "DecorationFarmDecoRock1": {
+      "sprite": "FARM_DECO_ROCK_1",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "DecorationMightyleagueExtraDecoGrass1": {
+      "sprite": "MIGHTYLEAGUE_EXTRA_DECO_GRASS1",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "DecorationMightyleagueExtraDecoGrass2": {
+      "sprite": "MIGHTYLEAGUE_EXTRA_DECO_GRASS2",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "DecorationMightyleagueExtraDecoPlant1": {
+      "sprite": "MIGHTYLEAGUE_EXTRA_DECO_PLANT1",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "DecorationMightyleagueExtraDecoPlant2": {
+      "sprite": "MIGHTYLEAGUE_EXTRA_DECO_PLANT2",
+      "kind": 3,
+      "shape": "box",
+      "auto": true,
+      "no_collision": true
+    },
+    "ExtraHelmetSmall2": {
+      "sprite": "BLOCK_RUBBERDUCK",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.2,
+          0.2
+        ],
+        [
+          0.4,
+          0.1
+        ],
+        [
+          0.8,
+          0.1
+        ],
+        [
+          1.0,
+          0.2
+        ],
+        [
+          1.0,
+          0.4
+        ],
+        [
+          0.2,
+          0.4
+        ]
+      ]
+    },
+    "FLOWER6": {
+      "sprite": "B_FLOWER_6",
+      "kind": 6,
+      "shape": "circle",
+      "auto": true,
+      "size": [
+        2.6,
+        2.6
+      ]
+    },
+    "GLASSES_1_KING": {
+      "sprite": "GLASSES_1_KING",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "GOLD_MOUSTACHE": {
+      "sprite": "AZTEC_GOLD1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "GOLD_ORNAMENT": {
+      "sprite": "AZTEC_GOLD4",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "MONEY_COINS1": {
+      "sprite": "B_COINS_1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        2.5,
+        0.8
+      ]
+    },
+    "MONEY_COINS2": {
+      "sprite": "B_COINS_2",
+      "kind": 6,
+      "shape": "box",
+      "auto": true,
+      "size": [
+        2.5,
+        0.8
+      ]
+    },
+    "NUCLEAR_WASTE1": {
+      "sprite": "PIGSDAY_TOXICBARREL1",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "PLASMA_BALL": {
+      "sprite": "PLASMA_BALL_ON_EMPTY",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "SODA_CAN": {
+      "sprite": "SODA_CAN",
+      "kind": 6,
+      "shape": "box",
+      "auto": true
+    },
+    "XMAS_GIFT1": {
+      "sprite": "BLOCK_GIFT_1",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.4
+        ],
+        [
+          1.0,
+          0.4
+        ],
+        [
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ]
+    },
+    "XMAS_GIFT3": {
+      "sprite": "BLOCK_GIFT_3",
+      "kind": 6,
+      "shape": "polygon",
+      "auto": true,
+      "vertices": [
+        [
+          0.0,
+          0.3
+        ],
+        [
+          1.0,
+          0.3
+        ],
+        [
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ],
+        [
+          0.0,
+          1.0
+        ]
+      ]
     }
   },
   "metrics": "profiles/sprite_metrics.json",
@@ -10745,7 +11006,36 @@
       "BP_NEST": 0.8,
       "BP_ROCKET_BLUE": 4.0,
       "BP_ROCKET_RED": 4.0,
-      "SpecialBlockStart": 0.7
+      "SpecialBlockStart": 0.7,
+      "MISC_THEMED_1X1": 4.0,
+      "MISC_THEMED_2X1": 4.0,
+      "MISC_THEMED_4X1": 4.0,
+      "MISC_THEMED_4X1_CANDY": 4.0,
+      "MISC_THEMED_4X2_CANDY": 4.0,
+      "MISC_THEMED_4X4": 4.0,
+      "MISC_THEMED_PUMPKIN_L": 4.0,
+      "MISC_THEMED_SPHERE_L": 4.0,
+      "MISC_THEMED_SPHERE_L_CANDY": 4.0,
+      "MISC_THEMED_SPHERE_M": 4.0,
+      "MISC_THEMED_SPHERE_M_CANDY": 4.0,
+      "BP_THREE_BALLOONS": 4.0,
+      "DecorationFarmDecoRock1": 0.8,
+      "DecorationMightyleagueExtraDecoGrass1": 0.8,
+      "DecorationMightyleagueExtraDecoGrass2": 0.8,
+      "DecorationMightyleagueExtraDecoPlant1": 0.8,
+      "DecorationMightyleagueExtraDecoPlant2": 0.8,
+      "ExtraHelmetSmall2": 1.0,
+      "FLOWER6": 0.7,
+      "GLASSES_1_KING": 1.0,
+      "GOLD_MOUSTACHE": 0.7,
+      "GOLD_ORNAMENT": 0.7,
+      "MONEY_COINS1": 0.7,
+      "MONEY_COINS2": 0.7,
+      "NUCLEAR_WASTE1": 0.7,
+      "PLASMA_BALL": 0.7,
+      "SODA_CAN": 0.7,
+      "XMAS_GIFT1": 0.7,
+      "XMAS_GIFT3": 0.7
     },
     "restitution_overrides": {
       "ExtraBoomerangBird": 0.25,
@@ -11267,7 +11557,36 @@
       "BP_NEST": 0.0,
       "BP_ROCKET_BLUE": 0.2,
       "BP_ROCKET_RED": 0.2,
-      "SpecialBlockStart": 0.4
+      "SpecialBlockStart": 0.4,
+      "MISC_THEMED_1X1": 0.2,
+      "MISC_THEMED_2X1": 0.2,
+      "MISC_THEMED_4X1": 0.2,
+      "MISC_THEMED_4X1_CANDY": 0.2,
+      "MISC_THEMED_4X2_CANDY": 0.2,
+      "MISC_THEMED_4X4": 0.2,
+      "MISC_THEMED_PUMPKIN_L": 0.2,
+      "MISC_THEMED_SPHERE_L": 0.2,
+      "MISC_THEMED_SPHERE_L_CANDY": 0.2,
+      "MISC_THEMED_SPHERE_M": 0.2,
+      "MISC_THEMED_SPHERE_M_CANDY": 0.2,
+      "BP_THREE_BALLOONS": 0.2,
+      "DecorationFarmDecoRock1": 0.0,
+      "DecorationMightyleagueExtraDecoGrass1": 0.0,
+      "DecorationMightyleagueExtraDecoGrass2": 0.0,
+      "DecorationMightyleagueExtraDecoPlant1": 0.0,
+      "DecorationMightyleagueExtraDecoPlant2": 0.0,
+      "ExtraHelmetSmall2": 0.0,
+      "FLOWER6": 0.1,
+      "GLASSES_1_KING": 0.0,
+      "GOLD_MOUSTACHE": 0.1,
+      "GOLD_ORNAMENT": 0.1,
+      "MONEY_COINS1": 0.1,
+      "MONEY_COINS2": 0.1,
+      "NUCLEAR_WASTE1": 0.2,
+      "PLASMA_BALL": 0.4,
+      "SODA_CAN": 0.2,
+      "XMAS_GIFT1": 0.1,
+      "XMAS_GIFT3": 0.1
     }
   }
 }
