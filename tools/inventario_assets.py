@@ -27,12 +27,15 @@ def classic(L,apk):
     # --- Fases
     L.sec('CLASSIC - FASES (por pacote de fases; entre parênteses, fases no port / fases no APK)')
     packs=collections.defaultdict(list)
+    eps=decode_payload(z.read('assets/data/scripts/episodes.lua'),'classic')
     for n in names:
         m=re.match(r'assets/data/levels/([^/]+)/([^/]+)\.lua$',n)
-        if m:packs[m.group(1)].append(m.group(2))
+        if m and not m.group(2).endswith('.scripts'):packs[m.group(1)].append(m.group(2))   # *.scripts.lua are the waves of the Egg Defender stages, not stages
     for pk,lv in sorted(packs.items()):
-        inc=sum(1 for x in lv if x in scripts);st='Incluído' if inc==len(lv) else 'Parcial' if inc else 'Fora'
-        L.add('Pacote de fases '+pk,st,f'{inc}/{len(lv)} fases')
+        ref=[x for x in lv if re.search(rb'[^A-Za-z0-9_]'+re.escape(x.encode())+rb'\x00',eps)] or lv   # stages the episode lists; the others are never shown by the game
+        inc=sum(1 for x in ref if x in scripts);st='Incluído' if inc==len(ref) else 'Parcial' if inc else 'Fora'
+        extra=f'; {len(lv)-len(ref)} fase(s) do arquivo que o jogo não lista nos episódios' if len(ref)<len(lv) else ''
+        L.add('Pacote de fases '+pk,st,f'{inc}/{len(ref)} fases'+extra)
     # --- Folhas de sprites
     L.sec('CLASSIC - FOLHAS DE SPRITES (quadros no port / quadros da folha)')
     sheets={}
