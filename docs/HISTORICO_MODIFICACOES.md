@@ -3282,3 +3282,6 @@ Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached E
 
 ## Mira mais visível (0.94.22)
 - Pontos da trajetória com anel escuro e centro claro. Ver docs/MODIFICACOES_0.94.22.md.
+
+## Rio: mira (0.94.23)
+- Esticar máximo (5,4 unidades) e fórmula do impulso lidos no gamelogic do Rio; velocidade e prévia conferidas (rio_aim_check). Ver docs/MODIFICACOES_0.94.23.md.
