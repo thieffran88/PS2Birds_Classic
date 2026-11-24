@@ -1,3 +1,6 @@
+## Red's Mighty Feathers como power-up (pendência 32d) — investigado, sem mudança de código
+- Viável: definição, regra (já usada pelo Egg Defender) e arte estão no APK; falta ligar a opção da loja. Ver docs/REDS_MIGHTY_FEATHERS_POWERUP.md.
+
 ## Chrono Bird (pendência 32c) — investigado, sem mudança de código
 - A regra (voltar até 2 s no tempo) está nos scripts, mas a definição ChronoBird e o sprite BIRD_CHRONO não estão no APK. Ver docs/CHRONO_BIRD.md.
 
