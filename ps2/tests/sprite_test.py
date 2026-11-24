@@ -13,7 +13,7 @@ try:module.decode_rgba4444(b'',3,3)
 except ValueError:pass
 else:raise AssertionError('Truncated input accepted')
 a=root/'ps2/assets';meta=json.loads((a/'manifest.json').read_text());pixels=(a/'sprites.rgba').read_bytes()
-banks=meta["banks"];assert len(banks)==82   # 65 episode banks + 16 for the Mighty League + 1 for Year of the Goat
+banks=meta["banks"];assert len(banks)==83   # 65 episode banks + 16 for the Mighty League + 1 for Year of the Goat + 1 for Siege
 assert len(pixels)==sum(p['width']*p['height']*4 for b in banks for p in b['pages'])
 for b in banks:
     sizes=[(p['width'],p['height']) for p in b['pages']];assert 1<=len(sizes)<=4 and all(w==512 and h<=cap for (w,h),cap in zip(sizes,[512,512,256,128]))

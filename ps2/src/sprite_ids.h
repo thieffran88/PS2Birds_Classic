@@ -5,7 +5,7 @@
 #define PS2BIRDS_SPRITE_IDS_H
 #define SPRITE_VRAM_BUDGET 2883584
 #define SPRITE_MASK_SCALE 2
-#define SPRITE_BANK_COUNT 82
+#define SPRITE_BANK_COUNT 83
 #define SPRITE_PAGE_COUNT 4
 /* Bytes of VRAM reserved for each page slot (largest page of any bank). */
 static const int sprite_slot_bytes[SPRITE_PAGE_COUNT] = {1048576,1048576,524288,262144};

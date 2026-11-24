@@ -28,7 +28,8 @@ CARDS=['BTN_EP1','BTN_EP2','BTN_EP3','BTN_EP4','BTN_EP5','BTN_EP6','BTN_EP7','BT
        'BTN_BOMB_BIRD','BTN_BIRDISLAND','BTN_FARM','BTN_DINO','BTN_EP5','BTN_FLOCKFAVORITES',
        'BTN_GOLDENEGGS',('BTN_TUTORIAL_BACKGROUND','BTN_TUTORIAL_TEXT'),('BTN_EP1_BACKGROUND',None),'BTN_EGGDEFENDER',
        ('ALIAS:CARD_17','MIGHTY_LEAGUE_LOGO_TEXT_BR',0.3),
-       ('ALIAS:CARD_17','BTN_YEAROFTHEGOAT_TEXT',CARD)]   # Year of the Goat (Talkweb, China): the generic card with its title (the menu pages have no room for a second card picture)   # Mighty League: the generic card of Mighty Feathers (same picture) with the league's logo as its smaller title
+       ('ALIAS:CARD_17','BTN_YEAROFTHEGOAT_TEXT',CARD),
+       ('ALIAS:CARD_17',None)]   # Siege (unfinished prototype stages, no title art): the generic card alone;   # Year of the Goat (Talkweb, China): the generic card with its title (the menu pages have no room for a second card picture)   # Mighty League: the generic card of Mighty Feathers (same picture) with the league's logo as its smaller title
 # main_menu.lua buildBirdList: each episode's reward_completion / reward_three_stars sprite flies
 # with the birds once the episode is completed / three-starred (episodes.lua). Port episode
 # names -> reward sprite (completion, three stars).

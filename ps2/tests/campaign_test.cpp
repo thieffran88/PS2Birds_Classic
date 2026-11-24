@@ -1014,6 +1014,9 @@ static const Stage stages[]={
  {"TWLevel13",104,5,89,3,{{0,0,-1.0f,0}},0}, /* YEAR OF THE GOAT 13 (sem roteiro vencedor) */
  {"TWLevel14",196,9,116,4,{{0,0,-1.0f,0}},0}, /* YEAR OF THE GOAT 14 (sem roteiro vencedor) */
  {"TWLevel15",151,10,116,4,{{0,0,-1.0f,0}},0}, /* YEAR OF THE GOAT 15 (sem roteiro vencedor) */
+ {"SLevel7",92,10,60,3,{{0,0,-1.0f,0}},0}, /* SIEGE 1 (sem roteiro vencedor) */
+ {"SLevel8",92,10,60,3,{{0,0,-1.0f,0}},0}, /* SIEGE 2 (sem roteiro vencedor) */
+ {"Siege1",264,10,115,3,{{0,0,-1.0f,0}},0}, /* SIEGE 3 (sem roteiro vencedor) */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
@@ -1036,7 +1039,7 @@ static void play(Game *g,const Stage *s){
 }
 int main(){
     Game g;game_init(&g);int scores[MAX_CAMPAIGN_LEVELS]={0};int unverified=0;
-    assert(game_level_count()==STAGES && STAGES==1003 && g.unlocked==1 && g.level==0);
+    assert(game_level_count()==STAGES && STAGES==1006 && g.unlocked==1 && g.level==0);
     void *world=g.physics;
     assert(!game_load_level(&g,-1) && !game_load_level(&g,1) && !game_load_level(&g,STAGES));
     assert(g.physics==world && !game_next_level(&g));
@@ -1139,7 +1142,7 @@ int main(){
     }
     for(int n=0;n<50;n++)assert(game_load_level(&g,n%STAGES));
     game_destroy(&g);assert(g.physics==NULL);
-    assert(unverified==43+243+15);   /* the 243 Mighty League and 15 Year of the Goat stages have no winning script yet */
+    assert(unverified==43+243+15+3);   /* the 243 Mighty League, 15 Year of the Goat and 3 Siege stages have no winning script yet */
     printf("Campaign OK: %d stages in episode order, locks, counts, wins (",STAGES);
     for(int i=0;i<STAGES;i++)printf("%s%d",i?"/":"",scores[i]);
     printf("), unlocks, session records, reset, mixed queue abilities, 30/60/120 Hz elapsed time, miss regression and 50 transitions.\n");
