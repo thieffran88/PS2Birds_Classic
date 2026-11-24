@@ -43,7 +43,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 
 - **Definições sem adaptador: nenhuma para as 745 fases do port** (conferido na 0.94.20 com `tools/audit_definitions.py`; o número antigo, 547, era de uma versão muito anterior). Das 748 definições do `blocks.lua`, 614 têm adaptador (as 604 que as fases usam, mais as dos pássaros), 134 não; 103 dessas nenhuma fase do APK usa, e as outras 31 aparecem só em fases que o port não importa: Mighty League (273 fases), siege (9) e eagleDemo (3), com 46 definições próprias (gemas, moedas, decoração do Siege...). Esses modos ficam fora do port.
 - Juntas: o port suporta todos os tipos usados nas fases: distância (1), solda (2), dobradiça com motor e limites (3), prismática (4) e "destruir anexo" (5).
-- Câmera: os roteiros de pan (castleCameraData e birdCameraData) não são aplicados.
+- Câmera (decisão de projeto, 0.94.21): a vista é fixa e mostra a fase inteira. No original a fase começa no "castelo", espera 2 s e desliza até o estilingue em 1 s (`DefaultLevelStartCameraSequence`) e depois segue o pássaro, porque a tela mostra só uma parte da fase; no port a fase inteira cabe numa tela com cerca de 0,59 do zoom original (mediana; `tools/audit_camera.py`), então não há para onde deslizar. Mudar isso exigiria o zoom original e uma câmera com rolagem em todo o Classic (o Rio já tem o mecanismo); foi decidido manter a vista fixa.
 
 ## Achados da 0.21.0
 

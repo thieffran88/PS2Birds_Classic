@@ -3276,3 +3276,6 @@ Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached E
 
 ## Definições sem adaptador (0.94.20)
 - Conferência com tools/audit_definitions.py: nenhuma definição falta para as 745 fases do port; o 547 era antigo. Ver docs/MODIFICACOES_0.94.20.md.
+
+## Câmera do Classic (0.94.21)
+- Medida a câmera original dos 745 níveis; decisão de projeto: vista fixa. Ver docs/MODIFICACOES_0.94.21.md.
