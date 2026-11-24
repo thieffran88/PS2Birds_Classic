@@ -100,6 +100,9 @@ def extract(apk,out):
                 tx=[n for n in parts if n.endswith('_TEXT')][0];bg=[n for n in parts if n!=tx][0]
                 add(f'CARD_{i}',bg,CARD,parts[bg]['x'],parts[bg]['y']);add(f'TITLE_{i}',tx,CARD,parts[tx]['x'],parts[tx]['y'])
         for i,(_,name) in enumerate(REWARDS):add(f'REWARD_{i}',name,REWARD_SCALE);add(f'REWARD_STAR_{i}',name+'_STAR',REWARD_SCALE)
+    return pack_menu(images,apk,out)
+def pack_menu(images,apk,out,about=None):
+    """images: (identifier, w, h, dx, dy, RGBA); about: the TEXT_ABOUT text (default: read from the APK). Shared with the Rio."""
     # Shelf packing into the four slots, tallest first, 1-pixel gutter.
     pages=[bytearray(w*h*4) for w,h in PAGES];cursor=[[0,0,0] for _ in PAGES];place={}
     for ident,w,h,dx,dy,rgba in sorted(images,key=lambda s:-s[2]):
@@ -118,7 +121,7 @@ def extract(apk,out):
     head+=b''.join(struct.pack('<5H2h2x',*place[i],*offs[i]) for i in order)
     head+=bytes((-len(head))%64)
     # Version 2: after the pages, the pt_BR TEXT_ABOUT of TEXTS_BASIC.dat (credits.lua), UTF-8.
-    about=about_text(apk).encode()
+    about=(about_text(apk) if about is None else about).encode()
     Path(out).write_bytes(head+b''.join(bytes(p) for p in pages)+struct.pack('<I',len(about))+about)
     return {'sprites':len(order),'used':[c[1]+c[2] for c in cursor],'bytes':len(head)+sum(len(p) for p in pages)}
 if __name__=='__main__':

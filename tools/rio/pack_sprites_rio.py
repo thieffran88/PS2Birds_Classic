@@ -5,10 +5,13 @@ usage: pack_sprites_rio.py BANKDIR OUT_SPRITES.BIN OUT_sprite_ids.h"""
 import json,struct,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
+SLOT_BYTES=[1048576,1048576,524288,262144];SLOTS_N=len(SLOT_BYTES)   # the Classic's four texture slots (extract_sprites.PAGE_LAYOUT)
 def pack(bank,out_bin,out_ids):
     bank=Path(bank);m=json.loads((bank/'manifest.json').read_text());data=(bank/'sprites.rgba').read_bytes()
     by={s['name']:s for s in m['sprites']};order=sorted(by,key=lambda n:(-by[n]['height'],n));pages=m['pages']
     if len(data)!=sum(p['width']*p['height']*4 for p in pages):raise SystemExit('tamanho do atlas inesperado')
+    # The menus (MENU.BIN) upload into the same four texture slots as the Classic's, so the Rio keeps the four slots too (unused ones are width 0).
+    pages=pages+[{'width':0,'height':0,'offset':0}]*(SLOTS_N-len(pages))
     head=32+len(pages)*12+len(order)*14;start=(head+127)//128*128
     out=bytearray(struct.pack('<4s7I',b'PBSP',2,1,len(pages),len(order),start,start+len(data),0))
     for p in pages:out+=struct.pack('<3I',p['width'],p['height'],p['offset'])
@@ -16,7 +19,7 @@ def pack(bank,out_bin,out_ids):
         s=by[n];out+=struct.pack('<7h',s['atlas_x'],s['atlas_y'],s['width'],s['height'],s['pivot_x'],s['pivot_y'],s['page'])
     out+=bytes(start-len(out));out+=data   # no memory-card icon yet (the save works with a blank one)
     Path(out_bin).parent.mkdir(parents=True,exist_ok=True);Path(out_bin).write_bytes(out)
-    slots=[p['width']*p['height']*4 for p in pages]
+    slots=SLOT_BYTES
     ids=['/* Sprite identifiers and texture-slot sizes for the Rio APK supported by tools/gerar_iso.py --jogo rio.',
          '   Only names and sizes: the frames and pixels are read from SPRITES.BIN at run time. */',
          '#ifndef PS2BIRDS_RIO_SPRITE_IDS_H','#define PS2BIRDS_RIO_SPRITE_IDS_H',

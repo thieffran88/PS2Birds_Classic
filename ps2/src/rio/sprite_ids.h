@@ -5,8 +5,8 @@
 #define SPRITE_VRAM_BUDGET 2883584
 #define SPRITE_MASK_SCALE 2
 #define SPRITE_BANK_COUNT 1
-#define SPRITE_PAGE_COUNT 2
-static const int sprite_slot_bytes[SPRITE_PAGE_COUNT] = {1048576,262144};
+#define SPRITE_PAGE_COUNT 4
+static const int sprite_slot_bytes[SPRITE_PAGE_COUNT] = {1048576,1048576,524288,262144};
 #define SPR_BIRD_PUFFER_2 0
 #define SPR_SLING_SHOT_01_BACK 1
 #define SPR_BLOCK_CAGE_1 2

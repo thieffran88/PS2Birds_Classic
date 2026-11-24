@@ -374,3 +374,6 @@ O Classic roda no `AdventureMode` (só existem `AdventureMode` e `MuseumMode`), 
 
 ### Som do Rio (1.0.0 / 0.49.15)
 - Feitos: lançamento, habilidade e colisão por pássaro e o som de metal; o resto dos sons de peças (colisão, dano, rolagem) ainda não. Ver `docs/MODIFICACOES_1.0.0.md`.
+
+### Interface do Rio (0.49.16)
+- Feitos: `FONT.BIN` (com acentos), `UI.BIN` e `MENU.BIN` do Rio. Falta: pássaros do menu, prêmios dos episódios, penas das outras cores, conferir fim de fase e pausa no emulador. Ver `docs/MODIFICACOES_RIO_0.49.16.md`.

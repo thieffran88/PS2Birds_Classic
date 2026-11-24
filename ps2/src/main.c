@@ -1,6 +1,6 @@
 /* Version shown on the title and in the diagnostics: the Classic is 1.0.0, the Rio has its own line of versions. */
 #ifdef PS2BIRDS_RIO
-#define GAME_VERSION "0.49.15"
+#define GAME_VERSION "0.49.16"
 #define GAME_NAME "PS2Birds Rio"
 #else
 #define GAME_VERSION "1.0.0"
@@ -498,7 +498,9 @@ static void menu_screens(const Game *g)
             }
         }
         menu_gfx_draw(gs,MG_LOGO,320,96,1.0f,0x80808080);
+#ifndef PS2BIRDS_RIO   /* the Rio's logo already carries the game's name */
         font_draw(gs,FONT_BASIC,320,150,1.25f,FONT_CENTER,0x60707880,"CLASSIC");
+#endif
         float k=main_choice==0?1.1f:1.0f,half=74*k,cy=262;int lw=menu_gfx_width(MG_PLAY_LEFT);
         unsigned play_tint=main_choice==0?0x80909090:0x80707070;
         menu_gfx_draw(gs,MG_PLAY_LEFT,320-half,cy,k,play_tint);

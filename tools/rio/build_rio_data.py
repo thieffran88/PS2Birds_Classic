@@ -1,6 +1,6 @@
 """Builds the data files of the Rio build in one folder, from the player's own APK: CAMPAIGN.BIN (the stages of the
-first episode that the runtime can play), SPRITES.BIN, THEMES.BIN, SOUNDS.BIN and MUSIC.BIN. Experimental: UI.BIN,
-FONT.BIN, MENU.BIN and CUTSCENE.BIN of the Rio do not exist yet, so this is not a complete ISO.
+first episode that the runtime can play), SPRITES.BIN, THEMES.BIN, SOUNDS.BIN, MUSIC.BIN, FONT.BIN, UI.BIN and MENU.BIN. Experimental:
+CUTSCENE.BIN of the Rio does not exist yet, so this is not a complete ISO.
 Stages whose birds the runtime does not have (only the red bird exists) are listed and left out.
 usage: build_rio_data.py APK OUTDIR [--packs warehouse warehouse2] [--ffmpeg ffmpeg]"""
 import argparse,json,subprocess,sys
@@ -14,7 +14,7 @@ def build(apk,out,packs,ffmpeg,etapa=None,ids_dir=None):
     """etapa(i): called as each part starts (1 stages, 2 sprites, 3 themes, 4 sounds); ids_dir: where sprite_ids.h and
     definition_sprites.h are written (default ps2/src/rio, which the ELF is compiled with)."""
     etapa=etapa or (lambda i:None);ids_dir=Path(ids_dir) if ids_dir else ROOT/'ps2/src/rio'
-    import build_campaign as classic,rio_campaign,extract_sprites_rio,pack_sprites_rio,extract_themes_rio,extract_audio_rio,extract_audio_rio_music,level_order
+    import build_campaign as classic,rio_campaign,extract_sprites_rio,pack_sprites_rio,extract_themes_rio,extract_audio_rio,extract_audio_rio_music,extract_font_rio,extract_ui_rio,extract_menu_rio,level_order
     out=Path(out);out.mkdir(parents=True,exist_ok=True)
     etapa(1)
     order,_=level_order.level_order();levels=[];skipped=[];pack_of=[];k_in_pack=[]
@@ -36,6 +36,8 @@ def build(apk,out,packs,ffmpeg,etapa=None,ids_dir=None):
     extract_themes_rio.extract(apk,out/'THEMES.BIN',themes)
     etapa(4)
     extract_audio_rio.main(apk,out,ffmpeg);extract_audio_rio_music.main(apk,out,ffmpeg)
+    extract_font_rio.main(apk,out/'FONT.BIN')   # the Rio's own HUD and score fonts (with the Portuguese accents)
+    extract_ui_rio.main(apk,out/'UI.BIN');extract_menu_rio.main(apk,out/'MENU.BIN')   # level end / pause / particles and the menu graphics
     for f in ('sprites.rgba','manifest.json'):(bank/f).unlink(missing_ok=True)
     try:bank.rmdir()
     except OSError:pass

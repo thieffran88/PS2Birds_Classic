@@ -117,6 +117,9 @@ def extract(apk,out):
         for name in PARTICLES:
             rgba,w,h,_=sheet_sprite(z,'PARTICLES_1',name)
             rgba,w,h=scale(rgba,w,h,CLOUD_SCALE if name.startswith('EXPLOSION') else PARTICLE_SCALE);sprites.append((name,w,h,rgba))
+    return write_ui(sprites,[i for i,_,_ in UI]+PARTICLES,out)
+def write_ui(sprites,names,out):
+    """sprites: (name, w, h, RGBA with alpha 0..128); names: the order of ui.h. Shared with the Rio's extractor."""
     # Shelf packing, tallest first, 1-pixel gutter.
     page=bytearray(PAGE*PAGE_H*4);place={};x=y=shelf=0
     for ident,w,h,rgba in sorted(sprites,key=lambda s:-s[2]):
@@ -138,7 +141,6 @@ def extract(apk,out):
     clut=[0]*256
     for i,(r,g,b,a) in enumerate(palette):
         clut[clut_slot(i)]=0 if a==0 else min(255,r*4+2)|(min(255,g*4+2)<<8)|(min(255,b*4+2)<<16)|(min(128,a*4)<<24)
-    names=[i for i,_,_ in UI]+PARTICLES
     head=struct.pack('<4s4I',b'PBUI',2,len(names),PAGE,PAGE_H)+b''.join(struct.pack('<4H',*place[i]) for i in names)
     head+=bytes((-len(head))%64)
     Path(out).write_bytes(head+struct.pack('<256I',*clut)+idx)

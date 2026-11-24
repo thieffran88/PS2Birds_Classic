@@ -1,3 +1,6 @@
+## Interface do Rio (0.49.16)
+- `FONT.BIN`, `UI.BIN` e `MENU.BIN` do Rio gerados do APK; o banco do Rio ganha os quatro slots de textura do Classic. Ver docs/MODIFICACOES_RIO_0.49.16.md.
+
 ## Modificações completas — 0.94.9
 
 Versão da **conferência das animações das cenas**.
