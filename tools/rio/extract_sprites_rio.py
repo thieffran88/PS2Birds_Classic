@@ -30,9 +30,21 @@ def invisible(effective):
 def mask_sprites(cat):
     """The pieces whose sprite is a ground mask ("themed": the theme's ground texture is painted through it, as in the Classic)."""
     return {e['sprite'] for d in cat.values() for e in [d.get('effective') or {}] if e.get('themed') and e.get('sprite')}
+BAKED={}   # composition name -> [(child sprite, dx, dy)] of the compositions drawn by the stages, filled by wanted()
+def sd_compositions():
+    """Compositions of the SD set (ingame_assets_sd). The same name appears in several files, some with the HD offsets (twice the SD
+    ones): the entry with the smallest offsets is the SD one. dx, dy: where the child's pivot sits in the composition."""
+    comps=json.loads(crop_sprites.INV.parent.joinpath('comp_inventory.json').read_text());best={}
+    for p in comps['parsed']:
+        if p['path'].split('/')[3]!='ingame_assets_sd':continue
+        for c in p.get('composites') or []:
+            ch=[(x['sprite'],x['dx_raw'],x['dy_raw']) for x in c['children']];cost=sum(abs(a)+abs(b) for _,a,b in ch)
+            if c['name'] not in best or cost<best[c['name']][0]:best[c['name']]=(cost,ch)
+    return {n:ch for n,(_,ch) in best.items()}
 def wanted(packs):
     cat=json.loads(CAT.read_text())['definitions'];comps=json.loads(crop_sprites.INV.parent.joinpath('comp_inventory.json').read_text())
     composite={c['name']:[x['sprite'] for x in c['children']] for p in comps['parsed'] for c in p.get('composites') or []}
+    sdc=sd_compositions();BAKED.clear()
     names=set();used=set()
     for pk in packs:
         for f in sorted((LEVELS/pk).glob('*.lua')):
@@ -42,7 +54,8 @@ def wanted(packs):
         if invisible(e):continue
         s=e.get('sprite')
         if not s:continue
-        names|=set(composite.get(s,[s]))
+        if s in sdc:BAKED[s]=sdc[s];names|={c for c,_,_ in sdc[s]}|{s}
+        else:names|=set(composite.get(s,[s]))
     for b in BIRDS.values():
         sp=((cat.get(b) or {}).get('effective') or {}).get('sprites') or {}
         names|=bird_names(sp)
@@ -52,6 +65,7 @@ def main(apk,out,packs):
     names,used=wanted(packs);masks=mask_sprites(json.loads(CAT.read_text())['definitions']);hits=crop_sprites.find(set(names));cache={};sprites=[];pixels={};missing=[]
     with zipfile.ZipFile(apk) as z:
         for n in names:
+            if n in BAKED:continue   # drawn below from its children
             if n not in hits:missing.append(n);continue
             _,folder,tex,f=hits[n];k=(folder,tex)
             if k not in cache:cache[k]=crop_sprites.sheet(z,folder,tex)
@@ -62,6 +76,29 @@ def main(apk,out,packs):
             if n in masks:   # ground masks: half resolution, drawn at SPRITE_MASK_SCALE
                 rows,fw,fh=halve_mask(bytes(rows),fw,fh);px_=(px_+1)//2;py_=(py_+1)//2
             sprites.append({'name':n,'width':fw,'height':fh,'pivot_x':px_,'pivot_y':py_});pixels[n]=bytes(rows)
+    # Compositions (monkeys: tail, body, head, face; cages with their birds...): each is drawn into one sprite, children in order, pivot at the
+    # composition's origin. Children no piece uses on its own are dropped from the bank.
+    alone=set(names)-{c for ch in BAKED.values() for c,_,_ in ch}-set(BAKED)
+    by={sp['name']:sp for sp in sprites}
+    for cname,ch in BAKED.items():
+        parts=[(by[c],dx-by[c]['pivot_x'],dy-by[c]['pivot_y']) for c,dx,dy in ch if c in by]
+        if not parts:missing.append(cname);continue
+        left=min(l for _,l,_ in parts);top=min(t for _,_,t in parts);right=max(l+sp['width'] for sp,l,_ in parts);bottom=max(t+sp['height'] for sp,_,t in parts)
+        W,H=right-left,bottom-top;canvas=bytearray(W*H*4)
+        for sp,l,t in parts:
+            d=pixels[sp['name']]
+            for r in range(sp['height']):
+                for c in range(sp['width']):
+                    q=(r*sp['width']+c)*4;al=d[q+3]
+                    if not al:continue
+                    o=((t-top+r)*W+(l-left+c))*4;ba=canvas[o+3]
+                    if al>=128 or not ba:canvas[o:o+4]=d[q:q+4]
+                    else:   # source over destination, alpha 0..128
+                        oa=al+ba*(128-al)//128
+                        for k in range(3):canvas[o+k]=(d[q+k]*al+canvas[o+k]*ba*(128-al)//128)//oa
+                        canvas[o+3]=oa
+        sprites.append({'name':cname,'width':W,'height':H,'pivot_x':-left,'pivot_y':-top});pixels[cname]=bytes(canvas)
+    keep=alone|set(BAKED);sprites=[sp for sp in sprites if sp['name'] in keep]
     specs,placed=pack(sprites)
     sheets=[bytearray(s['width']*s['height']*4) for s in specs]
     for s in sprites:

@@ -56,7 +56,7 @@ def pack_banks(banks,out_bin,out_ids):
     body={c['name']:c['children'][-1]['sprite'] for p in comps['parsed'] for c in p.get('composites') or [] if c.get('children')}
     rows=[]
     for d in sorted(cat):
-        e=cat[d].get('effective') or {};sp=e.get('sprite');sp=body.get(sp,sp)
+        e=cat[d].get('effective') or {};sp=e.get('sprite');sp=sp if sp in by else body.get(sp,sp)   # a baked composition is a sprite of the bank by its own name
         if sp in by and e.get('type') in ('box','circle','polygon') and not xr.invisible(e):rows.append(' {"%s",SPR_%s,1},'%(d,sp))
     import extract_sprites_rio as xr
     brows=[];mrows=[]

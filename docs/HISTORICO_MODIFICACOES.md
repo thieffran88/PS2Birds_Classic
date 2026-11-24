@@ -1,3 +1,6 @@
+## Macacos completos no Rio (0.50.2)
+- Composições desenhadas inteiras (antes só o último filho, o rosto). Ver docs/rio/MODIFICACOES_RIO_0.50.2.md.
+
 ## Fundos compostos e plataformas do Rio (0.50.1)
 - Camadas de composição (praia, aeroporto) e plataformas do carnaval. Ver docs/rio/MODIFICACOES_RIO_0.50.1.md.
 
