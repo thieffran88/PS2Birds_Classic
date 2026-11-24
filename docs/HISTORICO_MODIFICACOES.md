@@ -1,3 +1,6 @@
+## Chrono Bird (pendência 32c) — investigado, sem mudança de código
+- A regra (voltar até 2 s no tempo) está nos scripts, mas a definição ChronoBird e o sprite BIRD_CHRONO não estão no APK. Ver docs/CHRONO_BIRD.md.
+
 ## Boom Box (pendência 32b) — investigado, sem mudança de código
 - O Boom Box não é reproduzível com este APK: faltam as definições `MagicBox`/`MagicBoxProtected`/`Parachute`, a arte e os sons. Ver docs/BOOM_BOX.md.
 
