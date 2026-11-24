@@ -19,7 +19,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 - (feito na 0.90.0) `velocityMultiplier`: velocidade que o pássaro conserva ao quebrar uma peça (azul ×1,9 no vidro, Terence ×1,8, bumerangue ×1,3, baiacu ×4). Aplicada com a regra do `AdventureModeCollisions.lua`; a fórmula exata do modo Classic é nativa e não foi recuperada, então é uma aproximação.
 - Dano de colisão entre peças e com o chão: ainda é aproximação (`(impacto − 3) × 12 / defesa`); a fórmula exata foi lida em `AdventureModeCollisions.lua` e está na seção "Fórmulas exatas (0.94.11)" abaixo, ainda sem ser aplicada. A explosão já é a exata. O "sono" das peças é o do Box2D (`allowSleep`); nenhuma fórmula própria foi achada.
 - Pontuação: o valor de cada peça é o `destroyedScoreInc` original (0.94.12). Falta somar os pontos de dano por colisão (`floor(dano) × 10`), que dependem da fórmula exata de colisão; a contagem de estrelas ainda é indicativa por isso.
-- Power-ups da loja: o menu de seleção antes da fase existe; Double Score, Extra Bird e Homing Hat estão feitos. Faltam Boom Box, Chrono Bird e Red's Mighty Feathers.
+- Power-ups da loja: o menu de seleção antes da fase existe; Double Score, Extra Bird e Homing Hat estão feitos. Faltam Chrono Bird e Red's Mighty Feathers; o Boom Box não é reproduzível com este APK (ver `docs/BOOM_BOX.md`).
 - Short Fuse: frascos, balão explosivo e peças de foguete já estão no jogo (levantamento antigo desatualizado). O ímã não tem nenhuma referência nos scripts do APK, então não há o que portar.
 
 **Fases sem roteiro de vitória verificado**
@@ -386,3 +386,6 @@ O Classic roda no `AdventureMode` (só existem `AdventureMode` e `MuseumMode`), 
 
 ### Pássaros do Rio sem tipo (0.49.19)
 - Feitos: Blu e Jewel. Faltam RocketBird (corpo composto) e SUPERPOWERUP_BIRD (bando) e as fases dos pacotes que usam os quatro. Ver `docs/rio/MODIFICACOES_RIO_0.49.19.md`.
+
+### Boom Box (32b)
+- Encerrada sem implementação: o APK não traz as definições das caixas, a arte nem os sons. Ver `docs/BOOM_BOX.md`.

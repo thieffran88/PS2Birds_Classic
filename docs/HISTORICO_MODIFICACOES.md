@@ -1,3 +1,6 @@
+## Boom Box (pendência 32b) — investigado, sem mudança de código
+- O Boom Box não é reproduzível com este APK: faltam as definições `MagicBox`/`MagicBoxProtected`/`Parachute`, a arte e os sons. Ver docs/BOOM_BOX.md.
+
 ## Pássaros Blu e Jewel do Rio (0.49.19)
 - Blu (dash em estrela) e Jewel (boomerang do Rio) no runtime; Rocket e o pássaro do power-up ficam para depois. Ver docs/rio/MODIFICACOES_RIO_0.49.19.md.
 
