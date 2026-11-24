@@ -1,3 +1,6 @@
+## Fundos compostos e plataformas do Rio (0.50.1)
+- Camadas de composição (praia, aeroporto) e plataformas do carnaval. Ver docs/rio/MODIFICACOES_RIO_0.50.1.md.
+
 ## Seis episódios do Rio (0.50.0)
 - 180 fases, um banco de sprites por episódio. Ver docs/rio/MODIFICACOES_RIO_0.50.0.md.
 

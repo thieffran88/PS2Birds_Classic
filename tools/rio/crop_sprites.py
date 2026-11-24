@@ -12,11 +12,11 @@ def find(names):
     inv=json.loads(INV.read_text());hits={}
     for p in inv['parsed']:
         folder=p['path'].split('/')[3]
-        if folder not in ('ingame_assets_sd','ingame_assets'):continue
+        if folder not in ('ingame_assets_sd','ingame_assets','themes_android'):continue   # themes_android: the carnival platforms and other theme pieces used as stage pieces
         tex=p.get('texture') or '';ext=tex.rsplit('.',1)[-1].lower()
         for f in p.get('frames') or []:
             if f['name'] in names and ext in ('pvr','png','webp'):
-                key=(ext!='pvr',folder!='ingame_assets_sd')   # prefer PVR in the SD set
+                key=(ext!='pvr',folder!='ingame_assets_sd',folder=='themes_android')   # prefer PVR in the SD set
                 if f['name'] not in hits or key<hits[f['name']][0]:hits[f['name']]=(key,folder,tex,f)
     return hits
 def sheet(z,folder,tex):
