@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Lista enumerada dos assets dos APKs do Classic e do Rio com a situação no port: Incluído, Parcial ou Fora.
+"""Lista enumerada dos assets dos APKs do Classic e do Rio com a situação no port: Incluído, Parcial, Necessário ou Desnecessário.
 Só lê os APKs (os arquivos que o port gera e as tabelas em ps2/src); não executa script do jogo.
 uso: inventario_assets.py APK_CLASSIC APK_RIO DADOS_RIO_DIR SAIDA.txt"""
 import json,re,struct,sys,zipfile,collections
@@ -12,10 +12,42 @@ def status_ratio(n,total,full=0.85,low=0.10):
     r=n/total
     return 'Incluído' if r>=full else 'Parcial' if r>=low else 'Fora'
 def base(n):return re.sub(r'[ _]*(a?\d+|[a-z]\d+)$','',n.rsplit('/',1)[-1].rsplit('.',1)[0],flags=re.I).strip().lower()
+
+# Fora -> Necessário (faz sentido incluir ao port) ou Desnecessário (não faz sentido incluir).
+UI_SOM=r'purchase|coin|gem|ticket|league|reward|claim|confetti|challenger|promote|demote|leaderboard|sticker|notification|shuffle|star_bar|get_stars|use_stars|level_unlock|menu_button|button_radio|^ui_|/ui_|abp_|intro_comic|scratchy|major_|minor_|accordion|day_end|masterleague|massive|daily|bonus_level_unlocked|chapter_completed|hintbox|offer|star_\d_coins|unlock_box|alarm_egg|bubble_appears|con_used|firework'
+def necessidade(sec,name):
+    n=name.lower();rio='RIO' in sec
+    if 'EFEITOS SONOROS' in sec:
+        if re.search(UI_SOM,n):return 'Desnecessário','som de loja, moedas, recompensas, ligas ou menu; o port não tem essas telas'
+        return 'Necessário','som de jogo (colisão, dano, pássaro, bloco) que o port ainda não usa'
+    if 'MÚSICA' in sec:
+        if re.search(r'xmas|ssvsab|funky',n):return 'Desnecessário','música de evento ou promoção'
+        return 'Necessário','música de fase ou ambiente de episódio que o port tem'
+    if 'FONTES' in sec or n.startswith('truetype'):
+        if re.search(r'chinese|_ja|_ru|_ko|_zh|noout|\.font|truetype',n):return 'Desnecessário','idioma sem texto no port ou fonte do sistema Android'
+        return 'Desnecessário','o port usa só FONT_BASIC e FONT_SCORE; as telas dessas fontes não existem no port'
+    if 'texts_update' in n or re.search(r'shader|módulo android|dados |logos de abertura',n):return 'Desnecessário','específico do Android, rede, anúncios, compras, atualização do app ou logos de empresas'
+    if 'FASES' in sec:
+        if 'ugc' in n:return 'Desnecessário','fases criadas por jogadores (precisam de servidor)'
+        if re.search(r'eagledemo|powerupschool',n):return 'Desnecessário','demonstração da loja / escola de power-ups'
+        return 'Necessário','fases jogáveis offline'
+    if 'TEMAS' in sec or 'CENAS' in sec:
+        if rio:return 'Necessário','tema ou cena das fases do Rio 2 (entra com os pacotes de fases)'
+        return 'Desnecessário','configuração de tema/cena sem arte própria'
+    if 'backgrounds_ge' in n:return 'Desnecessário','fundo dos instrumentos musicais do Golden Eggs (teclado, acordeão, rádio), que o port não tem'
+    if re.search(r'shop|iap|store|purchase|achiev|channel|daily|forced_update|crosspromo|xpromo|gamecenter|gift|popup|reward|splash|mattel|ugc|localiz|korea|id_sheet|ml_|league|sticker|tournament|powerup_reminder|hud_ingame|igc_|hint|tutorial|golden_eggs_sheet|levelselection|menu_native|menu_elements|menu_toons|menu_parts|buttons_|misc_sheet|gradient|lighting',n):
+        return 'Desnecessário','tela de loja, rede, conquistas, ligas, promoções ou menu que o port não tem (ou refaz com arte própria)'
+    if rio and re.search(r'nye|maunas|amazon|forest|smallfish|rio2|rio_2|r2_',n):return 'Necessário','arte do Rio 2 (entra com as fases do Rio 2)'
+    if re.search(r'theme|ground|parallax|backgrounds',n):return 'Desnecessário','cenário já montado em THEMES.BIN; o port usa o cenário composto'
+    if re.search(r'ingame|pigs|birds|blocks|consumable|macaws|particles|awnings|boats|cutscene|egg_?defender|black',n):
+        return 'Necessário','arte de jogo (pássaros, blocos, porcos, cutscenes) que o port ainda não tem'
+    return 'Desnecessário','arte de interface que o port não usa'
 class Lista:
     def __init__(s):s.lines=[];s.n=0;s.count=collections.Counter()
-    def sec(s,t):s.lines+=['',t,'-'*len(t)]
+    def sec(s,t):s.sec_name=t;s.lines+=['',t,'-'*len(t)]
     def add(s,name,st,detail=''):
+        if st=='Fora':
+            st,why=necessidade(getattr(s,'sec_name',''),name);detail=why+('; '+detail if detail else '')
         s.n+=1;s.count[st]+=1;s.lines.append(f'{s.n:5d}. {name} ({st})'+(f' - {detail}' if detail else ''))
 def names_in_header(path,pat,size,base_off,count_off):
     return []
@@ -87,7 +119,9 @@ def classic(L,apk):
     for k in sorted(th):L.add('Tema '+str(k),'Incluído' if k in thave else 'Fora')
     L.sec('CLASSIC - TEXTOS, VEÍCULOS DO EGG DEFENDER E OUTROS')
     for n in sorted(names):
-        if n.startswith('assets/data/localization/'):L.add(n[len('assets/data/'):],'Parcial','o port lê só o texto pt_BR da tela "sobre"; os demais textos estão escritos no código')
+        if n.startswith('assets/data/localization/'):
+            if 'TEXTS_UPDATE' in n:L.add(n[len('assets/data/'):],'Fora','verificação de atualização do app (3 frases); o port não tem atualização')
+            else:L.add(n[len('assets/data/'):],'Parcial','o port lê só o texto pt_BR da tela "sobre"; os demais textos estão escritos no código')
     veh=collections.defaultdict(list)
     for n in names:
         m=re.match(r'assets/data/vehicles/([^/]+)/',n)
@@ -155,17 +189,19 @@ def rio(L,apk,data):
     for i in range(cc):L.add('Cena '+cd[12+72*i:12+72*i+24].rstrip(b'\0').decode(),'Incluído','7 animações do CutsceneScene.lua')
     L.add('Logos de abertura (Rovio, Fox, Blue Sky) e créditos longos','Fora')
     for n in sorted(names):
-        if n.startswith('assets/data/localization/'):L.add(n[len('assets/data/'):],'Parcial','o port lê só o texto "sobre"; os demais textos estão no código')
+        if n.startswith('assets/data/localization/'):
+            if 'TEXTS_UPDATE' in n:L.add(n[len('assets/data/'):],'Fora','verificação de atualização do app (3 frases); o port não tem atualização')
+            else:L.add(n[len('assets/data/'):],'Parcial','o port lê só o texto "sobre"; os demais textos estão no código')
     sh=[n for n in names if n.startswith('assets/data/shaders/') and n.endswith(('.fx','.ps','.vs','.sh'))]
     L.add('Shaders do Android (GLES2): %d arquivos'%len(sh),'Fora','o PS2 não usa shaders do Android')
 def main(ac,ar,data,out):
     L=Lista();classic(L,ac);rio(L,ar,data)
     head=['PS2Birds - LISTA DE ASSETS DO CLASSIC E DO RIO','Estado em 24/11/2026. Versões: Classic 1.2.0, Rio 0.50.3.','',
       'Critérios (entre parênteses em cada item):','  Incluído - completo no port (todos os arquivos ou quadros que o jogo usa estão lá).',
-      '  Parcial  - o port tem boa parte, mas não está completo.','  Fora     - não está no port.',
-      'Folhas de sprites: Incluído com 85% ou mais dos quadros no port, Parcial de 10% a 84%, Fora abaixo disso.',
-      'Pacotes de fases: Incluído com todas as fases, Parcial com algumas, Fora com nenhuma.',
-      'Sons: Incluído quando o arquivo é usado; Parcial quando é variante (a2, a3...) de um som usado; Fora nos demais.',
+      '  Parcial  - o port tem boa parte, mas não está completo.','  Necessário    - fora do port, mas faz sentido incluir (fases, arte, sons e músicas de jogo).','  Desnecessário - fora do port e não faz sentido incluir (loja, rede, anúncios, ligas, UGC, outros idiomas, Android).',
+      'Folhas de sprites: Incluído com 85% ou mais dos quadros no port, Parcial de 10% a 84%, abaixo disso Necessário ou Desnecessário (conforme o conteúdo).',
+      'Pacotes de fases: Incluído com todas as fases, Parcial com algumas, Necessário ou Desnecessário com nenhuma.',
+      'Sons: Incluído quando o arquivo é usado; Parcial quando é variante (a2, a3...) de um som usado; Necessário ou Desnecessário nos demais.',
       'Gerada por tools/inventario_assets.py a partir dos APKs e dos arquivos do port.']
     tot=['','RESUMO: '+', '.join(f'{k} {v}' for k,v in sorted(L.count.items()))+f' (total {L.n})']
     Path(out).write_text('\n'.join(head+tot+L.lines)+'\n',encoding='utf-8');print(tot[1])
