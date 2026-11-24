@@ -488,6 +488,7 @@ struct Physics: b2ContactListener {
             made=world.CreateJoint(&def);
         }else if(j.type==JOINT_WELD || j.type==JOINT_DESTROY_ATTACHED){
             /* Like b2WeldJointDef::Initialize: one anchor (end1's) keeps the bodies' current relative pose. */
+            if(j.type==JOINT_DESTROY_ATTACHED && (pa-pb).Length()>2.0f)pa=pb; /* anchors far apart (Flock Favorites 1-9): a lever arm of ~140 makes the weld explode */
             b2WeldJointDef def;def.Initialize(a,b,pa);def.collideConnected=j.collide!=0;
             if(j.frequency>0)b2AngularStiffness(def.stiffness,def.damping,j.frequency,j.damping,a,b);
             made=world.CreateJoint(&def);
