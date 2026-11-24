@@ -3,6 +3,8 @@
 #define PS2BIRDS_RIO_DEFINITION_SPRITES_H
 typedef struct {const char *definition;int sprite,scale;} DefinitionSprite;
 static const DefinitionSprite definition_sprites[]={
+ {"BIRD_RIO_BLUE_ALONE",SPR_BIRD_BLU_STANDING,1},
+ {"BIRD_RIO_BLUE_NORMAL",SPR_BIRD_BLU_STANDING,1},
  {"BLOCK_AIRPORT_CAGE_10",SPR_BLOCK_CAGE_6,1},
  {"BLOCK_AIRPORT_CAGE_14",SPR_BLOCK_CAGE_5,1},
  {"BLOCK_AIRPORT_CAGE_16",SPR_BLOCK_CAGE_1,1},
@@ -144,6 +146,8 @@ static const BirdSprites bird_sprites[]={
  {"GlobeBird",SPR_BIRD_PUFFER_1,SPR_BIRD_PUFFER_1,SPR_BIRD_PUFFER_1,SPR_BIRD_PUFFER_1,{-1,-1,-1},SPR_BIRD_PUFFER_2},   /* type 8 */
  {"PinkBird",SPR_STELLA_NORMAL,SPR_STELLA_FLY,SPR_STELLA_COL_1,SPR_STELLA_BUBBLE,{-1,-1,-1},-1},   /* type 9 */
  {"",-1,-1,-1,-1,{-1,-1,-1},-1},   /* type 10 */
+ {"BIRD_RIO_BLUE_ALONE",SPR_BIRD_BLU_STANDING,SPR_BIRD_BLU_SLINGSHOT,SPR_BIRD_BLU_COLLIDED,-1,{-1,-1,-1},-1},   /* type 11 */
+ {"RioBirds",SPR_BIRD_JEWEL_STANDING,SPR_BIRD_JEWEL_NORMAL,SPR_BIRD_JEWEL_COLLISION,SPR_BIRD_JEWEL_FLY_WINGSUP,{-1,-1,-1},-1},   /* type 12 */
 };
 /* Fixed terrain pieces drawn through the theme's ground texture (half-resolution masks, SPRITE_MASK_SCALE). */
 typedef struct {const char *definition;int sprite;} GroundMask;

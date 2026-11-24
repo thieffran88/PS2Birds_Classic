@@ -14,12 +14,13 @@ import zipfile
 # Sprites the runtime draws by name, not through a piece definition: the slingshot of the first chapter.
 EXTRA=['SLING_SHOT_01_BACK','SLING_SHOT_01_FRONT']
 # The runtime's bird types (tools/rio/rio_campaign.py BIRD_TYPE) and the sprite states it draws.
-BIRDS={0:'RedBird',1:'SmallBlueBird',2:'YellowBird',3:'BlackBird',4:'WhiteBird',5:'EggGranade',6:'BoomerangBird',7:'RedBigBird',8:'GlobeBird',9:'PinkBird'}
+BIRDS={0:'RedBird',1:'SmallBlueBird',2:'YellowBird',3:'BlackBird',4:'WhiteBird',5:'EggGranade',6:'BoomerangBird',7:'RedBigBird',8:'GlobeBird',9:'PinkBird',11:'BIRD_RIO_BLUE_ALONE',12:'RioBirds'}
 BIRD_STATES=('default','flying','collision','action')   # + the black bird's bomb timer and the globe bird's inflated sprite
 PUFFED='BIRD_PUFFER_2'
 def bird_names(sp):
     """Every sprite a bird definition's `sprites` table can show in the game."""
     out={sp[k] for k in BIRD_STATES if isinstance(sp.get(k),str)}
+    if isinstance(sp.get('action'),dict):out|=set(sp['action'].get('frames',{}).values())   # Blu and Jewel: the wing-beat frames (the first is the one drawn)
     if isinstance(sp.get('timer'),dict):out|=set(sp['timer'].values())
     return out
 CAT=ROOT/'work/rio/analysis/definition_catalogue.json';LEVELS=ROOT/'work/rio/analysis/chunks/assets/data/levels'

@@ -9,11 +9,12 @@ ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'tools'));sy
 import build_campaign as classic
 from rio_import_level import convert
 # The Rio birds (and their R2_ variants, same radius and density as the Classic's) run as the runtime's BirdType values
-# (game.h: 0 red, 1 blue, 2 yellow, 3 black, 4 white, 6 boomerang, 7 big red, 8 globe, 9 pink). Same definition names as the Classic's runtime types (profiles/classic_level.json bird_types). The Rio birds have
+# (game.h: 0 red, 1 blue, 2 yellow, 3 black, 4 white, 6 boomerang, 7 big red, 8 globe, 9 pink, 11 Blu, 12 Jewel). Same definition names as the Classic's runtime types (profiles/classic_level.json bird_types). The Rio birds have
 # their own radius/density (e.g. the yellow bird 0.8, the small blue bird 0.6); the runtime still uses the
 # Classic's values for each type, so these are approximations until the bird parameters are imported.
 BIRD_TYPE={'RedBird':0,'R2_RedBird':0,'SmallBlueBird':1,'R2_SmallBlueBird':1,'YellowBird':2,'R2_YellowBird':2,'BlackBird':3,'R2_BlackBird':3,
-    'WhiteBird':4,'R2_WhiteBird':4,'BoomerangBird':6,'R2_BoomerangBird':6,'RedBigBird':7,'R2_RedBigBird':7,'GlobeBird':8,'R2_GlobeBird':8,'PinkBird':9,'R2_PinkBird':9}
+    'WhiteBird':4,'R2_WhiteBird':4,'BoomerangBird':6,'R2_BoomerangBird':6,'RedBigBird':7,'R2_RedBigBird':7,'GlobeBird':8,'R2_GlobeBird':8,'PinkBird':9,'R2_PinkBird':9,
+    'BIRD_RIO_BLUE_ALONE':11,'RioBirds':12}   # Blu (specialty BLU) and Blu & Jewel (BLU&JEWEL); RocketBird (13) and SUPERPOWERUP_BIRD are not in the runtime yet
 def fit_view(r,zoom=None):
     """The Classic's camera rule (tools/build_campaign.py): the whole stage in the 576 x 336 play area, scale at most 7."""
     import math

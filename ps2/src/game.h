@@ -12,7 +12,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE, BIRD_WHITE_TYPE, BIRD_EGG_TYPE, BIRD_GREEN_TYPE, BIRD_BIG_TYPE, BIRD_PUFFER_TYPE, BIRD_PINK_TYPE, BIRD_SHOCK_TYPE } BirdType;
+typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE, BIRD_WHITE_TYPE, BIRD_EGG_TYPE, BIRD_GREEN_TYPE, BIRD_BIG_TYPE, BIRD_PUFFER_TYPE, BIRD_PINK_TYPE, BIRD_SHOCK_TYPE, BIRD_BLU_TYPE, BIRD_JEWEL_TYPE, BIRD_ROCKET_TYPE } BirdType;   /* BLU, JEWEL, ROCKET: Rio only */
 /* Stella (PinkBird, specialty "BUBBLES"): body from blocks.lua, algorithm from mode_MuseumMode.lua,
    bubbles.lua and default_conf.lua. A tap starts a PINK_BOOM_TIME timer (1.5 s on a first contact
    without tap); during its last PINK_BOOM_TIME s the bird stops and hovers; then every movable
@@ -143,6 +143,24 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 #define GREEN_VERTICAL_FORCE -350.0f
 #define GREEN_MAX_HORIZONTAL_SPEED 50.0f
 #define GREEN_PHYSICS_SCALE (1.0f/20.0f)
+/* Rio: Blu (BIRD_RIO_BLUE_ALONE, specialty BLU; birds.lua and gamelogic.lua activateBluSpecialty / the specialtyActive update).
+   Tapped, he spends specialtyDuration seconds in a star pattern: every specialtyInterval seconds an explosion without damage
+   (explosionRadius, explosionForce) and his velocity is set to mass x specialtyImpulse along a direction turned by 4 pi / 5
+   (the first is the direction he flew in); gravity is cancelled meanwhile. At the end he falls on with (lastXVelocity / 5, -10). */
+#define BLU_RADIUS 1.4f
+#define BLU_DENSITY 1.5f
+#define BLU_RESTITUTION 0.3f
+#define BLU_FRICTION 0.8f
+#define BLU_DURATION 0.9f
+#define BLU_INTERVAL 0.2f
+#define BLU_IMPULSE 3.0f
+#define BLU_BLAST_RADIUS 9.0f
+#define BLU_BLAST_FORCE 4000.0f
+/* Rio: Jewel (RioBirds, specialty BLU&JEWEL): the boomerang's algorithm with its own forces (the body is the boomerang's). */
+#define JEWEL_FLY_VERTICAL_FORCE -180.0f
+#define JEWEL_HORIZONTAL_FORCE 1000.0f
+#define JEWEL_VERTICAL_FORCE -13050.0f
+#define JEWEL_MAX_HORIZONTAL_SPEED 100.0f
 /* Yellow boost: prototype approximation of the native BOOST specialty. */
 #define YELLOW_BOOST_FACTOR 1.8f
 /* Launch speed recovered from gamelogic.lua: updateValues() sets defaultForce=-925 and
@@ -245,6 +263,7 @@ void game_launch(Game *game);
 void game_update(Game *game,float seconds);
 int game_special(Game *game);
 int game_special_available(const Game *game);
+void game_force_bird_type(Game *game,int type);   /* host tests: the bird on the slingshot becomes that type (Rio birds) */
 int game_queue_type(const Game *game,int offset);
 /* 1 while the flying bird is trapped inside a pig vehicle's sucker. */
 int game_bird_trapped(const Game *game);

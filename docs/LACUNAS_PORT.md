@@ -383,3 +383,6 @@ O Classic roda no `AdventureMode` (só existem `AdventureMode` e `MuseumMode`), 
 
 ### Música das fases do Rio (0.49.18)
 - Feito: trilha por tema (galpão e selva). Falta: volume por tema (`musicVolume`) e as trilhas dos outros temas. Ver `docs/rio/MODIFICACOES_RIO_0.49.18.md`.
+
+### Pássaros do Rio sem tipo (0.49.19)
+- Feitos: Blu e Jewel. Faltam RocketBird (corpo composto) e SUPERPOWERUP_BIRD (bando) e as fases dos pacotes que usam os quatro. Ver `docs/rio/MODIFICACOES_RIO_0.49.19.md`.

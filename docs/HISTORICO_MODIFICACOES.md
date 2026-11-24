@@ -1,3 +1,6 @@
+## Pássaros Blu e Jewel do Rio (0.49.19)
+- Blu (dash em estrela) e Jewel (boomerang do Rio) no runtime; Rocket e o pássaro do power-up ficam para depois. Ver docs/rio/MODIFICACOES_RIO_0.49.19.md.
+
 ## Música das fases do Rio (0.49.18)
 - `CAMPAIGN.BIN` do Rio grava a trilha do tema de cada fase. Ver docs/rio/MODIFICACOES_RIO_0.49.18.md.
 
