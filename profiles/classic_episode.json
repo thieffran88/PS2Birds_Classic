@@ -1690,6 +1690,30 @@
       ],
       "bank": 80,
       "first": 226
+    },
+    {
+      "number": 85,
+      "title_prefix": "YEAR OF THE GOAT ",
+      "folder": "/levels/packTalkweb_1_1",
+      "levels": [
+        "TWLevel01",
+        "TWLevel02",
+        "TWLevel03",
+        "TWLevel04",
+        "TWLevel05",
+        "TWLevel06",
+        "TWLevel07",
+        "TWLevel08",
+        "TWLevel09",
+        "TWLevel10",
+        "TWLevel11",
+        "TWLevel12",
+        "TWLevel13",
+        "TWLevel14",
+        "TWLevel15"
+      ],
+      "bank": 81,
+      "first": 1
     }
   ],
   "powerups": {

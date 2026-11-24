@@ -11,11 +11,11 @@ enum {MG_LOGO,MG_PLAY_LEFT,MG_PLAY_MIDDLE,MG_PLAY_RIGHT,MG_SCOREBOX,MG_SCOREBOX_
       MG_FLY_BIRD,MG_YELL_BIRD=MG_FLY_BIRD+7,MG_CARDS=MG_YELL_BIRD+7};   /* MG_YELL_BIRD..+6: the same birds yelling (<bird>_YELL) */   /* MG_FLY_BIRD..+6: red, blue, yellow, grey, green, big brother, boomerang */
 #define MG_CARD(e) (MG_CARDS+2*(e))
 #define MG_TITLE(e) (MG_CARDS+2*(e)+1)
-/* main_menu.lua buildBirdList rewards (extract_menu.py REWARDS), after the 20 episode cards:
+/* main_menu.lua buildBirdList rewards (extract_menu.py REWARDS), after the 21 episode cards:
    completion sprite, three-star sprite, per episode. */
 #define MG_REWARD_COUNT 12
-#define MG_REWARD(r) (MG_CARDS+2*20+2*(r))
-#define MG_REWARD_STAR(r) (MG_CARDS+2*20+2*(r)+1)
+#define MG_REWARD(r) (MG_CARDS+2*21+2*(r))
+#define MG_REWARD_STAR(r) (MG_CARDS+2*21+2*(r)+1)
 #define MG_MAX 128
 void menu_gfx_set_data_path(const char *path);
 int menu_gfx_show(GSGLOBAL *gs);    /* uploads the menu pages if needed; 0 without MENU.BIN */

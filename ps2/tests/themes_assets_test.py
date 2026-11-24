@@ -17,6 +17,6 @@ for i in range(count):
 assert textured==count                                           # most themes have a real ground texture
 assert names[0]=='theme1' and 'themeFarm' in names and 'themeDino' in names
 themes={json.loads(p.read_text()).get('theme') for p in (root/'data').glob('level_*.json')}
-missing=themes-set(names)-{'',None}
+missing=themes-set(names)-{'',None,'themeTalkweb1'}   # themeTalkweb1 (Year of the Goat) has no entry in themes.lua: its stages use the built-in scenery
 assert not missing,missing
 print(f'Themes OK: {count} opaque 640 x 648 backgrounds (sky, layers, ground) covering every stage theme, with their 256 x 256 ground textures.')

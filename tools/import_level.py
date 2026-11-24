@@ -99,7 +99,7 @@ def convert(source,output,header,profile_path=DEFAULT_PROFILE,source_name=None,q
     view=profile.get('view',{'x':210,'y':333,'scale':7})
     if any(not isinstance(view.get(k),(int,float)) or not math.isfinite(view[k]) for k in ['x','y','scale']) or view['scale']<=0:
         raise ValueError('Invalid view configuration')
-    pixels=scalar('physicsToWorld');gravity=scalar('worldGravity')
+    pixels=scalar('physicsToWorld');gravity=scalar('worldGravity') if 'worldGravity' in env else 20.0   # the Talkweb stages (Year of the Goat) leave it out: the engine's 20
     # Golden Eggs LevelGE_31 turns gravity upside down (-20) and LevelGE_UGC1 switches it off (0);
     # the world simply uses the stage's vertical gravity.
     if pixels<=0:raise ValueError('Adapter supports a positive physics scale only')

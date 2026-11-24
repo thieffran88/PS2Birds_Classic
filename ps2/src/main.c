@@ -3,7 +3,7 @@
 #define GAME_VERSION "0.50.3"
 #define GAME_NAME "PS2Birds Rio"
 #else
-#define GAME_VERSION "1.1.0"
+#define GAME_VERSION "1.2.0"
 #define GAME_NAME "PS2Birds Classic"
 #endif
 #include <tamtypes.h>
