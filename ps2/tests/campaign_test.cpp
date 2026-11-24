@@ -1014,9 +1014,9 @@ static const Stage stages[]={
  {"TWLevel13",104,5,89,3,{{0,0,-1.0f,0}},0}, /* YEAR OF THE GOAT 13 (sem roteiro vencedor) */
  {"TWLevel14",196,9,116,4,{{0,0,-1.0f,0}},0}, /* YEAR OF THE GOAT 14 (sem roteiro vencedor) */
  {"TWLevel15",151,10,116,4,{{0,0,-1.0f,0}},0}, /* YEAR OF THE GOAT 15 (sem roteiro vencedor) */
- {"SLevel7",92,10,60,3,{{0,0,-1.0f,0}},0}, /* SIEGE 1 (sem roteiro vencedor) */
- {"SLevel8",92,10,60,3,{{0,0,-1.0f,0}},0}, /* SIEGE 2 (sem roteiro vencedor) */
- {"Siege1",264,10,115,3,{{0,0,-1.0f,0}},0}, /* SIEGE 3 (sem roteiro vencedor) */
+ {"SLevel7",92,10,68,3,{{0,0,-1.0f,0}},0}, /* SIEGE 1 (sem roteiro vencedor) */
+ {"SLevel8",92,10,68,3,{{0,0,-1.0f,0}},0}, /* SIEGE 2 (sem roteiro vencedor) */
+ {"Siege1",264,8,138,3,{{0,0,-1.0f,0}},0}, /* SIEGE 3 (sem roteiro vencedor) */
 };
 #define STAGES ((int)(sizeof(stages)/sizeof(stages[0])))
 static void settle(Game *g){for(int i=0;i<240;i++)game_update(g,1.0f/120);}
