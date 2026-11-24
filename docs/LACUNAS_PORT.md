@@ -395,3 +395,6 @@ O Classic roda no `AdventureMode` (só existem `AdventureMode` e `MuseumMode`), 
 
 ### Red's Mighty Feathers como power-up (32d)
 - Investigada: viável, não implementada (mudaria o Classic). Ver `docs/REDS_MIGHTY_FEATHERS_POWERUP.md`.
+
+### Rocket e SUPERPOWERUP do Rio (61)
+- Investigados, não implementados: empuxo nativo desconhecido (Rocket) e bando teleguiado (macaw). Ver `docs/rio/ROCKET_E_SUPERPOWERUP.md`.

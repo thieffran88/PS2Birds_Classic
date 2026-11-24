@@ -1,3 +1,6 @@
+## Rocket e SUPERPOWERUP do Rio (pendência 61) — investigados, sem mudança de código
+- Dependem do empuxo nativo e do bando teleguiado, que os scripts não definem. Ver docs/rio/ROCKET_E_SUPERPOWERUP.md.
+
 ## Red's Mighty Feathers como power-up (pendência 32d) — investigado, sem mudança de código
 - Viável: definição, regra (já usada pelo Egg Defender) e arte estão no APK; falta ligar a opção da loja. Ver docs/REDS_MIGHTY_FEATHERS_POWERUP.md.
 
