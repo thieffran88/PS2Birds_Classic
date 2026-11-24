@@ -520,7 +520,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.94.18 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.94.19 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -750,9 +750,35 @@ static void render(const Game *g, int connected, int paused,int menu)
     }
     if(sprites_load_failed())text(16,40,1,gold,"SPRITES.BIN AUSENTE: COPIE-O PARA A PASTA DO ELF");
     if(save_mc_busy())mc_status(16,40,gold);
-    /* Shop tutorials: the stage's power-up (King Sling is always on; Bird Quake on L2, once). */
-    if(game_powerup(g)==POWERUP_KING_SLING)text(16,58,1,cream,"ESTILINGUE REAL");
-    else if(game_powerup_available(g))hint(16,58,1,0,cream,game_powerup(g)==POWERUP_POWER_POTION?"{L2} POÇÃO":game_powerup(g)==POWERUP_SHOCKWAVE?"{L2} ONDA DE CHOQUE":"{L2} TERREMOTO");
+    /* Pause button (GameHud.lua INGAME_BUTTON_PAUSE; START pauses): drawn with primitives, the interface page has no room left. */
+    if(!paused){
+        rect(16,34,36,36,color(120,70,20));rect(18,36,32,32,gold);rect(18,36,32,16,color(250,214,110));rect(18,52,32,16,color(236,160,40));
+        rect(26,42,6,20,color(255,255,255));rect(36,42,6,20,color(255,255,255));
+        hint(58,46,1,0,cream,"{START}");
+    }
+    /* Power-up visor (the original's power-up bar): the stage's own power-up and the shop power-ups chosen before the stage, each as a
+       coloured disc with its label; grey while it cannot be used. King Sling is always on, Bird Quake / Power Potion / Shockwave on L2
+       (once), the Homing Hat on R2 in flight (once), Double Score and the extra bird for the whole stage. */
+    {
+        float y=96;
+        typedef struct {u64 disc;const char *mark;int on;const char *label;} Entry;
+        Entry entry[4];int n=0;
+        const u64 grey=color(110,118,120);
+        int pu=game_powerup(g);
+        if(pu==POWERUP_KING_SLING)entry[n++]=(Entry){color(220,150,30),"R",1,"ESTILINGUE REAL"};
+        else if(pu==POWERUP_POWER_POTION)entry[n++]=(Entry){color(150,60,200),"P",game_powerup_available(g),"{L2} POÇÃO"};
+        else if(pu==POWERUP_SHOCKWAVE)entry[n++]=(Entry){color(60,120,220),"O",game_powerup_available(g),"{L2} ONDA DE CHOQUE"};
+        else if(pu==POWERUP_BIRD_QUAKE)entry[n++]=(Entry){color(190,110,50),"T",game_powerup_available(g),"{L2} TERREMOTO"};
+        if(g->shop_mask&SHOP_HOMING)entry[n++]=(Entry){color(70,160,230),"H",game_homing_available(g),"{R2} CHAPÉU TELEGUIADO"};
+        if(g->shop_mask&SHOP_DOUBLE)entry[n++]=(Entry){color(240,190,40),"2X",1,"PONTOS EM DOBRO"};
+        if(g->shop_mask&SHOP_EXTRA_BIRD)entry[n++]=(Entry){g->shop_bird==BIRD_BLUE_TYPE?color(70,140,230):g->shop_bird==BIRD_YELLOW_TYPE?color(240,200,40):color(210,50,40),"+1",1,"PÁSSARO EXTRA"};
+        for(int i=0;i<n;i++,y+=30){
+            const Entry *e=&entry[i];
+            disk(30,y,13,color(30,40,44));disk(30,y,11,e->on?e->disc:grey);
+            text(30-(int)strlen(e->mark)*3,y-3,1,e->on?color(255,255,255):color(200,205,205),e->mark);
+            hint(52,y-4,1,0,e->on?cream:color(150,158,160),e->label);
+        }
+    }
     if ((g->state==WON && won_wait<=0) || g->state==LOST || paused) {
         if(!paused && g->state==WON && ui_ready()){
             /* level_end.lua LevelComplete with the original sprites: stars at 0.4 of the height,
@@ -828,7 +854,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(200,250,1,0,cream,"{PAD} MIRA   {X} LANÇAR");
             hint(200,270,1,0,cream,"{Q} SEGURAR: AJUSTE FINO");
             hint(200,290,1,0,cream,"{X} NO AR: HABILIDADE   {SELECT} FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.94.18 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.94.19 / PLAYSTATION 2");
             mc_status(200,350,color(135,192,181));
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -839,7 +865,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(90,200,1,0,cream,"{X} NO AR: HABILIDADE DO PÁSSARO");
             hint(90,220,1,0,cream,"{T} REINICIAR   {SELECT} FASES");
             hint(90,240,1,0,cream,"{R3} SOM   {START} CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.94.18 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.94.19 / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             mc_status(90,318,color(135,192,181));
         } else {
@@ -1000,13 +1026,13 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.94.18: GS ready, pad open=%d\n",pad_open);
+    printf("PS2Birds Classic 0.94.19: GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s); campaign error %d, sprites error %d\n",file,game_campaign_error(),sprites_error());
         char detail[3][96];
         snprintf(detail[0],sizeof(detail[0]),"CAMPAIGN.BIN: ERRO %d  SPRITES.BIN: ERRO %d",game_campaign_error(),sprites_error());
-        snprintf(detail[1],sizeof(detail[1]),"VERSAO 0.94.18");
+        snprintf(detail[1],sizeof(detail[1]),"VERSAO 0.94.19");
         snprintf(detail[2],sizeof(detail[2]),"%.90s",data_on_disc?"LENDO DO DISCO (CDROM0)":tried_dirs[0]?tried_dirs:data_dir);
         for(char *q=detail[2];*q;q++)if(*q>='a'&&*q<='z')*q=(char)(*q-32);
         char more[2][96]={"",""};

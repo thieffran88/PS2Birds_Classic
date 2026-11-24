@@ -32,7 +32,7 @@ Esta é a lista atual. As seções abaixo são o histórico de cada versão e po
 **Gráficos e interface**
 - Borda de grama no alto do terreno e textura nas peças que quebram: feitas na 0.94.17 como aproximação (a franja original é código nativo e não foi recuperada).
 - Mine and Dine: o porco machucado usa o desenho próprio nos bancos 11 e 12 e, no 13, em todos os porcos menos o avô de bigode (0.94.18); do banco 14 em diante ainda usa o desenho normal.
-- Botão de pausa na tela e visor de power-ups.
+- Botão de pausa na tela e visor de power-ups: feitos na 0.94.19, desenhados com formas simples (sem os sprites originais).
 - Pan de câmera do início da fase: não se aplica, o port mostra a fase inteira numa vista fixa.
 
 **Cutscenes** (ver `docs/CUTSCENES.md`)

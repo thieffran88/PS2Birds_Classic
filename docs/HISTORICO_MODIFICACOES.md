@@ -3270,3 +3270,6 @@ Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached E
 
 ## Porco machucado em Mine and Dine (0.94.18)
 - Bancos 11 a 13 voltam a ter o quadro de machucado (a quarta página, vazia, o comporta; só o avô de bigode do banco 13 continua com o normal). Ver docs/MODIFICACOES_0.94.18.md.
+
+## Botão de pausa e visor de power-ups (0.94.19)
+- Botão de pausa e visor desenhados no HUD da fase. Ver docs/MODIFICACOES_0.94.19.md.
