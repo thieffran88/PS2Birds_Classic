@@ -1,3 +1,6 @@
+## Seis episódios do Rio (0.50.0)
+- 180 fases, um banco de sprites por episódio. Ver docs/rio/MODIFICACOES_RIO_0.50.0.md.
+
 ## Rocket e SUPERPOWERUP do Rio (pendência 61) — investigados, sem mudança de código
 - Dependem do empuxo nativo e do bando teleguiado, que os scripts não definem. Ver docs/rio/ROCKET_E_SUPERPOWERUP.md.
 

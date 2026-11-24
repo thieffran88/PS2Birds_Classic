@@ -7,23 +7,43 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 SLOT_BYTES=[1048576,1048576,524288,262144];SLOTS_N=len(SLOT_BYTES)   # the Classic's four texture slots (extract_sprites.PAGE_LAYOUT)
 def pack(bank,out_bin,out_ids):
-    bank=Path(bank);m=json.loads((bank/'manifest.json').read_text());data=(bank/'sprites.rgba').read_bytes()
-    by={s['name']:s for s in m['sprites']};order=sorted(by,key=lambda n:(-by[n]['height'],n));pages=m['pages']
-    if len(data)!=sum(p['width']*p['height']*4 for p in pages):raise SystemExit('tamanho do atlas inesperado')
-    # The menus (MENU.BIN) upload into the same four texture slots as the Classic's, so the Rio keeps the four slots too (unused ones are width 0).
-    pages=pages+[{'width':0,'height':0,'offset':0}]*(SLOTS_N-len(pages))
-    head=32+len(pages)*12+len(order)*14;start=(head+127)//128*128
-    out=bytearray(struct.pack('<4s7I',b'PBSP',2,1,len(pages),len(order),start,start+len(data),0))
-    for p in pages:out+=struct.pack('<3I',p['width'],p['height'],p['offset'])
-    for n in order:
-        s=by[n];out+=struct.pack('<7h',s['atlas_x'],s['atlas_y'],s['width'],s['height'],s['pivot_x'],s['pivot_y'],s['page'])
+    """One texture bank (kept for the single-bank callers)."""
+    return pack_banks([bank],out_bin,out_ids)
+def pack_banks(banks,out_bin,out_ids):
+    """One texture bank per entry of `banks` (a directory made by extract_sprites_rio.main). Sprite ids are global (sorted by name,
+    the order compiled into the runtime); each bank has its own pages and frames, and a sprite the bank does not hold has an empty frame."""
+    ms=[];datas=[];by_bank=[]
+    for bank in banks:
+        bank=Path(bank);m=json.loads((bank/'manifest.json').read_text());d=(bank/'sprites.rgba').read_bytes()
+        if len(d)!=sum(p['width']*p['height']*4 for p in m['pages']):raise SystemExit('tamanho do atlas inesperado')
+        ms.append(m);datas.append(d);by_bank.append({s['name']:s for s in m['sprites']})
+    by={}
+    for bb in by_bank:
+        for n,sp in bb.items():by.setdefault(n,sp)
+    order=sorted(by);m=ms[0]
+    # Pages of each bank, offsets absolute in the data section; the menus upload into the same four texture slots as the Classic's,
+    # so every bank declares four slots (unused ones are width 0).
+    page_tables=[];base=0
+    for mm,d in zip(ms,datas):
+        pg=[dict(p,offset=p['offset']+base) for p in mm['pages']]
+        pg+=[{'width':0,'height':0,'offset':0}]*(SLOTS_N-len(pg));page_tables.append(pg);base+=len(d)
+    head=32+len(banks)*SLOTS_N*12+len(banks)*len(order)*14;start=(head+127)//128*128
+    data=b''.join(datas)
+    out=bytearray(struct.pack('<4s7I',b'PBSP',2,len(banks),SLOTS_N,len(order),start,start+len(data),0))
+    for pg in page_tables:
+        for p in pg:out+=struct.pack('<3I',p['width'],p['height'],p['offset'])
+    for bb in by_bank:
+        for n in order:
+            sp=bb.get(n)
+            out+=struct.pack('<7h',sp['atlas_x'],sp['atlas_y'],sp['width'],sp['height'],sp['pivot_x'],sp['pivot_y'],sp['page']) if sp else struct.pack('<7h',0,0,0,0,0,0,0)
     out+=bytes(start-len(out));out+=data   # no memory-card icon yet (the save works with a blank one)
     Path(out_bin).parent.mkdir(parents=True,exist_ok=True);Path(out_bin).write_bytes(out)
+    pages=page_tables[0]
     slots=SLOT_BYTES
     ids=['/* Sprite identifiers and texture-slot sizes for the Rio APK supported by tools/gerar_iso.py --jogo rio.',
          '   Only names and sizes: the frames and pixels are read from SPRITES.BIN at run time. */',
          '#ifndef PS2BIRDS_RIO_SPRITE_IDS_H','#define PS2BIRDS_RIO_SPRITE_IDS_H',
-         '#define SPRITE_VRAM_BUDGET %d'%m['vram_budget'],'#define SPRITE_MASK_SCALE 2','#define SPRITE_BANK_COUNT 1','#define SPRITE_PAGE_COUNT %d'%len(pages),
+         '#define SPRITE_VRAM_BUDGET %d'%m['vram_budget'],'#define SPRITE_MASK_SCALE 2','#define SPRITE_BANK_COUNT %d'%len(banks),'#define SPRITE_PAGE_COUNT %d'%len(pages),
          'static const int sprite_slot_bytes[SPRITE_PAGE_COUNT] = {%s};'%','.join(map(str,slots))]
     ids+=['#define SPR_%s %d'%(n,i) for i,n in enumerate(order)]+['#define SPRITE_COUNT %d'%len(order),'#endif','']
     Path(out_ids).parent.mkdir(parents=True,exist_ok=True);Path(out_ids).write_text('\n'.join(ids))
@@ -59,5 +79,5 @@ def pack(bank,out_bin,out_ids):
           'typedef struct {const char *definition;int sprite,scale;} DefinitionSprite;','static const DefinitionSprite definition_sprites[]={']+rows+[' {0,0,0}','};','/* Birds by runtime type (BirdType in game.h; empty rows draw as the red bird): normal, flying, collision, special-ability sprite, the black bird\'s three bomb-timer sprites (-1: none) and an extra (globe bird: the inflated sprite). */','typedef struct {const char *definition;int normal,flying,collision,action,timer[3],extra;} BirdSprites;','static const BirdSprites bird_sprites[]={']+brows+['};','/* Fixed terrain pieces drawn through the theme\'s ground texture (half-resolution masks, SPRITE_MASK_SCALE). */','typedef struct {const char *definition;int sprite;} GroundMask;','static const GroundMask ground_masks[]={']+mrows+[' {0,0}','};','#endif','']
     Path(out_ids).with_name('definition_sprites.h').write_text('\n'.join(defs))
     print('definition_sprites.h do Rio: %d peças'%len(rows))
-    print('SPRITES.BIN do Rio: 1 banco, %d sprites, %d bytes; sprite_ids.h com %d nomes'%(len(order),len(out),len(order)))
+    print('SPRITES.BIN do Rio: %d banco(s), %d sprites, %d bytes; sprite_ids.h com %d nomes'%(len(banks),len(order),len(out),len(order)))
 if __name__=='__main__':pack(*sys.argv[1:4])

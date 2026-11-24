@@ -5,10 +5,11 @@
 #include "game.h"
 #include <string.h>
 #ifdef PS2BIRDS_RIO
-/* Rio (CutsceneScene.lua, tools/rio/extract_cutscene_rio.py): theme1Start opens Smugglers' Den and theme1End closes it. The other
-   endings (rio_end2..6) are in CUTSCENE.BIN but their episodes are not in the port yet. */
+/* Rio (CutsceneScene.lua, tools/rio/extract_cutscene_rio.py): theme1Start opens Smugglers' Den; theme1End .. theme6End close the six
+   episodes of the first game (tools/rio/build_rio_data.py EPISODES). */
 static const char *const episode_scene[][2]={{"SMUGGLERS DEN","rio_intro"}};
-static const char *const episode_done_scene[][2]={{"SMUGGLERS DEN","rio_end1"}};
+static const char *const episode_done_scene[][2]={{"SMUGGLERS DEN","rio_end1"},{"JUNGLE ESCAPE","rio_end2"},{"BEACH VOLLEY","rio_end3"},
+    {"CARNIVAL UPHEAVAL","rio_end4"},{"AIRFIELD CHASE","rio_end5"},{"SMUGGLERS PLANE","rio_end6"}};
 static const char *const world_intro_scene[][2]={{"~","~"}};
 static const char *const world_scene[][2]={{"~","~"}};
 #else

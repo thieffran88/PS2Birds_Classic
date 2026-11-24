@@ -398,3 +398,6 @@ O Classic roda no `AdventureMode` (só existem `AdventureMode` e `MuseumMode`), 
 
 ### Rocket e SUPERPOWERUP do Rio (61)
 - Investigados, não implementados: empuxo nativo desconhecido (Rocket) e bando teleguiado (macaw). Ver `docs/rio/ROCKET_E_SUPERPOWERUP.md`.
+
+### Episódios do Rio (0.50.0)
+- Feitos: os 6 episódios do primeiro jogo (180 fases). Faltam o Rio 2 e os bônus, camadas de fundo e sprites ilegíveis, e a conferência fase a fase. Ver `docs/rio/MODIFICACOES_RIO_0.50.0.md`.
