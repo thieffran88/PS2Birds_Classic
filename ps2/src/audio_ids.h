@@ -27,8 +27,25 @@
 #define SFX_STAR_3 22
 #define SFX_SCORE_COUNT 23
 #define SFX_NEW_HIGHSCORE 24
-#define SFX_CHANNELS 10
+#ifdef PS2BIRDS_RIO
+/* The Rio's own sounds (gamelogic.lua birds' `sounds` and the materials' destroyedSound), after the Classic's list. */
+#define SFX_LAUNCH_BOOMERANG 25   /* bird_06_flying */
+#define SFX_LAUNCH_BIG 26         /* big_brother_flying */
+#define SFX_SPECIAL_RED 27        /* red_special_1 */
+#define SFX_SPECIAL_BOOMERANG 28  /* boomerang_activate */
+#define SFX_SPECIAL_BIG 29        /* big_brother_yell */
+#define SFX_METAL 30              /* steel_destroyed */
+#define SFX_HIT_RED 31            /* bird_01_collision .. bird_05_collision */
+#define SFX_HIT_BLUE 32
+#define SFX_HIT_YELLOW 33
+#define SFX_HIT_BLACK 34
+#define SFX_HIT_WHITE 35
+#define SFX_SPECIAL_GLOBE 36      /* Globe_Bird_Special_Activation_1 */
+#define SFX_COUNT 37
+#else
 #define SFX_COUNT 25
+#endif
+#define SFX_CHANNELS 10
 typedef struct {int channel,cooldown;} AudioAsset;
 static const AudioAsset audio_assets[SFX_COUNT]={
  {0,4},
@@ -56,5 +73,19 @@ static const AudioAsset audio_assets[SFX_COUNT]={
  {4,0},
  {7,0},
  {9,0},
+#ifdef PS2BIRDS_RIO
+ {1,0},   /* LAUNCH_BOOMERANG */
+ {1,0},   /* LAUNCH_BIG */
+ {2,0},   /* SPECIAL_RED */
+ {2,0},   /* SPECIAL_BOOMERANG */
+ {2,0},   /* SPECIAL_BIG */
+ {4,12},  /* METAL */
+ {5,6},   /* HIT_RED */
+ {5,6},   /* HIT_BLUE */
+ {5,6},   /* HIT_YELLOW */
+ {5,6},   /* HIT_BLACK */
+ {5,6},   /* HIT_WHITE */
+ {2,0},   /* SPECIAL_GLOBE */
+#endif
 };
 #endif

@@ -1,5 +1,5 @@
 """SOUNDS.BIN for the Rio build, from the player's own APK. The runtime plays effects by the ids of
-ps2/src/audio_ids.h (the Classic's list), so the Rio bank keeps the same ids and order and fills each one
+ps2/src/audio_ids.h (the Classic's 25, then the Rio-only ids), so the Rio bank keeps the same ids and order and fills each one
 with the equivalent Rio file: the effect file of the same name when the Rio has it, or the file named in the
 table below (menu sounds, defeat, goal destroyed). Same conversion as the Classic (22050 Hz mono SPU2 ADPCM).
 usage: extract_audio_rio.py APK OUTDIR [--ffmpeg ffmpeg]"""
@@ -11,13 +11,25 @@ from spu_adpcm import encode
 # Classic sound id -> Rio file (without extension) where the Classic name does not exist in the Rio.
 OVERRIDE={'MENU_MOVE':'ui_select','MENU_CONFIRM':'ui_select','MENU_BACK':'ui_select',
           'PIG':'bird cage breaks 1',            # the goal of a Rio stage is a cage
-          'LOSE':'level_failed_birds'}
+          'LOSE':'level_failed_birds',
+          # birds.lua `sounds.special`: blue splits with special_group, white drops the egg with special_egg, black blows up with special_explosion
+          'SPLIT':'special_group','DROP_EGG':'special_egg','EXPLOSION':'special_explosion'}
+# The Rio-only ids of ps2/src/audio_ids.h (after the Classic's 25): (id, file, SPU2 channel, cooldown in frames).
+# Sources: birds.lua `sounds.launch/special/collision` and the materials' `destroyedSound` (metal = steel_destroyed's first variant).
+RIO_ONLY=[('LAUNCH_BOOMERANG','bird_06_flying',1,0),('LAUNCH_BIG','big_brother_flying',1,0),('SPECIAL_RED','red_special_1',2,0),
+          ('SPECIAL_BOOMERANG','boomerang_activate',2,0),('SPECIAL_BIG','big_brother_yell',2,0),('METAL','scaffolding_break_a1',4,12),
+          ('HIT_RED','bird 01 collision a1',5,6),('HIT_BLUE','bird 02 collision a1',5,6),('HIT_YELLOW','bird 03 collision a1',5,6),
+          ('HIT_BLACK','bird 04 collision a1',5,6),('HIT_WHITE','bird 05 collision a1',5,6),('SPECIAL_GLOBE','Globe_Bird_Special_Activation_1',2,0)]
 def main(apk,out,ffmpeg):
     bank=bytearray();entries=[];missing=[]
     with zipfile.ZipFile(apk) as z,tempfile.TemporaryDirectory(prefix='ps2birds-rio-audio-') as folder:
         files={n.rsplit('/',1)[1][:-4]:n for n in z.namelist() if '/audio/' in n and n.endswith('.mp3')}
-        for name,filename,channel,cooldown in classic.SOUNDS:
+        from lua51_data import load
+        from game_profiles import decode_payload
+        profile=load(decode_payload(z.read('assets/data/audio/profiles/default.lua'),'rio',None))['sound_profile'];alias={k:v['filename'] for k,v in profile.items()}
+        for name,filename,channel,cooldown in list(classic.SOUNDS)+RIO_ONLY:
             base=OVERRIDE.get(name,filename)
+            if base not in files and base in alias:base=alias[base]   # a sound-profile alias ('special_group') -> its file ('special group')
             if base not in files:missing.append((name,base));continue
             src=files[base];p=Path(folder)/'in.mp3';wav=Path(folder)/'e.wav';p.write_bytes(z.read(src))
             subprocess.run([ffmpeg,'-v','error','-y','-i',str(p),'-ar','22050','-ac','1','-c:a','pcm_s16le',str(wav)],check=True)

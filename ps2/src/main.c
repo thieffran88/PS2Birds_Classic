@@ -1,3 +1,11 @@
+/* Version shown on the title and in the diagnostics: the Classic is 1.0.0, the Rio has its own line of versions. */
+#ifdef PS2BIRDS_RIO
+#define GAME_VERSION "0.49.15"
+#define GAME_NAME "PS2Birds Rio"
+#else
+#define GAME_VERSION "1.0.0"
+#define GAME_NAME "PS2Birds Classic"
+#endif
 #include <tamtypes.h>
 #include <kernel.h>
 #include <timer.h>
@@ -520,7 +528,7 @@ static void menu_screens(const Game *g)
             int n=0;while(t[n] && t[n]!='\n')n++;
             char src[300];int m2=n<299?n:299;memcpy(src,t,m2);src[m2]=0;
             char out[320];const char *v=strstr(src,"$GAME_VERSION");
-            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,"0.94.24 (PS2Birds Classic)",v+13);}else snprintf(out,sizeof(out),"%s",src);
+            if(v){snprintf(out,sizeof(out),"%.*s%s%s",(int)(v-src),src,GAME_VERSION " (" GAME_NAME ")",v+13);}else snprintf(out,sizeof(out),"%s",src);
             const char *o=out;
             if(!*o)y+=12;
             while(*o){
@@ -855,7 +863,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(200,250,1,0,cream,"{PAD} MIRA   {X} LANÇAR");
             hint(200,270,1,0,cream,"{Q} SEGURAR: AJUSTE FINO");
             hint(200,290,1,0,cream,"{X} NO AR: HABILIDADE   {SELECT} FASES");
-            text(200,330,1,color(135,192,181),"PROTÓTIPO 0.94.24 / PLAYSTATION 2");
+            text(200,330,1,color(135,192,181),"VERSAO " GAME_VERSION " / PLAYSTATION 2");
             mc_status(200,350,color(135,192,181));
         } else if(paused){
             /* MT_PAUSE; the controls, version and memory-card state live here (the original HUD has none). */
@@ -866,7 +874,7 @@ static void render(const Game *g, int connected, int paused,int menu)
             hint(90,200,1,0,cream,"{X} NO AR: HABILIDADE DO PÁSSARO");
             hint(90,220,1,0,cream,"{T} REINICIAR   {SELECT} FASES");
             hint(90,240,1,0,cream,"{R3} SOM   {START} CONTINUAR");
-            text(90,278,1,color(135,192,181),"PROTÓTIPO 0.94.24 / PLAYSTATION 2");
+            text(90,278,1,color(135,192,181),"VERSAO " GAME_VERSION " / PLAYSTATION 2");
             text(90,298,1,color(135,192,181),audio_status());
             mc_status(90,318,color(135,192,181));
         } else {
@@ -1027,13 +1035,13 @@ int main(int argc,char **argv)
     printf("PS2Birds: fonts %s (VRAM %u)\n",font_init(gs)?"loaded":"unavailable",(unsigned)gs->CurrentPointer);
     printf("PS2Birds: backgrounds %s\n",background_init()?"found":"unavailable");
     pad_open = init_pad();
-    printf("PS2Birds Classic 0.94.24: GS ready, pad open=%d\n",pad_open);
+    printf(GAME_NAME " " GAME_VERSION ": GS ready, pad open=%d\n",pad_open);
     if(game_campaign_load_file(data_file("CAMPAIGN.BIN",file))<=0 || sprites_load_failed()){
         /* No data files: they are generated from the APK by tools/gerar_iso.py. */
         printf("PS2Birds: data files missing (%s); campaign error %d, sprites error %d\n",file,game_campaign_error(),sprites_error());
         char detail[3][96];
         snprintf(detail[0],sizeof(detail[0]),"CAMPAIGN.BIN: ERRO %d  SPRITES.BIN: ERRO %d",game_campaign_error(),sprites_error());
-        snprintf(detail[1],sizeof(detail[1]),"VERSAO 0.94.24");
+        snprintf(detail[1],sizeof(detail[1]),"VERSAO " GAME_VERSION);
         snprintf(detail[2],sizeof(detail[2]),"%.90s",data_on_disc?"LENDO DO DISCO (CDROM0)":tried_dirs[0]?tried_dirs:data_dir);
         for(char *q=detail[2];*q;q++)if(*q>='a'&&*q<='z')*q=(char)(*q-32);
         char more[2][96]={"",""};
@@ -1206,17 +1214,47 @@ int main(int argc,char **argv)
             if(g.state==AIMING && (horizontal!=0 || vertical!=0))audio_play(SFX_STRETCH);
             game_aim(&g,vertical*29.97f*precision*frame_seconds,horizontal*89.91f*precision*frame_seconds);
             if (pressed & PAD_CROSS) {
-                if(g.state==AIMING){int type=game_queue_type(&g,0);game_launch(&g);audio_play(type==BIRD_WHITE_TYPE?SFX_LAUNCH_WHITE:type==BIRD_GREEN_TYPE?SFX_LAUNCH_RED:(type==BIRD_BLACK_TYPE||type==BIRD_SHOCK_TYPE)?SFX_LAUNCH_BLACK:type==BIRD_BLUE_TYPE?SFX_LAUNCH_BLUE:type==BIRD_YELLOW_TYPE?SFX_LAUNCH_YELLOW:SFX_LAUNCH_RED);}
-                else if(game_special(&g)){GameBird active;if(game_get_projectile(&g,0,&active)){if(active.type==BIRD_BLUE_TYPE)audio_play(SFX_SPLIT);else if(active.type==BIRD_YELLOW_TYPE)audio_play(SFX_BOOST);else if(active.type==BIRD_WHITE_TYPE)audio_play(SFX_DROP_EGG);}}
+                if(g.state==AIMING){int type=game_queue_type(&g,0);game_launch(&g);audio_play(
+#ifdef PS2BIRDS_RIO
+                    type==BIRD_GREEN_TYPE?SFX_LAUNCH_BOOMERANG:type==BIRD_BIG_TYPE?SFX_LAUNCH_BIG:
+#else
+                    type==BIRD_GREEN_TYPE?SFX_LAUNCH_RED:
+#endif
+                    type==BIRD_WHITE_TYPE?SFX_LAUNCH_WHITE:(type==BIRD_BLACK_TYPE||type==BIRD_SHOCK_TYPE)?SFX_LAUNCH_BLACK:type==BIRD_BLUE_TYPE?SFX_LAUNCH_BLUE:type==BIRD_YELLOW_TYPE?SFX_LAUNCH_YELLOW:SFX_LAUNCH_RED);}
+                else if(game_special(&g)){GameBird active;if(game_get_projectile(&g,0,&active)){if(active.type==BIRD_BLUE_TYPE)audio_play(SFX_SPLIT);else if(active.type==BIRD_YELLOW_TYPE)audio_play(SFX_BOOST);else if(active.type==BIRD_WHITE_TYPE)audio_play(SFX_DROP_EGG);
+#ifdef PS2BIRDS_RIO
+                    else if(active.type==BIRD_RED_TYPE)audio_play(SFX_SPECIAL_RED);
+                    else if(active.type==BIRD_GREEN_TYPE)audio_play(SFX_SPECIAL_BOOMERANG);
+                    else if(active.type==BIRD_BIG_TYPE)audio_play(SFX_SPECIAL_BIG);
+                    else if(active.type==BIRD_PUFFER_TYPE)audio_play(SFX_SPECIAL_GLOBE);
+#endif
+                }}
                 printf("PS2Birds: launch state=%d angle=%.1f power=%.1f birds=%d\n",g.state,g.angle,g.power,g.birds);
             }
             GameState before=g.state;int old_record=g.highscores[g.level];
             game_update(&g,frame_seconds);game_camera(&g,frame_seconds);
+#ifdef PS2BIRDS_RIO
+            {   /* each bird's own collision sound (`sounds.collision` of the bird in birds.lua) on its first touch */
+                static int was_collided;GameBird hit;
+                if(game_get_projectile(&g,0,&hit)){
+                    if(hit.collided && !was_collided){
+                        int id=hit.type==BIRD_BLUE_TYPE?SFX_HIT_BLUE:hit.type==BIRD_YELLOW_TYPE?SFX_HIT_YELLOW:(hit.type==BIRD_BLACK_TYPE||hit.type==BIRD_SHOCK_TYPE)?SFX_HIT_BLACK:hit.type==BIRD_WHITE_TYPE?SFX_HIT_WHITE:SFX_HIT_RED;
+                        audio_play(id);
+                    }
+                    was_collided=hit.collided;
+                }else was_collided=0;
+            }
+#endif
             if(g.events&GAME_EVENT_EXPLOSION)audio_play(SFX_EXPLOSION);
             if(g.events&GAME_EVENT_PIG)audio_play(SFX_PIG);
             if(g.events&GAME_EVENT_GLASS)audio_play(SFX_GLASS);
             else if(g.events&GAME_EVENT_STONE)audio_play(SFX_STONE);
+#ifdef PS2BIRDS_RIO
+            else if(g.events&GAME_EVENT_WOOD)audio_play(SFX_WOOD);
+            else if(g.events&GAME_EVENT_EXTRA)audio_play(SFX_METAL);   /* the Rio's metal pieces (kind 6): steel_destroyed */
+#else
             else if(g.events&(GAME_EVENT_WOOD|GAME_EVENT_EXTRA))audio_play(SFX_WOOD);
+#endif
             if(before!=g.state && g.state==WON){music_play(MUSIC_LEVEL_COMPLETE);for(int b=0;b<g.birds;b++){game_add_popup(&g,49+b*24,g.ground_y-15,10000,POPUP_BIRD,game_queue_type(&g,b));g.popups[(g.popup_next+GAME_POPUPS-1)%GAME_POPUPS].time=-0.5f*b;}
                 if(old_record<=0){world_pending=g.level+1;}
                 end_choice=2;   /* the cursor starts on next */

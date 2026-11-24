@@ -3288,3 +3288,6 @@ Continua um protótipo parcial do Classic. Faltam as páginas 2 e 3 de Poached E
 
 ## Rio: gravidade (0.94.24)
 - Gravidade (0, +20) confirmada no código nativo do Rio. Ver docs/MODIFICACOES_0.94.24.md.
+
+## Classic 1.0.0 e som do Rio (0.49.15)
+- Classic declarado 1.0.0; Rio com sons próprios por pássaro. Ver docs/MODIFICACOES_1.0.0.md.

@@ -371,3 +371,6 @@ O Classic roda no `AdventureMode` (só existem `AdventureMode` e `MuseumMode`), 
 
 ### Gravidade do Rio (0.94.24)
 - Confirmada: o mundo do Box2D do Rio é criado com a gravidade (0, +20) e `doSleep = 1` (`libAngryBirdsRio.so` x86, `b2World` criado em 0x7586c e 0x886f5; nenhum script ou fase a altera). É o valor que o port já usava.
+
+### Som do Rio (1.0.0 / 0.49.15)
+- Feitos: lançamento, habilidade e colisão por pássaro e o som de metal; o resto dos sons de peças (colisão, dano, rolagem) ainda não. Ver `docs/MODIFICACOES_1.0.0.md`.
