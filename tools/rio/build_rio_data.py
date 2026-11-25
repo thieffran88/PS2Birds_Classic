@@ -10,8 +10,13 @@ EPISODES=[("SMUGGLERS DEN",['warehouse','warehouse2']),("JUNGLE ESCAPE",['jungle
           ("CARNIVAL UPHEAVAL",['carnival1','carnival2']),("AIRFIELD CHASE",['airport1','airport2']),("SMUGGLERS PLANE",['plane1','plane2']),
           ("MARKET MAYHEM",['fruitmarket1','fruitmarket2']),("GOLDEN BEACHBALL",['goldenbeachball','goldenbeachball2']),("ROCKET RUMBLE",['newyear1','newyear2']),
           ("HIGH DIVE",['blossomdive']),("BLOSSOM RIVER",['river1','river2']),("TIMBER TUMBLE",['paradise1','paradise2']),("HIDDEN HARBOR",['manaus1','manaus2']),
-          ("TREASURE HUNT",['treasurehunt1','treasurehunt2','treasurehunt3','treasurehunt4'])]   # names from the texts (EPISODE_SELECTION_EPISODE_NAME_7.._13, _GBB); which pack is which is inferred from the theme ambience and the card names (newyear = BTN_EP_NYE with the rocketrumble ambience; manaus and blossomdive share the harbor ambience)
+          ("TREASURE HUNT",['treasurehunt1','treasurehunt2','treasurehunt3','treasurehunt4']),
+          ("PLAYGROUND",['tutorial']),("REWARD LEVELS",['rewardlevels']),
+          ("BONUS LEVELS",['bonus'+n for n in ('Warehouse','Jungle','Beach','Carnival','Airport','Plane','Fruitmarket','Goldenbeachball','Newyear','Manaus','Paradise','River','Treasurehunt')])]   # names from the texts (EPISODE_SELECTION_EPISODE_NAME_7.._13, _GBB); which pack is which is inferred from the theme ambience and the card names (newyear = BTN_EP_NYE with the rocketrumble ambience; manaus and blossomdive share the harbor ambience)
 EPISODE={pk:name for name,packs in EPISODES for pk in packs}
+SPLIT_BANKS={'BONUS LEVELS'}   # one texture bank per pack inside these episodes (the 13 themes of the bonus stages would not fit one bank)
+def bank_key(pk):
+    e=EPISODE.get(pk,pk.upper());return pk if e in SPLIT_BANKS else e
 LEVELS=ROOT/'work/rio/analysis/chunks/assets/data/levels'
 DEFAULT_PACKS=[pk for _,packs in EPISODES for pk in packs]   # the stages the shipped ELF's sprite and piece tables (ps2/src/rio) were made for
 def build(apk,out,packs,ffmpeg,etapa=None,ids_dir=None):
@@ -34,16 +39,16 @@ def build(apk,out,packs,ffmpeg,etapa=None,ids_dir=None):
     stages=[rio_campaign.stage(f,20.0,i+1,themes) for i,f in enumerate(levels)]
     banks=[];count={}   # one texture bank per episode; titles count the stages inside the episode ("JUNGLE ESCAPE 7")
     for pk in packs:
-        e=EPISODE.get(pk,pk.upper())
+        e=bank_key(pk)
         if e not in banks:banks.append(e)
     for i,f in enumerate(levels):
         e=EPISODE.get(pack_of[i],pack_of[i].upper());count[e]=count.get(e,0)+1
-        stages[i]['stage_script']=f.stem;stages[i]['title']='%s %d'%(e,count[e]);stages[i]['texture_bank']=banks.index(e)
+        stages[i]['stage_script']=f.stem;stages[i]['title']='%s %d'%(e,count[e]);stages[i]['texture_bank']=banks.index(bank_key(pack_of[i]))
     classic.write_binary(stages,{'objects':{}},[],[],{},out/'CAMPAIGN.BIN')
     etapa(2)
     bank_dirs=[]
     for k,e in enumerate(banks):
-        d=out/('_bank%d'%k);extract_sprites_rio.main(apk,d,[pk for pk in packs if EPISODE.get(pk,pk.upper())==e]);bank_dirs.append(d)
+        d=out/('_bank%d'%k);extract_sprites_rio.main(apk,d,[pk for pk in packs if bank_key(pk)==e]);bank_dirs.append(d)
     pack_sprites_rio.pack_banks(bank_dirs,out/'SPRITES.BIN',ids_dir/'sprite_ids.h')
     etapa(3)
     extract_themes_rio.extract(apk,out/'THEMES.BIN',themes)
