@@ -15,7 +15,7 @@ S=[('LOGO','MAIN_LOGO',0.62),('PLAY_LEFT','BTN_POPUP_LEFT',0.62),('PLAY_MIDDLE',
   [('LEVEL_OPEN_%d'%i,'LS_BUTTON_BG_%d'%i,0.58) for i in range(1,8)]+[('STARS_%d'%i,'LS_STARS_%d'%i,0.58) for i in range(1,4)]+\
   [('DOT_WHITE','LS_DOT_WHITE',0.8),('DOT_BLACK','LS_DOT_BLACK',0.8),('OPTIONS','ICON_OPTIONS',0.62),('SOUNDS','ICON_SFX',0.62),('ABOUT','ICON_ABOUT',0.62),
    ('OFF','ICON_DISABLED_SETTINGS',0.62),('ABOUT_BIRDS','IMG_CREDITS_2',1.2)]+[('FLY_'+n,None,0) for n in extract_menu.MENU_BIRDS]+[('YELL_'+n,None,0) for n in extract_menu.MENU_BIRDS]
-CARD_FRAMES=['BTN_EP_%d'%i for i in range(1,8)]
+CARD_FRAMES=['BTN_EP_%d'%i for i in range(1,8)]+['BTN_EP_BEACHBALL','BTN_EP_NYE',None,'BTN_EP_BLOSSOM','BTN_EP_TIMBER','BTN_EP_HIDDEN','BTN_EP_TRESURE_HUNT']   # episodes 8..14 (HIGH DIVE has no card of its own)
 def mirror(rgba,w,h):
     o=bytearray(len(rgba))
     for y in range(h):

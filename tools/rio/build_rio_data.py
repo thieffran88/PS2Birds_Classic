@@ -8,9 +8,9 @@ ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'tools'));sy
 # Episodes of the first game, in the order of CutsceneScene.lua (theme1End .. theme6End): name and the level packs of each one.
 EPISODES=[("SMUGGLERS DEN",['warehouse','warehouse2']),("JUNGLE ESCAPE",['jungle1','jungle2']),("BEACH VOLLEY",['beach1','beach2']),
           ("CARNIVAL UPHEAVAL",['carnival1','carnival2']),("AIRFIELD CHASE",['airport1','airport2']),("SMUGGLERS PLANE",['plane1','plane2']),
-          ("MARKET MAYHEM",['fruitmarket1','fruitmarket2']),("GOLDEN BEACHBALL",['goldenbeachball','goldenbeachball2']),("BLOSSOM RIVER",['river1','river2']),
-          ("BLOSSOM DIVE",['blossomdive']),("PARADISE",['paradise1','paradise2']),("MANAUS",['manaus1','manaus2']),("NEW YEAR",['newyear1','newyear2']),
-          ("TREASURE HUNT",['treasurehunt1','treasurehunt2','treasurehunt3','treasurehunt4'])]   # the names after Smugglers' Plane: the first three come from the texts (EPISODE_NAME_7, _GBB, _11); the others are the pack names
+          ("MARKET MAYHEM",['fruitmarket1','fruitmarket2']),("GOLDEN BEACHBALL",['goldenbeachball','goldenbeachball2']),("ROCKET RUMBLE",['newyear1','newyear2']),
+          ("HIGH DIVE",['blossomdive']),("BLOSSOM RIVER",['river1','river2']),("TIMBER TUMBLE",['paradise1','paradise2']),("HIDDEN HARBOR",['manaus1','manaus2']),
+          ("TREASURE HUNT",['treasurehunt1','treasurehunt2','treasurehunt3','treasurehunt4'])]   # names from the texts (EPISODE_SELECTION_EPISODE_NAME_7.._13, _GBB); which pack is which is inferred from the theme ambience and the card names (newyear = BTN_EP_NYE with the rocketrumble ambience; manaus and blossomdive share the harbor ambience)
 EPISODE={pk:name for name,packs in EPISODES for pk in packs}
 LEVELS=ROOT/'work/rio/analysis/chunks/assets/data/levels'
 DEFAULT_PACKS=[pk for _,packs in EPISODES for pk in packs]   # the stages the shipped ELF's sprite and piece tables (ps2/src/rio) were made for
