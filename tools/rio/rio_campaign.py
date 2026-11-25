@@ -37,7 +37,8 @@ def level_theme(path):
     from lua51_data import load
     return load(Path(path).read_bytes()).get('theme','theme2')
 # themes.lua `music` clip of the Rio -> track of the Rio MUSIC.BIN (extract_audio_rio_music.RIO_MUSIC, in the Classic's track order).
-CLIP_TRACK={'ab rio ambience warehouse':'CAVE','ambience_jungle':'JUNGLE','ambience_beach':'BEACH','ambience_carnival':'BIRTHDAY','ambience_airport':'CITY'}
+CLIP_TRACK={'ab rio ambience warehouse':'CAVE','ambience_jungle':'JUNGLE','ambience_beach':'BEACH','ambience_carnival':'BIRTHDAY','ambience_airport':'CITY',
+    'ambience_goldenbeachball':'DRYFOREST','ambience_rocketrumble':'SAVANNAH','ambience_harbor':'CONSTRUCTION','ambience_blossomriver':'WATERFALL','ambience_birdparadise':'RAIN','ambience_airplane':'BLACKBIRD','ambience airplane':'BLACKBIRD'}
 def level_music(path):
     """MUSIC.BIN track of the stage's theme ambience (themes.lua `music`), -1 when the theme's clip has no track yet."""
     from lua51_data import load

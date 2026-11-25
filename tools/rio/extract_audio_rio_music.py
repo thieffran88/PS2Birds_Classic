@@ -11,6 +11,8 @@ import extract_audio as classic
 RIO_MUSIC={'TITLE':'angry_birds_rio2_theme',    # the only theme-song file in the APK (Rio 2 title)
            'JUNGLE':'ambience jungle','BEACH':'ambience beach','CITY':'ambience airport',
            'BIRTHDAY':'ambience carnival','CAVE':'ab rio ambience warehouse',   # warehouse ambience of the first episode
+           'DRYFOREST':'ambience_goldenbeachball','SAVANNAH':'ambience_rocketrumble','CONSTRUCTION':'ambience_harbor',   # the Classic slots the Rio does not use carry the later episodes' ambiences
+           'WATERFALL':'ambience_blossomriver','RAIN':'ambience_birdparadise','BLACKBIRD':'ambience airplane',
            'OUTRO':'story_music','BOSS':'ab_theme_rio_boss_lite5','INTRO':'story_music'}
 def main(apk,out,ffmpeg):
     tracks=[];pcm=bytearray();missing=[]
