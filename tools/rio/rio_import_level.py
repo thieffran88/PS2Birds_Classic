@@ -71,7 +71,7 @@ def convert(path,gravity):
         mirror=(2 if sx<0 else 0)|(4 if sy<0 else 0)   # OBJECT_MIRROR_X / _Y
         dens=e.get('density',0.0)
         objects.append(dict(name=o['name'],definition=d,x=o['x'],y=o['y'],angle=o['angle'],width=w,height=h,
-            shape=e.get('type','box'),kind=4 if e.get('levelGoal') else 3 if not dens else KIND_OF_MATERIAL.get(mat,1),mirror=mirror,
+            shape={'block':'box'}.get(e.get('type','box'),e.get('type','box')),kind=4 if e.get('levelGoal') else 3 if not dens else KIND_OF_MATERIAL.get(mat,1),mirror=mirror,
             **({'no_collision':True} if e.get('collision') is False else {}),
             density=e.get('density',0.0),strength=e.get('strength',10.0),defence=e.get('defence',0.0),
             friction=e.get('friction',0.5),restitution=e.get('restitution',0.2),material=mat))
