@@ -1235,7 +1235,6 @@ int main(int argc,char **argv)
             }
             GameState before=g.state;int old_record=g.highscores[g.level];
             game_update(&g,frame_seconds);game_camera(&g,frame_seconds);
-#ifdef PS2BIRDS_RIO
             {   /* each bird's own collision sound (`sounds.collision` of the bird in birds.lua) on its first touch */
                 static int was_collided;GameBird hit;
                 if(game_get_projectile(&g,0,&hit)){
@@ -1246,7 +1245,6 @@ int main(int argc,char **argv)
                     was_collided=hit.collided;
                 }else was_collided=0;
             }
-#endif
             if(g.events&GAME_EVENT_EXPLOSION)audio_play(SFX_EXPLOSION);
             if(g.events&GAME_EVENT_PIG)audio_play(SFX_PIG);
             if(g.events&GAME_EVENT_GLASS)audio_play(SFX_GLASS);
@@ -1257,6 +1255,11 @@ int main(int argc,char **argv)
 #else
             else if(g.events&(GAME_EVENT_WOOD|GAME_EVENT_EXTRA))audio_play(SFX_WOOD);
 #endif
+            if(!(g.events&(GAME_EVENT_PIG|GAME_EVENT_WOOD|GAME_EVENT_GLASS|GAME_EVENT_STONE|GAME_EVENT_EXTRA|GAME_EVENT_EXPLOSION))){   /* a hard impact that broke nothing: the material's collision sound */
+                if(g.events&GAME_EVENT_HIT_STONE)audio_play(SFX_HIT_STONE);
+                else if(g.events&GAME_EVENT_HIT_GLASS)audio_play(SFX_HIT_GLASS);
+                else if(g.events&GAME_EVENT_HIT_WOOD)audio_play(SFX_HIT_WOOD);
+            }
             if(before!=g.state && g.state==WON){music_play(MUSIC_LEVEL_COMPLETE);for(int b=0;b<g.birds;b++){game_add_popup(&g,49+b*24,g.ground_y-15,10000,POPUP_BIRD,game_queue_type(&g,b));g.popups[(g.popup_next+GAME_POPUPS-1)%GAME_POPUPS].time=-0.5f*b;}
                 if(old_record<=0){world_pending=g.level+1;}
                 end_choice=2;   /* the cursor starts on next */

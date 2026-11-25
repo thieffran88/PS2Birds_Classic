@@ -41,9 +41,21 @@
 #define SFX_HIT_BLACK 34
 #define SFX_HIT_WHITE 35
 #define SFX_SPECIAL_GLOBE 36      /* Globe_Bird_Special_Activation_1 */
-#define SFX_COUNT 37
+#define SFX_HIT_WOOD 37           /* wood collision a1 */
+#define SFX_HIT_GLASS 38          /* ice light collision a1 */
+#define SFX_HIT_STONE 39          /* rock collision a1 */
+#define SFX_COUNT 40
 #else
-#define SFX_COUNT 25
+/* Classic-only ids after the shared ones: block impact sounds and each bird's collision sound (extract_audio.py CLASSIC_ONLY). */
+#define SFX_HIT_WOOD 25
+#define SFX_HIT_GLASS 26
+#define SFX_HIT_STONE 27
+#define SFX_HIT_RED 28
+#define SFX_HIT_BLUE 29
+#define SFX_HIT_YELLOW 30
+#define SFX_HIT_BLACK 31
+#define SFX_HIT_WHITE 32
+#define SFX_COUNT 33
 #endif
 #define SFX_CHANNELS 10
 typedef struct {int channel,cooldown;} AudioAsset;
@@ -86,6 +98,18 @@ static const AudioAsset audio_assets[SFX_COUNT]={
  {5,6},   /* HIT_BLACK */
  {5,6},   /* HIT_WHITE */
  {2,0},   /* SPECIAL_GLOBE */
+ {5,8},   /* HIT_WOOD */
+ {5,8},   /* HIT_GLASS */
+ {5,8},   /* HIT_STONE */
+#else
+ {5,8},   /* HIT_WOOD */
+ {5,8},   /* HIT_GLASS */
+ {5,8},   /* HIT_STONE */
+ {6,6},   /* HIT_RED */
+ {6,6},   /* HIT_BLUE */
+ {6,6},   /* HIT_YELLOW */
+ {6,6},   /* HIT_BLACK */
+ {6,6},   /* HIT_WHITE */
 #endif
 };
 #endif

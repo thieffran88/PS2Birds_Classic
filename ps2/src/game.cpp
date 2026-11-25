@@ -156,6 +156,7 @@ static void popup_at(Game *g,b2Vec2 where,int score,int kind,int material);
 #define RED_RADIUS 0.75f
 #define RED_RESTITUTION 0.25f
 #endif
+#define HIT_SOUND_IMPULSE 6.0f   /* normal impulse (kg m/s) above which a block's impact makes its material sound */
 struct Physics;
 /* One Egg Defender wave's vehicle and its translated controller (egg_vehicles.cpp). */
 struct EggVehicle {
@@ -192,7 +193,7 @@ struct Physics: b2ContactListener {
     float bomb_fuse,blast_life,blast_radius;
     float chain_delay[MAX_LEVEL_OBJECTS];
     b2Vec2 blast_position;
-    b2Contact *damage_contacts[MAX_LEVEL_OBJECTS*2];b2Vec2 damage_va[MAX_LEVEL_OBJECTS*2],damage_vb[MAX_LEVEL_OBJECTS*2];int damage_contact_count;
+    b2Contact *damage_contacts[MAX_LEVEL_OBJECTS*2];b2Vec2 damage_va[MAX_LEVEL_OBJECTS*2],damage_vb[MAX_LEVEL_OBJECTS*2];int damage_contact_count;unsigned hit_events;
     /* Static scenery the launched bird overlapped at spawn; ignored until they separate. */
     b2Body *spawn_ignore[8];int spawn_ignore_count;
     b2Body *floor_body;
@@ -218,7 +219,7 @@ struct Physics: b2ContactListener {
     EggVehicle vehicles[16];
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),puffer_state(0),puffer_timer(0),puffer_auto(-1),puffer_direction(0),puffer_seed(12345u),pink_timer(-1),bird_bubble(0),pink_hover(false),bird_type(BIRD_RED_TYPE) {
         forced_type=-1;blu_timer=-1;blu_clock=0;blu_dir=0;blu_fx=0;blu_dir_set=false;egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
-        damage_contact_count=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
+        damage_contact_count=0;hit_events=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
         memset(chain_delay,0,sizeof(chain_delay));memset(bird_hit,0,sizeof(bird_hit));bird_pre_velocity.SetZero();memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(thrust,0,sizeof(thrust));memset(thrust_clock,0,sizeof(thrust_clock));memset(thrust_off,0,sizeof(thrust_off));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(gun_timer,0,sizeof(gun_timer));memset(gun_bubble_grow,0,sizeof(gun_bubble_grow));memset(gun_bubble_life,0,sizeof(gun_bubble_life));memset(is_gun,0,sizeof(is_gun));gun_seed=12345u;memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;pending_pigs=0;quake_time=0;homing_on=false;homing_used=false;quake_used=false;trapped_by=-1;current_wave=1;last_wave=1;egg_mode=false;potion_armed=false;potion_used=false;shock_bonus=false;shock_used=false;potion_scale=1;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
         world.SetContactListener(this);destruction.owner=this;world.SetDestructionListener(&destruction);
         /* The Ground object of the stage data spans the whole level; stages place pieces up to
@@ -608,6 +609,10 @@ struct Physics: b2ContactListener {
         if(dk<0)return;
         float normal=0;for(int i=0;i<impulse->count;i++)normal+=impulse->normalImpulses[i];
         b2Body *pair[]={contact->GetFixtureA()->GetBody(),contact->GetFixtureB()->GetBody()};
+        if(normal>HIT_SOUND_IMPULSE)for(b2Body *body:pair){   /* the materials' collision sound */
+            uintptr_t hid=body->GetUserData().pointer;
+            if(hid>0 && hid<=(uintptr_t)level->count){const int k=level->objects[hid-1].kind;hit_events|=k==1?GAME_EVENT_HIT_WOOD:k==2?GAME_EVENT_HIT_GLASS:k==5?GAME_EVENT_HIT_STONE:0;}
+        }
         for (b2Body *body:pair) {
             uintptr_t id=body->GetUserData().pointer;
             if (id>0 && id<=(uintptr_t)level->count && body->GetMass()>0) {
@@ -1288,7 +1293,7 @@ static void tick(Game *g) {
         }
         if(p->red_fly){if(p->bird_collided)p->red_fly=false;else p->bird->ApplyForceToCenter(b2Vec2(0,-p->level->gravity*p->bird->GetMass()),true);}
     }
-    p->age+=dt;p->damage_contact_count=0;p->world.Step(step,8,3);
+    p->age+=dt;p->damage_contact_count=0;p->world.Step(step,8,3);g->events|=p->hit_events;p->hit_events=0;
     for(int k=0;k<p->detach_count;k++){
         int t=p->detach_target[k];
         if(t<0 || p->bodies[p->detach_source[k]])continue;

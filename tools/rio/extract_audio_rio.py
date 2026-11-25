@@ -19,7 +19,8 @@ OVERRIDE={'MENU_MOVE':'ui_select','MENU_CONFIRM':'ui_select','MENU_BACK':'ui_sel
 RIO_ONLY=[('LAUNCH_BOOMERANG','bird_06_flying',1,0),('LAUNCH_BIG','big_brother_flying',1,0),('SPECIAL_RED','red_special_1',2,0),
           ('SPECIAL_BOOMERANG','boomerang_activate',2,0),('SPECIAL_BIG','big_brother_yell',2,0),('METAL','scaffolding_break_a1',4,12),
           ('HIT_RED','bird 01 collision a1',5,6),('HIT_BLUE','bird 02 collision a1',5,6),('HIT_YELLOW','bird 03 collision a1',5,6),
-          ('HIT_BLACK','bird 04 collision a1',5,6),('HIT_WHITE','bird 05 collision a1',5,6),('SPECIAL_GLOBE','Globe_Bird_Special_Activation_1',2,0)]
+          ('HIT_BLACK','bird 04 collision a1',5,6),('HIT_WHITE','bird 05 collision a1',5,6),('SPECIAL_GLOBE','Globe_Bird_Special_Activation_1',2,0),
+          ('HIT_WOOD','wood collision a1',5,8),('HIT_GLASS','ice light collision a1',5,8),('HIT_STONE','rock collision a1',5,8)]   # block impact sounds
 def main(apk,out,ffmpeg):
     bank=bytearray();entries=[];missing=[]
     with zipfile.ZipFile(apk) as z,tempfile.TemporaryDirectory(prefix='ps2birds-rio-audio-') as folder:

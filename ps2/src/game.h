@@ -230,7 +230,8 @@ typedef enum { BIRD_RED_TYPE, BIRD_BLUE_TYPE, BIRD_YELLOW_TYPE, BIRD_BLACK_TYPE,
 #define SHOCK_ELECTROCUTE_SECONDS 2.0f
 typedef struct {float x,y,vx,vy,angle,fuse;int type,collided,special_used;float scale;} GameBird;
 typedef struct {float x,y,radius,life;} GameBlast;
-enum {GAME_EVENT_PIG=1, GAME_EVENT_WOOD=2, GAME_EVENT_GLASS=4, GAME_EVENT_STONE=8, GAME_EVENT_EXTRA=16, GAME_EVENT_EXPLOSION=32};
+enum {GAME_EVENT_PIG=1, GAME_EVENT_WOOD=2, GAME_EVENT_GLASS=4, GAME_EVENT_STONE=8, GAME_EVENT_EXTRA=16, GAME_EVENT_EXPLOSION=32,
+      GAME_EVENT_HIT_WOOD=64, GAME_EVENT_HIT_GLASS=128, GAME_EVENT_HIT_STONE=256};   /* HIT_*: a block of that material took a hard impact (sound only) */
 typedef enum { AIMING, FLYING, WON, LOST } GameState;
 /* gamelogic.lua addFloatingScore: a score shown where it was earned. kind 0: piece (text,
    0.6 s, scale 0.25 + score/3000); 1: pig and 2: bird left at the end (score sprite, 0.9 s,

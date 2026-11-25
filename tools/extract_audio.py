@@ -10,6 +10,11 @@ SOUNDS=[
  ('WIN','level clear military a1',5,0),('LOSE','level failed piglets a1',6,0),('START','level start military a1',7,0),
  ('STRETCH','slingshot streched',8,30),('LAUNCH_BLACK','bird 04 flying',1,0),('EXPLOSION','special egg explosion',9,0),('LAUNCH_WHITE','bird 05 flying',1,0),('DROP_EGG','special group',2,0),
  ('STAR_1','star_1',2,0),('STAR_2','star_2',3,0),('STAR_3','star_3',4,0),('SCORE_COUNT','gamescorescreen_score_count_loop',7,0),('NEW_HIGHSCORE','highscore',9,0)]
+# Classic-only ids after the 25 shared ones (the Rio numbers its own after them): the impact sounds of the blocks (materials' collision
+# sound) and each bird's own collision sound on its first touch (birds.lua sounds.collision).
+CLASSIC_ONLY=[('HIT_WOOD','wood collision a1',5,8),('HIT_GLASS','ice light collision a1',5,8),('HIT_STONE','rock collision a1',5,8),
+ ('HIT_RED','bird 01 collision a1',6,6),('HIT_BLUE','bird 02 collision a1',6,6),('HIT_YELLOW','bird 03 collision a1',6,6),
+ ('HIT_BLACK','bird 04 collision a1',6,6),('HIT_WHITE','bird 05 collision a1',6,6)]
 # Music (audio.lua clip names): title_theme loops in the menus (gamelogic.lua currentMainMenuSong),
 # level_complete plays once when the stage is won (level_end.lua LevelComplete.onEntry).
 # Ambience of each theme inside the stages (themes.lua music -> audio.lua clip file), looped like
@@ -56,7 +61,7 @@ def write_sounds_bin(entries,bank,path):
 def extract(apk,out,ffmpeg,adpenc):
  bank=bytearray();entries=[]
  with zipfile.ZipFile(apk) as archive,tempfile.TemporaryDirectory(prefix='ps2birds-audio-') as folder:
-  for name,filename,channel,cooldown in SOUNDS:
+  for name,filename,channel,cooldown in list(SOUNDS)+CLASSIC_ONLY:
    source='assets/data/audio/sfx/'+filename+'.ogg';ogg=archive.read(source)
    if not ogg.startswith(b'OggS'):raise ValueError('Unsupported audio container: '+source)
    p=Path(folder)/'input.ogg';wav=Path(folder)/'effect.wav';encoded=Path(folder)/'effect.adp';p.write_bytes(ogg)
