@@ -44,7 +44,10 @@
 #define SFX_HIT_WOOD 37           /* wood collision a1 */
 #define SFX_HIT_GLASS 38          /* ice light collision a1 */
 #define SFX_HIT_STONE 39          /* rock collision a1 */
-#define SFX_COUNT 40
+#define SFX_DMG_WOOD 40           /* wood damage a1 (a piece that took damage and held) */
+#define SFX_DMG_GLASS 41          /* light damage a1 */
+#define SFX_DMG_STONE 42          /* rock damage a1 */
+#define SFX_COUNT 43
 #else
 /* Classic-only ids after the shared ones: block impact sounds and each bird's collision sound (extract_audio.py CLASSIC_ONLY). */
 #define SFX_HIT_WOOD 25
@@ -55,7 +58,10 @@
 #define SFX_HIT_YELLOW 30
 #define SFX_HIT_BLACK 31
 #define SFX_HIT_WHITE 32
-#define SFX_COUNT 33
+#define SFX_DMG_WOOD 33
+#define SFX_DMG_GLASS 34
+#define SFX_DMG_STONE 35
+#define SFX_COUNT 36
 #endif
 #define SFX_CHANNELS 10
 typedef struct {int channel,cooldown;} AudioAsset;
@@ -101,6 +107,9 @@ static const AudioAsset audio_assets[SFX_COUNT]={
  {5,8},   /* HIT_WOOD */
  {5,8},   /* HIT_GLASS */
  {5,8},   /* HIT_STONE */
+ {5,10},  /* DMG_WOOD */
+ {5,10},  /* DMG_GLASS */
+ {5,10},  /* DMG_STONE */
 #else
  {5,8},   /* HIT_WOOD */
  {5,8},   /* HIT_GLASS */
@@ -110,6 +119,9 @@ static const AudioAsset audio_assets[SFX_COUNT]={
  {6,6},   /* HIT_YELLOW */
  {6,6},   /* HIT_BLACK */
  {6,6},   /* HIT_WHITE */
+ {5,10},  /* DMG_WOOD */
+ {5,10},  /* DMG_GLASS */
+ {5,10},  /* DMG_STONE */
 #endif
 };
 #endif

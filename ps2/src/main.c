@@ -1,9 +1,9 @@
 /* Version shown on the title and in the diagnostics: the Classic is 1.0.0, the Rio has its own line of versions. */
 #ifdef PS2BIRDS_RIO
-#define GAME_VERSION "0.53.0"
+#define GAME_VERSION "0.53.1"
 #define GAME_NAME "PS2Birds Rio"
 #else
-#define GAME_VERSION "1.4.0"
+#define GAME_VERSION "1.4.1"
 #define GAME_NAME "PS2Birds Classic"
 #endif
 #include <tamtypes.h>
@@ -1256,7 +1256,10 @@ int main(int argc,char **argv)
             else if(g.events&(GAME_EVENT_WOOD|GAME_EVENT_EXTRA))audio_play(SFX_WOOD);
 #endif
             if(!(g.events&(GAME_EVENT_PIG|GAME_EVENT_WOOD|GAME_EVENT_GLASS|GAME_EVENT_STONE|GAME_EVENT_EXTRA|GAME_EVENT_EXPLOSION))){   /* a hard impact that broke nothing: the material's collision sound */
-                if(g.events&GAME_EVENT_HIT_STONE)audio_play(SFX_HIT_STONE);
+                if(g.events&GAME_EVENT_DMG_STONE)audio_play(SFX_DMG_STONE);
+                else if(g.events&GAME_EVENT_DMG_GLASS)audio_play(SFX_DMG_GLASS);
+                else if(g.events&GAME_EVENT_DMG_WOOD)audio_play(SFX_DMG_WOOD);
+                else if(g.events&GAME_EVENT_HIT_STONE)audio_play(SFX_HIT_STONE);
                 else if(g.events&GAME_EVENT_HIT_GLASS)audio_play(SFX_HIT_GLASS);
                 else if(g.events&GAME_EVENT_HIT_WOOD)audio_play(SFX_HIT_WOOD);
             }

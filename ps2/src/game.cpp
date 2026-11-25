@@ -1372,6 +1372,7 @@ static void tick(Game *g) {
             /* CollisionCallbacks.lua: each hit that deals damage scores floor(damage applied) x 10 (a killing hit applies what strength was left). */
             g->score+=(int)floorf(fminf(dealt,fmaxf(before,0)))*10;}
 #endif
+        if(dealt>0 && p->health[i]>0)g->events|=o.kind==1?GAME_EVENT_DMG_WOOD:o.kind==2?GAME_EVENT_DMG_GLASS:o.kind==5?GAME_EVENT_DMG_STONE:0;   /* hurt but standing: the material's damage sound */
         p->impact[i]=0;
         /* blocks.lua <Bird>DamageFactors.velocityMultiplier: when the bird's hit breaks the piece,
            it keeps its speed before the hit x min(1, leftover damage share x multiplier)
