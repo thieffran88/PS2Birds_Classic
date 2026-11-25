@@ -21,6 +21,7 @@ def necessidade(sec,name):
         if re.search(UI_SOM,n):return 'Desnecessário','som de loja, moedas, recompensas, ligas ou menu; o port não tem essas telas'
         return 'Necessário','som de jogo (colisão, dano, pássaro, bloco) que o port ainda não usa'
     if 'MÚSICA' in sec:
+        if 'game_complete' in n:return 'Desnecessário','declarada no audio.lua, mas nenhum script do APK a toca'
         if re.search(r'xmas|ssvsab|funky',n):return 'Desnecessário','música de evento ou promoção'
         return 'Necessário','música de fase ou ambiente de episódio que o port tem'
     if 'FONTES' in sec or n.startswith('truetype'):
