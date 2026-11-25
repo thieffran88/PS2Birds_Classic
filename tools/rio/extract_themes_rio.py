@@ -21,7 +21,9 @@ def frames_of(z):
         for f in p.get('frames') or []:out[f['name']]=(p['texture'],f['x'],f['y'],f['w'],f['h'],f['px'],f['py'])
     return out
 def read_sheet(z,tex):
-    """(width, height, RGBA) of a theme sheet: PVR or WebP."""
+    """(width, height, RGBA) of a theme sheet: PVR, WebP or PNG."""
+    if tex.endswith('.png'):
+        from png_decode import decode;w,h,px=decode(z.read(BASE+tex))[:3];return w,h,px
     if tex.endswith('.webp'):
         import webp;w,h,px=webp.decode_webp(z.read(BASE+tex));return w,h,px
     return pvr.read_pvr(z.read(BASE+tex))
@@ -73,7 +75,7 @@ def layer(z,frames,cache,name,factor,comps=None):
     if name not in frames and comps and name in comps:return composite_layer(z,frames,cache,comps[name],factor)
     if name not in frames:return None
     tex,x,y,w,h,px,py=frames[name]
-    if not tex.endswith(('.pvr','.webp')):return None   # PNG sheets: not used by the themes
+    if not tex.endswith(('.pvr','.webp','.png')):return None
     if tex not in cache:cache[tex]=read_sheet(z,tex)
     sw,sh,rgba=cache[tex];crop=bytearray()
     for r in range(y,y+h):crop+=rgba[(r*sw+x)*4:(r*sw+x+w)*4]
