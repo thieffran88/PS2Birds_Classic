@@ -611,7 +611,7 @@ struct Physics: b2ContactListener {
         b2Body *pair[]={contact->GetFixtureA()->GetBody(),contact->GetFixtureB()->GetBody()};
         if(normal>HIT_SOUND_IMPULSE)for(b2Body *body:pair){   /* the materials' collision sound */
             uintptr_t hid=body->GetUserData().pointer;
-            if(hid>0 && hid<=(uintptr_t)level->count){const int k=level->objects[hid-1].kind;hit_events|=k==1?GAME_EVENT_HIT_WOOD:k==2?GAME_EVENT_HIT_GLASS:k==5?GAME_EVENT_HIT_STONE:0;}
+            if(hid>0 && hid<=(uintptr_t)level->count){const int k=level->objects[hid-1].kind;hit_events|=k==1?GAME_EVENT_HIT_WOOD:k==2?GAME_EVENT_HIT_GLASS:k==5?GAME_EVENT_HIT_STONE:k==4?GAME_EVENT_HIT_PIG:0;}
         }
         for (b2Body *body:pair) {
             uintptr_t id=body->GetUserData().pointer;
@@ -1372,7 +1372,7 @@ static void tick(Game *g) {
             /* CollisionCallbacks.lua: each hit that deals damage scores floor(damage applied) x 10 (a killing hit applies what strength was left). */
             g->score+=(int)floorf(fminf(dealt,fmaxf(before,0)))*10;}
 #endif
-        if(dealt>0 && p->health[i]>0)g->events|=o.kind==1?GAME_EVENT_DMG_WOOD:o.kind==2?GAME_EVENT_DMG_GLASS:o.kind==5?GAME_EVENT_DMG_STONE:0;   /* hurt but standing: the material's damage sound */
+        if(dealt>0 && p->health[i]>0)g->events|=o.kind==1?GAME_EVENT_DMG_WOOD:o.kind==2?GAME_EVENT_DMG_GLASS:o.kind==5?GAME_EVENT_DMG_STONE:o.kind==4?GAME_EVENT_DMG_PIG:0;   /* hurt but standing: the material's damage sound */
         p->impact[i]=0;
         /* blocks.lua <Bird>DamageFactors.velocityMultiplier: when the bird's hit breaks the piece,
            it keeps its speed before the hit x min(1, leftover damage share x multiplier)

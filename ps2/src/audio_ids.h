@@ -64,8 +64,11 @@
 #define SFX_DMG_GLASS 34
 #define SFX_DMG_STONE 35
 #define SFX_NEXT_BIRD 36
-#define SFX_BASE_COUNT 37
-#define SFX_COUNT 55      /* 37 effects + 18 variants (audio_variants) */
+#define SFX_HIT_PIG 37            /* piglette collision a1 */
+#define SFX_DMG_PIG 38            /* piglette damage a1 */
+#define SFX_OINK 39               /* piglette oink a1 */
+#define SFX_BASE_COUNT 40
+#define SFX_COUNT 64      /* 40 effects + 24 variants (audio_variants) */
 #endif
 #define SFX_CHANNELS 10
 typedef struct {int channel,cooldown;} AudioAsset;
@@ -128,6 +131,11 @@ static const AudioAsset audio_assets[SFX_COUNT]={
  {5,10},  /* DMG_GLASS */
  {5,10},  /* DMG_STONE */
  {7,0},   /* NEXT_BIRD */
+#ifndef PS2BIRDS_RIO
+ {5,8},   /* HIT_PIG */
+ {5,10},  /* DMG_PIG */
+ {2,0},   /* OINK */
+#endif
 #endif
  {4,12},   /* WOOD variant 2 */
  {4,12},   /* WOOD variant 3 */
@@ -147,12 +155,28 @@ static const AudioAsset audio_assets[SFX_COUNT]={
  {5,10},   /* DMG_GLASS variant 3 */
  {5,10},   /* DMG_STONE variant 2 */
  {5,10},   /* DMG_STONE variant 3 */
+#ifndef PS2BIRDS_RIO
+ {5,8},   /* HIT_PIG variant 2 */
+ {5,8},   /* HIT_PIG variant 3 */
+ {5,10},  /* DMG_PIG variant 2 */
+ {5,10},  /* DMG_PIG variant 3 */
+ {2,0},   /* OINK variant 2 */
+ {2,0},   /* OINK variant 3 */
+#endif
 };
 /* Sounds the originals pick at random among several recordings: the base effect (a1) and `count`-1 extra effects from `first` on (extract_audio.py VARIANT_GROUPS, same order). */
 typedef struct {int base,first,count;} AudioVariant;
+#ifdef PS2BIRDS_RIO
 #define SFX_VARIANT_GROUPS 9
+#else
+#define SFX_VARIANT_GROUPS 12
+#endif
 static const AudioVariant audio_variants[SFX_VARIANT_GROUPS]={
  {SFX_WOOD,SFX_BASE_COUNT+0,3},{SFX_GLASS,SFX_BASE_COUNT+2,3},{SFX_STONE,SFX_BASE_COUNT+4,3},
  {SFX_HIT_WOOD,SFX_BASE_COUNT+6,3},{SFX_HIT_GLASS,SFX_BASE_COUNT+8,3},{SFX_HIT_STONE,SFX_BASE_COUNT+10,3},
- {SFX_DMG_WOOD,SFX_BASE_COUNT+12,3},{SFX_DMG_GLASS,SFX_BASE_COUNT+14,3},{SFX_DMG_STONE,SFX_BASE_COUNT+16,3}};
+ {SFX_DMG_WOOD,SFX_BASE_COUNT+12,3},{SFX_DMG_GLASS,SFX_BASE_COUNT+14,3},{SFX_DMG_STONE,SFX_BASE_COUNT+16,3}
+#ifndef PS2BIRDS_RIO
+ ,{SFX_HIT_PIG,SFX_BASE_COUNT+18,3},{SFX_DMG_PIG,SFX_BASE_COUNT+20,3},{SFX_OINK,SFX_BASE_COUNT+22,3}
+#endif
+};
 #endif

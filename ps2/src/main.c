@@ -3,7 +3,7 @@
 #define GAME_VERSION "0.54.0"
 #define GAME_NAME "PS2Birds Rio"
 #else
-#define GAME_VERSION "1.5.0"
+#define GAME_VERSION "1.5.1"
 #define GAME_NAME "PS2Birds Classic"
 #endif
 #include <tamtypes.h>
@@ -1245,6 +1245,15 @@ int main(int argc,char **argv)
                     was_collided=hit.collided;
                 }else was_collided=0;
             }
+#ifndef PS2BIRDS_RIO
+            {   /* a pig oinks now and then while the stage waits for the next shot (piglette oink; the original plays them on the pigs' idle timer) */
+                static float oink_timer=4.0f;static unsigned oink_seed=777;
+                if(g.state==AIMING && g.pig_alive>0){
+                    oink_timer-=frame_seconds;
+                    if(oink_timer<=0){oink_seed=oink_seed*1664525u+1013904223u;audio_play(SFX_OINK);oink_timer=6.0f+(float)((oink_seed>>16)%7);}
+                }
+            }
+#endif
             if(before==FLYING && g.state==AIMING)audio_play(SFX_NEXT_BIRD);   /* the next bird of the queue takes its place on the slingshot */
             if(g.events&GAME_EVENT_EXPLOSION)audio_play(SFX_EXPLOSION);
             if(g.events&GAME_EVENT_PIG)audio_play(SFX_PIG);
@@ -1257,6 +1266,11 @@ int main(int argc,char **argv)
             else if(g.events&(GAME_EVENT_WOOD|GAME_EVENT_EXTRA))audio_play(SFX_WOOD);
 #endif
             if(!(g.events&(GAME_EVENT_PIG|GAME_EVENT_WOOD|GAME_EVENT_GLASS|GAME_EVENT_STONE|GAME_EVENT_EXTRA|GAME_EVENT_EXPLOSION))){   /* a hard impact that broke nothing: the material's collision sound */
+#ifndef PS2BIRDS_RIO
+                if(g.events&GAME_EVENT_DMG_PIG)audio_play(SFX_DMG_PIG);   /* the pigs' own sounds come before the materials' (Classic) */
+                else if(g.events&GAME_EVENT_HIT_PIG)audio_play(SFX_HIT_PIG);
+                else
+#endif
                 if(g.events&GAME_EVENT_DMG_STONE)audio_play(SFX_DMG_STONE);
                 else if(g.events&GAME_EVENT_DMG_GLASS)audio_play(SFX_DMG_GLASS);
                 else if(g.events&GAME_EVENT_DMG_WOOD)audio_play(SFX_DMG_WOOD);
