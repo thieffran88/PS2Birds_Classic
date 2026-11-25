@@ -17,6 +17,17 @@ CLASSIC_ONLY=[('HIT_WOOD','wood collision a1',5,8),('HIT_GLASS','ice light colli
  ('HIT_BLACK','bird 04 collision a1',6,6),('HIT_WHITE','bird 05 collision a1',6,6),
  ('DMG_WOOD','wood damage a1',5,10),('DMG_GLASS','light damage a1',5,10),('DMG_STONE','rock damage a1',5,10),
  ('NEXT_BIRD','bird next military a1',7,0)]
+# Variants (the originals pick one of several recordings at random): for each group the base id keeps `a1` and the extra ids are `a2`, `a3`..
+# (id, file prefix, variants). The extra ids come after every other effect, group by group, in this order; ps2/src/audio_ids.h mirrors it (audio_variants).
+VARIANT_GROUPS=[('WOOD','wood destroyed',3),('GLASS','light destroyed',3),('STONE','rock destroyed',3),
+ ('HIT_WOOD','wood collision',3),('HIT_GLASS','ice light collision',3),('HIT_STONE','rock collision',3),
+ ('DMG_WOOD','wood damage',3),('DMG_GLASS','light damage',3),('DMG_STONE','rock damage',3)]
+def variant_sounds(entries):
+    """The extra entries of VARIANT_GROUPS, with the channel and cooldown of their base effect."""
+    by={n:(ch,cd) for n,_,ch,cd in entries};out=[]
+    for base,prefix,count in VARIANT_GROUPS:
+        for k in range(2,count+1):out.append((f'{base}_V{k}',f'{prefix} a{k}',by[base][0],by[base][1]))
+    return out
 # Music (audio.lua clip names): title_theme loops in the menus (gamelogic.lua currentMainMenuSong),
 # level_complete plays once when the stage is won (level_end.lua LevelComplete.onEntry).
 # Ambience of each theme inside the stages (themes.lua music -> audio.lua clip file), looped like
@@ -63,7 +74,7 @@ def write_sounds_bin(entries,bank,path):
 def extract(apk,out,ffmpeg,adpenc):
  bank=bytearray();entries=[]
  with zipfile.ZipFile(apk) as archive,tempfile.TemporaryDirectory(prefix='ps2birds-audio-') as folder:
-  for name,filename,channel,cooldown in list(SOUNDS)+CLASSIC_ONLY:
+  for name,filename,channel,cooldown in list(SOUNDS)+CLASSIC_ONLY+variant_sounds(list(SOUNDS)+CLASSIC_ONLY):
    source='assets/data/audio/sfx/'+filename+'.ogg';ogg=archive.read(source)
    if not ogg.startswith(b'OggS'):raise ValueError('Unsupported audio container: '+source)
    p=Path(folder)/'input.ogg';wav=Path(folder)/'effect.wav';encoded=Path(folder)/'effect.adp';p.write_bytes(ogg)

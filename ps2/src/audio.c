@@ -62,7 +62,18 @@ void audio_init(void){
     available=count>0;enabled=available;
 }
 void audio_tick(void){frame++;}
+/* One of the recordings of a sound the original varies (audio_variants), picked at random (a small LCG: the pick needs no quality, only to differ from the last). */
+static int pick_variant(int effect){
+    static unsigned seed=12345;
+    for(int g=0;g<SFX_VARIANT_GROUPS;g++)if(audio_variants[g].base==effect){
+        seed=seed*1664525u+1013904223u;
+        int r=(int)((seed>>16)%(unsigned)audio_variants[g].count);
+        return r==0?effect:audio_variants[g].first+r-1;
+    }
+    return effect;
+}
 void audio_play(int effect){
+    if(effect>=0 && effect<SFX_BASE_COUNT)effect=pick_variant(effect);
     if(!available || !enabled || effect<0 || effect>=SFX_COUNT || !loaded[effect])return;
     const AudioAsset *asset=&audio_assets[effect];
     if(frame-last[asset->channel]<(unsigned int)asset->cooldown)return;

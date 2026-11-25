@@ -2,7 +2,7 @@ import hashlib,json,math,struct
 from pathlib import Path
 root=Path(__file__).resolve().parents[1]/'assets'
 meta=json.loads((root/'audio_manifest.json').read_text());bank=(root/'sounds.adp').read_bytes()
-assert len(meta['sounds'])==37 and len(bank)==meta['bytes']<=meta['spu_budget']==1048576
+assert len(meta['sounds'])==55 and len(bank)==meta['bytes']<=meta['spu_budget']==1048576
 assert hashlib.sha256(bank).hexdigest()==meta['bank_sha256']
 previous=0
 for s in meta['sounds']:
@@ -24,7 +24,7 @@ for s in meta['sounds']:
     h2=h1;h1=value_;samples.append(value_)
  assert len(samples)>=s['frames'] and max(map(abs,samples))>100
  assert math.sqrt(sum(x*x for x in samples)/len(samples))>10
-print('Audio assets OK: 37 original effects (with the level-end stars, score count, new highscore, block impacts and the bird collision sounds), hashes/alignment/APCM headers, mono/no loop, independent ADPCM signal decode, SPU budget.')
+print('Audio assets OK: 55 original effects (37 + 18 variants) (with the level-end stars, score count, new highscore, block impacts and the bird collision sounds), hashes/alignment/APCM headers, mono/no loop, independent ADPCM signal decode, SPU budget.')
 
 by_name={s["id"]:s for s in meta["sounds"]}
 assert meta["voice_channels"]==10 and by_name["DROP_EGG"]["channel"]!=by_name["EXPLOSION"]["channel"]

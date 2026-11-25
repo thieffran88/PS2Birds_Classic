@@ -30,7 +30,8 @@ def main(apk,out,ffmpeg):
         from lua51_data import load
         from game_profiles import decode_payload
         profile=load(decode_payload(z.read('assets/data/audio/profiles/default.lua'),'rio',None))['sound_profile'];alias={k:v['filename'] for k,v in profile.items()}
-        for name,filename,channel,cooldown in list(classic.SOUNDS)+RIO_ONLY:
+        base_list=list(classic.SOUNDS)+RIO_ONLY
+        for name,filename,channel,cooldown in base_list+classic.variant_sounds(base_list):
             base=OVERRIDE.get(name,filename)
             if base not in files and base in alias:base=alias[base]   # a sound-profile alias ('special_group') -> its file ('special group')
             if base not in files:missing.append((name,base));continue
