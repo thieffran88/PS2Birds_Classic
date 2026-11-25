@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 /* Tracks 0-1 stay in memory; 2+ are theme ambiences (game_level_music), one loaded at a time. */
-enum {MUSIC_NONE=-1,MUSIC_TITLE=0,MUSIC_LEVEL_COMPLETE=1,MUSIC_RESIDENT=2,MUSIC_INTRO=13,MUSIC_MAX=32};   /* MUSIC_INTRO: birds_intro (extract_audio.py MUSIC) */
+enum {MUSIC_NONE=-1,MUSIC_TITLE=0,MUSIC_LEVEL_COMPLETE=1,MUSIC_RESIDENT=2,MUSIC_INTRO=13,MUSIC_EGG=16,MUSIC_MAX=32};   /* MUSIC_EGG..+4: Egg Defender music, one track per intensity level; MUSIC_INTRO: birds_intro (extract_audio.py MUSIC) */
 #define MUSIC_CHUNK 2048
 void music_set_data_path(const char *path);
 int music_init(void);            /* after audio_init; 0 when MUSIC.BIN is missing or invalid */

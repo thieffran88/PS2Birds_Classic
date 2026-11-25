@@ -301,6 +301,7 @@ int game_level_bank(int index);
 int game_level_stars(int index,int score);
 int game_level_silver(int index);
 int game_level_music(int index);
+int game_music_override(const Game *g);   /* Egg Defender: the track for the current wave's intensity (EggDefender.lua setMusic), or -1 to keep the theme ambience */
 int game_level_theme(int index);
 void game_add_popup(Game *g,float x,float y,int score,int kind,int material);
 /* updateFloatingScores: grows in the first 0.25 s, holds, shrinks in the last 0.25 s; 0 when gone. */

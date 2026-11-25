@@ -3,7 +3,7 @@
 #define GAME_VERSION "0.50.3"
 #define GAME_NAME "PS2Birds Rio"
 #else
-#define GAME_VERSION "1.3.0"
+#define GAME_VERSION "1.3.1"
 #define GAME_NAME "PS2Birds Classic"
 #endif
 #include <tamtypes.h>
@@ -1084,7 +1084,7 @@ int main(int argc,char **argv)
         /* Music: title_theme in the menus (gamelogic.lua currentMainMenuSong); in a stage, the looped
            ambience of its theme (themes.lua music, gamelogic.lua currentMusic); level_complete once on a win. */
         if(menu){if(music_current()!=MUSIC_TITLE)music_play(MUSIC_TITLE);}
-        else if(g.state!=WON){int ambience=game_level_music(g.level);if(music_current()!=ambience){music_play(ambience);printf("PS2Birds: ambience %d %s\n",ambience,music_current()==ambience?"playing":"unavailable");}}
+        else if(g.state!=WON){int ambience=game_music_override(&g);if(ambience<0)ambience=game_level_music(g.level);if(music_current()!=ambience){music_play(ambience);printf("PS2Birds: ambience %d %s\n",ambience,music_current()==ambience?"playing":"unavailable");}}
         music_tick();
         struct padButtonStatus status;
         u32 buttons=0;

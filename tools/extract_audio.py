@@ -24,7 +24,9 @@ MUSIC=[('TITLE','title_theme',1,'title_theme'),('LEVEL_COMPLETE','level_complete
  ('BLACKBIRD','ambience_blackbird_01',1,'ambience_blackbird_01'),
  ('INTRO','birds_intro',0,'birds_intro'),
  ('BOSS','birds_boss',0,'birds_boss'),
- ('OUTRO','birds_outro',0,'birds_outro')]   # cutscenes.lua: birds_intro (episode openings), birds_boss (middles), birds_outro (endings)   # cutscenes.lua pack1_intro playsound birds_intro (once)
+ ('OUTRO','birds_outro',0,'birds_outro'),
+ ('EGG1','level_0',1,'eggDefenderMusic1'),('EGG2','level_1',1,'eggDefenderMusic2'),('EGG3','level_2',1,'eggDefenderMusic3'),
+ ('EGG4','level_3_1',1,'eggDefenderMusic4'),('EGG5','level_4_2',1,'eggDefenderMusic5')]   # Egg Defender (EggDefender.lua setMusic "eggDefenderMusic"..musicIntensityLevel): the music gets more intense with every wave   # cutscenes.lua: birds_intro (episode openings), birds_boss (middles), birds_outro (endings)   # cutscenes.lua pack1_intro playsound birds_intro (once)
 MUSIC_OF_CLIP={clip:i for i,(_,_,_,clip) in enumerate(MUSIC)}
 MUSIC_RATE=22050
 def write_music_bin(apk,out,ffmpeg,folder):

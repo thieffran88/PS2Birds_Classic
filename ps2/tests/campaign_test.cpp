@@ -1047,6 +1047,7 @@ int main(){
         const Stage *s=&stages[level];
         if(level>0)assert(game_next_level(&g));
         assert(g.level==level && !strcmp(game_level_script(level),s->script));
+        {const bool egg=!strncmp(s->script,"EggDefender_",12) && strncmp(s->script,"EggDefender_classic",19);const int m=game_music_override(&g);assert(egg?(m==16):m==-1);}   /* Egg Defender plays its own music, intensity 1 at the first wave */
         assert(game_object_count(&g)==s->objects && g.pig_alive==s->pigs && g.block_alive==s->blocks && g.birds==s->birds);
         assert(!game_load_level(&g,level+1));
         /* Short Fuse 2-13 and 3-3 (BlackBird_28/33): light glass pieces welded to much heavier
