@@ -14,7 +14,8 @@ from rio_import_level import convert
 # Classic's values for each type, so these are approximations until the bird parameters are imported.
 BIRD_TYPE={'RedBird':0,'R2_RedBird':0,'SmallBlueBird':1,'R2_SmallBlueBird':1,'YellowBird':2,'R2_YellowBird':2,'BlackBird':3,'R2_BlackBird':3,
     'WhiteBird':4,'R2_WhiteBird':4,'BoomerangBird':6,'R2_BoomerangBird':6,'RedBigBird':7,'R2_RedBigBird':7,'GlobeBird':8,'R2_GlobeBird':8,'PinkBird':9,'R2_PinkBird':9,
-    'BIRD_RIO_BLUE_ALONE':11,'RioBirds':12}   # Blu (specialty BLU) and Blu & Jewel (BLU&JEWEL); RocketBird (13) and SUPERPOWERUP_BIRD are not in the runtime yet
+    'BIRD_RIO_BLUE_ALONE':11,'RioBirds':12,
+    'RocketBird':2,'SUPERPOWERUP_BIRD':1}   # approximations (docs/rio/ROCKET_E_SUPERPOWERUP.md): the rocket bird plays as the yellow bird (a speed boost on tap) and the call-the-flock macaw as the blue bird (splits in three); the original thrust and homing-missile constants are in the native code   # Blu (specialty BLU) and Blu & Jewel (BLU&JEWEL); RocketBird (13) and SUPERPOWERUP_BIRD are not in the runtime yet
 def fit_view(r,zoom=None):
     """The Classic's camera rule (tools/build_campaign.py): the whole stage in the 576 x 336 play area, scale at most 7."""
     import math
