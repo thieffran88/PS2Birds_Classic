@@ -7,7 +7,10 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'tools'));sys.path.insert(0,str(ROOT/'tools/rio'))
 # Episodes of the first game, in the order of CutsceneScene.lua (theme1End .. theme6End): name and the level packs of each one.
 EPISODES=[("SMUGGLERS DEN",['warehouse','warehouse2']),("JUNGLE ESCAPE",['jungle1','jungle2']),("BEACH VOLLEY",['beach1','beach2']),
-          ("CARNIVAL UPHEAVAL",['carnival1','carnival2']),("AIRFIELD CHASE",['airport1','airport2']),("SMUGGLERS PLANE",['plane1','plane2'])]
+          ("CARNIVAL UPHEAVAL",['carnival1','carnival2']),("AIRFIELD CHASE",['airport1','airport2']),("SMUGGLERS PLANE",['plane1','plane2']),
+          ("MARKET MAYHEM",['fruitmarket1','fruitmarket2']),("GOLDEN BEACHBALL",['goldenbeachball','goldenbeachball2']),("BLOSSOM RIVER",['river1','river2']),
+          ("BLOSSOM DIVE",['blossomdive']),("PARADISE",['paradise1','paradise2']),("MANAUS",['manaus1','manaus2']),("NEW YEAR",['newyear1','newyear2']),
+          ("TREASURE HUNT",['treasurehunt1','treasurehunt2','treasurehunt3','treasurehunt4'])]   # the names after Smugglers' Plane: the first three come from the texts (EPISODE_NAME_7, _GBB, _11); the others are the pack names
 EPISODE={pk:name for name,packs in EPISODES for pk in packs}
 LEVELS=ROOT/'work/rio/analysis/chunks/assets/data/levels'
 DEFAULT_PACKS=[pk for _,packs in EPISODES for pk in packs]   # the stages the shipped ELF's sprite and piece tables (ps2/src/rio) were made for
