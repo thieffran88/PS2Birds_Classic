@@ -1,6 +1,6 @@
 #ifndef PS2BIRDS_CAMPAIGN_TYPES_H
 #define PS2BIRDS_CAMPAIGN_TYPES_H
-#define MAX_LEVEL_OBJECTS 768
+#define MAX_LEVEL_OBJECTS 896
 #define MAX_LEVEL_JOINTS 512
 #define MAX_CAMPAIGN_LEVELS 1024
 /* spawn_of: 0 for pieces present from the start; 1 + parent index for pieces released when
