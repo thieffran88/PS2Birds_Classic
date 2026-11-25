@@ -77,10 +77,13 @@ def classic(L,apk):
             try:fr=[f['filename'] for f in json.loads(decode_payload(z.read(n),'classic'))['frames']]
             except Exception:continue
             sheets.setdefault(n.rsplit('/',1)[-1][:-11],set()).update(fr)
+    cut_used={s['name'] for n in names if n.endswith('.compo.json') and 'CUTSCENE' in n for c in json.loads(decode_payload(z.read(n),'classic'))['compo'] for s in c['sprites']}   # pieces the cutscene compositions place
     d0=open(ROOT/'ps2/assets/CUTSCENE.BIN','rb').read();cnt0=struct.unpack_from('<I',d0,8)[0]
     for sh,fr in sorted(sheets.items()):
         inc=len(fr&port)
-        if sh.startswith('CUTSCENES_'):L.add('Folha '+sh,'Parcial',f'imagens das cenas em quadrinhos já montadas no CUTSCENE.BIN ({cnt0} cenas); {len(fr)} quadros na folha');continue
+        if sh.startswith('EGGDEFENDER_CUTSCENES_'):L.add('Folha '+sh,'Incluído',f'painéis das cenas do Egg Defender, montados no CUTSCENE.BIN ({cnt0} cenas)');continue
+        if sh.startswith('CUTSCENE'):
+            u=len(fr&cut_used);L.add('Folha '+sh,status_ratio(u,len(fr)),f'{u}/{len(fr)} quadros entram nas cenas já montadas no CUTSCENE.BIN ({cnt0} cenas); o resto não é usado por nenhuma cena');continue
         L.add('Folha '+sh,status_ratio(inc,len(fr)),f'{inc}/{len(fr)} quadros')
     # --- Outras imagens (sem .sheet.json)
     L.sec('CLASSIC - OUTRAS IMAGENS (sem tabela de quadros)')
