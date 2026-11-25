@@ -1,9 +1,9 @@
 /* Version shown on the title and in the diagnostics: the Classic is 1.0.0, the Rio has its own line of versions. */
 #ifdef PS2BIRDS_RIO
-#define GAME_VERSION "0.53.1"
+#define GAME_VERSION "0.53.2"
 #define GAME_NAME "PS2Birds Rio"
 #else
-#define GAME_VERSION "1.4.1"
+#define GAME_VERSION "1.4.2"
 #define GAME_NAME "PS2Birds Classic"
 #endif
 #include <tamtypes.h>
@@ -1245,6 +1245,7 @@ int main(int argc,char **argv)
                     was_collided=hit.collided;
                 }else was_collided=0;
             }
+            if(before==FLYING && g.state==AIMING)audio_play(SFX_NEXT_BIRD);   /* the next bird of the queue takes its place on the slingshot */
             if(g.events&GAME_EVENT_EXPLOSION)audio_play(SFX_EXPLOSION);
             if(g.events&GAME_EVENT_PIG)audio_play(SFX_PIG);
             if(g.events&GAME_EVENT_GLASS)audio_play(SFX_GLASS);

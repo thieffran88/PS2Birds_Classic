@@ -15,7 +15,8 @@ SOUNDS=[
 CLASSIC_ONLY=[('HIT_WOOD','wood collision a1',5,8),('HIT_GLASS','ice light collision a1',5,8),('HIT_STONE','rock collision a1',5,8),
  ('HIT_RED','bird 01 collision a1',6,6),('HIT_BLUE','bird 02 collision a1',6,6),('HIT_YELLOW','bird 03 collision a1',6,6),
  ('HIT_BLACK','bird 04 collision a1',6,6),('HIT_WHITE','bird 05 collision a1',6,6),
- ('DMG_WOOD','wood damage a1',5,10),('DMG_GLASS','light damage a1',5,10),('DMG_STONE','rock damage a1',5,10)]
+ ('DMG_WOOD','wood damage a1',5,10),('DMG_GLASS','light damage a1',5,10),('DMG_STONE','rock damage a1',5,10),
+ ('NEXT_BIRD','bird next military a1',7,0)]
 # Music (audio.lua clip names): title_theme loops in the menus (gamelogic.lua currentMainMenuSong),
 # level_complete plays once when the stage is won (level_end.lua LevelComplete.onEntry).
 # Ambience of each theme inside the stages (themes.lua music -> audio.lua clip file), looped like
