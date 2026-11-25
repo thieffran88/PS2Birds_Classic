@@ -35,7 +35,7 @@ def pack_banks(banks,out_bin,out_ids):
     for bb in by_bank:
         for n in order:
             sp=bb.get(n)
-            out+=struct.pack('<7h',sp['atlas_x'],sp['atlas_y'],sp['width'],sp['height'],sp['pivot_x'],sp['pivot_y'],sp['page']) if sp else struct.pack('<7h',0,0,0,0,0,0,0)
+            out+=struct.pack('<7h',sp['atlas_x'],sp['atlas_y'],sp['width'],sp['height'],sp['pivot_x'],sp['pivot_y'],sp['page']|(256 if sp.get('half') else 0)) if sp else struct.pack('<7h',0,0,0,0,0,0,0)
     out+=bytes(start-len(out));out+=data   # no memory-card icon yet (the save works with a blank one)
     Path(out_bin).parent.mkdir(parents=True,exist_ok=True);Path(out_bin).write_bytes(out)
     pages=page_tables[0]

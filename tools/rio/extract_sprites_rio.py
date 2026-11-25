@@ -8,7 +8,7 @@ import argparse,json,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT/'tools'));sys.path.insert(0,str(ROOT/'tools/rio'))
 import crop_sprites
-from extract_sprites import pack,VRAM_BUDGET,halve_mask
+from extract_sprites import pack,VRAM_BUDGET,halve_mask,halve_rgba
 from lua51_data import load
 import zipfile
 # Sprites the runtime draws by name, not through a piece definition: the slingshot of the first chapter.
@@ -99,7 +99,13 @@ def main(apk,out,packs):
                         canvas[o+3]=oa
         sprites.append({'name':cname,'width':W,'height':H,'pivot_x':-left,'pivot_y':-top});pixels[cname]=bytes(canvas)
     keep=alone|set(BAKED);sprites=[sp for sp in sprites if sp['name'] in keep]
-    specs,placed=pack(sprites)
+    # A bank that does not fit its four texture slots keeps its largest scenery pieces (never the birds) at half resolution, one at a time
+    # until it fits; the frame carries the flag (bit 8 of the page) and the runtime draws it at twice the size (sprites.c zoom).
+    for big in sorted((s for s in sprites if 'BIRD' not in s['name'] and not s['name'].startswith('B_')),key=lambda s:(-s['width']*s['height'],s['name'])):
+        try:specs,placed=pack(sprites);break
+        except ValueError:
+            pixels[big['name']],big['width'],big['height']=halve_rgba(pixels[big['name']],big['width'],big['height']);big['pivot_x']=(big['pivot_x']+1)//2;big['pivot_y']=(big['pivot_y']+1)//2;big['half']=True
+    else:specs,placed=pack(sprites)
     sheets=[bytearray(s['width']*s['height']*4) for s in specs]
     for s in sprites:
         page,x0,y0=placed[s['name']];sp=specs[page];d=pixels[s['name']]

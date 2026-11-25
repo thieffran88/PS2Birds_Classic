@@ -14,7 +14,7 @@
    pixels of every texture bank and the memory-card icon. The tables are read once; a
    bank's pages are read into one shared buffer when an episode needs them. */
 typedef struct { int width,height,offset; } SpritePage;
-typedef struct { short x,y,w,h,px,py,page; } SpriteFrame;
+typedef struct { short x,y,w,h,px,py,page,zoom; } SpriteFrame;   /* zoom 2: stored at half resolution (bit 8 of the page in SPRITES.BIN) */
 static SpritePage pages[SPRITE_BANK_COUNT][SPRITE_PAGE_COUNT];
 static SpriteFrame (*frames)[SPRITE_COUNT];
 static unsigned pixel_start,icon_offset,icon_size;
@@ -49,7 +49,7 @@ static int read_header(void)
             for(int b=0;b<SPRITE_BANK_COUNT;b++)for(int i=0;i<SPRITE_PAGE_COUNT;i++){const unsigned char *q=t+(b*SPRITE_PAGE_COUNT+i)*12;pages[b][i].width=(int)rd32(q);pages[b][i].height=(int)rd32(q+4);pages[b][i].offset=(int)rd32(q+8);
                 if(pages[b][i].width*pages[b][i].height*4>sprite_slot_bytes[i]){ok=0;err_code=4;}}
             for(int b=0;b<SPRITE_BANK_COUNT;b++)for(int i=0;i<SPRITE_COUNT;i++){const unsigned char *q=fr+(b*SPRITE_COUNT+i)*14;short v[7];for(int k=0;k<7;k++)v[k]=(short)(q[2*k]|(q[2*k+1]<<8));
-                SpriteFrame *s=&frames[b][i];s->x=v[0];s->y=v[1];s->w=v[2];s->h=v[3];s->px=v[4];s->py=v[5];s->page=v[6];if(s->page>=SPRITE_PAGE_COUNT)ok=0;}
+                SpriteFrame *s=&frames[b][i];s->x=v[0];s->y=v[1];s->w=v[2];s->h=v[3];s->px=v[4];s->py=v[5];s->zoom=(v[6]>=0 && (v[6]&0x100))?2:1;s->page=v[6]>=0?v[6]&0xFF:v[6];if(s->page>=SPRITE_PAGE_COUNT)ok=0;}
         }
         free(t);free(fr);
         if(!ok){free(frames);frames=0;}
@@ -155,8 +155,8 @@ void sprite_draw_tint(GSGLOBAL *gs,int id,float x,float y,float scale,float angl
     GSTEXTURE *atlas=&atlases[s->page];
     float cs=cosf(angle),sn=sinf(angle),px[4],py[4];
     for(int i=0;i<4;i++) {
-        float dx=((i==0||i==3)?-s->px:s->w-s->px)*scale*flip_x;
-        float dy=(i<2?-s->py:s->h-s->py)*scale*flip_y;
+        float dx=((i==0||i==3)?-s->px:s->w-s->px)*scale*s->zoom*flip_x;
+        float dy=(i<2?-s->py:s->h-s->py)*scale*s->zoom*flip_y;
         px[i]=x+dx*cs-dy*sn;py[i]=y+dx*sn+dy*cs;
     }
     const int order[6]={0,1,2,0,2,3};
