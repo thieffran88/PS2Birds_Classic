@@ -20,16 +20,16 @@ CLASSIC_ONLY=[('HIT_WOOD','wood collision a1',5,8),('HIT_GLASS','ice light colli
  ('HIT_PIG','piglette collision a1',5,8),('DMG_PIG','piglette damage a1',5,10),('OINK','piglette oink a1',2,0),
  ('LAUNCH_BOOMERANG','bird_06_flying',1,0),('LAUNCH_BIG','bigbrother_fly',1,0),('LAUNCH_PINK','pink_launch_01',1,0),
  ('SPECIAL_BOOMERANG','boomerang_activate',2,0),('SPECIAL_BIG','bigbrother_yell',2,0),('SPECIAL_GLOBE','Globe_Bird_Special_Activation_1',2,0),('SPECIAL_PINK','pink_activate_01',2,0),
- ('BONE','bone_destroy_1',4,12),('VIAL','vial_break_01',4,12),('STALAKTITE','stalaktite_break_01',4,12),
- ('HIT_BONE','bone_collision_1',5,8),('DMG_BONE','bone_damage_1',5,10)]
+ ('BONE','7_6_0/bone_destroy_1',4,12),('VIAL','vial_break_01',4,12),('STALAKTITE','stalaktite_break_01',4,12),
+ ('HIT_BONE','7_6_0/bone_collision_1',5,8),('DMG_BONE','7_6_0/bone_damage_1',5,10)]
 # Variants (the originals pick one of several recordings at random): for each group the base id keeps `a1` and the extra ids are `a2`, `a3`..
 # (id, file prefix, variants). The extra ids come after every other effect, group by group, in this order; ps2/src/audio_ids.h mirrors it (audio_variants).
 VARIANT_GROUPS=[('WOOD','wood destroyed',3),('GLASS','light destroyed',3),('STONE','rock destroyed',3),
  ('HIT_WOOD','wood collision',3),('HIT_GLASS','ice light collision',3),('HIT_STONE','rock collision',3),
  ('DMG_WOOD','wood damage',3),('DMG_GLASS','light damage',3),('DMG_STONE','rock damage',3)]
 CLASSIC_VARIANT_GROUPS=[('HIT_PIG','piglette collision',3),('DMG_PIG','piglette damage',3),('OINK','piglette oink',3),
- ('BONE','bone_destroy_{}',3),('VIAL','vial_break_{:02d}',3),('STALAKTITE','stalaktite_break_{:02d}',3),
- ('HIT_BONE','bone_collision_{}',3),('DMG_BONE','bone_damage_{}',3)]   # after the shared groups; Classic only; a '{}' in the prefix is the variant number
+ ('BONE','7_6_0/bone_destroy_{}',3),('VIAL','vial_break_{:02d}',3),('STALAKTITE','stalaktite_break_{:02d}',3),
+ ('HIT_BONE','7_6_0/bone_collision_{}',3),('DMG_BONE','7_6_0/bone_damage_{}',3)]   # after the shared groups; Classic only; a '{}' in the prefix is the variant number
 def variant_sounds(entries,groups=None):
     """The extra entries of VARIANT_GROUPS, with the channel and cooldown of their base effect."""
     by={n:(ch,cd) for n,_,ch,cd in entries};out=[]
