@@ -21,7 +21,9 @@ CLASSIC_ONLY=[('HIT_WOOD','wood collision a1',5,8),('HIT_GLASS','ice light colli
  ('LAUNCH_BOOMERANG','bird_06_flying',1,0),('LAUNCH_BIG','bigbrother_fly',1,0),('LAUNCH_PINK','pink_launch_01',1,0),
  ('SPECIAL_BOOMERANG','boomerang_activate',2,0),('SPECIAL_BIG','bigbrother_yell',2,0),('SPECIAL_GLOBE','Globe_Bird_Special_Activation_1',2,0),('SPECIAL_PINK','pink_activate_01',2,0),
  ('BONE','7_6_0/bone_destroy_1',4,12),('VIAL','vial_break_01',4,12),('STALAKTITE','stalaktite_break_01',4,12),
- ('HIT_BONE','7_6_0/bone_collision_1',5,8),('DMG_BONE','7_6_0/bone_damage_1',5,10)]
+ ('HIT_BONE','7_6_0/bone_collision_1',5,8),('DMG_BONE','7_6_0/bone_damage_1',5,10),
+ ('CANNON','cannon_shot_01',4,6),('ELECTRO','pigs_electrocuted_01',2,0),('CAKE','birthday_cake1',4,12),('PALM','7_6_0/palm_leaves_1',4,12),('PIPE','metal_pipe_destroyed_01',4,12),
+ ('HIT_PINK','pink_collision_01',6,6),('HIT_GLOBE','Globe_Bird_Hit_1',6,6)]
 # Variants (the originals pick one of several recordings at random): for each group the base id keeps `a1` and the extra ids are `a2`, `a3`..
 # (id, file prefix, variants). The extra ids come after every other effect, group by group, in this order; ps2/src/audio_ids.h mirrors it (audio_variants).
 VARIANT_GROUPS=[('WOOD','wood destroyed',3),('GLASS','light destroyed',3),('STONE','rock destroyed',3),
@@ -29,7 +31,9 @@ VARIANT_GROUPS=[('WOOD','wood destroyed',3),('GLASS','light destroyed',3),('STON
  ('DMG_WOOD','wood damage',3),('DMG_GLASS','light damage',3),('DMG_STONE','rock damage',3)]
 CLASSIC_VARIANT_GROUPS=[('HIT_PIG','piglette collision',3),('DMG_PIG','piglette damage',3),('OINK','piglette oink',3),
  ('BONE','7_6_0/bone_destroy_{}',3),('VIAL','vial_break_{:02d}',3),('STALAKTITE','stalaktite_break_{:02d}',3),
- ('HIT_BONE','7_6_0/bone_collision_{}',3),('DMG_BONE','7_6_0/bone_damage_{}',3)]   # after the shared groups; Classic only; a '{}' in the prefix is the variant number
+ ('HIT_BONE','7_6_0/bone_collision_{}',3),('DMG_BONE','7_6_0/bone_damage_{}',3),
+ ('CANNON','cannon_shot_{:02d}',2),('ELECTRO','pigs_electrocuted_{:02d}',3),('CAKE','birthday_cake{}',2),('PALM','7_6_0/palm_leaves_{}',3),('PIPE','metal_pipe_destroyed_{:02d}',3),
+ ('HIT_PINK','pink_collision_{:02d}',3),('HIT_GLOBE','Globe_Bird_Hit_{}',3)]   # after the shared groups; Classic only; a '{}' in the prefix is the variant number
 def variant_sounds(entries,groups=None):
     """The extra entries of VARIANT_GROUPS, with the channel and cooldown of their base effect."""
     by={n:(ch,cd) for n,_,ch,cd in entries};out=[]

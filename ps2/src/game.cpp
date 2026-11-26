@@ -171,6 +171,33 @@ static int sound_family(const char *def){
 #ifdef PS2BIRDS_RIO
     if(name_has(def,"monkey"))return 4;   /* the Rio's goal monkeys */
     if(name_has(def,"metal"))return 5;     /* metal boxes */
+#else
+    if(name_has(def,"cake"))return 4;                                  /* birthday cakes and cupcakes */
+    if(name_has(def,"palm_leaf"))return 5;                             /* palm leaves */
+    if(name_has(def,"pipe") && !name_has(def,"glass"))return 6;        /* metal pipes (the stove pipe of the Farm) */
+#endif
+    return 0;
+}
+/* The event a family's piece makes when it is destroyed / hit hard (0: the material's own). */
+static unsigned family_destroyed_event(int fam){
+    switch(fam){
+        case 1:return GAME_EVENT_BONE;
+        case 2:return GAME_EVENT_VIAL;
+        case 3:return GAME_EVENT_STALAKTITE;
+#ifdef PS2BIRDS_RIO
+        case 5:return GAME_EVENT_METAL;
+#else
+        case 4:return GAME_EVENT_CAKE;
+        case 5:return GAME_EVENT_PALM;
+        case 6:return GAME_EVENT_PIPE;
+#endif
+        default:return 0;
+    }
+}
+static unsigned family_hit_event(int fam){
+    if(fam==1)return GAME_EVENT_HIT_BONE;
+#ifdef PS2BIRDS_RIO
+    if(fam==5)return GAME_EVENT_HIT_METAL;
 #endif
     return 0;
 }
@@ -422,7 +449,7 @@ struct Physics: b2ContactListener {
             for(b2Fixture *f=bodies[c]->GetFixtureList();f;f=f->GetNext()){b2Filter fl=f->GetFilterData();fl.groupIndex=(int16)(-1-c);f->SetFilterData(fl);}
             bodies[ball]->ApplyLinearImpulseToCenter(CANNON_FORCE*dir,true);
             bodies[c]->ApplyLinearImpulseToCenter((-CANNON_FORCE*CANNON_RECOIL)*dir,true);
-            cannon_shots[c]--;
+            cannon_shots[c]--;hit_events|=GAME_EVENT_CANNON;
         }
         for(int j=0;j<level->count;j++)if(bodies[j] && (level->objects[j].flags&OBJECT_CANNON_BALL)){
             b2Vec2 at=bodies[j]->GetPosition();
@@ -654,7 +681,7 @@ struct Physics: b2ContactListener {
         b2Body *pair[]={contact->GetFixtureA()->GetBody(),contact->GetFixtureB()->GetBody()};
         if(normal>HIT_SOUND_IMPULSE)for(b2Body *body:pair){   /* the materials' collision sound */
             uintptr_t hid=body->GetUserData().pointer;
-            if(hid>0 && hid<=(uintptr_t)level->count){const int k=level->objects[hid-1].kind;hit_events|=sound_family(level->objects[hid-1].definition)==1?GAME_EVENT_HIT_BONE:sound_family(level->objects[hid-1].definition)==5?GAME_EVENT_HIT_METAL:k==1?GAME_EVENT_HIT_WOOD:k==2?GAME_EVENT_HIT_GLASS:k==5?GAME_EVENT_HIT_STONE:k==4?GAME_EVENT_HIT_PIG:0;}
+            if(hid>0 && hid<=(uintptr_t)level->count){const int k=level->objects[hid-1].kind;{const unsigned fh=family_hit_event(sound_family(level->objects[hid-1].definition));hit_events|=fh?fh:(unsigned)(k==1?GAME_EVENT_HIT_WOOD:k==2?GAME_EVENT_HIT_GLASS:k==5?GAME_EVENT_HIT_STONE:k==4?GAME_EVENT_HIT_PIG:0);}}
         }
         for (b2Body *body:pair) {
             uintptr_t id=body->GetUserData().pointer;
@@ -1376,7 +1403,7 @@ static void tick(Game *g) {
                 b2Body *b=p->bodies[i];if(!b || b->GetType()!=b2_dynamicBody)continue;
                 b2Vec2 d=b->GetPosition()-p->shock_center;float d2=d.LengthSquared();
                 const CampaignObject &o=p->level->objects[i];
-                if(o.kind==4 && p->electrocute[i]<=0 && d2<fminf(SHOCK_RADIUS*SHOCK_RADIUS,radius*radius*1.2f))p->electrocute[i]=SHOCK_ELECTROCUTE_SECONDS;
+                if(o.kind==4 && p->electrocute[i]<=0 && d2<fminf(SHOCK_RADIUS*SHOCK_RADIUS,radius*radius*1.2f)){p->electrocute[i]=SHOCK_ELECTROCUTE_SECONDS;g->events|=GAME_EVENT_ELECTRO;}
                 if(d2>=radius*radius)continue;
                 p->disturbed[i]=true;
                 /* destroyBreakableJoints(object, 1000) */
@@ -1448,7 +1475,7 @@ static void tick(Game *g) {
                 if(f && f->blast_radius>0)radial_blast(g,where,f->blast_radius,f->blast_force,f->damage_radius,f->damage);
                 else radial_blast(g,where,TNT_BLAST_RADIUS,TNT_BLAST_FORCE,TNT_DAMAGE_RADIUS,TNT_BLAST_DAMAGE);}
             if(o.flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL)){}
-            else if(o.kind==4 && p->is_goal(i)){g->pig_alive--;{int pts=o.score>=0?(int)o.score:5000;g->score+=pts;popup_at(g,where,pts,POPUP_PIG,4);}g->events|=GAME_EVENT_PIG|(sound_family(o.definition)==4?GAME_EVENT_MONKEY:0);}else {g->block_alive--;int earned=o.score>=0?(int)o.score:o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;   /* getScoreToAddForBreaking: the piece's destroyedScoreInc, else 500 */if(g->shop_mask&SHOP_DOUBLE)earned*=2;g->score+=earned;popup_at(g,where,earned,POPUP_PIECE,o.kind);{const int fam=sound_family(o.definition);g->events|=fam==1?GAME_EVENT_BONE:fam==2?GAME_EVENT_VIAL:fam==3?GAME_EVENT_STALAKTITE:fam==5?GAME_EVENT_METAL:o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}}
+            else if(o.kind==4 && p->is_goal(i)){g->pig_alive--;{int pts=o.score>=0?(int)o.score:5000;g->score+=pts;popup_at(g,where,pts,POPUP_PIG,4);}g->events|=GAME_EVENT_PIG|(sound_family(o.definition)==4?GAME_EVENT_MONKEY:0);}else {g->block_alive--;int earned=o.score>=0?(int)o.score:o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;   /* getScoreToAddForBreaking: the piece's destroyedScoreInc, else 500 */if(g->shop_mask&SHOP_DOUBLE)earned*=2;g->score+=earned;popup_at(g,where,earned,POPUP_PIECE,o.kind);{const unsigned fe=family_destroyed_event(sound_family(o.definition));g->events|=fe?fe:(unsigned)(o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA);}}
         }
     }
     g->pig_alive+=p->pending_pigs;p->pending_pigs=0;

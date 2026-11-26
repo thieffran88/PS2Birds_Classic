@@ -21,7 +21,7 @@ int main(){
    else if(second<0){second=t;assert(!object(&g,1).alive && blast.x>first_x);}
   }
   if(g.events&GAME_EVENT_EXTRA)extra_events++;
-  assert(bool(g.events&(GAME_EVENT_WOOD|GAME_EVENT_GLASS|GAME_EVENT_STONE|GAME_EVENT_EXTRA|GAME_EVENT_BONE|GAME_EVENT_VIAL|GAME_EVENT_STALAKTITE|GAME_EVENT_METAL))==(blocks>g.block_alive));
+  assert(bool(g.events&(GAME_EVENT_WOOD|GAME_EVENT_GLASS|GAME_EVENT_STONE|GAME_EVENT_EXTRA|GAME_EVENT_BONE|GAME_EVENT_VIAL|GAME_EVENT_STALAKTITE|GAME_EVENT_METAL|GAME_EVENT_CAKE|GAME_EVENT_PALM|GAME_EVENT_PIPE))==(blocks>g.block_alive));
  }
  assert(explosions==2 && first>=0 && second-first>=11 && second-first<=13 && extra_events>=1);
  assert(!object(&g,2).alive);                       // wood inside both damage radii

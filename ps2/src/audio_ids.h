@@ -57,6 +57,8 @@
 #define SFX_WATER_OBJ_IN 50       /* object_enter_water_01 */
 #define SFX_WATER_OBJ_OUT 51      /* object_exit_water_01 */
 #define SFX_LAUNCH_PINK SFX_LAUNCH_RED   /* the Rio has no pink-bird sounds in its bank */
+#define SFX_HIT_PINK SFX_HIT_RED
+#define SFX_HIT_GLOBE SFX_HIT_RED
 #define SFX_BASE_COUNT 52
 #define SFX_COUNT 85      /* 52 effects + 33 variants (audio_variants) */
 #else
@@ -88,8 +90,15 @@
 #define SFX_STALAKTITE 49         /* stalaktite_break_01 */
 #define SFX_HIT_BONE 50           /* bone_collision_1 */
 #define SFX_DMG_BONE 51           /* bone_damage_1 */
-#define SFX_BASE_COUNT 52
-#define SFX_COUNT 86      /* 52 effects + 34 variants (audio_variants) */
+#define SFX_CANNON 52             /* cannon_shot_01 */
+#define SFX_ELECTRO 53            /* pigs_electrocuted_01 */
+#define SFX_CAKE 54               /* birthday_cake1 */
+#define SFX_PALM 55               /* palm_leaves_1 */
+#define SFX_PIPE 56               /* metal_pipe_destroyed_01 */
+#define SFX_HIT_PINK 57           /* pink_collision_01 */
+#define SFX_HIT_GLOBE 58          /* Globe_Bird_Hit_1 */
+#define SFX_BASE_COUNT 59
+#define SFX_COUNT 105     /* 59 effects + 46 variants (audio_variants) */
 #endif
 #define SFX_CHANNELS 10
 typedef struct {int channel,cooldown;} AudioAsset;
@@ -176,6 +185,13 @@ static const AudioAsset audio_assets[SFX_COUNT]={
  {4,12},  /* STALAKTITE */
  {5,8},   /* HIT_BONE */
  {5,10},  /* DMG_BONE */
+ {4,6},   /* CANNON */
+ {2,0},   /* ELECTRO */
+ {4,12},  /* CAKE */
+ {4,12},  /* PALM */
+ {4,12},  /* PIPE */
+ {6,6},   /* HIT_PINK */
+ {6,6},   /* HIT_GLOBE */
 #endif
 #endif
  {4,12},   /* WOOD variant 2 */
@@ -230,6 +246,18 @@ static const AudioAsset audio_assets[SFX_COUNT]={
  {5,8},   /* HIT_BONE variant 3 */
  {5,10},  /* DMG_BONE variant 2 */
  {5,10},  /* DMG_BONE variant 3 */
+ {4,6},   /* CANNON variant 2 */
+ {2,0},   /* ELECTRO variant 2 */
+ {2,0},   /* ELECTRO variant 3 */
+ {4,12},  /* CAKE variant 2 */
+ {4,12},  /* PALM variant 2 */
+ {4,12},  /* PALM variant 3 */
+ {4,12},  /* PIPE variant 2 */
+ {4,12},  /* PIPE variant 3 */
+ {6,6},   /* HIT_PINK variant 2 */
+ {6,6},   /* HIT_PINK variant 3 */
+ {6,6},   /* HIT_GLOBE variant 2 */
+ {6,6},   /* HIT_GLOBE variant 3 */
 #endif
 };
 /* Sounds the originals pick at random among several recordings: the base effect (a1) and `count`-1 extra effects from `first` on (extract_audio.py VARIANT_GROUPS, same order). */
@@ -237,7 +265,7 @@ typedef struct {int base,first,count;} AudioVariant;
 #ifdef PS2BIRDS_RIO
 #define SFX_VARIANT_GROUPS 17
 #else
-#define SFX_VARIANT_GROUPS 17
+#define SFX_VARIANT_GROUPS 24
 #endif
 static const AudioVariant audio_variants[SFX_VARIANT_GROUPS]={
  {SFX_WOOD,SFX_BASE_COUNT+0,3},{SFX_GLASS,SFX_BASE_COUNT+2,3},{SFX_STONE,SFX_BASE_COUNT+4,3},
@@ -249,7 +277,9 @@ static const AudioVariant audio_variants[SFX_VARIANT_GROUPS]={
 #endif
 #ifndef PS2BIRDS_RIO
  ,{SFX_HIT_PIG,SFX_BASE_COUNT+18,3},{SFX_DMG_PIG,SFX_BASE_COUNT+20,3},{SFX_OINK,SFX_BASE_COUNT+22,3},
- {SFX_BONE,SFX_BASE_COUNT+24,3},{SFX_VIAL,SFX_BASE_COUNT+26,3},{SFX_STALAKTITE,SFX_BASE_COUNT+28,3},{SFX_HIT_BONE,SFX_BASE_COUNT+30,3},{SFX_DMG_BONE,SFX_BASE_COUNT+32,3}
+ {SFX_BONE,SFX_BASE_COUNT+24,3},{SFX_VIAL,SFX_BASE_COUNT+26,3},{SFX_STALAKTITE,SFX_BASE_COUNT+28,3},{SFX_HIT_BONE,SFX_BASE_COUNT+30,3},{SFX_DMG_BONE,SFX_BASE_COUNT+32,3},
+ {SFX_CANNON,SFX_BASE_COUNT+34,2},{SFX_ELECTRO,SFX_BASE_COUNT+35,3},{SFX_CAKE,SFX_BASE_COUNT+37,2},{SFX_PALM,SFX_BASE_COUNT+38,3},{SFX_PIPE,SFX_BASE_COUNT+40,3},
+ {SFX_HIT_PINK,SFX_BASE_COUNT+42,3},{SFX_HIT_GLOBE,SFX_BASE_COUNT+44,3}
 #endif
 };
 #endif

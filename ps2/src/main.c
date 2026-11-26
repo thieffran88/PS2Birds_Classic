@@ -3,7 +3,7 @@
 #define GAME_VERSION "0.56.0"
 #define GAME_NAME "PS2Birds Rio"
 #else
-#define GAME_VERSION "1.6.1"
+#define GAME_VERSION "1.7.0"
 #define GAME_NAME "PS2Birds Classic"
 #endif
 #include <tamtypes.h>
@@ -1237,7 +1237,7 @@ int main(int argc,char **argv)
                 static int was_collided;GameBird hit;
                 if(game_get_projectile(&g,0,&hit)){
                     if(hit.collided && !was_collided){
-                        int id=hit.type==BIRD_BLUE_TYPE?SFX_HIT_BLUE:hit.type==BIRD_YELLOW_TYPE?SFX_HIT_YELLOW:(hit.type==BIRD_BLACK_TYPE||hit.type==BIRD_SHOCK_TYPE)?SFX_HIT_BLACK:hit.type==BIRD_WHITE_TYPE?SFX_HIT_WHITE:SFX_HIT_RED;
+                        int id=hit.type==BIRD_PINK_TYPE?SFX_HIT_PINK:hit.type==BIRD_PUFFER_TYPE?SFX_HIT_GLOBE:hit.type==BIRD_BLUE_TYPE?SFX_HIT_BLUE:hit.type==BIRD_YELLOW_TYPE?SFX_HIT_YELLOW:(hit.type==BIRD_BLACK_TYPE||hit.type==BIRD_SHOCK_TYPE)?SFX_HIT_BLACK:hit.type==BIRD_WHITE_TYPE?SFX_HIT_WHITE:SFX_HIT_RED;
                         audio_play(id);
                     }
                     was_collided=hit.collided;
@@ -1263,6 +1263,10 @@ int main(int argc,char **argv)
             else if(g.events&GAME_EVENT_WATER_OBJ_OUT)audio_play(SFX_WATER_OBJ_OUT);
 #endif
             if(before==FLYING && g.state==AIMING)audio_play(SFX_NEXT_BIRD);   /* the next bird of the queue takes its place on the slingshot */
+#ifndef PS2BIRDS_RIO
+            if(g.events&GAME_EVENT_CANNON)audio_play(SFX_CANNON);
+            if(g.events&GAME_EVENT_ELECTRO)audio_play(SFX_ELECTRO);
+#endif
             if(g.events&GAME_EVENT_EXPLOSION)audio_play(SFX_EXPLOSION);
 #ifdef PS2BIRDS_RIO
             if(g.events&GAME_EVENT_MONKEY)audio_play(SFX_MONKEY_DIE);   /* a goal monkey: its own cry instead of the cage's */
@@ -1270,7 +1274,10 @@ int main(int argc,char **argv)
 #endif
             if(g.events&GAME_EVENT_PIG)audio_play(SFX_PIG);
 #ifndef PS2BIRDS_RIO
-            if(g.events&GAME_EVENT_BONE)audio_play(SFX_BONE);   /* the Dino bones, vials and stalaktites have their own breaking sounds */
+            if(g.events&GAME_EVENT_CAKE)audio_play(SFX_CAKE);   /* cakes, palm leaves and metal pipes: the original's own breaking sounds */
+            else if(g.events&GAME_EVENT_PALM)audio_play(SFX_PALM);
+            else if(g.events&GAME_EVENT_PIPE)audio_play(SFX_PIPE);
+            else if(g.events&GAME_EVENT_BONE)audio_play(SFX_BONE);   /* the Dino bones, vials and stalaktites have their own breaking sounds */
             else if(g.events&GAME_EVENT_VIAL)audio_play(SFX_VIAL);
             else if(g.events&GAME_EVENT_STALAKTITE)audio_play(SFX_STALAKTITE);
             else
@@ -1284,7 +1291,7 @@ int main(int argc,char **argv)
 #else
             else if(g.events&(GAME_EVENT_WOOD|GAME_EVENT_EXTRA))audio_play(SFX_WOOD);
 #endif
-            if(!(g.events&(GAME_EVENT_PIG|GAME_EVENT_WOOD|GAME_EVENT_GLASS|GAME_EVENT_STONE|GAME_EVENT_EXTRA|GAME_EVENT_EXPLOSION|GAME_EVENT_BONE|GAME_EVENT_VIAL|GAME_EVENT_STALAKTITE|GAME_EVENT_MONKEY|GAME_EVENT_METAL))){   /* a hard impact that broke nothing: the material's collision sound */
+            if(!(g.events&(GAME_EVENT_PIG|GAME_EVENT_WOOD|GAME_EVENT_GLASS|GAME_EVENT_STONE|GAME_EVENT_EXTRA|GAME_EVENT_EXPLOSION|GAME_EVENT_BONE|GAME_EVENT_VIAL|GAME_EVENT_STALAKTITE|GAME_EVENT_MONKEY|GAME_EVENT_METAL|GAME_EVENT_CAKE|GAME_EVENT_PALM|GAME_EVENT_PIPE))){   /* a hard impact that broke nothing: the material's collision sound */
 #ifndef PS2BIRDS_RIO
                 if(g.events&GAME_EVENT_DMG_PIG)audio_play(SFX_DMG_PIG);   /* the pigs' own sounds come before the materials' (Classic) */
                 else if(g.events&GAME_EVENT_HIT_PIG)audio_play(SFX_HIT_PIG);
