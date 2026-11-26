@@ -1,9 +1,9 @@
 /* Version shown on the title and in the diagnostics: the Classic is 1.0.0, the Rio has its own line of versions. */
 #ifdef PS2BIRDS_RIO
-#define GAME_VERSION "0.56.0"
+#define GAME_VERSION "0.57.0"
 #define GAME_NAME "PS2Birds Rio"
 #else
-#define GAME_VERSION "1.7.0"
+#define GAME_VERSION "1.7.1"
 #define GAME_NAME "PS2Birds Classic"
 #endif
 #include <tamtypes.h>
