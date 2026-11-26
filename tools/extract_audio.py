@@ -17,7 +17,9 @@ CLASSIC_ONLY=[('HIT_WOOD','wood collision a1',5,8),('HIT_GLASS','ice light colli
  ('HIT_BLACK','bird 04 collision a1',6,6),('HIT_WHITE','bird 05 collision a1',6,6),
  ('DMG_WOOD','wood damage a1',5,10),('DMG_GLASS','light damage a1',5,10),('DMG_STONE','rock damage a1',5,10),
  ('NEXT_BIRD','bird next military a1',7,0),
- ('HIT_PIG','piglette collision a1',5,8),('DMG_PIG','piglette damage a1',5,10),('OINK','piglette oink a1',2,0)]
+ ('HIT_PIG','piglette collision a1',5,8),('DMG_PIG','piglette damage a1',5,10),('OINK','piglette oink a1',2,0),
+ ('LAUNCH_BOOMERANG','bird_06_flying',1,0),('LAUNCH_BIG','bigbrother_fly',1,0),('LAUNCH_PINK','pink_launch_01',1,0),
+ ('SPECIAL_BOOMERANG','boomerang_activate',2,0),('SPECIAL_BIG','bigbrother_yell',2,0),('SPECIAL_GLOBE','Globe_Bird_Special_Activation_1',2,0),('SPECIAL_PINK','pink_activate_01',2,0)]
 # Variants (the originals pick one of several recordings at random): for each group the base id keeps `a1` and the extra ids are `a2`, `a3`..
 # (id, file prefix, variants). The extra ids come after every other effect, group by group, in this order; ps2/src/audio_ids.h mirrors it (audio_variants).
 VARIANT_GROUPS=[('WOOD','wood destroyed',3),('GLASS','light destroyed',3),('STONE','rock destroyed',3),

@@ -48,6 +48,7 @@
 #define SFX_DMG_GLASS 41          /* light damage a1 */
 #define SFX_DMG_STONE 42          /* rock damage a1 */
 #define SFX_NEXT_BIRD 43          /* bird next military a1: the next bird hops onto the slingshot */
+#define SFX_LAUNCH_PINK SFX_LAUNCH_RED   /* the Rio has no pink-bird sounds in its bank */
 #define SFX_BASE_COUNT 44
 #define SFX_COUNT 62      /* 44 effects + 18 variants (audio_variants) */
 #else
@@ -67,8 +68,15 @@
 #define SFX_HIT_PIG 37            /* piglette collision a1 */
 #define SFX_DMG_PIG 38            /* piglette damage a1 */
 #define SFX_OINK 39               /* piglette oink a1 */
-#define SFX_BASE_COUNT 40
-#define SFX_COUNT 64      /* 40 effects + 24 variants (audio_variants) */
+#define SFX_LAUNCH_BOOMERANG 40   /* bird_06_flying (the green boomerang bird) */
+#define SFX_LAUNCH_BIG 41         /* bigbrother_fly */
+#define SFX_LAUNCH_PINK 42        /* pink_launch_01 */
+#define SFX_SPECIAL_BOOMERANG 43  /* boomerang_activate */
+#define SFX_SPECIAL_BIG 44        /* bigbrother_yell */
+#define SFX_SPECIAL_GLOBE 45      /* Globe_Bird_Special_Activation_1 */
+#define SFX_SPECIAL_PINK 46       /* pink_activate_01 */
+#define SFX_BASE_COUNT 47
+#define SFX_COUNT 71      /* 47 effects + 24 variants (audio_variants) */
 #endif
 #define SFX_CHANNELS 10
 typedef struct {int channel,cooldown;} AudioAsset;
@@ -135,6 +143,13 @@ static const AudioAsset audio_assets[SFX_COUNT]={
  {5,8},   /* HIT_PIG */
  {5,10},  /* DMG_PIG */
  {2,0},   /* OINK */
+ {1,0},   /* LAUNCH_BOOMERANG */
+ {1,0},   /* LAUNCH_BIG */
+ {1,0},   /* LAUNCH_PINK */
+ {2,0},   /* SPECIAL_BOOMERANG */
+ {2,0},   /* SPECIAL_BIG */
+ {2,0},   /* SPECIAL_GLOBE */
+ {2,0},   /* SPECIAL_PINK */
 #endif
 #endif
  {4,12},   /* WOOD variant 2 */

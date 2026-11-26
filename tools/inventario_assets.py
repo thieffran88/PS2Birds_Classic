@@ -200,7 +200,7 @@ def rio(L,apk,data):
     L.add('Shaders do Android (GLES2): %d arquivos'%len(sh),'Fora','o PS2 não usa shaders do Android')
 def main(ac,ar,data,out):
     L=Lista();classic(L,ac);rio(L,ar,data)
-    head=['PS2Birds - LISTA DE ASSETS DO CLASSIC E DO RIO','Estado em 24/11/2026. Versões: Classic 1.5.1, Rio 0.54.0.','',
+    head=['PS2Birds - LISTA DE ASSETS DO CLASSIC E DO RIO','Estado em 24/11/2026. Versões: Classic 1.5.2, Rio 0.54.0.','',
       'Critérios (entre parênteses em cada item):','  Incluído - completo no port (todos os arquivos ou quadros que o jogo usa estão lá).',
       '  Parcial  - o port tem boa parte, mas não está completo.','  Necessário    - fora do port, mas faz sentido incluir (fases, arte, sons e músicas de jogo).','  Desnecessário - fora do port e não faz sentido incluir (loja, rede, anúncios, ligas, UGC, outros idiomas, Android).',
       'Folhas de sprites: Incluído com 85% ou mais dos quadros no port, Parcial de 10% a 84%, abaixo disso Necessário ou Desnecessário (conforme o conteúdo).',

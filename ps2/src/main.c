@@ -3,7 +3,7 @@
 #define GAME_VERSION "0.54.0"
 #define GAME_NAME "PS2Birds Rio"
 #else
-#define GAME_VERSION "1.5.1"
+#define GAME_VERSION "1.5.2"
 #define GAME_NAME "PS2Birds Classic"
 #endif
 #include <tamtypes.h>
@@ -1217,19 +1217,17 @@ int main(int argc,char **argv)
             game_aim(&g,vertical*29.97f*precision*frame_seconds,horizontal*89.91f*precision*frame_seconds);
             if (pressed & PAD_CROSS) {
                 if(g.state==AIMING){int type=game_queue_type(&g,0);game_launch(&g);audio_play(
-#ifdef PS2BIRDS_RIO
-                    type==BIRD_GREEN_TYPE?SFX_LAUNCH_BOOMERANG:type==BIRD_BIG_TYPE?SFX_LAUNCH_BIG:
-#else
-                    type==BIRD_GREEN_TYPE?SFX_LAUNCH_RED:
-#endif
+                    type==BIRD_GREEN_TYPE?SFX_LAUNCH_BOOMERANG:type==BIRD_BIG_TYPE?SFX_LAUNCH_BIG:type==BIRD_PINK_TYPE?SFX_LAUNCH_PINK:
                     type==BIRD_WHITE_TYPE?SFX_LAUNCH_WHITE:(type==BIRD_BLACK_TYPE||type==BIRD_SHOCK_TYPE)?SFX_LAUNCH_BLACK:type==BIRD_BLUE_TYPE?SFX_LAUNCH_BLUE:type==BIRD_YELLOW_TYPE?SFX_LAUNCH_YELLOW:SFX_LAUNCH_RED);}
                 else if(game_special(&g)){GameBird active;if(game_get_projectile(&g,0,&active)){if(active.type==BIRD_BLUE_TYPE)audio_play(SFX_SPLIT);else if(active.type==BIRD_YELLOW_TYPE)audio_play(SFX_BOOST);else if(active.type==BIRD_WHITE_TYPE)audio_play(SFX_DROP_EGG);
 #ifdef PS2BIRDS_RIO
                     else if(active.type==BIRD_RED_TYPE)audio_play(SFX_SPECIAL_RED);
+#else
+                    else if(active.type==BIRD_PINK_TYPE)audio_play(SFX_SPECIAL_PINK);
+#endif
                     else if(active.type==BIRD_GREEN_TYPE)audio_play(SFX_SPECIAL_BOOMERANG);
                     else if(active.type==BIRD_BIG_TYPE)audio_play(SFX_SPECIAL_BIG);
                     else if(active.type==BIRD_PUFFER_TYPE)audio_play(SFX_SPECIAL_GLOBE);
-#endif
                 }}
                 printf("PS2Birds: launch state=%d angle=%.1f power=%.1f birds=%d\n",g.state,g.angle,g.power,g.birds);
             }
