@@ -19,7 +19,7 @@ def necessidade(sec,name):
     n=name.lower();rio='RIO' in sec
     if 'EFEITOS SONOROS' in sec:
         if re.search(UI_SOM,n):return 'Desnecessário','som de loja, moedas, recompensas, ligas ou menu; o port não tem essas telas'
-        return 'Necessário','som de jogo (colisão, dano, pássaro, bloco) que o port ainda não usa'
+        return 'Desnecessário','som de evento sem gatilho no port (ou sem espaço no banco de 1 MiB do SPU2): decidido encerrar os sons'
     if 'MÚSICA' in sec:
         if 'game_complete' in n:return 'Desnecessário','declarada no audio.lua, mas nenhum script do APK a toca'
         if re.search(r'xmas|ssvsab|funky',n):return 'Desnecessário','música de evento ou promoção'
@@ -33,15 +33,15 @@ def necessidade(sec,name):
         if re.search(r'eagledemo|powerupschool',n):return 'Desnecessário','demonstração da loja / escola de power-ups'
         return 'Necessário','fases jogáveis offline'
     if 'TEMAS' in sec or 'CENAS' in sec:
-        if rio:return 'Necessário','tema ou cena das fases do Rio 2 (entra com os pacotes de fases)'
+        if rio:return 'Desnecessário','tema que nenhuma fase incluída usa'
         return 'Desnecessário','configuração de tema/cena sem arte própria'
     if 'backgrounds_ge' in n:return 'Desnecessário','fundo dos instrumentos musicais do Golden Eggs (teclado, acordeão, rádio), que o port não tem'
     if re.search(r'shop|iap|store|purchase|achiev|channel|daily|forced_update|crosspromo|xpromo|gamecenter|gift|popup|reward|splash|mattel|ugc|localiz|korea|id_sheet|ml_|league|sticker|tournament|powerup_reminder|hud_ingame|igc_|hint|tutorial|golden_eggs_sheet|levelselection|menu_native|menu_elements|menu_toons|menu_parts|buttons_|misc_sheet|gradient|lighting',n):
         return 'Desnecessário','tela de loja, rede, conquistas, ligas, promoções ou menu que o port não tem (ou refaz com arte própria)'
-    if rio and re.search(r'nye|maunas|amazon|forest|smallfish|rio2|rio_2|r2_',n):return 'Necessário','arte do Rio 2 (entra com as fases do Rio 2)'
+    if rio and re.search(r'nye|maunas|amazon|forest|smallfish|rio2|rio_2|r2_',n):return 'Desnecessário','nenhuma fase incluída usa estes quadros (as peças entram por nome, só as usadas pelas fases)'
     if re.search(r'theme|ground|parallax|backgrounds',n):return 'Desnecessário','cenário já montado em THEMES.BIN; o port usa o cenário composto'
     if re.search(r'ingame|pigs|birds|blocks|consumable|macaws|particles|awnings|boats|cutscene|egg_?defender|black',n):
-        return 'Necessário','arte de jogo (pássaros, blocos, porcos, cutscenes) que o port ainda não tem'
+        return 'Desnecessário','nenhuma fase incluída usa estes quadros (as peças entram por nome, só as usadas pelas fases)'
     return 'Desnecessário','arte de interface que o port não usa'
 class Lista:
     def __init__(s):s.lines=[];s.n=0;s.count=collections.Counter()
@@ -163,7 +163,9 @@ def rio(L,apk,data):
     comps=json.loads((ROOT/'work/rio/analysis/comp_inventory.json').read_text());cn=set()
     for p in comps['parsed']:cn.add(p['path'].rsplit('/',1)[-1][:-4])
     for sh,fr in sorted(sheets.items()):
-        inc=len(fr&port);L.add('Folha '+sh,status_ratio(inc,len(fr)),f'{inc}/{len(fr)} quadros')
+        inc=len(fr&port)
+        if sh.startswith('THEME_') and inc==0:L.add('Folha '+sh,'Incluído',f'camadas do cenário, montadas em THEMES.BIN ({len(fr)} quadros; poucas camadas de tema ainda ilegíveis, ver MODIFICACOES_RIO_0.53.3)');continue
+        L.add('Folha '+sh,status_ratio(inc,len(fr)),f'{inc}/{len(fr)} quadros')
     for c in sorted(cn-set(sheets)):L.add('Composições '+c,'Parcial','desenhadas inteiras no port quando uma peça de fase as usa (macacos, gaiolas); o resto não')
     L.sec('RIO - OUTRAS IMAGENS (sem tabela de quadros)')
     seen=set()
