@@ -48,10 +48,10 @@ def write_binary(levels,profile,polys,forced,stars,path=None):
     # (forceRelative, targetVelocity, applyForceInterval; flag 1 = starts powered off, disableForce).
     for name in forced:
         spec=profile['objects'][name];th=spec.get('thrust',{})
-        frc+=struct.pack('<I7fif3fi',s(name),*map(r,spec.get('force',[0.0,0.0])),r(spec.get('force_target',0.0)),*map(r,spec.get('explosion',[0.0,0.0,0.0,0.0])),int(spec.get('vial',[0,0.0])[0]),r(spec.get('vial',[0,0.0])[1]),
-                         r(th.get('force',0.0)),r(th.get('target',0.0)),r(th.get('interval',0.0)),1 if th.get('off') else 0)
+        frc+=struct.pack('<I7fif3fif',s(name),*map(r,spec.get('force',[0.0,0.0])),r(spec.get('force_target',0.0)),*map(r,spec.get('explosion',[0.0,0.0,0.0,0.0])),int(spec.get('vial',[0,0.0])[0]),r(spec.get('vial',[0,0.0])[1]),
+                         r(th.get('force',0.0)),r(th.get('target',0.0)),r(th.get('interval',0.0)),1 if th.get('off') else 0,r(spec.get('floatability',0.0)))
     while len(strings)%4:strings.append(0)
-    head=struct.pack('<4s7I',b'PBCP',10,len(levels),no,nj,len(polys),len(forced),len(strings))
+    head=struct.pack('<4s7I',b'PBCP',11,len(levels),no,nj,len(polys),len(forced),len(strings))
     data=head+bytes(lv)+bytes(objs)+bytes(joints)+bytes(pol)+bytes(frc)+bytes(strings)
     (Path(path) if path else ROOT/'ps2/assets/CAMPAIGN.BIN').write_bytes(data)
 
@@ -66,8 +66,8 @@ def read_binary(path):
     """Parse CAMPAIGN.BIN back (tests and tools): levels, objects, joints, polygons, forces."""
     import struct
     d=Path(path).read_bytes();magic,ver,nl,no,nj,np,nf,ns=struct.unpack_from('<4s7I',d)
-    if magic!=b'PBCP' or ver!=10:raise ValueError('Not a CAMPAIGN.BIN')
-    p=32;strs=d[32+nl*148+no*68+nj*80+np*72+nf*56:]
+    if magic!=b'PBCP' or ver!=11:raise ValueError('Not a CAMPAIGN.BIN')
+    p=32;strs=d[32+nl*148+no*68+nj*80+np*72+nf*60:]
     s=lambda o:strs[o:strs.index(b'\0',o)].decode()
     lv=[struct.unpack_from('<3I16i8f2Ii2I2iiii',d,p+i*148) for i in range(nl)];p+=nl*148
     ob=[struct.unpack_from('<8f2iI2fiiIf',d,p+i*68) for i in range(no)];p+=no*68
@@ -77,7 +77,7 @@ def read_binary(path):
         v=struct.unpack_from('<Ii16f',d,p+i*72);po[s(v[0])]=(v[1],list(v[2:2+2*v[1]]))
     p+=np*72
     for i in range(nf):
-        v=struct.unpack_from('<I7fif3fi',d,p+i*56);fo[s(v[0])]=(v[1],v[2])
+        v=struct.unpack_from('<I7fif3fif',d,p+i*60);fo[s(v[0])]=(v[1],v[2])
         if v[10] or v[13]:th[s(v[0])]=(v[10],v[11],v[12],v[13])
         if any(v[4:8]):ex[s(v[0])]=tuple(v[4:8])
         if v[8]:vi[s(v[0])]=(v[8],v[9])

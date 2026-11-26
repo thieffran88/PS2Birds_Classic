@@ -30,7 +30,7 @@ int game_campaign_error(void){return campaign_err;}
 /* The stages are not part of the program: they come from CAMPAIGN.BIN, generated from the
    player's own APK by tools/gerar_iso.py (layout below and in tools/build_campaign.py). */
 static const CampaignPolygon no_polygons[1]={{0,0,{0}}};
-static const CampaignForce no_forces[1]={{0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+static const CampaignForce no_forces[1]={{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 static CampaignLevel *campaign_levels;
 static const CampaignPolygon *campaign_polygons=no_polygons;
 static const CampaignForce *campaign_forces=no_forces;
@@ -61,9 +61,9 @@ static int campaign_read(unsigned off,void *dst,unsigned n)
 static int campaign_parse(unsigned size)
 {
     campaign_err=0;unsigned char h[32];
-    if(size<32 || !campaign_read(0,h,32) || memcmp(h,"PBCP",4) || rd32(h+4)!=10){campaign_err=4;return -1;}
+    if(size<32 || !campaign_read(0,h,32) || memcmp(h,"PBCP",4) || rd32(h+4)!=11){campaign_err=4;return -1;}
     unsigned nl=rd32(h+8),no=rd32(h+12),nj=rd32(h+16),np=rd32(h+20),nf=rd32(h+24),ns=rd32(h+28);
-    const unsigned LV=4*(3+16+8+2+1+2+2+1+1+1),OB=CAMPAIGN_OB,JO=4*20,PO=4*18,FO=4*14;
+    const unsigned LV=4*(3+16+8+2+1+2+2+1+1+1),OB=CAMPAIGN_OB,JO=4*20,PO=4*18,FO=4*15;
     if(nl==0 || nl>MAX_CAMPAIGN_LEVELS || 32ull+(unsigned long long)nl*LV+(unsigned long long)no*OB+(unsigned long long)nj*JO+np*PO+nf*FO+ns!=size){campaign_err=5;return -1;}
     unsigned obj_off=32+nl*LV,tail_off=obj_off+no*OB,tail=size-tail_off;
     unsigned char *pl=(unsigned char*)malloc(nl*LV),*pj=(unsigned char*)malloc(tail?tail:1);
@@ -85,7 +85,7 @@ static int campaign_parse(unsigned size)
         j.axis_x=rdf(q+48);j.axis_y=rdf(q+52);j.lower=rdf(q+56);j.upper=rdf(q+60);j.motor_speed=rdf(q+64);j.max_force=rdf(q+68);j.flags=(int)rd32(q+72);jnames[i]=STR(q+76);
     }
     for(unsigned i=0;i<np;i++){const unsigned char *q=pp+i*PO;polys[i].definition=STR(q);polys[i].count=(int)rd32(q+4);for(int k=0;k<16;k++)polys[i].v[k]=rdf(q+8+4*k);}
-    for(unsigned i=0;i<nf;i++){const unsigned char *q=pf+i*FO;forces[i].definition=STR(q);forces[i].fx=rdf(q+4);forces[i].fy=rdf(q+8);forces[i].target=rdf(q+12);forces[i].blast_radius=rdf(q+16);forces[i].blast_force=rdf(q+20);forces[i].damage_radius=rdf(q+24);forces[i].damage=rdf(q+28);forces[i].vial=(int)rd32(q+32);forces[i].vial_radius=rdf(q+36);forces[i].thrust=rdf(q+40);forces[i].thrust_target=rdf(q+44);forces[i].thrust_interval=rdf(q+48);forces[i].thrust_flags=(int)rd32(q+52);}
+    for(unsigned i=0;i<nf;i++){const unsigned char *q=pf+i*FO;forces[i].definition=STR(q);forces[i].fx=rdf(q+4);forces[i].fy=rdf(q+8);forces[i].target=rdf(q+12);forces[i].blast_radius=rdf(q+16);forces[i].blast_force=rdf(q+20);forces[i].damage_radius=rdf(q+24);forces[i].damage=rdf(q+28);forces[i].vial=(int)rd32(q+32);forces[i].vial_radius=rdf(q+36);forces[i].thrust=rdf(q+40);forces[i].thrust_target=rdf(q+44);forces[i].thrust_interval=rdf(q+48);forces[i].thrust_flags=(int)rd32(q+52);forces[i].floatability=rdf(q+56);}
     for(unsigned i=0;i<nl;i++){
         const unsigned char *q=pl+i*LV;CampaignLevel &l=levels[i];
         unsigned o0=rd32(q),oc=rd32(q+4),j0,jc;
@@ -257,8 +257,9 @@ struct Physics: b2ContactListener {
             const b2Vec2 v=b->GetLinearVelocity();
             if(v.Length()<0.005f){still[i]+=dt;if(still[i]>=2.0f)continue;}else still[i]=0;
             const float depth=fminf(b->GetPosition().y-water_y,4.0f);
-            b2Vec2 f(0,-20.0f*b->GetMass()*depth/4.0f);
             const CampaignObject &o=level->objects[i];
+            const float fl=force_of[i] && force_of[i]->floatability>0?force_of[i]->floatability:1.0f;   /* blocks.lua floatability */
+            b2Vec2 f(0,-20.0f*b->GetMass()*depth/4.0f*fl);
             /* a piece (not a bird) is also slowed by the water: 0.5 v^2 x its cross section (port scale 0.1), the push up is dropped when it rises faster than 18 */
             f.x=-(v.x>0?1.0f:v.x<0?-1.0f:0.0f)*0.5f*v.x*v.x*o.height*0.1f;
             if(v.y<-18.0f)f.y=0;else f.y-=(v.y>0?1.0f:v.y<0?-1.0f:0.0f)*0.5f*v.y*v.y*o.width*0.1f;
@@ -267,7 +268,7 @@ struct Physics: b2ContactListener {
         if(bird && bird_under){   /* the bird: buoyancy only (1.1 when it moves up) */
             const float depth=fminf(bird->GetPosition().y-water_y,4.0f);
             const float k=bird->GetLinearVelocity().y<=0?1.1f:1.0f;
-            bird->ApplyForceToCenter(b2Vec2(0,-20.0f*bird->GetMass()*depth/4.0f*k),true);
+            bird->ApplyForceToCenter(b2Vec2(0,-20.0f*bird->GetMass()*depth/4.0f*k*2.5f),true);   /* the birds' floatability is 2.5 (blocks.lua) */
         }
     }
     /* After the world step: crossings (sounds, damping, drowning). */

@@ -44,7 +44,12 @@ def build(apk,out,packs,ffmpeg,etapa=None,ids_dir=None):
     for i,f in enumerate(levels):
         e=EPISODE.get(pack_of[i],pack_of[i].upper());count[e]=count.get(e,0)+1
         stages[i]['stage_script']=f.stem;stages[i]['title']='%s %d'%(e,count[e]);stages[i]['texture_bank']=banks.index(bank_key(pack_of[i]))
-    classic.write_binary(stages,{'objects':{}},[],[],{},out/'CAMPAIGN.BIN')
+    # floatability of the pieces the water lifts (blocks.lua `floatability`: barrels 2.6, eggs 4.2...), one force record per definition (no force of their own)
+    cat=json.loads((ROOT/'work/rio/analysis/definition_catalogue.json').read_text())['definitions']
+    used={o['definition'] for s in stages for o in s['objects']}
+    float_of={d:(cat.get(d) or {}).get('effective',{}).get('floatability') for d in used}
+    float_of={d:v for d,v in float_of.items() if v}
+    classic.write_binary(stages,{'objects':{d:{'floatability':v} for d,v in float_of.items()}},[],sorted(float_of),{},out/'CAMPAIGN.BIN')
     etapa(2)
     bank_dirs=[]
     for k,e in enumerate(banks):

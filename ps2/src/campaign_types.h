@@ -31,7 +31,7 @@ typedef struct {const char *definition;int count;float v[16];} CampaignPolygon;
 /* Per-definition values from blocks.lua: constant force (balloons) and explosion (specialty BOMB). */
 enum {POWERUP_NONE=0,POWERUP_KING_SLING=1,POWERUP_SLING_SCOPE=2,POWERUP_BIRD_QUAKE=3,POWERUP_POWER_POTION=4,POWERUP_SHOCKWAVE=5};
 enum {VIAL_ORANGE=1,VIAL_PINK=2,VIAL_BLUE=3};
-typedef struct {const char *definition;float fx,fy,target,blast_radius,blast_force,damage_radius,damage;int vial;float vial_radius;float thrust,thrust_target,thrust_interval;int thrust_flags;} CampaignForce;
+typedef struct {const char *definition;float fx,fy,target,blast_radius,blast_force,damage_radius,damage;int vial;float vial_radius;float thrust,thrust_target,thrust_interval;int thrust_flags;float floatability;} CampaignForce;   /* floatability: how much the Rio's water lifts the piece (blocks.lua, 1 when 0) */
 /* Joints from the stage's joints table (types as in the level editor: 1 distance,
    2 weld, 3 revolute). Anchors are world coordinates; a/b index the objects array,
    -1 meaning the ground. frequency/damping 0 makes the joint rigid. breakForce 0 means
