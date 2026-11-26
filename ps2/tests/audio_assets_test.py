@@ -9,7 +9,7 @@ for s in meta['sounds']:
  assert s['offset']%64==0 and s['offset']>=previous and s['channel'] in range(meta['voice_channels'])
  data=bank[s['offset']:s['offset']+s['bytes']];previous=s['offset']+s['bytes']
  assert len(data)==s['bytes'] and len(data)%16==0 and data[:4]==b'APCM'
- assert data[5]==1 and data[6]==0 and 1800<struct.unpack_from('<I',data,8)[0]<2000
+ assert data[5]==1 and data[6]==0 and s['sample_rate'] in (22050,16000,12000) and struct.unpack_from('<I',data,8)[0]==s['sample_rate']*4096//48000   # the pitch of the header follows the sample rate (long effects are stored lower)
  assert hashlib.sha256(data).hexdigest()==s['adpcm_sha256']
  # Independent SPU2 ADPCM decoder: test the actual encoded blocks contain a finite, non-silent signal.
  h1=h2=0;samples=[];coefficients=[(0,0),(60,0),(115,-52),(98,-55),(122,-60)]
