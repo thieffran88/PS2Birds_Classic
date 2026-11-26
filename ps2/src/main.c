@@ -3,7 +3,7 @@
 #define GAME_VERSION "0.54.0"
 #define GAME_NAME "PS2Birds Rio"
 #else
-#define GAME_VERSION "1.5.2"
+#define GAME_VERSION "1.6.0"
 #define GAME_NAME "PS2Birds Classic"
 #endif
 #include <tamtypes.h>
@@ -1255,6 +1255,12 @@ int main(int argc,char **argv)
             if(before==FLYING && g.state==AIMING)audio_play(SFX_NEXT_BIRD);   /* the next bird of the queue takes its place on the slingshot */
             if(g.events&GAME_EVENT_EXPLOSION)audio_play(SFX_EXPLOSION);
             if(g.events&GAME_EVENT_PIG)audio_play(SFX_PIG);
+#ifndef PS2BIRDS_RIO
+            if(g.events&GAME_EVENT_BONE)audio_play(SFX_BONE);   /* the Dino bones, vials and stalaktites have their own breaking sounds */
+            else if(g.events&GAME_EVENT_VIAL)audio_play(SFX_VIAL);
+            else if(g.events&GAME_EVENT_STALAKTITE)audio_play(SFX_STALAKTITE);
+            else
+#endif
             if(g.events&GAME_EVENT_GLASS)audio_play(SFX_GLASS);
             else if(g.events&GAME_EVENT_STONE)audio_play(SFX_STONE);
 #ifdef PS2BIRDS_RIO
@@ -1263,10 +1269,12 @@ int main(int argc,char **argv)
 #else
             else if(g.events&(GAME_EVENT_WOOD|GAME_EVENT_EXTRA))audio_play(SFX_WOOD);
 #endif
-            if(!(g.events&(GAME_EVENT_PIG|GAME_EVENT_WOOD|GAME_EVENT_GLASS|GAME_EVENT_STONE|GAME_EVENT_EXTRA|GAME_EVENT_EXPLOSION))){   /* a hard impact that broke nothing: the material's collision sound */
+            if(!(g.events&(GAME_EVENT_PIG|GAME_EVENT_WOOD|GAME_EVENT_GLASS|GAME_EVENT_STONE|GAME_EVENT_EXTRA|GAME_EVENT_EXPLOSION|GAME_EVENT_BONE|GAME_EVENT_VIAL|GAME_EVENT_STALAKTITE))){   /* a hard impact that broke nothing: the material's collision sound */
 #ifndef PS2BIRDS_RIO
                 if(g.events&GAME_EVENT_DMG_PIG)audio_play(SFX_DMG_PIG);   /* the pigs' own sounds come before the materials' (Classic) */
                 else if(g.events&GAME_EVENT_HIT_PIG)audio_play(SFX_HIT_PIG);
+                else if(g.events&GAME_EVENT_DMG_BONE)audio_play(SFX_DMG_BONE);
+                else if(g.events&GAME_EVENT_HIT_BONE)audio_play(SFX_HIT_BONE);
                 else
 #endif
                 if(g.events&GAME_EVENT_DMG_STONE)audio_play(SFX_DMG_STONE);

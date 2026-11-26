@@ -75,8 +75,13 @@
 #define SFX_SPECIAL_BIG 44        /* bigbrother_yell */
 #define SFX_SPECIAL_GLOBE 45      /* Globe_Bird_Special_Activation_1 */
 #define SFX_SPECIAL_PINK 46       /* pink_activate_01 */
-#define SFX_BASE_COUNT 47
-#define SFX_COUNT 71      /* 47 effects + 24 variants (audio_variants) */
+#define SFX_BONE 47               /* bone_destroy_1 (a Dino bone breaks) */
+#define SFX_VIAL 48               /* vial_break_01 (a vial or glass pipe breaks) */
+#define SFX_STALAKTITE 49         /* stalaktite_break_01 */
+#define SFX_HIT_BONE 50           /* bone_collision_1 */
+#define SFX_DMG_BONE 51           /* bone_damage_1 */
+#define SFX_BASE_COUNT 52
+#define SFX_COUNT 86      /* 52 effects + 34 variants (audio_variants) */
 #endif
 #define SFX_CHANNELS 10
 typedef struct {int channel,cooldown;} AudioAsset;
@@ -150,6 +155,11 @@ static const AudioAsset audio_assets[SFX_COUNT]={
  {2,0},   /* SPECIAL_BIG */
  {2,0},   /* SPECIAL_GLOBE */
  {2,0},   /* SPECIAL_PINK */
+ {4,12},  /* BONE */
+ {4,12},  /* VIAL */
+ {4,12},  /* STALAKTITE */
+ {5,8},   /* HIT_BONE */
+ {5,10},  /* DMG_BONE */
 #endif
 #endif
  {4,12},   /* WOOD variant 2 */
@@ -177,6 +187,16 @@ static const AudioAsset audio_assets[SFX_COUNT]={
  {5,10},  /* DMG_PIG variant 3 */
  {2,0},   /* OINK variant 2 */
  {2,0},   /* OINK variant 3 */
+ {4,12},  /* BONE variant 2 */
+ {4,12},  /* BONE variant 3 */
+ {4,12},  /* VIAL variant 2 */
+ {4,12},  /* VIAL variant 3 */
+ {4,12},  /* STALAKTITE variant 2 */
+ {4,12},  /* STALAKTITE variant 3 */
+ {5,8},   /* HIT_BONE variant 2 */
+ {5,8},   /* HIT_BONE variant 3 */
+ {5,10},  /* DMG_BONE variant 2 */
+ {5,10},  /* DMG_BONE variant 3 */
 #endif
 };
 /* Sounds the originals pick at random among several recordings: the base effect (a1) and `count`-1 extra effects from `first` on (extract_audio.py VARIANT_GROUPS, same order). */
@@ -184,14 +204,15 @@ typedef struct {int base,first,count;} AudioVariant;
 #ifdef PS2BIRDS_RIO
 #define SFX_VARIANT_GROUPS 9
 #else
-#define SFX_VARIANT_GROUPS 12
+#define SFX_VARIANT_GROUPS 17
 #endif
 static const AudioVariant audio_variants[SFX_VARIANT_GROUPS]={
  {SFX_WOOD,SFX_BASE_COUNT+0,3},{SFX_GLASS,SFX_BASE_COUNT+2,3},{SFX_STONE,SFX_BASE_COUNT+4,3},
  {SFX_HIT_WOOD,SFX_BASE_COUNT+6,3},{SFX_HIT_GLASS,SFX_BASE_COUNT+8,3},{SFX_HIT_STONE,SFX_BASE_COUNT+10,3},
  {SFX_DMG_WOOD,SFX_BASE_COUNT+12,3},{SFX_DMG_GLASS,SFX_BASE_COUNT+14,3},{SFX_DMG_STONE,SFX_BASE_COUNT+16,3}
 #ifndef PS2BIRDS_RIO
- ,{SFX_HIT_PIG,SFX_BASE_COUNT+18,3},{SFX_DMG_PIG,SFX_BASE_COUNT+20,3},{SFX_OINK,SFX_BASE_COUNT+22,3}
+ ,{SFX_HIT_PIG,SFX_BASE_COUNT+18,3},{SFX_DMG_PIG,SFX_BASE_COUNT+20,3},{SFX_OINK,SFX_BASE_COUNT+22,3},
+ {SFX_BONE,SFX_BASE_COUNT+24,3},{SFX_VIAL,SFX_BASE_COUNT+26,3},{SFX_STALAKTITE,SFX_BASE_COUNT+28,3},{SFX_HIT_BONE,SFX_BASE_COUNT+30,3},{SFX_DMG_BONE,SFX_BASE_COUNT+32,3}
 #endif
 };
 #endif

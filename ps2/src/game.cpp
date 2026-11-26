@@ -16,6 +16,7 @@
 #include <box2d/box2d.h>
 #include <math.h>
 #include <string.h>
+#include <ctype.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -157,6 +158,18 @@ static void popup_at(Game *g,b2Vec2 where,int score,int kind,int material);
 #define RED_RESTITUTION 0.25f
 #endif
 #define HIT_SOUND_IMPULSE 6.0f   /* normal impulse (kg m/s) above which a block's impact makes its material sound */
+/* Sound family of a piece, by definition name: 1 Dino bone, 2 vial or glass pipe, 3 stalaktite (they have their own sounds in the original); 0 the material's. */
+static bool name_has(const char *s,const char *part){
+    for(;*s;s++){const char *a=s,*b=part;while(*a && *b && tolower((unsigned char)*a)==tolower((unsigned char)*b)){a++;b++;}if(!*b)return true;}
+    return false;
+}
+static int sound_family(const char *def){
+    if(!def)return 0;
+    if(name_has(def,"bone") && !name_has(def,"deco"))return 1;
+    if(name_has(def,"vial") || name_has(def,"glass_pipe"))return 2;
+    if(name_has(def,"stalaktite"))return 3;
+    return 0;
+}
 struct Physics;
 /* One Egg Defender wave's vehicle and its translated controller (egg_vehicles.cpp). */
 struct EggVehicle {
@@ -611,7 +624,7 @@ struct Physics: b2ContactListener {
         b2Body *pair[]={contact->GetFixtureA()->GetBody(),contact->GetFixtureB()->GetBody()};
         if(normal>HIT_SOUND_IMPULSE)for(b2Body *body:pair){   /* the materials' collision sound */
             uintptr_t hid=body->GetUserData().pointer;
-            if(hid>0 && hid<=(uintptr_t)level->count){const int k=level->objects[hid-1].kind;hit_events|=k==1?GAME_EVENT_HIT_WOOD:k==2?GAME_EVENT_HIT_GLASS:k==5?GAME_EVENT_HIT_STONE:k==4?GAME_EVENT_HIT_PIG:0;}
+            if(hid>0 && hid<=(uintptr_t)level->count){const int k=level->objects[hid-1].kind;hit_events|=sound_family(level->objects[hid-1].definition)==1?GAME_EVENT_HIT_BONE:k==1?GAME_EVENT_HIT_WOOD:k==2?GAME_EVENT_HIT_GLASS:k==5?GAME_EVENT_HIT_STONE:k==4?GAME_EVENT_HIT_PIG:0;}
         }
         for (b2Body *body:pair) {
             uintptr_t id=body->GetUserData().pointer;
@@ -1372,7 +1385,7 @@ static void tick(Game *g) {
             /* CollisionCallbacks.lua: each hit that deals damage scores floor(damage applied) x 10 (a killing hit applies what strength was left). */
             g->score+=(int)floorf(fminf(dealt,fmaxf(before,0)))*10;}
 #endif
-        if(dealt>0 && p->health[i]>0)g->events|=o.kind==1?GAME_EVENT_DMG_WOOD:o.kind==2?GAME_EVENT_DMG_GLASS:o.kind==5?GAME_EVENT_DMG_STONE:o.kind==4?GAME_EVENT_DMG_PIG:0;   /* hurt but standing: the material's damage sound */
+        if(dealt>0 && p->health[i]>0)g->events|=sound_family(o.definition)==1?GAME_EVENT_DMG_BONE:o.kind==1?GAME_EVENT_DMG_WOOD:o.kind==2?GAME_EVENT_DMG_GLASS:o.kind==5?GAME_EVENT_DMG_STONE:o.kind==4?GAME_EVENT_DMG_PIG:0;   /* hurt but standing: the material's damage sound */
         p->impact[i]=0;
         /* blocks.lua <Bird>DamageFactors.velocityMultiplier: when the bird's hit breaks the piece,
            it keeps its speed before the hit x min(1, leftover damage share x multiplier)
@@ -1402,7 +1415,7 @@ static void tick(Game *g) {
                 if(f && f->blast_radius>0)radial_blast(g,where,f->blast_radius,f->blast_force,f->damage_radius,f->damage);
                 else radial_blast(g,where,TNT_BLAST_RADIUS,TNT_BLAST_FORCE,TNT_DAMAGE_RADIUS,TNT_BLAST_DAMAGE);}
             if(o.flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL)){}
-            else if(o.kind==4 && p->is_goal(i)){g->pig_alive--;{int pts=o.score>=0?(int)o.score:5000;g->score+=pts;popup_at(g,where,pts,POPUP_PIG,4);}g->events|=GAME_EVENT_PIG;}else {g->block_alive--;int earned=o.score>=0?(int)o.score:o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;   /* getScoreToAddForBreaking: the piece's destroyedScoreInc, else 500 */if(g->shop_mask&SHOP_DOUBLE)earned*=2;g->score+=earned;popup_at(g,where,earned,POPUP_PIECE,o.kind);g->events|=o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}
+            else if(o.kind==4 && p->is_goal(i)){g->pig_alive--;{int pts=o.score>=0?(int)o.score:5000;g->score+=pts;popup_at(g,where,pts,POPUP_PIG,4);}g->events|=GAME_EVENT_PIG;}else {g->block_alive--;int earned=o.score>=0?(int)o.score:o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;   /* getScoreToAddForBreaking: the piece's destroyedScoreInc, else 500 */if(g->shop_mask&SHOP_DOUBLE)earned*=2;g->score+=earned;popup_at(g,where,earned,POPUP_PIECE,o.kind);{const int fam=sound_family(o.definition);g->events|=fam==1?GAME_EVENT_BONE:fam==2?GAME_EVENT_VIAL:fam==3?GAME_EVENT_STALAKTITE:o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}}
         }
     }
     g->pig_alive+=p->pending_pigs;p->pending_pigs=0;
