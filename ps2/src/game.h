@@ -235,7 +235,8 @@ enum {GAME_EVENT_PIG=1, GAME_EVENT_WOOD=2, GAME_EVENT_GLASS=4, GAME_EVENT_STONE=
       GAME_EVENT_DMG_WOOD=512, GAME_EVENT_DMG_GLASS=1024, GAME_EVENT_DMG_STONE=2048,
       GAME_EVENT_HIT_PIG=4096, GAME_EVENT_DMG_PIG=8192,
       GAME_EVENT_HIT_BONE=16384, GAME_EVENT_DMG_BONE=32768, GAME_EVENT_BONE=65536, GAME_EVENT_VIAL=131072, GAME_EVENT_STALAKTITE=262144,
-      GAME_EVENT_MONKEY=524288, GAME_EVENT_METAL=1048576, GAME_EVENT_HIT_METAL=2097152};   /* Rio: a goal monkey was destroyed / a metal box broke / took a hard impact */   /* Classic sounds of the Dino bones, vials/glass pipes and stalaktites (by definition name) */   /* a pig took a hard impact / took damage and held (Classic sounds) */   /* DMG_*: a block of that material took damage and held */   /* HIT_*: a block of that material took a hard impact (sound only) */
+      GAME_EVENT_MONKEY=524288, GAME_EVENT_METAL=1048576, GAME_EVENT_HIT_METAL=2097152,
+      GAME_EVENT_WATER_BIRD_IN=4194304, GAME_EVENT_WATER_BIRD_OUT=8388608, GAME_EVENT_WATER_OBJ_IN=16777216, GAME_EVENT_WATER_OBJ_OUT=33554432};   /* Rio: the bird / another body went into or out of the water */   /* Rio: a goal monkey was destroyed / a metal box broke / took a hard impact */   /* Classic sounds of the Dino bones, vials/glass pipes and stalaktites (by definition name) */   /* a pig took a hard impact / took damage and held (Classic sounds) */   /* DMG_*: a block of that material took damage and held */   /* HIT_*: a block of that material took a hard impact (sound only) */
 typedef enum { AIMING, FLYING, WON, LOST } GameState;
 /* gamelogic.lua addFloatingScore: a score shown where it was earned. kind 0: piece (text,
    0.6 s, scale 0.25 + score/3000); 1: pig and 2: bird left at the end (score sprite, 0.9 s,

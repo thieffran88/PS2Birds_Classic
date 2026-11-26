@@ -211,6 +211,25 @@ struct Physics: b2ContactListener {
     float chain_delay[MAX_LEVEL_OBJECTS];
     b2Vec2 blast_position;
     b2Contact *damage_contacts[MAX_LEVEL_OBJECTS*2];b2Vec2 damage_va[MAX_LEVEL_OBJECTS*2],damage_vb[MAX_LEVEL_OBJECTS*2];int damage_contact_count;unsigned hit_events;
+#ifdef PS2BIRDS_RIO
+    /* Water (LevelEffectWater.lua): the marker blocks BLOCK_INDESTRUCTIBLE_WATER_LEVEL / AMAZON_RIVER_WATER_LEVEL_* give the surface; bodies that cross it make the splash sounds (sound only: no damping or floating here). */
+    bool has_water,bird_under;float water_y;unsigned char under[MAX_LEVEL_OBJECTS];
+    void water_setup(){
+        has_water=false;bird_under=false;water_y=0;memset(under,0,sizeof(under));
+        for(int i=0;i<level->count;i++)if(name_has(level->objects[i].definition,"WATER_LEVEL")){const float y=level->objects[i].y;if(!has_water || y<water_y)water_y=y;has_water=true;}
+    }
+    void water_check(Game *g){
+        if(!has_water)return;
+        const bool settling=age<0.5f;   /* the opening drop is silent: only crossings after it make a sound */
+        for(int i=0;i<level->count;i++){
+            const b2Body *b=bodies[i];
+            if(!b || b->GetType()!=b2_dynamicBody){under[i]=0;continue;}
+            const bool u=b->GetPosition().y>water_y;
+            if(u!=(under[i]!=0)){if(!settling)g->events|=u?GAME_EVENT_WATER_OBJ_IN:GAME_EVENT_WATER_OBJ_OUT;under[i]=u;}
+        }
+        if(bird){const bool u=bird->GetPosition().y>water_y;if(u!=bird_under){if(!settling)g->events|=u?GAME_EVENT_WATER_BIRD_IN:GAME_EVENT_WATER_BIRD_OUT;bird_under=u;}}
+    }
+#endif
     /* Static scenery the launched bird overlapped at spawn; ignored until they separate. */
     b2Body *spawn_ignore[8];int spawn_ignore_count;
     b2Body *floor_body;
@@ -236,7 +255,11 @@ struct Physics: b2ContactListener {
     EggVehicle vehicles[16];
     Physics(const CampaignLevel *l):world(b2Vec2(0,l->gravity)),level(l),bird(NULL),age(0),has_launched(false),special_used(false),bird_collided(false),boomerang_active(false),boomerang_x_force(0),boomerang_y_force(0),boomerang_spin(0),puffer_state(0),puffer_timer(0),puffer_auto(-1),puffer_direction(0),puffer_seed(12345u),pink_timer(-1),bird_bubble(0),pink_hover(false),bird_type(BIRD_RED_TYPE) {
         forced_type=-1;blu_timer=-1;blu_clock=0;blu_dir=0;blu_fx=0;blu_dir_set=false;egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
-        damage_contact_count=0;hit_events=0;spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
+        damage_contact_count=0;hit_events=0;
+#ifdef PS2BIRDS_RIO
+        has_water=false;bird_under=false;water_y=0;memset(under,0,sizeof(under));
+#endif
+        spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
         memset(chain_delay,0,sizeof(chain_delay));memset(bird_hit,0,sizeof(bird_hit));bird_pre_velocity.SetZero();memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(thrust,0,sizeof(thrust));memset(thrust_clock,0,sizeof(thrust_clock));memset(thrust_off,0,sizeof(thrust_off));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(gun_timer,0,sizeof(gun_timer));memset(gun_bubble_grow,0,sizeof(gun_bubble_grow));memset(gun_bubble_life,0,sizeof(gun_bubble_life));memset(is_gun,0,sizeof(is_gun));gun_seed=12345u;memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;pending_pigs=0;quake_time=0;homing_on=false;homing_used=false;quake_used=false;trapped_by=-1;current_wave=1;last_wave=1;egg_mode=false;potion_armed=false;potion_used=false;shock_bonus=false;shock_used=false;potion_scale=1;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
         world.SetContactListener(this);destruction.owner=this;world.SetDestructionListener(&destruction);
         /* The Ground object of the stage data spans the whole level; stages place pieces up to
@@ -258,6 +281,9 @@ struct Physics: b2ContactListener {
             create_body(i,o.x,o.y,o.angle);
         }
         for(int i=0;i<level->joint_count && i<MAX_LEVEL_JOINTS;i++)create_joint(level->joints[i]);
+#ifdef PS2BIRDS_RIO
+        water_setup();
+#endif
         egg_setup();
     }
     /* deathSpawn (gamelogic.lua): the pieces stored for a destroyed parent appear where it was. */
@@ -1311,6 +1337,9 @@ static void tick(Game *g) {
         if(p->red_fly){if(p->bird_collided)p->red_fly=false;else p->bird->ApplyForceToCenter(b2Vec2(0,-p->level->gravity*p->bird->GetMass()),true);}
     }
     p->age+=dt;p->damage_contact_count=0;p->world.Step(step,8,3);g->events|=p->hit_events;p->hit_events=0;
+#ifdef PS2BIRDS_RIO
+    p->water_check(g);
+#endif
     for(int k=0;k<p->detach_count;k++){
         int t=p->detach_target[k];
         if(t<0 || p->bodies[p->detach_source[k]])continue;

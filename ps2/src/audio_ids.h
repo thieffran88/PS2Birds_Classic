@@ -52,9 +52,13 @@
 #define SFX_MONKEY_IDLE 45        /* monkey idle a1 */
 #define SFX_METAL_DESTROY 46      /* metal_destroyed_01 */
 #define SFX_HIT_METAL 47          /* metal_collision_01 */
+#define SFX_WATER_BIRD_IN 48      /* bird_enter_water_01 */
+#define SFX_WATER_BIRD_OUT 49     /* bird_exit_water_01 */
+#define SFX_WATER_OBJ_IN 50       /* object_enter_water_01 */
+#define SFX_WATER_OBJ_OUT 51      /* object_exit_water_01 */
 #define SFX_LAUNCH_PINK SFX_LAUNCH_RED   /* the Rio has no pink-bird sounds in its bank */
-#define SFX_BASE_COUNT 48
-#define SFX_COUNT 73      /* 48 effects + 25 variants (audio_variants) */
+#define SFX_BASE_COUNT 52
+#define SFX_COUNT 85      /* 52 effects + 33 variants (audio_variants) */
 #else
 /* Classic-only ids after the shared ones: block impact sounds and each bird's collision sound (extract_audio.py CLASSIC_ONLY). */
 #define SFX_HIT_WOOD 25
@@ -139,6 +143,10 @@ static const AudioAsset audio_assets[SFX_COUNT]={
  {2,0},   /* MONKEY_IDLE */
  {4,12},  /* METAL_DESTROY */
  {5,8},   /* HIT_METAL */
+ {6,6},   /* WATER_BIRD_IN */
+ {6,6},   /* WATER_BIRD_OUT */
+ {3,10},  /* WATER_OBJ_IN */
+ {3,10},  /* WATER_OBJ_OUT */
 #else
  {5,8},   /* HIT_WOOD */
  {5,8},   /* HIT_GLASS */
@@ -196,6 +204,14 @@ static const AudioAsset audio_assets[SFX_COUNT]={
  {4,12},  /* METAL_DESTROY variant 3 */
  {5,8},   /* HIT_METAL variant 2 */
  {5,8},   /* HIT_METAL variant 3 */
+ {6,6},   /* WATER_BIRD_IN variant 2 */
+ {6,6},   /* WATER_BIRD_IN variant 3 */
+ {6,6},   /* WATER_BIRD_OUT variant 2 */
+ {6,6},   /* WATER_BIRD_OUT variant 3 */
+ {3,10},  /* WATER_OBJ_IN variant 2 */
+ {3,10},  /* WATER_OBJ_IN variant 3 */
+ {3,10},  /* WATER_OBJ_OUT variant 2 */
+ {3,10},  /* WATER_OBJ_OUT variant 3 */
 #endif
 #ifndef PS2BIRDS_RIO
  {5,8},   /* HIT_PIG variant 2 */
@@ -219,7 +235,7 @@ static const AudioAsset audio_assets[SFX_COUNT]={
 /* Sounds the originals pick at random among several recordings: the base effect (a1) and `count`-1 extra effects from `first` on (extract_audio.py VARIANT_GROUPS, same order). */
 typedef struct {int base,first,count;} AudioVariant;
 #ifdef PS2BIRDS_RIO
-#define SFX_VARIANT_GROUPS 13
+#define SFX_VARIANT_GROUPS 17
 #else
 #define SFX_VARIANT_GROUPS 17
 #endif
@@ -228,7 +244,8 @@ static const AudioVariant audio_variants[SFX_VARIANT_GROUPS]={
  {SFX_HIT_WOOD,SFX_BASE_COUNT+6,3},{SFX_HIT_GLASS,SFX_BASE_COUNT+8,3},{SFX_HIT_STONE,SFX_BASE_COUNT+10,3},
  {SFX_DMG_WOOD,SFX_BASE_COUNT+12,3},{SFX_DMG_GLASS,SFX_BASE_COUNT+14,3},{SFX_DMG_STONE,SFX_BASE_COUNT+16,3}
 #ifdef PS2BIRDS_RIO
- ,{SFX_MONKEY_DIE,SFX_BASE_COUNT+18,2},{SFX_MONKEY_IDLE,SFX_BASE_COUNT+19,3},{SFX_METAL_DESTROY,SFX_BASE_COUNT+21,3},{SFX_HIT_METAL,SFX_BASE_COUNT+23,3}
+ ,{SFX_MONKEY_DIE,SFX_BASE_COUNT+18,2},{SFX_MONKEY_IDLE,SFX_BASE_COUNT+19,3},{SFX_METAL_DESTROY,SFX_BASE_COUNT+21,3},{SFX_HIT_METAL,SFX_BASE_COUNT+23,3},
+ {SFX_WATER_BIRD_IN,SFX_BASE_COUNT+25,3},{SFX_WATER_BIRD_OUT,SFX_BASE_COUNT+27,3},{SFX_WATER_OBJ_IN,SFX_BASE_COUNT+29,3},{SFX_WATER_OBJ_OUT,SFX_BASE_COUNT+31,3}
 #endif
 #ifndef PS2BIRDS_RIO
  ,{SFX_HIT_PIG,SFX_BASE_COUNT+18,3},{SFX_DMG_PIG,SFX_BASE_COUNT+20,3},{SFX_OINK,SFX_BASE_COUNT+22,3},

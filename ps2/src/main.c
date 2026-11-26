@@ -1,6 +1,6 @@
 /* Version shown on the title and in the diagnostics: the Classic is 1.0.0, the Rio has its own line of versions. */
 #ifdef PS2BIRDS_RIO
-#define GAME_VERSION "0.55.0"
+#define GAME_VERSION "0.56.0"
 #define GAME_NAME "PS2Birds Rio"
 #else
 #define GAME_VERSION "1.6.1"
@@ -1256,6 +1256,12 @@ int main(int argc,char **argv)
                     if(oink_timer<=0){oink_seed=oink_seed*1664525u+1013904223u;audio_play(SFX_IDLE);oink_timer=6.0f+(float)((oink_seed>>16)%7);}
                 }
             }
+#ifdef PS2BIRDS_RIO
+            if(g.events&GAME_EVENT_WATER_BIRD_IN)audio_play(SFX_WATER_BIRD_IN);   /* the splash of the bird / of the pieces crossing the water surface */
+            else if(g.events&GAME_EVENT_WATER_BIRD_OUT)audio_play(SFX_WATER_BIRD_OUT);
+            else if(g.events&GAME_EVENT_WATER_OBJ_IN)audio_play(SFX_WATER_OBJ_IN);
+            else if(g.events&GAME_EVENT_WATER_OBJ_OUT)audio_play(SFX_WATER_OBJ_OUT);
+#endif
             if(before==FLYING && g.state==AIMING)audio_play(SFX_NEXT_BIRD);   /* the next bird of the queue takes its place on the slingshot */
             if(g.events&GAME_EVENT_EXPLOSION)audio_play(SFX_EXPLOSION);
 #ifdef PS2BIRDS_RIO
