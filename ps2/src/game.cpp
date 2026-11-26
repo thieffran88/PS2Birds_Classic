@@ -168,6 +168,10 @@ static int sound_family(const char *def){
     if(name_has(def,"bone") && !name_has(def,"deco"))return 1;
     if(name_has(def,"vial") || name_has(def,"glass_pipe"))return 2;
     if(name_has(def,"stalaktite"))return 3;
+#ifdef PS2BIRDS_RIO
+    if(name_has(def,"monkey"))return 4;   /* the Rio's goal monkeys */
+    if(name_has(def,"metal"))return 5;     /* metal boxes */
+#endif
     return 0;
 }
 struct Physics;
@@ -624,7 +628,7 @@ struct Physics: b2ContactListener {
         b2Body *pair[]={contact->GetFixtureA()->GetBody(),contact->GetFixtureB()->GetBody()};
         if(normal>HIT_SOUND_IMPULSE)for(b2Body *body:pair){   /* the materials' collision sound */
             uintptr_t hid=body->GetUserData().pointer;
-            if(hid>0 && hid<=(uintptr_t)level->count){const int k=level->objects[hid-1].kind;hit_events|=sound_family(level->objects[hid-1].definition)==1?GAME_EVENT_HIT_BONE:k==1?GAME_EVENT_HIT_WOOD:k==2?GAME_EVENT_HIT_GLASS:k==5?GAME_EVENT_HIT_STONE:k==4?GAME_EVENT_HIT_PIG:0;}
+            if(hid>0 && hid<=(uintptr_t)level->count){const int k=level->objects[hid-1].kind;hit_events|=sound_family(level->objects[hid-1].definition)==1?GAME_EVENT_HIT_BONE:sound_family(level->objects[hid-1].definition)==5?GAME_EVENT_HIT_METAL:k==1?GAME_EVENT_HIT_WOOD:k==2?GAME_EVENT_HIT_GLASS:k==5?GAME_EVENT_HIT_STONE:k==4?GAME_EVENT_HIT_PIG:0;}
         }
         for (b2Body *body:pair) {
             uintptr_t id=body->GetUserData().pointer;
@@ -723,7 +727,7 @@ int game_load_level(Game *g,int index) {
 #endif
     bool waved=false;for(int i=0;i<l->count;i++)if(OBJECT_WAVE(l->objects[i].flags))waved=true;
     /* Egg Defender: only the vehicles' pigs are goals (scene pigs, e.g. the opening scene's king, are not). */
-    for(int i=0;i<l->count;i++){if(l->objects[i].kind==4 && !l->objects[i].spawn_of && (!waved || OBJECT_WAVE(l->objects[i].flags)))g->pig_alive++;if(l->objects[i].kind!=3 && l->objects[i].kind!=4 && !(l->objects[i].flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL)))g->block_alive++;}
+    for(int i=0;i<l->count;i++){if(l->objects[i].kind==4 && !l->objects[i].spawn_of && (!waved || OBJECT_WAVE(l->objects[i].flags))){g->pig_alive++;if(sound_family(l->objects[i].definition)==4)g->monkey_goals++;}if(l->objects[i].kind!=3 && l->objects[i].kind!=4 && !(l->objects[i].flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL)))g->block_alive++;}
     return 1;
 }
 void game_reset(Game *g){game_load_level(g,g->level);}
@@ -1415,7 +1419,7 @@ static void tick(Game *g) {
                 if(f && f->blast_radius>0)radial_blast(g,where,f->blast_radius,f->blast_force,f->damage_radius,f->damage);
                 else radial_blast(g,where,TNT_BLAST_RADIUS,TNT_BLAST_FORCE,TNT_DAMAGE_RADIUS,TNT_BLAST_DAMAGE);}
             if(o.flags&(OBJECT_GUN_BUBBLE|OBJECT_CANNON_BALL)){}
-            else if(o.kind==4 && p->is_goal(i)){g->pig_alive--;{int pts=o.score>=0?(int)o.score:5000;g->score+=pts;popup_at(g,where,pts,POPUP_PIG,4);}g->events|=GAME_EVENT_PIG;}else {g->block_alive--;int earned=o.score>=0?(int)o.score:o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;   /* getScoreToAddForBreaking: the piece's destroyedScoreInc, else 500 */if(g->shop_mask&SHOP_DOUBLE)earned*=2;g->score+=earned;popup_at(g,where,earned,POPUP_PIECE,o.kind);{const int fam=sound_family(o.definition);g->events|=fam==1?GAME_EVENT_BONE:fam==2?GAME_EVENT_VIAL:fam==3?GAME_EVENT_STALAKTITE:o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}}
+            else if(o.kind==4 && p->is_goal(i)){g->pig_alive--;{int pts=o.score>=0?(int)o.score:5000;g->score+=pts;popup_at(g,where,pts,POPUP_PIG,4);}g->events|=GAME_EVENT_PIG|(sound_family(o.definition)==4?GAME_EVENT_MONKEY:0);}else {g->block_alive--;int earned=o.score>=0?(int)o.score:o.kind==OBJECT_KIND_FRAGILE?FRAGILE_DESTROYED_SCORE:o.kind==OBJECT_KIND_FRAGILE_GROUND?0:500;   /* getScoreToAddForBreaking: the piece's destroyedScoreInc, else 500 */if(g->shop_mask&SHOP_DOUBLE)earned*=2;g->score+=earned;popup_at(g,where,earned,POPUP_PIECE,o.kind);{const int fam=sound_family(o.definition);g->events|=fam==1?GAME_EVENT_BONE:fam==2?GAME_EVENT_VIAL:fam==3?GAME_EVENT_STALAKTITE:fam==5?GAME_EVENT_METAL:o.kind==1?GAME_EVENT_WOOD:o.kind==2?GAME_EVENT_GLASS:o.kind==5?GAME_EVENT_STONE:GAME_EVENT_EXTRA;}}
         }
     }
     g->pig_alive+=p->pending_pigs;p->pending_pigs=0;

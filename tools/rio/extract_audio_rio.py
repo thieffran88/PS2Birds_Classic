@@ -22,7 +22,9 @@ RIO_ONLY=[('LAUNCH_BOOMERANG','bird_06_flying',1,0),('LAUNCH_BIG','big_brother_f
           ('HIT_BLACK','bird 04 collision a1',5,6),('HIT_WHITE','bird 05 collision a1',5,6),('SPECIAL_GLOBE','Globe_Bird_Special_Activation_1',2,0),
           ('HIT_WOOD','wood collision a1',5,8),('HIT_GLASS','ice light collision a1',5,8),('HIT_STONE','rock collision a1',5,8),
           ('DMG_WOOD','wood damage a1',5,10),('DMG_GLASS','light damage a1',5,10),('DMG_STONE','rock damage a1',5,10),
-          ('NEXT_BIRD','bird next military a1',7,0)]   # block impact sounds
+          ('NEXT_BIRD','bird next military a1',7,0),
+          ('MONKEY_DIE','monkey dies a1',2,0),('MONKEY_IDLE','monkey idle a1',2,0),('METAL_DESTROY','metal_destroyed_01',4,12),('HIT_METAL','metal_collision_01',5,8)]
+RIO_VARIANT_GROUPS=[('MONKEY_DIE','monkey dies a{}',2),('MONKEY_IDLE','monkey idle a{}',3),('METAL_DESTROY','metal_destroyed_{:02d}',3),('HIT_METAL','metal_collision_{:02d}',3)]   # Rio only, after the shared groups   # block impact sounds
 def main(apk,out,ffmpeg):
     bank=bytearray();entries=[];missing=[]
     with zipfile.ZipFile(apk) as z,tempfile.TemporaryDirectory(prefix='ps2birds-rio-audio-') as folder:
@@ -31,7 +33,7 @@ def main(apk,out,ffmpeg):
         from game_profiles import decode_payload
         profile=load(decode_payload(z.read('assets/data/audio/profiles/default.lua'),'rio',None))['sound_profile'];alias={k:v['filename'] for k,v in profile.items()}
         base_list=list(classic.SOUNDS)+RIO_ONLY
-        for name,filename,channel,cooldown in base_list+classic.variant_sounds(base_list):
+        for name,filename,channel,cooldown in base_list+classic.variant_sounds(base_list,classic.VARIANT_GROUPS+RIO_VARIANT_GROUPS):
             base=OVERRIDE.get(name,filename)
             if base not in files and base in alias:base=alias[base]   # a sound-profile alias ('special_group') -> its file ('special group')
             if base not in files:missing.append((name,base));continue

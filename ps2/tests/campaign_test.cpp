@@ -1029,7 +1029,7 @@ static void fire(Game *g,const Shot *s){
         int pigs=g->pig_alive,blocks=g->block_alive;
         game_update(g,1.0f/120);
         assert(bool(g->events&GAME_EVENT_PIG)==(pigs>g->pig_alive));
-        assert(bool(g->events&(GAME_EVENT_WOOD|GAME_EVENT_GLASS|GAME_EVENT_STONE|GAME_EVENT_EXTRA|GAME_EVENT_BONE|GAME_EVENT_VIAL|GAME_EVENT_STALAKTITE))==(blocks>g->block_alive));
+        assert(bool(g->events&(GAME_EVENT_WOOD|GAME_EVENT_GLASS|GAME_EVENT_STONE|GAME_EVENT_EXTRA|GAME_EVENT_BONE|GAME_EVENT_VIAL|GAME_EVENT_STALAKTITE|GAME_EVENT_METAL))==(blocks>g->block_alive));
     }
     assert(isfinite(g->x) && isfinite(g->y));
 }
