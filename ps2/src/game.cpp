@@ -239,22 +239,60 @@ struct Physics: b2ContactListener {
     b2Vec2 blast_position;
     b2Contact *damage_contacts[MAX_LEVEL_OBJECTS*2];b2Vec2 damage_va[MAX_LEVEL_OBJECTS*2],damage_vb[MAX_LEVEL_OBJECTS*2];int damage_contact_count;unsigned hit_events;
 #ifdef PS2BIRDS_RIO
-    /* Water (LevelEffectWater.lua): the marker blocks BLOCK_INDESTRUCTIBLE_WATER_LEVEL / AMAZON_RIVER_WATER_LEVEL_* give the surface; bodies that cross it make the splash sounds (sound only: no damping or floating here). */
-    bool has_water,bird_under;float water_y;unsigned char under[MAX_LEVEL_OBJECTS];
+    /* Water (LevelEffectWater.lua, constants read from its bytecode). The surface is the y of the marker block BLOCK_INDESTRUCTIBLE_WATER_LEVEL.
+       A body is underwater below it (it leaves when it is 0.05 above); entering sets its linear damping (bird 0.3, puffed Globe bird 8, egg 1.3, any other piece 1.6) and leaving
+       resets it to 0; monkeys drown (strength 0). Underwater every step: buoyancy -20 x mass x min(depth, 4) / 4 (the gravity of its mass at depth 4 and more) and, for the
+       pieces, a quadratic drag; a body at rest for 2 s gets no more force. Splash sounds after the first 2 s of the stage. */
+    bool has_water,bird_under;float water_y;unsigned char under[MAX_LEVEL_OBJECTS];float still[MAX_LEVEL_OBJECTS];
     void water_setup(){
-        has_water=false;bird_under=false;water_y=0;memset(under,0,sizeof(under));
-        for(int i=0;i<level->count;i++)if(name_has(level->objects[i].definition,"WATER_LEVEL")){const float y=level->objects[i].y;if(!has_water || y<water_y)water_y=y;has_water=true;}
+        has_water=false;bird_under=false;water_y=0;memset(under,0,sizeof(under));memset(still,0,sizeof(still));
+        for(int i=0;i<level->count;i++)if(!strcmp(level->objects[i].definition,"BLOCK_INDESTRUCTIBLE_WATER_LEVEL")){water_y=level->objects[i].y;has_water=true;break;}
     }
+    /* Before the world step: buoyancy and drag on what is underwater. */
+    void water_forces(float dt){
+        if(!has_water)return;
+        for(int i=0;i<level->count;i++){
+            b2Body *b=bodies[i];
+            if(!b || !under[i] || b->GetType()!=b2_dynamicBody || b->GetMass()<=0)continue;
+            const b2Vec2 v=b->GetLinearVelocity();
+            if(v.Length()<0.005f){still[i]+=dt;if(still[i]>=2.0f)continue;}else still[i]=0;
+            const float depth=fminf(b->GetPosition().y-water_y,4.0f);
+            b2Vec2 f(0,-20.0f*b->GetMass()*depth/4.0f);
+            const CampaignObject &o=level->objects[i];
+            /* a piece (not a bird) is also slowed by the water: 0.5 v^2 x its cross section (port scale 0.1), the push up is dropped when it rises faster than 18 */
+            f.x=-(v.x>0?1.0f:v.x<0?-1.0f:0.0f)*0.5f*v.x*v.x*o.height*0.1f;
+            if(v.y<-18.0f)f.y=0;else f.y-=(v.y>0?1.0f:v.y<0?-1.0f:0.0f)*0.5f*v.y*v.y*o.width*0.1f;
+            b->ApplyForceToCenter(f,true);
+        }
+        if(bird && bird_under){   /* the bird: buoyancy only (1.1 when it moves up) */
+            const float depth=fminf(bird->GetPosition().y-water_y,4.0f);
+            const float k=bird->GetLinearVelocity().y<=0?1.1f:1.0f;
+            bird->ApplyForceToCenter(b2Vec2(0,-20.0f*bird->GetMass()*depth/4.0f*k),true);
+        }
+    }
+    /* After the world step: crossings (sounds, damping, drowning). */
     void water_check(Game *g){
         if(!has_water)return;
-        const bool settling=age<0.5f;   /* the opening drop is silent: only crossings after it make a sound */
+        const bool settling=age<2.0f;   /* the opening drop is silent: only crossings after 2 s make a sound */
         for(int i=0;i<level->count;i++){
-            const b2Body *b=bodies[i];
+            b2Body *b=bodies[i];
             if(!b || b->GetType()!=b2_dynamicBody){under[i]=0;continue;}
-            const bool u=b->GetPosition().y>water_y;
-            if(u!=(under[i]!=0)){if(!settling)g->events|=u?GAME_EVENT_WATER_OBJ_IN:GAME_EVENT_WATER_OBJ_OUT;under[i]=u;}
+            const float y=b->GetPosition().y;
+            const bool was=under[i]!=0,u=was?(y>water_y-0.05f):(y>water_y);
+            if(u==was)continue;
+            under[i]=u;still[i]=0;
+            if(!settling)g->events|=u?GAME_EVENT_WATER_OBJ_IN:GAME_EVENT_WATER_OBJ_OUT;
+            b->SetLinearDamping(u?1.6f:0.0f);
+            if(u && sound_family(level->objects[i].definition)==4 && health[i]>0)health[i]=0;   /* a monkey in the water drowns */
         }
-        if(bird){const bool u=bird->GetPosition().y>water_y;if(u!=bird_under){if(!settling)g->events|=u?GAME_EVENT_WATER_BIRD_IN:GAME_EVENT_WATER_BIRD_OUT;bird_under=u;}}
+        if(bird){
+            const float y=bird->GetPosition().y;
+            const bool u=bird_under?(y>water_y-0.05f):(y>water_y);
+            if(u!=bird_under){
+                if(!settling)g->events|=u?GAME_EVENT_WATER_BIRD_IN:GAME_EVENT_WATER_BIRD_OUT;
+                bird->SetLinearDamping(u?(bird_type==BIRD_PUFFER_TYPE?8.0f:0.3f):0.0f);bird_under=u;
+            }
+        }
     }
 #endif
     /* Static scenery the launched bird overlapped at spawn; ignored until they separate. */
@@ -1363,6 +1401,9 @@ static void tick(Game *g) {
         }
         if(p->red_fly){if(p->bird_collided)p->red_fly=false;else p->bird->ApplyForceToCenter(b2Vec2(0,-p->level->gravity*p->bird->GetMass()),true);}
     }
+#ifdef PS2BIRDS_RIO
+    p->water_forces(dt);
+#endif
     p->age+=dt;p->damage_contact_count=0;p->world.Step(step,8,3);g->events|=p->hit_events;p->hit_events=0;
 #ifdef PS2BIRDS_RIO
     p->water_check(g);
