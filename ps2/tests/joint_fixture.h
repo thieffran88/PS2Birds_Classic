@@ -32,5 +32,5 @@ static const CampaignLevel campaign_levels[]={
  {joint_objects,10,1,{0},20,0,0,5,20,100,200,5,"MOTOR FIXTURE","fixture-motor",0,motor_list,2,0,0,0,-1,-1},};
 #define CAMPAIGN_COUNT (sizeof(campaign_levels)/sizeof(campaign_levels[0]))
 static const CampaignPolygon campaign_polygons[]={{0,0,{0}}};
-static const CampaignForce campaign_forces[]={{0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+static const CampaignForce campaign_forces[]={{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 #endif
