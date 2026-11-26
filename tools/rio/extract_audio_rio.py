@@ -38,9 +38,13 @@ def main(apk,out,ffmpeg):
             src=files[base];p=Path(folder)/'in.mp3';wav=Path(folder)/'e.wav';p.write_bytes(z.read(src))
             subprocess.run([ffmpeg,'-v','error','-y','-i',str(p),'-ar','22050','-ac','1','-c:a','pcm_s16le',str(wav)],check=True)
             with wave.open(str(wav)) as w:frames=w.getnframes();pcm=w.readframes(frames)
-            b=encode(pcm)
+            rate=classic.rate_for(frames)   # long effects at a lower sample rate (extract_audio.rate_for)
+            if rate!=22050:
+                subprocess.run([ffmpeg,'-v','error','-y','-i',str(p),'-ar',str(rate),'-ac','1','-c:a','pcm_s16le',str(wav)],check=True)
+                with wave.open(str(wav)) as w:frames=w.getnframes();pcm=w.readframes(frames)
+            b=encode(pcm,rate)
             while len(bank)%64:bank.append(0)
-            entries.append({'id':name,'source':src,'offset':len(bank),'bytes':len(b),'channel':channel,'cooldown_frames':cooldown,'frames':frames});bank+=b
+            entries.append({'id':name,'source':src,'offset':len(bank),'bytes':len(b),'channel':channel,'cooldown_frames':cooldown,'sample_rate':rate,'frames':frames});bank+=b
     if missing:raise SystemExit('sem arquivo no APK: %s'%missing)
     if len(bank)>1048576:raise SystemExit('os efeitos passam de 1 MiB de SPU2')
     out=Path(out);out.mkdir(parents=True,exist_ok=True);classic.write_sounds_bin(entries,bank,out/'SOUNDS.BIN')

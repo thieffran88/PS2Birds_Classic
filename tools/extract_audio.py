@@ -70,6 +70,10 @@ def write_music_bin(apk,out,ffmpeg,folder):
  (out/'MUSIC.BIN').write_bytes(head+bytes(start-len(head))+bytes(pcm))
  (out/'music_manifest.json').write_text(json.dumps({'format':'s16le mono PCM','sample_rate':MUSIC_RATE,'tracks':tracks},indent=2)+'\n')
  return tracks
+def rate_for(frames_22050):
+ """Sample rate stored for an effect of that many frames at 22050 Hz: above 1.4 s 12000 Hz, above 0.6 s 16000 Hz, else 22050 Hz."""
+ seconds=frames_22050/22050
+ return 12000 if seconds>1.4 else 16000 if seconds>0.6 else 22050
 def write_sounds_bin(entries,bank,path):
  """SOUNDS.BIN read by the game: "PBSN", version, count, data start, (offset,size) per effect, samples."""
  start=(16+8*len(entries)+63)//64*64
@@ -87,12 +91,16 @@ def extract(apk,out,ffmpeg,adpenc):
    with wave.open(str(wav)) as w:
     frames=w.getnframes();pcm=w.readframes(frames)
     if w.getframerate()!=22050 or w.getnchannels()!=1 or w.getsampwidth()!=2:raise ValueError('Invalid converted PCM')
-   if not adpenc:
-    from spu_adpcm import encode;encoded.write_bytes(encode(pcm))
+   rate=rate_for(frames)
+   if rate!=22050:   # long effects (jingles) are stored at a lower sample rate: the SPU2 plays them back at their own pitch, the bank shrinks
+    subprocess.run([ffmpeg,'-v','error','-y','-i',str(p),'-ar',str(rate),'-ac','1','-c:a','pcm_s16le',str(wav)],check=True)
+    with wave.open(str(wav)) as w:frames=w.getnframes();pcm=w.readframes(frames)
+   if not adpenc or rate!=22050:
+    from spu_adpcm import encode;encoded.write_bytes(encode(pcm,rate))
    b=encoded.read_bytes()
    if len(b)<32 or len(b)%16 or b[:4]!=b'APCM' or b[5]!=1 or b[6]!=0:raise ValueError('Invalid or looping SPU sample')
    while len(bank)%64:bank.append(0)
-   entries.append({'id':name,'source':source,'source_sha256':hashlib.sha256(ogg).hexdigest(),'offset':len(bank),'bytes':len(b),'channel':channel,'cooldown_frames':cooldown,'sample_rate':22050,'frames':frames,'pcm_sha256':hashlib.sha256(pcm).hexdigest(),'adpcm_sha256':hashlib.sha256(b).hexdigest()})
+   entries.append({'id':name,'source':source,'source_sha256':hashlib.sha256(ogg).hexdigest(),'offset':len(bank),'bytes':len(b),'channel':channel,'cooldown_frames':cooldown,'sample_rate':rate,'frames':frames,'pcm_sha256':hashlib.sha256(pcm).hexdigest(),'adpcm_sha256':hashlib.sha256(b).hexdigest()})
    bank+=b
  if len(bank)>1048576:raise ValueError('Effects exceed the 1 MiB SPU2 budget')
  out.mkdir(parents=True,exist_ok=True);(out/'sounds.adp').write_bytes(bank)
