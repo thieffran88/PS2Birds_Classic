@@ -9,7 +9,7 @@ so a stage that is not won only shows that it loads, settles, takes the shots an
 usage: emu_playtest.py --game classic|rio --elf ELF --data DATA_DIR --pcsx2 PCSX2-QT --out OUT_DIR
                        [--levels episodes | 1,181,200] [--shots 3] [--timeout 300] [--display :91]
 DATA_DIR holds SPRITES.BIN SOUNDS.BIN MUSIC.BIN UI.BIN FONT.BIN MENU.BIN THEMES.BIN CUTSCENE.BIN CAMPAIGN.BIN (ps2/assets or what the generator made).
-Needs: pycdlib (as tools/make_iso.py), an X display (Xvfb :91 works) and ImageMagick `import` for the screenshots."""
+Needs: pycdlib (as tools/make_iso.py), an X display (Xvfb :91 works), ImageMagick `import` for the screenshots and, optionally, xdotool (closes PCSX2's audio-device dialog before each screenshot)."""
 import argparse,json,os,re,shutil,subprocess,sys,tempfile,time
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT/'tools'))
@@ -25,6 +25,8 @@ def episode_levels(campaign):
     return list(first.values())
 def screenshot(display,path,crop):
     env=dict(os.environ,DISPLAY=display)
+    if shutil.which('xdotool'):   # PCSX2 without an audio device shows an "audio stream" dialog over the picture: Enter closes it
+        subprocess.run(['xdotool','key','Return'],env=env,capture_output=True);time.sleep(0.5)
     cmd=['import','-window','root']+(['-crop',crop] if crop else [])+[str(path)]
     try:subprocess.run(cmd,env=env,check=True,capture_output=True,timeout=30);return True
     except Exception:return False
