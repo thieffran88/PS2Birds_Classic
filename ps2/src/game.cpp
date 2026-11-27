@@ -244,8 +244,23 @@ struct Physics: b2ContactListener {
        resets it to 0; monkeys drown (strength 0). Underwater every step: buoyancy -20 x mass x min(depth, 4) / 4 (the gravity of its mass at depth 4 and more) and, for the
        pieces, a quadratic drag; a body at rest for 2 s gets no more force. Splash sounds after the first 2 s of the stage. */
     bool has_water,bird_under;float water_y;unsigned char under[MAX_LEVEL_OBJECTS];float still[MAX_LEVEL_OBJECTS];
+    /* Monkeys (animations of the definitions): when one moves faster than 3 for 0.3 s (the `getting_up`/`slipping` states, `destroyJoints`) it lets go of what holds it, and it
+       cries `monkey near falling` (sound). */
+    float monkey_fast[MAX_LEVEL_OBJECTS];bool monkey_released[MAX_LEVEL_OBJECTS];
+    void monkeys_check(Game *g,float dt){
+        for(int i=0;i<level->count;i++){
+            b2Body *b=bodies[i];
+            if(!b || monkey_released[i] || b->GetType()!=b2_dynamicBody || sound_family(level->objects[i].definition)!=4)continue;
+            if(b->GetLinearVelocity().Length()>=3.0f)monkey_fast[i]+=dt;else{monkey_fast[i]=0;continue;}
+            if(monkey_fast[i]<0.3f)continue;
+            monkey_released[i]=true;g->events|=GAME_EVENT_MONKEY_SLIP;
+            b2JointEdge *je=b->GetJointList();b2Joint *held[16];int n=0;
+            for(;je && n<16;je=je->next)held[n++]=je->joint;
+            for(int k=0;k<n;k++)world.DestroyJoint(held[k]);
+        }
+    }
     void water_setup(){
-        has_water=false;bird_under=false;water_y=0;memset(under,0,sizeof(under));memset(still,0,sizeof(still));
+        has_water=false;bird_under=false;water_y=0;memset(under,0,sizeof(under));memset(still,0,sizeof(still));memset(monkey_fast,0,sizeof(monkey_fast));memset(monkey_released,0,sizeof(monkey_released));
         for(int i=0;i<level->count;i++)if(!strcmp(level->objects[i].definition,"BLOCK_INDESTRUCTIBLE_WATER_LEVEL")){water_y=level->objects[i].y;has_water=true;break;}
     }
     /* Before the world step: buoyancy and drag on what is underwater. */
@@ -323,7 +338,7 @@ struct Physics: b2ContactListener {
         forced_type=-1;blu_timer=-1;blu_clock=0;blu_dir=0;blu_fx=0;blu_dir_set=false;egg=NULL;egg_collided=false;bomb_requested=detonated=false;bomb_fuse=-1;blast_life=0;blast_radius=0;blast_position.SetZero();
         damage_contact_count=0;hit_events=0;
 #ifdef PS2BIRDS_RIO
-        has_water=false;bird_under=false;water_y=0;memset(under,0,sizeof(under));
+        has_water=false;bird_under=false;water_y=0;memset(under,0,sizeof(under));memset(monkey_fast,0,sizeof(monkey_fast));memset(monkey_released,0,sizeof(monkey_released));
 #endif
         spawn_ignore_count=0;split[0]=split[1]=NULL;split_collided[0]=split_collided[1]=false;
         memset(chain_delay,0,sizeof(chain_delay));memset(bird_hit,0,sizeof(bird_hit));bird_pre_velocity.SetZero();memset(disturbed,0,sizeof(disturbed));memset(bodies,0,sizeof(bodies)); memset(impact,0,sizeof(impact));memset(force_of,0,sizeof(force_of));memset(thrust,0,sizeof(thrust));memset(thrust_clock,0,sizeof(thrust_clock));memset(thrust_off,0,sizeof(thrust_off));memset(bubble_timer,0,sizeof(bubble_timer));memset(vial_wait,0,sizeof(vial_wait));memset(gun_timer,0,sizeof(gun_timer));memset(gun_bubble_grow,0,sizeof(gun_bubble_grow));memset(gun_bubble_life,0,sizeof(gun_bubble_life));memset(is_gun,0,sizeof(is_gun));gun_seed=12345u;memset(vial_pop,0,sizeof(vial_pop));memset(vial_kind,0,sizeof(vial_kind));memset(vial_shield,0,sizeof(vial_shield));memset(bubble_float,0,sizeof(bubble_float));shock_time=-1;shock_center.SetZero();extra_count=0;pending_birds=0;pending_pigs=0;quake_time=0;homing_on=false;homing_used=false;quake_used=false;trapped_by=-1;current_wave=1;last_wave=1;egg_mode=false;potion_armed=false;potion_used=false;shock_bonus=false;shock_used=false;potion_scale=1;memset(extra_types,0,sizeof(extra_types));memset(shock_hit,0,sizeof(shock_hit));memset(electrocute,0,sizeof(electrocute));
@@ -1408,6 +1423,7 @@ static void tick(Game *g) {
     p->age+=dt;p->damage_contact_count=0;p->world.Step(step,8,3);g->events|=p->hit_events;p->hit_events=0;
 #ifdef PS2BIRDS_RIO
     p->water_check(g);
+    if(p->age>1.0f)p->monkeys_check(g,dt);   /* not during the opening settle */
 #endif
     for(int k=0;k<p->detach_count;k++){
         int t=p->detach_target[k];

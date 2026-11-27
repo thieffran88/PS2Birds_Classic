@@ -1261,6 +1261,7 @@ int main(int argc,char **argv)
             else if(g.events&GAME_EVENT_WATER_BIRD_OUT)audio_play(SFX_WATER_BIRD_OUT);
             else if(g.events&GAME_EVENT_WATER_OBJ_IN)audio_play(SFX_WATER_OBJ_IN);
             else if(g.events&GAME_EVENT_WATER_OBJ_OUT)audio_play(SFX_WATER_OBJ_OUT);
+            if(g.events&GAME_EVENT_MONKEY_SLIP)audio_play(SFX_MONKEY_SLIP);   /* a monkey lets go and slips */
 #endif
             if(before==FLYING && g.state==AIMING)audio_play(SFX_NEXT_BIRD);   /* the next bird of the queue takes its place on the slingshot */
 #ifndef PS2BIRDS_RIO

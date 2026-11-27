@@ -24,9 +24,11 @@ RIO_ONLY=[('LAUNCH_BOOMERANG','bird_06_flying',1,0),('LAUNCH_BIG','big_brother_f
           ('DMG_WOOD','wood damage a1',5,10),('DMG_GLASS','light damage a1',5,10),('DMG_STONE','rock damage a1',5,10),
           ('NEXT_BIRD','bird next military a1',7,0),
           ('MONKEY_DIE','monkey dies a1',2,0),('MONKEY_IDLE','monkey idle a1',2,0),('METAL_DESTROY','metal_destroyed_01',4,12),('HIT_METAL','metal_collision_01',5,8),
-          ('WATER_BIRD_IN','bird_enter_water_01',6,6),('WATER_BIRD_OUT','bird_exit_water_01',6,6),('WATER_OBJ_IN','object_enter_water_01',3,10),('WATER_OBJ_OUT','object_exit_water_01',3,10)]
+          ('WATER_BIRD_IN','bird_enter_water_01',6,6),('WATER_BIRD_OUT','bird_exit_water_01',6,6),('WATER_OBJ_IN','object_enter_water_01',3,10),('WATER_OBJ_OUT','object_exit_water_01',3,10),
+          ('MONKEY_SLIP','monkey near falling a1',2,0)]
 RIO_VARIANT_GROUPS=[('MONKEY_DIE','monkey dies a{}',2),('MONKEY_IDLE','monkey idle a{}',3),('METAL_DESTROY','metal_destroyed_{:02d}',3),('HIT_METAL','metal_collision_{:02d}',3),
-                    ('WATER_BIRD_IN','bird_enter_water_{:02d}',3),('WATER_BIRD_OUT','bird_exit_water_{:02d}',3),('WATER_OBJ_IN','object_enter_water_{:02d}',3),('WATER_OBJ_OUT','object_exit_water_{:02d}',3)]   # Rio only, after the shared groups   # block impact sounds
+                    ('WATER_BIRD_IN','bird_enter_water_{:02d}',3),('WATER_BIRD_OUT','bird_exit_water_{:02d}',3),('WATER_OBJ_IN','object_enter_water_{:02d}',3),('WATER_OBJ_OUT','object_exit_water_{:02d}',3),
+                    ('MONKEY_SLIP','monkey near falling a{}',3)]   # Rio only, after the shared groups   # block impact sounds
 def main(apk,out,ffmpeg):
     bank=bytearray();entries=[];missing=[]
     with zipfile.ZipFile(apk) as z,tempfile.TemporaryDirectory(prefix='ps2birds-rio-audio-') as folder:
