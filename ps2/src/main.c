@@ -1067,6 +1067,15 @@ int main(int argc,char **argv)
     }
     {extern unsigned char save_icon[];sprites_read_icon(save_icon,SAVE_ICON_BYTES);}
     Game g; game_init(&g);
+    /* Autoplay (developer test, tools/emu_playtest.py): an AUTOPLAY.TXT next to the data files ("level N", "shots K", "wait S") makes the game open that stage by
+       itself, fire K shots and print the outcome ("AUTOPLAY ..." lines in the console); without the file nothing changes. */
+    int ap_on=0,ap_level=0,ap_shots=3,ap_shot=0,ap_stage=0,ap_frames=0;float ap_t=0,ap_wait=6.0f;
+    {char p[300];int fd=open(data_file("AUTOPLAY.TXT",p),O_RDONLY);
+     if(fd>=0){char text[256];int n=(int)read(fd,text,sizeof(text)-1);close(fd);if(n<0)n=0;text[n]=0;
+      const char *q=strstr(text,"level");if(q)ap_level=atoi(q+5);
+      q=strstr(text,"shots");if(q)ap_shots=atoi(q+5);
+      q=strstr(text,"wait");if(q)ap_wait=(float)atof(q+4);
+      if(ap_level>0){ap_on=1;printf("AUTOPLAY file: level %d shots %d wait %.1f\n",ap_level,ap_shots,ap_wait);}}}
     /* The IOP modules (memory card, audsrv), the sound effects and the music are only loaded after the first frame
        (the Rovio logo) is on screen, so the black screen at start is as short as it can be. */
     int late_init=0;
@@ -1081,6 +1090,25 @@ int main(int argc,char **argv)
         if(late_init==1){save_mc_init(&g);audio_init();printf("PS2Birds: music %s\n",music_init()?"loaded":"unavailable");previous_time=GetTimerSystemTime();now=previous_time;frame_seconds=0;}
         if(late_init<2)late_init++;
         save_mc_poll();audio_tick();
+        if(ap_on){   /* autoplay: open the stage after the boot, settle, fire the shots, report */
+            ap_frames++;
+            if(ap_stage==0 && ap_frames>=240){
+                cutscene_stop();cutscene_time=-1;boot_splash=3;g.unlocked=game_level_count();
+                if(game_load_level(&g,ap_level-1)){menu=0;paused=0;ap_stage=1;ap_t=0;printf("AUTOPLAY start level %d (%s) targets %d birds %d\n",ap_level,game_level_script(ap_level-1),g.pig_alive,g.birds);}
+                else{printf("AUTOPLAY FAIL could not load level %d\n",ap_level);printf("AUTOPLAY DONE\n");ap_on=0;}
+            }else if(ap_stage==1){
+                ap_t+=frame_seconds;
+                static const float angles[]={32,40,26,45,36},powers[]={75,78,72,80,76};
+                if(g.state==AIMING && ap_shot<ap_shots && ap_t>=ap_wait){g.angle=angles[ap_shot%5];g.power=powers[ap_shot%5];game_launch(&g);printf("AUTOPLAY shot %d angle %.0f power %.0f\n",ap_shot+1,g.angle,g.power);ap_shot++;ap_t=0;}
+                else if((g.state==WON || g.state==LOST || (g.state==AIMING && ap_shot>=ap_shots)) && ap_t>=ap_wait){ap_stage=2;ap_t=0;}
+            }else if(ap_stage==2){
+                ap_t+=frame_seconds;
+                if(ap_t>=1.0f){   /* a second on the end screen, then the report; the harness takes its screenshot on the DONE line */
+                    printf("AUTOPLAY RESULT level=%d state=%s score=%d targets=%d blocks=%d birds_left=%d shots=%d\n",ap_level,g.state==WON?"WON":g.state==LOST?"LOST":"OPEN",g.score,g.pig_alive,g.block_alive,g.birds,ap_shot);
+                    printf("AUTOPLAY DONE\n");ap_on=0;
+                }
+            }
+        }
         /* Music: title_theme in the menus (gamelogic.lua currentMainMenuSong); in a stage, the looped
            ambience of its theme (themes.lua music, gamelogic.lua currentMusic); level_complete once on a win. */
         if(menu){if(music_current()!=MUSIC_TITLE)music_play(MUSIC_TITLE);}
