@@ -127,7 +127,7 @@ build/host/campaign_test.o: tests/campaign_test.cpp src/game.h src/campaign_type
 	@mkdir -p $(@D)
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc -c $< -o $@
 
-test: assets/CAMPAIGN.BIN assets/SOUNDS.BIN assets/manifest.json joint-test triangle-test tnt-test white-test black-test audio-test save-test build/host/game.o build/host/game_test.o $(HOST_BOX2D_OBJS) build/host/campaign_test.o
+test: assets/CAMPAIGN.BIN assets/SOUNDS.BIN assets/manifest.json joint-test triangle-test tnt-test monkey-test white-test black-test audio-test save-test build/host/game.o build/host/game_test.o $(HOST_BOX2D_OBJS) build/host/campaign_test.o
 	$(CXX) build/host/game.o build/host/game_test.o $(HOST_BOX2D_OBJS) -lm -o build/game_test
 	./build/game_test
 	$(CXX) build/host/game.o build/host/campaign_test.o $(HOST_BOX2D_OBJS) -lm -o build/campaign_test
@@ -220,6 +220,13 @@ tnt-test: $(HOST_BOX2D_OBJS)
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -DPS2BIRDS_TNT_TEST -Isrc -Itests -Ivendor/box2d/include -c src/game.cpp -o build/host/game_tnt.o
 	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -Isrc tests/tnt_test.cpp build/host/game_tnt.o $(HOST_BOX2D_OBJS) -lm -o build/tnt_test
 	./build/tnt_test
+
+.PHONY: monkey-test
+monkey-test: $(HOST_BOX2D_OBJS)
+	@mkdir -p build/host
+	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -DPS2BIRDS_RIO -DPS2BIRDS_MONKEY_TEST -Isrc -Itests -Ivendor/box2d/include -c src/game.cpp -o build/host/game_monkey.o
+	$(CXX) -O2 -std=c++11 -Wall -Wextra -Werror -DPS2BIRDS_RIO -Isrc tests/monkey_test.cpp build/host/game_monkey.o $(HOST_BOX2D_OBJS) -lm -o build/monkey_test
+	./build/monkey_test
 
 .PHONY: triangle-test
 triangle-test: $(HOST_BOX2D_OBJS)

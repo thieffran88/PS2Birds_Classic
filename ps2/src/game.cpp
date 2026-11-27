@@ -6,6 +6,8 @@
 #include "triangle_fixture.h"
 #elif defined(PS2BIRDS_TNT_TEST)
 #include "tnt_fixture.h"
+#elif defined(PS2BIRDS_MONKEY_TEST)
+#include "monkey_fixture.h"
 #elif defined(PS2BIRDS_WHITE_TEST)
 #include "white_fixture.h"
 #elif defined(PS2BIRDS_BLAST_TEST)
