@@ -17,4 +17,8 @@ python3 tools/emu_playtest.py --game rio --elf PS2BIRDS_RIO.ELF --data PASTA_DOS
 - A linha `AUTOPLAY` só aparece no log do PCSX2 com `-logfile` (a ferramenta já usa).
 
 ## Resultado de referência (Rio 0.58.0, uma fase de cada episódio, 3 tiros)
-17 de 17 episódios correram até o fim sem travar. Fases que terminaram "LOST" com 3 tiros (4 pássaros: a rotina dá 3): Jungle Escape 1, Airfield Chase 1, Rocket Rumble 1, High Dive 1, Timber Tumble 1, Hidden Harbor 1 e Treasure Hunt 1; as demais ficaram abertas com um pássaro sobrando. Nenhuma foi vencida (os tiros são fixos).
+17 de 17 episódios correram até o fim sem travar. Fases que terminaram "LOST" com 3 tiros (essas fases têm 3 pássaros e a rotina dá 3 tiros): Jungle Escape 1, Airfield Chase 1, Rocket Rumble 1, High Dive 1, Timber Tumble 1, Hidden Harbor 1 e Treasure Hunt 1; as demais ficaram abertas com um pássaro sobrando. Nenhuma foi vencida (os tiros são fixos).
+
+## Resultado no Classic (1.7.2)
+
+22 de 22 fases (uma por episódio) correram até o fim. Vencidas com os tiros fixos: Poached Eggs 1-1, Mighty Hoax 4-1, Big Setup 9-1, Birdday 2-1, Surf and Turf 1-1, Short Fuse 1-1 e Tutorial 1. Siege 1 terminou LOST; as demais ficaram abertas.
