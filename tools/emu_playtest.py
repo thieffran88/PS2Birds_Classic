@@ -23,9 +23,9 @@ def episode_levels(campaign):
         name=re.sub(r'\s*\d+(-\d+)?$','',l['title']).strip()
         first.setdefault(name,(i+1,l['title']))
     return list(first.values())
-def screenshot(display,path,crop):
+def screenshot(display,path,crop,dismiss=False):
     env=dict(os.environ,DISPLAY=display)
-    if shutil.which('xdotool'):   # PCSX2 without an audio device shows an "audio stream" dialog over the picture: Enter closes it
+    if dismiss and shutil.which('xdotool'):   # PCSX2 without an audio device shows an "audio stream" dialog over the picture: Enter closes it
         subprocess.run(['xdotool','key','Return'],env=env,capture_output=True);time.sleep(0.5)
     cmd=['import','-window','root']+(['-crop',crop] if crop else [])+[str(path)]
     try:subprocess.run(cmd,env=env,check=True,capture_output=True,timeout=30);return True
@@ -51,7 +51,7 @@ def play(args,number,title,out):
         deadline=time.time()+args.timeout
         if wait_for(log,r'AUTOPLAY start level',deadline):
             time.sleep(4);shot=out/('level%04d_open.png'%number)
-            if screenshot(args.display,shot,args.crop):row['screens'].append(shot.name)
+            if screenshot(args.display,shot,args.crop,dismiss=True):row['screens'].append(shot.name)   # Enter only once: a second one would reach the game (Start = pause)
         m=wait_for(log,r'AUTOPLAY RESULT ([^\n]*)',deadline)
         if m:
             row['result']=m.group(1).strip();time.sleep(0.5);shot=out/('level%04d_end.png'%number)
