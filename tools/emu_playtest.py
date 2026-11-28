@@ -7,7 +7,7 @@ report.md / report.json in the output folder. It is a smoke/play test, not a sol
 so a stage that is not won only shows that it loads, settles, takes the shots and ends without a crash.
 
 usage: emu_playtest.py --game classic|rio --elf ELF --data DATA_DIR --pcsx2 PCSX2-QT --out OUT_DIR
-                       [--levels episodes | 1,181,200] [--shots 3] [--timeout 300] [--display :91]
+                       [--levels episodes | spread | 1,181,200] [--shots 3] [--timeout 300] [--display :91]
 DATA_DIR holds SPRITES.BIN SOUNDS.BIN MUSIC.BIN UI.BIN FONT.BIN MENU.BIN THEMES.BIN CUTSCENE.BIN CAMPAIGN.BIN (ps2/assets or what the generator made).
 Needs: pycdlib (as tools/make_iso.py), an X display (Xvfb :91 works), ImageMagick `import` for the screenshots and, optionally, xdotool (closes PCSX2's audio-device dialog before each screenshot)."""
 import argparse,json,os,re,shutil,subprocess,sys,tempfile,time
@@ -23,6 +23,15 @@ def episode_levels(campaign):
         name=re.sub(r'\s*\d+(-\d+)?$','',l['title']).strip()
         first.setdefault(name,(i+1,l['title']))
     return list(first.values())
+def spread_levels(campaign):
+    """(number, title) of the middle and the last stage of each episode (the first one is covered by 'episodes')."""
+    eps={}
+    for i,l in enumerate(build_campaign.read_binary(campaign)['levels']):
+        eps.setdefault(re.sub(r'\s*\d+(-\d+)?$','',l['title']).strip(),[]).append((i+1,l['title']))
+    out=[]
+    for v in eps.values():
+        for k in sorted({len(v)//2,len(v)-1}-{0}):out.append(v[k])
+    return out
 def screenshot(display,path,crop,dismiss=False):
     env=dict(os.environ,DISPLAY=display)
     if dismiss and shutil.which('xdotool'):   # PCSX2 without an audio device shows an "audio stream" dialog over the picture: Enter closes it
@@ -74,7 +83,7 @@ def main():
     p.add_argument('--crop',default='830x625+110+20',help="screenshot rectangle (the PCSX2 window in the Xvfb screen); '' for the whole screen")
     args=p.parse_args();out=Path(args.out);out.mkdir(parents=True,exist_ok=True)
     camp=Path(args.data)/'CAMPAIGN.BIN';titles={i+1:l['title'] for i,l in enumerate(build_campaign.read_binary(camp)['levels'])}
-    targets=episode_levels(camp) if args.levels=='episodes' else [(int(x),titles.get(int(x),'?')) for x in args.levels.split(',')]
+    targets=episode_levels(camp) if args.levels=='episodes' else spread_levels(camp) if args.levels=='spread' else [(int(x),titles.get(int(x),'?')) for x in args.levels.split(',')]
     rows=[]
     for number,title in targets:
         print('stage %d (%s) ...'%(number,title),flush=True);row=play(args,number,title,out);rows.append(row);print('   ',row['result'],flush=True)

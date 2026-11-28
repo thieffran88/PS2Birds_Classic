@@ -22,3 +22,11 @@ python3 tools/emu_playtest.py --game rio --elf PS2BIRDS_RIO.ELF --data PASTA_DOS
 ## Resultado no Classic (1.7.2)
 
 22 de 22 fases (uma por episódio) correram até o fim. Vencidas com os tiros fixos: Poached Eggs 1-1, Mighty Hoax 4-1, Big Setup 9-1, Birdday 2-1, Surf and Turf 1-1, Short Fuse 1-1 e Tutorial 1. Siege 1 terminou LOST; as demais ficaram abertas.
+
+## Fases escolhidas: `--levels spread`
+Joga a fase do meio e a última de cada episódio (além das primeiras, de `--levels episodes`); também aceita uma lista (`--levels 315,458`).
+
+Resultado (Classic 1.7.2 / Rio 0.58.1):
+- **Classic:** 44 de 44 fases correram até o fim. Vencidas: Danger Above 7-8, Ham 'Em High 14-15, Birdday 6-8, Bad Piggies 2-8 e Flock Favorites 2-15.
+- **Rio:** 33 de 34. Nenhuma vencida (tiros fixos).
+- **Achado:** Rio fase 315 (Timber Tumble 20) não termina no emulador. É a fase mais pesada do Rio (436 objetos, 208 peças, 17 macacos). No PCSX2 cada passo de física passou a levar segundos e o jogo praticamente para; no host (mesmo código) a fase roda normal em ~1 s para 3000 passos. Não sei se é lentidão do emulador sem GPU (software) ou um problema real de desempenho no PS2: testei limitar a 4 passos por quadro e não mudou, então não incluí essa mudança. Registrado como pendência.
